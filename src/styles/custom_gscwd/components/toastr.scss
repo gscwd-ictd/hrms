@@ -1,0 +1,20 @@
+#toast-container > .toast-info.mdi {
+  display: flex;
+  background-image: none !important;
+  padding-left: 15px !important;
+
+  ::before {
+    order: 1;
+  }
+  .toast-close-button {
+    margin-left: auto;
+    order: 3;
+  }
+
+  .toast-message {
+    order: 2;
+    margin-left: 15px;
+  }
+
+}
+

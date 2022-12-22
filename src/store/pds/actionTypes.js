@@ -1,0 +1,3 @@
+export const GET_PDS_LIST = "GET_PDS_LIST"
+export const GET_PDS_LIST_SUCCESS = "GET_PDS_LIST_SUCCESS"
+export const GET_PDS_LIST_FAIL = "GET_PDS_LIST_FAIL"

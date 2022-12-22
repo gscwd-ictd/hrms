@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,oBAAoB,CAAC;EACnB,KAAK,EAAE,IAAI;CACZ",
+    "sources": [
+        "singlepositiondescription.scss"
+    ],
+    "names": [],
+    "file": "singlepositiondescription.css"
+}

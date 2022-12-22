@@ -1,0 +1,28 @@
+.wd-add-position {
+  margin: auto;
+}
+
+.wd-add-position button {
+  width: -webkit-fill-available;
+}
+
+.form-control:-moz-read-only {
+  background-color: #f2f2f2;
+}
+
+.form-control:read-only {
+  background-color: #f2f2f2;
+}
+
+#radio-exam .form-control:-moz-read-only {
+  background-color: #ffffff !important;
+}
+
+#radio-exam .form-control:read-only {
+  background-color: #ffffff !important;
+}
+
+#position-selection .css-26l3qy-menu .css-4ljt47-MenuList {
+  max-height: 170px;
+}
+/*# sourceMappingURL=employeeassignment.css.map */

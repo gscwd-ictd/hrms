@@ -1,0 +1,19 @@
+.avatar-title {
+  background-color: #50a5f1;
+}
+
+.badge-soft-success {
+  color: #34c38f;
+  background-color: rgba(52, 195, 143, 0.18);
+}
+
+.badge-soft-danger {
+  color: #f46a6a;
+  background-color: rgba(244, 106, 106, 0.18);
+}
+
+.badge-soft-warning {
+  color: #f1b44c;
+  background-color: rgba(241, 180, 76, 0.18);
+}
+/*# sourceMappingURL=dashboard.css.map */

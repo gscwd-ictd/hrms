@@ -1,0 +1,64 @@
+.wd-table-department thead th {
+  vertical-align: top;
+}
+
+.wd-table-department thead .th_header_divisionId,
+.wd-table-department thead .th_header_departmentId,
+.wd-table-department thead .th_header_officeId {
+  width: 8%;
+}
+
+.wd-table-department thead .th_header_officeCode,
+.wd-table-department thead .th_header_departmentCode {
+  width: 15%;
+}
+
+.wd-table-department thead .th_header_name {
+  width: 65%;
+}
+
+.wd-table-department thead .th_header_code {
+  width: 12%;
+}
+
+.wd-table-department thead th .wd-select-filter {
+  margin-bottom: 0rem;
+  margin-top: 0.4rem;
+}
+
+.wd-pagination {
+  margin-top: 1rem;
+}
+
+.wd-pagination .wd-filter-pagesize {
+  max-width: 10%;
+}
+
+.wd-select-filter select,
+.wd-pagination .wd-filter-pagesize {
+  background-color: #ffffff !important;
+}
+
+.wd-pagination .next-prev-btn-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-right: 1rem;
+}
+
+.wd-pagination .pagenumber-container {
+  margin-right: 1rem;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.row-actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.row-actions .btn {
+  margin: 0 5px;
+}
+/*# sourceMappingURL=prflist.css.map */

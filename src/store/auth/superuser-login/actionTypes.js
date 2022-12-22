@@ -1,0 +1,5 @@
+export const SU_LOGIN_USER = "SU_LOGIN_USER"
+export const SU_LOGIN_SUCCESS = "SU_LOGIN_SUCCESS"
+
+export const SU_LOGOUT_USER = "SU_LOGOUT_USER"
+export const API_ERROR = "SU_LOGIN_API_ERROR"

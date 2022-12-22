@@ -1,0 +1,263 @@
+.ta-center {
+  text-align: center;
+}
+
+.wd-table {
+  thead {
+    th {
+      vertical-align: top;
+    }
+  }
+}
+
+.table-org-struct {
+  .th_header_divisionId,
+  .th_header_departmentId,
+  .th_header_officeId,
+  .th_header_unitId {
+    width: 8%;
+  }
+
+  .th_header_officeCode,
+  .th_header_departmentCode,
+  .th_header_divisionCode {
+    width: 15%;
+  }
+
+  .th_header_name {
+    width: 65%;
+  }
+
+  .th_header_code {
+    width: 12%;
+  }
+}
+
+.wd-pagination {
+  margin-top: 1rem;
+
+  .wd-filter-pagesize {
+    width: auto;
+  }
+
+  .wd-filter-pagesize {
+    background-color: #ffffff !important;
+  }
+
+  .next-prev-btn-container {
+    display: flex;
+    margin-right: 1rem;
+  }
+
+  .pagenumber-container {
+    margin-right: 1rem;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+}
+
+.wd-select-filter {
+  .dropdown-col-filter {
+    margin-left: 5px;
+    background-color: #ffffff !important;
+  }
+}
+
+.row-actions {
+  display: flex;
+
+  .btn {
+    margin: 0 5px;
+  }
+}
+
+// Elements above the table
+.card-table {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  & > div {
+    flex: 1 0 100%;
+  }
+
+  .flex-container {
+    display: flex;
+  }
+
+  .top-right-actions {
+    order: 2;
+    max-width: 50%;
+    width: 100%;
+    margin: auto 0;
+    display: flex;
+    justify-content: flex-end;
+
+    .column-actions {
+      order: 1;
+      display: flex;
+      margin-right: 1rem;
+
+      #input-column-action {
+        width: auto;
+      }
+    }
+
+    .add-btn {
+      order: 2;
+    }
+  }
+  .multi-select-top-right-actions {
+    order: 2;
+    max-width: 50%;
+    width: 100%;
+    margin: auto 0;
+  }
+
+  .filters-wrapper {
+    order: 1;
+    max-width: 50%;
+
+    .search-box {
+      order: 1;
+      margin: auto 0;
+      width: 50%;
+
+      .input-group {
+        .input-group-text {
+          background-color: white;
+          border-top-left-radius: 30px;
+          border-bottom-left-radius: 30px;
+          border-right: none;
+        }
+        .wd-table-search-input {
+          padding-left: 10px;
+          border-left: none;
+        }
+      }
+    }
+    .column-filters {
+      order: 2;
+      width: 50%;
+      padding-left: 1.5rem;
+    }
+  }
+  .table-responsive {
+    order: 3;
+  }
+  .wd-table {
+    order: 3;
+  }
+  .table-footer {
+    order: 4;
+    display: flex;
+
+    .left-footer-container {
+      margin-top: 1rem;
+      width: 50%;
+
+      // hide delete button in tables
+      .hide-tbl-delete-btn {
+        display: none;
+      }
+    }
+    .wd-pagination {
+      width: 50%;
+    }
+  }
+
+  // Mobile Breakpoint
+  @media (min-width: 320px) and (max-width: 480px) {
+    .add-btn {
+      max-width: 100%;
+      text-align: center;
+    }
+    .flex-container {
+      display: block;
+    }
+    .top-right-actions {
+      max-width: 100%;
+      justify-content: center;
+
+      .column-actions {
+        margin: auto 1px;
+      }
+      .add-btn {
+        margin: auto 1px;
+      }
+    }
+    .filters-wrapper {
+      max-width: 100%;
+
+      .search-box {
+        width: 100%;
+        padding-bottom: 0.5rem;
+
+        .input-group {
+          width: 100%;
+        }
+      }
+      .column-filters {
+        width: 100%;
+        padding-left: 0;
+        padding-bottom: 0.5rem;
+      }
+    }
+  }
+  // Tablet Breakpoint
+  @media (min-width: 481px) and (max-width: 768px) {
+  }
+}
+
+.tabular.card {
+  .search-box {
+    .input-group {
+      width: 100%;
+    }
+  }
+}
+
+// Table for key actions on each profieciency level
+.tbl-key-actions {
+  .thead-pl {
+    width: 15%;
+  }
+  .thead-ka {
+    width: 85%;
+  }
+  .white-space-preline {
+    white-space: pre-line;
+  }
+  .textarea-container {
+    textarea {
+      width: 100%;
+      resize: none;
+      border: none;
+      padding: 5px;
+      overflow-y: hidden;
+
+      &:focus-visible {
+        outline-style: dashed !important;
+      }
+    }
+  }
+}
+
+// Table for competency tables
+.tbl-competency-models {
+  .th_header_occupationCode {
+    width: 10%;
+  }
+  .th_header_code {
+    width: 10%;
+  }
+  .th_header_name {
+    width: 40%;
+  }
+  .th_header_desc {
+    width: 50%;
+  }
+  .th_header_Actions {
+    width: 10%;
+  }
+}
