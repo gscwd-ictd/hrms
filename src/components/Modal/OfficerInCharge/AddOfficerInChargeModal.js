@@ -167,7 +167,7 @@ const AddOfficerInChargeModal = props => {
             <Row>
               <Col md={12}>
                 <FormGroup>
-                  <Label for="name-Input">Employee</Label>
+                  <Label for="employee-selection">Employee</Label>
                   {loadingPostAssignOIC ? (
                     <i className="mdi mdi-loading mdi-spin ms-2 "></i>
                   ) : null}
@@ -219,7 +219,7 @@ const AddOfficerInChargeModal = props => {
                 </FormGroup>
 
                 <FormGroup>
-                  <Label for="name-Input">Managerial Position</Label>
+                  <Label for="position-selection">Managerial Position</Label>
                   {loadingSg24UpVacantPositions ? (
                     <i className="mdi mdi-loading mdi-spin ms-2 "></i>
                   ) : null}

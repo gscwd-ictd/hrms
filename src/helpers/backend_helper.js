@@ -414,3 +414,10 @@ export const getDocumentCertificateOfAppointment = postingApplicantId =>
       url.CERTIFICATE_OF_APPOINTMENT +
       postingApplicantId
   )
+
+// Modules-------------------------------------------------------------------------
+export const getHrmsModules = () => getHris(url.HRMS_MODULES)
+export const postHrmsModule = module => postHris(url.HRMS_MODULES, module)
+export const delHrmsModule = moduleId => delHris(url.HRMS_MODULES + moduleId)
+export const patchHrmsModule = (moduleId, moduleDetails) =>
+  patchHris(url.HRMS_MODULES + moduleId, moduleDetails)

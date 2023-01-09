@@ -72,5 +72,8 @@ export * from "./officer-in-charge/actions"
 // Users
 export * from "./users/actions"
 
+// Modules
+export * from "./modules/actions"
+
 // TEST
 // export * from "./test/otp/actions"

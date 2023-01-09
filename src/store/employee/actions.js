@@ -8,6 +8,9 @@ import {
   GET_EMPLOYEE_PDS,
   GET_EMPLOYEE_PDS_SUCCESS,
   GET_EMPLOYEE_PDS_FAILED,
+  GET_EMPLOYEE_201,
+  GET_EMPLOYEE_201_SUCCESS,
+  GET_EMPLOYEE_201_FAILED,
   RESET_EMPLOYEE_ASSIGN,
   RESET_EMPLOYEE_ERROR_LOG,
 } from "./actionTypes"
@@ -74,6 +77,26 @@ export const fetchEmployeePdsSuccess = employeePds => {
 export const fetchEmployeePdsFailed = error => {
   return {
     type: GET_EMPLOYEE_PDS_FAILED,
+    payload: error,
+  }
+}
+
+// Get employee 201
+export const fetchEmployee201 = employeeId => {
+  return {
+    type: GET_EMPLOYEE_201,
+    payload: employeeId,
+  }
+}
+export const fetchEmployee201Success = response => {
+  return {
+    type: GET_EMPLOYEE_201_SUCCESS,
+    payload: response,
+  }
+}
+export const fetchEmployee201Failed = error => {
+  return {
+    type: GET_EMPLOYEE_201_FAILED,
     payload: error,
   }
 }

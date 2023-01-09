@@ -76,6 +76,9 @@ import officerInChargeSaga from "./officer-in-charge/saga"
 // Users
 import userSaga from "./users/saga"
 
+// Modules
+import moduleSaga from "./modules/saga"
+
 // TEST
 // import otpServiceSaga from "./test/otp/saga"
 
@@ -113,6 +116,7 @@ export default function* rootSaga() {
     fork(applicantsSaga),
     fork(officerInChargeSaga),
     fork(userSaga),
+    fork(moduleSaga),
     // fork(otpServiceSaga),
   ])
 }

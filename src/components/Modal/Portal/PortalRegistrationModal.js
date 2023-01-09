@@ -1,4 +1,17 @@
 import React, { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import {
+  submitEmpAssgn,
+  fetchPlantillaPositionsSelect,
+  resetEmpAssgnResponse,
+  resetPlantillaPositions,
+  fetchEmployeeList,
+} from "store/actions"
+import { isEmpty } from "lodash"
+import PropTypes from "prop-types"
+import * as Yup from "yup"
+import { useFormik } from "formik"
+
 import { Modal } from "react-bootstrap"
 import {
   Button,
@@ -13,27 +26,10 @@ import {
   FormFeedback,
 } from "reactstrap"
 import Select from "react-select"
-import { useDispatch, useSelector } from "react-redux"
-import { isEmpty } from "lodash"
-import PropTypes from "prop-types"
-
-// actions
-import {
-  submitEmpAssgn,
-  fetchPlantillaPositionsSelect,
-  resetEmpAssgnResponse,
-  fetchEmployeeList,
-} from "store/actions"
-
-// Extra components
 import ToastrNotification from "components/Notifications/ToastrNotification"
 
 // import scss
 import "styles/custom_gscwd/pages/employeeassignment.scss"
-
-// Formik formik
-import * as Yup from "yup"
-import { useFormik } from "formik"
 
 const PortalRegistrationModal = props => {
   const { showAdd, handleCloseAdd } = props
@@ -42,9 +38,9 @@ const PortalRegistrationModal = props => {
 
   // form submission to submitEmpAssgn()
   const { empAssignmentRes, isLoading, error } = useSelector(state => ({
+    empAssignmentRes: state.employee.empAssignmentRes,
     isLoading: state.employee.isLoading,
     error: state.employee.error,
-    empAssignmentRes: state.employee.empAssignmentRes,
   }))
 
   // redux state for list of plantilla positions
@@ -88,15 +84,18 @@ const PortalRegistrationModal = props => {
 
   // Reset response state upon close of modal
   useEffect(() => {
-    if (!showAdd) {
+    if (showAdd) {
+      dispatch(fetchPlantillaPositionsSelect())
+    } else {
       dispatch(resetEmpAssgnResponse())
+      dispatch(resetPlantillaPositions())
     }
   }, [showAdd])
 
   // Execute after successful submission of form
   useEffect(() => {
     if (!isEmpty(empAssignmentRes)) {
-      dispatch(fetchPlantillaPositionsSelect())
+      dispatch(resetPlantillaPositions())
       dispatch(resetEmpAssgnResponse())
       dispatch(fetchEmployeeList())
 
@@ -107,7 +106,13 @@ const PortalRegistrationModal = props => {
 
   return (
     <>
-      <Modal show={showAdd} onHide={handleCloseAdd} size="xl" centered>
+      <Modal
+        show={showAdd}
+        onHide={handleCloseAdd}
+        size="xl"
+        animation={false}
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Portal Registration</Modal.Title>
         </Modal.Header>
@@ -136,7 +141,6 @@ const PortalRegistrationModal = props => {
             {error ? (
               <ToastrNotification toastType={"error"} notifMessage={error} />
             ) : null}
-
             {positionsError ? (
               <ToastrNotification
                 toastType={"error"}

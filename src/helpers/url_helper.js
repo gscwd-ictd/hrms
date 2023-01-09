@@ -199,5 +199,8 @@ export const REPORT_ON_APPOINTMENTS = "csc-form-2/"
 export const CERTIFICATION_OF_ASSUMPTION_TO_DUTY = "csc-form-4/"
 export const CERTIFICATE_OF_APPOINTMENT = "csc-form-33-b/"
 
+// MODULES
+export const HRMS_MODULES = "modules/"
+
 // VERSION 2
 export const VERSION_2 = "/v2"
