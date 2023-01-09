@@ -6,6 +6,7 @@ import {
   RESET_PLANTILLA_POSITION,
   GET_PLANTILLA_POSITIONS,
   GET_PLANTILLA_POSITIONS_SUCCESS,
+  RESET_PLANTILLA_POSITIONS,
   SUBMIT_POSITION,
   SUBMIT_POSITION_SUCCESS,
   PLANTILLA_API_ERROR,
@@ -69,6 +70,13 @@ const plantilla = (state = INIT_STATE, action) => {
         isLoading: false,
       }
       break
+    case RESET_PLANTILLA_POSITION:
+      state = {
+        ...state,
+        plantillaPosition: [],
+        error: null,
+      }
+      break
 
     case GET_PLANTILLA_POSITIONS:
       state = {
@@ -85,11 +93,11 @@ const plantilla = (state = INIT_STATE, action) => {
         isLoading: false,
       }
       break
-
-    case RESET_PLANTILLA_POSITION:
+    case RESET_PLANTILLA_POSITIONS:
       state = {
         ...state,
-        plantillaPosition: [],
+        plantillaPositions: [],
+        error: null,
       }
       break
 

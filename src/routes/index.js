@@ -95,6 +95,7 @@ import Page404 from "pages/Utility/pages-404"
 // Settings
 import OfficerInCharge from "pages/Settings/OfficerInCharge"
 import Users from "pages/Settings/Users"
+import Modules from "pages/Settings/Modules"
 
 // Test Pages
 // import TestLogin from 'pages/Test/test-login/TestLogin'
@@ -247,6 +248,7 @@ const authProtectedRoutes = [
   // Settings
   { path: "/settings/officer-in-charge", component: OfficerInCharge },
   { path: "/settings/users", component: Users },
+  { path: "/settings/modules", component: Modules },
 
   // this route should be at the end of all other routes
   // eslint-disable-next-line react/display-name

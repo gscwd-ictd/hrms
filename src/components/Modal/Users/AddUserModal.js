@@ -5,6 +5,7 @@ import {
   fetchUsers,
   addUser,
   resetUserResponse,
+  fetchHrmsModules,
 } from "store/actions"
 import { isEmpty } from "lodash"
 import PropTypes from "prop-types"
@@ -42,6 +43,15 @@ const AddUserModal = props => {
     })
   )
 
+  // Redux state for list of HRMS modules
+  const { modulesList, loadingModulesList, errorModulesList } = useSelector(
+    state => ({
+      modulesList: state.modules.modulesList,
+      loadingModulesList: state.modules.loading.loadingModulesList,
+      errorModulesList: state.modules.error.errorModulesList,
+    })
+  )
+
   // Redux state for response on assigning an employee as HRMS user
   const { postAddUser, loadingResponse, errorResponse } = useSelector(
     state => ({
@@ -57,6 +67,12 @@ const AddUserModal = props => {
 
     initialValues: {
       employeeId: "",
+
+      // userRoles: [
+      //   { moduleId: "", hasAccess: false }, //plantilla
+      //   { moduleId: "", hasAccess: false },
+      // ],
+
       modules: {
         plantilla: false,
         employeeRegistrationSU: false,
@@ -79,7 +95,7 @@ const AddUserModal = props => {
       employeeId: Yup.string().required("Please select an employee"),
     }),
     onSubmit: values => {
-      // dispatch(addUser(values))
+      // dispatch(addUser(values.employeeId, values.userRoles))
 
       document.getElementById("plantilla-checkbox").checked = false
       document.getElementById("employeeRegistrationSU-checkbox").checked = false
@@ -106,10 +122,17 @@ const AddUserModal = props => {
     setSelectedEmployee(selectedOption)
   }
 
+  // remove spaces
+  const removeSpaces = str => {
+    return str.replace(/\s/g, "")
+  }
+
   // Initial fetch of data for select fields on employees(SG20 up) and vacant positions(SG24)
+  // Initial fetch of data for modules in HRMS
   useEffect(() => {
     if (showAdd) {
       dispatch(fetchNonUsers())
+      dispatch(fetchHrmsModules())
     } else {
       dispatch(resetUserResponse())
     }
@@ -127,7 +150,13 @@ const AddUserModal = props => {
 
   return (
     <>
-      <Modal show={showAdd} onHide={handleCloseAdd} size="lg" centered>
+      <Modal
+        show={showAdd}
+        onHide={handleCloseAdd}
+        size="lg"
+        animation={false}
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Assign HRMS User</Modal.Title>
         </Modal.Header>
@@ -229,6 +258,34 @@ const AddUserModal = props => {
                   <Label for="checkbox2" sm={2}>
                     Modules
                   </Label>
+                  <Col>
+                    {loadingModulesList ? (
+                      <i className="mdi mdi-loading mdi-spin "></i>
+                    ) : (
+                      modulesList.map(module => {
+                        return (
+                          <FormGroup check key={module._id}>
+                            <Input
+                              name="modules.plantilla"
+                              id={removeSpaces(module.module) + "-checkbox"}
+                              type="checkbox"
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              value={formik.values.modules.plantilla}
+                            />
+                            <Label
+                              for={removeSpaces(module.module) + "-checkbox"}
+                              check
+                            >
+                              {module.module}
+                            </Label>
+                          </FormGroup>
+                        )
+                      })
+                    )}
+                  </Col>
+
+                  {/* 
                   <Col>
                     <FormGroup check>
                       <Input
@@ -411,7 +468,7 @@ const AddUserModal = props => {
                       />
                       <Label check>HRMS Settings</Label>
                     </FormGroup>
-                  </Col>
+                  </Col> */}
                 </FormGroup>
 
                 {/* <FormGroup>

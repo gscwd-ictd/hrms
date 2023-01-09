@@ -13,7 +13,7 @@ import SuperUserLogin from "./auth/superuser-login/reducer"
 //Dashboard
 import Dashboard from "./dashboard/reducer"
 
-//Dasboard saas
+//Dashboard saas
 import DashboardSaas from "./dashboard-saas/reducer"
 
 // organization structure
@@ -57,7 +57,7 @@ import calendar from "./calendar/reducer"
 // Countries
 import countries from "./countries/reducer"
 
-// Committe
+// Committee
 import committee from "./committee/reducer"
 
 // Publication
@@ -74,6 +74,9 @@ import officerInCharge from "./officer-in-charge/reducer"
 
 // Users
 import users from "./users/reducer"
+
+// Modules
+import modules from "./modules/reducer"
 
 // TEST
 // import otpService from "./test/otp/reducer"
@@ -111,6 +114,7 @@ const rootReducer = combineReducers({
   applicants,
   officerInCharge,
   users,
+  modules,
   // otpService,
 })
 

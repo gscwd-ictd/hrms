@@ -78,6 +78,7 @@ const employee = (state = INIT_STATE, action) => {
       state = {
         ...state,
         empAssignmentRes: [],
+        error: null,
       }
       break
 

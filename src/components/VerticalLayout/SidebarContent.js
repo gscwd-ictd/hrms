@@ -252,6 +252,12 @@ const SidebarContent = props => {
                 <span>{"Officer In Charge"}</span>
               </Link>
             </li>
+            <li>
+              <Link to="/settings/modules" className="waves-effect">
+                <i className="bx bx-package"></i>
+                <span>{"Modules"}</span>
+              </Link>
+            </li>
           </ul>
         </div>
       </SimpleBar>

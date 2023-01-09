@@ -94,7 +94,7 @@ const EmployeeList = props => {
 
   useEffect(() => {
     dispatch(fetchEmployeeList())
-    dispatch(fetchPlantillaPositionsSelect())
+    // dispatch(fetchPlantillaPositionsSelect())
   }, [dispatch])
 
   return (

@@ -6,6 +6,7 @@ import {
   RESET_PLANTILLA_POSITION,
   GET_PLANTILLA_POSITIONS,
   GET_PLANTILLA_POSITIONS_SUCCESS,
+  RESET_PLANTILLA_POSITIONS,
   SUBMIT_POSITION,
   SUBMIT_POSITION_SUCCESS,
   PLANTILLA_API_ERROR,
@@ -51,6 +52,11 @@ export const fetchPlantillaPositionSuccess = positionDetails => {
     payload: positionDetails,
   }
 }
+export const resetPlantillaPosition = () => {
+  return {
+    type: RESET_PLANTILLA_POSITION,
+  }
+}
 
 // Get list of plantilla positions to be used for dropdown component
 export const fetchPlantillaPositionsSelect = () => {
@@ -64,11 +70,9 @@ export const fetchPlantillaPositionsSelectSuccess = plantillaPositions => {
     payload: plantillaPositions,
   }
 }
-
-// Reset response state
-export const resetPlantillaPosition = () => {
+export const resetPlantillaPositions = () => {
   return {
-    type: RESET_PLANTILLA_POSITION,
+    type: RESET_PLANTILLA_POSITIONS,
   }
 }
 
