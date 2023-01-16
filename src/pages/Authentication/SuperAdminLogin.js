@@ -1,33 +1,44 @@
-import PropTypes from "prop-types";
-import MetaTags from "react-meta-tags";
-import React, { useEffect } from "react";
+import PropTypes from "prop-types"
+import MetaTags from "react-meta-tags"
+import React, { useEffect } from "react"
 
-import { Row, Col, CardBody, Card, Alert, Container, Form, Input, FormFeedback, Label } from "reactstrap";
+import {
+  Row,
+  Col,
+  CardBody,
+  Card,
+  Alert,
+  Container,
+  Form,
+  Input,
+  FormFeedback,
+  Label,
+} from "reactstrap"
 
 //redux
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux"
 
-import { withRouter, Link } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom"
 
 // Formik validation
-import * as Yup from "yup";
-import { useFormik } from "formik";
+import * as Yup from "yup"
+import { useFormik } from "formik"
 
 // actions
-import { loginSuperUser } from "store/actions";
+import { loginSuperUser } from "store/actions"
 
 // import images
-import profile from "assets/images/profile-img.png";
-import logo from "assets/images/main_logo_transparent.png";
+import profile from "assets/images/profile-img.png"
+import logo from "assets/images/main_logo_transparent.png"
 
 // style
 import "styles/custom_gscwd/pages/login.scss"
 
 // Import Cookies
-import Cookies from 'universal-cookie'
+import Cookies from "universal-cookie"
 
 const SuperAdminLogin = props => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const cookies = new Cookies()
 
@@ -36,26 +47,26 @@ const SuperAdminLogin = props => {
     enableReinitialize: true,
 
     initialValues: {
-      username: "SuperUserAdmin" || '',
-      password: "password" || '',
+      username: "SuperUserAdmin" || "",
+      password: "password" || "",
     },
     validationSchema: Yup.object({
       username: Yup.string().required("Please Enter Your Username"),
       password: Yup.string().required("Please Enter Your Password"),
     }),
-    onSubmit: (values) => {
-      dispatch(loginSuperUser(values, props.history));
-    }
-  });
+    onSubmit: values => {
+      dispatch(loginSuperUser(values, props.history))
+    },
+  })
 
-  const { response, isLoading, error} = useSelector(state => ({
+  const { response, isLoading, error } = useSelector(state => ({
     response: state.SuperUserLogin.response,
     isLoading: state.SuperUserLogin.isLoading,
     error: state.SuperUserLogin.error,
   }))
 
   useEffect(() => {
-    if(Object.keys(response).length){
+    if (Object.keys(response).length) {
       const isSuperUser = response.isSuperUser
       cookies.set("isSuperUser", isSuperUser)
 
@@ -113,22 +124,22 @@ const SuperAdminLogin = props => {
                   <div className="p-2">
                     <Form
                       className="form-horizontal"
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        validation.handleSubmit();
-                        return false;
+                      onSubmit={e => {
+                        e.preventDefault()
+                        validation.handleSubmit()
+                        return false
                       }}
                     >
                       {isLoading ? (
                         <Alert
-                        color="info"
-                        className="alert-dismissible fade show mb-2"
-                        role="alert"
+                          color="info"
+                          className="alert-dismissible fade show mb-2"
+                          role="alert"
                         >
-                          <i className="mdi mdi-loading mdi-spin mr-2"></i> Verifying Credentials
-                        </Alert> )
-                        : null
-                      }
+                          <i className="mdi mdi-loading mdi-spin mr-2"></i>{" "}
+                          Verifying Credentials
+                        </Alert>
+                      ) : null}
 
                       {error ? <Alert color="danger">{error}</Alert> : null}
 
@@ -143,11 +154,17 @@ const SuperAdminLogin = props => {
                           onBlur={validation.handleBlur}
                           value={validation.values.username || ""}
                           invalid={
-                            validation.touched.username && validation.errors.username ? true : false
+                            validation.touched.username &&
+                            validation.errors.username
+                              ? true
+                              : false
                           }
                         />
-                        {validation.touched.username && validation.errors.username ? (
-                          <FormFeedback type="invalid">{validation.errors.username}</FormFeedback>
+                        {validation.touched.username &&
+                        validation.errors.username ? (
+                          <FormFeedback type="invalid">
+                            {validation.errors.username}
+                          </FormFeedback>
                         ) : null}
                       </div>
 
@@ -161,11 +178,17 @@ const SuperAdminLogin = props => {
                           onChange={validation.handleChange}
                           onBlur={validation.handleBlur}
                           invalid={
-                            validation.touched.password && validation.errors.password ? true : false
+                            validation.touched.password &&
+                            validation.errors.password
+                              ? true
+                              : false
                           }
                         />
-                        {validation.touched.password && validation.errors.password ? (
-                          <FormFeedback type="invalid">{validation.errors.password}</FormFeedback>
+                        {validation.touched.password &&
+                        validation.errors.password ? (
+                          <FormFeedback type="invalid">
+                            {validation.errors.password}
+                          </FormFeedback>
                         ) : null}
                       </div>
 
@@ -203,20 +226,18 @@ const SuperAdminLogin = props => {
                 </CardBody>
               </Card>
               <div className="mt-5 text-center">
-                <p>
-                  © {new Date().getFullYear()} HRIS by GSCWD
-                </p>
+                <p>© {new Date().getFullYear()} HRIS by GSCWD</p>
               </div>
             </Col>
           </Row>
         </Container>
       </div>
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default withRouter(SuperAdminLogin);
+export default withRouter(SuperAdminLogin)
 
 SuperAdminLogin.propTypes = {
   history: PropTypes.object,
-};
+}

@@ -77,9 +77,9 @@ function* fetchUserRoles({ payload: employeeId }) {
   }
 }
 
-function* updateUserRoles({ payload: { employeeId, updatedUserRoles } }) {
+function* updateUserRoles({ payload: updatedUserRoles }) {
   try {
-    const response = yield call(patchUserRoles, employeeId, updatedUserRoles)
+    const response = yield call(patchUserRoles, updatedUserRoles)
 
     yield put(updateUserRolesSuccess(response))
   } catch (error) {

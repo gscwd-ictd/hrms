@@ -33,6 +33,7 @@ const AddUserModal = props => {
   const { showAdd, handleCloseAdd } = props
   const dispatch = useDispatch()
   const [selectedEmployee, setSelectedEmployee] = useState(null)
+  const [userRoles, setUserRoles] = useState([])
 
   // Redux state list of employees that are not HRMS users
   const { nonUserList, loadingNonUserList, errorNonUserList } = useSelector(
@@ -67,53 +68,13 @@ const AddUserModal = props => {
 
     initialValues: {
       employeeId: "",
-
-      // userRoles: [
-      //   { moduleId: "", hasAccess: false }, //plantilla
-      //   { moduleId: "", hasAccess: false },
-      // ],
-
-      modules: {
-        plantilla: false,
-        employeeRegistrationSU: false,
-        employees: false,
-        organizationStructure: false,
-        salaryGrade: false,
-        qualificationStandards: false,
-        occupations: false,
-        dutiesResponsibilities: false,
-        committees: false,
-        competencyModels: false,
-        competencyAssignment: false,
-        positionRequest: false,
-        personnelSelection: false,
-        resultsOfHiring: false,
-        settings: false,
-      },
+      userRoles: userRoles,
     },
     validationSchema: Yup.object({
       employeeId: Yup.string().required("Please select an employee"),
     }),
     onSubmit: values => {
-      // dispatch(addUser(values.employeeId, values.userRoles))
-
-      document.getElementById("plantilla-checkbox").checked = false
-      document.getElementById("employeeRegistrationSU-checkbox").checked = false
-      document.getElementById("employees-checkbox").checked = false
-      document.getElementById("organizationStructure-checkbox").checked = false
-      document.getElementById("salaryGrade-checkbox").checked = false
-      document.getElementById("qualificationStandards-checkbox").checked = false
-      document.getElementById("occupations-checkbox").checked = false
-      document.getElementById("dutiesResponsibilities-checkbox").checked = false
-      document.getElementById("committees-checkbox").checked = false
-      document.getElementById("competencyModels-checkbox").checked = false
-      document.getElementById("competencyAssignment-checkbox").checked = false
-      document.getElementById("positionRequest-checkbox").checked = false
-      document.getElementById("personnelSelection-checkbox").checked = false
-      document.getElementById("resultsOfHiring-checkbox").checked = false
-      document.getElementById("settings-checkbox").checked = false
-
-      console.log(values)
+      dispatch(addUser(values))
     },
   })
 
@@ -122,9 +83,11 @@ const AddUserModal = props => {
     setSelectedEmployee(selectedOption)
   }
 
-  // remove spaces
-  const removeSpaces = str => {
-    return str.replace(/\s/g, "")
+  // uncheck all checked checkboxes
+  const clearCheckbox = () => {
+    userRoles.map((role, index) => {
+      document.getElementById(`${role.slug}-checkbox`).checked = false
+    })
   }
 
   // Initial fetch of data for select fields on employees(SG20 up) and vacant positions(SG24)
@@ -141,12 +104,34 @@ const AddUserModal = props => {
   // Reload background table and close modal
   useEffect(() => {
     if (!isEmpty(postAddUser)) {
-      formik.resetForm()
       dispatch(fetchUsers())
       dispatch(resetUserResponse())
+
+      formik.resetForm()
+      setSelectedEmployee(null)
+      clearCheckbox()
+      setUserRoles([])
       handleCloseAdd()
     }
   }, [postAddUser])
+
+  // Execute if module list is fetched
+  useEffect(() => {
+    if (!isEmpty(modulesList)) {
+      setUserRoles([])
+
+      modulesList.map(module => {
+        const newUserRole = {
+          moduleId: module._id,
+          hasAccess: false,
+          module: module.module,
+          slug: module.slug,
+          url: module.url,
+        }
+        setUserRoles(userRole => [...userRole, newUserRole])
+      })
+    }
+  }, [modulesList])
 
   return (
     <>
@@ -255,242 +240,34 @@ const AddUserModal = props => {
                 </FormGroup>
 
                 <FormGroup row>
-                  <Label for="checkbox2" sm={2}>
-                    Modules
-                  </Label>
-                  <Col>
-                    {loadingModulesList ? (
+                  <Label sm={2}>Modules</Label>
+
+                  <Col style={{ columns: 2 }}>
+                    {loadingModulesList ||
+                    isEmpty(formik.values.userRoles) ||
+                    isEmpty(userRoles) ? (
                       <i className="mdi mdi-loading mdi-spin "></i>
                     ) : (
-                      modulesList.map(module => {
+                      userRoles.map((role, index) => {
                         return (
-                          <FormGroup check key={module._id}>
+                          <FormGroup check key={index}>
                             <Input
-                              name="modules.plantilla"
-                              id={removeSpaces(module.module) + "-checkbox"}
+                              name={`userRoles[${index}].hasAccess`}
+                              id={role.slug + "-checkbox"}
                               type="checkbox"
                               onChange={formik.handleChange}
                               onBlur={formik.handleBlur}
-                              value={formik.values.modules.plantilla}
                             />
-                            <Label
-                              for={removeSpaces(module.module) + "-checkbox"}
-                              check
-                            >
-                              {module.module}
+
+                            <Label for={role.slug + "-checkbox"} check>
+                              {role.module}
                             </Label>
                           </FormGroup>
                         )
                       })
                     )}
                   </Col>
-
-                  {/* 
-                  <Col>
-                    <FormGroup check>
-                      <Input
-                        name="modules.plantilla"
-                        id="plantilla-checkbox"
-                        type="checkbox"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.modules.plantilla}
-                      />
-                      <Label check>Plantilla</Label>
-                    </FormGroup>
-
-                    <FormGroup check>
-                      <Input
-                        name="modules.employeeRegistrationSU"
-                        id="employeeRegistrationSU-checkbox"
-                        type="checkbox"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.modules.employeeRegistrationSU}
-                      />
-                      <Label check>Employee Registration(SU)</Label>
-                    </FormGroup>
-
-                    <FormGroup check>
-                      <Input
-                        name="modules.employees"
-                        id="employees-checkbox"
-                        type="checkbox"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.modules.employees}
-                      />
-                      <Label check>Employees</Label>
-                    </FormGroup>
-
-                    <FormGroup check>
-                      <Input
-                        name="modules.organizationStructure"
-                        id="organizationStructure-checkbox"
-                        type="checkbox"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.modules.organizationStructure}
-                      />
-                      <Label check>Organization Structure</Label>
-                    </FormGroup>
-
-                    <FormGroup check>
-                      <Input
-                        name="modules.salaryGrade"
-                        id="salaryGrade-checkbox"
-                        type="checkbox"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.modules.salaryGrade}
-                      />
-                      <Label check>Salary Grade</Label>
-                    </FormGroup>
-
-                    <FormGroup check>
-                      <Input
-                        name="modules.qualificationStandards"
-                        id="qualificationStandards-checkbox"
-                        type="checkbox"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.modules.qualificationStandards}
-                      />
-                      <Label check>Qualification Standards</Label>
-                    </FormGroup>
-
-                    <FormGroup check>
-                      <Input
-                        name="modules.occupations"
-                        id="occupations-checkbox"
-                        type="checkbox"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.modules.occupations}
-                      />
-                      <Label check>Occupations</Label>
-                    </FormGroup>
-
-                    <FormGroup check>
-                      <Input
-                        name="modules.dutiesResponsibilities"
-                        id="dutiesResponsibilities-checkbox"
-                        type="checkbox"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.modules.dutiesResponsibilities}
-                      />
-                      <Label check>Duties & Responsibilities</Label>
-                    </FormGroup>
-                  </Col>
-
-                  <Col>
-                    <FormGroup check>
-                      <Input
-                        name="modules.committees"
-                        id="committees-checkbox"
-                        type="checkbox"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.modules.committees}
-                      />
-                      <Label check>Committees</Label>
-                    </FormGroup>
-
-                    <FormGroup check>
-                      <Input
-                        name="modules.competencyModels"
-                        id="competencyModels-checkbox"
-                        type="checkbox"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.modules.competencyModels}
-                      />
-                      <Label check>Competency Models</Label>
-                    </FormGroup>
-
-                    <FormGroup check>
-                      <Input
-                        name="modules.competencyAssignment"
-                        id="competencyAssignment-checkbox"
-                        type="checkbox"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.modules.competencyAssignment}
-                      />
-                      <Label check>Competency Assignment</Label>
-                    </FormGroup>
-
-                    <FormGroup check>
-                      <Input
-                        name="modules.positionRequest"
-                        id="positionRequest-checkbox"
-                        type="checkbox"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.modules.positionRequest}
-                      />
-                      <Label check>Position Request</Label>
-                    </FormGroup>
-
-                    <FormGroup check>
-                      <Input
-                        name="modules.personnelSelection"
-                        id="personnelSelection-checkbox"
-                        type="checkbox"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.modules.personnelSelection}
-                      />
-                      <Label check>Personnel Selection</Label>
-                    </FormGroup>
-
-                    <FormGroup check>
-                      <Input
-                        name="modules.resultsOfHiring"
-                        id="resultsOfHiring-checkbox"
-                        type="checkbox"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.modules.resultsOfHiring}
-                      />
-                      <Label check>Results of Hiring</Label>
-                    </FormGroup>
-
-                    <FormGroup check>
-                      <Input
-                        name="modules.settings"
-                        id="settings-checkbox"
-                        type="checkbox"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.modules.settings}
-                      />
-                      <Label check>HRMS Settings</Label>
-                    </FormGroup>
-                  </Col> */}
                 </FormGroup>
-
-                {/* <FormGroup>
-                  <Label for="name-Input">Plantilla</Label>
-                  <Input
-                    name="name"
-                    type="text"
-                    className="form-control"
-                    id="name-Input"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.name || ""}
-                    invalid={
-                      formik.touched.name && formik.errors.name ? true : false
-                    }
-                  />
-                  {formik.touched.name && formik.errors.name ? (
-                    <FormFeedback type="invalid">
-                      {formik.errors.name}
-                    </FormFeedback>
-                  ) : null}
-                </FormGroup> */}
               </Col>
             </Row>
           </Modal.Body>

@@ -38,8 +38,8 @@ function* loginUser({ payload: { user, history } }) {
 
 function* logoutUser({ payload: { history } }) {
   try {
-    cookies.remove("accessToken")
-    cookies.remove("employeeId")
+    cookies.remove("userId")
+    cookies.remove("isSuperUser")
     localStorage.clear()
     // localStorage.removeItem("authUser")
 

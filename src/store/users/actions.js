@@ -98,10 +98,10 @@ export const fetchUserRolesSuccess = response => {
 }
 
 // Update HRMS user roles
-export const updateUserRoles = (employeeId, updatedUserRoles) => {
+export const updateUserRoles = updatedUserRoles => {
   return {
     type: PATCH_USER_ROLES,
-    payload: { employeeId, updatedUserRoles },
+    payload: updatedUserRoles,
   }
 }
 export const updateUserRolesSuccess = response => {

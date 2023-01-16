@@ -33,7 +33,7 @@ export const postDivisionSuccess = divisionResponse => ({
 
 export const updateDivision = (divisionId, divisionData) => ({
   type: PUT_DIVISION,
-  payload: {divisionId, divisionData},
+  payload: { divisionId, divisionData },
 })
 
 export const updateDivisionSuccess = divisionResponse => ({

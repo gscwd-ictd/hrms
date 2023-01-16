@@ -362,12 +362,12 @@ export const delUnassignOfficerInCharge = oicId =>
 export const getUserList = () => getHris(url.HRMS_USERS)
 export const getNonUserList = () =>
   getHris(url.HRMS_USERS + url.ASSIGNABLE_EMPLOYEES_FOR_HRMS)
-export const postUser = userDetails => postHris(url.HRMS_USERS, userDetails)
-export const delUser = employeeId => delHris(url.HRMS_USERS + employeeId)
+export const postUser = userDetails => postHris(url.USER_ROLES, userDetails)
+export const delUser = employeeId => delHris(url.USER_ROLES + employeeId)
 
-export const getUserRoles = employeeId => getHris(url.HRMS_USERS + employeeId)
-export const patchUserRoles = (employeeId, updatedUserRoles) =>
-  patchHris(url.HRMS_REPORTS + employeeId, updatedUserRoles)
+export const getUserRoles = employeeId => getHris(url.USER_ROLES + employeeId)
+export const patchUserRoles = updatedUserRoles =>
+  patchHris(url.USER_ROLES, updatedUserRoles)
 
 // Documents-----------------------------------------------------------------------
 export const getDocumentPositionDescriptionDBMCSC = postingApplicantId =>
@@ -421,3 +421,7 @@ export const postHrmsModule = module => postHris(url.HRMS_MODULES, module)
 export const delHrmsModule = moduleId => delHris(url.HRMS_MODULES + moduleId)
 export const patchHrmsModule = (moduleId, moduleDetails) =>
   patchHris(url.HRMS_MODULES + moduleId, moduleDetails)
+
+// System Logs---------------------------------------------------------------------
+export const getSystemLogs = () => getHris(url.SYSTEM_LOGS)
+export const getSystemLog = logId => getHris(url.SYSTEM_LOGS + logId)

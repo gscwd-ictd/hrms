@@ -37,7 +37,6 @@ function* loginUser({ payload: { user, history } }) {
 }
 
 function* logoutUser() {
-  console.log(domainUrl + url.POST_LOGOUT)
   try {
     const response = yield call(postLogout, domainUrl + url.POST_LOGOUT, {})
     yield put(logoutSuccess(response))

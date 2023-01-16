@@ -9,7 +9,7 @@ export const POST_VERIFY_ACCESS_TOKEN = "auth/verify/"
 export const POST_REGISTER = "auth/register"
 export const POST_FORGET_PASSWORD = "auth/forget-password"
 export const POST_PROFILE_UPDATE = "auth/post-jwt-profile"
-export const POST_SU_LOGIN = "auth/super-login"
+export const POST_SU_LOGIN = "users/super-login"
 
 //ORGANIZATION STRUCTURE
 export const GET_OFFICES = "office"
@@ -187,6 +187,7 @@ export const VACANT_MANAGERIAL_POSITIONS = "oic-managerial-positions/"
 
 // USERS
 export const HRMS_USERS = "users/"
+export const USER_ROLES = "user-roles/"
 export const ASSIGNABLE_EMPLOYEES_FOR_HRMS = "assignable/"
 
 // DOCUMENTS
@@ -201,6 +202,9 @@ export const CERTIFICATE_OF_APPOINTMENT = "csc-form-33-b/"
 
 // MODULES
 export const HRMS_MODULES = "modules/"
+
+// SYSTEM LOGS
+export const SYSTEM_LOGS = "user-logs/"
 
 // VERSION 2
 export const VERSION_2 = "/v2"

@@ -14,21 +14,21 @@ import {
   // GET_CATEGORIES,
   // GET_CATEGORIES_SUCCESS,
   // GET_CATEGORIES_FAIL,
-} from "./actionTypes";
+} from "./actionTypes"
 
 export const getEvents = () => ({
   type: GET_EVENTS,
-});
+})
 
 export const getEventsSuccess = events => ({
   type: GET_EVENTS_SUCCESS,
   payload: events,
-});
+})
 
 export const getEventsFail = error => ({
   type: GET_EVENTS_FAIL,
   payload: error,
-});
+})
 
 // export const addNewEvent = event => ({
 //   type: ADD_NEW_EVENT,
