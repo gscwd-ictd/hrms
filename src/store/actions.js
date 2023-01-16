@@ -75,5 +75,8 @@ export * from "./users/actions"
 // Modules
 export * from "./modules/actions"
 
+// System Logs
+export * from "./system-logs/actions"
+
 // TEST
 // export * from "./test/otp/actions"

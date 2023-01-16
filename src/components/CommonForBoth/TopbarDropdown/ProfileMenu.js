@@ -28,7 +28,7 @@ const ProfileMenu = props => {
     if (localStorage.getItem("email")) {
       setEmail(localStorage.getItem("email"))
     } else {
-      setUsername("user@email.com")
+      setUsername(localStorage.getItem("username"))
     }
 
     if (localStorage.getItem("photoUrl")) {

@@ -78,6 +78,9 @@ import users from "./users/reducer"
 // Modules
 import modules from "./modules/reducer"
 
+// System Logs
+import systemLogs from "./system-logs/reducer"
+
 // TEST
 // import otpService from "./test/otp/reducer"
 
@@ -115,6 +118,7 @@ const rootReducer = combineReducers({
   officerInCharge,
   users,
   modules,
+  systemLogs,
   // otpService,
 })
 

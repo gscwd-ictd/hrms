@@ -13,7 +13,7 @@ const DeleteUserModal = props => {
   const dispatch = useDispatch()
 
   const submitDelete = () => {
-    dispatch(removeUnassignOIC(modalData.employeeId))
+    dispatch(removeUser(modalData.employeeId))
   }
 
   // Redux state for response on removing a user

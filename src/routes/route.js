@@ -15,15 +15,27 @@ const Authmiddleware = ({
   <Route
     {...rest}
     render={props => {
-      // if (isAuthProtected && !localStorage.getItem("email")) {
       if (
         isAuthProtected &&
         !cookies.get("accessToken") &&
-        !cookies.get("ssid_hrms")
+        !cookies.get("ssid_hrms") &&
+        props.location.pathname === "/login"
       ) {
         return (
           <Redirect
             to={{ pathname: "/login", state: { from: props.location } }}
+          />
+        )
+      }
+
+      if (
+        isAuthProtected &&
+        !cookies.get("isSuperUser") &&
+        props.location.pathname === "/admin-login"
+      ) {
+        return (
+          <Redirect
+            to={{ pathname: "/admin-login", state: { from: props.location } }}
           />
         )
       }
