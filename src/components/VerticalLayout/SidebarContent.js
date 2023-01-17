@@ -239,30 +239,40 @@ const SidebarContent = props => {
               </Link>
             </li>
 
-            <li className="menu-title">Settings</li>
             <li>
-              <Link to="/settings/users" className="waves-effect">
-                <i className="bx bxs-user-account"></i>
-                <span>{"Users"}</span>
+              <Link to="/#" className="has-arrow waves-effect">
+                <i className="bx bx-cog"></i>
+                <span>{"Settings"}</span>
               </Link>
-            </li>
-            <li>
-              <Link to="/settings/officer-in-charge" className="waves-effect">
-                <i className="bx bxs-user-badge"></i>
-                <span>{"Officer In Charge"}</span>
-              </Link>
-            </li>
-            <li>
-              <Link to="/settings/modules" className="waves-effect">
-                <i className="bx bx-package"></i>
-                <span>{"Modules"}</span>
-              </Link>
-            </li>
-            <li>
-              <Link to="/settings/system-logs" className="waves-effect">
-                <i className="bx bx-detail"></i>
-                <span>{"System Logs"}</span>
-              </Link>
+              <ul className="sub-menu" aria-expanded="false">
+                <li>
+                  <Link to="/settings/users" className="waves-effect">
+                    <i className="bx bxs-user-account"></i>
+                    <span>{"Users"}</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/settings/officer-in-charge"
+                    className="waves-effect"
+                  >
+                    <i className="bx bxs-user-badge"></i>
+                    <span>{"Officer In Charge"}</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/settings/modules" className="waves-effect">
+                    <i className="bx bx-package"></i>
+                    <span>{"Modules"}</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/settings/system-logs" className="waves-effect">
+                    <i className="bx bx-detail"></i>
+                    <span>{"System Logs"}</span>
+                  </Link>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
