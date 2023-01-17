@@ -60,17 +60,6 @@ const EmployeeList = props => {
               <button className="btn btn-info waves-effect waves-light">
                 PDS
               </button>
-            </Link>{" "}
-            <Link
-              to={`${
-                props.location.pathname +
-                "/" +
-                cell.row.values["employmentDetails.employeeId"]
-              }`}
-            >
-              <button className="btn btn-info waves-effect waves-light">
-                201
-              </button>
             </Link>
           </div>
         )

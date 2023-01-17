@@ -67,13 +67,7 @@ const PublicationPositions = props => {
       Header: "Publication Date",
       accessor: "postingDate",
       Cell: function DateRequested(cell) {
-        return (
-          <>
-            {dayjs(cell.row.original.postingDate, "MMMM DD, YYYY").format(
-              "MMMM DD, YYYY"
-            )}
-          </>
-        )
+        return <>{dayjs(cell.value, "MMMM DD, YYYY").format("MMMM DD, YYYY")}</>
       },
     },
     {

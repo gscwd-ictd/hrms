@@ -1,19 +1,14 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Card, CardBody, Col, Row } from "reactstrap"
 import { fetchQualificationStandardsList } from "store/actions"
 
-// modal components
+import { Card, CardBody, Col, Row } from "reactstrap"
 import InRowAction from "components/InRowAction/InRowAction"
 import EditQSModal from "components/Modal/QualificationStandards/EditQSModal"
 import DeleteQSModal from "components/Modal/QualificationStandards/DeleteQSModal"
-
-// table components
 import TableQualificationStandard from "components/Table/TableQualificationStandard"
-
-// extra components
 import Breadcrumbs from "components/Common/Breadcrumb"
-import LoadingIndicator from "../../components/LoaderSpinner/LoadingIndicator"
+import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 
 // style
@@ -22,7 +17,7 @@ import "styles/custom_gscwd/components/table.scss"
 const QualificationStandards = () => {
   const dispatch = useDispatch()
 
-  const qsColumns = [
+  const tableColumns = [
     {
       Header: "ID",
       accessor: "positionId",
@@ -83,7 +78,7 @@ const QualificationStandards = () => {
       state.qualificationStandards.error.errorQualificationStandardsList,
   }))
 
-  const columns = useMemo(() => qsColumns, [])
+  const columns = useMemo(() => tableColumns, [])
   const data = useMemo(
     () => qualificationStandardsList,
     [qualificationStandardsList]
@@ -145,6 +140,7 @@ const QualificationStandards = () => {
                   ) : (
                     <TableQualificationStandard columns={columns} data={data} />
                   )}
+
                   <EditQSModal
                     showEdt={showEdt}
                     modalData={modalData}

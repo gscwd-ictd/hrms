@@ -258,6 +258,12 @@ const SidebarContent = props => {
                 <span>{"Modules"}</span>
               </Link>
             </li>
+            <li>
+              <Link to="/settings/system-logs" className="waves-effect">
+                <i className="bx bx-detail"></i>
+                <span>{"System Logs"}</span>
+              </Link>
+            </li>
           </ul>
         </div>
       </SimpleBar>

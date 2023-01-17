@@ -97,6 +97,9 @@ import OfficerInCharge from "pages/Settings/OfficerInCharge"
 import Users from "pages/Settings/Users"
 import Modules from "pages/Settings/Modules"
 
+// System Logs
+import SystemLogs from "pages/SystemLogs"
+
 // Test Pages
 // import TestLogin from 'pages/Test/test-login/TestLogin'
 // import TwostepVerification from "pages/Test/Otp/auth-two-step-verification"
@@ -249,6 +252,9 @@ const authProtectedRoutes = [
   { path: "/settings/officer-in-charge", component: OfficerInCharge },
   { path: "/settings/users", component: Users },
   { path: "/settings/modules", component: Modules },
+
+  // System Logs
+  { path: "/settings/system-logs", component: SystemLogs },
 
   // this route should be at the end of all other routes
   // eslint-disable-next-line react/display-name

@@ -5,6 +5,7 @@ import {
   GET_SYSTEM_LOG,
   GET_SYSTEM_LOG_SUCCESS,
   GET_SYSTEM_LOG_FAIL,
+  RESET_SYSTEM_LOGS,
 } from "./actionTypes"
 
 //  Get list of system logs
@@ -43,5 +44,12 @@ export const fetchSystemLogFail = error => {
   return {
     type: GET_SYSTEM_LOG_FAIL,
     payload: error,
+  }
+}
+
+// reset responses
+export const resetSystemLogs = () => {
+  return {
+    type: RESET_SYSTEM_LOGS,
   }
 }

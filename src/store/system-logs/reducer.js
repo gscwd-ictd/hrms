@@ -5,6 +5,7 @@ import {
   GET_SYSTEM_LOG,
   GET_SYSTEM_LOG_SUCCESS,
   GET_SYSTEM_LOG_FAIL,
+  RESET_SYSTEM_LOGS,
 } from "./actionTypes"
 
 const INIT_STATE = {
@@ -12,7 +13,6 @@ const INIT_STATE = {
   response: {
     getSystemLog: {},
   },
-  single: {},
   loading: {
     loadingList: false,
     loadingResponse: false,
@@ -98,6 +98,20 @@ const systemLogs = (state = INIT_STATE, action) => {
         error: {
           ...state.error,
           errorList: action.payload,
+        },
+      }
+
+    case RESET_SYSTEM_LOGS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          getSystemLog: {},
+        },
+        error: {
+          ...state.error,
+          errorList: null,
+          errorResponse: null,
         },
       }
 
