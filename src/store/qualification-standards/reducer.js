@@ -150,7 +150,19 @@ const qualificationStandards = (state = INIT_STATE, action) => {
 
     case RESET_QUALIFICATION_STANDARDS:
       return {
-        ...INIT_STATE,
+        ...state,
+        position: {
+          ...state.position,
+          get: {},
+          put: {},
+          delete: {},
+          post: {},
+        },
+        error: {
+          ...state.error,
+          errorQualificationStandardsList: null,
+          errorPositionQualificationStandards: null,
+        },
       }
     default:
       return state
