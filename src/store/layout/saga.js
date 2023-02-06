@@ -50,14 +50,14 @@ function manageBodyClass(cssClass, action = "toggle") {
  */
 function* changeLayout({ payload: layout }) {
   try {
-    if (layout === "horizontal") {
-      yield put(changeTopbarThemeAction("dark"))
-      document.body.removeAttribute("data-sidebar")
-      document.body.removeAttribute("data-sidebar-image")
-      document.body.removeAttribute("data-sidebar-size")
-    } else {
-      yield put(changeTopbarThemeAction("light"))
-    }
+    // if (layout === "horizontal") {
+    // yield put(changeTopbarThemeAction("dark"))
+    document.body.removeAttribute("data-sidebar")
+    document.body.removeAttribute("data-sidebar-image")
+    document.body.removeAttribute("data-sidebar-size")
+    // } else {
+    //   yield put(changeTopbarThemeAction("light"))
+    // }
     yield call(changeBodyAttribute, "data-layout", layout)
   } catch (error) {}
 }
@@ -97,7 +97,7 @@ function* changeLeftSidebarTheme({ payload: theme }) {
  * Changes the left sidebar theme Image
  * @param {*} param0
  */
- function* changeLeftSidebarThemeImage({ payload: theme }) {
+function* changeLeftSidebarThemeImage({ payload: theme }) {
   try {
     yield call(changeBodyAttribute, "data-sidebar-image", theme)
   } catch (error) {}

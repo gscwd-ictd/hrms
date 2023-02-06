@@ -6,7 +6,6 @@ import { Container, Row, Col } from "reactstrap"
 import error from "../../assets/images/error-img.png"
 
 const Pages404 = () => {
-
   return (
     <React.Fragment>
       <div className="account-pages my-5 pt-5">
@@ -15,17 +14,16 @@ const Pages404 = () => {
             <Col lg="12">
               <div className="text-center mb-5">
                 <h1 className="display-2 font-weight-medium">
-                  4<i className="bx bx-buoy bx-spin text-primary display-3"/>
-                  4
+                  4<i className="bx bx-buoy bx-spin text-primary display-3" />4
                 </h1>
                 <h4 className="text-uppercase">Sorry, page not found</h4>
                 <div className="mt-5 text-center">
-                  {/* <Link
+                  <Link
                     className="btn btn-primary waves-effect waves-light"
                     to="/dashboard"
                   >
                     Back to Dashboard
-                  </Link> */}
+                  </Link>
                 </div>
               </div>
             </Col>

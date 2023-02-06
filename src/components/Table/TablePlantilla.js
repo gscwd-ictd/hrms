@@ -64,7 +64,7 @@ const TablePlantilla = props => {
           {headerGroups.map(headerGroup =>
             headerGroup.headers.map(column =>
               column.Filter ? (
-                <div className="mt-2 sm:mt-0" key={column.id}>
+                <div className="sm:mt-0" key={column.id}>
                   {column.render("Filter")}
                 </div>
               ) : null

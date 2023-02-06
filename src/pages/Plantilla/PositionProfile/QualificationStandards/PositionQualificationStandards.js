@@ -1,5 +1,7 @@
 import React, { useEffect } from "react"
 import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import {
@@ -58,128 +60,136 @@ const PositionQualificationStandards = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <div className="container-fluid">
-          {/* Notifications */}
-          {errorPositionQualificationStandards ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorPositionQualificationStandards}
-            />
-          ) : null}
-
-          {pdError ? (
-            <ToastrNotification toastType={"error"} notifMessage={pdError} />
-          ) : null}
-
-          {pdIsLoading ? (
-            <LoadingIndicator />
-          ) : (
-            <>
-              <Breadcrumbs
-                title={positionDetails.itemNumber}
-                titleUrl={`/plantilla/${props.match.params.id}`}
-                breadcrumbItem="Qualification Standards"
-                positionTitle={positionDetails.positionTitle}
+      <Can I="access" this="Plantilla">
+        <div className="page-content">
+          <div className="container-fluid">
+            {/* Notifications */}
+            {errorPositionQualificationStandards ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorPositionQualificationStandards}
               />
+            ) : null}
 
-              <Container fluid={true}>
-                <Row>
-                  <Col>
-                    <Card>
-                      <CardBody>
-                        {loadingPositionQualificationStandards ? (
-                          <LoadingIndicator />
-                        ) : (
-                          <Form>
-                            <Row>
-                              <Col sm={6}>
-                                <FormGroup>
-                                  <Label for="formrow-eligibility-Input">
-                                    Eligibility
-                                  </Label>
-                                  <Input
-                                    type="text"
-                                    className="form-control"
-                                    id="formrow-eligibility-Input"
-                                    defaultValue={
-                                      positionQualificationStandards.eligibility
-                                    }
-                                    readOnly
-                                  />
-                                </FormGroup>
-                              </Col>
+            {pdError ? (
+              <ToastrNotification toastType={"error"} notifMessage={pdError} />
+            ) : null}
 
-                              <Col sm={6}>
-                                <FormGroup>
-                                  <Label for="formrow-education-Input">
-                                    Education
-                                  </Label>
-                                  <Input
-                                    type="text"
-                                    className="form-control"
-                                    id="formrow-education-Input"
-                                    defaultValue={
-                                      positionQualificationStandards.education
-                                    }
-                                    readOnly
-                                  />
-                                </FormGroup>
-                              </Col>
-                            </Row>
+            {pdIsLoading ? (
+              <LoadingIndicator />
+            ) : (
+              <>
+                <Breadcrumbs
+                  title={positionDetails.itemNumber}
+                  titleUrl={`/plantilla/${props.match.params.id}`}
+                  breadcrumbItem="Qualification Standards"
+                  positionTitle={positionDetails.positionTitle}
+                />
 
-                            <Row>
-                              <Col sm={6}>
-                                <FormGroup>
-                                  <Label for="formrow-experience-Input">
-                                    Experience
-                                  </Label>
-                                  <Input
-                                    type="text"
-                                    className="form-control"
-                                    id="formrow-experience-Input"
-                                    defaultValue={
-                                      positionQualificationStandards.experience
-                                    }
-                                    readOnly
-                                  />
-                                </FormGroup>
-                              </Col>
+                <Container fluid={true}>
+                  <Row>
+                    <Col>
+                      <Card>
+                        <CardBody>
+                          {loadingPositionQualificationStandards ? (
+                            <LoadingIndicator />
+                          ) : (
+                            <Form>
+                              <Row>
+                                <Col sm={6}>
+                                  <FormGroup>
+                                    <Label for="formrow-eligibility-Input">
+                                      Eligibility
+                                    </Label>
+                                    <Input
+                                      type="text"
+                                      className="form-control"
+                                      id="formrow-eligibility-Input"
+                                      defaultValue={
+                                        positionQualificationStandards.eligibility
+                                      }
+                                      readOnly
+                                    />
+                                  </FormGroup>
+                                </Col>
 
-                              <Col sm={6}>
-                                <FormGroup>
-                                  <Label for="formrow-training-Input">
-                                    Training
-                                  </Label>
-                                  <Input
-                                    type="text"
-                                    className="form-control"
-                                    id="formrow-training-Input"
-                                    defaultValue={
-                                      positionQualificationStandards.training
-                                    }
-                                    readOnly
-                                  />
-                                </FormGroup>
-                              </Col>
-                            </Row>
+                                <Col sm={6}>
+                                  <FormGroup>
+                                    <Label for="formrow-education-Input">
+                                      Education
+                                    </Label>
+                                    <Input
+                                      type="text"
+                                      className="form-control"
+                                      id="formrow-education-Input"
+                                      defaultValue={
+                                        positionQualificationStandards.education
+                                      }
+                                      readOnly
+                                    />
+                                  </FormGroup>
+                                </Col>
+                              </Row>
 
-                            {/* <div>
+                              <Row>
+                                <Col sm={6}>
+                                  <FormGroup>
+                                    <Label for="formrow-experience-Input">
+                                      Experience
+                                    </Label>
+                                    <Input
+                                      type="text"
+                                      className="form-control"
+                                      id="formrow-experience-Input"
+                                      defaultValue={
+                                        positionQualificationStandards.experience
+                                      }
+                                      readOnly
+                                    />
+                                  </FormGroup>
+                                </Col>
+
+                                <Col sm={6}>
+                                  <FormGroup>
+                                    <Label for="formrow-training-Input">
+                                      Training
+                                    </Label>
+                                    <Input
+                                      type="text"
+                                      className="form-control"
+                                      id="formrow-training-Input"
+                                      defaultValue={
+                                        positionQualificationStandards.training
+                                      }
+                                      readOnly
+                                    />
+                                  </FormGroup>
+                                </Col>
+                              </Row>
+
+                              {/* <div>
                           <button type="submit" className="btn btn-primary w-md">
                             Submit
                           </button>
                         </div> */}
-                          </Form>
-                        )}
-                      </CardBody>
-                    </Card>
-                  </Col>
-                </Row>
-              </Container>
-            </>
-          )}
+                            </Form>
+                          )}
+                        </CardBody>
+                      </Card>
+                    </Col>
+                  </Row>
+                </Container>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      </Can>
+
+      <Can not I="access" this="Plantilla">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }

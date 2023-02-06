@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react"
 import classnames from "classnames"
 import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import {
@@ -78,311 +79,334 @@ const PositionCompetencies = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <div className="container-fluid">
-          {errorProficiencyLevel ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorProficiencyLevel}
-            />
-          ) : null}
-
-          {pdError ? (
-            <ToastrNotification toastType={"error"} notifMessage={pdError} />
-          ) : null}
-
-          {loadingProficiencyLevel && pdIsLoading ? (
-            <LoadingIndicator />
-          ) : (
-            <>
-              <Breadcrumbs
-                title={positionDetails.itemNumber}
-                titleUrl={`/plantilla/${props.match.params.id}`}
-                breadcrumbItem="Competencies"
-                positionTitle={positionDetails.positionTitle}
+      <Can I="access" this="Plantilla">
+        <div className="page-content">
+          <div className="container-fluid">
+            {errorProficiencyLevel ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorProficiencyLevel}
               />
+            ) : null}
 
-              {/*  Notifications */}
-              {errorProficiencyLevel ? (
-                <ToastrNotification
-                  toastType={"error"}
-                  notifMessage={errorProficiencyLevel}
+            {pdError ? (
+              <ToastrNotification toastType={"error"} notifMessage={pdError} />
+            ) : null}
+
+            {loadingProficiencyLevel && pdIsLoading ? (
+              <LoadingIndicator />
+            ) : (
+              <>
+                <Breadcrumbs
+                  title={positionDetails.itemNumber}
+                  titleUrl={`/plantilla/${props.match.params.id}`}
+                  breadcrumbItem="Competencies"
+                  positionTitle={positionDetails.positionTitle}
                 />
-              ) : null}
 
-              <Container fluid={true}>
-                <Row>
-                  <Col lg={12}>
-                    <Card>
-                      <CardBody>
-                        {/* <CardTitle className="mb-3">
+                {/*  Notifications */}
+                {errorProficiencyLevel ? (
+                  <ToastrNotification
+                    toastType={"error"}
+                    notifMessage={errorProficiencyLevel}
+                  />
+                ) : null}
+
+                <Container fluid={true}>
+                  <Row>
+                    <Col lg={12}>
+                      <Card>
+                        <CardBody>
+                          {/* <CardTitle className="mb-3">
                           {modalData.itemNumber} | {modalData.positionTitle}
                         </CardTitle> */}
-                        <Row>
-                          <Col md={3}>
-                            <Nav pills vertical>
-                              <NavItem>
-                                <NavLink
-                                  style={{ cursor: "pointer" }}
-                                  className={classnames({
-                                    active: activeTab === "1",
-                                  })}
-                                  onClick={() => {
-                                    toggle("1")
-                                  }}
-                                >
-                                  Core
-                                </NavLink>
-                              </NavItem>
+                          <Row>
+                            <Col md={3}>
+                              <Nav pills vertical>
+                                <NavItem>
+                                  <NavLink
+                                    style={{ cursor: "pointer" }}
+                                    className={classnames({
+                                      active: activeTab === "1",
+                                    })}
+                                    onClick={() => {
+                                      toggle("1")
+                                    }}
+                                  >
+                                    Core
+                                  </NavLink>
+                                </NavItem>
 
-                              <NavItem>
-                                <NavLink
-                                  style={{ cursor: "pointer" }}
-                                  className={classnames({
-                                    active: activeTab === "2",
-                                  })}
-                                  onClick={() => {
-                                    toggle("2")
-                                  }}
-                                >
-                                  Functional
-                                </NavLink>
-                              </NavItem>
+                                <NavItem>
+                                  <NavLink
+                                    style={{ cursor: "pointer" }}
+                                    className={classnames({
+                                      active: activeTab === "2",
+                                    })}
+                                    onClick={() => {
+                                      toggle("2")
+                                    }}
+                                  >
+                                    Functional
+                                  </NavLink>
+                                </NavItem>
 
-                              <NavItem>
-                                <NavLink
-                                  style={{ cursor: "pointer" }}
-                                  className={classnames({
-                                    active: activeTab === "3",
-                                  })}
-                                  onClick={() => {
-                                    toggle("3")
-                                  }}
-                                >
-                                  Functional Cross-Cutting
-                                </NavLink>
-                              </NavItem>
+                                <NavItem>
+                                  <NavLink
+                                    style={{ cursor: "pointer" }}
+                                    className={classnames({
+                                      active: activeTab === "3",
+                                    })}
+                                    onClick={() => {
+                                      toggle("3")
+                                    }}
+                                  >
+                                    Functional Cross-Cutting
+                                  </NavLink>
+                                </NavItem>
 
-                              <NavItem>
-                                <NavLink
-                                  style={{ cursor: "pointer" }}
-                                  className={classnames({
-                                    active: activeTab === "4",
-                                  })}
-                                  onClick={() => {
-                                    toggle("4")
-                                  }}
-                                >
-                                  Managerial
-                                </NavLink>
-                              </NavItem>
-                            </Nav>
-                          </Col>
+                                <NavItem>
+                                  <NavLink
+                                    style={{ cursor: "pointer" }}
+                                    className={classnames({
+                                      active: activeTab === "4",
+                                    })}
+                                    onClick={() => {
+                                      toggle("4")
+                                    }}
+                                  >
+                                    Managerial
+                                  </NavLink>
+                                </NavItem>
+                              </Nav>
+                            </Col>
 
-                          <Col md={9}>
-                            {loadingProficiencyLevel ? (
-                              <LoadingIndicator />
-                            ) : (
-                              <TabContent activeTab={activeTab}>
-                                <TabPane tabId="1" className="p-3">
-                                  <Row>
-                                    <Col sm="12">
-                                      <div className="table-responsive">
-                                        <Table className="table mb-0">
-                                          <thead className="thead-light">
-                                            <tr>
-                                              <th>Code</th>
-                                              <th>Name</th>
-                                              <th>Level</th>
-                                            </tr>
-                                          </thead>
-                                          <tbody>
-                                            {coreProficiencyLevel &&
-                                            coreProficiencyLevel.length > 0 ? (
-                                              coreProficiencyLevel.map(
-                                                (core, index) => {
-                                                  return (
-                                                    <tr key={core.pcplId}>
-                                                      <td>{core.code}</td>
-                                                      <td>{core.name}</td>
-                                                      <td>{core.level}</td>
-                                                    </tr>
-                                                  )
-                                                }
-                                              )
-                                            ) : (
+                            <Col md={9}>
+                              {loadingProficiencyLevel ? (
+                                <LoadingIndicator />
+                              ) : (
+                                <TabContent activeTab={activeTab}>
+                                  <TabPane tabId="1" className="p-3">
+                                    <Row>
+                                      <Col sm="12">
+                                        <div className="table-responsive">
+                                          <Table className="table mb-0">
+                                            <thead className="thead-light">
                                               <tr>
-                                                <td
-                                                  colSpan="3"
-                                                  className="ta-center"
-                                                >
-                                                  No Records Available
-                                                </td>
+                                                <th>Code</th>
+                                                <th>Name</th>
+                                                <th>Level</th>
                                               </tr>
-                                            )}
-                                          </tbody>
-                                        </Table>
-                                      </div>
-                                    </Col>
-                                  </Row>
-                                </TabPane>
+                                            </thead>
+                                            <tbody>
+                                              {coreProficiencyLevel &&
+                                              coreProficiencyLevel.length >
+                                                0 ? (
+                                                coreProficiencyLevel.map(
+                                                  (core, index) => {
+                                                    return (
+                                                      <tr key={core.pcplId}>
+                                                        <td>{core.code}</td>
+                                                        <td>{core.name}</td>
+                                                        <td>{core.level}</td>
+                                                      </tr>
+                                                    )
+                                                  }
+                                                )
+                                              ) : (
+                                                <tr>
+                                                  <td
+                                                    colSpan="3"
+                                                    className="ta-center"
+                                                  >
+                                                    No Records Available
+                                                  </td>
+                                                </tr>
+                                              )}
+                                            </tbody>
+                                          </Table>
+                                        </div>
+                                      </Col>
+                                    </Row>
+                                  </TabPane>
 
-                                <TabPane tabId="2" className="p-3">
-                                  <Row>
-                                    <Col sm="12">
-                                      <div className="table-responsive">
-                                        <Table className="table mb-0">
-                                          <thead className="thead-light">
-                                            <tr>
-                                              <th>Code</th>
-                                              <th>Name</th>
-                                              <th>Level</th>
-                                            </tr>
-                                          </thead>
-                                          <tbody>
-                                            {functionalProficiencyLevel &&
-                                            functionalProficiencyLevel.length >
-                                              0 ? (
-                                              functionalProficiencyLevel.map(
-                                                (functional, index) => {
-                                                  return (
-                                                    <tr key={functional.pcplId}>
-                                                      <td>{functional.code}</td>
-                                                      <td>{functional.name}</td>
-                                                      <td>
-                                                        {functional.level}
-                                                      </td>
-                                                    </tr>
-                                                  )
-                                                }
-                                              )
-                                            ) : (
+                                  <TabPane tabId="2" className="p-3">
+                                    <Row>
+                                      <Col sm="12">
+                                        <div className="table-responsive">
+                                          <Table className="table mb-0">
+                                            <thead className="thead-light">
                                               <tr>
-                                                <td
-                                                  colSpan="3"
-                                                  className="ta-center"
-                                                >
-                                                  No Records Available
-                                                </td>
+                                                <th>Code</th>
+                                                <th>Name</th>
+                                                <th>Level</th>
                                               </tr>
-                                            )}
-                                          </tbody>
-                                        </Table>
-                                      </div>
-                                    </Col>
-                                  </Row>
-                                </TabPane>
+                                            </thead>
+                                            <tbody>
+                                              {functionalProficiencyLevel &&
+                                              functionalProficiencyLevel.length >
+                                                0 ? (
+                                                functionalProficiencyLevel.map(
+                                                  (functional, index) => {
+                                                    return (
+                                                      <tr
+                                                        key={functional.pcplId}
+                                                      >
+                                                        <td>
+                                                          {functional.code}
+                                                        </td>
+                                                        <td>
+                                                          {functional.name}
+                                                        </td>
+                                                        <td>
+                                                          {functional.level}
+                                                        </td>
+                                                      </tr>
+                                                    )
+                                                  }
+                                                )
+                                              ) : (
+                                                <tr>
+                                                  <td
+                                                    colSpan="3"
+                                                    className="ta-center"
+                                                  >
+                                                    No Records Available
+                                                  </td>
+                                                </tr>
+                                              )}
+                                            </tbody>
+                                          </Table>
+                                        </div>
+                                      </Col>
+                                    </Row>
+                                  </TabPane>
 
-                                <TabPane tabId="3" className="p-3">
-                                  <Row>
-                                    <Col sm="12">
-                                      <div className="table-responsive">
-                                        <Table className="table mb-0">
-                                          <thead className="thead-light">
-                                            <tr>
-                                              <th>Code</th>
-                                              <th>Name</th>
-                                              <th>Level</th>
-                                            </tr>
-                                          </thead>
-                                          <tbody>
-                                            {crossCuttingProficiencyLevel &&
-                                            crossCuttingProficiencyLevel.length >
-                                              0 ? (
-                                              crossCuttingProficiencyLevel.map(
-                                                (crossCutting, index) => {
-                                                  return (
-                                                    <tr
-                                                      key={crossCutting.pcplId}
-                                                    >
-                                                      <td>
-                                                        {crossCutting.code}
-                                                      </td>
-                                                      <td>
-                                                        {crossCutting.name}
-                                                      </td>
-                                                      <td>
-                                                        {crossCutting.level}
-                                                      </td>
-                                                    </tr>
-                                                  )
-                                                }
-                                              )
-                                            ) : (
+                                  <TabPane tabId="3" className="p-3">
+                                    <Row>
+                                      <Col sm="12">
+                                        <div className="table-responsive">
+                                          <Table className="table mb-0">
+                                            <thead className="thead-light">
                                               <tr>
-                                                <td
-                                                  colSpan="3"
-                                                  className="ta-center"
-                                                >
-                                                  No Records Available
-                                                </td>
+                                                <th>Code</th>
+                                                <th>Name</th>
+                                                <th>Level</th>
                                               </tr>
-                                            )}
-                                          </tbody>
-                                        </Table>
-                                      </div>
-                                    </Col>
-                                  </Row>
-                                </TabPane>
+                                            </thead>
+                                            <tbody>
+                                              {crossCuttingProficiencyLevel &&
+                                              crossCuttingProficiencyLevel.length >
+                                                0 ? (
+                                                crossCuttingProficiencyLevel.map(
+                                                  (crossCutting, index) => {
+                                                    return (
+                                                      <tr
+                                                        key={
+                                                          crossCutting.pcplId
+                                                        }
+                                                      >
+                                                        <td>
+                                                          {crossCutting.code}
+                                                        </td>
+                                                        <td>
+                                                          {crossCutting.name}
+                                                        </td>
+                                                        <td>
+                                                          {crossCutting.level}
+                                                        </td>
+                                                      </tr>
+                                                    )
+                                                  }
+                                                )
+                                              ) : (
+                                                <tr>
+                                                  <td
+                                                    colSpan="3"
+                                                    className="ta-center"
+                                                  >
+                                                    No Records Available
+                                                  </td>
+                                                </tr>
+                                              )}
+                                            </tbody>
+                                          </Table>
+                                        </div>
+                                      </Col>
+                                    </Row>
+                                  </TabPane>
 
-                                <TabPane tabId="4" className="p-3">
-                                  <Row>
-                                    <Col sm="12">
-                                      <div className="table-responsive">
-                                        <Table className="table mb-0">
-                                          <thead className="thead-light">
-                                            <tr>
-                                              <th>Code</th>
-                                              <th>Name</th>
-                                              <th>Level</th>
-                                            </tr>
-                                          </thead>
-                                          <tbody>
-                                            {managerialProficiencyLevel &&
-                                            managerialProficiencyLevel.length >
-                                              0 ? (
-                                              managerialProficiencyLevel.map(
-                                                (managerial, index) => {
-                                                  return (
-                                                    <tr key={managerial.pcplId}>
-                                                      <td>{managerial.code}</td>
-                                                      <td>{managerial.name}</td>
-                                                      <td>
-                                                        {managerial.level}
-                                                      </td>
-                                                    </tr>
-                                                  )
-                                                }
-                                              )
-                                            ) : (
+                                  <TabPane tabId="4" className="p-3">
+                                    <Row>
+                                      <Col sm="12">
+                                        <div className="table-responsive">
+                                          <Table className="table mb-0">
+                                            <thead className="thead-light">
                                               <tr>
-                                                <td
-                                                  colSpan="3"
-                                                  className="ta-center"
-                                                >
-                                                  No Records Available
-                                                </td>
+                                                <th>Code</th>
+                                                <th>Name</th>
+                                                <th>Level</th>
                                               </tr>
-                                            )}
-                                          </tbody>
-                                        </Table>
-                                      </div>
-                                    </Col>
-                                  </Row>
-                                </TabPane>
-                              </TabContent>
-                            )}
-                          </Col>
-                        </Row>
-                      </CardBody>
-                    </Card>
-                  </Col>
-                </Row>
-              </Container>
-            </>
-          )}
+                                            </thead>
+                                            <tbody>
+                                              {managerialProficiencyLevel &&
+                                              managerialProficiencyLevel.length >
+                                                0 ? (
+                                                managerialProficiencyLevel.map(
+                                                  (managerial, index) => {
+                                                    return (
+                                                      <tr
+                                                        key={managerial.pcplId}
+                                                      >
+                                                        <td>
+                                                          {managerial.code}
+                                                        </td>
+                                                        <td>
+                                                          {managerial.name}
+                                                        </td>
+                                                        <td>
+                                                          {managerial.level}
+                                                        </td>
+                                                      </tr>
+                                                    )
+                                                  }
+                                                )
+                                              ) : (
+                                                <tr>
+                                                  <td
+                                                    colSpan="3"
+                                                    className="ta-center"
+                                                  >
+                                                    No Records Available
+                                                  </td>
+                                                </tr>
+                                              )}
+                                            </tbody>
+                                          </Table>
+                                        </div>
+                                      </Col>
+                                    </Row>
+                                  </TabPane>
+                                </TabContent>
+                              )}
+                            </Col>
+                          </Row>
+                        </CardBody>
+                      </Card>
+                    </Col>
+                  </Row>
+                </Container>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      </Can>
+
+      <Can not I="access" this="Plantilla">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }

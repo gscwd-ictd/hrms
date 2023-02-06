@@ -1,9 +1,11 @@
 import React, { useMemo, useEffect, useState } from "react"
-import { Container, Row, Col, Card, CardBody } from "reactstrap"
 import { useDispatch, useSelector } from "react-redux"
-import { fetchEmployeeList, fetchPlantillaPositionsSelect } from "store/actions"
-import { Link } from "react-router-dom"
+import { fetchEmployeeList } from "store/actions"
 import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect, Link } from "react-router-dom"
+
+import { Container, Row, Col, Card, CardBody } from "reactstrap"
 
 // modal components
 import InRowAction from "components/InRowAction/InRowAction"
@@ -36,7 +38,7 @@ const EmployeeList = props => {
       accessor: "employmentDetails.positionTitle",
     },
     {
-      Header: "Assigned To",
+      Header: "Assignment",
       accessor: "employmentDetails.assignment.name",
       Filter: SelectColumnFilter,
     },
@@ -58,7 +60,7 @@ const EmployeeList = props => {
               style={{ paddingRight: 5 }}
             >
               <button className="btn btn-info waves-effect waves-light">
-                PDS
+                201
               </button>
             </Link>
           </div>
@@ -88,51 +90,59 @@ const EmployeeList = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <Container fluid={true}>
-          <Breadcrumb
-            title="Dashboard"
-            titleUrl="/"
-            breadcrumbItem="Employee List"
-          />
+      <Can I="access" this="Employees">
+        <div className="page-content">
+          <Container fluid={true}>
+            <Breadcrumb
+              title="Dashboard"
+              titleUrl="/"
+              breadcrumbItem="Employee List"
+            />
 
-          {error ? (
-            <ToastrNotification toastType={"error"} notifMessage={error} />
-          ) : null}
+            {error ? (
+              <ToastrNotification toastType={"error"} notifMessage={error} />
+            ) : null}
 
-          <Row>
-            <Col lg={12}>
-              <Card>
-                <CardBody className="card-table">
-                  {isLoading ? (
-                    <LoadingIndicator />
-                  ) : (
-                    <>
-                      <div className="top-right-actions">
-                        <div className="form-group add-btn">
-                          <button
-                            onClick={handleShowAdd}
-                            className="btn btn-info waves-effect waves-light"
-                          >
-                            <i className="fas fa-plus-square"></i>&nbsp;
-                            Employee Registration
-                          </button>
+            <Row>
+              <Col lg={12}>
+                <Card>
+                  <CardBody className="card-table">
+                    {isLoading ? (
+                      <LoadingIndicator />
+                    ) : (
+                      <>
+                        <div className="top-right-actions">
+                          <div className="form-group add-btn">
+                            <button
+                              onClick={handleShowAdd}
+                              className="btn btn-info waves-effect waves-light"
+                            >
+                              <i className="fas fa-plus-square"></i>&nbsp;
+                              Employee Registration
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                      <TableEmployeeList columns={columns} data={data} />
-                    </>
-                  )}
+                        <TableEmployeeList columns={columns} data={data} />
+                      </>
+                    )}
 
-                  <PortalRegistrationModal
-                    showAdd={showAdd}
-                    handleCloseAdd={handleCloseAdd}
-                  />
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </div>
+                    <PortalRegistrationModal
+                      showAdd={showAdd}
+                      handleCloseAdd={handleCloseAdd}
+                    />
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      </Can>
+
+      <Can not I="access" this="Employees">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }

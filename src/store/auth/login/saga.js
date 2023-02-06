@@ -29,7 +29,7 @@ function* loginUser({ payload: { user, history } }) {
 
     yield put(loginSuccess(response))
 
-    history.push("/dashboard")
+    history.push("/module-dashboard")
     // window.location.reload()
   } catch (error) {
     yield put(apiError(error))

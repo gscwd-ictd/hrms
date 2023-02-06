@@ -1,4 +1,10 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { fetchJobDescription, fetchPlantillaPosition } from "store/actions"
+import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
+
 import {
   Card,
   CardBody,
@@ -10,9 +16,6 @@ import {
   Label,
   Input,
 } from "reactstrap"
-import { useDispatch, useSelector } from "react-redux"
-import { fetchJobDescription, fetchPlantillaPosition } from "store/actions"
-import PropTypes from "prop-types"
 
 // extra components
 import Breadcrumbs from "components/Common/Breadcrumb"
@@ -46,188 +49,196 @@ const PositionJobDescription = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <div className="container-fluid">
-          {error ? (
-            <ToastrNotification toastType={"error"} notifMessage={error} />
-          ) : null}
+      <Can I="access" this="Plantilla">
+        <div className="page-content">
+          <div className="container-fluid">
+            {error ? (
+              <ToastrNotification toastType={"error"} notifMessage={error} />
+            ) : null}
 
-          {pdError ? (
-            <ToastrNotification toastType={"error"} notifMessage={pdError} />
-          ) : null}
+            {pdError ? (
+              <ToastrNotification toastType={"error"} notifMessage={pdError} />
+            ) : null}
 
-          {isLoading && pdIsLoading ? (
-            <LoadingIndicator />
-          ) : (
-            <>
-              <Breadcrumbs
-                title={positionDetails.itemNumber}
-                titleUrl={`/plantilla/${props.match.params.id}`}
-                breadcrumbItem="Job Description"
-                positionTitle={positionDetails.positionTitle}
-              />
-              <Container fluid={true}>
-                <Row>
-                  <Col>
-                    <Card>
-                      <CardBody>
-                        {isLoading ? (
-                          <LoadingIndicator />
-                        ) : (
-                          <Form>
-                            <FormGroup>
-                              <Label for="formrow-jobtitle-Input">
-                                Job Title
-                              </Label>
-                              <Input
-                                type="text"
-                                className="form-control"
-                                id="formrow-jobtitle-Input"
-                                defaultValue={jobDescription.positionTitle}
-                                readOnly
-                              />
-                            </FormGroup>
+            {isLoading && pdIsLoading ? (
+              <LoadingIndicator />
+            ) : (
+              <>
+                <Breadcrumbs
+                  title={positionDetails.itemNumber}
+                  titleUrl={`/plantilla/${props.match.params.id}`}
+                  breadcrumbItem="Job Description"
+                  positionTitle={positionDetails.positionTitle}
+                />
+                <Container fluid={true}>
+                  <Row>
+                    <Col>
+                      <Card>
+                        <CardBody>
+                          {isLoading ? (
+                            <LoadingIndicator />
+                          ) : (
+                            <Form>
+                              <FormGroup>
+                                <Label for="formrow-jobtitle-Input">
+                                  Job Title
+                                </Label>
+                                <Input
+                                  type="text"
+                                  className="form-control"
+                                  id="formrow-jobtitle-Input"
+                                  defaultValue={jobDescription.positionTitle}
+                                  readOnly
+                                />
+                              </FormGroup>
 
-                            <Row>
-                              <Col sm={4}>
-                                <FormGroup>
-                                  <Label for="formrow-office-Input">
-                                    Office
-                                  </Label>
-                                  <Input
-                                    type="text"
-                                    className="form-control"
-                                    id="formrow-office-Input"
-                                    defaultValue={assignedTo.office}
-                                    readOnly
-                                  />
-                                </FormGroup>
-                              </Col>
+                              <Row>
+                                <Col sm={4}>
+                                  <FormGroup>
+                                    <Label for="formrow-office-Input">
+                                      Office
+                                    </Label>
+                                    <Input
+                                      type="text"
+                                      className="form-control"
+                                      id="formrow-office-Input"
+                                      defaultValue={assignedTo.office}
+                                      readOnly
+                                    />
+                                  </FormGroup>
+                                </Col>
 
-                              <Col sm={4}>
-                                <FormGroup>
-                                  <Label for="formrow-dept-Input">
-                                    Department
-                                  </Label>
-                                  <Input
-                                    type="text"
-                                    className="form-control"
-                                    id="formrow-dept-Input"
-                                    defaultValue={assignedTo.department}
-                                    readOnly
-                                  />
-                                </FormGroup>
-                              </Col>
+                                <Col sm={4}>
+                                  <FormGroup>
+                                    <Label for="formrow-dept-Input">
+                                      Department
+                                    </Label>
+                                    <Input
+                                      type="text"
+                                      className="form-control"
+                                      id="formrow-dept-Input"
+                                      defaultValue={assignedTo.department}
+                                      readOnly
+                                    />
+                                  </FormGroup>
+                                </Col>
 
-                              <Col sm={4}>
-                                <FormGroup>
-                                  <Label for="formrow-div-Input">
-                                    Division
-                                  </Label>
-                                  <Input
-                                    type="text"
-                                    className="form-control"
-                                    id="formrow-div-Input"
-                                    defaultValue={assignedTo.division}
-                                    readOnly
-                                  />
-                                </FormGroup>
-                              </Col>
-                            </Row>
+                                <Col sm={4}>
+                                  <FormGroup>
+                                    <Label for="formrow-div-Input">
+                                      Division
+                                    </Label>
+                                    <Input
+                                      type="text"
+                                      className="form-control"
+                                      id="formrow-div-Input"
+                                      defaultValue={assignedTo.division}
+                                      readOnly
+                                    />
+                                  </FormGroup>
+                                </Col>
+                              </Row>
 
-                            <Row>
-                              <Col sm={4}>
-                                <FormGroup>
-                                  <Label for="formrow-reportsto-Input">
-                                    Reports To
-                                  </Label>
-                                  <Input
-                                    type="text"
-                                    className="form-control"
-                                    id="formrow-reportsto-Input"
-                                    defaultValue={jobDescription.reportsTo}
-                                    readOnly
-                                  />
-                                </FormGroup>
-                              </Col>
+                              <Row>
+                                <Col sm={4}>
+                                  <FormGroup>
+                                    <Label for="formrow-reportsto-Input">
+                                      Reports To
+                                    </Label>
+                                    <Input
+                                      type="text"
+                                      className="form-control"
+                                      id="formrow-reportsto-Input"
+                                      defaultValue={jobDescription.reportsTo}
+                                      readOnly
+                                    />
+                                  </FormGroup>
+                                </Col>
 
-                              <Col sm={4}>
-                                <FormGroup>
-                                  <Label for="formrow-sg-Input">
-                                    Salary Grade
-                                  </Label>
-                                  <Input
-                                    type="text"
-                                    className="form-control"
-                                    id="formrow-sg-Input"
-                                    defaultValue={jobDescription.salaryGrade}
-                                    readOnly
-                                  />
-                                </FormGroup>
-                              </Col>
+                                <Col sm={4}>
+                                  <FormGroup>
+                                    <Label for="formrow-sg-Input">
+                                      Salary Grade
+                                    </Label>
+                                    <Input
+                                      type="text"
+                                      className="form-control"
+                                      id="formrow-sg-Input"
+                                      defaultValue={jobDescription.salaryGrade}
+                                      readOnly
+                                    />
+                                  </FormGroup>
+                                </Col>
 
-                              <Col sm={4}>
-                                <FormGroup>
-                                  <Label for="formrow-natureOfAppointment-Input">
-                                    Nature of Appointment
-                                  </Label>
-                                  <Input
-                                    type="text"
-                                    className="form-control"
-                                    id="formrow-natureOfAppointment-Input"
-                                    defaultValue={
-                                      jobDescription.natureOfAppointment
-                                    }
-                                    readOnly
-                                  />
-                                </FormGroup>
-                              </Col>
-                            </Row>
+                                <Col sm={4}>
+                                  <FormGroup>
+                                    <Label for="formrow-natureOfAppointment-Input">
+                                      Nature of Appointment
+                                    </Label>
+                                    <Input
+                                      type="text"
+                                      className="form-control"
+                                      id="formrow-natureOfAppointment-Input"
+                                      defaultValue={
+                                        jobDescription.natureOfAppointment
+                                      }
+                                      readOnly
+                                    />
+                                  </FormGroup>
+                                </Col>
+                              </Row>
 
-                            <FormGroup>
-                              <Label for="formrow-desc-Input">
-                                Brief decription of general function of
-                                Office/Department/Division
-                              </Label>
-                              <Input
-                                type="textarea"
-                                className="form-control"
-                                id="formrow-desc-Input"
-                                defaultValue={jobDescription.description}
-                                readOnly
-                              />
-                            </FormGroup>
+                              <FormGroup>
+                                <Label for="formrow-desc-Input">
+                                  Brief decription of general function of
+                                  Office/Department/Division
+                                </Label>
+                                <Input
+                                  type="textarea"
+                                  className="form-control"
+                                  id="formrow-desc-Input"
+                                  defaultValue={jobDescription.description}
+                                  readOnly
+                                />
+                              </FormGroup>
 
-                            <FormGroup>
-                              <Label for="formrow-desc-Input">
-                                Brief decription of general function of the
-                                position
-                              </Label>
-                              <Input
-                                type="textarea"
-                                className="form-control"
-                                id="formrow-desc-Input"
-                                defaultValue={jobDescription.summary}
-                                readOnly
-                              />
-                            </FormGroup>
+                              <FormGroup>
+                                <Label for="formrow-desc-Input">
+                                  Brief decription of general function of the
+                                  position
+                                </Label>
+                                <Input
+                                  type="textarea"
+                                  className="form-control"
+                                  id="formrow-desc-Input"
+                                  defaultValue={jobDescription.summary}
+                                  readOnly
+                                />
+                              </FormGroup>
 
-                            {/* <div>
+                              {/* <div>
                           <button type="submit" className="btn btn-primary w-md">
                             Submit
                           </button>
                         </div> */}
-                          </Form>
-                        )}
-                      </CardBody>
-                    </Card>
-                  </Col>
-                </Row>
-              </Container>
-            </>
-          )}
+                            </Form>
+                          )}
+                        </CardBody>
+                      </Card>
+                    </Col>
+                  </Row>
+                </Container>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      </Can>
+
+      <Can not I="access" this="Plantilla">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }

@@ -1,0 +1,19 @@
+.signatory-trail {
+  display: flex;
+}
+.equal-columns > * {
+  flex: 1;
+}
+
+// Mobile Breakpoint
+@media (min-width: 320px) and (max-width: 480px) {
+  .signatory-trail {
+    display: block;
+  }
+}
+// Tablet Breakpoint
+@media (min-width: 481px) and (max-width: 768px) {
+  .signatory-trail {
+    display: block;
+  }
+}

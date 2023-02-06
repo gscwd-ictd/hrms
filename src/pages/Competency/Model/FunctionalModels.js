@@ -29,7 +29,7 @@ const FunctionalModels = () => {
       disableGlobalFilter: true,
     },
     {
-      Header: "Occupation Code",
+      Header: "Occupation",
       accessor: "occupationCode",
       Filter: SelectColumnFilter,
       filter: "includes",

@@ -10,10 +10,7 @@ import {
 import { GlobalFilter } from "components/Filters/GlobalFilter"
 import PropTypes from "prop-types"
 
-// styles
-import "styles/custom_gscwd/components/table.scss"
-
-const TableEmployeeList = props => {
+const TableSystemLogs = props => {
   const { columns, data } = props
 
   const tableInstance = useTable(
@@ -22,7 +19,7 @@ const TableEmployeeList = props => {
       data,
       initialState: {
         pageIndex: 0,
-        hiddenColumns: ["employmentDetails.employeeId"],
+        hiddenColumns: ["_id"],
       },
     },
     useFilters,
@@ -51,28 +48,27 @@ const TableEmployeeList = props => {
 
   return (
     <>
-      <div className="flex-container filters-wrapper">
-        <GlobalFilter
-          preGlobalFilteredRows={preGlobalFilteredRows}
-          globalFilter={globalFilter}
-          setGlobalFilter={setGlobalFilter}
-        />
-        <div className="column-filters">
-          {headerGroups.map(headerGroup =>
-            headerGroup.headers.map((column, i) =>
-              column.Filter ? (
-                <div className={"sm:mt-0 filter-" + i} key={i}>
-                  {column.render("Filter")}
-                </div>
-              ) : null
-            )
-          )}
-        </div>
+      {/* <div className="flex-container filters-wrapper"> */}
+      {/* <GlobalFilter
+        preGlobalFilteredRows={preGlobalFilteredRows}
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+      /> */}
+      <div className="column-filters d-flex gap-4 mt-3">
+        {headerGroups.map(headerGroup =>
+          headerGroup.headers.map((column, i) =>
+            column.Filter ? (
+              <div className={"sm:mt-0 filter-" + i} key={i}>
+                {column.render("Filter")}
+              </div>
+            ) : null
+          )
+        )}
       </div>
-
+      {/* </div> */}
       <Table
         {...getTableProps()}
-        className="table mb-0 wd-table tbl-competency-models"
+        className="table mb-0 wd-table"
         hover
         responsive
       >
@@ -181,9 +177,9 @@ const TableEmployeeList = props => {
   )
 }
 
-TableEmployeeList.propTypes = {
+TableSystemLogs.propTypes = {
   columns: PropTypes.array,
   data: PropTypes.array,
 }
 
-export default TableEmployeeList
+export default TableSystemLogs

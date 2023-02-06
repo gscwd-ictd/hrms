@@ -13,6 +13,7 @@ import SuperAdminLogin from "pages/Authentication/SuperAdminLogin"
 import SuperAdminLogout from "pages/Authentication/SuperAdminLogout"
 
 // Dashboard
+import ModuleDashboard from "pages/ModuleDashboard"
 import Dashboard from "pages/Dashboard/index"
 
 //Organization Structure
@@ -100,14 +101,10 @@ import Modules from "pages/Settings/Modules"
 // System Logs
 import SystemLogs from "pages/SystemLogs"
 
-// Test Pages
-// import TestLogin from 'pages/Test/test-login/TestLogin'
-// import TwostepVerification from "pages/Test/Otp/auth-two-step-verification"
-
 const authProtectedRoutes = [
   { path: "/dashboard", component: Dashboard },
 
-  // //profile
+  //profile
   { path: "/profile", component: UserProfile },
 
   // Position Request
@@ -120,10 +117,16 @@ const authProtectedRoutes = [
   { path: "/division", component: Division },
 
   // Personnel
-  { path: "/employee-registration", component: EmployeeRegistration },
+  {
+    path: "/employee-registration",
+    component: EmployeeRegistration,
+  },
   { path: "/plantilla", component: PlantillaTable },
   { path: "/plantilla/:id", component: PositionProfile },
-  { path: "/plantilla/:id/job-description", component: PositionJobDescription },
+  {
+    path: "/plantilla/:id/job-description",
+    component: PositionJobDescription,
+  },
   {
     path: "/plantilla/:id/duties-and-responsibilities",
     component: PositionDutiesResponsibilities,
@@ -132,7 +135,10 @@ const authProtectedRoutes = [
     path: "/plantilla/:id/qualification-standards",
     component: PositionQualificationStandards,
   },
-  { path: "/plantilla/:id/competencies", component: PositionCompetencies },
+  {
+    path: "/plantilla/:id/competencies",
+    component: PositionCompetencies,
+  },
   { path: "/employees", component: EmployeeList },
   { path: "/employees/:id", component: EmployeePds },
 
@@ -261,6 +267,10 @@ const authProtectedRoutes = [
   { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> },
 ]
 
+const moduleDashboardRoutes = [
+  { path: "/module-dashboard", component: ModuleDashboard },
+]
+
 const publicRoutes = [
   { path: "/logout", component: Logout },
   { path: "/login", component: Login },
@@ -275,4 +285,4 @@ const publicRoutes = [
   { path: "/page-404", component: Page404 },
 ]
 
-export { publicRoutes, authProtectedRoutes }
+export { publicRoutes, moduleDashboardRoutes, authProtectedRoutes }

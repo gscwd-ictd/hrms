@@ -1,0 +1,9 @@
+// Mobile Breakpoint
+@media (min-width: 320px) and (max-width: 480px) {
+  .daterange-wrapper {
+    flex-wrap: wrap;
+  }
+}
+// Tablet Breakpoint
+@media (min-width: 481px) and (max-width: 768px) {
+}

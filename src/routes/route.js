@@ -6,6 +6,26 @@ import { Route, Redirect } from "react-router-dom"
 import Cookies from "universal-cookie"
 
 const cookies = new Cookies()
+
+const hasAccess = (props, Component, Layout, isAuthProtected) => {
+  if (
+    isAuthProtected &&
+    !cookies.get("accessToken") &&
+    !cookies.get("ssid_hrms") &&
+    !cookies.get("isSuperUser")
+  ) {
+    return (
+      <Redirect to={{ pathname: "/login", state: { from: props.location } }} />
+    )
+  }
+
+  return (
+    <Layout>
+      <Component {...props} />
+    </Layout>
+  )
+}
+
 const Authmiddleware = ({
   component: Component,
   layout: Layout,
@@ -14,38 +34,7 @@ const Authmiddleware = ({
 }) => (
   <Route
     {...rest}
-    render={props => {
-      if (
-        isAuthProtected &&
-        !cookies.get("accessToken") &&
-        !cookies.get("ssid_hrms") &&
-        props.location.pathname === "/login"
-      ) {
-        return (
-          <Redirect
-            to={{ pathname: "/login", state: { from: props.location } }}
-          />
-        )
-      }
-
-      if (
-        isAuthProtected &&
-        !cookies.get("isSuperUser") &&
-        props.location.pathname === "/admin-login"
-      ) {
-        return (
-          <Redirect
-            to={{ pathname: "/admin-login", state: { from: props.location } }}
-          />
-        )
-      }
-
-      return (
-        <Layout>
-          <Component {...props} />
-        </Layout>
-      )
-    }}
+    render={props => hasAccess(props, Component, Layout, isAuthProtected)}
   />
 )
 

@@ -5,15 +5,44 @@ import dayjs from "dayjs"
 import { isEmpty } from "lodash"
 
 import { Card, CardBody, Col, Row } from "reactstrap"
-import TableBase from "components/Table/TableBase"
+import TableSystemLogs from "components/Table/TableSystemLogs"
 import InRowAction from "components/InRowAction/InRowAction"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ViewSystemLogModal from "components/Modal/SystemLogs/ViewSystemLogModal"
+import { SelectColumnFilter } from "components/Filters/SelectColumnFilter"
+import { DateRangeColumnFilter } from "components/Filters/DateRangeColumnFilter"
+
+// style
+import "styles/custom_gscwd/components/table.scss"
 
 const SystemLogs = () => {
   const dispatch = useDispatch()
+
+  // function for filtering date in between
+  const dateBetweenFilterFn = (rows, id, filterValues) => {
+    const sd = filterValues[0] ? new Date(filterValues[0]) : undefined
+    const ed = filterValues[1] ? new Date(filterValues[1]) : undefined
+
+    // console.log(min, max)
+
+    if (ed || sd) {
+      return rows.filter(r => {
+        const cellDate = new Date(r.values[id])
+
+        if (ed && sd) {
+          return cellDate >= sd && cellDate <= ed
+        } else if (sd) {
+          return cellDate >= sd
+        } else if (ed) {
+          return cellDate <= ed
+        }
+      })
+    } else {
+      return rows
+    }
+  }
 
   const tableColumns = [
     {
@@ -24,13 +53,17 @@ const SystemLogs = () => {
     {
       Header: "Date Logged",
       accessor: "dateLogged",
+      FilterName: "Date",
+      Filter: DateRangeColumnFilter,
+      filter: dateBetweenFilterFn,
       Cell: function formateDate(cell) {
         return <>{formatDate(cell.value)}</>
       },
     },
     {
-      Header: "User Name",
+      Header: "Username",
       accessor: "userFullName",
+      Filter: SelectColumnFilter,
     },
     {
       Header: "Actions",
@@ -104,7 +137,7 @@ const SystemLogs = () => {
                   {loadingList ? (
                     <LoadingIndicator />
                   ) : (
-                    <TableBase columns={columns} data={data} />
+                    <TableSystemLogs columns={columns} data={data} />
                   )}
 
                   <ViewSystemLogModal

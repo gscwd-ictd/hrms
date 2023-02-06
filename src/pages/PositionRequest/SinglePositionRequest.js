@@ -22,6 +22,7 @@ import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 import SimpleBar from "simplebar-react"
 import Breadcrumbs from "components/Common/Breadcrumb"
+import PrfSignatory from "components/Trail/PrfSignatory/PrfSignatory"
 
 import "flatpickr/dist/themes/material_blue.css"
 
@@ -224,7 +225,7 @@ const SinglePositionRequest = props => {
 
           <Row>
             {/* PRF Trail */}
-            <Col md={7}>
+            <Col md={12}>
               <Card>
                 <h5 className="card-header bg-transparent border-bottom">
                   Trail
@@ -233,247 +234,253 @@ const SinglePositionRequest = props => {
                   {loadingPrfTrail ? (
                     <LoadingIndicator />
                   ) : (
-                    <SimpleBar style={{ maxHeight: "350px" }}>
-                      <div className="mt-2">
-                        <ul className="verti-timeline list-unstyled">
-                          {/* Division */}
+                    <PrfSignatory
+                      prfTrail={prfTrail}
+                      prfDetails={prfDetails}
+                      formatDate={formatDate}
+                    />
+                    // <SimpleBar style={{ maxHeight: "400px" }}>
+                    //   <div className="mt-2">
+                    //     <ul className="verti-timeline list-unstyled">
+                    //       {prfTrail.division.status !== "N/A" ? (
+                    //         <li
+                    //           className={
+                    //             prfTrail.division.status === "For approval"
+                    //               ? "event-list active"
+                    //               : "event-list"
+                    //           }
+                    //         >
+                    //           <div className="event-timeline-dot">
+                    //             <i
+                    //               className={
+                    //                 prfTrail.division.status === "For approval"
+                    //                   ? "bx bxs-right-arrow-circle font-size-18 bx-fade-right"
+                    //                   : prfTrail.division.status === "Pending"
+                    //                   ? "bx bx-right-arrow-circle font-size-18"
+                    //                   : "bx bxs-right-arrow-circle font-size-18"
+                    //               }
+                    //             ></i>
+                    //           </div>
 
-                          {prfTrail.division.status !== "N/A" ? (
-                            <li
-                              className={
-                                prfTrail.division.status === "For approval"
-                                  ? "event-list active"
-                                  : "event-list"
-                              }
-                            >
-                              <div className="event-timeline-dot">
-                                <i
-                                  className={
-                                    prfTrail.division.status === "For approval"
-                                      ? "bx bxs-right-arrow-circle font-size-18 bx-fade-right"
-                                      : prfTrail.division.status === "Pending"
-                                      ? "bx bx-right-arrow-circle font-size-18"
-                                      : "bx bxs-right-arrow-circle font-size-18"
-                                  }
-                                ></i>
-                              </div>
-                              <div className="d-flex">
-                                <div className="me-3">
-                                  <h5 className="font-size-14">
-                                    {formatDate(prfDetails.dateRequested)}
+                    //           <div className="d-flex">
+                    //             <div className="me-3">
+                    //               <h5 className="font-size-14">
+                    //                 {formatDate(prfDetails.dateRequested)}
 
-                                    <i className="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i>
-                                  </h5>
-                                </div>
-                                <div className="flex-grow-1">
-                                  <div>
-                                    <span className="font-weight-semibold">
-                                      {prfTrail.division.name}
-                                    </span>
-                                    {" | "}
-                                    {prfTrail.division.position}
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                          ) : null}
+                    //                 <i className="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i>
+                    //               </h5>
+                    //             </div>
+                    //             <div className="flex-grow-1">
+                    //               <div>
+                    //                 <span className="font-weight-semibold">
+                    //                   {prfTrail.division.name}
+                    //                 </span>
+                    //                 {" | "}
+                    //                 {prfTrail.division.position}
+                    //               </div>
+                    //             </div>
+                    //           </div>
+                    //         </li>
+                    //       ) : null}
 
-                          {prfTrail.department.status !== "N/A" ? (
-                            <li
-                              className={
-                                prfTrail.department.status === "For approval"
-                                  ? "event-list active"
-                                  : "event-list"
-                              }
-                            >
-                              <div className="event-timeline-dot">
-                                <i
-                                  className={
-                                    prfTrail.department.status ===
-                                    "For approval"
-                                      ? "bx bxs-right-arrow-circle font-size-18 bx-fade-right"
-                                      : prfTrail.department.status === "Pending"
-                                      ? "bx bx-right-arrow-circle font-size-18"
-                                      : "bx bxs-right-arrow-circle font-size-18"
-                                  }
-                                ></i>
-                              </div>
-                              <div className="d-flex">
-                                <div className="me-3">
-                                  <h5 className="font-size-14">
-                                    {prfTrail.department.updatedAt
-                                      ? formatDate(
-                                          prfTrail.department.updatedAt
-                                        )
-                                      : prfTrail.department.status ===
-                                          "For approval" ||
-                                        prfTrail.department.status === "Pending"
-                                      ? "---"
-                                      : formatDate(prfDetails.dateRequested)}
+                    //       {prfTrail.department.status !== "N/A" ? (
+                    //         <li
+                    //           className={
+                    //             prfTrail.department.status === "For approval"
+                    //               ? "event-list active"
+                    //               : "event-list"
+                    //           }
+                    //         >
+                    //           <div className="event-timeline-dot">
+                    //             <i
+                    //               className={
+                    //                 prfTrail.department.status ===
+                    //                 "For approval"
+                    //                   ? "bx bxs-right-arrow-circle font-size-18 bx-fade-right"
+                    //                   : prfTrail.department.status === "Pending"
+                    //                   ? "bx bx-right-arrow-circle font-size-18"
+                    //                   : "bx bxs-right-arrow-circle font-size-18"
+                    //               }
+                    //             ></i>
+                    //           </div>
+                    //           <div className="d-flex">
+                    //             <div className="me-3">
+                    //               <h5 className="font-size-14">
+                    //                 {prfTrail.department.updatedAt
+                    //                   ? formatDate(
+                    //                       prfTrail.department.updatedAt
+                    //                     )
+                    //                   : prfTrail.department.status ===
+                    //                       "For approval" ||
+                    //                     prfTrail.department.status === "Pending"
+                    //                   ? "---"
+                    //                   : formatDate(prfDetails.dateRequested)}
 
-                                    <i className="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i>
-                                  </h5>
-                                </div>
-                                <div className="flex-grow-1">
-                                  <div>
-                                    <span className="font-weight-semibold">
-                                      {prfTrail.department.name}
-                                    </span>
-                                    {" | "}
-                                    {prfTrail.department.position}
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                          ) : null}
+                    //                 <i className="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i>
+                    //               </h5>
+                    //             </div>
+                    //             <div className="flex-grow-1">
+                    //               <div>
+                    //                 <span className="font-weight-semibold">
+                    //                   {prfTrail.department.name}
+                    //                 </span>
+                    //                 {" | "}
+                    //                 {prfTrail.department.position}
+                    //               </div>
+                    //             </div>
+                    //           </div>
+                    //         </li>
+                    //       ) : null}
 
-                          {prfTrail.agm.status !== "N/A" ? (
-                            <li
-                              className={
-                                prfTrail.agm.status === "For approval"
-                                  ? "event-list active"
-                                  : "event-list"
-                              }
-                            >
-                              <div className="event-timeline-dot">
-                                <i
-                                  className={
-                                    prfTrail.agm.status === "For approval"
-                                      ? "bx bxs-right-arrow-circle font-size-18 bx-fade-right"
-                                      : prfTrail.agm.status === "Pending"
-                                      ? "bx bx-right-arrow-circle font-size-18"
-                                      : "bx bxs-right-arrow-circle font-size-18"
-                                  }
-                                ></i>
-                              </div>
-                              <div className="d-flex">
-                                <div className="me-3">
-                                  <h5 className="font-size-14">
-                                    {prfTrail.agm.updatedAt
-                                      ? formatDate(prfTrail.agm.updatedAt)
-                                      : prfTrail.agm.status ===
-                                          "For approval" ||
-                                        prfTrail.agm.status === "Pending"
-                                      ? "---"
-                                      : formatDate(prfDetails.dateRequested)}
+                    //       {prfTrail.agm.status !== "N/A" ? (
+                    //         <li
+                    //           className={
+                    //             prfTrail.agm.status === "For approval"
+                    //               ? "event-list active"
+                    //               : "event-list"
+                    //           }
+                    //         >
+                    //           <div className="event-timeline-dot">
+                    //             <i
+                    //               className={
+                    //                 prfTrail.agm.status === "For approval"
+                    //                   ? "bx bxs-right-arrow-circle font-size-18 bx-fade-right"
+                    //                   : prfTrail.agm.status === "Pending"
+                    //                   ? "bx bx-right-arrow-circle font-size-18"
+                    //                   : "bx bxs-right-arrow-circle font-size-18"
+                    //               }
+                    //             ></i>
+                    //           </div>
+                    //           <div className="d-flex">
+                    //             <div className="me-3">
+                    //               <h5 className="font-size-14">
+                    //                 {prfTrail.agm.updatedAt
+                    //                   ? formatDate(prfTrail.agm.updatedAt)
+                    //                   : prfTrail.agm.status ===
+                    //                       "For approval" ||
+                    //                     prfTrail.agm.status === "Pending"
+                    //                   ? "---"
+                    //                   : formatDate(prfDetails.dateRequested)}
 
-                                    <i className="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i>
-                                  </h5>
-                                </div>
-                                <div className="flex-grow-1">
-                                  <div>
-                                    <span className="font-weight-semibold">
-                                      {prfTrail.agm.name}
-                                    </span>
-                                    {" | "}
-                                    {prfTrail.agm.position}
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                          ) : null}
+                    //                 <i className="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i>
+                    //               </h5>
+                    //             </div>
+                    //             <div className="flex-grow-1">
+                    //               <div>
+                    //                 <span className="font-weight-semibold">
+                    //                   {prfTrail.agm.name}
+                    //                 </span>
+                    //                 {" | "}
+                    //                 {prfTrail.agm.position}
+                    //               </div>
+                    //             </div>
+                    //           </div>
+                    //         </li>
+                    //       ) : null}
 
-                          {prfTrail.admin.status !== "N/A" ? (
-                            <li
-                              className={
-                                prfTrail.admin.status === "For approval"
-                                  ? "event-list active"
-                                  : "event-list"
-                              }
-                            >
-                              <div className="event-timeline-dot">
-                                <i
-                                  className={
-                                    prfTrail.admin.status === "For approval"
-                                      ? "bx bxs-right-arrow-circle font-size-18 bx-fade-right"
-                                      : prfTrail.admin.status === "Pending"
-                                      ? "bx bx-right-arrow-circle font-size-18"
-                                      : "bx bxs-right-arrow-circle font-size-18"
-                                  }
-                                ></i>
-                              </div>
-                              <div className="d-flex">
-                                <div className="me-3">
-                                  <h5 className="font-size-14">
-                                    {prfTrail.admin.updatedAt
-                                      ? formatDate(prfTrail.admin.updatedAt)
-                                      : prfTrail.admin.status ===
-                                          "For approval" ||
-                                        prfTrail.admin.status === "Pending"
-                                      ? "---"
-                                      : formatDate(prfDetails.dateRequested)}
+                    //       {prfTrail.admin.status !== "N/A" ? (
+                    //         <li
+                    //           className={
+                    //             prfTrail.admin.status === "For approval"
+                    //               ? "event-list active"
+                    //               : "event-list"
+                    //           }
+                    //         >
+                    //           <div className="event-timeline-dot">
+                    //             <i
+                    //               className={
+                    //                 prfTrail.admin.status === "For approval"
+                    //                   ? "bx bxs-right-arrow-circle font-size-18 bx-fade-right"
+                    //                   : prfTrail.admin.status === "Pending"
+                    //                   ? "bx bx-right-arrow-circle font-size-18"
+                    //                   : "bx bxs-right-arrow-circle font-size-18"
+                    //               }
+                    //             ></i>
+                    //           </div>
+                    //           <div className="d-flex">
+                    //             <div className="me-3">
+                    //               <h5 className="font-size-14">
+                    //                 {prfTrail.admin.updatedAt
+                    //                   ? formatDate(prfTrail.admin.updatedAt)
+                    //                   : prfTrail.admin.status ===
+                    //                       "For approval" ||
+                    //                     prfTrail.admin.status === "Pending"
+                    //                   ? "---"
+                    //                   : formatDate(prfDetails.dateRequested)}
 
-                                    <i className="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i>
-                                  </h5>
-                                </div>
-                                <div className="flex-grow-1">
-                                  <div>
-                                    <span className="font-weight-semibold">
-                                      {prfTrail.admin.name}
-                                    </span>
-                                    {" | "}
-                                    {prfTrail.admin.position}
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                          ) : null}
+                    //                 <i className="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i>
+                    //               </h5>
+                    //             </div>
+                    //             <div className="flex-grow-1">
+                    //               <div>
+                    //                 <span className="font-weight-semibold">
+                    //                   {prfTrail.admin.name}
+                    //                 </span>
+                    //                 {" | "}
+                    //                 {prfTrail.admin.position}
+                    //               </div>
+                    //             </div>
+                    //           </div>
+                    //         </li>
+                    //       ) : null}
 
-                          {prfTrail.gm.status !== "N/A" ? (
-                            <li
-                              className={
-                                prfTrail.gm.status === "For approval"
-                                  ? "event-list active"
-                                  : "event-list"
-                              }
-                            >
-                              <div className="event-timeline-dot">
-                                <i
-                                  className={
-                                    prfTrail.gm.status === "For approval"
-                                      ? "bx bxs-right-arrow-circle font-size-18 bx-fade-right"
-                                      : prfTrail.gm.status === "Pending"
-                                      ? "bx bx-right-arrow-circle font-size-18"
-                                      : "bx bxs-right-arrow-circle font-size-18"
-                                  }
-                                ></i>
-                              </div>
-                              <div className="d-flex">
-                                <div className="me-3">
-                                  <h5 className="font-size-14">
-                                    {prfTrail.gm.updatedAt
-                                      ? formatDate(prfTrail.gm.updatedAt)
-                                      : prfTrail.gm.status === "For approval" ||
-                                        prfTrail.gm.status === "Pending"
-                                      ? "---"
-                                      : formatDate(prfDetails.dateRequested)}
+                    //       {prfTrail.gm.status !== "N/A" ? (
+                    //         <li
+                    //           className={
+                    //             prfTrail.gm.status === "For approval"
+                    //               ? "event-list active"
+                    //               : "event-list"
+                    //           }
+                    //         >
+                    //           <div className="event-timeline-dot">
+                    //             <i
+                    //               className={
+                    //                 prfTrail.gm.status === "For approval"
+                    //                   ? "bx bxs-right-arrow-circle font-size-18 bx-fade-right"
+                    //                   : prfTrail.gm.status === "Pending"
+                    //                   ? "bx bx-right-arrow-circle font-size-18"
+                    //                   : "bx bxs-right-arrow-circle font-size-18"
+                    //               }
+                    //             ></i>
+                    //           </div>
+                    //           <div className="d-flex">
+                    //             <div className="me-3">
+                    //               <h5 className="font-size-14">
+                    //                 {prfTrail.gm.updatedAt
+                    //                   ? formatDate(prfTrail.gm.updatedAt)
+                    //                   : prfTrail.gm.status === "For approval" ||
+                    //                     prfTrail.gm.status === "Pending"
+                    //                   ? "---"
+                    //                   : formatDate(prfDetails.dateRequested)}
 
-                                    <i className="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i>
-                                  </h5>
-                                </div>
-                                <div className="flex-grow-1">
-                                  <div>
-                                    <span className="font-weight-semibold">
-                                      {prfTrail.gm.name}
-                                    </span>
-                                    {" | "}
-                                    {prfTrail.gm.position}
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                          ) : null}
-                        </ul>
-                      </div>
-                    </SimpleBar>
+                    //                 <i className="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i>
+                    //               </h5>
+                    //             </div>
+                    //             <div className="flex-grow-1">
+                    //               <div>
+                    //                 <span className="font-weight-semibold">
+                    //                   {prfTrail.gm.name}
+                    //                 </span>
+                    //                 {" | "}
+                    //                 {prfTrail.gm.position}
+                    //               </div>
+                    //             </div>
+                    //           </div>
+                    //         </li>
+                    //       ) : null}
+                    //     </ul>
+                    //   </div>
+                    // </SimpleBar>
                   )}
                 </CardBody>
               </Card>
             </Col>
+          </Row>
 
-            {/* Printables */}
+          {/* Printables */}
+          <Row>
             {prfDetails.status === "Approved" ? (
-              <Col md={5}>
+              <Col md={6}>
                 <Card>
                   <h5 className="card-header bg-transparent border-bottom">
                     Printables
@@ -550,6 +557,132 @@ const SinglePositionRequest = props => {
               </Col>
             ) : null}
           </Row>
+
+          {/* <Row>
+            <Col>
+              <Card>
+                <CardBody>
+                  <div className="hori-timeline">
+                    <div className="owl-carousel owl-theme events">
+                      <div
+                        className="item event-list"
+                        style={{ display: "inline-table" }}
+                      >
+                        <div>
+                          <div className="event-date">
+                            <div className="text-primary mb-1">
+                              12 September
+                            </div>
+                            <h5 className="mb-4">First event</h5>
+                          </div>
+                          <div className="event-down-icon">
+                            <i className="bx bx-down-arrow-circle h1 text-primary down-arrow-icon" />
+                          </div>
+
+                          <div className="mt-3 px-3">
+                            <p className="text-muted">
+                              It will be as simple as occidental in fact it will
+                              be Cambridge
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div
+                        className="item event-list"
+                        style={{ display: "inline-table" }}
+                      >
+                        <div>
+                          <div className="event-date">
+                            <div className="text-primary mb-1">
+                              12 September
+                            </div>
+                            <h5 className="mb-4">First event</h5>
+                          </div>
+                          <div className="event-down-icon">
+                            <i className="bx bx-down-arrow-circle h1 text-primary down-arrow-icon" />
+                          </div>
+
+                          <div className="mt-3 px-3">
+                            <p className="text-muted">
+                              It will be as simple as occidental in fact it will
+                              be Cambridge
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div
+                        className="item event-list"
+                        style={{ display: "inline-table" }}
+                      >
+                        <div>
+                          <div className="event-date">
+                            <div className="text-primary mb-1">06 October</div>
+                            <h5 className="mb-4">Second event</h5>
+                          </div>
+                          <div className="event-down-icon">
+                            <i className="bx bx-down-arrow-circle h1 text-primary down-arrow-icon" />
+                          </div>
+
+                          <div className="mt-3 px-3">
+                            <p className="text-muted">
+                              To an English person, it will seem like simplified
+                              English existence.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div
+                        className="item event-list"
+                        style={{ display: "inline-table" }}
+                      >
+                        <div>
+                          <div className="event-date">
+                            <div className="text-primary mb-1">06 October</div>
+                            <h5 className="mb-4">Second event</h5>
+                          </div>
+                          <div className="event-down-icon">
+                            <i className="bx bx-down-arrow-circle h1 text-primary down-arrow-icon" />
+                          </div>
+
+                          <div className="mt-3 px-3">
+                            <p className="text-muted">
+                              To an English person, it will seem like simplified
+                              English existence.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div
+                        className="item event-list active"
+                        style={{ display: "inline-table" }}
+                      >
+                        <div>
+                          <div className="event-date">
+                            <div className="text-primary mb-1">25 October</div>
+                            <h5 className="mb-4">Third event</h5>
+                          </div>
+                          <div className="event-down-icon">
+                            <i className="bx bx-down-arrow-circle h1 text-primary down-arrow-icon" />
+                          </div>
+
+                          <div className="mt-3 px-3">
+                            <p className="text-muted">
+                              For science, music, sport, etc, Europe uses the
+                              same vocabulary.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row> */}
         </Container>
       </div>
     </React.Fragment>
