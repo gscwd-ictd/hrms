@@ -24,14 +24,14 @@ const OtherInformationView = props => {
   return (
     <Row>
       <Col>
-        {/* Special SKills and Hoobies */}
+        {/* Special Skills and Hobbies */}
         <h5>Special Skills and Hobbies</h5>
         {!isEmpty(skills) ? (
           <>
             <Row className="mt-1">
               {skills.map((skill, index) => (
-                <Col key={index} md={12} className="mt-3">
-                  <OutlinedBox label={`${index + 1}`} value={skill} />
+                <Col key={skill._id} md={12} className="mt-3">
+                  <OutlinedBox label={`${index + 1}`} value={skill.skill} />
                 </Col>
               ))}
             </Row>
@@ -52,8 +52,11 @@ const OtherInformationView = props => {
           <>
             <Row className="mt-1">
               {recognitions.map((award, index) => (
-                <Col key={index} md={12} className="mt-3">
-                  <OutlinedBox label={`${index + 1}`} value={award} />
+                <Col key={award._id} md={12} className="mt-3">
+                  <OutlinedBox
+                    label={`${index + 1}`}
+                    value={award.recognition}
+                  />
                 </Col>
               ))}
             </Row>
@@ -74,8 +77,11 @@ const OtherInformationView = props => {
           <>
             <Row className="mt-1">
               {organizations.map((org, index) => (
-                <Col key={index} md={12} className="mt-3">
-                  <OutlinedBox label={`${index + 1}`} value={org} />
+                <Col key={org._id} md={12} className="mt-3">
+                  <OutlinedBox
+                    label={`${index + 1}`}
+                    value={org.organization}
+                  />
                 </Col>
               ))}
             </Row>
@@ -95,7 +101,7 @@ const OtherInformationView = props => {
           34.) Are you related by consanguinity or affinity to the appointing or
           recommending authority, or to the chief of bureau or office or to the
           person who has immediate supervision over you in the Office, Bureau or
-          Department where you will be apppointed,
+          Department where you will be appointed,
         </h5>
         {!isEmpty(officeRelation) ? (
           <>
@@ -405,7 +411,7 @@ const OtherInformationView = props => {
 
         <hr className="my-4"></hr>
 
-        {/* Goverment Issued Id */}
+        {/* Government Issued Id */}
         <h5>Government Issued ID</h5>
         {!isEmpty(governmentIssuedId) ? (
           <>

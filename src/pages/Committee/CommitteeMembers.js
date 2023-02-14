@@ -11,6 +11,8 @@ import {
   resetEmployeeCheckBoxes,
 } from "store/actions"
 import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
 import { isEmpty } from "lodash"
 
 import {
@@ -24,11 +26,7 @@ import {
   Spinner,
 } from "reactstrap"
 import Select from "react-select"
-
-// table components
 import TableCommitteeMembers from "components/Table/TableCommitteeMembers"
-
-// extra components
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import Breadcrumb from "components/Common/Breadcrumb"
 import ToastrNotification from "components/Notifications/ToastrNotification"
@@ -123,7 +121,7 @@ const CommitteeMembers = props => {
   }
 
   // Assigning of employees to committee
-  const handleAssignEmlpoyees = () => {
+  const handleAssignEmployees = () => {
     const assignedEmployees = {
       committeeId: props.match.params.id,
       employeeIds: selectedEmployees,
@@ -152,7 +150,7 @@ const CommitteeMembers = props => {
     }
   }, [selectedRows])
 
-  // Trigger if assigning of memebrs response is succesful
+  // Trigger if assigning of members response is successful
   useEffect(() => {
     if (!isEmpty(assignedMembers)) {
       dispatch(fetchCommitteeMembers(props.match.params.id))
@@ -163,7 +161,7 @@ const CommitteeMembers = props => {
     }
   }, [assignedMembers])
 
-  // Trigger if unassigning of memebrs response is succesful
+  // Trigger if unassigning of members response is successful
   useEffect(() => {
     if (!isEmpty(unassignedMembers)) {
       dispatch(fetchCommitteeMembers(props.match.params.id))
@@ -191,91 +189,99 @@ const CommitteeMembers = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <Container fluid={true}>
-          <Breadcrumb
-            title="Committees"
-            titleUrl="/committees"
-            breadcrumbItem={committeeName}
-          />
-
-          {/* Error Notif */}
-          {errorMembers ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorMembers}
+      <Can I="access" this="Committees">
+        <div className="page-content">
+          <Container fluid={true}>
+            <Breadcrumb
+              title="Committees"
+              titleUrl="/committees"
+              breadcrumbItem={committeeName}
             />
-          ) : null}
-          {errorAvailableUnassignedEmployees ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorAvailableUnassignedEmployees}
-            />
-          ) : null}
 
-          {/* Success Notif */}
-          {!isEmpty(assignedMembers) ? (
-            <ToastrNotification
-              toastType={"success"}
-              notifMessage={"Members successfully assigned"}
-            />
-          ) : null}
-          {!isEmpty(unassignedMembers) ? (
-            <ToastrNotification
-              toastType={"success"}
-              notifMessage={"Members successfully unassigned"}
-            />
-          ) : null}
+            {/* Error Notif */}
+            {errorMembers ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorMembers}
+              />
+            ) : null}
+            {errorAvailableUnassignedEmployees ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorAvailableUnassignedEmployees}
+              />
+            ) : null}
 
-          <Row>
-            <Col lg={12}>
-              <Card>
-                <CardBody className="card-table">
-                  {loadingMembers ? (
-                    <LoadingIndicator />
-                  ) : (
-                    <>
-                      <div className="multi-select-top-right-actions">
-                        <Row className="justify-content-end">
-                          {loadingAvailableUnassignedEmployees ? (
-                            <Spinner className="ms-2" color="secondary" />
-                          ) : null}
-                          <Col md={8}>
-                            <Select
-                              isMulti={true}
-                              onChange={e => {
-                                handleMultiSelect(e)
-                              }}
-                              name="select-employees"
-                              options={availableUnassignedEmployees}
-                            />
-                          </Col>
-                          <Col md={2}>
-                            <Button
-                              className="btn btn-info w-100"
-                              onClick={() => handleAssignEmlpoyees()}
-                              disabled={disableAssignBtn}
-                            >
-                              Assign
-                            </Button>
-                          </Col>
-                        </Row>
-                      </div>
+            {/* Success Notif */}
+            {!isEmpty(assignedMembers) ? (
+              <ToastrNotification
+                toastType={"success"}
+                notifMessage={"Members successfully assigned"}
+              />
+            ) : null}
+            {!isEmpty(unassignedMembers) ? (
+              <ToastrNotification
+                toastType={"success"}
+                notifMessage={"Members successfully unassigned"}
+              />
+            ) : null}
 
-                      <TableCommitteeMembers
-                        columns={columns}
-                        data={!isEmpty(data) ? data : []}
-                        handleDeleteRows={handleDeleteRows}
-                        disableDeleteBtn={disableDeleteBtn}
-                      />
-                    </>
-                  )}
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </div>
+            <Row>
+              <Col lg={12}>
+                <Card>
+                  <CardBody className="card-table">
+                    {loadingMembers ? (
+                      <LoadingIndicator />
+                    ) : (
+                      <>
+                        <div className="multi-select-top-right-actions">
+                          <Row className="justify-content-end">
+                            {loadingAvailableUnassignedEmployees ? (
+                              <Spinner className="ms-2" color="secondary" />
+                            ) : null}
+                            <Col md={8}>
+                              <Select
+                                isMulti={true}
+                                onChange={e => {
+                                  handleMultiSelect(e)
+                                }}
+                                name="select-employees"
+                                options={availableUnassignedEmployees}
+                              />
+                            </Col>
+                            <Col md={2}>
+                              <Button
+                                className="btn btn-info w-100"
+                                onClick={() => handleAssignEmployees()}
+                                disabled={disableAssignBtn}
+                              >
+                                Assign
+                              </Button>
+                            </Col>
+                          </Row>
+                        </div>
+
+                        <TableCommitteeMembers
+                          columns={columns}
+                          data={!isEmpty(data) ? data : []}
+                          handleDeleteRows={handleDeleteRows}
+                          disableDeleteBtn={disableDeleteBtn}
+                        />
+                      </>
+                    )}
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      </Can>
+
+      <Can not I="access" this="Committees">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }
@@ -283,6 +289,7 @@ const CommitteeMembers = props => {
 CommitteeMembers.propTypes = {
   cell: PropTypes.any,
   match: PropTypes.object,
+  location: PropTypes.object,
 }
 
 export default CommitteeMembers

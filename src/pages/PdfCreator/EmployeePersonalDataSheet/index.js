@@ -2,13 +2,14 @@ import React, { useEffect } from "react"
 import PropTypes from "prop-types"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchEmployeePds } from "store/actions"
-import { Container } from "reactstrap"
 import dayjs from "dayjs"
 import { isEmpty } from "lodash"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
+
+import { Container } from "reactstrap"
 import { PDFViewer } from "@react-pdf/renderer"
 import PdsDocument from "./PdsDocument"
-
-// Extra components
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 
@@ -29,7 +30,7 @@ const EmployeePersonalDataSheetPdf = props => {
     vocational,
     college,
     graduate,
-    eligibility,
+    eligibilities,
     workExperience,
     voluntaryWork,
     learningDevelopment,
@@ -45,8 +46,8 @@ const EmployeePersonalDataSheetPdf = props => {
     indigenousPwdSoloParent,
     references,
     governmentIssuedId,
-    isLoading,
     error,
+    isLoading,
   } = useSelector(state => ({
     personalInfo: state.employee.pds.personalInfo,
     permanentAddress: state.employee.pds.permanentAddress,
@@ -60,7 +61,7 @@ const EmployeePersonalDataSheetPdf = props => {
     vocational: state.employee.pds.vocational,
     college: state.employee.pds.college,
     graduate: state.employee.pds.graduate,
-    eligibility: state.employee.pds.eligibility,
+    eligibilities: state.employee.pds.eligibility,
     workExperience: state.employee.pds.workExperience,
     voluntaryWork: state.employee.pds.voluntaryWork,
     learningDevelopment: state.employee.pds.learningDevelopment,
@@ -76,8 +77,8 @@ const EmployeePersonalDataSheetPdf = props => {
     indigenousPwdSoloParent: state.employee.pds.indigenousPwdSoloParent,
     references: state.employee.pds.references,
     governmentIssuedId: state.employee.pds.governmentIssuedId,
-    isLoading: state.employee.isLoading,
     error: state.employee.error,
+    isLoading: state.employee.isLoading,
   }))
 
   // Date formatter based on PDS document MM/DD/YYYY
@@ -94,58 +95,73 @@ const EmployeePersonalDataSheetPdf = props => {
     dispatch(fetchEmployeePds(props.match.params.employeeId))
   }, [dispatch])
 
+  useEffect(() => {
+    if (!isEmpty(error)) {
+      dispatch(resetEmployeeErrorLog())
+    }
+  }, [error])
+
   return (
     <React.Fragment>
-      <div className="page-content">
-        <Container fluid={true}>
-          {error ? (
-            <ToastrNotification toastType={"error"} notifMessage={error} />
-          ) : null}
+      <Can I="access" this="Employees">
+        <div className="page-content">
+          <Container fluid={true}>
+            {error ? (
+              <ToastrNotification toastType={"error"} notifMessage={error} />
+            ) : null}
 
-          {isLoading ? (
-            <LoadingIndicator />
-          ) : (
-            <PDFViewer width={"100%"} height={700} showToolbar>
-              <PdsDocument
-                formatDate={formatDate}
-                personalInfo={personalInfo}
-                permanentAddress={permanentAddress}
-                residentialAddress={residentialAddress}
-                governmentIssuedIds={governmentIssuedIds}
-                spouse={spouse}
-                parents={parents}
-                childrenInfo={children}
-                elementary={elementary}
-                secondary={secondary}
-                vocational={vocational}
-                college={college}
-                graduate={graduate}
-                eligibility={eligibility}
-                workExperience={workExperience}
-                voluntaryWork={voluntaryWork}
-                learningDevelopment={learningDevelopment}
-                skills={skills}
-                recognitions={recognitions}
-                organizations={organizations}
-                officeRelation={officeRelation}
-                guiltyCharged={guiltyCharged}
-                convicted={convicted}
-                separatedService={separatedService}
-                candidateResigned={candidateResigned}
-                immigrant={immigrant}
-                indigenousPwdSoloParent={indigenousPwdSoloParent}
-                references={references}
-                governmentIssuedId={governmentIssuedId}
-              />
-            </PDFViewer>
-          )}
-        </Container>
-      </div>
+            {isLoading ? (
+              <LoadingIndicator />
+            ) : (
+              <PDFViewer width={"100%"} height={700} showToolbar>
+                <PdsDocument
+                  formatDate={formatDate}
+                  personalInfo={personalInfo}
+                  permanentAddress={permanentAddress}
+                  residentialAddress={residentialAddress}
+                  governmentIssuedIds={governmentIssuedIds}
+                  spouse={spouse}
+                  parents={parents}
+                  childrenInfo={children}
+                  elementary={elementary}
+                  secondary={secondary}
+                  vocational={vocational}
+                  college={college}
+                  graduate={graduate}
+                  eligibilities={eligibilities}
+                  workExperience={workExperience}
+                  voluntaryWork={voluntaryWork}
+                  learningDevelopment={learningDevelopment}
+                  skills={skills}
+                  recognitions={recognitions}
+                  organizations={organizations}
+                  officeRelation={officeRelation}
+                  guiltyCharged={guiltyCharged}
+                  convicted={convicted}
+                  separatedService={separatedService}
+                  candidateResigned={candidateResigned}
+                  immigrant={immigrant}
+                  indigenousPwdSoloParent={indigenousPwdSoloParent}
+                  references={references}
+                  governmentIssuedId={governmentIssuedId}
+                />
+              </PDFViewer>
+            )}
+          </Container>
+        </div>
+      </Can>
+
+      <Can not I="access" this="Employees">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }
 
 EmployeePersonalDataSheetPdf.propTypes = {
+  location: PropTypes.object,
   match: PropTypes.object,
 }
 

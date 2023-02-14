@@ -1,19 +1,16 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Card, CardBody, Col, Row } from "reactstrap"
-import { getOffices, resetOffice } from "store/actions"
+import { getOffices } from "store/actions"
+import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
 
-// modal components
+import { Card, CardBody, Col, Row } from "reactstrap"
 import InRowAction from "components/InRowAction/InRowAction"
 import EditOfficeModal from "components/Modal/Office/EditOfficeModal"
 import DeleteOfficeModal from "components/Modal/Office/DeleteOfficeModal"
 import AddOfficeModal from "components/Modal/Office/AddOfficeModal"
-
-// table components
 import TableOrgStruct from "components/Table/TableOrgStruct"
-import { SelectColumnFilter } from "components/Filters/SelectColumnFilter"
-
-// extra components
 import Breadcrumbs from "../../components/Common/Breadcrumb"
 import LoadingIndicator from "../../components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
@@ -21,9 +18,8 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 // style
 import "styles/custom_gscwd/components/table.scss"
 
-const Office = () => {
+const Office = props => {
   const dispatch = useDispatch()
-  // const [isOfcListFilled, setIsOfcListFilled] = useState(false)
 
   const tblColumns = [
     {
@@ -106,65 +102,77 @@ const Office = () => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <div className="container-fluid">
-          <Breadcrumbs
-            title="Dashboard"
-            titleUrl="/"
-            breadcrumbItem="Offices"
-          />
+      <Can I="access" this="Organization_structure">
+        <div className="page-content">
+          <div className="container-fluid">
+            <Breadcrumbs
+              title="Dashboard"
+              titleUrl="/"
+              breadcrumbItem="Offices"
+            />
 
-          <Row>
-            <Col className="col-12">
-              <Card>
-                <CardBody className="card-table">
-                  {error ? (
-                    <ToastrNotification
-                      toastType={"error"}
-                      notifMessage={error}
-                    />
-                  ) : null}
+            <Row>
+              <Col className="col-12">
+                <Card>
+                  <CardBody className="card-table">
+                    {error ? (
+                      <ToastrNotification
+                        toastType={"error"}
+                        notifMessage={error}
+                      />
+                    ) : null}
 
-                  {isLoading ? (
-                    <LoadingIndicator />
-                  ) : (
-                    <>
-                      <div className="top-right-actions">
-                        <div className="form-group add-btn">
-                          <button
-                            onClick={handleShowAdd}
-                            className="btn btn-info waves-effect waves-light"
-                          >
-                            <i className="fas fa-plus-square"></i> Add Office
-                          </button>
+                    {isLoading ? (
+                      <LoadingIndicator />
+                    ) : (
+                      <>
+                        <div className="top-right-actions">
+                          <div className="form-group add-btn">
+                            <button
+                              onClick={handleShowAdd}
+                              className="btn btn-info waves-effect waves-light"
+                            >
+                              <i className="fas fa-plus-square"></i> Add Office
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                      <TableOrgStruct columns={columns} data={data} />
-                    </>
-                  )}
+                        <TableOrgStruct columns={columns} data={data} />
+                      </>
+                    )}
 
-                  <AddOfficeModal
-                    showAdd={showAdd}
-                    handleCloseAdd={handleCloseAdd}
-                  />
-                  <EditOfficeModal
-                    showEdt={showEdt}
-                    modalData={modalData}
-                    handleCloseEdt={handleCloseEdt}
-                  />
-                  <DeleteOfficeModal
-                    showDel={showDel}
-                    modalData={modalData}
-                    handleCloseDel={handleCloseDel}
-                  />
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
+                    <AddOfficeModal
+                      showAdd={showAdd}
+                      handleCloseAdd={handleCloseAdd}
+                    />
+                    <EditOfficeModal
+                      showEdt={showEdt}
+                      modalData={modalData}
+                      handleCloseEdt={handleCloseEdt}
+                    />
+                    <DeleteOfficeModal
+                      showDel={showDel}
+                      modalData={modalData}
+                      handleCloseDel={handleCloseDel}
+                    />
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </div>
         </div>
-      </div>
+      </Can>
+
+      <Can not I="access" this="Organization_structure">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
+}
+
+Office.propTypes = {
+  location: PropTypes.object,
 }
 
 export default Office

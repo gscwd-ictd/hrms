@@ -1,17 +1,15 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Card, CardBody, Col, Container, Row } from "reactstrap"
 import { fetchFunctionalCompetencies } from "store/actions"
+import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
 
-// modal components
+import { Card, CardBody, Col, Container, Row } from "reactstrap"
 import InRowAction from "components/InRowAction/InRowAction"
 import EditCompetencyModelModal from "components/Modal/Competency/EditCompetencyModelModal"
-
-// table components
 import TableCompetencyModel from "components/Table/TableCompetencyModel"
 import { SelectColumnFilter } from "components/Filters/SelectColumnFilter"
-
-// extra components
 import Breadcrumbs from "components/Common/Breadcrumb"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
@@ -19,7 +17,7 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 // style
 import "styles/custom_gscwd/global.scss"
 
-const FunctionalModels = () => {
+const FunctionalModels = props => {
   const dispatch = useDispatch()
 
   const tblColumns = [
@@ -89,46 +87,59 @@ const FunctionalModels = () => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <div className="container-fluid">
-          <Breadcrumbs
-            title="Model"
-            breadcrumbItem="Functional Competency Models"
-          />
-          <Container fluid={true}>
-            <Row>
-              <Col>
-                <Card className="card-table tabular">
-                  <CardBody>
-                    {error ? (
-                      <ToastrNotification
-                        toastType={"error"}
-                        notifMessage={error}
-                      />
-                    ) : null}
+      <Can I="access" this="Competency">
+        <div className="page-content">
+          <div className="container-fluid">
+            <Breadcrumbs
+              title="Model"
+              breadcrumbItem="Functional Competency Models"
+            />
+            <Container fluid={true}>
+              <Row>
+                <Col>
+                  <Card className="card-table tabular">
+                    <CardBody>
+                      {error ? (
+                        <ToastrNotification
+                          toastType={"error"}
+                          notifMessage={error}
+                        />
+                      ) : null}
 
-                    {isLoading ? (
-                      <LoadingIndicator />
-                    ) : (
-                      <TableCompetencyModel
-                        columns={columns}
-                        data={functionalModelData}
+                      {isLoading ? (
+                        <LoadingIndicator />
+                      ) : (
+                        <TableCompetencyModel
+                          columns={columns}
+                          data={functionalModelData}
+                        />
+                      )}
+
+                      <EditCompetencyModelModal
+                        showEdt={showEdt}
+                        modalData={modalData}
+                        handleCloseEdt={handleCloseEdt}
                       />
-                    )}
-                  </CardBody>
-                </Card>
-              </Col>
-            </Row>
-          </Container>
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+            </Container>
+          </div>
         </div>
-      </div>
-      <EditCompetencyModelModal
-        showEdt={showEdt}
-        modalData={modalData}
-        handleCloseEdt={handleCloseEdt}
-      />
+      </Can>
+
+      <Can not I="access" this="Competency">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
+}
+
+FunctionalModels.propTypes = {
+  location: PropTypes.object,
 }
 
 export default FunctionalModels

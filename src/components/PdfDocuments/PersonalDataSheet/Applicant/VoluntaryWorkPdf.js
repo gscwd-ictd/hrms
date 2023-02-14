@@ -90,11 +90,11 @@ Font.register({
 })
 
 const VoluntaryWorkPdf = props => {
-  const { voluntaryWorkInfo, formatDate } = props
+  const { voluntaryWork, formatDate } = props
   const [emptyVoluntaryWorkRows, setEmptyVoluntaryWorkRows] = useState(7)
 
   const renderVoluntaryWorkRows = () => {
-    var content = voluntaryWorkInfo.slice(0, 7).map((voluntaryWork, index) => (
+    var content = voluntaryWork.slice(0, 7).map((voluntaryWork, index) => (
       <View
         style={[
           styles.borderTop,
@@ -149,9 +149,7 @@ const VoluntaryWorkPdf = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>
-              {voluntaryWork.numberOfHours || "N/A"}
-            </Text>
+            <Text>{voluntaryWork.numberOfHours || "N/A"}</Text>
           </View>
         </View>
 
@@ -176,7 +174,7 @@ const VoluntaryWorkPdf = props => {
 
   const renderEmptyVoluntaryWorkRows = () => {
     let content = []
-    const rowToRender = emptyVoluntaryWorkRows - voluntaryWorkInfo.length
+    const rowToRender = emptyVoluntaryWorkRows - voluntaryWork.length
 
     for (let i = 0; i < rowToRender; i++) {
       content.push(
@@ -359,9 +357,7 @@ const VoluntaryWorkPdf = props => {
 
       {renderVoluntaryWorkRows()}
 
-      {voluntaryWorkInfo.length < 28 ? (
-        <>{renderEmptyVoluntaryWorkRows()}</>
-      ) : null}
+      {voluntaryWork.length < 28 ? <>{renderEmptyVoluntaryWorkRows()}</> : null}
 
       <View style={[styles.borderTop]}>
         <View style={[styles.inputKey, styles.w100, { padding: "1 0" }]}>
@@ -375,7 +371,7 @@ const VoluntaryWorkPdf = props => {
 }
 
 VoluntaryWorkPdf.propTypes = {
-  voluntaryWorkInfo: PropTypes.arrayOf(
+  voluntaryWork: PropTypes.arrayOf(
     PropTypes.shape({
       organizationName: PropTypes.string,
       from: PropTypes.string,

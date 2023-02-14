@@ -139,7 +139,7 @@ const QuestionsPdf = props => {
     governmentIssuedId,
     formatDate,
   } = props
-  const [emptyReferenceRows, setemptyReferenceRows] = useState(3)
+  const [emptyReferenceRows, setEmptyReferenceRows] = useState(3)
 
   const renderReferenceRows = () => {
     var content = references.slice(0, 3).map((reference, index) => (
@@ -237,7 +237,7 @@ const QuestionsPdf = props => {
                 Are you related by consanguinity or affinity to the appointing
                 or recommending authority, or to the chief of bureau or office
                 or to the person who has immediate supervision over you in the
-                Office, Bureau or Department where you will be apppointed,
+                Office, Bureau or Department where you will be appointed,
               </Text>
               <Text style={{ paddingTop: 5 }}>a. within the third degree?</Text>
               <Text style={{ paddingTop: 7 }}>

@@ -88,13 +88,13 @@ Font.register({
 })
 
 const OtherInformationPdf = props => {
-  const { otherInfo, formatDate } = props
+  const { skills, recognitions, organizations } = props
   const [emptySkillRows, setEmptySkillRows] = useState(7)
   const [emptyRecognitionRows, setEmptyRecognitionRows] = useState(7)
   const [emptyOrgRows, setEmptyOrgRows] = useState(7)
 
   const renderSpecialSkillRows = () => {
-    var content = otherInfo.skills.slice(0, 7).map((skill, index) => (
+    var content = skills.slice(0, 7).map((skill, index) => (
       <View
         style={[styles.inputValue, styles.borderRight, styles.borderTop]}
         key={index}
@@ -108,7 +108,7 @@ const OtherInformationPdf = props => {
 
   const renderEmptySpecialSkillRows = () => {
     let content = []
-    const rowToRender = emptySkillRows - otherInfo.skills.length
+    const rowToRender = emptySkillRows - skills.length
 
     for (let i = 0; i < rowToRender; i++) {
       content.push(
@@ -125,7 +125,7 @@ const OtherInformationPdf = props => {
   }
 
   const renderRecognitionRows = () => {
-    var content = otherInfo.recognitions.slice(0, 7).map((award, index) => (
+    var content = recognitions.slice(0, 7).map((award, index) => (
       <View
         style={[styles.inputValue, styles.borderRight, styles.borderTop]}
         key={index}
@@ -139,7 +139,7 @@ const OtherInformationPdf = props => {
 
   const renderEmptyRecognitionRows = () => {
     let content = []
-    const rowToRender = emptyRecognitionRows - otherInfo.recognitions.length
+    const rowToRender = emptyRecognitionRows - recognitions.length
 
     for (let i = 0; i < rowToRender; i++) {
       content.push(
@@ -156,7 +156,7 @@ const OtherInformationPdf = props => {
   }
 
   const renderMembershipRows = () => {
-    var content = otherInfo.organizations.slice(0, 7).map((org, index) => (
+    var content = organizations.slice(0, 7).map((org, index) => (
       <View style={[styles.inputValue, styles.borderTop]} key={index}>
         <Text style={[styles.verticalCenter]}>{org}</Text>
       </View>
@@ -167,7 +167,7 @@ const OtherInformationPdf = props => {
 
   const renderEmptyMembershipRows = () => {
     let content = []
-    const rowToRender = emptyOrgRows - otherInfo.organizations.length
+    const rowToRender = emptyOrgRows - organizations.length
 
     for (let i = 0; i < rowToRender; i++) {
       content.push(
@@ -273,8 +273,24 @@ const OtherInformationPdf = props => {
 }
 
 OtherInformationPdf.propTypes = {
-  otherInfo: PropTypes.object.isRequired,
-  formatDate: PropTypes.func.isRequired,
+  skills: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      skill: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  recognitions: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      recognition: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  organizations: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      organization: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 }
 
 export default OtherInformationPdf

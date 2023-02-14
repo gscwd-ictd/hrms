@@ -1,18 +1,16 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Card, CardBody, Col, Row } from "reactstrap"
 import { fetchOccupations, resetOccupationResponses } from "store/actions"
+import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
 
-// modal components
+import { Card, CardBody, Col, Row } from "reactstrap"
 import InRowAction from "components/InRowAction/InRowAction"
 import AddOccupationModal from "components/Modal/Occupation/AddOccupationModal"
 import EditOccupationModal from "components/Modal/Occupation/EditOccupationModal"
 import DeleteOccupationModal from "components/Modal/Occupation/DeleteOccupationModal"
-
-// table components
 import TableOccupations from "components/Table/TableOccupations"
-
-// extra components
 import Breadcrumbs from "components/Common/Breadcrumb"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
@@ -20,7 +18,7 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 // style
 import "styles/custom_gscwd/components/table.scss"
 
-const Occupation = () => {
+const Occupation = props => {
   const dispatch = useDispatch()
 
   const occupationColumns = [
@@ -108,59 +106,71 @@ const Occupation = () => {
 
   return (
     <>
-      <div className="page-content">
-        <div className="container-fluid">
-          <Breadcrumbs breadcrumbItem="Occupations" />
+      <Can I="access" this="Occupations">
+        <div className="page-content">
+          <div className="container-fluid">
+            <Breadcrumbs breadcrumbItem="Occupations" />
 
-          {error ? (
-            <ToastrNotification toastType={"error"} notifMessage={error} />
-          ) : null}
+            {error ? (
+              <ToastrNotification toastType={"error"} notifMessage={error} />
+            ) : null}
 
-          <Row>
-            <Col>
-              <Card>
-                <CardBody className="card-table">
-                  {isLoading ? (
-                    <LoadingIndicator />
-                  ) : (
-                    <>
-                      <div className="top-right-actions">
-                        <div className="form-group add-btn">
-                          <button
-                            onClick={handleShowAdd}
-                            className="btn btn-info waves-effect waves-light"
-                          >
-                            <i className="fas fa-plus-square"></i> Add
-                            Occupation
-                          </button>
+            <Row>
+              <Col>
+                <Card>
+                  <CardBody className="card-table">
+                    {isLoading ? (
+                      <LoadingIndicator />
+                    ) : (
+                      <>
+                        <div className="top-right-actions">
+                          <div className="form-group add-btn">
+                            <button
+                              onClick={handleShowAdd}
+                              className="btn btn-info waves-effect waves-light"
+                            >
+                              <i className="fas fa-plus-square"></i> Add
+                              Occupation
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                      <TableOccupations columns={columns} data={data} />
-                    </>
-                  )}
+                        <TableOccupations columns={columns} data={data} />
+                      </>
+                    )}
 
-                  <AddOccupationModal
-                    showAdd={showAdd}
-                    handleCloseAdd={handleCloseAdd}
-                  />
-                  <EditOccupationModal
-                    showEdt={showEdt}
-                    modalData={modalData}
-                    handleCloseEdt={handleCloseEdt}
-                  />
-                  <DeleteOccupationModal
-                    showDel={showDel}
-                    modalData={modalData}
-                    handleCloseDel={handleCloseDel}
-                  />
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
+                    <AddOccupationModal
+                      showAdd={showAdd}
+                      handleCloseAdd={handleCloseAdd}
+                    />
+                    <EditOccupationModal
+                      showEdt={showEdt}
+                      modalData={modalData}
+                      handleCloseEdt={handleCloseEdt}
+                    />
+                    <DeleteOccupationModal
+                      showDel={showDel}
+                      modalData={modalData}
+                      handleCloseDel={handleCloseDel}
+                    />
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </div>
         </div>
-      </div>
+      </Can>
+
+      <Can not I="access" this="Occupations">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </>
   )
+}
+
+Occupation.propTypes = {
+  location: PropTypes.object,
 }
 
 export default Occupation

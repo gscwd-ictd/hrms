@@ -1,27 +1,25 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Card, CardBody, Col, Row } from "reactstrap"
-import Breadcrumbs from "components/Common/Breadcrumb"
 import { getOffices, getDepartments } from "store/actions"
+import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
 
-// modal components
+import { Card, CardBody, Col, Row } from "reactstrap"
 import InRowAction from "components/InRowAction/InRowAction"
 import EditDepartmentModal from "components/Modal/Department/EditDepartmentModal"
 import DeleteDepartmentModal from "components/Modal/Department/DeleteDepartmentModal"
 import AddDepartmentModal from "components/Modal/Department/AddDepartmentModal"
-
-// table components
 import TableOrgStruct from "components/Table/TableOrgStruct"
 import { SelectColumnFilter } from "components/Filters/SelectColumnFilter"
-
-// extra components
+import Breadcrumbs from "components/Common/Breadcrumb"
 import LoadingIndicator from "../../components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 
 // style
 import "styles/custom_gscwd/components/table.scss"
 
-const Department = () => {
+const Department = props => {
   const dispatch = useDispatch()
 
   const tblColumns = [
@@ -115,62 +113,74 @@ const Department = () => {
 
   return (
     <>
-      <div className="page-content">
-        <div className="container-fluid">
-          <Breadcrumbs
-            title="Dashboard"
-            titleUrl="/"
-            breadcrumbItem="Department"
-          />
+      <Can I="access" this="Organization_structure">
+        <div className="page-content">
+          <div className="container-fluid">
+            <Breadcrumbs
+              title="Dashboard"
+              titleUrl="/"
+              breadcrumbItem="Department"
+            />
 
-          {error ? (
-            <ToastrNotification toastType={"error"} notifMessage={error} />
-          ) : null}
+            {error ? (
+              <ToastrNotification toastType={"error"} notifMessage={error} />
+            ) : null}
 
-          <Row>
-            <Col className="col-12">
-              <Card>
-                <CardBody className="card-table">
-                  {isLoading ? (
-                    <LoadingIndicator />
-                  ) : (
-                    <>
-                      <div className="top-right-actions">
-                        <div className="form-group add-btn">
-                          <button
-                            onClick={handleShowAdd}
-                            className="btn btn-info waves-effect waves-light"
-                          >
-                            <i className="fas fa-plus-square"></i> Add
-                            Department
-                          </button>
+            <Row>
+              <Col className="col-12">
+                <Card>
+                  <CardBody className="card-table">
+                    {isLoading ? (
+                      <LoadingIndicator />
+                    ) : (
+                      <>
+                        <div className="top-right-actions">
+                          <div className="form-group add-btn">
+                            <button
+                              onClick={handleShowAdd}
+                              className="btn btn-info waves-effect waves-light"
+                            >
+                              <i className="fas fa-plus-square"></i> Add
+                              Department
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                      <TableOrgStruct columns={columns} data={data} />
-                    </>
-                  )}
-                  <EditDepartmentModal
-                    showEdt={showEdt}
-                    modalData={modalData}
-                    handleCloseEdt={handleCloseEdt}
-                  />
-                  <DeleteDepartmentModal
-                    showDel={showDel}
-                    modalData={modalData}
-                    handleCloseDel={handleCloseDel}
-                  />
-                  <AddDepartmentModal
-                    showAdd={showAdd}
-                    handleCloseAdd={handleCloseAdd}
-                  />
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
+                        <TableOrgStruct columns={columns} data={data} />
+                      </>
+                    )}
+                    <EditDepartmentModal
+                      showEdt={showEdt}
+                      modalData={modalData}
+                      handleCloseEdt={handleCloseEdt}
+                    />
+                    <DeleteDepartmentModal
+                      showDel={showDel}
+                      modalData={modalData}
+                      handleCloseDel={handleCloseDel}
+                    />
+                    <AddDepartmentModal
+                      showAdd={showAdd}
+                      handleCloseAdd={handleCloseAdd}
+                    />
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </div>
         </div>
-      </div>
+      </Can>
+
+      <Can not I="access" this="Organization_structure">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </>
   )
+}
+
+Department.propTypes = {
+  location: PropTypes.object,
 }
 
 export default Department

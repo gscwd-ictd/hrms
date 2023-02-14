@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   },
   sectionTitleContainer: {
     backgroundColor: "#969696",
-    padding: 1.5
+    padding: 1.5,
   },
   sectionTitleText: {
     color: "#ffffff",
@@ -93,11 +93,11 @@ Font.register({
 Font.registerHyphenationCallback(word => [word])
 
 const WorkExperiencePdf = props => {
-  const { workExperienceInfo, formatDate } = props
+  const { workExperience, formatDate } = props
   const [emptyWorkExperienceRows, setEmptyWorkExperienceRows] = useState(28)
 
   const renderWorkExperienceRows = () => {
-    var content = workExperienceInfo.slice(0, 28).map((experience, index) => (
+    var content = workExperience.slice(0, 28).map((experience, index) => (
       <View
         style={[
           styles.borderTop,
@@ -230,7 +230,7 @@ const WorkExperiencePdf = props => {
 
   const renderEmptyWorkExperienceRows = () => {
     let content = []
-    const rowToRender = emptyWorkExperienceRows - workExperienceInfo.length
+    const rowToRender = emptyWorkExperienceRows - workExperience.length
 
     for (let i = 0; i < rowToRender; i++) {
       content.push(
@@ -525,7 +525,7 @@ const WorkExperiencePdf = props => {
 
       {renderWorkExperienceRows()}
 
-      {workExperienceInfo.length < 28 ? (
+      {workExperience.length < 28 ? (
         <>{renderEmptyWorkExperienceRows()}</>
       ) : null}
 
@@ -541,7 +541,7 @@ const WorkExperiencePdf = props => {
 }
 
 WorkExperiencePdf.propTypes = {
-  workExperienceInfo: PropTypes.arrayOf(
+  workExperience: PropTypes.arrayOf(
     PropTypes.shape({
       positionTitle: PropTypes.string,
       companyName: PropTypes.string,

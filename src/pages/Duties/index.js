@@ -1,18 +1,16 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Card, CardBody, Col, Row } from "reactstrap"
 import { fetchDutyResponsibilities } from "store/actions"
+import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
 
-// modal components
+import { Card, CardBody, Col, Row } from "reactstrap"
 import InRowAction from "components/InRowAction/InRowAction"
 import AddDutyModal from "components/Modal/Duties/AddDutyModal"
 import EditDutyModal from "components/Modal/Duties/EditDutyModal"
 import DeleteDutyModal from "components/Modal/Duties/DeleteDutyModal"
-
-// table components
 import TableDutiesResponsibilities from "components/Table/TableDutiesResponsibilities"
-
-// extra components
 import Breadcrumbs from "components/Common/Breadcrumb"
 import LoadingIndicator from "../../components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
@@ -20,7 +18,7 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 // style
 import "styles/custom_gscwd/components/table.scss"
 
-const Duties = () => {
+const Duties = props => {
   const dispatch = useDispatch()
 
   const tblColumns = [
@@ -103,69 +101,81 @@ const Duties = () => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <div className="container-fluid">
-          <Breadcrumbs
-            title="Dashboard"
-            titleUrl="/"
-            breadcrumbItem="Duties and Responsibilities"
-          />
-
-          {/* Error Notifications */}
-          {errorDutyResponsibilities ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorDutyResponsibilities}
+      <Can I="access" this="Duties_responsibilities">
+        <div className="page-content">
+          <div className="container-fluid">
+            <Breadcrumbs
+              title="Dashboard"
+              titleUrl="/"
+              breadcrumbItem="Duties and Responsibilities"
             />
-          ) : null}
 
-          <Row>
-            <Col className="col-12">
-              <Card>
-                <CardBody className="card-table">
-                  {loadingDutyResponsibilities ? (
-                    <LoadingIndicator />
-                  ) : (
-                    <>
-                      <div className="top-right-actions">
-                        <div className="form-group add-btn">
-                          <button
-                            onClick={handleShowAdd}
-                            className="btn btn-info waves-effect waves-light"
-                          >
-                            <i className="fas fa-plus-square"></i> Add Duty &
-                            Responsibility
-                          </button>
+            {/* Error Notifications */}
+            {errorDutyResponsibilities ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorDutyResponsibilities}
+              />
+            ) : null}
+
+            <Row>
+              <Col className="col-12">
+                <Card>
+                  <CardBody className="card-table">
+                    {loadingDutyResponsibilities ? (
+                      <LoadingIndicator />
+                    ) : (
+                      <>
+                        <div className="top-right-actions">
+                          <div className="form-group add-btn">
+                            <button
+                              onClick={handleShowAdd}
+                              className="btn btn-info waves-effect waves-light"
+                            >
+                              <i className="fas fa-plus-square"></i> Add Duty &
+                              Responsibility
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                      <TableDutiesResponsibilities
-                        columns={columns}
-                        data={data}
-                      />
-                    </>
-                  )}
-                  <AddDutyModal
-                    showAdd={showAdd}
-                    handleCloseAdd={handleCloseAdd}
-                  />
-                  <EditDutyModal
-                    showEdt={showEdt}
-                    modalData={modalData}
-                    handleCloseEdt={handleCloseEdt}
-                  />
-                  <DeleteDutyModal
-                    showDel={showDel}
-                    modalData={modalData}
-                    handleCloseDel={handleCloseDel}
-                  />
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
+                        <TableDutiesResponsibilities
+                          columns={columns}
+                          data={data}
+                        />
+                      </>
+                    )}
+                    <AddDutyModal
+                      showAdd={showAdd}
+                      handleCloseAdd={handleCloseAdd}
+                    />
+                    <EditDutyModal
+                      showEdt={showEdt}
+                      modalData={modalData}
+                      handleCloseEdt={handleCloseEdt}
+                    />
+                    <DeleteDutyModal
+                      showDel={showDel}
+                      modalData={modalData}
+                      handleCloseDel={handleCloseDel}
+                    />
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </div>
         </div>
-      </div>
+      </Can>
+
+      <Can not I="access" this="Duties_responsibilities">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
+}
+
+Duties.propTypes = {
+  location: PropTypes.object,
 }
 
 export default Duties

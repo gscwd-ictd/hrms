@@ -24,7 +24,7 @@ const OtherInformationView = props => {
   return (
     <Row>
       <Col>
-        {/* Special SKills and Hoobies */}
+        {/* Special Skills and Hobbies */}
         <h5>Special Skills and Hobbies</h5>
         {!isEmpty(skills) ? (
           <>
@@ -101,7 +101,7 @@ const OtherInformationView = props => {
           34.) Are you related by consanguinity or affinity to the appointing or
           recommending authority, or to the chief of bureau or office or to the
           person who has immediate supervision over you in the Office, Bureau or
-          Department where you will be apppointed,
+          Department where you will be appointed,
         </h5>
         {!isEmpty(officeRelation) ? (
           <>
@@ -411,7 +411,7 @@ const OtherInformationView = props => {
 
         <hr className="my-4"></hr>
 
-        {/* Goverment Issued Id */}
+        {/* Government Issued Id */}
         <h5>Government Issued ID</h5>
         {!isEmpty(governmentIssuedId) ? (
           <>

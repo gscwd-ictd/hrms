@@ -1,6 +1,16 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import {
+  fetchCoreCompetencies,
+  fetchFunctionalCompetencies,
+  fetchCrossCuttingCompetencies,
+  fetchManagerialCompetencies,
+} from "store/actions"
+import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
+
+import {
   Card,
   CardBody,
   Col,
@@ -12,22 +22,10 @@ import {
   NavItem,
   Nav,
 } from "reactstrap"
-import {
-  fetchCoreCompetencies,
-  fetchFunctionalCompetencies,
-  fetchCrossCuttingCompetencies,
-  fetchManagerialCompetencies,
-} from "store/actions"
-
-// modal components
 import InRowAction from "components/InRowAction/InRowAction"
 import EditCompetencyModelModal from "components/Modal/Competency/EditCompetencyModelModal"
-
-// table components
 import TableCompetencyModel from "components/Table/TableCompetencyModel"
 import { SelectColumnFilter } from "components/Filters/SelectColumnFilter"
-
-// extra components
 import Breadcrumbs from "components/Common/Breadcrumb"
 import classnames from "classnames"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
@@ -38,7 +36,7 @@ import "styles/custom_gscwd/global.scss"
 
 const Model = props => {
   const dispatch = useDispatch()
-  const [activeTab, setactiveTab] = useState("1")
+  const [activeTab, setActiveTab] = useState("1")
 
   const tblColumns = [
     {
@@ -143,7 +141,7 @@ const Model = props => {
 
   const toggle = tab => {
     if (activeTab !== tab) {
-      setactiveTab(tab)
+      setActiveTab(tab)
     }
   }
 
@@ -165,131 +163,144 @@ const Model = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <div className="container-fluid">
-          <Breadcrumbs breadcrumbItem="Competency Models" />
-          <Container fluid={true}>
-            <Row>
-              <Col>
-                <Card className="card-table tabular">
-                  <CardBody>
-                    <Nav tabs className="nav-tabs-custom nav-justified">
-                      <NavItem>
-                        <NavLink
-                          style={{ cursor: "pointer" }}
-                          className={classnames({
-                            active: activeTab === "1",
-                          })}
-                          onClick={() => {
-                            toggle("1")
-                          }}
-                        >
-                          CORE
-                        </NavLink>
-                      </NavItem>
-                      <NavItem>
-                        <NavLink
-                          style={{ cursor: "pointer" }}
-                          className={classnames({
-                            active: activeTab === "2",
-                          })}
-                          onClick={() => {
-                            toggle("2")
-                          }}
-                        >
-                          FUNCTIONAL
-                        </NavLink>
-                      </NavItem>
-                      <NavItem>
-                        <NavLink
-                          style={{ cursor: "pointer" }}
-                          className={classnames({
-                            active: activeTab === "3",
-                          })}
-                          onClick={() => {
-                            toggle("3")
-                          }}
-                        >
-                          FUNCTIONAL CROSS-CUTTING
-                        </NavLink>
-                      </NavItem>
-                      <NavItem>
-                        <NavLink
-                          style={{ cursor: "pointer" }}
-                          className={classnames({
-                            active: activeTab === "4",
-                          })}
-                          onClick={() => {
-                            toggle("4")
-                          }}
-                        >
-                          MANAGERIAL
-                        </NavLink>
-                      </NavItem>
-                    </Nav>
+      <Can I="access" this="Competency">
+        <div className="page-content">
+          <div className="container-fluid">
+            <Breadcrumbs breadcrumbItem="Competency Models" />
+            <Container fluid={true}>
+              <Row>
+                <Col>
+                  <Card className="card-table tabular">
+                    <CardBody>
+                      <Nav tabs className="nav-tabs-custom nav-justified">
+                        <NavItem>
+                          <NavLink
+                            style={{ cursor: "pointer" }}
+                            className={classnames({
+                              active: activeTab === "1",
+                            })}
+                            onClick={() => {
+                              toggle("1")
+                            }}
+                          >
+                            CORE
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink
+                            style={{ cursor: "pointer" }}
+                            className={classnames({
+                              active: activeTab === "2",
+                            })}
+                            onClick={() => {
+                              toggle("2")
+                            }}
+                          >
+                            FUNCTIONAL
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink
+                            style={{ cursor: "pointer" }}
+                            className={classnames({
+                              active: activeTab === "3",
+                            })}
+                            onClick={() => {
+                              toggle("3")
+                            }}
+                          >
+                            FUNCTIONAL CROSS-CUTTING
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink
+                            style={{ cursor: "pointer" }}
+                            className={classnames({
+                              active: activeTab === "4",
+                            })}
+                            onClick={() => {
+                              toggle("4")
+                            }}
+                          >
+                            MANAGERIAL
+                          </NavLink>
+                        </NavItem>
+                      </Nav>
 
-                    <TabContent activeTab={activeTab}>
-                      <TabPane tabId="1" className="pt-4">
-                        {error ? (
-                          <ToastrNotification
-                            toastType={"error"}
-                            notifMessage={error}
-                          />
-                        ) : null}
-                        {loading.loadingCoreModels ? (
-                          <LoadingIndicator />
-                        ) : (
-                          <TableCompetencyModel
-                            columns={columns}
-                            data={coreModelData}
-                          />
-                        )}
-                      </TabPane>
-                      <TabPane tabId="2" className="p-4">
-                        {loading.loadingFunctionalModels ? (
-                          <LoadingIndicator />
-                        ) : (
-                          <TableCompetencyModel
-                            columns={functionalModelColumn}
-                            data={functionalModelData}
-                          />
-                        )}
-                      </TabPane>
-                      <TabPane tabId="3" className="p-4">
-                        {loading.loadingCrossCuttingModels ? (
-                          <LoadingIndicator />
-                        ) : (
-                          <TableCompetencyModel
-                            columns={columns}
-                            data={crossCuttingModelData}
-                          />
-                        )}
-                      </TabPane>
-                      <TabPane tabId="4" className="p-4">
-                        {loading.loadingManagerialModels ? (
-                          <LoadingIndicator />
-                        ) : (
-                          <TableCompetencyModel
-                            columns={columns}
-                            data={managerialModelData}
-                          />
-                        )}
-                      </TabPane>
-                    </TabContent>
-                  </CardBody>
-                </Card>
-              </Col>
-            </Row>
-          </Container>
+                      <TabContent activeTab={activeTab}>
+                        <TabPane tabId="1" className="pt-4">
+                          {error ? (
+                            <ToastrNotification
+                              toastType={"error"}
+                              notifMessage={error}
+                            />
+                          ) : null}
+                          {loading.loadingCoreModels ? (
+                            <LoadingIndicator />
+                          ) : (
+                            <TableCompetencyModel
+                              columns={columns}
+                              data={coreModelData}
+                            />
+                          )}
+                        </TabPane>
+                        <TabPane tabId="2" className="p-4">
+                          {loading.loadingFunctionalModels ? (
+                            <LoadingIndicator />
+                          ) : (
+                            <TableCompetencyModel
+                              columns={functionalModelColumn}
+                              data={functionalModelData}
+                            />
+                          )}
+                        </TabPane>
+                        <TabPane tabId="3" className="p-4">
+                          {loading.loadingCrossCuttingModels ? (
+                            <LoadingIndicator />
+                          ) : (
+                            <TableCompetencyModel
+                              columns={columns}
+                              data={crossCuttingModelData}
+                            />
+                          )}
+                        </TabPane>
+                        <TabPane tabId="4" className="p-4">
+                          {loading.loadingManagerialModels ? (
+                            <LoadingIndicator />
+                          ) : (
+                            <TableCompetencyModel
+                              columns={columns}
+                              data={managerialModelData}
+                            />
+                          )}
+                        </TabPane>
+                      </TabContent>
+
+                      <EditCompetencyModelModal
+                        showEdt={showEdt}
+                        modalData={modalData}
+                        handleCloseEdt={handleCloseEdt}
+                      />
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+            </Container>
+          </div>
         </div>
-      </div>
-      <EditCompetencyModelModal
-        showEdt={showEdt}
-        modalData={modalData}
-        handleCloseEdt={handleCloseEdt}
-      />
+      </Can>
+
+      <Can not I="access" this="Competency">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
+}
+
+Model.propTypes = {
+  location: PropTypes.object,
 }
 
 export default Model

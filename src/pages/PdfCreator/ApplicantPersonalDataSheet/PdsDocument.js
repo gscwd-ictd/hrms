@@ -209,19 +209,42 @@ Font.register({
 const PdsDocument = props => {
   const {
     formatDate,
-    basicInfo,
-    familyInfo,
-    educationInfo,
-    eligibilityInfo,
-    workExperienceInfo,
-    voluntaryWorkInfo,
-    learningDevelopmentInfo,
-    otherInfo,
+    personalInfo,
+    permanentAddress,
+    residentialAddress,
+    governmentIssuedIds,
+    spouse,
+    parents,
+    childrenInfo,
+    elementary,
+    secondary,
+    vocational,
+    college,
+    graduate,
+    eligibilities,
+    workExperience,
+    voluntaryWork,
+    learningDevelopment,
+    skills,
+    recognitions,
+    organizations,
+    officeRelation,
+    guiltyCharged,
+    convicted,
+    separatedService,
+    candidateResigned,
+    immigrant,
+    indigenousPwdSoloParent,
+    references,
+    governmentIssuedId,
   } = props
 
   const renderChildrenExtraPage = () => {
-    var content = familyInfo.children.slice(12).map((child, index) => (
-      <View style={[styles.borderTop, { flexDirection: "row" }]} key={index}>
+    var content = childrenInfo.slice(12).map(child => (
+      <View
+        style={[styles.borderTop, { flexDirection: "row" }]}
+        key={child._id}
+      >
         <View style={[styles.borderRight, styles.inputValue, styles.w64_2]}>
           <Text>{child.childName}</Text>
         </View>
@@ -236,13 +259,13 @@ const PdsDocument = props => {
   }
 
   const renderVocationalExtraPage = () => {
-    var content = educationInfo.vocational.slice(1).map((vocation, index) => (
+    var content = vocational.slice(1).map(vocation => (
       <View
         style={[
           styles.borderTop,
           { flexDirection: "row", alignItems: "stretch" },
         ]}
-        key={index}
+        key={vocation._id}
       >
         {/* Level */}
         <View style={[styles.inputKey, styles.borderRight, styles.w17_2]}>
@@ -327,13 +350,13 @@ const PdsDocument = props => {
   }
 
   const renderCollegeExtraPage = () => {
-    var content = educationInfo.college.slice(1).map((college, index) => (
+    var content = college.slice(1).map(college => (
       <View
         style={[
           styles.borderTop,
           { flexDirection: "row", alignItems: "stretch" },
         ]}
-        key={index}
+        key={college._id}
       >
         {/* Level */}
         <View style={[styles.inputKey, styles.borderRight, styles.w17_2]}>
@@ -416,13 +439,13 @@ const PdsDocument = props => {
   }
 
   const renderGraduateExtraPage = () => {
-    var content = educationInfo.graduate.slice(1).map((graduate, index) => (
+    var content = graduate.slice(1).map(graduate => (
       <View
         style={[
           styles.borderTop,
           { flexDirection: "row", alignItems: "stretch" },
         ]}
-        key={index}
+        key={graduate._id}
       >
         {/* Level */}
         <View style={[styles.inputKey, styles.borderRight, styles.w17_2]}>
@@ -507,13 +530,13 @@ const PdsDocument = props => {
   }
 
   const renderEligibilityExtraPage = () => {
-    var content = eligibilityInfo.slice(7).map((eligibility, index) => (
+    var content = eligibilities.slice(7).map(eligibility => (
       <View
         style={[
           styles.borderTop,
           { flexDirection: "row", alignItems: "stretch" },
         ]}
-        key={index}
+        key={eligibility._id}
       >
         {/* Eligibility Name */}
         <View
@@ -553,7 +576,20 @@ const PdsDocument = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{eligibility.examDate || "N/A"}</Text>
+            <Text>
+              {/* If exam date for from and to is filled */}
+              {!isEmpty(eligibility.examDate) &&
+              !isEmpty(eligibility.examDate.to) ? (
+                <>
+                  {eligibility.examDate.from + " | " + eligibility.examDate.to}
+                </>
+              ) : !isEmpty(eligibility.examDate) &&
+                !isEmpty(eligibility.examDate.from) ? ( // If exam date from is filled
+                <>{eligibility.examDate.from}</>
+              ) : (
+                <>N/A</>
+              )}
+            </Text>
           </View>
         </View>
 
@@ -600,13 +636,13 @@ const PdsDocument = props => {
   }
 
   const renderWorkExperienceExtraPage = () => {
-    var content = workExperienceInfo.slice(28).map((experience, index) => (
+    var content = workExperience.slice(28).map(experience => (
       <View
         style={[
           styles.borderTop,
           { flexDirection: "row", alignItems: "stretch" },
         ]}
-        key={index}
+        key={experience._id}
       >
         {/* Inclusive Dates */}
         <View
@@ -732,13 +768,13 @@ const PdsDocument = props => {
   }
 
   const renderVoluntaryWorkExtraPage = () => {
-    var content = voluntaryWorkInfo.slice(7).map((voluntaryWork, index) => (
+    var content = voluntaryWork.slice(7).map(voluntaryWork => (
       <View
         style={[
           styles.borderTop,
           { flexDirection: "row", alignItems: "stretch" },
         ]}
-        key={index}
+        key={voluntaryWork._id}
       >
         {/* Name & Address of Org */}
         <View
@@ -812,14 +848,14 @@ const PdsDocument = props => {
     return content
   }
 
-  const renderLearningDeveopmentExtraPage = () => {
-    var content = learningDevelopmentInfo.slice(21).map((training, index) => (
+  const renderLearningDevelopmentExtraPage = () => {
+    var content = learningDevelopment.slice(21).map(training => (
       <View
         style={[
           styles.borderTop,
           { flexDirection: "row", alignItems: "stretch" },
         ]}
-        key={index}
+        key={training._id}
       >
         {/* Title of Learning and Development */}
         <View
@@ -907,8 +943,8 @@ const PdsDocument = props => {
   }
 
   const renderSpecialSkillsExtraPage = () => {
-    var content = otherInfo.skills.slice(7).map((skill, index) => (
-      <View style={[styles.inputValue, styles.borderTop]} key={index}>
+    var content = skills.slice(7).map(skill => (
+      <View style={[styles.inputValue, styles.borderTop]} key={skill._id}>
         <Text style={[styles.verticalCenter]}>{skill}</Text>
       </View>
     ))
@@ -917,8 +953,8 @@ const PdsDocument = props => {
   }
 
   const renderRecognitionExtraPage = () => {
-    var content = otherInfo.recognitions.slice(7).map((award, index) => (
-      <View style={[styles.inputValue, styles.borderTop]} key={index}>
+    var content = recognitions.slice(7).map(award => (
+      <View style={[styles.inputValue, styles.borderTop]} key={award._id}>
         <Text style={[styles.verticalCenter]}>{award}</Text>
       </View>
     ))
@@ -927,8 +963,8 @@ const PdsDocument = props => {
   }
 
   const renderMembershipExtraPage = () => {
-    var content = otherInfo.organizations.slice(7).map((org, index) => (
-      <View style={[styles.inputValue, styles.borderTop]} key={index}>
+    var content = organizations.slice(7).map(org => (
+      <View style={[styles.inputValue, styles.borderTop]} key={org._id}>
         <Text style={[styles.verticalCenter]}>{org}</Text>
       </View>
     ))
@@ -992,16 +1028,27 @@ const PdsDocument = props => {
           </View>
 
           <PersonalInformationPdf
-            basicInfo={basicInfo}
+            personalInfo={personalInfo}
+            permanentAddress={permanentAddress}
+            residentialAddress={residentialAddress}
+            governmentIssuedIds={governmentIssuedIds}
             formatDate={formatDate}
           />
 
           <FamilyBackgroundPdf
-            familyInfo={familyInfo}
+            spouse={spouse}
+            parents={parents}
+            childrenInfo={childrenInfo}
             formatDate={formatDate}
           />
 
-          <EducationalBackgroundPdf educationInfo={educationInfo} />
+          <EducationalBackgroundPdf
+            elementary={elementary}
+            secondary={secondary}
+            vocational={vocational}
+            college={college}
+            graduate={graduate}
+          />
 
           <SignatureDate />
           <FooterPdf />
@@ -1012,11 +1059,12 @@ const PdsDocument = props => {
       <Page size={[612.3, 935.4]} style={styles.page}>
         <View style={styles.bodyBorder}>
           <EligibilityPdf
-            eligibilityInfo={eligibilityInfo}
+            eligibilities={eligibilities}
             formatDate={formatDate}
           />
+
           <WorkExperiencePdf
-            workExperienceInfo={workExperienceInfo}
+            workExperience={workExperience}
             formatDate={formatDate}
           />
 
@@ -1029,16 +1077,20 @@ const PdsDocument = props => {
       <Page size={[612.3, 935.4]} style={styles.page}>
         <View style={styles.bodyBorder}>
           <VoluntaryWorkPdf
-            voluntaryWorkInfo={voluntaryWorkInfo}
+            voluntaryWork={voluntaryWork}
             formatDate={formatDate}
           />
 
           <LearningAndDevelopmentPdf
-            learningDevelopmentInfo={learningDevelopmentInfo}
+            learningDevelopment={learningDevelopment}
             formatDate={formatDate}
           />
 
-          <OtherInformationPdf otherInfo={otherInfo} formatDate={formatDate} />
+          <OtherInformationPdf
+            skills={skills}
+            recognitions={recognitions}
+            organizations={organizations}
+          />
 
           <SignatureDate />
           <FooterPdf />
@@ -1048,14 +1100,25 @@ const PdsDocument = props => {
       {/* Page 4 */}
       <Page size={[612.3, 935.4]} style={styles.page}>
         <View style={styles.bodyBorder}>
-          <QuestionsPdf otherInfo={otherInfo} formatDate={formatDate} />
+          <QuestionsPdf
+            officeRelation={officeRelation}
+            guiltyCharged={guiltyCharged}
+            convicted={convicted}
+            separatedService={separatedService}
+            candidateResigned={candidateResigned}
+            immigrant={immigrant}
+            indigenousPwdSoloParent={indigenousPwdSoloParent}
+            references={references}
+            governmentIssuedId={governmentIssuedId}
+            formatDate={formatDate}
+          />
 
           <FooterPdf />
         </View>
       </Page>
 
       {/* Children Extra Page */}
-      {familyInfo.children.length > 12 ? (
+      {!isEmpty(childrenInfo) && childrenInfo.length > 12 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
             <View style={{ flexDirection: "row" }}>
@@ -1075,17 +1138,9 @@ const PdsDocument = props => {
       ) : null}
 
       {/* Educational Information Extra Page */}
-      {educationInfo.vocational.length > 1 ||
-      educationInfo.college.length > 1 ||
-      educationInfo.graduate.length > 1 ? (
+      {vocational.length > 1 || college.length > 1 || graduate.length > 1 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
-            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
-              <Text style={styles.sectionTitleText}>
-                III. EDUCATIONAL BACKGROUND
-              </Text>
-            </View>
-
             {/* Educational Background Header */}
             <View style={[{ flexDirection: "row", alignItems: "stretch" }]}>
               {/* Level */}
@@ -1227,15 +1282,10 @@ const PdsDocument = props => {
       ) : null}
 
       {/* Eligibility Extra Page */}
-      {eligibilityInfo.length > 7 ? (
+      {eligibilities.length > 7 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
-            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
-              <Text style={styles.sectionTitleText}>
-                IV. CIVIL SERVICE ELIGIBILITY
-              </Text>
-            </View>
-            {/* Eligiblity Header */}
+            {/* Eligibility Header */}
             <View style={[{ flexDirection: "row", alignItems: "stretch" }]}>
               {/* Eligibility Name */}
               <View
@@ -1347,18 +1397,9 @@ const PdsDocument = props => {
       ) : null}
 
       {/* Work Experience Extra Page */}
-      {workExperienceInfo.length > 28 ? (
+      {workExperience.length > 28 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
-            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
-              <Text style={styles.sectionTitleText}>V. WORK EXPERIENCE</Text>
-              <Text style={styles.sectionSubtitleText}>
-                (Include private employment. Start from your recent work)
-                Description of duties should be indicated in the attached Work
-                Experience sheet.
-              </Text>
-            </View>
-
             {/* Work Experience Header */}
             <View style={[{ flexDirection: "row", alignItems: "stretch" }]}>
               {/* Inclusive Dates */}
@@ -1514,15 +1555,9 @@ const PdsDocument = props => {
       ) : null}
 
       {/* Voluntary Work Extra Page */}
-      {voluntaryWorkInfo.length > 7 ? (
+      {voluntaryWork.length > 7 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
-            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
-              <Text style={styles.sectionTitleText}>
-                VI. VOLUNTARY WORK OR INVOLVEMENT IN CIVIC / NON-GOVERNMENT /
-                PEOPLE / VOLUNTARY ORGANIZATION/S
-              </Text>
-            </View>
             {/* Voluntary Work header */}
             <View
               style={[
@@ -1626,21 +1661,9 @@ const PdsDocument = props => {
       ) : null}
 
       {/* Learning and Development Extra Page */}
-      {learningDevelopmentInfo.length > 21 ? (
+      {learningDevelopment.length > 21 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
-            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
-              <Text style={styles.sectionTitleText}>
-                VII. LEARNING AND DEVELOPMENT (L&D) INTERVENTIONS/TRAINING
-                PROGRAMS ATTENDED
-              </Text>
-              <Text style={styles.sectionSubtitleText}>
-                (Start from the most recent L&D/training program and include
-                only the relevant L&D/training taken for the last five (5) years
-                for Division Chief/Executive/Managerial positions)
-              </Text>
-            </View>
-
             {/* Learning and Development header */}
             <View style={[{ flexDirection: "row", alignItems: "stretch" }]}>
               {/* Title of Learning and Development */}
@@ -1754,14 +1777,14 @@ const PdsDocument = props => {
               </View>
             </View>
 
-            {renderLearningDeveopmentExtraPage()}
+            {renderLearningDevelopmentExtraPage()}
             <SignatureDate />
           </View>
         </Page>
       ) : null}
 
       {/* Special Skills */}
-      {otherInfo.skills.length > 7 ? (
+      {skills.length > 7 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
             <View
@@ -1786,7 +1809,7 @@ const PdsDocument = props => {
       ) : null}
 
       {/* Non-Academic Distinctions */}
-      {otherInfo.recognitions.length > 7 ? (
+      {recognitions.length > 7 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
             <View
@@ -1802,6 +1825,7 @@ const PdsDocument = props => {
                 ]}
               >
                 <Text>NON-ACADEMIC DISTINCTIONS / RECOGNITION</Text>
+                <Text>(Write in full)</Text>
               </View>
             </View>
 
@@ -1812,7 +1836,7 @@ const PdsDocument = props => {
       ) : null}
 
       {/* Membership */}
-      {otherInfo.organizations.length > 7 ? (
+      {organizations.length > 7 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
             <View
@@ -1828,6 +1852,7 @@ const PdsDocument = props => {
                 ]}
               >
                 <Text>MEMBERSHIP IN ASSOCIATION / ORGANIZATION</Text>
+                <Text>(Write in full)</Text>
               </View>
             </View>
 
@@ -1841,20 +1866,38 @@ const PdsDocument = props => {
 }
 
 PdsDocument.propTypes = {
-  basicInfo: PropTypes.object.isRequired,
-  familyInfo: PropTypes.object.isRequired,
-  educationInfo: PropTypes.object.isRequired,
-  eligibilityInfo: PropTypes.arrayOf(
+  formatDate: PropTypes.func.isRequired,
+  personalInfo: PropTypes.object.isRequired,
+  permanentAddress: PropTypes.object.isRequired,
+  residentialAddress: PropTypes.object.isRequired,
+  governmentIssuedIds: PropTypes.object.isRequired,
+  spouse: PropTypes.object.isRequired,
+  parents: PropTypes.object.isRequired,
+  childrenInfo: PropTypes.arrayOf(
+    PropTypes.shape({
+      childName: PropTypes.string.isRequired,
+      birthDate: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  elementary: PropTypes.object.isRequired,
+  secondary: PropTypes.object.isRequired,
+  vocational: PropTypes.array.isRequired,
+  college: PropTypes.array.isRequired,
+  graduate: PropTypes.array.isRequired,
+  eligibilities: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
       rating: PropTypes.string,
-      examDate: PropTypes.string,
+      examDate: PropTypes.shape({
+        from: PropTypes.string,
+        to: PropTypes.string,
+      }),
       examPlace: PropTypes.string,
       licenseNumber: PropTypes.string,
       validity: PropTypes.string,
     })
   ).isRequired,
-  workExperienceInfo: PropTypes.arrayOf(
+  workExperience: PropTypes.arrayOf(
     PropTypes.shape({
       positionTitle: PropTypes.string,
       companyName: PropTypes.string,
@@ -1866,7 +1909,7 @@ PdsDocument.propTypes = {
       to: PropTypes.string,
     })
   ).isRequired,
-  voluntaryWorkInfo: PropTypes.arrayOf(
+  voluntaryWork: PropTypes.arrayOf(
     PropTypes.shape({
       organizationName: PropTypes.string,
       from: PropTypes.string,
@@ -1875,7 +1918,7 @@ PdsDocument.propTypes = {
       position: PropTypes.string,
     })
   ).isRequired,
-  learningDevelopmentInfo: PropTypes.arrayOf(
+  learningDevelopment: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string,
       from: PropTypes.string,
@@ -1885,8 +1928,39 @@ PdsDocument.propTypes = {
       conductedBy: PropTypes.string,
     })
   ).isRequired,
-  otherInfo: PropTypes.object.isRequired,
-  formatDate: PropTypes.func.isRequired,
+  skills: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      skill: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  recognitions: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      recognition: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  organizations: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      organization: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  officeRelation: PropTypes.object.isRequired,
+  guiltyCharged: PropTypes.object.isRequired,
+  convicted: PropTypes.object.isRequired,
+  separatedService: PropTypes.object.isRequired,
+  candidateResigned: PropTypes.object.isRequired,
+  immigrant: PropTypes.object.isRequired,
+  indigenousPwdSoloParent: PropTypes.object.isRequired,
+  references: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      address: PropTypes.string.isRequired,
+      telephoneNumber: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  governmentIssuedId: PropTypes.object.isRequired,
 }
 
 export default PdsDocument

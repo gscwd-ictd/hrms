@@ -1,16 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import {
-  Card,
-  CardBody,
-  Col,
-  Container,
-  Row,
-  Button,
-  Input,
-  Spinner,
-} from "reactstrap"
-import {
   fetchOGPositions,
   fetchPositionsWithoutOccupation,
   updatePositionsToOccupation,
@@ -21,14 +11,23 @@ import {
   resetPositionCheckBoxes,
 } from "store/actions"
 import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
 import { isEmpty } from "lodash"
-import Select from "react-select"
 
-// table components
+import Select from "react-select"
+import {
+  Card,
+  CardBody,
+  Col,
+  Container,
+  Row,
+  Button,
+  Input,
+  Spinner,
+} from "reactstrap"
 import TableOccupationalGroup from "components/Table/TableOccupationalGroup"
 import { SelectColumnFilter } from "components/Filters/SelectColumnFilter"
-
-// extra components
 import Breadcrumbs from "components/Common/Breadcrumb"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
@@ -197,98 +196,106 @@ const OccupationalGroup = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <Container fluid={true}>
-          <Breadcrumbs
-            title="Occupations"
-            titleUrl="/occupations"
-            breadcrumbItem="Occupational Group"
-          />
+      <Can I="access" this="Occupations">
+        <div className="page-content">
+          <Container fluid={true}>
+            <Breadcrumbs
+              title="Occupations"
+              titleUrl="/occupations"
+              breadcrumbItem="Occupational Group"
+            />
 
-          {/* Error Notif */}
-          {errorOGPositions ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorOGPositions}
-            />
-          ) : null}
-          {positionsWithoutOccupationError ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={positionsWithoutOccupationError}
-            />
-          ) : null}
-          {assignPositionsError ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={assignPositionsError}
-            />
-          ) : null}
+            {/* Error Notif */}
+            {errorOGPositions ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorOGPositions}
+              />
+            ) : null}
+            {positionsWithoutOccupationError ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={positionsWithoutOccupationError}
+              />
+            ) : null}
+            {assignPositionsError ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={assignPositionsError}
+              />
+            ) : null}
 
-          {/* Success Notif */}
-          {!isEmpty(assignedPositions) ? (
-            <ToastrNotification
-              toastType={"success"}
-              notifMessage={"Positions successfully assigned"}
-            />
-          ) : null}
-          {!isEmpty(unassignedPositions) ? (
-            <ToastrNotification
-              toastType={"success"}
-              notifMessage={"Positions successfully unassigned"}
-            />
-          ) : null}
+            {/* Success Notif */}
+            {!isEmpty(assignedPositions) ? (
+              <ToastrNotification
+                toastType={"success"}
+                notifMessage={"Positions successfully assigned"}
+              />
+            ) : null}
+            {!isEmpty(unassignedPositions) ? (
+              <ToastrNotification
+                toastType={"success"}
+                notifMessage={"Positions successfully unassigned"}
+              />
+            ) : null}
 
-          <Row>
-            <Col lg={12}>
-              <Card>
-                <CardBody className="card-table">
-                  {loadingOGPositions || assignPositionsLoading ? (
-                    <LoadingIndicator />
-                  ) : (
-                    <>
-                      <div className="multi-select-top-right-actions">
-                        <Row className="justify-content-end">
-                          {positionsWithoutOccupationLoading ? (
-                            <Spinner className="ms-2" color="secondary" />
-                          ) : null}
-                          <Col md={8}>
-                            <Select
-                              isMulti={true}
-                              onChange={e => {
-                                handleMultiSelect(e)
-                              }}
-                              name="select-employees"
-                              options={positionsWithoutOccupation}
-                            />
-                          </Col>
-                          <Col md={2}>
-                            <Button
-                              className="btn btn-info w-100"
-                              onClick={() => handleAssignPositions()}
-                              disabled={isEmpty(positionsWithoutOccupation)}
-                            >
-                              Assign
-                            </Button>
-                          </Col>
-                        </Row>
-                      </div>
+            <Row>
+              <Col lg={12}>
+                <Card>
+                  <CardBody className="card-table">
+                    {loadingOGPositions || assignPositionsLoading ? (
+                      <LoadingIndicator />
+                    ) : (
+                      <>
+                        <div className="multi-select-top-right-actions">
+                          <Row className="justify-content-end">
+                            {positionsWithoutOccupationLoading ? (
+                              <Spinner className="ms-2" color="secondary" />
+                            ) : null}
+                            <Col md={8}>
+                              <Select
+                                isMulti={true}
+                                onChange={e => {
+                                  handleMultiSelect(e)
+                                }}
+                                name="select-employees"
+                                options={positionsWithoutOccupation}
+                              />
+                            </Col>
+                            <Col md={2}>
+                              <Button
+                                className="btn btn-info w-100"
+                                onClick={() => handleAssignPositions()}
+                                disabled={isEmpty(positionsWithoutOccupation)}
+                              >
+                                Assign
+                              </Button>
+                            </Col>
+                          </Row>
+                        </div>
 
-                      <TableOccupationalGroup
-                        columns={columns}
-                        data={data}
-                        handleDeleteRows={handleDeleteRows}
-                        disableDeleteBtn={disableDeleteBtn}
-                        hideDeleteBtn={hideDeleteBtn}
-                      />
-                    </>
-                  )}
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </div>
+                        <TableOccupationalGroup
+                          columns={columns}
+                          data={data}
+                          handleDeleteRows={handleDeleteRows}
+                          disableDeleteBtn={disableDeleteBtn}
+                          hideDeleteBtn={hideDeleteBtn}
+                        />
+                      </>
+                    )}
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      </Can>
+
+      <Can not I="access" this="Occupations">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }
@@ -296,6 +303,7 @@ const OccupationalGroup = props => {
 OccupationalGroup.propTypes = {
   cell: PropTypes.any,
   match: PropTypes.object,
+  location: PropTypes.object,
 }
 
 export default OccupationalGroup

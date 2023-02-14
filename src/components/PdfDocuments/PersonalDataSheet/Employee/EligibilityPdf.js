@@ -6,6 +6,7 @@ import ArialNarrowItalic from "assets/fonts/uploads/arial-narrow-italic.ttf"
 import ArialNarrowBold from "assets/fonts/uploads/arial-narrow-bold.ttf"
 import ArialNarrowBoldItalic from "assets/fonts/uploads/arial-narrow-bold-italic.ttf"
 import PropTypes from "prop-types"
+import { isEmpty } from "lodash"
 
 const styles = StyleSheet.create({
   lineContainer: {
@@ -92,11 +93,11 @@ Font.register({
 Font.registerHyphenationCallback(word => [word])
 
 const EligibilityPdf = props => {
-  const { formatDate, eligibility } = props
+  const { formatDate, eligibilities } = props
   const [emptyEligibilityRows, setEmptyEligibilityRows] = useState(7)
 
   const renderEligibilityRows = () => {
-    var content = eligibility.slice(0, 7).map((eligibility, index) => (
+    var content = eligibilities.slice(0, 7).map((eligibility, index) => (
       <View
         style={[
           styles.borderTop,
@@ -142,7 +143,20 @@ const EligibilityPdf = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{eligibility.examDate || "N/A"}</Text>
+            <Text>
+              {/* If exam date for from and to is filled */}
+              {!isEmpty(eligibility.examDate) &&
+              !isEmpty(eligibility.examDate.to) ? (
+                <>
+                  {eligibility.examDate.from + " | " + eligibility.examDate.to}
+                </>
+              ) : !isEmpty(eligibility.examDate) &&
+                !isEmpty(eligibility.examDate.from) ? ( // If exam date from is filled
+                <>{eligibility.examDate.from}</>
+              ) : (
+                <>N/A</>
+              )}
+            </Text>
           </View>
         </View>
 
@@ -190,7 +204,7 @@ const EligibilityPdf = props => {
 
   const renderEmptyEligibilityRows = () => {
     let content = []
-    const rowToRender = emptyEligibilityRows - eligibility.length
+    const rowToRender = emptyEligibilityRows - eligibilities.length
 
     for (let i = 0; i < rowToRender; i++) {
       content.push(
@@ -281,6 +295,8 @@ const EligibilityPdf = props => {
     return content
   }
 
+  console.log(eligibilities)
+
   return (
     <View>
       <View style={[styles.sectionTitleContainer]}>
@@ -289,7 +305,7 @@ const EligibilityPdf = props => {
         </Text>
       </View>
 
-      {/* Eligiblity Header */}
+      {/* Eligibility Header */}
       <View
         style={[
           styles.borderTop,
@@ -395,10 +411,10 @@ const EligibilityPdf = props => {
         </View>
       </View>
 
-      {/* Eligiblities */}
+      {/* Eligibilities */}
       {renderEligibilityRows()}
 
-      {eligibility.length < 7 ? <>{renderEmptyEligibilityRows()}</> : null}
+      {eligibilities.length < 7 ? <>{renderEmptyEligibilityRows()}</> : null}
 
       <View style={[styles.borderTop]}>
         <View style={[styles.inputKey, styles.w100, { padding: "1 0" }]}>
@@ -412,11 +428,14 @@ const EligibilityPdf = props => {
 }
 
 EligibilityPdf.propTypes = {
-  eligibility: PropTypes.arrayOf(
+  eligibilities: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
       rating: PropTypes.string,
-      examDate: PropTypes.string,
+      examDate: PropTypes.shape({
+        from: PropTypes.string,
+        to: PropTypes.string,
+      }),
       examPlace: PropTypes.string,
       licenseNumber: PropTypes.string,
       validity: PropTypes.string,
