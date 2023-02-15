@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import PropTypes from "prop-types"
 import { isEmpty } from "lodash"
 
@@ -6,14 +6,12 @@ import { useDispatch, useSelector } from "react-redux"
 import {
   updatePublicationStatus,
   getPublications,
-  resetPublciationResponses,
+  resetPublicationResponses,
 } from "store/actions"
 
 import { Modal } from "react-bootstrap"
-import { Col, Row, Input, Alert, Form, Button } from "reactstrap"
+import { Alert, Button } from "reactstrap"
 import ToastrNotification from "components/Notifications/ToastrNotification"
-
-import { examInterviewVenues } from "constants/selectInputs"
 
 const ExamDone = props => {
   const { showExamDone, handleCloseExamDone, modalData, prfId } = props
@@ -40,7 +38,7 @@ const ExamDone = props => {
     if (!isEmpty(responseExamDone)) {
       dispatch(getPublications(prfId))
       handleCloseExamDone()
-      dispatch(resetPublciationResponses())
+      dispatch(resetPublicationResponses())
     }
   }, [responseExamDone])
 

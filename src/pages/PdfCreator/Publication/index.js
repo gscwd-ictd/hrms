@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react"
-import PropTypes from "prop-types"
-import { useDispatch, useSelector } from "react-redux"
-import { fetchPublicationDocumentDetails, fetchPRFTrail } from "store/actions"
 import dayjs from "dayjs"
 import { isEmpty } from "lodash"
+import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
+
+import { useDispatch, useSelector } from "react-redux"
+import { fetchPublicationDocumentDetails, fetchPRFTrail } from "store/actions"
 
 import { Container, Form, Button } from "reactstrap"
 import { PDFViewer } from "@react-pdf/renderer"
@@ -39,6 +42,7 @@ const PublicationPdf = props => {
 
   const formatDate = assignedDate => dayjs(assignedDate).format("MMMM DD, YYYY")
 
+  // Generation of excel document of publication
   const createExcelDocument = e => {
     e.preventDefault()
 
@@ -835,6 +839,7 @@ const PublicationPdf = props => {
     return result
   }
 
+  // Rearranging of objects in the array to fit in pushing to excel document
   useEffect(() => {
     if (!isEmpty(publicationDocumentDetails)) {
       let array = []
@@ -877,6 +882,7 @@ const PublicationPdf = props => {
     }
   }, [publicationDocumentDetails])
 
+  // Fetch data of document
   useEffect(() => {
     dispatch(fetchPublicationDocumentDetails(props.match.params.prfId)) //  fetch publication document details
     dispatch(fetchPRFTrail(props.match.params.prfId)) //  fetch trail of signatories
@@ -884,49 +890,58 @@ const PublicationPdf = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <Container fluid={true}>
-          {/* Notifications */}
-          {errorPublicationDocumentDetails ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorPublicationDocumentDetails}
-            />
-          ) : null}
+      <Can I="access" this="Prf_list">
+        <div className="page-content">
+          <Container fluid={true}>
+            {/* Notifications */}
+            {errorPublicationDocumentDetails ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorPublicationDocumentDetails}
+              />
+            ) : null}
 
-          {errorPrfTrail ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorPrfTrail}
-            />
-          ) : null}
+            {errorPrfTrail ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorPrfTrail}
+              />
+            ) : null}
 
-          {loadingPublicationDocumentDetails || loadingPrfTrail ? (
-            <LoadingIndicator />
-          ) : (
-            <>
-              <Form onSubmit={e => createExcelDocument(e)} className="mb-2">
-                <Button type="submit" color="info">
-                  XLSX Document
-                </Button>
-              </Form>
+            {loadingPublicationDocumentDetails || loadingPrfTrail ? (
+              <LoadingIndicator />
+            ) : (
+              <>
+                <Form onSubmit={e => createExcelDocument(e)} className="mb-2">
+                  <Button type="submit" color="info">
+                    XLSX Document
+                  </Button>
+                </Form>
 
-              <PDFViewer width={"100%"} height={700} showToolbar>
-                <PublicationDocument
-                  publicationDocumentDetails={publicationDocumentDetails}
-                  prfTrail={prfTrail}
-                  formatDate={formatDate}
-                />
-              </PDFViewer>
-            </>
-          )}
-        </Container>
-      </div>
+                <PDFViewer width={"100%"} height={700} showToolbar>
+                  <PublicationDocument
+                    publicationDocumentDetails={publicationDocumentDetails}
+                    prfTrail={prfTrail}
+                    formatDate={formatDate}
+                  />
+                </PDFViewer>
+              </>
+            )}
+          </Container>
+        </div>
+      </Can>
+
+      <Can not I="access" this="Prf_list">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }
 
 PublicationPdf.propTypes = {
   match: PropTypes.object,
+  location: PropTypes.object,
 }
 export default PublicationPdf

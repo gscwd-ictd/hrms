@@ -1,7 +1,11 @@
 import React, { useEffect } from "react"
 import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
+
 import { useDispatch, useSelector } from "react-redux"
 import { fetchApplicantPds } from "store/actions"
+
 import { Container } from "reactstrap"
 import dayjs from "dayjs"
 import { PDFViewer } from "@react-pdf/renderer"
@@ -99,51 +103,59 @@ const ApplicantPersonalDataSheetPdf = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <Container fluid={true}>
-          {error ? (
-            <ToastrNotification toastType={"error"} notifMessage={error} />
-          ) : null}
+      <Can I="access" this="Personnel_selection">
+        <div className="page-content">
+          <Container fluid={true}>
+            {error ? (
+              <ToastrNotification toastType={"error"} notifMessage={error} />
+            ) : null}
 
-          {isLoading ? (
-            <LoadingIndicator />
-          ) : (
-            <PDFViewer width={"100%"} height={700} showToolbar>
-              <PdsDocument
-                formatDate={formatDate}
-                personalInfo={personalInfo}
-                permanentAddress={permanentAddress}
-                residentialAddress={residentialAddress}
-                governmentIssuedIds={governmentIssuedIds}
-                spouse={spouse}
-                parents={parents}
-                childrenInfo={children}
-                elementary={elementary}
-                secondary={secondary}
-                vocational={vocational}
-                college={college}
-                graduate={graduate}
-                eligibilities={eligibilities}
-                workExperience={workExperience}
-                voluntaryWork={voluntaryWork}
-                learningDevelopment={learningDevelopment}
-                skills={skills}
-                recognitions={recognitions}
-                organizations={organizations}
-                officeRelation={officeRelation}
-                guiltyCharged={guiltyCharged}
-                convicted={convicted}
-                separatedService={separatedService}
-                candidateResigned={candidateResigned}
-                immigrant={immigrant}
-                indigenousPwdSoloParent={indigenousPwdSoloParent}
-                references={references}
-                governmentIssuedId={governmentIssuedId}
-              />
-            </PDFViewer>
-          )}
-        </Container>
-      </div>
+            {isLoading ? (
+              <LoadingIndicator />
+            ) : (
+              <PDFViewer width={"100%"} height={700} showToolbar>
+                <PdsDocument
+                  formatDate={formatDate}
+                  personalInfo={personalInfo}
+                  permanentAddress={permanentAddress}
+                  residentialAddress={residentialAddress}
+                  governmentIssuedIds={governmentIssuedIds}
+                  spouse={spouse}
+                  parents={parents}
+                  childrenInfo={children}
+                  elementary={elementary}
+                  secondary={secondary}
+                  vocational={vocational}
+                  college={college}
+                  graduate={graduate}
+                  eligibilities={eligibilities}
+                  workExperience={workExperience}
+                  voluntaryWork={voluntaryWork}
+                  learningDevelopment={learningDevelopment}
+                  skills={skills}
+                  recognitions={recognitions}
+                  organizations={organizations}
+                  officeRelation={officeRelation}
+                  guiltyCharged={guiltyCharged}
+                  convicted={convicted}
+                  separatedService={separatedService}
+                  candidateResigned={candidateResigned}
+                  immigrant={immigrant}
+                  indigenousPwdSoloParent={indigenousPwdSoloParent}
+                  references={references}
+                  governmentIssuedId={governmentIssuedId}
+                />
+              </PDFViewer>
+            )}
+          </Container>
+        </div>
+      </Can>
+
+      <Can not I="access" this="Personnel_selection">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }

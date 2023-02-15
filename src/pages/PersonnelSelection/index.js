@@ -44,6 +44,10 @@ const PersonnelSelection = props => {
       accessor: "from",
     },
     {
+      Header: "Positions",
+      accessor: "positionTitles",
+    },
+    {
       Header: "Actions",
       accessor: "",
       align: "center",

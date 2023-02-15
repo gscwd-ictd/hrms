@@ -1,5 +1,8 @@
 import React, { useEffect } from "react"
 import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
+
 import { useDispatch, useSelector } from "react-redux"
 import { fetchPsbCBIReports, fetchPsbCBIReportsHeader } from "store/actions"
 
@@ -53,44 +56,53 @@ const CompetencyBasedInterviewReportPdf = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <Container fluid={true}>
-          {errorCompetencyBasedInterviewReportsHeader ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorCompetencyBasedInterviewReportsHeader}
-            />
-          ) : null}
-
-          {errorCompetencyBasedInterviewReports ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorCompetencyBasedInterviewReports}
-            />
-          ) : null}
-
-          {loadingCompetencyBasedInterviewReports &&
-          loadingCompetencyBasedInterviewReportsHeader ? (
-            <LoadingIndicator />
-          ) : (
-            <PDFViewer width={"100%"} height={700} showToolbar>
-              <CBIRDocument
-                competencyBasedInterviewReportsHeader={
-                  competencyBasedInterviewReportsHeader
-                }
-                competencyBasedInterviewReports={
-                  competencyBasedInterviewReports
-                }
+      <Can I="access" this="Personnel_selection">
+        <div className="page-content">
+          <Container fluid={true}>
+            {errorCompetencyBasedInterviewReportsHeader ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorCompetencyBasedInterviewReportsHeader}
               />
-            </PDFViewer>
-          )}
-        </Container>
-      </div>
+            ) : null}
+
+            {errorCompetencyBasedInterviewReports ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorCompetencyBasedInterviewReports}
+              />
+            ) : null}
+
+            {loadingCompetencyBasedInterviewReports &&
+            loadingCompetencyBasedInterviewReportsHeader ? (
+              <LoadingIndicator />
+            ) : (
+              <PDFViewer width={"100%"} height={700} showToolbar>
+                <CBIRDocument
+                  competencyBasedInterviewReportsHeader={
+                    competencyBasedInterviewReportsHeader
+                  }
+                  competencyBasedInterviewReports={
+                    competencyBasedInterviewReports
+                  }
+                />
+              </PDFViewer>
+            )}
+          </Container>
+        </div>
+      </Can>
+
+      <Can not I="access" this="Personnel_selection">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }
 
 CompetencyBasedInterviewReportPdf.propTypes = {
+  location: PropTypes.object,
   match: PropTypes.shape({
     params: PropTypes.shape({
       vppId: PropTypes.string.isRequired,

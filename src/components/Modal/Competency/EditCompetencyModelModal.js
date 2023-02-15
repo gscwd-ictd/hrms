@@ -53,7 +53,7 @@ const EditCompetencyModelModal = props => {
       proficiencyKeyActions,
     }
     // modalData.competencyId use to identify which competency model to update
-    console.log(modelData)
+    // console.log(modelData)
   }
 
   // Initial dispatch request upon opening of modal

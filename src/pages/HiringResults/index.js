@@ -1,12 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react"
 import PropTypes from "prop-types"
-import { Link } from "react-router-dom"
-import { isEmpty } from "lodash"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
+
 import { useDispatch, useSelector } from "react-redux"
 import { fetchPublicationsWithHiredApplicants } from "store/actions"
 
 import TableHiringResults from "components/Table/TableHiringResults"
-import { Container, Row, Col, Card, CardBody, Button, Input } from "reactstrap"
+import { Container, Card, CardBody, Button } from "reactstrap"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import Breadcrumb from "components/Common/Breadcrumb"
 import ToastrNotification from "components/Notifications/ToastrNotification"
@@ -23,7 +24,7 @@ const HiringResults = props => {
   // const [appointmentEffectivityDate, setAppointmentEffectivityDate] =
   //   useState("")
 
-  const hiredApplicantsColumns = [
+  const tableColumns = [
     {
       Header: "ID",
       accessor: "vppId",
@@ -91,6 +92,7 @@ const HiringResults = props => {
     },
   ]
 
+  // redux state for publications with hired applicants
   const {
     publicationsWithHiredApplicants,
     loadingPublicationsWithHiredApplicants,
@@ -104,7 +106,7 @@ const HiringResults = props => {
       state.publications.error.errorPublicationsWithHiredApplicants,
   }))
 
-  const columns = useMemo(() => hiredApplicantsColumns, [])
+  const columns = useMemo(() => tableColumns, [])
   const data = useMemo(
     () => publicationsWithHiredApplicants,
     [publicationsWithHiredApplicants]
@@ -131,28 +133,29 @@ const HiringResults = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <Container fluid={true}>
-          <Breadcrumb
-            title="Dashboard"
-            titleUrl="/"
-            breadcrumbItem="Hiring Results"
-          />
-
-          {errorPublicationsWithHiredApplicants ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorPublicationsWithHiredApplicants}
+      <Can I="access" this="Results_of_hiring">
+        <div className="page-content">
+          <Container fluid={true}>
+            <Breadcrumb
+              title="Dashboard"
+              titleUrl="/"
+              breadcrumbItem="Hiring Results"
             />
-          ) : null}
-          <Card>
-            <CardBody className="card-table">
-              {loadingPublicationsWithHiredApplicants ? (
-                <LoadingIndicator />
-              ) : (
-                <>
-                  <div className="multi-select-top-right-actions">
-                    {/* <Row className="justify-content-end">
+
+            {errorPublicationsWithHiredApplicants ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorPublicationsWithHiredApplicants}
+              />
+            ) : null}
+            <Card>
+              <CardBody className="card-table">
+                {loadingPublicationsWithHiredApplicants ? (
+                  <LoadingIndicator />
+                ) : (
+                  <>
+                    <div className="multi-select-top-right-actions">
+                      {/* <Row className="justify-content-end">
                       <Col md={8}>
                         <Input
                           type="date"
@@ -173,23 +176,30 @@ const HiringResults = props => {
                         </Button>
                       </Col>
                     </Row> */}
-                  </div>
+                    </div>
 
-                  <TableHiringResults columns={columns} data={data} />
-                </>
-              )}
+                    <TableHiringResults columns={columns} data={data} />
+                  </>
+                )}
 
-              <HiredApplicants
-                modalData={modalData}
-                showHiredApplicants={showHiredApplicants}
-                handleCloseHiredApplicantsModal={
-                  handleCloseHiredApplicantsModal
-                }
-              />
-            </CardBody>
-          </Card>
-        </Container>
-      </div>
+                <HiredApplicants
+                  modalData={modalData}
+                  showHiredApplicants={showHiredApplicants}
+                  handleCloseHiredApplicantsModal={
+                    handleCloseHiredApplicantsModal
+                  }
+                />
+              </CardBody>
+            </Card>
+          </Container>
+        </div>
+      </Can>
+
+      <Can not I="access" this="Results_of_hiring">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }

@@ -1,4 +1,14 @@
 import React, { useEffect } from "react"
+import PropTypes from "prop-types"
+import { isEmpty } from "lodash"
+
+import { useDispatch, useSelector } from "react-redux"
+import {
+  updatePublicationStatus,
+  getPublications,
+  resetPublicationResponses,
+} from "store/actions"
+
 import { Modal } from "react-bootstrap"
 import {
   Button,
@@ -10,15 +20,7 @@ import {
   FormFeedback,
   Alert,
 } from "reactstrap"
-import PropTypes from "prop-types"
-import {
-  updatePublicationStatus,
-  getPublications,
-  resetPublciationResponses,
-} from "store/actions"
-import { useDispatch, useSelector } from "react-redux"
 import ToastrNotification from "components/Notifications/ToastrNotification"
-import { isEmpty } from "lodash"
 
 // Formik validation
 import * as Yup from "yup"
@@ -29,14 +31,14 @@ const Deadline = props => {
   const dispatch = useDispatch()
 
   const {
-    responsepublicationDeadline,
-    loadingPublciationDeadline,
-    errorPublciationDeadline,
+    responsePublicationDeadline,
+    loadingPublicationDeadline,
+    errorPublicationDeadline,
   } = useSelector(state => ({
-    responsepublicationDeadline: state.publications.response.publicationStatus,
-    loadingPublciationDeadline:
+    responsePublicationDeadline: state.publications.response.publicationStatus,
+    loadingPublicationDeadline:
       state.publications.loading.loadingPublicationStatus,
-    errorPublciationDeadline: state.publications.error.errorPublicationStatus,
+    errorPublicationDeadline: state.publications.error.errorPublicationStatus,
   }))
 
   const validation = useFormik({
@@ -56,12 +58,12 @@ const Deadline = props => {
   })
 
   useEffect(() => {
-    if (!isEmpty(responsepublicationDeadline)) {
+    if (!isEmpty(responsePublicationDeadline)) {
       dispatch(getPublications(prfId))
       handleCloseDeadline()
-      dispatch(resetPublciationResponses())
+      dispatch(resetPublicationResponses())
     }
-  }, [responsepublicationDeadline])
+  }, [responsePublicationDeadline])
 
   return (
     <>
@@ -75,7 +77,7 @@ const Deadline = props => {
           <Modal.Title>Set Deadline</Modal.Title>
         </Modal.Header>
 
-        {loadingPublciationDeadline ? (
+        {loadingPublicationDeadline ? (
           <Alert
             color="info"
             className="alert-dismissible fade show m-3"
@@ -85,14 +87,14 @@ const Deadline = props => {
           </Alert>
         ) : null}
 
-        {errorPublciationDeadline ? (
+        {errorPublicationDeadline ? (
           <ToastrNotification
             toastType={"error"}
-            notifMessage={errorPublciationDeadline}
+            notifMessage={errorPublicationDeadline}
           />
         ) : null}
 
-        {!isEmpty(responsepublicationDeadline) ? (
+        {!isEmpty(responsePublicationDeadline) ? (
           <ToastrNotification
             toastType={"success"}
             notifMessage={"Deadline Updated Successfully"}

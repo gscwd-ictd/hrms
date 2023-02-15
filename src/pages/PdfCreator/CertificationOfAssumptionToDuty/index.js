@@ -1,5 +1,8 @@
 import React, { useEffect } from "react"
 import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
+
 import { useDispatch, useSelector } from "react-redux"
 import { fetchDocumentCertificationOfAssumptionToDuty } from "store/actions"
 
@@ -36,33 +39,42 @@ const CertificationOfAssumptionToDutyPdf = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <Container fluid={true}>
-          {errorCoAtDDocument ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorCoAtDDocument}
-            />
-          ) : null}
-
-          {loadingCoAtDDocument ? (
-            <LoadingIndicator />
-          ) : (
-            <PDFViewer width={"100%"} height={700} showToolbar>
-              <CoAtDDocument
-                certificationOfAssumptionToDuty={
-                  certificationOfAssumptionToDuty
-                }
+      <Can I="access" this="Results_of_hiring">
+        <div className="page-content">
+          <Container fluid={true}>
+            {errorCoAtDDocument ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorCoAtDDocument}
               />
-            </PDFViewer>
-          )}
-        </Container>
-      </div>
+            ) : null}
+
+            {loadingCoAtDDocument ? (
+              <LoadingIndicator />
+            ) : (
+              <PDFViewer width={"100%"} height={700} showToolbar>
+                <CoAtDDocument
+                  certificationOfAssumptionToDuty={
+                    certificationOfAssumptionToDuty
+                  }
+                />
+              </PDFViewer>
+            )}
+          </Container>
+        </div>
+      </Can>
+
+      <Can not I="access" this="Results_of_hiring">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }
 
 CertificationOfAssumptionToDutyPdf.propTypes = {
+  location: PropTypes.object,
   match: PropTypes.object,
 }
 export default CertificationOfAssumptionToDutyPdf

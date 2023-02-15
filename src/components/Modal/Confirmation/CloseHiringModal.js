@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import PropTypes from "prop-types"
 import { isEmpty } from "lodash"
 
@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import {
   updatePublicationStatus,
   getPublications,
-  resetPublciationResponses,
+  resetPublicationResponses,
 } from "store/actions"
 
 import { Modal } from "react-bootstrap"
@@ -50,7 +50,7 @@ const CloseHiringModal = props => {
       dispatch(getPublications(prfId))
       handleCloseHiringDone()
       handleCloseSelectedByAppAuth()
-      dispatch(resetPublciationResponses())
+      dispatch(resetPublicationResponses())
     }
   }, [responseHiringProcessDone])
 
@@ -86,7 +86,7 @@ const CloseHiringModal = props => {
         {!isEmpty(responseHiringProcessDone) ? (
           <ToastrNotification
             toastType={"success"}
-            notifMessage={"Publciation status updated to 'Interview Done'"}
+            notifMessage={"Publication status updated to 'Interview Done'"}
           />
         ) : null}
 

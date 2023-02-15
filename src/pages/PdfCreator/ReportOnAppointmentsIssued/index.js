@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
+
 import { useDispatch, useSelector } from "react-redux"
 import { fetchDocumentReportOnAppointmentsIssued } from "store/actions"
-import dayjs from "dayjs"
-import { isEmpty } from "lodash"
 
-import { Container, Form, Button } from "reactstrap"
+import { Container } from "reactstrap"
 import { PDFViewer } from "@react-pdf/renderer"
 import RAIDocument from "./RAIDocument"
 
@@ -26,41 +27,50 @@ const ReportOnAppointmentsIssuedPdf = props => {
 
   useEffect(() => {
     dispatch(
-      fetchDocumentReportOnAppointmentsIssued(props.match.params.yearMonth)
-    ) //  fetch RAI document
+      fetchDocumentReportOnAppointmentsIssued(props.match.params.yearMonth) //  fetch RAI document
+    )
   }, [dispatch])
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <Container fluid={true}>
-          {/* Notifications */}
-          {errorRAIDocument ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorRAIDocument}
-            />
-          ) : null}
+      <Can I="access" this="Results_of_hiring">
+        <div className="page-content">
+          <Container fluid={true}>
+            {/* Notifications */}
+            {errorRAIDocument ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorRAIDocument}
+              />
+            ) : null}
 
-          {loadingRAIDocument ? (
-            <LoadingIndicator />
-          ) : (
-            <>
-              <PDFViewer width={"100%"} height={700} showToolbar>
-                <RAIDocument
-                  reportOnAppointmentsIssued={reportOnAppointmentsIssued}
-                  yearMonth={props.match.params.yearMonth}
-                />
-              </PDFViewer>
-            </>
-          )}
-        </Container>
-      </div>
+            {loadingRAIDocument ? (
+              <LoadingIndicator />
+            ) : (
+              <>
+                <PDFViewer width={"100%"} height={700} showToolbar>
+                  <RAIDocument
+                    reportOnAppointmentsIssued={reportOnAppointmentsIssued}
+                    yearMonth={props.match.params.yearMonth}
+                  />
+                </PDFViewer>
+              </>
+            )}
+          </Container>
+        </div>
+      </Can>
+
+      <Can not I="access" this="Results_of_hiring">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }
 
 ReportOnAppointmentsIssuedPdf.propTypes = {
   match: PropTypes.object,
+  location: PropTypes.object,
 }
 export default ReportOnAppointmentsIssuedPdf
