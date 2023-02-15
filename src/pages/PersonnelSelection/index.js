@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo } from "react"
 import PropTypes from "prop-types"
-import { Link } from "react-router-dom"
+import { Can } from "casl/Can"
+import { Link, Redirect } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { getApprovedPRFList } from "store/actions"
 
 import TablePrfList from "components/Table/TablePrfList"
-import { SelectColumnFilter } from "components/Filters/SelectColumnFilter"
 
 import {
   Container,
@@ -16,10 +16,6 @@ import {
   CardBody,
   CardTitle,
   Button,
-  Badge,
-  DropdownMenu,
-  DropdownToggle,
-  UncontrolledDropdown,
 } from "reactstrap"
 import InterviewScheduleCalendar from "./InterviewScheduleCalendar"
 import ApplicationChart from "./ApplicationChart"
@@ -71,6 +67,7 @@ const PersonnelSelection = props => {
     },
   ]
 
+  // Redux state of list of prf that was approved
   const { prflist, loadingPrf, errorPrf } = useSelector(state => ({
     prflist: state.positionRequest.prflist,
     loadingPrf: state.positionRequest.loading.loadingPrf,
@@ -86,53 +83,61 @@ const PersonnelSelection = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <Container fluid={true}>
-          <Breadcrumb
-            title="Dashboard"
-            titleUrl="/"
-            breadcrumbItem="Personnel Selection"
-          />
+      <Can I="access" this="Personnel_selection">
+        <div className="page-content">
+          <Container fluid={true}>
+            <Breadcrumb
+              title="Dashboard"
+              titleUrl="/"
+              breadcrumbItem="Personnel Selection"
+            />
 
-          {errorPrf ? (
-            <ToastrNotification toastType={"error"} notifMessage={errorPrf} />
-          ) : null}
-          <Row>
-            <Col lg={12}>
-              <Card>
-                <CardBody className="card-table">
-                  {loadingPrf ? (
-                    <LoadingIndicator />
-                  ) : (
-                    <TablePrfList columns={columns} data={data} />
-                  )}
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
+            {errorPrf ? (
+              <ToastrNotification toastType={"error"} notifMessage={errorPrf} />
+            ) : null}
+            <Row>
+              <Col lg={12}>
+                <Card>
+                  <CardBody className="card-table">
+                    {loadingPrf ? (
+                      <LoadingIndicator />
+                    ) : (
+                      <TablePrfList columns={columns} data={data} />
+                    )}
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
 
-          <Row>
-            <Col md={6}>
-              <Card>
-                <CardBody className="card-table">
-                  <CardTitle>Interview/Examination Schedule</CardTitle>
-                  <InterviewScheduleCalendar />
-                </CardBody>
-              </Card>
-            </Col>
-            <Col md={6}>
-              <Card>
-                <CardBody className="card-table">
-                  <CardTitle>
-                    Application Data for C.Y. {new Date().getFullYear()}
-                  </CardTitle>
-                  <ApplicationChart />
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </div>
+            <Row>
+              <Col md={6}>
+                <Card>
+                  <CardBody className="card-table">
+                    <CardTitle>Interview/Examination Schedule</CardTitle>
+                    <InterviewScheduleCalendar />
+                  </CardBody>
+                </Card>
+              </Col>
+              <Col md={6}>
+                <Card>
+                  <CardBody className="card-table">
+                    <CardTitle>
+                      Application Data for C.Y. {new Date().getFullYear()}
+                    </CardTitle>
+                    <ApplicationChart />
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      </Can>
+
+      <Can not I="access" this="Personnel_selection">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }

@@ -1,15 +1,14 @@
 import React, { useEffect, useMemo, useState } from "react"
 import dayjs from "dayjs"
 import PropTypes from "prop-types"
-import { Link } from "react-router-dom"
+import { Can } from "casl/Can"
+import { Link, Redirect } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { getPublications } from "store/actions"
 
-// Table
 import TablePublications from "components/Table/TablePublications"
 import { SelectColumnFilter } from "components/Filters/SelectColumnFilter"
-
 import {
   Container,
   Row,
@@ -356,7 +355,7 @@ const PublicationPositions = props => {
     },
   ]
 
-  // Redux state for publciations
+  // Redux state for publications
   const { publications, isLoading, error } = useSelector(state => ({
     publications: state.publications.publications,
     isLoading: state.publications.loading.publicationsLoading,
@@ -405,7 +404,7 @@ const PublicationPositions = props => {
     handleShowCloseApplication()
   }
 
-  // Send endrosement of qualified applicants to requesting entity
+  // Send endorsement of qualified applicants to requesting entity
   const [showSendEndorsement, setShowSendEndorsement] = useState(false)
 
   const handleCloseSendEndorsement = () => setShowSendEndorsement(false)
@@ -539,134 +538,146 @@ const PublicationPositions = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <Container fluid={true}>
-          <Breadcrumb
-            title="Personnel Selection"
-            titleUrl="/personnel-selection"
-            breadcrumbItem="Publication Positions"
-          />
+      <Can I="access" this="Personnel_selection">
+        <div className="page-content">
+          <Container fluid={true}>
+            <Breadcrumb
+              title="Personnel Selection"
+              titleUrl="/personnel-selection"
+              breadcrumbItem="Publication Positions"
+            />
 
-          {error ? (
-            <ToastrNotification toastType={"error"} notifMessage={error} />
-          ) : null}
+            {error ? (
+              <ToastrNotification toastType={"error"} notifMessage={error} />
+            ) : null}
 
-          <Row>
-            <Col lg={12}>
-              <Card>
-                <CardBody className="card-table">
-                  {isLoading ? (
-                    <LoadingIndicator />
-                  ) : (
-                    <TablePublications columns={columns} data={data} />
-                  )}
+            <Row>
+              <Col lg={12}>
+                <Card>
+                  <CardBody className="card-table">
+                    {isLoading ? (
+                      <LoadingIndicator />
+                    ) : (
+                      <TablePublications columns={columns} data={data} />
+                    )}
 
-                  <Deadline
-                    showDeadline={showDeadline}
-                    modalData={modalData}
-                    handleCloseDeadline={handleCloseDeadline}
-                    prfId={props.match.params.prfId}
-                  />
+                    <Deadline
+                      showDeadline={showDeadline}
+                      modalData={modalData}
+                      handleCloseDeadline={handleCloseDeadline}
+                      prfId={props.match.params.prfId}
+                    />
 
-                  <ExamScore
-                    showExamScore={showExamScore}
-                    modalData={modalData}
-                    handleCloseExamScore={handleCloseExamScore}
-                  />
+                    <ExamScore
+                      showExamScore={showExamScore}
+                      modalData={modalData}
+                      handleCloseExamScore={handleCloseExamScore}
+                    />
 
-                  <CloseApplicationPSBMemberAssignment
-                    showCloseApplication={showCloseApplication}
-                    modalData={modalData}
-                    handleCloseCloseApplication={handleCloseCloseApplication}
-                    prfId={props.match.params.prfId}
-                  />
+                    <CloseApplicationPSBMemberAssignment
+                      showCloseApplication={showCloseApplication}
+                      modalData={modalData}
+                      handleCloseCloseApplication={handleCloseCloseApplication}
+                      prfId={props.match.params.prfId}
+                    />
 
-                  <SendEndorsementToRequestingEntity
-                    showSendEndorsement={showSendEndorsement}
-                    modalData={modalData}
-                    handleCloseSendEndorsement={handleCloseSendEndorsement}
-                    prfId={props.match.params.prfId}
-                  />
+                    <SendEndorsementToRequestingEntity
+                      showSendEndorsement={showSendEndorsement}
+                      modalData={modalData}
+                      handleCloseSendEndorsement={handleCloseSendEndorsement}
+                      prfId={props.match.params.prfId}
+                    />
 
-                  <ViewShortlist
-                    showViewShortlist={showViewShortlist}
-                    modalData={modalData}
-                    handleCloseViewShortlist={handleCloseViewShortlist}
-                  />
+                    <ViewShortlist
+                      showViewShortlist={showViewShortlist}
+                      modalData={modalData}
+                      handleCloseViewShortlist={handleCloseViewShortlist}
+                    />
 
-                  <ScheduleExam
-                    showScheduleExam={showScheduleExam}
-                    modalData={modalData}
-                    handleCloseScheduleExam={handleCloseScheduleExam}
-                    prfId={props.match.params.prfId}
-                  />
+                    <ScheduleExam
+                      showScheduleExam={showScheduleExam}
+                      modalData={modalData}
+                      handleCloseScheduleExam={handleCloseScheduleExam}
+                      prfId={props.match.params.prfId}
+                    />
 
-                  <ExamDone
-                    showExamDone={showExamDone}
-                    modalData={modalData}
-                    handleCloseExamDone={handleCloseExamDone}
-                    prfId={props.match.params.prfId}
-                  />
+                    <ExamDone
+                      showExamDone={showExamDone}
+                      modalData={modalData}
+                      handleCloseExamDone={handleCloseExamDone}
+                      prfId={props.match.params.prfId}
+                    />
 
-                  <ScheduleInterview
-                    showScheduleInterview={showScheduleInterview}
-                    modalData={modalData}
-                    handleCloseScheduleInterview={handleCloseScheduleInterview}
-                    prfId={props.match.params.prfId}
-                  />
+                    <ScheduleInterview
+                      showScheduleInterview={showScheduleInterview}
+                      modalData={modalData}
+                      handleCloseScheduleInterview={
+                        handleCloseScheduleInterview
+                      }
+                      prfId={props.match.params.prfId}
+                    />
 
-                  <PsbSummary
-                    showPsbSummary={showPsbSummary}
-                    modalData={modalData}
-                    handleClosePsbSummary={handleClosePsbSummary}
-                    prfId={props.match.params.prfId}
-                  />
+                    <PsbSummary
+                      showPsbSummary={showPsbSummary}
+                      modalData={modalData}
+                      handleClosePsbSummary={handleClosePsbSummary}
+                      prfId={props.match.params.prfId}
+                    />
 
-                  <SendPsbSummaryToAppointingAuth
-                    showSendPsbSummary={showSendPsbSummary}
-                    modalData={modalData}
-                    handleCloseSendPsbSummary={handleCloseSendPsbSummary}
-                    prfId={props.match.params.prfId}
-                  />
+                    <SendPsbSummaryToAppointingAuth
+                      showSendPsbSummary={showSendPsbSummary}
+                      modalData={modalData}
+                      handleCloseSendPsbSummary={handleCloseSendPsbSummary}
+                      prfId={props.match.params.prfId}
+                    />
 
-                  <ViewSelectedByAppointingAuth
-                    showViewSelectedByAppAuth={showViewSelectedByAppAuth}
-                    modalData={modalData}
-                    handleCloseSelectedByAppAuth={handleCloseSelectedByAppAuth}
-                    prfId={props.match.params.prfId}
-                  />
+                    <ViewSelectedByAppointingAuth
+                      showViewSelectedByAppAuth={showViewSelectedByAppAuth}
+                      modalData={modalData}
+                      handleCloseSelectedByAppAuth={
+                        handleCloseSelectedByAppAuth
+                      }
+                      prfId={props.match.params.prfId}
+                    />
 
-                  <SelectionDocuments
-                    showSelectionDocuments={showSelectionDocuments}
-                    modalData={modalData}
-                    handleCloseSelectionDocuments={
-                      handleCloseSelectionDocuments
-                    }
-                  />
+                    <SelectionDocuments
+                      showSelectionDocuments={showSelectionDocuments}
+                      modalData={modalData}
+                      handleCloseSelectionDocuments={
+                        handleCloseSelectionDocuments
+                      }
+                    />
 
-                  <SetAppointmentEffectivity
-                    showSetAppointmentEffectivity={
-                      showSetAppointmentEffectivity
-                    }
-                    modalData={modalData}
-                    handleCloseSetAppointmentEffectivity={
-                      handleCloseSetAppointmentEffectivity
-                    }
-                  />
+                    <SetAppointmentEffectivity
+                      showSetAppointmentEffectivity={
+                        showSetAppointmentEffectivity
+                      }
+                      modalData={modalData}
+                      handleCloseSetAppointmentEffectivity={
+                        handleCloseSetAppointmentEffectivity
+                      }
+                    />
 
-                  <PublicationDetails
-                    showPublicationDetails={showPublicationDetails}
-                    modalData={modalData}
-                    handleClosePublicationDetails={
-                      handleClosePublicationDetails
-                    }
-                  />
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </div>
+                    <PublicationDetails
+                      showPublicationDetails={showPublicationDetails}
+                      modalData={modalData}
+                      handleClosePublicationDetails={
+                        handleClosePublicationDetails
+                      }
+                    />
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      </Can>
+
+      <Can not I="access" this="Personnel_selection">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }
