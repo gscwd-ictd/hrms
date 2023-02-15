@@ -78,7 +78,7 @@ const CoreModels = props => {
 
   return (
     <React.Fragment>
-      <Can I="access" this="Competency">
+      <Can I="access" this="Competency_models">
         <div className="page-content">
           <div className="container-fluid">
             <Breadcrumbs
@@ -120,7 +120,7 @@ const CoreModels = props => {
         </div>
       </Can>
 
-      <Can not I="access" this="Competency">
+      <Can not I="access" this="Competency_models">
         <Redirect
           to={{ pathname: "/page-404", state: { from: props.location } }}
         />
