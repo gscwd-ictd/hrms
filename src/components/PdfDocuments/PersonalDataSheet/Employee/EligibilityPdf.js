@@ -295,8 +295,6 @@ const EligibilityPdf = props => {
     return content
   }
 
-  console.log(eligibilities)
-
   return (
     <View>
       <View style={[styles.sectionTitleContainer]}>

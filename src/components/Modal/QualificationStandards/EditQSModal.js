@@ -57,7 +57,7 @@ const EditQSModal = props => {
       training: Yup.string().required("Please enter training"),
     }),
     onSubmit: values => {
-      console.log(values)
+      // console.log(values)
       dispatch(
         updatePositionQualificationStandards(modalData.positionId, values)
       )
