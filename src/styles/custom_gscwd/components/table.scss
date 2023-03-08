@@ -142,6 +142,30 @@
       padding-left: 1.5rem;
     }
   }
+
+  // For table with date range filter
+  // .search-box {
+  // order: 1;
+  // margin: auto 0;
+  // width: 25%;
+
+  // .input-group {
+  //   width: 25%;
+
+  //   .input-group-text {
+  //     background-color: white;
+  //     border-top-left-radius: 30px;
+  //     border-bottom-left-radius: 30px;
+  //     border-right: none;
+  //   }
+  //   .wd-table-search-input {
+  //     padding-left: 10px;
+  //     border-left: none;
+  //     width: 25%;
+  //   }
+  // }
+  // }
+
   .table-responsive {
     order: 3;
   }
@@ -202,6 +226,10 @@
         padding-left: 0;
         padding-bottom: 0.5rem;
       }
+    }
+
+    .column-filters {
+      flex-wrap: wrap;
     }
   }
   // Tablet Breakpoint

@@ -44,7 +44,6 @@ const CalendarCard = props => {
    */
   const handleEventClick = arg => {
     const event = arg.event
-    console.log(event)
     setEvent({
       id: event.id,
       title: event.title,

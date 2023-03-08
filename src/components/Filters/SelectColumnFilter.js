@@ -1,5 +1,6 @@
 import React, { useMemo } from "react"
 import PropTypes from "prop-types"
+import { Input, Label } from "reactstrap"
 
 export const SelectColumnFilter = props => {
   const {
@@ -17,9 +18,11 @@ export const SelectColumnFilter = props => {
   }, [id, preFilteredRows])
 
   return (
-    <label className="d-inline-flex align-items-center wd-select-filter">
-      <span className="">{render("Header")}: </span>
-      <select
+    // <label className="d-inline-flex align-items-center wd-select-filter">
+    <div className="d-flex gap-1">
+      <Label className="col-form-label">{render("Header")}: </Label>
+      <Input
+        type="select"
         className="form-control dropdown-col-filter"
         name={id}
         id={id}
@@ -36,8 +39,9 @@ export const SelectColumnFilter = props => {
             </option>
           ) : null
         )}
-      </select>
-    </label>
+      </Input>
+    </div>
+    // </label>
   )
 }
 

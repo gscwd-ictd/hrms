@@ -1,18 +1,15 @@
 import React, { useEffect, useMemo, useState } from "react"
-import { Link } from "react-router-dom"
 import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { fetchApplicants } from "store/actions"
 
 import { Card, CardBody, Col, Container, Row, Badge } from "reactstrap"
 import TableApplicants from "components/Table/TableApplicants"
-
-// modal components
 import InRowAction from "components/InRowAction/InRowAction"
 import ApplicantStatus from "components/Modal/PersonnelSelection/Applicants/ApplicantStatus"
-
-// extra components
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import Breadcrumb from "components/Common/Breadcrumb"
 import ToastrNotification from "components/Notifications/ToastrNotification"
@@ -114,6 +111,7 @@ const Applicants = props => {
     },
   ]
 
+  // redux state for list of applicants
   const { applicantList, isLoading, error } = useSelector(state => ({
     applicantList: state.applicants.applicantList,
     isLoading: state.applicants.loading.loadingApplicants,
@@ -145,44 +143,52 @@ const Applicants = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <Container fluid={true}>
-          <Breadcrumb
-            title="Publication Positions"
-            titleUrl={
-              "/personnel-selection/publication-positions/" +
-              props.match.params.prfId
-            }
-            breadcrumbItem="Applicants"
-          />
+      <Can I="access" this="Personnel_selection">
+        <div className="page-content">
+          <Container fluid={true}>
+            <Breadcrumb
+              title="Publication Positions"
+              titleUrl={
+                "/personnel-selection/publication-positions/" +
+                props.match.params.prfId
+              }
+              breadcrumbItem="Applicants"
+            />
 
-          {error ? (
-            <ToastrNotification toastType={"error"} notifMessage={error} />
-          ) : null}
+            {error ? (
+              <ToastrNotification toastType={"error"} notifMessage={error} />
+            ) : null}
 
-          <Row>
-            <Col lg={12}>
-              <Card>
-                <CardBody className="card-table">
-                  {isLoading ? (
-                    <LoadingIndicator />
-                  ) : (
-                    <>
-                      <TableApplicants columns={columns} data={data} />
-                    </>
-                  )}
-                  <ApplicantStatus
-                    showEdt={showEdt}
-                    handleCloseEdt={handleCloseEdt}
-                    modalData={modalData}
-                    publicationId={props.match.params.publicationId}
-                  />
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </div>
+            <Row>
+              <Col lg={12}>
+                <Card>
+                  <CardBody className="card-table">
+                    {isLoading ? (
+                      <LoadingIndicator />
+                    ) : (
+                      <>
+                        <TableApplicants columns={columns} data={data} />
+                      </>
+                    )}
+                    <ApplicantStatus
+                      showEdt={showEdt}
+                      handleCloseEdt={handleCloseEdt}
+                      modalData={modalData}
+                      publicationId={props.match.params.publicationId}
+                    />
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      </Can>
+
+      <Can not I="access" this="Personnel_selection">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }

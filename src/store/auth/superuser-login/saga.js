@@ -29,8 +29,8 @@ function* loginUser({ payload: { user, history } }) {
 
     yield put(loginSuperUserSuccess(response))
 
-    history.push("/dashboard")
-    window.location.reload()
+    history.push("/module-dashboard")
+    // window.location.reload()
   } catch (error) {
     yield put(apiError(error))
   }

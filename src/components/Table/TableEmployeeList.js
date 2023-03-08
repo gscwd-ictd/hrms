@@ -61,7 +61,7 @@ const TableEmployeeList = props => {
           {headerGroups.map(headerGroup =>
             headerGroup.headers.map((column, i) =>
               column.Filter ? (
-                <div className={"mt-2 sm:mt-0 filter-" + i} key={i}>
+                <div className={"sm:mt-0 filter-" + i} key={i}>
                   {column.render("Filter")}
                 </div>
               ) : null

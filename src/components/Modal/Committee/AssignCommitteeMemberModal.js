@@ -86,7 +86,7 @@ const AssignCommitteeMemberModal = props => {
       committeeId: committeeId,
       employeeIds: selectedEmployees,
     }
-    console.log(assignedEmployees)
+    // console.log(assignedEmployees)
     dispatch(assignCommitteeMembers(assignedEmployees))
   }
 

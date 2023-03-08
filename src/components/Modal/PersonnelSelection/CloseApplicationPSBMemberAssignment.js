@@ -15,7 +15,7 @@ import {
   removePSBRoleFromOptions,
   updatePublicationStatus,
   getPublications,
-  resetPublciationResponses,
+  resetPublicationResponses,
 } from "store/actions"
 
 import { Modal } from "react-bootstrap"
@@ -206,7 +206,7 @@ const CloseApplicationPSBMemberAssignment = props => {
       dispatch(getPublications(prfId))
       handleCloseCloseApplication()
       dispatch(resetPSBMembersTable())
-      dispatch(resetPublciationResponses())
+      dispatch(resetPublicationResponses())
     }
   }, [responseCloseForApplication])
 

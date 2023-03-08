@@ -206,7 +206,7 @@ const PdsDocument = props => {
     vocational,
     college,
     graduate,
-    eligibility,
+    eligibilities,
     workExperience,
     voluntaryWork,
     learningDevelopment,
@@ -515,7 +515,7 @@ const PdsDocument = props => {
   }
 
   const renderEligibilityExtraPage = () => {
-    var content = eligibility.slice(7).map(eligibility => (
+    var content = eligibilities.slice(7).map(eligibility => (
       <View
         style={[
           styles.borderTop,
@@ -561,7 +561,20 @@ const PdsDocument = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{eligibility.examDate || "N/A"}</Text>
+            <Text>
+              {/* If exam date for from and to is filled */}
+              {!isEmpty(eligibility.examDate) &&
+              !isEmpty(eligibility.examDate.to) ? (
+                <>
+                  {eligibility.examDate.from + " | " + eligibility.examDate.to}
+                </>
+              ) : !isEmpty(eligibility.examDate) &&
+                !isEmpty(eligibility.examDate.from) ? ( // If exam date from is filled
+                <>{eligibility.examDate.from}</>
+              ) : (
+                <>N/A</>
+              )}
+            </Text>
           </View>
         </View>
 
@@ -820,7 +833,7 @@ const PdsDocument = props => {
     return content
   }
 
-  const renderLearningDeveopmentExtraPage = () => {
+  const renderLearningDevelopmentExtraPage = () => {
     var content = learningDevelopment.slice(21).map(training => (
       <View
         style={[
@@ -1030,7 +1043,10 @@ const PdsDocument = props => {
       {/* Page 2 */}
       <Page size={[612.3, 935.4]} style={styles.page}>
         <View style={styles.bodyBorder}>
-          <EligibilityPdf eligibility={eligibility} formatDate={formatDate} />
+          <EligibilityPdf
+            eligibilities={eligibilities}
+            formatDate={formatDate}
+          />
 
           <WorkExperiencePdf
             workExperience={workExperience}
@@ -1251,10 +1267,10 @@ const PdsDocument = props => {
       ) : null}
 
       {/* Eligibility Extra Page */}
-      {eligibility.length > 7 ? (
+      {eligibilities.length > 7 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
-            {/* Eligiblity Header */}
+            {/* Eligibility Header */}
             <View style={[{ flexDirection: "row", alignItems: "stretch" }]}>
               {/* Eligibility Name */}
               <View
@@ -1746,7 +1762,7 @@ const PdsDocument = props => {
               </View>
             </View>
 
-            {renderLearningDeveopmentExtraPage()}
+            {renderLearningDevelopmentExtraPage()}
             <SignatureDate />
           </View>
         </Page>
@@ -1853,11 +1869,14 @@ PdsDocument.propTypes = {
   vocational: PropTypes.array.isRequired,
   college: PropTypes.array.isRequired,
   graduate: PropTypes.array.isRequired,
-  eligibility: PropTypes.arrayOf(
+  eligibilities: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
       rating: PropTypes.string,
-      examDate: PropTypes.string,
+      examDate: PropTypes.shape({
+        from: PropTypes.string,
+        to: PropTypes.string,
+      }),
       examPlace: PropTypes.string,
       licenseNumber: PropTypes.string,
       validity: PropTypes.string,

@@ -117,7 +117,6 @@ function* updateApplicantApplicationStatus({
 }
 
 function* fetchEndorsedApplicants({ payload: vppId }) {
-  console.log(vppId)
   try {
     const response = yield call(getEndorsedApplicants, vppId)
     yield put(fetchEndorsedApplicantsSuccess(response))

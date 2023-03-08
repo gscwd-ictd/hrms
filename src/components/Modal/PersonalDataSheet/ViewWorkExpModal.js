@@ -66,7 +66,7 @@ const ViewWorkExpModal = props => {
             </Col>
             <Col md={4} className="mt-3">
               <OutlinedBox
-                label={"Goverment Service"}
+                label={"Government Service"}
                 value={modalData.isGovernmentService ? "Yes" : "No"}
               />
             </Col>

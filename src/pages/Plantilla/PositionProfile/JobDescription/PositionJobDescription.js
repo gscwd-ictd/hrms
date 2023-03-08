@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react"
 import PropTypes from "prop-types"
 import { isEmpty } from "lodash"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import {
@@ -194,92 +196,96 @@ const PositionJobDescription = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <div className="container-fluid">
-          {/* Notifications */}
-          {errorJobDescription ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorJobDescription}
-            />
-          ) : null}
-          {pdError ? (
-            <ToastrNotification toastType={"error"} notifMessage={pdError} />
-          ) : null}
-          {errorSalaryGradeStepIncrement ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorSalaryGradeStepIncrement}
-            />
-          ) : null}
-          {errorOfc ? (
-            <ToastrNotification toastType={"error"} notifMessage={errorOfc} />
-          ) : null}
-          {errorDept ? (
-            <ToastrNotification toastType={"error"} notifMessage={errorDept} />
-          ) : null}
-          {errorDiv ? (
-            <ToastrNotification toastType={"error"} notifMessage={errorDiv} />
-          ) : null}
-
-          {!isEmpty(responseUpdateJobDescription) ? (
-            <ToastrNotification
-              toastType={"success"}
-              notifMessage={"Position job description successfully updated"}
-            />
-          ) : null}
-
-          {pdIsLoading ? (
-            <LoadingIndicator />
-          ) : (
-            <>
-              <Breadcrumbs
-                title={positionDetails.itemNumber}
-                titleUrl={`/plantilla/${props.match.params.id}`}
-                breadcrumbItem="Job Description"
-                positionTitle={positionDetails.positionTitle}
+      <Can I="access" this="Plantilla">
+        <div className="page-content">
+          <div className="container-fluid">
+            {/* Notifications */}
+            {errorJobDescription ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorJobDescription}
               />
-              <Container fluid={true}>
-                <Row>
-                  <Col>
-                    <Card>
-                      <CardBody>
-                        <Row>
-                          <Col
-                            style={{
-                              display: "flex",
-                              justifyContent: "flex-end",
-                            }}
-                          >
-                            <div className="form-check form-switch form-switch-lg mb-3">
-                              <input
-                                type="checkbox"
-                                className="form-check-input"
-                                id="editSwitch"
-                                onClick={e => editSwitch(e)}
-                              />
-                              <label
-                                className="form-check-label"
-                                htmlFor="editSwitch"
-                              >
-                                Edit
-                              </label>
-                            </div>
-                          </Col>
-                        </Row>
+            ) : null}
+            {pdError ? (
+              <ToastrNotification toastType={"error"} notifMessage={pdError} />
+            ) : null}
+            {errorSalaryGradeStepIncrement ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorSalaryGradeStepIncrement}
+              />
+            ) : null}
+            {errorOfc ? (
+              <ToastrNotification toastType={"error"} notifMessage={errorOfc} />
+            ) : null}
+            {errorDept ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorDept}
+              />
+            ) : null}
+            {errorDiv ? (
+              <ToastrNotification toastType={"error"} notifMessage={errorDiv} />
+            ) : null}
 
-                        {loadingJobDescription ? (
-                          <LoadingIndicator />
-                        ) : isEditable ? (
-                          <Form onSubmit={updatePlantillaPosition}>
-                            <Row>
-                              {/* Item No */}
-                              <Col sm={6}>
-                                <FormGroup>
-                                  <Label for="formrow-itemnumber-Input">
-                                    Item No
-                                  </Label>
-                                  {/* <Input
+            {!isEmpty(responseUpdateJobDescription) ? (
+              <ToastrNotification
+                toastType={"success"}
+                notifMessage={"Position job description successfully updated"}
+              />
+            ) : null}
+
+            {pdIsLoading ? (
+              <LoadingIndicator />
+            ) : (
+              <>
+                <Breadcrumbs
+                  title={positionDetails.itemNumber}
+                  titleUrl={`/plantilla/${props.match.params.id}`}
+                  breadcrumbItem="Job Description"
+                  positionTitle={positionDetails.positionTitle}
+                />
+                <Container fluid={true}>
+                  <Row>
+                    <Col>
+                      <Card>
+                        <CardBody>
+                          <Row>
+                            <Col
+                              style={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                              }}
+                            >
+                              <div className="form-check form-switch form-switch-lg mb-3">
+                                <input
+                                  type="checkbox"
+                                  className="form-check-input"
+                                  id="editSwitch"
+                                  onClick={e => editSwitch(e)}
+                                />
+                                <label
+                                  className="form-check-label"
+                                  htmlFor="editSwitch"
+                                >
+                                  Edit
+                                </label>
+                              </div>
+                            </Col>
+                          </Row>
+
+                          {loadingJobDescription ? (
+                            <LoadingIndicator />
+                          ) : isEditable ? (
+                            <Form onSubmit={updatePlantillaPosition}>
+                              <Row>
+                                {/* Item No */}
+                                <Col sm={6}>
+                                  <FormGroup>
+                                    <Label for="formrow-itemnumber-Input">
+                                      Item No
+                                    </Label>
+                                    {/* <Input
                                     type="text"
                                     className="form-control"
                                     name="itemNumber"
@@ -288,381 +294,392 @@ const PositionJobDescription = props => {
                                     required
                                   /> */}
 
-                                  <InputMask
-                                    name="itemNumber"
-                                    mask="aaa-aaa-999"
-                                    defaultValue={jobDescription.itemNumber}
-                                    className="form-control input-color"
-                                  ></InputMask>
-                                </FormGroup>
-                              </Col>
+                                    <InputMask
+                                      name="itemNumber"
+                                      mask="aaa-aaa-999"
+                                      defaultValue={jobDescription.itemNumber}
+                                      className="form-control input-color"
+                                    ></InputMask>
+                                  </FormGroup>
+                                </Col>
 
-                              {/* Position Title */}
-                              <Col sm={6}>
-                                <FormGroup>
-                                  <Label for="formrow-jobtitle-Input">
-                                    Position Title
-                                  </Label>
+                                {/* Position Title */}
+                                <Col sm={6}>
+                                  <FormGroup>
+                                    <Label for="formrow-jobtitle-Input">
+                                      Position Title
+                                    </Label>
 
-                                  <Input
-                                    type="text"
-                                    className="form-control"
-                                    id="formrow-jobtitle-Input"
-                                    name="positionTitle"
-                                    defaultValue={jobDescription.positionTitle}
-                                  />
-                                </FormGroup>
-                              </Col>
-
-                              {/* Assignment */}
-                              <Col md={6}>
-                                <FormGroup>
-                                  <legend className="col-form-label font-weight-bold col-sm-6">
-                                    Assignment:
-                                  </legend>
-                                  <div className="custom-control custom-control-inline">
-                                    <FormGroup check inline>
-                                      <Label check>
-                                        <Input
-                                          type="radio"
-                                          name="assignment"
-                                          value="office"
-                                          onChange={handleAssignment}
-                                          required
-                                        />{" "}
-                                        Office
-                                      </Label>
-                                    </FormGroup>
-
-                                    <FormGroup check inline>
-                                      <Label check>
-                                        <Input
-                                          type="radio"
-                                          name="assignment"
-                                          value="department"
-                                          onChange={handleAssignment}
-                                          required
-                                        />{" "}
-                                        Department
-                                      </Label>
-                                    </FormGroup>
-
-                                    <FormGroup check inline>
-                                      <Label check>
-                                        <Input
-                                          type="radio"
-                                          name="assignment"
-                                          value="division"
-                                          onChange={handleAssignment}
-                                          required
-                                        />{" "}
-                                        Division
-                                      </Label>
-                                    </FormGroup>
-                                  </div>
-                                </FormGroup>
-                              </Col>
-
-                              {/* Assigned To */}
-                              <Col md={6}>
-                                <FormGroup>
-                                  <Label for="formrow-assignedto">
-                                    Assigned to
-                                  </Label>
-                                  {isLoadingOfc &&
-                                  isLoadingDept &&
-                                  isLoadingDiv ? (
-                                    <Spinner
-                                      className="mx-2 radio-select-spinner"
-                                      color="secondary"
-                                    />
-                                  ) : (
-                                    <select
-                                      id="formrow-assignedto"
+                                    <Input
+                                      type="text"
                                       className="form-control"
-                                      name="directAssignment"
-                                      required
-                                    >
-                                      <option value="">Choose...</option>
-                                      {directAssignment === "office"
-                                        ? offices.map(office => (
-                                            <option
-                                              key={office._id}
-                                              value={office._id}
-                                            >
-                                              {office.code}
-                                              {" - "}
-                                              {office.name}
-                                            </option>
-                                          ))
-                                        : directAssignment === "department"
-                                        ? departments.map((department, i) => (
-                                            <option
-                                              key={department._id}
-                                              value={department._id}
-                                            >
-                                              {department.code}
-                                              {" - "}
-                                              {department.name}
-                                            </option>
-                                          ))
-                                        : directAssignment === "division"
-                                        ? divisions.map((division, i) => (
-                                            <option
-                                              key={division._id}
-                                              value={division._id}
-                                            >
-                                              {division.code}
-                                              {" - "}
-                                              {division.name}
-                                            </option>
-                                          ))
-                                        : null}
-                                    </select>
-                                  )}
-                                  <FormText>
-                                    <span className="text-danger">OFFICE:</span>{" "}
-                                    {assignedTo.office} |{" "}
-                                    <span className="text-danger">
-                                      DEPARTMENT:
-                                    </span>{" "}
-                                    {assignedTo.department} |{" "}
-                                    <span className="text-danger">
-                                      DIVISION:
-                                    </span>{" "}
-                                    {assignedTo.division}
-                                  </FormText>
-                                </FormGroup>
-                              </Col>
-
-                              {/* Salary Grade */}
-                              <Col md={4}>
-                                <FormGroup>
-                                  <Label for="formrow-salarygrade">
-                                    Salary Grade
-                                  </Label>
-                                  {loadingSalaryGradeStepIncrement ? (
-                                    <Spinner
-                                      className="mx-2 radio-select-spinner"
-                                      color="secondary"
+                                      id="formrow-jobtitle-Input"
+                                      name="positionTitle"
+                                      defaultValue={
+                                        jobDescription.positionTitle
+                                      }
                                     />
-                                  ) : (
-                                    <select
-                                      id="formrow-salarygrade"
-                                      className="form-control"
-                                      name="salaryGrade"
-                                      onChange={filterSG}
-                                      required
-                                    >
-                                      <option value="">Choose...</option>
-                                      {salaryGrades.map(sg => {
-                                        return (
-                                          <option key={sg} value={sg}>
-                                            {sg}
-                                          </option>
-                                        )
-                                      })}
-                                    </select>
-                                  )}
-                                  <FormText>
-                                    Current Salary Grade is{" "}
-                                    {jobDescription.salaryGrade}
-                                  </FormText>
-                                </FormGroup>
-                              </Col>
+                                  </FormGroup>
+                                </Col>
 
-                              {/* Step Increment */}
-                              <Col md={4}>
-                                <FormGroup>
-                                  <Label for="formrow-stepincrement">
-                                    Step Increment
-                                  </Label>
-                                  {loadingSalaryGradeStepIncrement ? (
-                                    <Spinner
-                                      className="mx-2 radio-select-spinner"
-                                      color="secondary"
+                                {/* Assignment */}
+                                <Col md={6}>
+                                  <FormGroup>
+                                    <legend className="col-form-label font-weight-bold col-sm-6">
+                                      Assignment:
+                                    </legend>
+                                    <div className="custom-control custom-control-inline">
+                                      <FormGroup check inline>
+                                        <Label check>
+                                          <Input
+                                            type="radio"
+                                            name="assignment"
+                                            value="office"
+                                            onChange={handleAssignment}
+                                            required
+                                          />{" "}
+                                          Office
+                                        </Label>
+                                      </FormGroup>
+
+                                      <FormGroup check inline>
+                                        <Label check>
+                                          <Input
+                                            type="radio"
+                                            name="assignment"
+                                            value="department"
+                                            onChange={handleAssignment}
+                                            required
+                                          />{" "}
+                                          Department
+                                        </Label>
+                                      </FormGroup>
+
+                                      <FormGroup check inline>
+                                        <Label check>
+                                          <Input
+                                            type="radio"
+                                            name="assignment"
+                                            value="division"
+                                            onChange={handleAssignment}
+                                            required
+                                          />{" "}
+                                          Division
+                                        </Label>
+                                      </FormGroup>
+                                    </div>
+                                  </FormGroup>
+                                </Col>
+
+                                {/* Assigned To */}
+                                <Col md={6}>
+                                  <FormGroup>
+                                    <Label for="formrow-assignedto">
+                                      Assigned to
+                                    </Label>
+                                    {isLoadingOfc &&
+                                    isLoadingDept &&
+                                    isLoadingDiv ? (
+                                      <Spinner
+                                        className="mx-2 radio-select-spinner"
+                                        color="secondary"
+                                      />
+                                    ) : (
+                                      <select
+                                        id="formrow-assignedto"
+                                        className="form-control"
+                                        name="directAssignment"
+                                        required
+                                      >
+                                        <option value="">Choose...</option>
+                                        {directAssignment === "office"
+                                          ? offices.map(office => (
+                                              <option
+                                                key={office._id}
+                                                value={office._id}
+                                              >
+                                                {office.code}
+                                                {" - "}
+                                                {office.name}
+                                              </option>
+                                            ))
+                                          : directAssignment === "department"
+                                          ? departments.map((department, i) => (
+                                              <option
+                                                key={department._id}
+                                                value={department._id}
+                                              >
+                                                {department.code}
+                                                {" - "}
+                                                {department.name}
+                                              </option>
+                                            ))
+                                          : directAssignment === "division"
+                                          ? divisions.map((division, i) => (
+                                              <option
+                                                key={division._id}
+                                                value={division._id}
+                                              >
+                                                {division.code}
+                                                {" - "}
+                                                {division.name}
+                                              </option>
+                                            ))
+                                          : null}
+                                      </select>
+                                    )}
+                                    <FormText>
+                                      <span className="text-danger">
+                                        OFFICE:
+                                      </span>{" "}
+                                      {assignedTo.office} |{" "}
+                                      <span className="text-danger">
+                                        DEPARTMENT:
+                                      </span>{" "}
+                                      {assignedTo.department} |{" "}
+                                      <span className="text-danger">
+                                        DIVISION:
+                                      </span>{" "}
+                                      {assignedTo.division}
+                                    </FormText>
+                                  </FormGroup>
+                                </Col>
+
+                                {/* Salary Grade */}
+                                <Col md={4}>
+                                  <FormGroup>
+                                    <Label for="formrow-salarygrade">
+                                      Salary Grade
+                                    </Label>
+                                    {loadingSalaryGradeStepIncrement ? (
+                                      <Spinner
+                                        className="mx-2 radio-select-spinner"
+                                        color="secondary"
+                                      />
+                                    ) : (
+                                      <select
+                                        id="formrow-salarygrade"
+                                        className="form-control"
+                                        name="salaryGrade"
+                                        onChange={filterSG}
+                                        required
+                                      >
+                                        <option value="">Choose...</option>
+                                        {salaryGrades.map(sg => {
+                                          return (
+                                            <option key={sg} value={sg}>
+                                              {sg}
+                                            </option>
+                                          )
+                                        })}
+                                      </select>
+                                    )}
+                                    <FormText>
+                                      Current Salary Grade is{" "}
+                                      {jobDescription.salaryGrade}
+                                    </FormText>
+                                  </FormGroup>
+                                </Col>
+
+                                {/* Step Increment */}
+                                <Col md={4}>
+                                  <FormGroup>
+                                    <Label for="formrow-stepincrement">
+                                      Step Increment
+                                    </Label>
+                                    {loadingSalaryGradeStepIncrement ? (
+                                      <Spinner
+                                        className="mx-2 radio-select-spinner"
+                                        color="secondary"
+                                      />
+                                    ) : (
+                                      <select
+                                        id="formrow-stepincrement"
+                                        className="form-control"
+                                        name="stepIncrement"
+                                        onChange={filterSI}
+                                        required
+                                      >
+                                        <option value="">Choose...</option>
+                                        {filteredStepIncrements.map(sg => {
+                                          let optionVal = {
+                                            _id: sg._id,
+                                            amount: sg.amount,
+                                          }
+                                          return (
+                                            <option
+                                              key={sg._id}
+                                              value={JSON.stringify(optionVal)}
+                                            >
+                                              {sg.stepIncrement}
+                                            </option>
+                                          )
+                                        })}
+                                      </select>
+                                    )}
+                                    <FormText>
+                                      Current Step Increment is{" "}
+                                      {jobDescription.stepIncrement}
+                                    </FormText>
+                                  </FormGroup>
+                                </Col>
+
+                                {/* Authorized Salary */}
+                                <Col md={4}>
+                                  <FormGroup>
+                                    <Label for="authsalary-input">
+                                      Authorized Salary
+                                    </Label>
+                                    <Input
+                                      type="number"
+                                      className="form-control"
+                                      name="authSalary"
+                                      id="authsalary-input"
+                                      required
+                                      readOnly
                                     />
-                                  ) : (
-                                    <select
-                                      id="formrow-stepincrement"
+                                  </FormGroup>
+                                </Col>
+
+                                {/* Job Summary */}
+                                <Col sm={12}>
+                                  <FormGroup>
+                                    <Label for="formrow-desc-Input">
+                                      Decribe briefly the general function of
+                                      the position (Job Summary)
+                                    </Label>
+                                    <Input
+                                      type="textarea"
                                       className="form-control"
-                                      name="stepIncrement"
-                                      onChange={filterSI}
-                                      required
-                                    >
-                                      <option value="">Choose...</option>
-                                      {filteredStepIncrements.map(sg => {
-                                        let optionVal = {
-                                          _id: sg._id,
-                                          amount: sg.amount,
-                                        }
-                                        return (
-                                          <option
-                                            key={sg._id}
-                                            value={JSON.stringify(optionVal)}
-                                          >
-                                            {sg.stepIncrement}
-                                          </option>
-                                        )
-                                      })}
-                                    </select>
-                                  )}
-                                  <FormText>
-                                    Current Step Increment is{" "}
-                                    {jobDescription.stepIncrement}
-                                  </FormText>
-                                </FormGroup>
-                              </Col>
+                                      id="formrow-desc-Input"
+                                      name="positionSummary"
+                                      defaultValue={jobDescription.summary}
+                                    />
+                                  </FormGroup>
+                                </Col>
+                              </Row>
 
-                              {/* Authorized Salary */}
-                              <Col md={4}>
-                                <FormGroup>
-                                  <Label for="authsalary-input">
-                                    Authorized Salary
-                                  </Label>
-                                  <Input
-                                    type="number"
-                                    className="form-control"
-                                    name="authSalary"
-                                    id="authsalary-input"
-                                    required
-                                    readOnly
-                                  />
-                                </FormGroup>
-                              </Col>
-
-                              {/* Job Summary */}
-                              <Col sm={12}>
-                                <FormGroup>
-                                  <Label for="formrow-desc-Input">
-                                    Decribe briefly the general function of the
-                                    position (Job Summary)
-                                  </Label>
-                                  <Input
-                                    type="textarea"
-                                    className="form-control"
-                                    id="formrow-desc-Input"
-                                    name="positionSummary"
-                                    defaultValue={jobDescription.summary}
-                                  />
-                                </FormGroup>
-                              </Col>
-                            </Row>
-
-                            <Row>
-                              <Col
-                                sm={12}
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "flex-end",
-                                }}
-                              >
-                                <button
-                                  type="submit"
-                                  className="btn btn-primary w-md"
+                              <Row>
+                                <Col
+                                  sm={12}
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                  }}
                                 >
-                                  Submit
-                                </button>
+                                  <button
+                                    type="submit"
+                                    className="btn btn-primary w-md"
+                                  >
+                                    Submit
+                                  </button>
+                                </Col>
+                              </Row>
+                            </Form>
+                          ) : (
+                            <Row>
+                              <Col sm={4}>
+                                <OutlinedBox
+                                  label={"Item No"}
+                                  value={jobDescription.itemNumber || "N/A"}
+                                />
+                              </Col>
+
+                              <Col sm={4}>
+                                <OutlinedBox
+                                  label={"Position Title"}
+                                  value={jobDescription.positionTitle || "N/A"}
+                                />
+                              </Col>
+
+                              <Col sm={2}>
+                                <OutlinedBox
+                                  label={"Salary Grade"}
+                                  value={jobDescription.salaryGrade || "N/A"}
+                                />
+                              </Col>
+
+                              <Col sm={2}>
+                                <OutlinedBox
+                                  label={"Step Increment"}
+                                  value={jobDescription.stepIncrement || "N/A"}
+                                />
+                              </Col>
+
+                              <Col sm={4} className="mt-4">
+                                <OutlinedBox
+                                  label={"Office"}
+                                  value={assignedTo.office || "N/A"}
+                                />
+                              </Col>
+
+                              <Col sm={4} className="mt-4">
+                                <OutlinedBox
+                                  label={"Department"}
+                                  value={assignedTo.department || "N/A"}
+                                />
+                              </Col>
+
+                              <Col sm={4} className="mt-4">
+                                <OutlinedBox
+                                  label={"Division"}
+                                  value={assignedTo.division || "N/A"}
+                                />
+                              </Col>
+
+                              <Col sm={4} className="mt-4">
+                                <OutlinedBox
+                                  label={"Reports To"}
+                                  value={jobDescription.reportsTo || "N/A"}
+                                />
+                              </Col>
+
+                              <Col sm={4} className="mt-4">
+                                <OutlinedBox
+                                  label={"Nature of Appointment"}
+                                  value={
+                                    capitalizeFirstLetter(
+                                      jobDescription.natureOfAppointment
+                                    ) || "N/A"
+                                  }
+                                />
+                              </Col>
+
+                              <Col sm={12} className="mt-4">
+                                <OutlinedBox
+                                  label={
+                                    "Decribe briefly the general function of the position (Job Summary)"
+                                  }
+                                  value={jobDescription.summary || "N/A"}
+                                />
+                              </Col>
+
+                              <Col sm={12} className="mt-4">
+                                <OutlinedBox
+                                  label={
+                                    "Decribe briefly the general function of Office/Department/Division"
+                                  }
+                                  value={jobDescription.description || "N/A"}
+                                />
                               </Col>
                             </Row>
-                          </Form>
-                        ) : (
-                          <Row>
-                            <Col sm={4}>
-                              <OutlinedBox
-                                label={"Item No"}
-                                value={jobDescription.itemNumber || "N/A"}
-                              />
-                            </Col>
-
-                            <Col sm={4}>
-                              <OutlinedBox
-                                label={"Position Title"}
-                                value={jobDescription.positionTitle || "N/A"}
-                              />
-                            </Col>
-
-                            <Col sm={2}>
-                              <OutlinedBox
-                                label={"Salary Grade"}
-                                value={jobDescription.salaryGrade || "N/A"}
-                              />
-                            </Col>
-
-                            <Col sm={2}>
-                              <OutlinedBox
-                                label={"Step Increment"}
-                                value={jobDescription.stepIncrement || "N/A"}
-                              />
-                            </Col>
-
-                            <Col sm={4} className="mt-4">
-                              <OutlinedBox
-                                label={"Office"}
-                                value={assignedTo.office || "N/A"}
-                              />
-                            </Col>
-
-                            <Col sm={4} className="mt-4">
-                              <OutlinedBox
-                                label={"Department"}
-                                value={assignedTo.department || "N/A"}
-                              />
-                            </Col>
-
-                            <Col sm={4} className="mt-4">
-                              <OutlinedBox
-                                label={"Division"}
-                                value={assignedTo.division || "N/A"}
-                              />
-                            </Col>
-
-                            <Col sm={4} className="mt-4">
-                              <OutlinedBox
-                                label={"Reports To"}
-                                value={jobDescription.reportsTo || "N/A"}
-                              />
-                            </Col>
-
-                            <Col sm={4} className="mt-4">
-                              <OutlinedBox
-                                label={"Nature of Appointment"}
-                                value={
-                                  capitalizeFirstLetter(
-                                    jobDescription.natureOfAppointment
-                                  ) || "N/A"
-                                }
-                              />
-                            </Col>
-
-                            <Col sm={12} className="mt-4">
-                              <OutlinedBox
-                                label={
-                                  "Decribe briefly the general function of the position (Job Summary)"
-                                }
-                                value={jobDescription.summary || "N/A"}
-                              />
-                            </Col>
-
-                            <Col sm={12} className="mt-4">
-                              <OutlinedBox
-                                label={
-                                  "Decribe briefly the general function of Office/Department/Division"
-                                }
-                                value={jobDescription.description || "N/A"}
-                              />
-                            </Col>
-                          </Row>
-                        )}
-                      </CardBody>
-                    </Card>
-                  </Col>
-                </Row>
-              </Container>
-            </>
-          )}
+                          )}
+                        </CardBody>
+                      </Card>
+                    </Col>
+                  </Row>
+                </Container>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      </Can>
+
+      <Can not I="access" this="Plantilla">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }

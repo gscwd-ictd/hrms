@@ -204,7 +204,7 @@ const PdDocument = props => {
     return content
   }
 
-  const renderCrossCuttinglCompetencies = () => {
+  const renderCrossCuttingCompetencies = () => {
     var content = proficiencyLevel.crossCutting.map((competency, index) => (
       <View style={[styles.rowContainerTable, styles.borderTop]} key={index}>
         <View style={[styles.w60, styles.tData, styles.borderRight]}>
@@ -648,7 +648,7 @@ const PdDocument = props => {
 
                 {/* Table Body */}
                 {renderFunctionalCompetencies()}
-                {renderCrossCuttinglCompetencies()}
+                {renderCrossCuttingCompetencies()}
                 {renderManagerialCompetencies()}
               </View>
             </View>
@@ -687,7 +687,10 @@ const PdDocument = props => {
               </View>
 
               {/* Row 2  */}
-              <View style={[styles.rowContainer, { marginTop: 20 }]}>
+              <View
+                style={[styles.rowContainer, { marginTop: 20 }]}
+                wrap={false}
+              >
                 {/* CERTIFIED CORRECT BY */}
                 <View style={[styles.w50]}>
                   <Text>Certified correct by:</Text>

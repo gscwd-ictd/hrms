@@ -1,18 +1,15 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Card, CardBody, Col, Container, Row } from "reactstrap"
 import { fetchOGPositions, fetchOccupation } from "store/actions"
 import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
 
-// modal components
+import { Card, CardBody, Col, Container, Row } from "reactstrap"
 import InRowAction from "components/InRowAction/InRowAction"
 import EditPositionProficiencyLevelModal from "components/Modal/Competency/EditPositionProficiencyLevelModal"
 import EditPositionFunctionalCompetenciesModal from "components/Modal/Competency/EditPositionFunctionalCompetenciesModal"
-
-// table components
 import TableOccupationalGroup from "components/Table/TableOccupationalGroup"
-
-// extra components
 import Breadcrumbs from "components/Common/Breadcrumb"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
@@ -120,56 +117,69 @@ const PositionsInOccupation = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <div className="container-fluid">
-          <Breadcrumbs
-            title="Competency"
-            titleUrl="/competency"
-            breadcrumbItem={occupationDetails.occupationName}
-          />
-
-          {errorOGPositions ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorOGPositions}
+      <Can I="access" this="Competency">
+        <div className="page-content">
+          <div className="container-fluid">
+            <Breadcrumbs
+              title="Competency"
+              titleUrl="/competency"
+              breadcrumbItem={occupationDetails.occupationName}
             />
-          ) : null}
 
-          <Container fluid={true}>
-            <Row>
-              <Col>
-                <Card className="card-table">
-                  <CardBody>
-                    {loadingOGPositions ? (
-                      <LoadingIndicator />
-                    ) : (
-                      <TableOccupationalGroup columns={columns} data={data} hideDeleteBtn={hideDeleteBtn} />
-                    )}
+            {errorOGPositions ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorOGPositions}
+              />
+            ) : null}
 
-                    <EditPositionFunctionalCompetenciesModal
-                      showEdt={showFuncCompetencyEdt}
-                      handleCloseEdt={handleCloseFuncCompetencyEdt}
-                      modalData={modalData}
-                    />
+            <Container fluid={true}>
+              <Row>
+                <Col>
+                  <Card className="card-table">
+                    <CardBody>
+                      {loadingOGPositions ? (
+                        <LoadingIndicator />
+                      ) : (
+                        <TableOccupationalGroup
+                          columns={columns}
+                          data={data}
+                          hideDeleteBtn={hideDeleteBtn}
+                        />
+                      )}
 
-                    <EditPositionProficiencyLevelModal
-                      showEdt={showProficiencyLvlEdt}
-                      handleCloseEdt={handleCloseProficiencyLvlEdt}
-                      modalData={modalData}
-                    />
-                  </CardBody>
-                </Card>
-              </Col>
-            </Row>
-          </Container>
+                      <EditPositionFunctionalCompetenciesModal
+                        showEdt={showFuncCompetencyEdt}
+                        handleCloseEdt={handleCloseFuncCompetencyEdt}
+                        modalData={modalData}
+                      />
+
+                      <EditPositionProficiencyLevelModal
+                        showEdt={showProficiencyLvlEdt}
+                        handleCloseEdt={handleCloseProficiencyLvlEdt}
+                        modalData={modalData}
+                      />
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+            </Container>
+          </div>
         </div>
-      </div>
+      </Can>
+
+      <Can not I="access" this="Competency">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }
 
 PositionsInOccupation.propTypes = {
   match: PropTypes.object,
+  location: PropTypes.object,
 }
 
 export default PositionsInOccupation

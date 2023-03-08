@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useEffect, useMemo } from "react"
 import dayjs from "dayjs"
-import PropTypes from "prop-types"
-
 import { useDispatch, useSelector } from "react-redux"
 import { getPRFList } from "store/prf/actions"
+import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
 
 import { Card, CardBody, Col, Row, Badge } from "reactstrap"
 import Breadcrumbs from "components/Common/Breadcrumb"
@@ -130,32 +131,40 @@ const PrfList = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <div className="container-fluid">
-          <Breadcrumbs breadcrumbItem="Position Request List" />
+      <Can I="access" this="Prf_list">
+        <div className="page-content">
+          <div className="container-fluid">
+            <Breadcrumbs breadcrumbItem="Position Request List" />
 
-          {/* Notifications */}
-          {errorPrf ? (
-            <ToastrNotification toastType={"error"} notifMessage={errorPrf} />
-          ) : null}
+            {/* Notifications */}
+            {errorPrf ? (
+              <ToastrNotification toastType={"error"} notifMessage={errorPrf} />
+            ) : null}
 
-          <Row>
-            <Col className="col-12">
-              <Card>
-                <CardBody className="card-table">
-                  {loadingPrf ? (
-                    <LoadingIndicator />
-                  ) : (
-                    <>
-                      <TablePrfList columns={columns} data={data} />
-                    </>
-                  )}
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
+            <Row>
+              <Col className="col-12">
+                <Card>
+                  <CardBody className="card-table">
+                    {loadingPrf ? (
+                      <LoadingIndicator />
+                    ) : (
+                      <>
+                        <TablePrfList columns={columns} data={data} />
+                      </>
+                    )}
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </div>
         </div>
-      </div>
+      </Can>
+
+      <Can not I="access" this="Prf_list">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }

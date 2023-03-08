@@ -1,16 +1,4 @@
 import React, { useEffect, useState, useMemo } from "react"
-import {
-  Button,
-  Card,
-  CardBody,
-  Col,
-  Container,
-  Label,
-  Row,
-  Spinner,
-  Input,
-} from "reactstrap"
-import Select from "react-select"
 import { useDispatch, useSelector } from "react-redux"
 import {
   fetchOGCompetencies,
@@ -22,11 +10,23 @@ import {
   unselectCompetencyCheckBox,
   resetCompetencyCheckBoxes,
 } from "store/actions"
-import PropTypes from "prop-types"
 import { isEmpty } from "lodash"
-import TableOccupationCompetencyPool from "components/Table/TableOccupationCompetencyPool"
+import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
 
-// extra components
+import {
+  Button,
+  Card,
+  CardBody,
+  Col,
+  Container,
+  Row,
+  Spinner,
+  Input,
+} from "reactstrap"
+import Select from "react-select"
+import TableOccupationCompetencyPool from "components/Table/TableOccupationCompetencyPool"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
@@ -202,100 +202,108 @@ const CompetenciesInOccupation = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <Container fluid={true}>
-          <Breadcrumbs
-            title="Competency"
-            titleUrl="/competency"
-            breadcrumbItem={occupationName}
-          />
+      <Can I="access" this="Competency">
+        <div className="page-content">
+          <Container fluid={true}>
+            <Breadcrumbs
+              title="Competency"
+              titleUrl="/competency"
+              breadcrumbItem={occupationName}
+            />
 
-          {/* Error Notif */}
-          {errorOccupationCompetencies ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorOccupationCompetencies}
-            />
-          ) : null}
-          {errorAvailableFunctionalCompetencies ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorAvailableFunctionalCompetencies}
-            />
-          ) : null}
-          {assignCompetenciesError ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={assignCompetenciesError}
-            />
-          ) : null}
+            {/* Error Notif */}
+            {errorOccupationCompetencies ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorOccupationCompetencies}
+              />
+            ) : null}
+            {errorAvailableFunctionalCompetencies ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorAvailableFunctionalCompetencies}
+              />
+            ) : null}
+            {assignCompetenciesError ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={assignCompetenciesError}
+              />
+            ) : null}
 
-          {/* Success Notif */}
-          {!isEmpty(assignedCompetencies) ? (
-            <ToastrNotification
-              toastType={"success"}
-              notifMessage={"Competencies successfully assigned"}
-            />
-          ) : null}
-          {!isEmpty(unassignedCompetencies) ? (
-            <ToastrNotification
-              toastType={"success"}
-              notifMessage={"Competencies successfully unassigned"}
-            />
-          ) : null}
+            {/* Success Notif */}
+            {!isEmpty(assignedCompetencies) ? (
+              <ToastrNotification
+                toastType={"success"}
+                notifMessage={"Competencies successfully assigned"}
+              />
+            ) : null}
+            {!isEmpty(unassignedCompetencies) ? (
+              <ToastrNotification
+                toastType={"success"}
+                notifMessage={"Competencies successfully unassigned"}
+              />
+            ) : null}
 
-          <Row>
-            <Col lg={12}>
-              <Card>
-                <CardBody className="card-table">
-                  {loadingOccupationCompetencies ||
-                  assignCompetenciesLoading ? (
-                    <LoadingIndicator />
-                  ) : (
-                    <>
-                      <div className="multi-select-top-right-actions">
-                        <Row className="justify-content-end">
-                          {loadingAvailableFunctionalCompetencies ? (
-                            <Spinner className="ms-2" color="secondary" />
-                          ) : null}
-                          <Col md={8}>
-                            <Select
-                              isMulti={true}
-                              onChange={e => {
-                                handleMultiSelect(e)
-                              }}
-                              name="select-functional-competencies"
-                              options={availableFunctionalCompetencies}
-                            />
-                          </Col>
-                          <Col md={2}>
-                            <Button
-                              className="btn btn-info w-100"
-                              onClick={() => handleAssignCompetencies()}
-                              disabled={isEmpty(
-                                availableFunctionalCompetencies
-                              )}
-                            >
-                              Assign
-                            </Button>
-                          </Col>
-                        </Row>
-                      </div>
+            <Row>
+              <Col lg={12}>
+                <Card>
+                  <CardBody className="card-table">
+                    {loadingOccupationCompetencies ||
+                    assignCompetenciesLoading ? (
+                      <LoadingIndicator />
+                    ) : (
+                      <>
+                        <div className="multi-select-top-right-actions">
+                          <Row className="justify-content-end">
+                            {loadingAvailableFunctionalCompetencies ? (
+                              <Spinner className="ms-2" color="secondary" />
+                            ) : null}
+                            <Col md={8}>
+                              <Select
+                                isMulti={true}
+                                onChange={e => {
+                                  handleMultiSelect(e)
+                                }}
+                                name="select-functional-competencies"
+                                options={availableFunctionalCompetencies}
+                              />
+                            </Col>
+                            <Col md={2}>
+                              <Button
+                                className="btn btn-info w-100"
+                                onClick={() => handleAssignCompetencies()}
+                                disabled={isEmpty(
+                                  availableFunctionalCompetencies
+                                )}
+                              >
+                                Assign
+                              </Button>
+                            </Col>
+                          </Row>
+                        </div>
 
-                      <TableOccupationCompetencyPool
-                        columns={columns}
-                        data={data}
-                        handleDeleteRows={handleDeleteRows}
-                        disableDeleteBtn={disableDeleteBtn}
-                      />
-                    </>
-                  )}
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </div>
+                        <TableOccupationCompetencyPool
+                          columns={columns}
+                          data={data}
+                          handleDeleteRows={handleDeleteRows}
+                          disableDeleteBtn={disableDeleteBtn}
+                        />
+                      </>
+                    )}
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      </Can>
+
+      <Can not I="access" this="Competency">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }
@@ -303,6 +311,7 @@ const CompetenciesInOccupation = props => {
 CompetenciesInOccupation.propTypes = {
   cell: PropTypes.any,
   match: PropTypes.object,
+  location: PropTypes.object,
 }
 
 export default CompetenciesInOccupation

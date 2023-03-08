@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react"
 import PropTypes from "prop-types"
 import { isEmpty } from "lodash"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { fetchPositionDuties, fetchPlantillaPosition } from "store/actions"
@@ -86,125 +88,133 @@ const PositionDutiesResponsibilities = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <div className="container-fluid">
-          {/* Notifications */}
-          {errorPositionDuties ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorPositionDuties}
-            />
-          ) : null}
-          {pdError ? (
-            <ToastrNotification toastType={"error"} notifMessage={pdError} />
-          ) : null}
-
-          {loadingPositionDuties && pdIsLoading ? (
-            <LoadingIndicator />
-          ) : (
-            <>
-              <Breadcrumbs
-                title={positionDetails.itemNumber}
-                titleUrl={`/plantilla/${props.match.params.id}`}
-                breadcrumbItem="Duties and Responsibilities"
-                positionTitle={positionDetails.positionTitle}
+      <Can I="access" this="Plantilla">
+        <div className="page-content">
+          <div className="container-fluid">
+            {/* Notifications */}
+            {errorPositionDuties ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorPositionDuties}
               />
+            ) : null}
+            {pdError ? (
+              <ToastrNotification toastType={"error"} notifMessage={pdError} />
+            ) : null}
 
-              <Container fluid={true}>
-                <Row>
-                  <Col className="col-6">
-                    <Card>
-                      <CardBody>
-                        <CardTitle>Core Functions</CardTitle>
-                        <CardSubtitle className="mb-3">
-                          {corePercentage}% out of 100% allocated
-                        </CardSubtitle>
+            {loadingPositionDuties && pdIsLoading ? (
+              <LoadingIndicator />
+            ) : (
+              <>
+                <Breadcrumbs
+                  title={positionDetails.itemNumber}
+                  titleUrl={`/plantilla/${props.match.params.id}`}
+                  breadcrumbItem="Duties and Responsibilities"
+                  positionTitle={positionDetails.positionTitle}
+                />
 
-                        <div className="table-responsive">
-                          <Table className="table mb-0">
-                            <thead className="thead-light">
-                              <tr>
-                                <th>Percentage</th>
-                                <th>Duty Description</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {!isEmpty(
-                                positionDutyResponsibilities.duties.core
-                              ) ? (
-                                positionDutyResponsibilities.duties.core.map(
-                                  (duty, i) => {
-                                    return (
-                                      <tr key={i}>
-                                        <td>{duty.percentage}%</td>
-                                        <td>{duty.description}</td>
-                                      </tr>
-                                    )
-                                  }
-                                )
-                              ) : (
+                <Container fluid={true}>
+                  <Row>
+                    <Col className="col-6">
+                      <Card>
+                        <CardBody>
+                          <CardTitle>Core Functions</CardTitle>
+                          <CardSubtitle className="mb-3">
+                            {corePercentage}% out of 100% allocated
+                          </CardSubtitle>
+
+                          <div className="table-responsive">
+                            <Table className="table mb-0">
+                              <thead className="thead-light">
                                 <tr>
-                                  <td colSpan="2" className="ta-center">
-                                    No Duties Assigned
-                                  </td>
+                                  <th>Percentage</th>
+                                  <th>Duty Description</th>
                                 </tr>
-                              )}
-                            </tbody>
-                          </Table>
-                        </div>
-                      </CardBody>
-                    </Card>
-                  </Col>
+                              </thead>
+                              <tbody>
+                                {!isEmpty(
+                                  positionDutyResponsibilities.duties.core
+                                ) ? (
+                                  positionDutyResponsibilities.duties.core.map(
+                                    (duty, i) => {
+                                      return (
+                                        <tr key={i}>
+                                          <td>{duty.percentage}%</td>
+                                          <td>{duty.description}</td>
+                                        </tr>
+                                      )
+                                    }
+                                  )
+                                ) : (
+                                  <tr>
+                                    <td colSpan="2" className="ta-center">
+                                      No Duties Assigned
+                                    </td>
+                                  </tr>
+                                )}
+                              </tbody>
+                            </Table>
+                          </div>
+                        </CardBody>
+                      </Card>
+                    </Col>
 
-                  <Col className="col-6">
-                    <Card>
-                      <CardBody>
-                        <CardTitle>Support Functions</CardTitle>
-                        <CardSubtitle className="mb-3">
-                          {supportPercentage}% out of 100% allocated
-                        </CardSubtitle>
+                    <Col className="col-6">
+                      <Card>
+                        <CardBody>
+                          <CardTitle>Support Functions</CardTitle>
+                          <CardSubtitle className="mb-3">
+                            {supportPercentage}% out of 100% allocated
+                          </CardSubtitle>
 
-                        <div className="table-responsive">
-                          <Table className="table mb-0">
-                            <thead className="thead-light">
-                              <tr>
-                                <th>Percentage</th>
-                                <th>Duty Description</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {!isEmpty(
-                                positionDutyResponsibilities.duties.support
-                              ) ? (
-                                positionDutyResponsibilities.duties.support.map(
-                                  (duty, i) => {
-                                    return (
-                                      <tr key={i}>
-                                        <td>{duty.percentage}%</td>
-                                        <td>{duty.description}</td>
-                                      </tr>
-                                    )
-                                  }
-                                )
-                              ) : (
+                          <div className="table-responsive">
+                            <Table className="table mb-0">
+                              <thead className="thead-light">
                                 <tr>
-                                  <td colSpan="2" className="ta-center">
-                                    No Duties Assigned
-                                  </td>
+                                  <th>Percentage</th>
+                                  <th>Duty Description</th>
                                 </tr>
-                              )}
-                            </tbody>
-                          </Table>
-                        </div>
-                      </CardBody>
-                    </Card>
-                  </Col>
-                </Row>
-              </Container>
-            </>
-          )}
+                              </thead>
+                              <tbody>
+                                {!isEmpty(
+                                  positionDutyResponsibilities.duties.support
+                                ) ? (
+                                  positionDutyResponsibilities.duties.support.map(
+                                    (duty, i) => {
+                                      return (
+                                        <tr key={i}>
+                                          <td>{duty.percentage}%</td>
+                                          <td>{duty.description}</td>
+                                        </tr>
+                                      )
+                                    }
+                                  )
+                                ) : (
+                                  <tr>
+                                    <td colSpan="2" className="ta-center">
+                                      No Duties Assigned
+                                    </td>
+                                  </tr>
+                                )}
+                              </tbody>
+                            </Table>
+                          </div>
+                        </CardBody>
+                      </Card>
+                    </Col>
+                  </Row>
+                </Container>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      </Can>
+
+      <Can not I="access" this="Plantilla">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }

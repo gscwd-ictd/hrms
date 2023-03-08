@@ -127,11 +127,22 @@ Font.register({
 Font.registerHyphenationCallback(word => [word])
 
 const QuestionsPdf = props => {
-  const { otherInfo, formatDate } = props
-  const [emptyReferenceRows, setemptyReferenceRows] = useState(3)
+  const {
+    officeRelation,
+    guiltyCharged,
+    convicted,
+    separatedService,
+    candidateResigned,
+    immigrant,
+    indigenousPwdSoloParent,
+    references,
+    governmentIssuedId,
+    formatDate,
+  } = props
+  const [emptyReferenceRows, setEmptyReferenceRows] = useState(3)
 
   const renderReferenceRows = () => {
-    var content = otherInfo.references.slice(0, 3).map((reference, index) => (
+    var content = references.slice(0, 3).map((reference, index) => (
       <View style={[styles.borderTop, { flexDirection: "row" }]} key={index}>
         <View
           style={[
@@ -170,7 +181,7 @@ const QuestionsPdf = props => {
 
   const renderEmptyReferenceRows = () => {
     let content = []
-    const rowToRender = emptyReferenceRows - otherInfo.references.length
+    const rowToRender = emptyReferenceRows - references.length
 
     for (let i = 0; i < rowToRender; i++) {
       content.push(
@@ -226,7 +237,7 @@ const QuestionsPdf = props => {
                 Are you related by consanguinity or affinity to the appointing
                 or recommending authority, or to the chief of bureau or office
                 or to the person who has immediate supervision over you in the
-                Office, Bureau or Department where you will be apppointed,
+                Office, Bureau or Department where you will be appointed,
               </Text>
               <Text style={{ paddingTop: 5 }}>a. within the third degree?</Text>
               <Text style={{ paddingTop: 7 }}>
@@ -242,7 +253,7 @@ const QuestionsPdf = props => {
           {/* a. */}
           <View style={[styles.rowContainer, styles.inputAnswers]}>
             <View style={{ flexDirection: "row" }}>
-              {otherInfo.supportingDetails.officeRelation.withinThirdDegree ? (
+              {officeRelation.withinThirdDegree ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -261,7 +272,7 @@ const QuestionsPdf = props => {
             </View>
 
             <View style={{ flexDirection: "row", paddingLeft: 22 }}>
-              {!otherInfo.supportingDetails.officeRelation.withinThirdDegree ? (
+              {!officeRelation.withinThirdDegree ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -289,7 +300,7 @@ const QuestionsPdf = props => {
             ]}
           >
             <View style={{ flexDirection: "row" }}>
-              {otherInfo.supportingDetails.officeRelation.withinFourthDegree ? (
+              {officeRelation.withinFourthDegree ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -308,7 +319,7 @@ const QuestionsPdf = props => {
             </View>
 
             <View style={{ flexDirection: "row", paddingLeft: 22 }}>
-              {!otherInfo.supportingDetails.officeRelation.withinFourthDegree ? (
+              {!officeRelation.withinFourthDegree ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -331,7 +342,7 @@ const QuestionsPdf = props => {
           <View style={[styles.inputAnswers]}>
             <Text>If YES, give details:</Text>
             <Text style={[styles.detailsField]}>
-              {otherInfo.supportingDetails.officeRelation.details || "N/A"}
+              {officeRelation.details || "N/A"}
             </Text>
           </View>
         </View>
@@ -375,7 +386,7 @@ const QuestionsPdf = props => {
               ]}
             >
               <View style={{ flexDirection: "row" }}>
-                {otherInfo.supportingDetails.guiltyCharged.isGuilty ? (
+                {guiltyCharged.isGuilty ? (
                   <Svg viewBox="0 0 24 24" width={7} height={7}>
                     <Path
                       d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -394,7 +405,7 @@ const QuestionsPdf = props => {
               </View>
 
               <View style={{ flexDirection: "row", paddingLeft: 22 }}>
-                {!otherInfo.supportingDetails.guiltyCharged.isGuilty ? (
+                {!guiltyCharged.isGuilty ? (
                   <Svg viewBox="0 0 24 24" width={7} height={7}>
                     <Path
                       d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -416,7 +427,7 @@ const QuestionsPdf = props => {
             <View style={[styles.inputAnswers]}>
               <Text>If YES, give details:</Text>
               <Text style={[styles.detailsField]}>
-                {otherInfo.supportingDetails.guiltyCharged.guiltyDetails || "N/A"}
+                {guiltyCharged.guiltyDetails || "N/A"}
               </Text>
             </View>
           </View>
@@ -432,7 +443,7 @@ const QuestionsPdf = props => {
               ]}
             >
               <View style={{ flexDirection: "row" }}>
-                {otherInfo.supportingDetails.guiltyCharged.isCharged ? (
+                {guiltyCharged.isCharged ? (
                   <Svg viewBox="0 0 24 24" width={7} height={7}>
                     <Path
                       d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -451,7 +462,7 @@ const QuestionsPdf = props => {
               </View>
 
               <View style={{ flexDirection: "row", paddingLeft: 22 }}>
-                {!otherInfo.supportingDetails.guiltyCharged.isCharged ? (
+                {!guiltyCharged.isCharged ? (
                   <Svg viewBox="0 0 24 24" width={7} height={7}>
                     <Path
                       d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -477,17 +488,14 @@ const QuestionsPdf = props => {
               <View style={[styles.rowContainer, { paddingTop: 3 }]}>
                 <Text style={{ width: "30%" }}>Date Filed:</Text>
                 <Text style={[styles.detailsField, { width: "70%" }]}>
-                  {formatDate(
-                    otherInfo.supportingDetails.guiltyCharged.chargedDateFiled
-                  ) || "N/A"}
+                  {formatDate(guiltyCharged.chargedDateFiled) || "N/A"}
                 </Text>
               </View>
 
               <View style={[styles.rowContainer]}>
                 <Text style={{ width: "30%" }}>Status of Case/s: </Text>
                 <Text style={[styles.detailsField, { width: "70%" }]}>
-                  {otherInfo.supportingDetails.guiltyCharged.chargedCaseStatus ||
-                    "N/A"}
+                  {guiltyCharged.chargedCaseStatus || "N/A"}
                 </Text>
               </View>
             </View>
@@ -528,7 +536,7 @@ const QuestionsPdf = props => {
             ]}
           >
             <View style={{ flexDirection: "row" }}>
-              {otherInfo.supportingDetails.convicted.isConvicted ? (
+              {convicted.isConvicted ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -547,7 +555,7 @@ const QuestionsPdf = props => {
             </View>
 
             <View style={{ flexDirection: "row", paddingLeft: 22 }}>
-              {!otherInfo.supportingDetails.convicted.isConvicted ? (
+              {!convicted.isConvicted ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -570,7 +578,7 @@ const QuestionsPdf = props => {
           <View style={[styles.inputAnswers]}>
             <Text>If YES, give details:</Text>
             <Text style={[styles.detailsField]}>
-              {otherInfo.supportingDetails.convicted.details || "N/A"}
+              {convicted.details || "N/A"}
             </Text>
           </View>
         </View>
@@ -610,7 +618,7 @@ const QuestionsPdf = props => {
             ]}
           >
             <View style={{ flexDirection: "row" }}>
-              {otherInfo.supportingDetails.separatedService.isSeparated ? (
+              {separatedService.isSeparated ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -629,7 +637,7 @@ const QuestionsPdf = props => {
             </View>
 
             <View style={{ flexDirection: "row", paddingLeft: 22 }}>
-              {!otherInfo.supportingDetails.separatedService.isSeparated ? (
+              {!separatedService.isSeparated ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -652,7 +660,7 @@ const QuestionsPdf = props => {
           <View style={[styles.inputAnswers]}>
             <Text>If YES, give details:</Text>
             <Text style={[styles.detailsField]}>
-              {otherInfo.supportingDetails.separatedService.details || "N/A"}
+              {separatedService.details || "N/A"}
             </Text>
           </View>
         </View>
@@ -696,7 +704,7 @@ const QuestionsPdf = props => {
             ]}
           >
             <View style={{ flexDirection: "row" }}>
-              {otherInfo.supportingDetails.candidateResigned.isCandidate ? (
+              {candidateResigned.isCandidate ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -715,7 +723,7 @@ const QuestionsPdf = props => {
             </View>
 
             <View style={{ flexDirection: "row", paddingLeft: 22 }}>
-              {!otherInfo.supportingDetails.candidateResigned.isCandidate ? (
+              {!candidateResigned.isCandidate ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -737,8 +745,7 @@ const QuestionsPdf = props => {
           <View style={[styles.inputAnswers, styles.rowContainer]}>
             <Text style={{ width: "30%" }}>If YES, give details:</Text>
             <Text style={[styles.detailsField, { width: "70%" }]}>
-              {otherInfo.supportingDetails.candidateResigned.candidateDetails ||
-                "N/A"}
+              {candidateResigned.candidateDetails || "N/A"}
             </Text>
           </View>
 
@@ -751,7 +758,7 @@ const QuestionsPdf = props => {
             ]}
           >
             <View style={{ flexDirection: "row" }}>
-              {otherInfo.supportingDetails.candidateResigned.isResigned ? (
+              {candidateResigned.isResigned ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -770,7 +777,7 @@ const QuestionsPdf = props => {
             </View>
 
             <View style={{ flexDirection: "row", paddingLeft: 22 }}>
-              {!otherInfo.supportingDetails.candidateResigned.isResigned ? (
+              {!candidateResigned.isResigned ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -792,7 +799,7 @@ const QuestionsPdf = props => {
           <View style={[styles.inputAnswers, styles.rowContainer]}>
             <Text style={{ width: "30%" }}>If YES, give details:</Text>
             <Text style={[styles.detailsField, { width: "70%" }]}>
-              {otherInfo.supportingDetails.candidateResigned.resignedDetails || "N/A"}
+              {candidateResigned.resignedDetails || "N/A"}
             </Text>
           </View>
         </View>
@@ -830,7 +837,7 @@ const QuestionsPdf = props => {
             ]}
           >
             <View style={{ flexDirection: "row" }}>
-              {otherInfo.supportingDetails.immigrant.isImmigrant ? (
+              {immigrant.isImmigrant ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -849,7 +856,7 @@ const QuestionsPdf = props => {
             </View>
 
             <View style={{ flexDirection: "row", paddingLeft: 22 }}>
-              {!otherInfo.supportingDetails.immigrant.isImmigrant ? (
+              {!immigrant.isImmigrant ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -872,7 +879,7 @@ const QuestionsPdf = props => {
           <View style={[styles.inputAnswers]}>
             <Text>If YES, give details (country):</Text>
             <Text style={[styles.detailsField]}>
-              {otherInfo.supportingDetails.immigrant.details || "N/A"}
+              {immigrant.details || "N/A"}
             </Text>
           </View>
         </View>
@@ -920,8 +927,7 @@ const QuestionsPdf = props => {
             ]}
           >
             <View style={{ flexDirection: "row" }}>
-              {otherInfo.supportingDetails.indigenousPwdSoloParent
-                .isIndigenousMember ? (
+              {indigenousPwdSoloParent.isIndigenousMember ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -940,8 +946,7 @@ const QuestionsPdf = props => {
             </View>
 
             <View style={{ flexDirection: "row", paddingLeft: 22 }}>
-              {!otherInfo.supportingDetails.indigenousPwdSoloParent
-                .isIndigenousMember ? (
+              {!indigenousPwdSoloParent.isIndigenousMember ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -969,8 +974,7 @@ const QuestionsPdf = props => {
           >
             <Text style={{ width: "40%" }}>If YES, please specify:</Text>
             <Text style={[styles.detailsField, { width: "60%" }]}>
-              {otherInfo.supportingDetails.indigenousPwdSoloParent
-                .indigenousMemberDetails || "N/A"}
+              {indigenousPwdSoloParent.indigenousMemberDetails || "N/A"}
             </Text>
           </View>
 
@@ -983,7 +987,7 @@ const QuestionsPdf = props => {
             ]}
           >
             <View style={{ flexDirection: "row" }}>
-              {otherInfo.supportingDetails.indigenousPwdSoloParent.isPwd ? (
+              {indigenousPwdSoloParent.isPwd ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -1002,7 +1006,7 @@ const QuestionsPdf = props => {
             </View>
 
             <View style={{ flexDirection: "row", paddingLeft: 22 }}>
-              {!otherInfo.supportingDetails.indigenousPwdSoloParent.isPwd ? (
+              {!indigenousPwdSoloParent.isPwd ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -1030,8 +1034,7 @@ const QuestionsPdf = props => {
           >
             <Text style={{ width: "45%" }}>If YES, please specify ID No:</Text>
             <Text style={[styles.detailsField, { width: "55%" }]}>
-              {otherInfo.supportingDetails.indigenousPwdSoloParent.pwdIdNumber ||
-                "N/A"}
+              {indigenousPwdSoloParent.pwdIdNumber || "N/A"}
             </Text>
           </View>
 
@@ -1044,7 +1047,7 @@ const QuestionsPdf = props => {
             ]}
           >
             <View style={{ flexDirection: "row" }}>
-              {otherInfo.supportingDetails.indigenousPwdSoloParent.isSoloParent ? (
+              {indigenousPwdSoloParent.isSoloParent ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -1063,7 +1066,7 @@ const QuestionsPdf = props => {
             </View>
 
             <View style={{ flexDirection: "row", paddingLeft: 22 }}>
-              {!otherInfo.supportingDetails.indigenousPwdSoloParent.isSoloParent ? (
+              {!indigenousPwdSoloParent.isSoloParent ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -1091,8 +1094,7 @@ const QuestionsPdf = props => {
           >
             <Text style={{ width: "45%" }}>If YES, please specify ID No:</Text>
             <Text style={[styles.detailsField, { width: "55%" }]}>
-              {otherInfo.supportingDetails.indigenousPwdSoloParent
-                .soloParentIdNumber || "N/A"}
+              {indigenousPwdSoloParent.soloParentIdNumber || "N/A"}
             </Text>
           </View>
         </View>
@@ -1242,7 +1244,7 @@ const QuestionsPdf = props => {
                 >
                   <Text style={[styles.w40]}>Government Issued ID:</Text>
                   <Text style={[styles.w60]}>
-                    {otherInfo.governmentIssuedId.issuedId || "N/A"}
+                    {governmentIssuedId.issuedId || "N/A"}
                   </Text>
                 </View>
 
@@ -1257,7 +1259,7 @@ const QuestionsPdf = props => {
                 >
                   <Text style={[styles.w40]}>ID/License/Passport No.:</Text>
                   <Text style={[styles.w60]}>
-                    {otherInfo.governmentIssuedId.idNumber || "N/A"}
+                    {governmentIssuedId.idNumber || "N/A"}
                   </Text>
                 </View>
 
@@ -1272,9 +1274,9 @@ const QuestionsPdf = props => {
                 >
                   <Text style={[styles.w40]}>Date/Place of Issuance:</Text>
                   <Text style={[styles.w60]}>
-                    {formatDate(otherInfo.governmentIssuedId.issueDate) +
+                    {formatDate(governmentIssuedId.issueDate) +
                       " " +
-                      otherInfo.governmentIssuedId.issuePlace}
+                      governmentIssuedId.issuePlace}
                   </Text>
                 </View>
               </View>
@@ -1410,7 +1412,21 @@ const QuestionsPdf = props => {
 }
 
 QuestionsPdf.propTypes = {
-  otherInfo: PropTypes.object.isRequired,
+  officeRelation: PropTypes.object.isRequired,
+  guiltyCharged: PropTypes.object.isRequired,
+  convicted: PropTypes.object.isRequired,
+  separatedService: PropTypes.object.isRequired,
+  candidateResigned: PropTypes.object.isRequired,
+  immigrant: PropTypes.object.isRequired,
+  indigenousPwdSoloParent: PropTypes.object.isRequired,
+  references: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      address: PropTypes.string.isRequired,
+      telephoneNumber: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  governmentIssuedId: PropTypes.object.isRequired,
   formatDate: PropTypes.func.isRequired,
 }
 

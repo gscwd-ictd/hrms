@@ -1,16 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Card, CardBody, Col, Row, Table } from "reactstrap"
 import { fetchOccupations, resetOGCompetencies } from "store/actions"
 import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
 
-// modal components
+import { Card, CardBody, Col, Row, Table } from "reactstrap"
 import InRowAction from "components/InRowAction/InRowAction"
-
-// table components
 import TableOccupations from "components/Table/TableOccupations"
-
-// extra components
 import Breadcrumbs from "components/Common/Breadcrumb"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
@@ -76,29 +73,37 @@ const Competency = props => {
 
   return (
     <>
-      <div className="page-content">
-        <div className="container-fluid">
-          <Breadcrumbs breadcrumbItem="Competencies" />
+      <Can I="access" this="Competency">
+        <div className="page-content">
+          <div className="container-fluid">
+            <Breadcrumbs breadcrumbItem="Competencies" />
 
-          {error ? (
-            <ToastrNotification toastType={"error"} notifMessage={error} />
-          ) : null}
+            {error ? (
+              <ToastrNotification toastType={"error"} notifMessage={error} />
+            ) : null}
 
-          <Row>
-            <Col>
-              <Card className="card-table">
-                <CardBody>
-                  {isLoading ? (
-                    <LoadingIndicator />
-                  ) : (
-                    <TableOccupations columns={columns} data={data} />
-                  )}
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
+            <Row>
+              <Col>
+                <Card className="card-table">
+                  <CardBody>
+                    {isLoading ? (
+                      <LoadingIndicator />
+                    ) : (
+                      <TableOccupations columns={columns} data={data} />
+                    )}
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </div>
         </div>
-      </div>
+      </Can>
+
+      <Can not I="access" this="Competency">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </>
   )
 }

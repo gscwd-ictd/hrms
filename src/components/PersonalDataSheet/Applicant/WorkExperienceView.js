@@ -89,7 +89,7 @@ WorkExperienceView.propTypes = {
       monthlySalary: PropTypes.number,
       salaryGrade: PropTypes.string,
       appointmentStatus: PropTypes.string,
-      isGovernmentService: PropTypes.bool,
+      isGovernmentService: PropTypes.number,
       from: PropTypes.string,
       to: PropTypes.string,
     })

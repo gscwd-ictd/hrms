@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import {
   addExamInterviewSchedule,
   getPublications,
-  resetPublciationResponses,
+  resetPublicationResponses,
 } from "store/actions"
 
 import { Modal } from "react-bootstrap"
@@ -51,7 +51,7 @@ const ScheduleInterview = props => {
     if (!isEmpty(response)) {
       dispatch(getPublications(prfId))
       handleCloseScheduleInterview()
-      dispatch(resetPublciationResponses())
+      dispatch(resetPublicationResponses())
     }
   }, [response])
 

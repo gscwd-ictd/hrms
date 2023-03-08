@@ -22,7 +22,7 @@ const TablePrfList = props => {
       initialState: {
         pageIndex: 0,
         hiddenColumns: ["_id"],
-        pageSize: 5,
+        pageSize: 10,
       },
     },
     useFilters,

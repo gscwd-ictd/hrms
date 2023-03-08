@@ -1,8 +1,11 @@
 import React, { useEffect } from "react"
+import dayjs from "dayjs"
 import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
+
 import { useDispatch, useSelector } from "react-redux"
 import { fetchDocumentResultsOfHiring } from "store/actions"
-import dayjs from "dayjs"
 
 import { Container } from "reactstrap"
 import { PDFViewer } from "@react-pdf/renderer"
@@ -15,6 +18,7 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 const ResultsOfHiringPdf = props => {
   const dispatch = useDispatch()
 
+  // redux state of results of hiring document
   const { resultsOfHiringDocument, loadingRoHDocument, errorRoHDocument } =
     useSelector(state => ({
       resultsOfHiringDocument: state.applicants.resultsOfHiringDocument,
@@ -34,34 +38,43 @@ const ResultsOfHiringPdf = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <Container fluid={true}>
-          {errorRoHDocument ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorRoHDocument}
-            />
-          ) : null}
-
-          {loadingRoHDocument ? (
-            <LoadingIndicator />
-          ) : (
-            <PDFViewer width={"100%"} height={700} showToolbar>
-              <RoHDocument
-                resultsOfHiringDocument={resultsOfHiringDocument}
-                effectivityDate={formatDate(
-                  props.match.params.appointmentEffectivityDate
-                )}
+      <Can I="access" this="Results_of_hiring">
+        <div className="page-content">
+          <Container fluid={true}>
+            {errorRoHDocument ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorRoHDocument}
               />
-            </PDFViewer>
-          )}
-        </Container>
-      </div>
+            ) : null}
+
+            {loadingRoHDocument ? (
+              <LoadingIndicator />
+            ) : (
+              <PDFViewer width={"100%"} height={700} showToolbar>
+                <RoHDocument
+                  resultsOfHiringDocument={resultsOfHiringDocument}
+                  effectivityDate={formatDate(
+                    props.match.params.appointmentEffectivityDate
+                  )}
+                />
+              </PDFViewer>
+            )}
+          </Container>
+        </div>
+      </Can>
+
+      <Can not I="access" this="Results_of_hiring">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }
 
 ResultsOfHiringPdf.propTypes = {
   match: PropTypes.object,
+  location: PropTypes.object,
 }
 export default ResultsOfHiringPdf

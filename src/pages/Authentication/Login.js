@@ -44,8 +44,8 @@ const Login = props => {
     enableReinitialize: true,
 
     initialValues: {
-      email: "ferdinandferrer@gscwd.com" || "",
-      password: "@ferdinand110769" || "",
+      email: "" || "",
+      password: "" || "",
     },
     validationSchema: Yup.object({
       email: Yup.string().required("Please Enter Your Email"),
@@ -74,15 +74,20 @@ const Login = props => {
       const photoUrl = loginVerificationResponse.userDetails.photoUrl
       localStorage.setItem("photoUrl", photoUrl)
 
+      const userAccess = loginVerificationResponse.userDetails.userAccess
+      localStorage.setItem("userAccess", JSON.stringify(userAccess))
+
+      // console.log(loginVerificationResponse)
+
       dispatch(resetLogin())
     }
   }, [loginVerificationResponse])
 
   return (
     <React.Fragment>
-      {/* <MetaTags>
+      <MetaTags>
         <title>Login | GSCWD HRIS</title>
-      </MetaTags> */}
+      </MetaTags>
       <div className="account-pages my-5 pt-sm-5">
         <Container>
           <Row className="justify-content-center">

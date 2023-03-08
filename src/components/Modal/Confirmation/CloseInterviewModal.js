@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import PropTypes from "prop-types"
 import { isEmpty } from "lodash"
 
@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import {
   updatePublicationStatus,
   getPublications,
-  resetPublciationResponses,
+  resetPublicationResponses,
 } from "store/actions"
 
 import { Modal } from "react-bootstrap"
@@ -47,7 +47,7 @@ const CloseInterviewModal = props => {
       dispatch(getPublications(prfId))
       handleClosePsbSummary()
       handleCloseCloseInterview()
-      dispatch(resetPublciationResponses())
+      dispatch(resetPublicationResponses())
     }
   }, [responseInterviewDone])
 
@@ -85,7 +85,7 @@ const CloseInterviewModal = props => {
         {!isEmpty(responseInterviewDone) ? (
           <ToastrNotification
             toastType={"success"}
-            notifMessage={"Publciation status updated to 'Interview Done'"}
+            notifMessage={"Publication status updated to 'Interview Done'"}
           />
         ) : null}
 

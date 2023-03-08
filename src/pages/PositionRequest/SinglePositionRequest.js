@@ -1,8 +1,9 @@
 import React, { useEffect } from "react"
-import { Link } from "react-router-dom"
-import PropTypes from "prop-types"
 import dayjs from "dayjs"
 import { isEmpty } from "lodash"
+import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Link, Redirect } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { getSinglePRF, fetchPRFTrail } from "store/actions"
@@ -20,8 +21,8 @@ import {
 } from "reactstrap"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
-import SimpleBar from "simplebar-react"
 import Breadcrumbs from "components/Common/Breadcrumb"
+import PrfSignatory from "components/Trail/PrfSignatory/PrfSignatory"
 
 import "flatpickr/dist/themes/material_blue.css"
 
@@ -105,430 +106,168 @@ const SinglePositionRequest = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <Container fluid={true}>
-          <Breadcrumbs
-            title="Position Request List"
-            titleUrl="/prf-list"
-            breadcrumbItem="Position Request Details"
-          />
-
-          {/* Notifications */}
-          {errorPrf ? (
-            <ToastrNotification toastType={"error"} notifMessage={errorPrf} />
-          ) : null}
-
-          {errorPrfTrail ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorPrfTrail}
+      <Can I="access" this="Prf_list">
+        <div className="page-content">
+          <Container fluid={true}>
+            <Breadcrumbs
+              title="Position Request List"
+              titleUrl="/prf-list"
+              breadcrumbItem="Position Request Details"
             />
-          ) : null}
 
-          <Row>
-            <Col lg={12}>
-              <Card>
-                <CardBody>
-                  {loadingPrf ? (
-                    <LoadingIndicator />
-                  ) : (
-                    <>
-                      {renderStatus(prfDetails.status)}
+            {/* Notifications */}
+            {errorPrf ? (
+              <ToastrNotification toastType={"error"} notifMessage={errorPrf} />
+            ) : null}
 
-                      <div className="table-responsive ">
-                        <Table className="table table-borderless mb-0">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <span className="fw-medium">PRF No.: </span>
-                                &nbsp;{prfDetails.prfNo}
-                              </td>
-                              <td>
-                                <span className="fw-medium">
-                                  Date Requested:{" "}
-                                </span>
-                                &nbsp;{formatDate(prfDetails.dateRequested)}
-                              </td>
-                              <td>
-                                <span className="fw-medium">Date Needed: </span>
-                                &nbsp;{formatDate(prfDetails.dateNeeded)}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <span className="fw-medium">
-                                  With examination:{" "}
-                                </span>
-                                &nbsp;{prfDetails.withExam ? "Yes" : "No"}
-                              </td>
-                              <td>
-                                <span className="fw-medium">For: </span>
-                                &nbsp;{prfDetails.for.name}
-                              </td>
-                              <td>
-                                <span className="fw-medium">From: </span>
-                                &nbsp;{prfDetails.from.name}
-                              </td>
-                            </tr>
-                          </tbody>
-                        </Table>
-                      </div>
-                    </>
-                  )}
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
+            {errorPrfTrail ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorPrfTrail}
+              />
+            ) : null}
 
-          {/* Requested Positions */}
-          <Row>
-            <Col lg={12}>
-              <Card>
-                <h5 className="card-header bg-transparent border-bottom">
-                  Requested Positions
-                </h5>
-                <CardBody>
-                  <Row className="mt-2">
-                    {!isEmpty(prfDetails.prfPositions) ? (
+            <Row>
+              <Col lg={12}>
+                <Card>
+                  <CardBody>
+                    {loadingPrf ? (
+                      <LoadingIndicator />
+                    ) : (
                       <>
-                        {prfDetails.prfPositions.map(position => (
-                          <Col md={4} key={position.positionId}>
-                            <Link
-                              to={{
-                                pathname: `/plantilla/${position.positionId}`,
-                              }}
-                              className="text-dark"
-                              target="_blank"
-                            >
-                              <Card outline color="primary" className="border">
-                                <CardBody>
-                                  <h5 className="bg-transparent border-bottom pb-2">
-                                    {position.positionTitle}
-                                  </h5>
-                                  <CardText className="mb-0">
-                                    {position.itemNumber}
-                                  </CardText>
-                                  <CardText>{position.designation}</CardText>
-                                </CardBody>
-                              </Card>
-                            </Link>
-                          </Col>
-                        ))}
+                        {renderStatus(prfDetails.status)}
+
+                        <div className="table-responsive ">
+                          <Table className="table table-borderless mb-0">
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <span className="fw-medium">PRF No.: </span>
+                                  &nbsp;{prfDetails.prfNo}
+                                </td>
+                                <td>
+                                  <span className="fw-medium">
+                                    Date Requested:{" "}
+                                  </span>
+                                  &nbsp;{formatDate(prfDetails.dateRequested)}
+                                </td>
+                                <td>
+                                  <span className="fw-medium">
+                                    Date Needed:{" "}
+                                  </span>
+                                  &nbsp;{formatDate(prfDetails.dateNeeded)}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <span className="fw-medium">
+                                    With examination:{" "}
+                                  </span>
+                                  &nbsp;{prfDetails.withExam ? "Yes" : "No"}
+                                </td>
+                                <td>
+                                  <span className="fw-medium">For: </span>
+                                  &nbsp;{prfDetails.for.name}
+                                </td>
+                                <td>
+                                  <span className="fw-medium">From: </span>
+                                  &nbsp;{prfDetails.from.name}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </Table>
+                        </div>
                       </>
-                    ) : null}
-                  </Row>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
+                    )}
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
 
-          <Row>
-            {/* PRF Trail */}
-            <Col md={7}>
-              <Card>
-                <h5 className="card-header bg-transparent border-bottom">
-                  Trail
-                </h5>
-                <CardBody>
-                  {loadingPrfTrail ? (
-                    <LoadingIndicator />
-                  ) : (
-                    <SimpleBar style={{ maxHeight: "350px" }}>
-                      <div className="mt-2">
-                        <ul className="verti-timeline list-unstyled">
-                          {/* Division */}
-
-                          {prfTrail.division.status !== "N/A" ? (
-                            <li
-                              className={
-                                prfTrail.division.status === "For approval"
-                                  ? "event-list active"
-                                  : "event-list"
-                              }
-                            >
-                              <div className="event-timeline-dot">
-                                <i
-                                  className={
-                                    prfTrail.division.status === "For approval"
-                                      ? "bx bxs-right-arrow-circle font-size-18 bx-fade-right"
-                                      : prfTrail.division.status === "Pending"
-                                      ? "bx bx-right-arrow-circle font-size-18"
-                                      : "bx bxs-right-arrow-circle font-size-18"
-                                  }
-                                ></i>
-                              </div>
-                              <div className="d-flex">
-                                <div className="me-3">
-                                  <h5 className="font-size-14">
-                                    {formatDate(prfDetails.dateRequested)}
-
-                                    <i className="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i>
-                                  </h5>
-                                </div>
-                                <div className="flex-grow-1">
-                                  <div>
-                                    <span className="font-weight-semibold">
-                                      {prfTrail.division.name}
-                                    </span>
-                                    {" | "}
-                                    {prfTrail.division.position}
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                          ) : null}
-
-                          {prfTrail.department.status !== "N/A" ? (
-                            <li
-                              className={
-                                prfTrail.department.status === "For approval"
-                                  ? "event-list active"
-                                  : "event-list"
-                              }
-                            >
-                              <div className="event-timeline-dot">
-                                <i
-                                  className={
-                                    prfTrail.department.status ===
-                                    "For approval"
-                                      ? "bx bxs-right-arrow-circle font-size-18 bx-fade-right"
-                                      : prfTrail.department.status === "Pending"
-                                      ? "bx bx-right-arrow-circle font-size-18"
-                                      : "bx bxs-right-arrow-circle font-size-18"
-                                  }
-                                ></i>
-                              </div>
-                              <div className="d-flex">
-                                <div className="me-3">
-                                  <h5 className="font-size-14">
-                                    {prfTrail.department.updatedAt
-                                      ? formatDate(
-                                          prfTrail.department.updatedAt
-                                        )
-                                      : prfTrail.department.status ===
-                                          "For approval" ||
-                                        prfTrail.department.status === "Pending"
-                                      ? "---"
-                                      : formatDate(prfDetails.dateRequested)}
-
-                                    <i className="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i>
-                                  </h5>
-                                </div>
-                                <div className="flex-grow-1">
-                                  <div>
-                                    <span className="font-weight-semibold">
-                                      {prfTrail.department.name}
-                                    </span>
-                                    {" | "}
-                                    {prfTrail.department.position}
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                          ) : null}
-
-                          {prfTrail.agm.status !== "N/A" ? (
-                            <li
-                              className={
-                                prfTrail.agm.status === "For approval"
-                                  ? "event-list active"
-                                  : "event-list"
-                              }
-                            >
-                              <div className="event-timeline-dot">
-                                <i
-                                  className={
-                                    prfTrail.agm.status === "For approval"
-                                      ? "bx bxs-right-arrow-circle font-size-18 bx-fade-right"
-                                      : prfTrail.agm.status === "Pending"
-                                      ? "bx bx-right-arrow-circle font-size-18"
-                                      : "bx bxs-right-arrow-circle font-size-18"
-                                  }
-                                ></i>
-                              </div>
-                              <div className="d-flex">
-                                <div className="me-3">
-                                  <h5 className="font-size-14">
-                                    {prfTrail.agm.updatedAt
-                                      ? formatDate(prfTrail.agm.updatedAt)
-                                      : prfTrail.agm.status ===
-                                          "For approval" ||
-                                        prfTrail.agm.status === "Pending"
-                                      ? "---"
-                                      : formatDate(prfDetails.dateRequested)}
-
-                                    <i className="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i>
-                                  </h5>
-                                </div>
-                                <div className="flex-grow-1">
-                                  <div>
-                                    <span className="font-weight-semibold">
-                                      {prfTrail.agm.name}
-                                    </span>
-                                    {" | "}
-                                    {prfTrail.agm.position}
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                          ) : null}
-
-                          {prfTrail.admin.status !== "N/A" ? (
-                            <li
-                              className={
-                                prfTrail.admin.status === "For approval"
-                                  ? "event-list active"
-                                  : "event-list"
-                              }
-                            >
-                              <div className="event-timeline-dot">
-                                <i
-                                  className={
-                                    prfTrail.admin.status === "For approval"
-                                      ? "bx bxs-right-arrow-circle font-size-18 bx-fade-right"
-                                      : prfTrail.admin.status === "Pending"
-                                      ? "bx bx-right-arrow-circle font-size-18"
-                                      : "bx bxs-right-arrow-circle font-size-18"
-                                  }
-                                ></i>
-                              </div>
-                              <div className="d-flex">
-                                <div className="me-3">
-                                  <h5 className="font-size-14">
-                                    {prfTrail.admin.updatedAt
-                                      ? formatDate(prfTrail.admin.updatedAt)
-                                      : prfTrail.admin.status ===
-                                          "For approval" ||
-                                        prfTrail.admin.status === "Pending"
-                                      ? "---"
-                                      : formatDate(prfDetails.dateRequested)}
-
-                                    <i className="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i>
-                                  </h5>
-                                </div>
-                                <div className="flex-grow-1">
-                                  <div>
-                                    <span className="font-weight-semibold">
-                                      {prfTrail.admin.name}
-                                    </span>
-                                    {" | "}
-                                    {prfTrail.admin.position}
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                          ) : null}
-
-                          {prfTrail.gm.status !== "N/A" ? (
-                            <li
-                              className={
-                                prfTrail.gm.status === "For approval"
-                                  ? "event-list active"
-                                  : "event-list"
-                              }
-                            >
-                              <div className="event-timeline-dot">
-                                <i
-                                  className={
-                                    prfTrail.gm.status === "For approval"
-                                      ? "bx bxs-right-arrow-circle font-size-18 bx-fade-right"
-                                      : prfTrail.gm.status === "Pending"
-                                      ? "bx bx-right-arrow-circle font-size-18"
-                                      : "bx bxs-right-arrow-circle font-size-18"
-                                  }
-                                ></i>
-                              </div>
-                              <div className="d-flex">
-                                <div className="me-3">
-                                  <h5 className="font-size-14">
-                                    {prfTrail.gm.updatedAt
-                                      ? formatDate(prfTrail.gm.updatedAt)
-                                      : prfTrail.gm.status === "For approval" ||
-                                        prfTrail.gm.status === "Pending"
-                                      ? "---"
-                                      : formatDate(prfDetails.dateRequested)}
-
-                                    <i className="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i>
-                                  </h5>
-                                </div>
-                                <div className="flex-grow-1">
-                                  <div>
-                                    <span className="font-weight-semibold">
-                                      {prfTrail.gm.name}
-                                    </span>
-                                    {" | "}
-                                    {prfTrail.gm.position}
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                          ) : null}
-                        </ul>
-                      </div>
-                    </SimpleBar>
-                  )}
-                </CardBody>
-              </Card>
-            </Col>
-
-            {/* Printables */}
-            {prfDetails.status === "Approved" ? (
-              <Col md={5}>
+            {/* Requested Positions */}
+            <Row>
+              <Col lg={12}>
                 <Card>
                   <h5 className="card-header bg-transparent border-bottom">
-                    Printables
+                    Requested Positions
                   </h5>
                   <CardBody>
-                    <Row>
-                      <Col md={12}>
-                        <Row>
-                          <Col md={6}>
-                            <Link
-                              to={{
-                                pathname: `/prf-pdf/${props.match.params.prfId}`,
-                              }}
-                              target="_blank"
-                            >
-                              <Button
-                                color="info"
-                                className="btn-block"
-                                style={{ width: "100%" }}
-                              >
-                                Position Request Form
-                              </Button>
-                            </Link>
-                          </Col>
-                          <Col md={6}>
-                            <Link
-                              to={{
-                                pathname: `/publication-pdf/${props.match.params.prfId}`,
-                              }}
-                              target="_blank"
-                            >
-                              <Button
-                                color="info"
-                                className="btn-block"
-                                style={{ width: "100%" }}
-                              >
-                                Publication
-                              </Button>
-                            </Link>
-                          </Col>
-                        </Row>
-                        <ul className="list-unstyled">
-                          <li></li>
-
-                          <li className="mt-3"></li>
-
-                          <li className="mt-3">
-                            <h6>Position Descriptions</h6>
-                          </li>
-
+                    <Row className="mt-2">
+                      {!isEmpty(prfDetails.prfPositions) ? (
+                        <>
                           {prfDetails.prfPositions.map(position => (
-                            <li key={position.positionId} className="mt-1">
+                            <Col md={4} key={position.positionId}>
                               <Link
                                 to={{
-                                  pathname: `/position-description-pdf/${props.match.params.prfId}/${position.positionId}`,
+                                  pathname: `/plantilla/${position.positionId}`,
+                                }}
+                                className="text-dark"
+                                target="_blank"
+                              >
+                                <Card
+                                  outline
+                                  color="primary"
+                                  className="border"
+                                >
+                                  <CardBody>
+                                    <h5 className="bg-transparent border-bottom pb-2">
+                                      {position.positionTitle}
+                                    </h5>
+                                    <CardText className="mb-0">
+                                      {position.itemNumber}
+                                    </CardText>
+                                    <CardText>{position.designation}</CardText>
+                                  </CardBody>
+                                </Card>
+                              </Link>
+                            </Col>
+                          ))}
+                        </>
+                      ) : null}
+                    </Row>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+
+            <Row>
+              {/* PRF Trail */}
+              <Col md={12}>
+                <Card>
+                  <h5 className="card-header bg-transparent border-bottom">
+                    Trail
+                  </h5>
+                  <CardBody>
+                    {loadingPrfTrail ? (
+                      <LoadingIndicator />
+                    ) : (
+                      <PrfSignatory
+                        prfTrail={prfTrail}
+                        prfDetails={prfDetails}
+                        formatDate={formatDate}
+                      />
+                    )}
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+
+            {/* Printables */}
+            <Row>
+              {prfDetails.status === "Approved" ? (
+                <Col md={6}>
+                  <Card>
+                    <h5 className="card-header bg-transparent border-bottom">
+                      Printables
+                    </h5>
+                    <CardBody>
+                      <Row>
+                        <Col md={12}>
+                          <Row>
+                            <Col md={6}>
+                              <Link
+                                to={{
+                                  pathname: `/prf-pdf/${props.match.params.prfId}`,
                                 }}
                                 target="_blank"
                               >
@@ -537,26 +276,77 @@ const SinglePositionRequest = props => {
                                   className="btn-block"
                                   style={{ width: "100%" }}
                                 >
-                                  {position.itemNumber}
+                                  Position Request Form
                                 </Button>
                               </Link>
+                            </Col>
+                            <Col md={6}>
+                              <Link
+                                to={{
+                                  pathname: `/publication-pdf/${props.match.params.prfId}`,
+                                }}
+                                target="_blank"
+                              >
+                                <Button
+                                  color="info"
+                                  className="btn-block"
+                                  style={{ width: "100%" }}
+                                >
+                                  Publication
+                                </Button>
+                              </Link>
+                            </Col>
+                          </Row>
+                          <ul className="list-unstyled">
+                            <li></li>
+
+                            <li className="mt-3"></li>
+
+                            <li className="mt-3">
+                              <h6>Position Descriptions</h6>
                             </li>
-                          ))}
-                        </ul>
-                      </Col>
-                    </Row>
-                  </CardBody>
-                </Card>
-              </Col>
-            ) : null}
-          </Row>
-        </Container>
-      </div>
+
+                            {prfDetails.prfPositions.map(position => (
+                              <li key={position.positionId} className="mt-1">
+                                <Link
+                                  to={{
+                                    pathname: `/position-description-pdf/${props.match.params.prfId}/${position.positionId}`,
+                                  }}
+                                  target="_blank"
+                                >
+                                  <Button
+                                    color="info"
+                                    className="btn-block"
+                                    style={{ width: "100%" }}
+                                  >
+                                    {position.itemNumber}
+                                  </Button>
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </Col>
+                      </Row>
+                    </CardBody>
+                  </Card>
+                </Col>
+              ) : null}
+            </Row>
+          </Container>
+        </div>
+      </Can>
+
+      <Can not I="access" this="Prf_list">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }
 
 SinglePositionRequest.propTypes = {
+  location: PropTypes.object,
   match: PropTypes.object,
 }
 

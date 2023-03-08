@@ -21,7 +21,7 @@ import OtherInformationView from "./OtherInformationView"
 import "styles/custom_gscwd/components/personaldatasheet.scss"
 
 const PersonalDataSheetView = props => {
-  const [activeTab, setactiveTab] = useState(1)
+  const [activeTab, setActiveTab] = useState(1)
 
   // Redux state for employee PDS
   const {
@@ -90,7 +90,7 @@ const PersonalDataSheetView = props => {
   function toggleTab(tab) {
     if (activeTab !== tab) {
       if (tab >= 1 && tab <= 9) {
-        setactiveTab(tab)
+        setActiveTab(tab)
       }
     }
   }
@@ -104,6 +104,8 @@ const PersonalDataSheetView = props => {
       return ""
     }
   }
+
+  console.log(skills)
 
   return (
     <React.Fragment>
@@ -123,7 +125,7 @@ const PersonalDataSheetView = props => {
                 <NavLink
                   className={classnames({ active: activeTab === 1 })}
                   onClick={() => {
-                    setactiveTab(1)
+                    setActiveTab(1)
                   }}
                 >
                   <span className="number">01</span>{" "}
@@ -140,7 +142,7 @@ const PersonalDataSheetView = props => {
                 <NavLink
                   className={classnames({ active: activeTab === 2 })}
                   onClick={() => {
-                    setactiveTab(2)
+                    setActiveTab(2)
                   }}
                 >
                   <span className="number">02</span>{" "}
@@ -157,7 +159,7 @@ const PersonalDataSheetView = props => {
                 <NavLink
                   className={classnames({ active: activeTab === 3 })}
                   onClick={() => {
-                    setactiveTab(3)
+                    setActiveTab(3)
                   }}
                 >
                   <span className="number">03</span>{" "}
@@ -174,7 +176,7 @@ const PersonalDataSheetView = props => {
                 <NavLink
                   className={classnames({ active: activeTab === 4 })}
                   onClick={() => {
-                    setactiveTab(4)
+                    setActiveTab(4)
                   }}
                 >
                   <span className="number">04</span> <span>Eligibility</span>
@@ -190,7 +192,7 @@ const PersonalDataSheetView = props => {
                 <NavLink
                   className={classnames({ active: activeTab === 5 })}
                   onClick={() => {
-                    setactiveTab(5)
+                    setActiveTab(5)
                   }}
                 >
                   <span className="number">05</span>{" "}
@@ -207,7 +209,7 @@ const PersonalDataSheetView = props => {
                 <NavLink
                   className={classnames({ active: activeTab === 6 })}
                   onClick={() => {
-                    setactiveTab(6)
+                    setActiveTab(6)
                   }}
                 >
                   <span className="number">06</span> <span>Voluntary Work</span>
@@ -223,7 +225,7 @@ const PersonalDataSheetView = props => {
                 <NavLink
                   className={classnames({ active: activeTab === 7 })}
                   onClick={() => {
-                    setactiveTab(7)
+                    setActiveTab(7)
                   }}
                 >
                   <span className="number">07</span>{" "}
@@ -240,7 +242,7 @@ const PersonalDataSheetView = props => {
                 <NavLink
                   className={classnames({ active: activeTab === 8 })}
                   onClick={() => {
-                    setactiveTab(8)
+                    setActiveTab(8)
                   }}
                 >
                   <span className="number">08</span>{" "}
@@ -257,7 +259,7 @@ const PersonalDataSheetView = props => {
                 <NavLink
                   className={classnames({ active: activeTab === 9 })}
                   onClick={() => {
-                    setactiveTab(9)
+                    setActiveTab(9)
                   }}
                 >
                   <span className="number">09</span> <span>PDF</span>
@@ -281,6 +283,7 @@ const PersonalDataSheetView = props => {
                   formatDate={formatDate}
                 />
               </TabPane>
+
               <TabPane tabId={2}>
                 <FamilyBackgroundView
                   spouse={spouse}
@@ -289,6 +292,7 @@ const PersonalDataSheetView = props => {
                   formatDate={formatDate}
                 />
               </TabPane>
+
               <TabPane tabId={3}>
                 <EducationalBackgroundView
                   elementary={elementary}
@@ -298,30 +302,35 @@ const PersonalDataSheetView = props => {
                   graduate={graduate}
                 />
               </TabPane>
+
               <TabPane tabId={4}>
                 <EligibilityView
                   eligibility={eligibility}
                   formatDate={formatDate}
                 />
               </TabPane>
+
               <TabPane tabId={5}>
                 <WorkExperienceView
                   workExperience={workExperience}
                   formatDate={formatDate}
                 />
               </TabPane>
+
               <TabPane tabId={6}>
                 <VoluntaryWorkView
                   voluntaryWork={voluntaryWork}
                   formatDate={formatDate}
                 />
               </TabPane>
+
               <TabPane tabId={7}>
                 <LearningAndDevelopmentView
                   learningDevelopment={learningDevelopment}
                   formatDate={formatDate}
                 />
               </TabPane>
+
               <TabPane tabId={8}>
                 <OtherInformationView
                   skills={skills}
@@ -339,6 +348,7 @@ const PersonalDataSheetView = props => {
                   formatDate={formatDate}
                 />
               </TabPane>
+
               <TabPane tabId={9}>
                 <Link
                   style={{ pointerEvents: "inherit" }}

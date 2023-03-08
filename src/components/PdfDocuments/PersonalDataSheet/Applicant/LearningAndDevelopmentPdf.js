@@ -90,110 +90,106 @@ Font.register({
 })
 
 const LearningAndDevelopmentPdf = props => {
-  const { learningDevelopmentInfo, formatDate } = props
-  const [emptylearningDevRows, setEmptylearningDevRows] = useState(21)
+  const { learningDevelopment, formatDate } = props
+  const [emptyLearningDevRows, setEmptyLearningDevRows] = useState(21)
 
-  const renderLearningDevelopemntRows = () => {
-    var content = learningDevelopmentInfo
-      .slice(0, 21)
-      .map((training, index) => (
+  const renderLearningDevelopmentRows = () => {
+    var content = learningDevelopment.slice(0, 21).map((training, index) => (
+      <View
+        style={[
+          styles.borderTop,
+          { flexDirection: "row", alignItems: "stretch" },
+        ]}
+        key={index}
+      >
+        {/* Title of Learning and Development */}
         <View
           style={[
-            styles.borderTop,
-            { flexDirection: "row", alignItems: "stretch" },
+            styles.inputValue,
+            styles.borderRight,
+            styles.horizontalCenter,
+            styles.w46_2,
           ]}
-          key={index}
         >
-          {/* Title of Learning and Development */}
+          <Text style={[styles.verticalCenter]}>{training.title || "N/A"}</Text>
+        </View>
+
+        {/* Inclusive Dates of Attendance */}
+        <View
+          style={[
+            styles.horizontalCenter,
+            styles.borderRight,
+            styles.inputValue,
+            styles.w18,
+            { padding: "0", flexDirection: "row" },
+          ]}
+        >
           <View
-            style={[
-              styles.inputValue,
-              styles.borderRight,
-              styles.horizontalCenter,
-              styles.w46_2,
-            ]}
+            style={[styles.w50, styles.horizontalCenter, styles.borderRight]}
           >
-            <Text style={[styles.verticalCenter]}>
-              {training.title || "N/A"}
+            <Text style={[styles.verticalCenter, { padding: "3 0" }]}>
+              {formatDate(training.from) || "N/A"}
             </Text>
           </View>
-
-          {/* Inclusive Dates of Attendance */}
-          <View
-            style={[
-              styles.horizontalCenter,
-              styles.borderRight,
-              styles.inputValue,
-              styles.w18,
-              { padding: "0", flexDirection: "row" },
-            ]}
-          >
-            <View
-              style={[styles.w50, styles.horizontalCenter, styles.borderRight]}
-            >
-              <Text style={[styles.verticalCenter, { padding: "3 0" }]}>
-                {formatDate(training.from) || "N/A"}
-              </Text>
-            </View>
-            <View style={[styles.w50, styles.horizontalCenter]}>
-              <View style={[styles.verticalCenter, { padding: "3 0" }]}>
-                <Text>{formatDate(training.to) || "N/A"}</Text>
-              </View>
-            </View>
-          </View>
-
-          {/* Hours */}
-          <View
-            style={[
-              styles.borderRight,
-              styles.inputValue,
-              styles.horizontalCenter,
-              styles.w6,
-              { padding: "5.5 3" },
-            ]}
-          >
-            <View style={[styles.verticalCenter]}>
-              <Text>{training.numberOfHours || "N/A"}</Text>
-            </View>
-          </View>
-
-          {/* Type of L&D */}
-          <View
-            style={[
-              styles.borderRight,
-              styles.inputValue,
-              styles.horizontalCenter,
-              styles.w6,
-              { padding: "5.5 3" },
-            ]}
-          >
-            <View style={[styles.verticalCenter]}>
-              <Text>{training.type || "N/A"}</Text>
-            </View>
-          </View>
-
-          {/* Sponsored By */}
-          <View
-            style={[
-              styles.inputValue,
-              styles.horizontalCenter,
-              styles.w23_8,
-              { padding: 0 },
-            ]}
-          >
-            <View style={[styles.verticalCenter]}>
-              <Text>{training.conductedBy || "N/A"}</Text>
+          <View style={[styles.w50, styles.horizontalCenter]}>
+            <View style={[styles.verticalCenter, { padding: "3 0" }]}>
+              <Text>{formatDate(training.to) || "N/A"}</Text>
             </View>
           </View>
         </View>
-      ))
+
+        {/* Hours */}
+        <View
+          style={[
+            styles.borderRight,
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w6,
+            { padding: "5.5 3" },
+          ]}
+        >
+          <View style={[styles.verticalCenter]}>
+            <Text>{training.numberOfHours || "N/A"}</Text>
+          </View>
+        </View>
+
+        {/* Type of L&D */}
+        <View
+          style={[
+            styles.borderRight,
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w6,
+            { padding: "5.5 3" },
+          ]}
+        >
+          <View style={[styles.verticalCenter]}>
+            <Text>{training.type || "N/A"}</Text>
+          </View>
+        </View>
+
+        {/* Sponsored By */}
+        <View
+          style={[
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w23_8,
+            { padding: 0 },
+          ]}
+        >
+          <View style={[styles.verticalCenter]}>
+            <Text>{training.conductedBy || "N/A"}</Text>
+          </View>
+        </View>
+      </View>
+    ))
 
     return content
   }
 
-  const renderEmptyLearningDevelopemntRows = () => {
+  const renderEmptyLearningDevelopmentRows = () => {
     let content = []
-    const rowToRender = emptylearningDevRows - learningDevelopmentInfo.length
+    const rowToRender = emptyLearningDevRows - learningDevelopment.length
 
     for (let i = 0; i < rowToRender; i++) {
       content.push(
@@ -415,10 +411,10 @@ const LearningAndDevelopmentPdf = props => {
         </View>
       </View>
 
-      {renderLearningDevelopemntRows()}
+      {renderLearningDevelopmentRows()}
 
-      {learningDevelopmentInfo.length < 21 ? (
-        <>{renderEmptyLearningDevelopemntRows()}</>
+      {learningDevelopment.length < 21 ? (
+        <>{renderEmptyLearningDevelopmentRows()}</>
       ) : null}
 
       <View style={[styles.borderTop]}>
@@ -433,7 +429,7 @@ const LearningAndDevelopmentPdf = props => {
 }
 
 LearningAndDevelopmentPdf.propTypes = {
-  learningDevelopmentInfo: PropTypes.arrayOf(
+  learningDevelopment: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string,
       from: PropTypes.string,

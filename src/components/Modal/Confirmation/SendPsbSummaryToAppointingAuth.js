@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import PropTypes from "prop-types"
 import { isEmpty } from "lodash"
 
@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import {
   updatePublicationStatus,
   getPublications,
-  resetPublciationResponses,
+  resetPublicationResponses,
 } from "store/actions"
 
 import { Modal } from "react-bootstrap"
@@ -41,7 +41,7 @@ const SendPsbSummaryToAppointingAuth = props => {
     if (!isEmpty(responseSendPsbSummary)) {
       dispatch(getPublications(prfId))
       handleCloseSendPsbSummary()
-      dispatch(resetPublciationResponses())
+      dispatch(resetPublicationResponses())
     }
   }, [responseSendPsbSummary])
 
@@ -80,7 +80,7 @@ const SendPsbSummaryToAppointingAuth = props => {
           <ToastrNotification
             toastType={"success"}
             notifMessage={
-              "Publciation status updated to 'Appointing authority selection'"
+              "Publication status updated to 'Appointing authority selection'"
             }
           />
         ) : null}

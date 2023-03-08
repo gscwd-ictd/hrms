@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react"
-import { 
+import {
   Container,
   Row,
   Col,
   Card,
   CardBody,
-  CardTitle, 
+  CardTitle,
   Media,
 } from "reactstrap"
-import Cookies from 'universal-cookie'
-// import { PermissibleRender } from '@brainhubeu/react-permissible'
-// import { Redirect } from "react-router-dom"
+import Cookies from "universal-cookie"
 
 // Pages Components
 import WelcomeComp from "./WelcomeComp"
@@ -25,12 +23,7 @@ import Breadcrumbs from "components/Common/Breadcrumb"
 // style
 import "styles/custom_gscwd/pages/dashboard.scss"
 
-
 const Dashboard = props => {
-
-  const cookies = new Cookies();
-  const userPermissions = cookies.get('userPermissions')
-
   const reports = [
     { title: "Total Employees", iconClass: "bx-group", description: "513" },
     { title: "Leave Applications", iconClass: "bx-detail", description: "18" },
@@ -42,8 +35,7 @@ const Dashboard = props => {
       <div className="page-content">
         <Container fluid>
           {/* Render Breadcrumb */}
-          <Breadcrumbs
-            title="Dashboards" />
+          <Breadcrumbs title="Dashboards" />
 
           <Row>
             <Col xl="4">
@@ -84,7 +76,7 @@ const Dashboard = props => {
 
               <Card>
                 <CardBody>
-                  <CardTitle className="mb-4 float-sm-left">  
+                  <CardTitle className="mb-4 float-sm-left">
                     Personnel Distribution
                   </CardTitle>
 
@@ -98,7 +90,7 @@ const Dashboard = props => {
             <Col xl="6">
               <Card>
                 <CardBody>
-                  <CardTitle className="mb-4 float-sm-left">  
+                  <CardTitle className="mb-4 float-sm-left">
                     Age Distribution
                   </CardTitle>
 
@@ -110,77 +102,8 @@ const Dashboard = props => {
               <CalendarCard />
             </Col>
           </Row>
-
         </Container>
       </div>
-
-      {/* <PermissibleRender
-        userPermissions={userPermissions}
-        requiredPermissions={['ACCESS_DASHBOARD']}
-        // oneperm
-        renderOtherwise={<Redirect to='/page-404'/>}
-      >
-        <div className="page-content">
-          <Container fluid>
-            <h4>Dashboard</h4>
-            
-            <Row>
-              <PermissibleRender
-                userPermissions={userPermissions}
-                requiredPermissions={['CREATE_CARD']}
-              >
-                <Col md={3}>
-                  <Card>
-                    <CardBody>
-                      Can CREATE!
-                    </CardBody>
-                  </Card>
-                </Col>
-              </PermissibleRender>
-
-              <PermissibleRender
-                userPermissions={userPermissions}
-                requiredPermissions={['READ_CARD']}
-              >
-                <Col md={3}>
-                  <Card>
-                    <CardBody>
-                      Can READ!
-                    </CardBody>
-                  </Card>
-                </Col>
-                </PermissibleRender>
-
-              <PermissibleRender
-                userPermissions={userPermissions}
-                requiredPermissions={['UPDATE_CARD']}
-              >
-                <Col md={3}>
-                  <Card>
-                    <CardBody>
-                      Can UPDATE!
-                    </CardBody>
-                  </Card>
-                </Col>
-              </PermissibleRender>
-
-              <PermissibleRender
-                userPermissions={userPermissions}
-                requiredPermissions={['DELETE_CARD']}
-              >
-                <Col md={3}>
-                  <Card>
-                    <CardBody>
-                      Can DELETE!
-                    </CardBody>
-                  </Card>
-                </Col>
-              </PermissibleRender>
-
-            </Row>
-          </Container>
-        </div>
-      </PermissibleRender> */}
     </React.Fragment>
   )
 }

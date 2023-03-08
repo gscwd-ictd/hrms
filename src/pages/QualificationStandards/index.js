@@ -1,6 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchQualificationStandardsList } from "store/actions"
+import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
 
 import { Card, CardBody, Col, Row } from "reactstrap"
 import InRowAction from "components/InRowAction/InRowAction"
@@ -14,7 +17,7 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 // style
 import "styles/custom_gscwd/components/table.scss"
 
-const QualificationStandards = () => {
+const QualificationStandards = props => {
   const dispatch = useDispatch()
 
   const tableColumns = [
@@ -115,50 +118,65 @@ const QualificationStandards = () => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <div className="container-fluid">
-          <Breadcrumbs
-            title="Dashboard"
-            titleUrl="/"
-            breadcrumbItem="Qualification Standards"
-          />
-
-          {/* Notifications */}
-          {errorQualificationStandardsList ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorQualificationStandardsList}
+      <Can I="access" this="Qualification_standards">
+        <div className="page-content">
+          <div className="container-fluid">
+            <Breadcrumbs
+              title="Dashboard"
+              titleUrl="/"
+              breadcrumbItem="Qualification Standards"
             />
-          ) : null}
 
-          <Row>
-            <Col className="col-12">
-              <Card>
-                <CardBody className="card-table">
-                  {loadingQualificationStandardsList ? (
-                    <LoadingIndicator />
-                  ) : (
-                    <TableQualificationStandard columns={columns} data={data} />
-                  )}
+            {/* Notifications */}
+            {errorQualificationStandardsList ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorQualificationStandardsList}
+              />
+            ) : null}
 
-                  <EditQSModal
-                    showEdt={showEdt}
-                    modalData={modalData}
-                    handleCloseEdt={handleCloseEdt}
-                  />
-                  <DeleteQSModal
-                    showDel={showDel}
-                    modalData={modalData}
-                    handleCloseDel={handleCloseDel}
-                  />
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
+            <Row>
+              <Col className="col-12">
+                <Card>
+                  <CardBody className="card-table">
+                    {loadingQualificationStandardsList ? (
+                      <LoadingIndicator />
+                    ) : (
+                      <TableQualificationStandard
+                        columns={columns}
+                        data={data}
+                      />
+                    )}
+
+                    <EditQSModal
+                      showEdt={showEdt}
+                      modalData={modalData}
+                      handleCloseEdt={handleCloseEdt}
+                    />
+                    <DeleteQSModal
+                      showDel={showDel}
+                      modalData={modalData}
+                      handleCloseDel={handleCloseDel}
+                    />
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </div>
         </div>
-      </div>
+      </Can>
+
+      <Can not I="access" this="Qualification_standards">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
+}
+
+QualificationStandards.propTypes = {
+  location: PropTypes.object,
 }
 
 export default QualificationStandards

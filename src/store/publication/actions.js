@@ -211,6 +211,6 @@ export const fetchAvailableItemNumbersFailed = error => {
 }
 
 // Reset all responses in publication
-export const resetPublciationResponses = () => ({
+export const resetPublicationResponses = () => ({
   type: RESET_PUBLICATION_RESPONSES,
 })

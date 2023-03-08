@@ -88,9 +88,9 @@ Font.register({
 
 const LearningAndDevelopmentPdf = props => {
   const { learningDevelopment, formatDate } = props
-  const [emptylearningDevRows, setEmptylearningDevRows] = useState(21)
+  const [emptyLearningDevRows, setEmptyLearningDevRows] = useState(21)
 
-  const renderLearningDevelopemntRows = () => {
+  const renderLearningDevelopmentRows = () => {
     var content = learningDevelopment.slice(0, 21).map((training, index) => (
       <View
         style={[
@@ -184,9 +184,9 @@ const LearningAndDevelopmentPdf = props => {
     return content
   }
 
-  const renderEmptyLearningDevelopemntRows = () => {
+  const renderEmptyLearningDevelopmentRows = () => {
     let content = []
-    const rowToRender = emptylearningDevRows - learningDevelopment.length
+    const rowToRender = emptyLearningDevRows - learningDevelopment.length
 
     for (let i = 0; i < rowToRender; i++) {
       content.push(
@@ -408,10 +408,10 @@ const LearningAndDevelopmentPdf = props => {
         </View>
       </View>
 
-      {renderLearningDevelopemntRows()}
+      {renderLearningDevelopmentRows()}
 
       {learningDevelopment.length < 21 ? (
-        <>{renderEmptyLearningDevelopemntRows()}</>
+        <>{renderEmptyLearningDevelopmentRows()}</>
       ) : null}
 
       <View style={[styles.borderTop]}>

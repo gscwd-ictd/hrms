@@ -1,16 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import {
-  Card,
-  CardBody,
-  Col,
-  Container,
-  Row,
-  Button,
-  Input,
-  Spinner,
-} from "reactstrap"
-import {
   fetchOccupationDuties,
   fetchAvailableDuties,
   addAssignOccupationDuties,
@@ -21,13 +11,22 @@ import {
   resetDutyCheckBoxes,
 } from "store/actions"
 import PropTypes from "prop-types"
+import { Can } from "casl/Can"
+import { Redirect } from "react-router-dom"
 import { isEmpty } from "lodash"
+
 import Select from "react-select"
-
-// table components
+import {
+  Card,
+  CardBody,
+  Col,
+  Container,
+  Row,
+  Button,
+  Input,
+  Spinner,
+} from "reactstrap"
 import TableOccupationDuties from "components/Table/TableOccupationDuties"
-
-// extra components
 import Breadcrumbs from "components/Common/Breadcrumb"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
@@ -202,98 +201,106 @@ const OccupationDuties = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <Container fluid={true}>
-          <Breadcrumbs
-            title="Occupations"
-            titleUrl="/occupations"
-            breadcrumbItem="Occupation Duties"
-          />
+      <Can I="access" this="Occupations">
+        <div className="page-content">
+          <Container fluid={true}>
+            <Breadcrumbs
+              title="Occupations"
+              titleUrl="/occupations"
+              breadcrumbItem="Occupation Duties"
+            />
 
-          {/* Error Notif */}
-          {errorOccupationDutyResponsibilities ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorOccupationDutyResponsibilities}
-            />
-          ) : null}
-          {errorAvailableDutyResponsibilities ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorAvailableDutyResponsibilities}
-            />
-          ) : null}
-          {errorOccupationDutyResponsibilities ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorOccupationDutyResponsibilities}
-            />
-          ) : null}
+            {/* Error Notif */}
+            {errorOccupationDutyResponsibilities ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorOccupationDutyResponsibilities}
+              />
+            ) : null}
+            {errorAvailableDutyResponsibilities ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorAvailableDutyResponsibilities}
+              />
+            ) : null}
+            {errorOccupationDutyResponsibilities ? (
+              <ToastrNotification
+                toastType={"error"}
+                notifMessage={errorOccupationDutyResponsibilities}
+              />
+            ) : null}
 
-          {/* Success Notif */}
-          {!isEmpty(assignedDutyResponsibilities) ? (
-            <ToastrNotification
-              toastType={"success"}
-              notifMessage={"Duties successfully assigned"}
-            />
-          ) : null}
-          {!isEmpty(unassignedDutyResponsibilities) ? (
-            <ToastrNotification
-              toastType={"success"}
-              notifMessage={"Duties successfully unassigned"}
-            />
-          ) : null}
+            {/* Success Notif */}
+            {!isEmpty(assignedDutyResponsibilities) ? (
+              <ToastrNotification
+                toastType={"success"}
+                notifMessage={"Duties successfully assigned"}
+              />
+            ) : null}
+            {!isEmpty(unassignedDutyResponsibilities) ? (
+              <ToastrNotification
+                toastType={"success"}
+                notifMessage={"Duties successfully unassigned"}
+              />
+            ) : null}
 
-          <Row>
-            <Col lg={12}>
-              <Card>
-                <CardBody className="card-table">
-                  {loadingOccupationDutyResponsibilities ? (
-                    <LoadingIndicator />
-                  ) : (
-                    <>
-                      <div className="multi-select-top-right-actions">
-                        <Row className="justify-content-end">
-                          {loadingAvailableDutyResponsibilities ? (
-                            <Spinner className="ms-2" color="secondary" />
-                          ) : null}
-                          <Col md={8}>
-                            <Select
-                              isMulti={true}
-                              onChange={e => {
-                                handleMultiSelect(e)
-                              }}
-                              name="select-employees"
-                              options={availableDutyResponsibilities}
-                            />
-                          </Col>
-                          <Col md={2}>
-                            <Button
-                              className="btn btn-info w-100"
-                              onClick={() => handleAssignPositions()}
-                              disabled={disableAssignBtn}
-                            >
-                              Assign
-                            </Button>
-                          </Col>
-                        </Row>
-                      </div>
+            <Row>
+              <Col lg={12}>
+                <Card>
+                  <CardBody className="card-table">
+                    {loadingOccupationDutyResponsibilities ? (
+                      <LoadingIndicator />
+                    ) : (
+                      <>
+                        <div className="multi-select-top-right-actions">
+                          <Row className="justify-content-end">
+                            {loadingAvailableDutyResponsibilities ? (
+                              <Spinner className="ms-2" color="secondary" />
+                            ) : null}
+                            <Col md={8}>
+                              <Select
+                                isMulti={true}
+                                onChange={e => {
+                                  handleMultiSelect(e)
+                                }}
+                                name="select-employees"
+                                options={availableDutyResponsibilities}
+                              />
+                            </Col>
+                            <Col md={2}>
+                              <Button
+                                className="btn btn-info w-100"
+                                onClick={() => handleAssignPositions()}
+                                disabled={disableAssignBtn}
+                              >
+                                Assign
+                              </Button>
+                            </Col>
+                          </Row>
+                        </div>
 
-                      <TableOccupationDuties
-                        columns={columns}
-                        data={data}
-                        handleDeleteRows={handleDeleteRows}
-                        disableDeleteBtn={disableDeleteBtn}
-                        hideDeleteBtn={hideDeleteBtn}
-                      />
-                    </>
-                  )}
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </div>
+                        <TableOccupationDuties
+                          columns={columns}
+                          data={data}
+                          handleDeleteRows={handleDeleteRows}
+                          disableDeleteBtn={disableDeleteBtn}
+                          hideDeleteBtn={hideDeleteBtn}
+                        />
+                      </>
+                    )}
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      </Can>
+
+      <Can not I="access" this="Occupations">
+        <Redirect
+          to={{ pathname: "/page-404", state: { from: props.location } }}
+        />
+      </Can>
     </React.Fragment>
   )
 }
@@ -301,6 +308,7 @@ const OccupationDuties = props => {
 OccupationDuties.propTypes = {
   cell: PropTypes.any,
   match: PropTypes.object,
+  location: PropTypes.object,
 }
 
 export default OccupationDuties
