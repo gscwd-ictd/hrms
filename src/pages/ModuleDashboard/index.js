@@ -1,6 +1,5 @@
 import React from "react"
 import PropTypes from "prop-types"
-import MetaTags from "react-meta-tags"
 
 import { Container, Row, Col } from "reactstrap"
 import CardModule from "components/ModuleDashboard/CardModule"
@@ -10,9 +9,7 @@ const ModuleDashboard = props => {
   return (
     <React.Fragment>
       <section className="my-5 pt-sm-5">
-        <MetaTags>
-          <title>HRMS | Module Dashboard</title>
-        </MetaTags>
+        <title>HRMS | Module Dashboard</title>
         <Container>
           <Row>
             <Col xs="12" className="text-center">
