@@ -1,5 +1,4 @@
 import PropTypes from "prop-types"
-import MetaTags from "react-meta-tags"
 import React, { useEffect } from "react"
 
 import {
@@ -80,9 +79,7 @@ const SuperAdminLogin = props => {
 
   return (
     <React.Fragment>
-      <MetaTags>
-        <title>Login | GSCWD HRIS</title>
-      </MetaTags>
+      <title>Login | GSCWD HRIS</title>
       <div className="home-btn d-none d-sm-block">
         <Link to="/" className="text-dark">
           <i className="fas fa-home h2" />

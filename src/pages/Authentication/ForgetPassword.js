@@ -1,54 +1,60 @@
-import PropTypes from "prop-types";
-import MetaTags from "react-meta-tags";
-import React from "react";
-import { Row, Col, Alert, Card, CardBody, Container, FormFeedback, Input, Label, Form } from "reactstrap";
+import PropTypes from "prop-types"
+import React from "react"
+import {
+  Row,
+  Col,
+  Alert,
+  Card,
+  CardBody,
+  Container,
+  FormFeedback,
+  Input,
+  Label,
+  Form,
+} from "reactstrap"
 
 //redux
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux"
 
-import { withRouter, Link } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom"
 
 // Formik Validation
-import * as Yup from "yup";
-import { useFormik } from "formik";
+import * as Yup from "yup"
+import { useFormik } from "formik"
 
 // action
-import { userForgetPassword } from "../../store/actions";
+import { userForgetPassword } from "../../store/actions"
 
 // import images
-import profile from "../../assets/images/profile-img.png";
-import logo from "../../assets/images/logo.svg";
+import profile from "../../assets/images/profile-img.png"
+import logo from "../../assets/images/logo.svg"
 
 const ForgetPasswordPage = props => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const validation = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
 
     initialValues: {
-      email: '',
+      email: "",
     },
     validationSchema: Yup.object({
       email: Yup.string().required("Please Enter Your Email"),
     }),
-    onSubmit: (values) => {
-      dispatch(userForgetPassword(values, props.history));
-    }
-  });
+    onSubmit: values => {
+      dispatch(userForgetPassword(values, props.history))
+    },
+  })
 
   const { forgetError, forgetSuccessMsg } = useSelector(state => ({
     forgetError: state.ForgetPassword.forgetError,
     forgetSuccessMsg: state.ForgetPassword.forgetSuccessMsg,
-  }));
+  }))
 
   return (
     <React.Fragment>
-      <MetaTags>
-        <title>
-          Forget Password | GSCWD HRIS
-        </title>
-      </MetaTags>
+      <title>Forget Password | GSCWD HRIS</title>
       <div className="home-btn d-none d-sm-block">
         <Link to="/" className="text-dark">
           <i className="fas fa-home h2" />
@@ -101,10 +107,10 @@ const ForgetPasswordPage = props => {
 
                     <Form
                       className="form-horizontal"
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        validation.handleSubmit();
-                        return false;
+                      onSubmit={e => {
+                        e.preventDefault()
+                        validation.handleSubmit()
+                        return false
                       }}
                     >
                       <div className="mb-3">
@@ -118,11 +124,15 @@ const ForgetPasswordPage = props => {
                           onBlur={validation.handleBlur}
                           value={validation.values.email || ""}
                           invalid={
-                            validation.touched.email && validation.errors.email ? true : false
+                            validation.touched.email && validation.errors.email
+                              ? true
+                              : false
                           }
                         />
                         {validation.touched.email && validation.errors.email ? (
-                          <FormFeedback type="invalid">{validation.errors.email}</FormFeedback>
+                          <FormFeedback type="invalid">
+                            {validation.errors.email}
+                          </FormFeedback>
                         ) : null}
                       </div>
                       <Row className="mb-3">
@@ -146,20 +156,18 @@ const ForgetPasswordPage = props => {
                     Login
                   </Link>{" "}
                 </p>
-                <p>
-                  © {new Date().getFullYear()} HRIS by GSCWD
-                </p>
+                <p>© {new Date().getFullYear()} HRIS by GSCWD</p>
               </div>
             </Col>
           </Row>
         </Container>
       </div>
     </React.Fragment>
-  );
-};
+  )
+}
 
 ForgetPasswordPage.propTypes = {
   history: PropTypes.object,
-};
+}
 
-export default withRouter(ForgetPasswordPage);
+export default withRouter(ForgetPasswordPage)

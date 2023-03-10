@@ -1,5 +1,4 @@
 import PropTypes from "prop-types"
-import MetaTags from "react-meta-tags"
 import React, { useEffect } from "react"
 import { isEmpty } from "lodash"
 
@@ -44,8 +43,8 @@ const Login = props => {
     enableReinitialize: true,
 
     initialValues: {
-      email: "" || "",
-      password: "" || "",
+      email: "ferdinandferrer@gscwd.com" || "",
+      password: "4DFJakZn" || "",
     },
     validationSchema: Yup.object({
       email: Yup.string().required("Please Enter Your Email"),
@@ -85,9 +84,7 @@ const Login = props => {
 
   return (
     <React.Fragment>
-      <MetaTags>
-        <title>Login | GSCWD HRIS</title>
-      </MetaTags>
+      <title>Login | GSCWD HRIS</title>
       <div className="account-pages my-5 pt-sm-5">
         <Container>
           <Row className="justify-content-center">

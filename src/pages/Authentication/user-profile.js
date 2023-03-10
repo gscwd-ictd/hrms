@@ -1,5 +1,4 @@
-import MetaTags from "react-meta-tags";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"
 import {
   Container,
   Row,
@@ -12,53 +11,52 @@ import {
   Input,
   FormFeedback,
   Form,
-} from "reactstrap";
+} from "reactstrap"
 
 // Formik Validation
-import * as Yup from "yup";
-import { useFormik } from "formik";
+import * as Yup from "yup"
+import { useFormik } from "formik"
 
 //redux
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux"
 
-import { withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom"
 
 //Import Breadcrumb
-import Breadcrumb from "../../components/Common/Breadcrumb";
+import Breadcrumb from "../../components/Common/Breadcrumb"
 
-import avatar from "../../assets/images/users/avatar.png";
+import avatar from "../../assets/images/users/avatar.png"
 // actions
-import { editProfile, resetProfileFlag } from "../../store/actions";
+import { editProfile, resetProfileFlag } from "../../store/actions"
 
 // Import Cookies
-import Cookies from 'universal-cookie'
+import Cookies from "universal-cookie"
 
 const UserProfile = props => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const cookies = new Cookies()
 
-  const [email, setemail] = useState("");
+  const [email, setemail] = useState("")
   // const [name, setname] = useState("");
-  const [idx, setidx] = useState(1);
+  const [idx, setidx] = useState(1)
 
   const { error, success } = useSelector(state => ({
     error: state.Profile.error,
     success: state.Profile.success,
-  }));
+  }))
 
   useEffect(() => {
     if (cookies.get("employeeId") && localStorage.getItem("email")) {
-      
       // setname(obj.username);
-      setemail(localStorage.getItem("email"));
-      setidx(cookies.get("employeeId"));
-      
+      setemail(localStorage.getItem("email"))
+      setidx(cookies.get("employeeId"))
+
       setTimeout(() => {
-        dispatch(resetProfileFlag());
-      }, 3000);
+        dispatch(resetProfileFlag())
+      }, 3000)
     }
-  }, [dispatch, success]);
+  }, [dispatch, success])
 
   // const validation = useFormik({
   //   // enableReinitialize : use this flag when initial values needs to be changed
@@ -76,13 +74,10 @@ const UserProfile = props => {
   //   }
   // });
 
-
   return (
     <React.Fragment>
       <div className="page-content">
-        <MetaTags>
-          <title>Profile | GSCWD HRIS</title>
-        </MetaTags>
+        <title>Profile | GSCWD HRIS</title>
         <Container fluid>
           {/* Render Breadcrumb */}
           <Breadcrumb title="HRIS" breadcrumbItem="Profile" />
@@ -158,7 +153,7 @@ const UserProfile = props => {
         </Container>
       </div>
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default withRouter(UserProfile);
+export default withRouter(UserProfile)
