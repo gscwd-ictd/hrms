@@ -9,8 +9,6 @@ import Login from "pages/Authentication/Login"
 import Logout from "pages/Authentication/Logout"
 import Register from "pages/Authentication/Register"
 import ForgetPwd from "pages/Authentication/ForgetPassword"
-import SuperAdminLogin from "pages/Authentication/SuperAdminLogin"
-import SuperAdminLogout from "pages/Authentication/SuperAdminLogout"
 
 // Dashboard
 import ModuleDashboard from "pages/ModuleDashboard"
@@ -276,10 +274,6 @@ const publicRoutes = [
   { path: "/login", component: Login },
   { path: "/forgot-password", component: ForgetPwd },
   { path: "/register", component: Register },
-
-  // SuperAdmin
-  { path: "/admin-login", component: SuperAdminLogin },
-  { path: "/admin-logout", component: SuperAdminLogout },
 
   //Utility Pages
   { path: "/page-404", component: Page404 },

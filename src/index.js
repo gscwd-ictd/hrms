@@ -1,5 +1,6 @@
 import React from "react"
 import ReactDOM from "react-dom"
+import { createRoot } from "react-dom/client"
 import App from "./App"
 import * as serviceWorker from "./serviceWorker"
 import { BrowserRouter } from "react-router-dom"
@@ -16,5 +17,10 @@ const app = (
   </Provider>
 )
 
-ReactDOM.render(app, document.getElementById("root"))
+// ReactDOM.render(app, document.getElementById("root"))
+// serviceWorker.unregister()
+
+const container = document.getElementById("root")
+const root = createRoot(container)
+root.render(app)
 serviceWorker.unregister()

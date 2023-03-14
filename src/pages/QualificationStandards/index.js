@@ -1,6 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { fetchQualificationStandardsList } from "store/actions"
+import {
+  fetchQualificationStandardsList,
+  resetQualificationStandards,
+} from "store/actions"
 import PropTypes from "prop-types"
 import { Can } from "casl/Can"
 import { Redirect } from "react-router-dom"
@@ -88,6 +91,7 @@ const QualificationStandards = props => {
   )
 
   useEffect(() => {
+    dispatch(resetQualificationStandards())
     dispatch(fetchQualificationStandardsList())
   }, [dispatch])
 
