@@ -9,7 +9,6 @@ import AccountSaga from "./auth/register/saga"
 import AuthSaga from "./auth/login/saga"
 import ForgetSaga from "./auth/forgetpwd/saga"
 import ProfileSaga from "./auth/profile/saga"
-import SuperUserAuthSaga from "./auth/superuser-login/saga"
 
 //Dashboard
 import dashboardSaga from "./dashboard/saga"
@@ -90,7 +89,6 @@ export default function* rootSaga() {
     //public
     fork(AccountSaga),
     fork(AuthSaga),
-    fork(SuperUserAuthSaga),
     fork(ForgetSaga),
     fork(ProfileSaga),
     fork(LayoutSaga),

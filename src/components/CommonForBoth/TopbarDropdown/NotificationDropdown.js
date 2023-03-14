@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 import { Dropdown, DropdownToggle, DropdownMenu, Row, Col } from "reactstrap"
 import SimpleBar from "simplebar-react"
@@ -29,7 +29,7 @@ const NotificationDropdown = props => {
           id="page-header-notifications-dropdown"
         >
           <i className="bx bx-bell bx-tada" />
-          <span className="badge bg-danger rounded-pill">3</span>
+          {/* <span className="badge bg-danger rounded-pill">3</span> */}
         </DropdownToggle>
 
         <DropdownMenu className="dropdown-menu dropdown-menu-lg p-0 dropdown-menu-end">
@@ -47,8 +47,12 @@ const NotificationDropdown = props => {
             </Row>
           </div>
 
-          <SimpleBar style={{ height: "230px" }}>
-            <Link to="" className="text-reset notification-item">
+          <SimpleBar style={{ height: "100px" }}>
+            <p className="px-3">You Don&apos;t Have Notifications Yet</p>
+          </SimpleBar>
+
+          {/* <SimpleBar style={{ height: "230px" }}> */}
+          {/* <Link to="" className="text-reset notification-item">
               <div className="media">
                 <div className="avatar-xs me-3">
                   <span className="avatar-title bg-primary rounded-circle font-size-16">
@@ -91,65 +95,18 @@ const NotificationDropdown = props => {
                   </div>
                 </div>
               </div>
-            </Link>
-            <Link to="" className="text-reset notification-item">
-              <div className="media">
-                <div className="avatar-xs me-3">
-                  <span className="avatar-title bg-success rounded-circle font-size-16">
-                    <i className="bx bx-badge-check" />
-                  </span>
-                </div>
-                <div className="media-body">
-                  <h6 className="mt-0 mb-1">
-                    {props.t("Your item is shipped")}
-                  </h6>
-                  <div className="font-size-12 text-muted">
-                    <p className="mb-1">
-                      {props.t("If several languages coalesce the grammar")}
-                    </p>
-                    <p className="mb-0">
-                      <i className="mdi mdi-clock-outline" />{" "}
-                      {props.t("3 min ago")}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Link>
+            </Link> */}
+          {/* </SimpleBar> */}
 
-            <Link to="" className="text-reset notification-item">
-              <div className="media">
-                <img
-                  src={avatar4}
-                  className="me-3 rounded-circle avatar-xs"
-                  alt="user-pic"
-                />
-                <div className="media-body">
-                  <h6 className="mt-0 mb-1">Salena Layfield</h6>
-                  <div className="font-size-12 text-muted">
-                    <p className="mb-1">
-                      {props.t(
-                        "As a skeptical Cambridge friend of mine occidental"
-                      ) + "."}
-                    </p>
-                    <p className="mb-0">
-                      <i className="mdi mdi-clock-outline" />
-                      {props.t("1 hours ago")}{" "}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          </SimpleBar>
-          <div className="p-2 border-top d-grid">
+          {/* <div className="p-2 border-top d-grid">
             <Link
               className="btn btn-sm btn-link font-size-14 btn-block text-center"
               to="#"
             >
-              <i className="mdi mdi-arrow-right-circle me-1"></i>
-              {" "}
+              <i className="mdi mdi-arrow-right-circle me-1"></i>{" "}
               {props.t("View all")}{" "}
             </Link>
-          </div>
+          </div> */}
         </DropdownMenu>
       </Dropdown>
     </React.Fragment>
@@ -159,5 +116,5 @@ const NotificationDropdown = props => {
 export default withTranslation()(NotificationDropdown)
 
 NotificationDropdown.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
 }

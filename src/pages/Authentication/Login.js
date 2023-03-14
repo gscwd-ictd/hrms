@@ -64,20 +64,6 @@ const Login = props => {
 
   useEffect(() => {
     if (!isEmpty(loginVerificationResponse)) {
-      const accessToken = loginVerificationResponse.accessToken
-      cookies.set("accessToken", accessToken)
-
-      const userEmail = loginVerificationResponse.email
-      localStorage.setItem("email", userEmail)
-
-      const photoUrl = loginVerificationResponse.userDetails.photoUrl
-      localStorage.setItem("photoUrl", photoUrl)
-
-      const userAccess = loginVerificationResponse.userDetails.userAccess
-      localStorage.setItem("userAccess", JSON.stringify(userAccess))
-
-      // console.log(loginVerificationResponse)
-
       dispatch(resetLogin())
     }
   }, [loginVerificationResponse])
@@ -146,7 +132,7 @@ const Login = props => {
                           name="email"
                           className="form-control"
                           placeholder="Enter email"
-                          type="email"
+                          type="text"
                           onChange={validation.handleChange}
                           onBlur={validation.handleBlur}
                           value={validation.values.email || ""}

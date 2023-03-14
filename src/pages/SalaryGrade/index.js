@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { fetchSalaryGradeList } from "store/actions"
+import { fetchSalaryGradeList, resetSalaryGradeResponses } from "store/actions"
 import PropTypes from "prop-types"
 import { Can } from "casl/Can"
 import { Redirect } from "react-router-dom"
@@ -25,6 +25,7 @@ const SalaryGrade = props => {
   }))
 
   useEffect(() => {
+    dispatch(resetSalaryGradeResponses())
     dispatch(fetchSalaryGradeList())
   }, [dispatch])
 

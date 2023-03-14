@@ -6,7 +6,6 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "reactstrap"
-
 //i18n
 import { withTranslation } from "react-i18next"
 // Redux
@@ -21,17 +20,14 @@ const ProfileMenu = props => {
   const [menu, setMenu] = useState(false)
 
   const [email, setEmail] = useState("")
-  const [username, setUsername] = useState("")
   const [photoBadge, setPhotoBadge] = useState("")
 
   useEffect(() => {
-    if (localStorage.getItem("email")) {
+    if (localStorage.getItem("email") !== "undefined") {
       setEmail(localStorage.getItem("email"))
-    } else {
-      setUsername(localStorage.getItem("username"))
     }
 
-    if (localStorage.getItem("photoUrl")) {
+    if (localStorage.getItem("photoUrl") !== "undefined") {
       setPhotoBadge(localStorage.getItem("photoUrl"))
     } else {
       setPhotoBadge(userDefaultAvatar)
@@ -58,11 +54,9 @@ const ProfileMenu = props => {
 
           {email ? (
             <span className="d-none d-xl-inline-block ms-2 me-1">{email}</span>
-          ) : username ? (
-            <span className="d-none d-xl-inline-block ms-2 me-1">
-              {username}
-            </span>
-          ) : null}
+          ) : (
+            <span className="placeholder col-7"></span>
+          )}
 
           <i className="mdi mdi-chevron-down d-none d-xl-inline-block" />
         </DropdownToggle>
@@ -72,32 +66,11 @@ const ProfileMenu = props => {
             <i className="bx bx-user font-size-16 align-middle me-1" />
             {props.t("Profile")}{" "}
           </DropdownItem>
-          {/* <DropdownItem tag="a" href="/crypto-wallet">
-            <i className="bx bx-wallet font-size-16 align-middle me-1"/>
-            {props.t("My Wallet")}
-          </DropdownItem>
-          <DropdownItem tag="a" href="#">
-            <span className="badge bg-success float-end">11</span>
-            <i className="bx bx-wrench font-size-16 align-middle me-1"/>
-            {props.t("Settings")}
-          </DropdownItem>
-          <DropdownItem tag="a" href="auth-lock-screen">
-            <i className="bx bx-lock-open font-size-16 align-middle me-1"/>
-            {props.t("Lock screen")}
-          </DropdownItem>
-          <div className="dropdown-divider"/> */}
 
-          {email ? (
-            <Link to="/logout" className="dropdown-item">
-              <i className="bx bx-power-off font-size-16 align-middle me-1 text-danger" />
-              <span>{props.t("Logout")}</span>
-            </Link>
-          ) : username ? (
-            <Link to="/admin-logout" className="dropdown-item">
-              <i className="bx bx-power-off font-size-16 align-middle me-1 text-danger" />
-              <span>{props.t("Logout")}</span>
-            </Link>
-          ) : null}
+          <Link to="/logout" className="dropdown-item">
+            <i className="bx bx-power-off font-size-16 align-middle me-1 text-danger" />
+            <span>{props.t("Logout")}</span>
+          </Link>
         </DropdownMenu>
       </Dropdown>
     </React.Fragment>

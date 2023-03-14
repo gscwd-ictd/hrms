@@ -8,12 +8,11 @@ import Cookies from "universal-cookie"
 const cookies = new Cookies()
 
 const hasAccess = (props, Component, Layout, isAuthProtected) => {
-  if (
-    isAuthProtected &&
-    !cookies.get("accessToken") &&
-    !cookies.get("ssid_hrms") &&
-    !cookies.get("isSuperUser")
-  ) {
+  if (isAuthProtected && !localStorage.getItem("userId")) {
+    cookies.remove("accessToken")
+    cookies.remove("isSuperUser")
+    cookies.remove("ssid_hrms")
+    localStorage.clear()
     return (
       <Redirect to={{ pathname: "/login", state: { from: props.location } }} />
     )
