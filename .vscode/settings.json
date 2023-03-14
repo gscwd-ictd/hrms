@@ -12,5 +12,6 @@
     "personaldatasheet",
     "plantilla",
     "Thumbmark"
-  ]
+  ],
+  "git.terminalAuthentication": true
 }
