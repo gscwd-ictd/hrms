@@ -61,7 +61,7 @@ const DeleteOfficeModal = props => {
         {!isEmpty(delOfficeRes) ? (
           <ToastrNotification
             toastType={"success"}
-            notifMessage={"Office Deleted"}
+            notifMessage={"Office deleted"}
           />
         ) : null}
 

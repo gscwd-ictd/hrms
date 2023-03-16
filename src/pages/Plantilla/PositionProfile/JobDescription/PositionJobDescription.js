@@ -160,7 +160,6 @@ const PositionJobDescription = props => {
         summary: event.target.positionSummary.value,
       },
     }
-    // console.log(formData)
     dispatch(updateJobDescription(props.match.params.id, formData))
   }
 

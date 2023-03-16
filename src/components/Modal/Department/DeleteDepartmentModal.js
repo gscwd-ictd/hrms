@@ -17,7 +17,6 @@ const DeleteDepartmentModal = props => {
 
   const submitDelete = () => {
     dispatch(deleteDepartment(modalData._id))
-    // console.log(modalData._id)
   }
 
   const { delDepartmentRes, isLoading, error } = useSelector(state => ({

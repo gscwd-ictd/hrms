@@ -108,17 +108,17 @@ const DbmCscAdditionalInfo = props => {
           "Please select an available item number"
         ),
         immediateSupervisor: Yup.string().required(
-          "Please input immediate supervisor"
+          "Please input the immediate supervisor"
         ),
         supervisorNextHigher: Yup.string().required(
-          "Please input next higher supervisor"
+          "Please input the next higher supervisor"
         ),
         toolsUsed: Yup.string().required(
-          "Please input machine/equipment/tools used for work"
+          "Please input a machine/equipment/tools used for work"
         ),
         workStation: Yup.string().required("Please select a place of work"),
         appointmentType: Yup.string().required(
-          "Please select a appointment type"
+          "Please select an appointment type"
         ),
         publicationMode: Yup.string().required(
           "Please select a mode of publication"

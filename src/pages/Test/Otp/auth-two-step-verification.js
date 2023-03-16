@@ -21,16 +21,16 @@ const TwostepVerification = () => {
     secret: process.env.REACT_APP_OTP_SECRET,
     otp: "",
   })
-  const [otp, setOtp] = useState('')
+  const [otp, setOtp] = useState("")
 
-
-  const { otpToken, verification, isLoading, error, verifyOtpResponse } = useSelector( state => ({
-    otpToken: state.otpService.otpToken,
-    verification: state.otpService.verification,
-    isLoading: state.otpService.isLoading,
-    error: state.otpService.error,
-    verifyOtpResponse: state.otpService.verifyOtpResponse,
-  }) )
+  const { otpToken, verification, isLoading, error, verifyOtpResponse } =
+    useSelector(state => ({
+      otpToken: state.otpService.otpToken,
+      verification: state.otpService.verification,
+      isLoading: state.otpService.isLoading,
+      error: state.otpService.error,
+      verifyOtpResponse: state.otpService.verifyOtpResponse,
+    }))
 
   const clickSendOtp = () => {
     // event.preventDefault()
@@ -39,34 +39,28 @@ const TwostepVerification = () => {
     dispatch(requestOtp(uuid))
   }
 
-  const clickSubmitOtp = (evt) => {
+  const clickSubmitOtp = evt => {
     evt.preventDefault()
-    
+
     const otpDetails = {
       token: otpToken.otpToken,
       secret: process.env.REACT_APP_OTP_SECRET,
       otp: otp,
     }
 
-    dispatch(verifyOtp(otpDetails));
+    dispatch(verifyOtp(otpDetails))
   }
-  
 
   function otpInput(value) {
-    console.log(value)
     setOtp(value)
   }
 
-
   useEffect(() => {
-    console.log(otpToken)
-
-    if(error) {
+    if (error) {
       console.log(error)
     }
 
-    if(verifyOtpResponse) {
-      console.log(verifyOtpResponse)
+    if (verifyOtpResponse) {
     }
   }, [otpToken, error, verifyOtpResponse])
 
@@ -100,7 +94,7 @@ const TwostepVerification = () => {
                               <FormGroup className="verification">
                                 <AuthCode
                                   characters={6}
-                                  allowedCharacters= "^[0-9]"
+                                  allowedCharacters="^[0-9]"
                                   className="form-control form-control-lg text-center"
                                   name="otp"
                                   onChange={value => otpInput(value)}
@@ -117,30 +111,36 @@ const TwostepVerification = () => {
                                   }}
                                 />
                                 <div className="mt-4">
-                                  <Button type="submit" className="btn btn-success w-md"> Confirm </Button>
+                                  <Button
+                                    type="submit"
+                                    className="btn btn-success w-md"
+                                  >
+                                    {" "}
+                                    Confirm{" "}
+                                  </Button>
                                 </div>
                               </FormGroup>
                             </Col>
                           </Row>
-                          
                         </Form>
-
-                        
                       </div>
                     </div>
                   </div>
                 </CardBody>
               </Card>
-                <div className="mt-5 text-center">
-                  <p>
-                    Didn&apos;t receive a code ?{" "}
-                    <a href="#" className="font-weight-medium text-primary" onClick={() => clickSendOtp() }>
-                      {" "}
-                      Resend{" "}
-                    </a>{" "}
-                  </p>
-                  
-                </div>
+              <div className="mt-5 text-center">
+                <p>
+                  Didn&apos;t receive a code ?{" "}
+                  <a
+                    href="#"
+                    className="font-weight-medium text-primary"
+                    onClick={() => clickSendOtp()}
+                  >
+                    {" "}
+                    Resend{" "}
+                  </a>{" "}
+                </p>
+              </div>
             </Col>
           </Row>
         </Container>
@@ -148,4 +148,4 @@ const TwostepVerification = () => {
     </React.Fragment>
   )
 }
-export default TwostepVerification;
+export default TwostepVerification

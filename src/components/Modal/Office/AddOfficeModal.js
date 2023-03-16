@@ -40,9 +40,9 @@ const AddOfficeModal = props => {
       description: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Please Enter A Office Name"),
-      code: Yup.string().required("Please Enter A Office Code"),
-      description: Yup.string().required("Please Enter A Office Description"),
+      name: Yup.string().required("Please enter an office name"),
+      code: Yup.string().required("Please enter an office code"),
+      description: Yup.string().required("Please enter an office description"),
     }),
     onSubmit: (values, { resetForm }) => {
       dispatch(postOffice(values))
@@ -160,6 +160,7 @@ const AddOfficeModal = props => {
                         type="textarea"
                         className="form-control"
                         id="desc-Input"
+                        rows="5"
                         onChange={validation.handleChange}
                         onBlur={validation.handleBlur}
                         value={validation.values.description || ""}

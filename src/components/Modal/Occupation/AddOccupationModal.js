@@ -42,7 +42,7 @@ const AddOccupationModal = props => {
       occupationName: "",
     },
     validationSchema: Yup.object({
-      occupationName: Yup.string().required("Please enter a occupation name"),
+      occupationName: Yup.string().required("Please enter an occupation name"),
     }),
     onSubmit: (values, { resetForm }) => {
       dispatch(addOccupation(values))

@@ -28,7 +28,7 @@ const ViewWorkExpModal = props => {
                 <Col md={6} className="mt-1">
                   <OutlinedBox
                     label={"To"}
-                    value={formatDate(modalData.to) || "N/A"}
+                    value={formatDate(modalData.to) || "PRESENT"}
                   />
                 </Col>
               </Row>

@@ -379,7 +379,7 @@ const PrfDocument = props => {
                   { marginHorizontal: "auto" },
                 ]}
               >
-                <Text>Date needed: </Text>
+                {/* <Text>Date needed: </Text>
                 <View
                   style={[
                     styles.borderBottom,
@@ -388,7 +388,7 @@ const PrfDocument = props => {
                   ]}
                 >
                   <Text>{formatDate(prfDetails.dateNeeded)}</Text>
-                </View>
+                </View> */}
               </View>
             </View>
 

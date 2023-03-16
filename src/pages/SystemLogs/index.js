@@ -25,8 +25,6 @@ const SystemLogs = () => {
     const sd = filterValues[0] ? new Date(filterValues[0]) : undefined
     const ed = filterValues[1] ? new Date(filterValues[1]) : undefined
 
-    // console.log(min, max)
-
     if (ed || sd) {
       return rows.filter(r => {
         const cellDate = new Date(r.values[id])

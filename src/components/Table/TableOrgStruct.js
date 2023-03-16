@@ -5,6 +5,7 @@ import {
   useGlobalFilter,
   usePagination,
   useTable,
+  useSortBy,
 } from "react-table"
 import { GlobalFilter } from "components/Filters/GlobalFilter"
 import PropTypes from "prop-types"
@@ -23,6 +24,7 @@ const TableOrgStruct = props => {
     },
     useFilters,
     useGlobalFilter,
+    useSortBy,
     usePagination
   )
   const {
@@ -75,15 +77,24 @@ const TableOrgStruct = props => {
             <tr {...headerGroup.getHeaderGroupProps()} key={hGi}>
               {headerGroup.headers.map((column, hi) => (
                 <th
-                  {...column.getHeaderProps()}
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
                   key={hi}
                   className={"th_" + column.getHeaderProps("Header").key}
                   style={{ textAlign: column.align ? "center" : "left" }}
                 >
                   {column.render("Header")}
-                  {/* {!column.disableFilters ? (
-                    <div>{column.render("Filter")}</div>
-                  ) : null} */}
+                  {/* Sort */}
+                  <span>
+                    {column.isSorted ? (
+                      column.isSortedDesc ? (
+                        <i className="bx bx-up-arrow pl-1"></i>
+                      ) : (
+                        <i className="bx bx-down-arrow pl-1"></i>
+                      )
+                    ) : (
+                      ""
+                    )}
+                  </span>
                 </th>
               ))}
             </tr>

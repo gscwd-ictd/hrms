@@ -153,18 +153,12 @@ const SinglePositionRequest = props => {
                                 </td>
                                 <td>
                                   <span className="fw-medium">
-                                    Date Needed:{" "}
-                                  </span>
-                                  &nbsp;{formatDate(prfDetails.dateNeeded)}
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <span className="fw-medium">
                                     With examination:{" "}
                                   </span>
                                   &nbsp;{prfDetails.withExam ? "Yes" : "No"}
                                 </td>
+                              </tr>
+                              <tr>
                                 <td>
                                   <span className="fw-medium">For: </span>
                                   &nbsp;{prfDetails.for.name}

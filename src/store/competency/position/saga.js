@@ -49,7 +49,6 @@ function* fetchCompetencyProficiencyLevels({ payload: positionId }) {
 function* updatePositionCompetencyProficiencyLevels({
   payload: proficiencyLevels,
 }) {
-  console.log(proficiencyLevels)
   try {
     const response = yield call(
       patchPositionCompetencyProficiencyLevels,

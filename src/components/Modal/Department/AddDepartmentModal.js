@@ -45,15 +45,14 @@ const AddDepartmentModal = props => {
       officeId: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Please Enter A Department Name"),
-      code: Yup.string().required("Please Enter A Department Code"),
+      name: Yup.string().required("Please enter a department name"),
+      code: Yup.string().required("Please enter a department code"),
       description: Yup.string().required(
-        "Please Enter A Department Description"
+        "Please enter a department description"
       ),
-      officeId: Yup.string().required("Please Select A Parent Office"),
+      officeId: Yup.string().required("Please select a parent office"),
     }),
     onSubmit: (values, { resetForm }) => {
-      // console.log(values)
       dispatch(postDepartment(values))
       resetForm()
     },
@@ -167,6 +166,7 @@ const AddDepartmentModal = props => {
                     type="textarea"
                     className="form-control"
                     id="desc-Input"
+                    rows="5"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
                     value={validation.values.description || ""}

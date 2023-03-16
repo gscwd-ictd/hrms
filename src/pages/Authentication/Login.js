@@ -43,8 +43,8 @@ const Login = props => {
     enableReinitialize: true,
 
     initialValues: {
-      email: "ferdinandferrer@gscwd.com" || "",
-      password: "4DFJakZn" || "",
+      email: "allynjosephcubero@gscwd.com" || "",
+      password: "@allynjoseph2020008" || "",
     },
     validationSchema: Yup.object({
       email: Yup.string().required("Please Enter Your Email"),

@@ -70,7 +70,6 @@ const EditPositionProficiencyLevelModal = props => {
     event.preventDefault()
 
     dispatch(updatePositionCompetencyProficiencyLevels(proficiencyLevels))
-    // console.log(proficiencyLevels)
   }
 
   const toggle = tab => {

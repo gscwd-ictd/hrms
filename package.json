@@ -10,7 +10,10 @@
     "@fullcalendar/daygrid": "^5.10.1",
     "@fullcalendar/interaction": "^5.10.1",
     "@fullcalendar/react": "^5.10.1",
-    "@react-pdf/renderer": "^2.3.0",
+    "@react-pdf/font": "2.2.1",
+    "@react-pdf/fontkit": "2.0.2",
+    "@react-pdf/pdfkit": "2.1.0",
+    "@react-pdf/renderer": "2.0.19",
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
@@ -128,6 +131,12 @@
   },
   "resolutions": {
     "moment": "2.29.1"
+  },
+  "overrides": {
+    "react-error-overlay": "6.0.9",
+    "@react-pdf/font": "2.2.1",
+    "@react-pdf/fontkit": "2.0.2",
+    "@react-pdf/pdfkit": "2.1.0"
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.3.3",

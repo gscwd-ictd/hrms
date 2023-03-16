@@ -57,10 +57,10 @@ const EditDivisionModal = props => {
       departmentId: defValDepartment(modalData.departmentCode) || "",
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Please Enter A Division Name"),
-      code: Yup.string().required("Please Enter A Division Code"),
-      description: Yup.string().required("Please Enter A Division Description"),
-      departmentId: Yup.string().required("Please Select A Parent Department"),
+      name: Yup.string().required("Please enter a division name"),
+      code: Yup.string().required("Please enter a division code"),
+      description: Yup.string().required("Please enter a division description"),
+      departmentId: Yup.string().required("Please delect a parent department"),
     }),
     onSubmit: values => {
       dispatch(updateDivision(modalData._id, values))
@@ -176,6 +176,7 @@ const EditDivisionModal = props => {
                     type="textarea"
                     className="form-control"
                     id="desc-Input"
+                    rows="5"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
                     value={validation.values.description || ""}

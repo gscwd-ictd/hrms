@@ -196,7 +196,7 @@ const CloseApplicationPSBMemberAssignment = props => {
     } else if (modalData.salaryGradeLevel >= 26) {
       dispatch(setPSBRoles(psb26AndAbove))
     } else {
-      console.log("Please supply salaryGradeLevel")
+      // console.log("Please supply salaryGradeLevel")
     }
   }
 

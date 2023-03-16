@@ -146,7 +146,7 @@ const PersonalDataSheetForm = () => {
       }),
     }),
     onSubmit: values => {
-      console.log(values)
+      // console.log(values)
     },
   })
 

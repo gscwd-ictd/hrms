@@ -105,8 +105,6 @@ const PersonalDataSheetView = props => {
     }
   }
 
-  console.log(skills)
-
   return (
     <React.Fragment>
       {isLoading ? (

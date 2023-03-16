@@ -37,15 +37,6 @@ const PrintResultsOfHiring = props => {
                     onChange={e => setInputAppointmentDate(e.target.value)}
                   />
                 </Col>
-                {/* <Col md={2}>
-                  <Button
-                    className="btn btn-info w-100"
-                    onClick={() => handleFetchHiredApplicants()}
-                    disabled={!isEmpty(inputAppointmentDate) ? false : true}
-                  >
-                    Search
-                  </Button>
-                </Col> */}
               </Row>
             </Col>
           </Row>

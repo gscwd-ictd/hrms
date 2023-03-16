@@ -51,13 +51,12 @@ const EditQSModal = props => {
       training: modalData.training || "",
     },
     validationSchema: Yup.object({
-      eligibility: Yup.string().required("Please enter eligibility"),
-      education: Yup.string().required("Please enter education"),
-      experience: Yup.string().required("Please enter experience"),
-      training: Yup.string().required("Please enter training"),
+      eligibility: Yup.string().required("Please enter an eligibility"),
+      education: Yup.string().required("Please enter an education"),
+      experience: Yup.string().required("Please enter an experience"),
+      training: Yup.string().required("Please enter a training"),
     }),
     onSubmit: values => {
-      // console.log(values)
       dispatch(
         updatePositionQualificationStandards(modalData.positionId, values)
       )

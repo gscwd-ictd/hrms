@@ -10,10 +10,11 @@ const cookies = new Cookies()
 const hasAccess = (props, Component, Layout, isAuthProtected) => {
   if (
     isAuthProtected &&
-    !cookies.get("accessToken") &&
-    !cookies.get("ssid_hrms") &&
-    !cookies.get("isSuperUser")
+    (localStorage.getItem("userId") === null ||
+      localStorage.getItem("userId") === "undefined" ||
+      typeof cookies.get("isSuperUser") === "undefined")
   ) {
+    localStorage.clear()
     return (
       <Redirect to={{ pathname: "/login", state: { from: props.location } }} />
     )

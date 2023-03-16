@@ -49,13 +49,11 @@ const EditModuleModal = props => {
       url: modalData.url || "/",
     },
     validationSchema: Yup.object({
-      module: Yup.string().required("Please input module name"),
-      slug: Yup.string().required("Please input slug name"),
-      // url: Yup.string().required("Please input url"),
+      module: Yup.string().required("Please input a module name"),
+      slug: Yup.string().required("Please input a slug name"),
     }),
     onSubmit: values => {
       dispatch(updateModule(modalData._id, values))
-      // console.log(values)
     },
   })
 

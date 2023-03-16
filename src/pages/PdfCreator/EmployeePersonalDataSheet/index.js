@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import PropTypes from "prop-types"
 import { useDispatch, useSelector } from "react-redux"
-import { fetchEmployeePds } from "store/actions"
+import { fetchEmployeePds, resetEmployeeErrorLog } from "store/actions"
 import dayjs from "dayjs"
 import { isEmpty } from "lodash"
 import { Can } from "casl/Can"

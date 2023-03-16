@@ -61,7 +61,7 @@ const DeleteDivisionModal = props => {
         {!isEmpty(delDivisionRes) ? (
           <ToastrNotification
             toastType={"success"}
-            notifMessage={"Division Deleted"}
+            notifMessage={"Division deleted"}
           />
         ) : null}
 

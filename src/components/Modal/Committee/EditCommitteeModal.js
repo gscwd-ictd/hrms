@@ -45,9 +45,9 @@ const EditCommitteeModal = props => {
       description: modalData.description || "",
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Please Enter A Committee Name"),
+      name: Yup.string().required("Please enter a committee name"),
       description: Yup.string().required(
-        "Please Enter A Committee Description"
+        "Please enter a committee description"
       ),
     }),
     onSubmit: (values, { resetForm }) => {

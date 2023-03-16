@@ -1,27 +1,37 @@
 import { all, call, fork, put, takeEvery } from "redux-saga/effects"
 import { postSendOtp, postVerifyOtp } from "../../../helpers/otp_service_helper"
 import * as url from "../../../helpers/url_helper"
-import { sendOtpSuccess, sendOtpFail, verifyOtpSuccess, verifyOtpFail } from "./actions"
+import {
+  sendOtpSuccess,
+  sendOtpFail,
+  verifyOtpSuccess,
+  verifyOtpFail,
+} from "./actions"
 import { POST_SEND_OTP, POST_VERIFY_OTP } from "./actionTypes"
 
 const domainUrl = process.env.REACT_APP_AUTHDOMAIN
 
-function* requestOtp({payload}) {
-  // console.log(payload)
+function* requestOtp({ payload }) {
   try {
-    const response = yield call(postSendOtp, domainUrl + url.POST_SEND_OTP, payload)
+    const response = yield call(
+      postSendOtp,
+      domainUrl + url.POST_SEND_OTP,
+      payload
+    )
     yield put(sendOtpSuccess(response))
-    // console.log(response)
   } catch (error) {
     yield put(sendOtpFail(error))
   }
 }
 
-function* verifyOtp({payload}){
+function* verifyOtp({ payload }) {
   try {
-    const response = yield call(postVerifyOtp, domainUrl + url.POST_VERIFY_OTP, payload)
+    const response = yield call(
+      postVerifyOtp,
+      domainUrl + url.POST_VERIFY_OTP,
+      payload
+    )
     yield put(verifyOtpSuccess(response))
-    // console.log(response)
   } catch (error) {
     yield put(verifyOtpFail(error))
   }

@@ -88,19 +88,6 @@ const PrfList = props => {
       accessor: "from",
     },
     {
-      Header: "Date Needed",
-      accessor: "dateNeeded",
-      Cell: function DateNeeded(cell) {
-        return (
-          <>
-            {dayjs(cell.row.original.dateNeeded, "MMMM DD, YYYY").format(
-              "MMMM DD, YYYY"
-            )}
-          </>
-        )
-      },
-    },
-    {
       Header: "Actions",
       accessor: "",
       disableGlobalFilter: true,

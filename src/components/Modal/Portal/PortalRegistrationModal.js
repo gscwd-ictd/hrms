@@ -65,15 +65,14 @@ const PortalRegistrationModal = props => {
       salaryGrade: 0,
     },
     validationSchema: Yup.object().shape({
-      firstName: Yup.string().required("Please Enter First Name"),
-      lastName: Yup.string().required("Please Enter Last Name"),
-      positionId: Yup.string().required("Please Select A Position"),
-      email: Yup.string().required("Please Enter An Email"),
+      firstName: Yup.string().required("Please enter a first name"),
+      lastName: Yup.string().required("Please enter a last name"),
+      positionId: Yup.string().required("Please select a position"),
+      email: Yup.string().required("Please enter an email address"),
       salaryGrade: Yup.number(),
     }),
     onSubmit: values => {
       dispatch(submitEmpAssgn(values))
-      // console.log(values)
     },
   })
 

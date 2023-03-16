@@ -45,6 +45,7 @@ const Office = props => {
       accessor: "",
       align: "center",
       disableGlobalFilter: true,
+      disableSortBy: true,
       Cell: function ActionDropdown(cell) {
         return (
           <InRowAction

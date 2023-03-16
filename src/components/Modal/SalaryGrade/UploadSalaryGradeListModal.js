@@ -94,7 +94,6 @@ const UploadSalaryGradeListModal = props => {
               idCount = idCount + 1
               // mainArray.push(stepIncrement)
               pushStepIncremenetDetailsToArray(stepIncrement)
-              // console.log(stepIncrement)
             }
           })
         }

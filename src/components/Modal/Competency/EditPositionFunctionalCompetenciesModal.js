@@ -152,7 +152,6 @@ const EditPositionFunctionalCompetenciesModal = props => {
       proficiencyIds: selectedFunctionalCompetencies,
     }
 
-    // console.log(proficiencyIds)
     dispatch(
       updateFunctionalCompetenciesOfPosition(
         modalData.positionId,

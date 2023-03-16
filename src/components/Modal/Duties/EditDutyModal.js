@@ -49,7 +49,7 @@ const EditDutyModal = props => {
     },
     validationSchema: Yup.object({
       description: Yup.string().required(
-        "Please enter duty and responsibility description"
+        "Please enter a duty and responsibility description"
       ),
     }),
     onSubmit: (values, { resetForm }) => {
