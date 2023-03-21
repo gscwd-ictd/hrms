@@ -125,8 +125,10 @@ const EmployeeList = () => {
     )
   }
 
-  const convertToUrlString = string => {
-    return string.replace(/\s+/g, "-") + "/"
+  const convertToUrlString = str => {
+    if (typeof str === "string") {
+      return str.replace(/\s+/g, "-") + "/"
+    }
   }
 
   const { employeeListRes, isLoading, error } = useSelector(state => ({
