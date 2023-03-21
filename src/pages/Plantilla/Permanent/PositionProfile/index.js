@@ -1,8 +1,7 @@
 import "flatpickr/dist/themes/material_blue.css"
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import PropTypes from "prop-types"
 import { fetchPlantillaPosition } from "store/actions"
 import { Can } from "casl/Can"
 import { Navigate, useLocation, useParams } from "react-router-dom"
@@ -51,7 +50,7 @@ const PositionProfile = () => {
               <>
                 <Breadcrumbs
                   title="Plantilla"
-                  titleUrl="/plantilla"
+                  titleUrl="/plantilla/permanent"
                   breadcrumbItem={positionDetails.itemNumber}
                   positionTitle={positionDetails.positionTitle}
                 />

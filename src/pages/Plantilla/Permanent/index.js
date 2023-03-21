@@ -22,7 +22,7 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 // style
 import "styles/custom_gscwd/components/table.scss"
 
-const PlantillaTable = props => {
+const PlantillaTable = () => {
   const dispatch = useDispatch()
   const location = useLocation()
 
@@ -81,7 +81,7 @@ const PlantillaTable = props => {
 
   useEffect(() => {
     dispatch(fetchPlantilla())
-  }, [dispatch])
+  }, [])
 
   // Add Plantilla Modal
   const [showAdd, setShowAdd] = useState(false)

@@ -5,7 +5,17 @@ import PropTypes from "prop-types"
 import { Can } from "casl/Can"
 import { Navigate, Link, useLocation } from "react-router-dom"
 
-import { Container, Row, Col, Card, CardBody } from "reactstrap"
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  CardBody,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap"
 
 // modal components
 import PortalRegistrationModal from "components/Modal/Portal/PortalRegistrationModal"
@@ -25,13 +35,18 @@ const EmployeeList = () => {
 
   const tableColumns = [
     {
-      Header: "ID",
+      Header: "",
       accessor: "employmentDetails.employeeId",
       disableGlobalFilter: true,
     },
     {
       Header: "Name",
       accessor: "personalDetails.fullName",
+    },
+    {
+      Header: "",
+      accessor: "employmentDetails.positionId",
+      disableGlobalFilter: true,
     },
     {
       Header: "Position Title",
@@ -43,31 +58,76 @@ const EmployeeList = () => {
       Filter: SelectColumnFilter,
     },
     {
+      Header: "",
+      accessor: "employmentDetails.natureOfAppointment",
+      disableGlobalFilter: true,
+    },
+    {
       Header: "Actions",
       accessor: "",
       align: "center",
       disableGlobalFilter: true,
       disableSortBy: true,
-      Cell: function ActionDropdown({ cell }) {
-        return (
-          <div className="d-flex">
+      Cell: cell => rowActions(cell),
+    },
+  ]
+
+  const rowActions = cell => {
+    return (
+      <UncontrolledDropdown className="ms-auto">
+        <DropdownToggle className="font-size-18" color="white" type="button">
+          <i className="mdi mdi-dots-horizontal"></i>
+        </DropdownToggle>
+        <DropdownMenu direction="right">
+          <DropdownItem>
             <Link
+              className="dropdown-item"
               to={`${
                 location.pathname +
-                "/" +
+                "/pds/" +
                 cell.row.values["employmentDetails.employeeId"]
               }`}
               style={{ paddingRight: 5 }}
             >
-              <button className="btn btn-info waves-effect waves-light">
-                201
-              </button>
+              PDS
             </Link>
-          </div>
-        )
-      },
-    },
-  ]
+          </DropdownItem>
+          <DropdownItem>
+            <Link
+              className="dropdown-item"
+              to={`${
+                location.pathname +
+                "/201/" +
+                cell.row.values["employmentDetails.employeeId"]
+              }`}
+              style={{ paddingRight: 5 }}
+            >
+              201
+            </Link>
+          </DropdownItem>
+          <DropdownItem>
+            <Link
+              className="dropdown-item"
+              to={`${
+                "/plantilla/" +
+                `${convertToUrlString(
+                  cell.row.values["employmentDetails.natureOfAppointment"]
+                )}` +
+                `${cell.row.values["employmentDetails.positionId"]}`
+              }`}
+              style={{ paddingRight: 5 }}
+            >
+              Position Description
+            </Link>
+          </DropdownItem>
+        </DropdownMenu>
+      </UncontrolledDropdown>
+    )
+  }
+
+  const convertToUrlString = string => {
+    return string.replace(/\s+/g, "-") + "/"
+  }
 
   const { employeeListRes, isLoading, error } = useSelector(state => ({
     employeeListRes: state.employee.employeeListRes,
@@ -85,7 +145,7 @@ const EmployeeList = () => {
 
   useEffect(() => {
     dispatch(fetchEmployeeList())
-  }, [dispatch])
+  }, [])
 
   return (
     <React.Fragment>

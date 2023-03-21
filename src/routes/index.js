@@ -23,13 +23,15 @@ import Office from "pages/OrganizationStructure/Office"
 import PrfList from "pages/PositionRequest"
 import PrfDetails from "pages/PositionRequest/SinglePositionRequest"
 
-// Personnel
-import PlantillaTable from "pages/Plantilla"
-import PositionProfile from "pages/Plantilla/PositionProfile"
-import PositionJobDescription from "pages/Plantilla/PositionProfile/JobDescription/PositionJobDescription"
-import PositionDutiesResponsibilities from "pages/Plantilla/PositionProfile/DutiesResponsibilities/PositionDutiesResponsibilities"
-import PositionQualificationStandards from "pages/Plantilla/PositionProfile/QualificationStandards/PositionQualificationStandards"
-import PositionCompetencies from "pages/Plantilla/PositionProfile/Competency/PositionCompetencies"
+// Permanent Plantilla
+import PermanentPlantillaTable from "pages/Plantilla/Permanent"
+import PermanentPositionProfile from "pages/Plantilla/Permanent/PositionProfile"
+import PermanentPositionJobDescription from "pages/Plantilla/Permanent/PositionProfile/JobDescription/PositionJobDescription"
+import PermanentPositionDutiesResponsibilities from "pages/Plantilla/Permanent/PositionProfile/DutiesResponsibilities/PositionDutiesResponsibilities"
+import PermanentPositionQualificationStandards from "pages/Plantilla/Permanent/PositionProfile/QualificationStandards/PositionQualificationStandards"
+import PermanentPositionCompetencies from "pages/Plantilla/Permanent/PositionProfile/Competency/PositionCompetencies"
+
+// Employees
 import EmployeeList from "pages/Employee"
 import EmployeeRegistration from "../pages/Employee/EmployeeRegistration"
 import EmployeePds from "pages/Employee/EmployeePds"
@@ -119,26 +121,31 @@ const authProtectedRoutes = [
     path: "/employee-registration",
     component: <EmployeeRegistration />,
   },
-  { path: "/plantilla", component: <PlantillaTable /> },
-  { path: "/plantilla/:plantillaId", component: <PositionProfile /> },
-  {
-    path: "/plantilla/:plantillaId/job-description",
-    component: <PositionJobDescription />,
-  },
-  {
-    path: "/plantilla/:plantillaId/duties-and-responsibilities",
-    component: <PositionDutiesResponsibilities />,
-  },
-  {
-    path: "/plantilla/:plantillaId/qualification-standards",
-    component: <PositionQualificationStandards />,
-  },
-  {
-    path: "/plantilla/:plantillaId/competencies",
-    component: <PositionCompetencies />,
-  },
   { path: "/employees", component: <EmployeeList /> },
-  { path: "/employees/:employeeId", component: <EmployeePds /> },
+  { path: "/employees/pds/:employeeId", component: <EmployeePds /> },
+
+  // Permanent Plantilla
+  { path: "/plantilla/permanent", component: <PermanentPlantillaTable /> },
+  {
+    path: "/plantilla/permanent/:plantillaId",
+    component: <PermanentPositionProfile />,
+  },
+  {
+    path: "/plantilla/permanent/:plantillaId/job-description",
+    component: <PermanentPositionJobDescription />,
+  },
+  {
+    path: "/plantilla/permanent/:plantillaId/duties-and-responsibilities",
+    component: <PermanentPositionDutiesResponsibilities />,
+  },
+  {
+    path: "/plantilla/permanent/:plantillaId/qualification-standards",
+    component: <PermanentPositionQualificationStandards />,
+  },
+  {
+    path: "/plantilla/permanent/:plantillaId/competencies",
+    component: <PermanentPositionCompetencies />,
+  },
 
   // Qualification Standards
   {

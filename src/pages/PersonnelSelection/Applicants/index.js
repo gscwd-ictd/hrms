@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react"
 import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Navigate } from "react-router-dom"
+import { Navigate, useLocation, useParams } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { fetchApplicants } from "store/actions"
@@ -14,8 +14,10 @@ import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import Breadcrumb from "components/Common/Breadcrumb"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 
-const Applicants = props => {
+const Applicants = () => {
   const dispatch = useDispatch()
+  const location = useLocation()
+  const { publicationId, prfId } = useParams()
 
   const tblColumns = [
     {
@@ -91,8 +93,8 @@ const Applicants = props => {
         return (
           <div className="d-flex">
             <InRowAction
-              viewNavigateUrl={
-                props.location.pathname +
+              viewRedirectUrl={
+                location.pathname +
                 "/" +
                 cell.row.values.applicantId +
                 "/" +
@@ -138,7 +140,7 @@ const Applicants = props => {
   }
 
   useEffect(() => {
-    dispatch(fetchApplicants(props.match.params.publicationId))
+    dispatch(fetchApplicants(publicationId))
   }, [dispatch])
 
   return (
@@ -148,10 +150,7 @@ const Applicants = props => {
           <Container fluid={true}>
             <Breadcrumb
               title="Publication Positions"
-              titleUrl={
-                "/personnel-selection/publication-positions/" +
-                props.match.params.prfId
-              }
+              titleUrl={"/personnel-selection/publication-positions/" + prfId}
               breadcrumbItem="Applicants"
             />
 
@@ -174,7 +173,7 @@ const Applicants = props => {
                       showEdt={showEdt}
                       handleCloseEdt={handleCloseEdt}
                       modalData={modalData}
-                      publicationId={props.match.params.publicationId}
+                      publicationId={publicationId}
                     />
                   </CardBody>
                 </Card>
@@ -185,17 +184,10 @@ const Applicants = props => {
       </Can>
 
       <Can not I="access" this="Personnel_selection">
-        <Navigate
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
-}
-
-Applicants.propTypes = {
-  match: PropTypes.object,
-  location: PropTypes.object,
 }
 
 export default Applicants

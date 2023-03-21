@@ -55,7 +55,7 @@ const PersonnelSelection = () => {
       accessor: "",
       align: "center",
       disableGlobalFilter: true,
-      Cell: cell => actionDropdown(cell),
+      Cell: cell => rowActions(cell),
     },
   ]
 
@@ -74,7 +74,7 @@ const PersonnelSelection = () => {
     }
   }
 
-  const actionDropdown = cell => {
+  const rowActions = cell => {
     return (
       <Link
         className="dropdown-item"

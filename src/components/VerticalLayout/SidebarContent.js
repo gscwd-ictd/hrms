@@ -154,10 +154,40 @@ const SidebarContent = props => {
             <li className="menu-title">{"Personnel"}</li>
             <Can I="access" this="Plantilla">
               <li>
-                <Link to="/plantilla" className=" waves-effect">
+                <Link to="/#" className="has-arrow waves-effect">
                   <i className="bx bx-list-ul"></i>
                   <span>{"Plantilla"}</span>
                 </Link>
+
+                <ul className="sub-menu" aria-expanded="false">
+                  <li>
+                    <Link to="/plantilla/permanent" className=" waves-effect">
+                      <i className="bx bx-list-ul"></i>
+                      <span>{"Permanent"}</span>
+                    </Link>
+                  </li>
+                  {/* <li>
+                    <Link to="/plantilla/casual" className=" waves-effect">
+                      <i className="bx bx-list-ul"></i>
+                      <span>{"Casual"}</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/plantilla/job-order" className=" waves-effect">
+                      <i className="bx bx-list-ul"></i>
+                      <span>{"Job Order"}</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/plantilla/contract-of-service"
+                      className=" waves-effect"
+                    >
+                      <i className="bx bx-list-ul"></i>
+                      <span>{"Contract of Service"}</span>
+                    </Link>
+                  </li> */}
+                </ul>
               </li>
             </Can>
             <Can I="access" this="Employee_registration">
