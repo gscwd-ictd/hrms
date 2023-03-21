@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react"
 import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { fetchApplicants } from "store/actions"
@@ -91,7 +91,7 @@ const Applicants = props => {
         return (
           <div className="d-flex">
             <InRowAction
-              viewRedirectUrl={
+              viewNavigateUrl={
                 props.location.pathname +
                 "/" +
                 cell.row.values.applicantId +
@@ -185,7 +185,7 @@ const Applicants = props => {
       </Can>
 
       <Can not I="access" this="Personnel_selection">
-        <Redirect
+        <Navigate
           to={{ pathname: "/page-404", state: { from: props.location } }}
         />
       </Can>

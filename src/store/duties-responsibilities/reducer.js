@@ -394,6 +394,11 @@ const dutiesResponsibilities = (state = INIT_STATE, action) => {
           assignedDutyResponsibilities: [],
           unassignedDutyResponsibilities: [],
         },
+        error: {
+          ...state.error,
+          errorOccupationDutyResponsibilities: null,
+          errorAvailableDutyResponsibilities: null,
+        },
       }
 
     case SELECT_DUTY_ROW:

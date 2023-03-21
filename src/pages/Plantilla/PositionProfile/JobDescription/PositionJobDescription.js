@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react"
-import PropTypes from "prop-types"
 import { isEmpty } from "lodash"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import {
@@ -36,8 +35,9 @@ import InputMask from "react-input-mask"
 
 import { salaryGrades } from "constants/selectInputs"
 
-const PositionJobDescription = props => {
+const PositionJobDescription = () => {
   const dispatch = useDispatch()
+  const { plantillaId } = useParams()
 
   const [isEditable, setIsEditable] = useState(false)
   const [directAssignment, setDirectAssignment] = useState("")
@@ -160,13 +160,13 @@ const PositionJobDescription = props => {
         summary: event.target.positionSummary.value,
       },
     }
-    dispatch(updateJobDescription(props.match.params.id, formData))
+    dispatch(updateJobDescription(plantillaId, formData))
   }
 
   useEffect(() => {
-    if (props.match.params.id) {
-      dispatch(fetchJobDescription(props.match.params.id))
-      dispatch(fetchPlantillaPosition(props.match.params.id))
+    if (plantillaId) {
+      dispatch(fetchJobDescription(plantillaId))
+      dispatch(fetchPlantillaPosition(plantillaId))
       dispatch(getOffices())
       dispatch(getDepartments())
       dispatch(getDivisions())
@@ -182,9 +182,9 @@ const PositionJobDescription = props => {
 
   useEffect(() => {
     if (!isEmpty(responseUpdateJobDescription)) {
-      if (props.match.params.id) {
-        dispatch(fetchJobDescription(props.match.params.id))
-        dispatch(fetchPlantillaPosition(props.match.params.id))
+      if (plantillaId) {
+        dispatch(fetchJobDescription(plantillaId))
+        dispatch(fetchPlantillaPosition(plantillaId))
         dispatch(getOffices())
         dispatch(getDepartments())
         dispatch(getDivisions())
@@ -240,7 +240,7 @@ const PositionJobDescription = props => {
               <>
                 <Breadcrumbs
                   title={positionDetails.itemNumber}
-                  titleUrl={`/plantilla/${props.match.params.id}`}
+                  titleUrl={`/plantilla/${plantillaId}`}
                   breadcrumbItem="Job Description"
                   positionTitle={positionDetails.positionTitle}
                 />
@@ -675,17 +675,10 @@ const PositionJobDescription = props => {
       </Can>
 
       <Can not I="access" this="Plantilla">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
-}
-
-PositionJobDescription.propTypes = {
-  match: PropTypes.object,
-  location: PropTypes.object,
 }
 
 export default PositionJobDescription

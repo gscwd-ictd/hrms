@@ -4,7 +4,7 @@ import { Card, CardBody, Col, Row, Container } from "reactstrap"
 import { fetchPlantilla } from "store/actions"
 import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useLocation } from "react-router-dom"
 
 // modal components
 import InRowAction from "components/InRowAction/InRowAction"
@@ -24,6 +24,7 @@ import "styles/custom_gscwd/components/table.scss"
 
 const PlantillaTable = props => {
   const dispatch = useDispatch()
+  const location = useLocation()
 
   // table columns
   const plantillaColumns = [
@@ -59,7 +60,7 @@ const PlantillaTable = props => {
         return (
           <InRowAction
             viewRedirectUrl={
-              props.location.pathname + "/" + cell.row.values.positionId
+              location.pathname + "/" + cell.row.values.positionId
             }
           />
         )
@@ -138,16 +139,13 @@ const PlantillaTable = props => {
       </Can>
 
       <Can not I="access" this="Plantilla">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
 }
 
 PlantillaTable.propTypes = {
-  location: PropTypes.object,
   cell: PropTypes.any,
 }
 

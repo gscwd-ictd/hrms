@@ -1,7 +1,6 @@
 import React, { useEffect } from "react"
-import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { fetchApplicantPds } from "store/actions"
@@ -17,6 +16,7 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 
 const ApplicantPersonalDataSheetPdf = props => {
   const dispatch = useDispatch()
+  const { applicantId, isInternal } = useParams()
 
   const {
     personalInfo,
@@ -93,12 +93,7 @@ const ApplicantPersonalDataSheetPdf = props => {
   }
 
   useEffect(() => {
-    dispatch(
-      fetchApplicantPds(
-        props.match.params.applicantId,
-        props.match.params.isInternal
-      )
-    )
+    dispatch(fetchApplicantPds(applicantId, isInternal))
   }, [dispatch])
 
   return (
@@ -152,17 +147,10 @@ const ApplicantPersonalDataSheetPdf = props => {
       </Can>
 
       <Can not I="access" this="Personnel_selection">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
-}
-
-ApplicantPersonalDataSheetPdf.propTypes = {
-  location: PropTypes.object,
-  match: PropTypes.object,
 }
 
 export default ApplicantPersonalDataSheetPdf

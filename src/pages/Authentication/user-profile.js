@@ -4,7 +4,7 @@ import { Container, Row, Col, Card, Alert, CardBody } from "reactstrap"
 //redux
 import { useSelector, useDispatch } from "react-redux"
 
-import { withRouter } from "react-router-dom"
+import withRouter from "components/Common/withRouter"
 
 //Import Breadcrumb
 import Breadcrumb from "../../components/Common/Breadcrumb"

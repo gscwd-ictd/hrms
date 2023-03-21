@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { fetchApplicantPds } from "store/actions"
@@ -62,7 +62,7 @@ const ApplicantPds = props => {
       </Can>
 
       <Can not I="access" this="Personnel_selection">
-        <Redirect
+        <Navigate
           to={{ pathname: "/page-404", state: { from: props.location } }}
         />
       </Can>

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react"
-import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { fetchSelectedByAppointingAuth, fetchPsbSummary } from "store/actions"
@@ -14,8 +13,9 @@ import SRoADocument from "./SRoADocument"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 
-const SummaryRankingOfApplicantsPdf = props => {
+const SummaryRankingOfApplicantsPdf = () => {
   const dispatch = useDispatch()
+  const { vppId } = useParams()
 
   // redux state for HRMPSB Summary
   const { psbSummary, loadingPsbSummary, errorPsbSummary } = useSelector(
@@ -42,8 +42,8 @@ const SummaryRankingOfApplicantsPdf = props => {
   }))
 
   useEffect(() => {
-    dispatch(fetchPsbSummary(props.match.params.vppId)) //  fetch interview rating
-    dispatch(fetchSelectedByAppointingAuth(props.match.params.vppId)) //  fetch selected by appointing auth
+    dispatch(fetchPsbSummary(vppId)) //  fetch interview rating
+    dispatch(fetchSelectedByAppointingAuth(vppId)) //  fetch selected by appointing auth
   }, [])
 
   return (
@@ -80,20 +80,10 @@ const SummaryRankingOfApplicantsPdf = props => {
       </Can>
 
       <Can not I="access" this="Personnel_selection">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
 }
 
-SummaryRankingOfApplicantsPdf.propTypes = {
-  location: PropTypes.object,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      vppId: PropTypes.string.isRequired,
-    }),
-  }),
-}
 export default SummaryRankingOfApplicantsPdf

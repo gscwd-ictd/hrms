@@ -3,12 +3,11 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchEmployeeList } from "store/actions"
 import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect, Link } from "react-router-dom"
+import { Navigate, Link, useLocation } from "react-router-dom"
 
 import { Container, Row, Col, Card, CardBody } from "reactstrap"
 
 // modal components
-import InRowAction from "components/InRowAction/InRowAction"
 import PortalRegistrationModal from "components/Modal/Portal/PortalRegistrationModal"
 
 // table components
@@ -20,8 +19,9 @@ import Breadcrumb from "components/Common/Breadcrumb"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 
-const EmployeeList = props => {
+const EmployeeList = () => {
   const dispatch = useDispatch()
+  const location = useLocation()
 
   const tableColumns = [
     {
@@ -53,7 +53,7 @@ const EmployeeList = props => {
           <div className="d-flex">
             <Link
               to={`${
-                props.location.pathname +
+                location.pathname +
                 "/" +
                 cell.row.values["employmentDetails.employeeId"]
               }`}
@@ -85,7 +85,6 @@ const EmployeeList = props => {
 
   useEffect(() => {
     dispatch(fetchEmployeeList())
-    // dispatch(fetchPlantillaPositionsSelect())
   }, [dispatch])
 
   return (
@@ -139,16 +138,13 @@ const EmployeeList = props => {
       </Can>
 
       <Can not I="access" this="Employees">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
 }
 
 EmployeeList.propTypes = {
-  location: PropTypes.object,
   cell: PropTypes.any,
 }
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from "react"
 import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Link, Redirect } from "react-router-dom"
+import { Link, Navigate, useLocation } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { getApprovedPRFList } from "store/actions"
@@ -16,6 +16,7 @@ import {
   CardBody,
   CardTitle,
   Button,
+  Badge,
 } from "reactstrap"
 import InterviewScheduleCalendar from "./InterviewScheduleCalendar"
 import ApplicationChart from "./ApplicationChart"
@@ -26,8 +27,9 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 // style
 import "styles/custom_gscwd/components/table.scss"
 
-const PersonnelSelection = props => {
+const PersonnelSelection = () => {
   const dispatch = useDispatch()
+  const location = useLocation()
 
   const prfListColumns = [
     {
@@ -46,30 +48,44 @@ const PersonnelSelection = props => {
     {
       Header: "Positions",
       accessor: "positionTitles",
+      Cell: cell => renderPositions(cell),
     },
     {
       Header: "Actions",
       accessor: "",
       align: "center",
       disableGlobalFilter: true,
-      Cell: function ActionDropdown(cell) {
-        return (
-          <Link
-            className="dropdown-item"
-            to={
-              props.location.pathname +
-              "/publication-positions/" +
-              cell.row.values._id
-            }
-          >
-            <Button className="btn btn-info waves-effect waves-light">
-              Requested Positions
-            </Button>
-          </Link>
-        )
-      },
+      Cell: cell => actionDropdown(cell),
     },
   ]
+
+  // Badge pill design per position
+  const renderPositions = cell => {
+    const positionTitles = cell.row.values.positionTitles
+
+    if (typeof positionTitles === "string") {
+      const positionTitlesArr = positionTitles.split(",")
+
+      return positionTitlesArr.map((positionTitle, index) => (
+        <Badge className="me-2 bg-success font-size-12" key={index}>
+          {positionTitle}
+        </Badge>
+      ))
+    }
+  }
+
+  const actionDropdown = cell => {
+    return (
+      <Link
+        className="dropdown-item"
+        to={location.pathname + "/publication-positions/" + cell.row.values._id}
+      >
+        <Button className="btn btn-info waves-effect waves-light">
+          Requested Positions
+        </Button>
+      </Link>
+    )
+  }
 
   // Redux state of list of prf that was approved
   const { prflist, loadingPrf, errorPrf } = useSelector(state => ({
@@ -83,7 +99,7 @@ const PersonnelSelection = props => {
 
   useEffect(() => {
     dispatch(getApprovedPRFList())
-  }, [dispatch])
+  }, [])
 
   return (
     <React.Fragment>
@@ -138,16 +154,13 @@ const PersonnelSelection = props => {
       </Can>
 
       <Can not I="access" this="Personnel_selection">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
 }
 
 PersonnelSelection.propTypes = {
-  location: PropTypes.object,
   cell: PropTypes.any,
 }
 

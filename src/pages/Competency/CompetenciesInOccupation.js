@@ -13,7 +13,7 @@ import {
 import { isEmpty } from "lodash"
 import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 
 import {
   Button,
@@ -36,6 +36,7 @@ import "styles/custom_gscwd/global.scss"
 
 const CompetenciesInOccupation = props => {
   const dispatch = useDispatch()
+  const { occupationId } = useParams()
 
   const [selectedFunctionalCompetency, setSelectedFunctionalCompetency] =
     useState([])
@@ -150,12 +151,7 @@ const CompetenciesInOccupation = props => {
       competencyIds: selectedFunctionalCompetency,
     }
 
-    dispatch(
-      updateCompetenciesOfOccupation(
-        props.match.params.occupationId,
-        competencyIds
-      )
-    )
+    dispatch(updateCompetenciesOfOccupation(occupationId, competencyIds))
   }
 
   // Unassigning of competency from occupation
@@ -165,27 +161,22 @@ const CompetenciesInOccupation = props => {
         competencyIds: selectedRows,
       }
 
-      dispatch(
-        removeCompetenciesOfOccupation(
-          props.match.params.occupationId,
-          competencyIds
-        )
-      )
+      dispatch(removeCompetenciesOfOccupation(occupationId, competencyIds))
       setDisableDeleteBtn(true)
     }
   }
 
   // Get occupational group assigned competency pool and list of positions not unassigned under the occupation.
   useEffect(() => {
-    dispatch(fetchOGCompetencies(props.match.params.occupationId))
-    dispatch(fetchAvailableFuncCompetencies(props.match.params.occupationId))
+    dispatch(fetchOGCompetencies(occupationId))
+    dispatch(fetchAvailableFuncCompetencies(occupationId))
   }, [dispatch])
 
   // Trigger when assigning or unassigning competencies is success
   useEffect(() => {
     if (!isEmpty(assignedCompetencies) || !isEmpty(unassignedCompetencies)) {
-      dispatch(fetchOGCompetencies(props.match.params.occupationId))
-      dispatch(fetchAvailableFuncCompetencies(props.match.params.occupationId))
+      dispatch(fetchOGCompetencies(occupationId))
+      dispatch(fetchAvailableFuncCompetencies(occupationId))
       dispatch(resetOGCompetencies())
       dispatch(resetCompetencyCheckBoxes())
     }
@@ -300,9 +291,7 @@ const CompetenciesInOccupation = props => {
       </Can>
 
       <Can not I="access" this="Competency">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
@@ -310,8 +299,6 @@ const CompetenciesInOccupation = props => {
 
 CompetenciesInOccupation.propTypes = {
   cell: PropTypes.any,
-  match: PropTypes.object,
-  location: PropTypes.object,
 }
 
 export default CompetenciesInOccupation

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react"
-import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { fetchDocumentCertificationOfAssumptionToDuty } from "store/actions"
@@ -14,8 +13,9 @@ import CoAtDDocument from "./CoAtDDocument"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 
-const CertificationOfAssumptionToDutyPdf = props => {
+const CertificationOfAssumptionToDutyPdf = () => {
   const dispatch = useDispatch()
+  const { postingApplicantId } = useParams()
 
   // redux state for PRF details
   const {
@@ -30,11 +30,7 @@ const CertificationOfAssumptionToDutyPdf = props => {
   }))
 
   useEffect(() => {
-    dispatch(
-      fetchDocumentCertificationOfAssumptionToDuty(
-        props.match.params.postingApplicantId
-      )
-    ) //  fetch CS Form No. 4 details
+    dispatch(fetchDocumentCertificationOfAssumptionToDuty(postingApplicantId)) //  fetch CS Form No. 4 details
   }, [dispatch])
 
   return (
@@ -65,16 +61,10 @@ const CertificationOfAssumptionToDutyPdf = props => {
       </Can>
 
       <Can not I="access" this="Results_of_hiring">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
 }
 
-CertificationOfAssumptionToDutyPdf.propTypes = {
-  location: PropTypes.object,
-  match: PropTypes.object,
-}
 export default CertificationOfAssumptionToDutyPdf

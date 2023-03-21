@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { fetchPsbCBIReports, fetchPsbCBIReportsHeader } from "store/actions"
@@ -14,8 +14,9 @@ import CBIRDocument from "./CBIRDocument"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 
-const CompetencyBasedInterviewReportPdf = props => {
+const CompetencyBasedInterviewReportPdf = () => {
   const dispatch = useDispatch()
+  const { vppId } = useParams()
 
   // redux state for Competency Based-Interview Reports. All PSB members results
   const {
@@ -50,8 +51,8 @@ const CompetencyBasedInterviewReportPdf = props => {
   }))
 
   useEffect(() => {
-    dispatch(fetchPsbCBIReportsHeader(props.match.params.vppId)) // fetch competency based-interview reports header
-    dispatch(fetchPsbCBIReports(props.match.params.vppId)) //  fetch competency based-interview reports
+    dispatch(fetchPsbCBIReportsHeader(vppId)) // fetch competency based-interview reports header
+    dispatch(fetchPsbCBIReports(vppId)) //  fetch competency based-interview reports
   }, [])
 
   return (
@@ -93,20 +94,10 @@ const CompetencyBasedInterviewReportPdf = props => {
       </Can>
 
       <Can not I="access" this="Personnel_selection">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
 }
 
-CompetencyBasedInterviewReportPdf.propTypes = {
-  location: PropTypes.object,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      vppId: PropTypes.string.isRequired,
-    }),
-  }),
-}
 export default CompetencyBasedInterviewReportPdf

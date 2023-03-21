@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import {
@@ -25,8 +25,9 @@ import Breadcrumbs from "components/Common/Breadcrumb"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 
-const PositionQualificationStandards = props => {
+const PositionQualificationStandards = () => {
   const dispatch = useDispatch()
+  const { plantillaId } = useParams()
 
   const {
     positionQualificationStandards,
@@ -48,15 +49,15 @@ const PositionQualificationStandards = props => {
   }))
 
   useEffect(() => {
-    if (props.match.params.id) {
-      dispatch(fetchPositionQualificationStandards(props.match.params.id))
-      dispatch(fetchPlantillaPosition(props.match.params.id))
+    if (plantillaId) {
+      dispatch(fetchPositionQualificationStandards(plantillaId))
+      dispatch(fetchPlantillaPosition(plantillaId))
     }
   }, [dispatch])
 
   useEffect(() => {
     dispatch(resetQualificationStandards())
-  }, [props])
+  }, [])
 
   return (
     <React.Fragment>
@@ -81,7 +82,7 @@ const PositionQualificationStandards = props => {
               <>
                 <Breadcrumbs
                   title={positionDetails.itemNumber}
-                  titleUrl={`/plantilla/${props.match.params.id}`}
+                  titleUrl={`/plantilla/${plantillaId}`}
                   breadcrumbItem="Qualification Standards"
                   positionTitle={positionDetails.positionTitle}
                 />
@@ -186,9 +187,7 @@ const PositionQualificationStandards = props => {
       </Can>
 
       <Can not I="access" this="Plantilla">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )

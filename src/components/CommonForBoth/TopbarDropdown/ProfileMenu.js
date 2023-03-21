@@ -10,7 +10,8 @@ import {
 import { withTranslation } from "react-i18next"
 // Redux
 import { connect } from "react-redux"
-import { withRouter, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
+import withRouter from "components/Common/withRouter"
 
 // users
 import userDefaultAvatar from "../../../assets/images/users/avatar.png"

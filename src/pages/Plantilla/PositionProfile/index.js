@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 import PropTypes from "prop-types"
 import { fetchPlantillaPosition } from "store/actions"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useLocation, useParams } from "react-router-dom"
 
 import {
   Card,
@@ -25,8 +25,10 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 // styles
 import "styles/custom_gscwd/pages/positionprofile.scss"
 
-const PositionProfile = props => {
+const PositionProfile = () => {
   const dispatch = useDispatch()
+  const location = useLocation()
+  const { plantillaId } = useParams()
 
   const { positionDetails, isLoading, error } = useSelector(state => ({
     positionDetails: state.plantilla.plantillaPosition,
@@ -35,7 +37,7 @@ const PositionProfile = props => {
   }))
 
   useEffect(() => {
-    dispatch(fetchPlantillaPosition(props.match.params.id))
+    dispatch(fetchPlantillaPosition(plantillaId))
   }, [dispatch])
 
   return (
@@ -67,7 +69,7 @@ const PositionProfile = props => {
                     <Col lg={6}>
                       <Link
                         to={{
-                          pathname: `${props.location.pathname}/job-description`,
+                          pathname: `${location.pathname}/job-description`,
                         }}
                       >
                         <Card className="d-flex flex-row text-dark">
@@ -91,7 +93,7 @@ const PositionProfile = props => {
                     <Col lg={6}>
                       <Link
                         to={{
-                          pathname: `${props.location.pathname}/duties-and-responsibilities`,
+                          pathname: `${location.pathname}/duties-and-responsibilities`,
                         }}
                       >
                         <Card className="d-flex flex-row text-dark">
@@ -115,7 +117,7 @@ const PositionProfile = props => {
                     <Col lg={6}>
                       <Link
                         to={{
-                          pathname: `${props.location.pathname}/qualification-standards`,
+                          pathname: `${location.pathname}/qualification-standards`,
                         }}
                       >
                         <Card className="d-flex flex-row text-dark">
@@ -139,7 +141,7 @@ const PositionProfile = props => {
                     <Col lg={6}>
                       <Link
                         to={{
-                          pathname: `${props.location.pathname}/competencies`,
+                          pathname: `${location.pathname}/competencies`,
                         }}
                       >
                         <Card className="d-flex flex-row text-dark">
@@ -165,17 +167,10 @@ const PositionProfile = props => {
       </Can>
 
       <Can not I="access" this="Plantilla">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
-}
-
-PositionProfile.propTypes = {
-  match: PropTypes.object,
-  location: PropTypes.object,
 }
 
 export default PositionProfile

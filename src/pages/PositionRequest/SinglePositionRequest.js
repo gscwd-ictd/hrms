@@ -3,7 +3,7 @@ import dayjs from "dayjs"
 import { isEmpty } from "lodash"
 import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Link, Redirect } from "react-router-dom"
+import { Link, Navigate, useParams } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { getSinglePRF, fetchPRFTrail } from "store/actions"
@@ -28,6 +28,7 @@ import "flatpickr/dist/themes/material_blue.css"
 
 const SinglePositionRequest = props => {
   const dispatch = useDispatch()
+  const { prfId } = useParams()
 
   // redux state for PRF details
   const { prfDetails, loadingPrf, errorPrf } = useSelector(state => ({
@@ -100,8 +101,8 @@ const SinglePositionRequest = props => {
   }
 
   useEffect(() => {
-    dispatch(getSinglePRF(props.match.params.prfId))
-    dispatch(fetchPRFTrail(props.match.params.prfId))
+    dispatch(getSinglePRF(prfId))
+    dispatch(fetchPRFTrail(prfId))
   }, [dispatch])
 
   return (
@@ -261,7 +262,7 @@ const SinglePositionRequest = props => {
                             <Col md={6}>
                               <Link
                                 to={{
-                                  pathname: `/prf-pdf/${props.match.params.prfId}`,
+                                  pathname: `/prf-pdf/${prfId}`,
                                 }}
                                 target="_blank"
                               >
@@ -277,7 +278,7 @@ const SinglePositionRequest = props => {
                             <Col md={6}>
                               <Link
                                 to={{
-                                  pathname: `/publication-pdf/${props.match.params.prfId}`,
+                                  pathname: `/publication-pdf/${prfId}`,
                                 }}
                                 target="_blank"
                               >
@@ -304,7 +305,7 @@ const SinglePositionRequest = props => {
                               <li key={position.positionId} className="mt-1">
                                 <Link
                                   to={{
-                                    pathname: `/position-description-pdf/${props.match.params.prfId}/${position.positionId}`,
+                                    pathname: `/position-description-pdf/${prfId}/${position.positionId}`,
                                   }}
                                   target="_blank"
                                 >
@@ -331,17 +332,10 @@ const SinglePositionRequest = props => {
       </Can>
 
       <Can not I="access" this="Prf_list">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
-}
-
-SinglePositionRequest.propTypes = {
-  location: PropTypes.object,
-  match: PropTypes.object,
 }
 
 export default SinglePositionRequest

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react"
-import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { fetchDocumentCertificateOfAppointment } from "store/actions"
@@ -14,8 +13,9 @@ import CoADocument from "./CoADocument"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 
-const CertificateOfAppointmentPdf = props => {
+const CertificateOfAppointmentPdf = () => {
   const dispatch = useDispatch()
+  const { postingApplicantId } = useParams()
 
   // redux state for PRF details
   const { certificateOfAppointment, loadingCoADocument, errorCoADocument } =
@@ -26,11 +26,7 @@ const CertificateOfAppointmentPdf = props => {
     }))
 
   useEffect(() => {
-    dispatch(
-      fetchDocumentCertificateOfAppointment(
-        props.match.params.postingApplicantId
-      )
-    ) //  fetch CS Form No. 33-B details
+    dispatch(fetchDocumentCertificateOfAppointment(postingApplicantId)) //  fetch CS Form No. 33-B details
   }, [dispatch])
 
   return (
@@ -59,16 +55,10 @@ const CertificateOfAppointmentPdf = props => {
       </Can>
 
       <Can not I="access" this="Results_of_hiring">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
 }
 
-CertificateOfAppointmentPdf.propTypes = {
-  location: PropTypes.object,
-  match: PropTypes.object,
-}
 export default CertificateOfAppointmentPdf

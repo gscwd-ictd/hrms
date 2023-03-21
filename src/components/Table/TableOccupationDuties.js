@@ -23,6 +23,7 @@ const TableOccupationDuties = props => {
       data,
       initialState: {
         pageIndex: 0,
+        pageSize: 20,
         hiddenColumns: ["odrId"],
       },
     },
@@ -53,13 +54,13 @@ const TableOccupationDuties = props => {
 
   return (
     <>
-      <div className="flex-container filters-wrapper">
+      {/* <div className="flex-container filters-wrapper">
         <GlobalFilter
           preGlobalFilteredRows={preGlobalFilteredRows}
           globalFilter={globalFilter}
           setGlobalFilter={setGlobalFilter}
         />
-      </div>
+      </div> */}
       <Table
         {...getTableProps()}
         className="table mb-0 wd-table"
@@ -137,48 +138,7 @@ const TableOccupationDuties = props => {
             <i className="fas fa-trash-alt"></i>
           </Button>
         </div>
-        <div className="wd-pagination pagination justify-content-end">
-          {/* Next and Previous button */}
-          <div className="next-prev-btn-container">
-            <button
-              className="page-link"
-              onClick={() => previousPage()}
-              disabled={!canPreviousPage}
-            >
-              {"Previous"}
-            </button>{" "}
-            <button
-              className="page-link"
-              onClick={() => nextPage()}
-              disabled={!canNextPage}
-            >
-              {"Next"}
-            </button>{" "}
-          </div>
-
-          {/* Page number */}
-          <div className="pagenumber-container">
-            Page{" "}
-            <strong>
-              {pageIndex + 1} of {pageOptions.length}
-            </strong>{" "}
-          </div>
-
-          {/* Dropdown page size */}
-          <select
-            value={pageSize}
-            onChange={e => {
-              setPageSize(Number(e.target.value))
-            }}
-            className="form-control wd-filter-pagesize"
-          >
-            {[10, 20, 30, 40, 50].map((pageSize, i) => (
-              <option key={i} value={pageSize}>
-                Show {pageSize}
-              </option>
-            ))}
-          </select>
-        </div>
+        <div className="wd-pagination pagination justify-content-end"></div>
       </div>
     </>
   )

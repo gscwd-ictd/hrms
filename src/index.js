@@ -1,6 +1,5 @@
 import React from "react"
-import ReactDOM from "react-dom"
-import { createRoot } from "react-dom/client"
+import ReactDOM from "react-dom/client"
 import App from "./App"
 import * as serviceWorker from "./serviceWorker"
 import { BrowserRouter } from "react-router-dom"
@@ -9,18 +8,15 @@ import { Provider } from "react-redux"
 
 import store from "./store"
 
-const app = (
+const root = ReactDOM.createRoot(document.getElementById("root"))
+root.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <React.Fragment>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </React.Fragment>
   </Provider>
 )
 
-// ReactDOM.render(app, document.getElementById("root"))
-// serviceWorker.unregister()
-
-const container = document.getElementById("root")
-const root = createRoot(container)
-root.render(app)
 serviceWorker.unregister()

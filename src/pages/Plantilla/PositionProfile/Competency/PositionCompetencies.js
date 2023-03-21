@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react"
 import classnames from "classnames"
-import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import {
@@ -30,8 +29,9 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 // style
 import "styles/custom_gscwd/components/table.scss"
 
-const PositionCompetencies = props => {
+const PositionCompetencies = () => {
   const dispatch = useDispatch()
+  const { plantillaId } = useParams()
 
   const [activeTab, setactiveTab] = useState("1")
 
@@ -65,9 +65,9 @@ const PositionCompetencies = props => {
   }))
 
   useEffect(() => {
-    if (props.match.params.id) {
-      dispatch(fetchCompetencyProficiencyLevels(props.match.params.id))
-      dispatch(fetchPlantillaPosition(props.match.params.id))
+    if (plantillaId) {
+      dispatch(fetchCompetencyProficiencyLevels(plantillaId))
+      dispatch(fetchPlantillaPosition(plantillaId))
     }
   }, [dispatch])
 
@@ -99,7 +99,7 @@ const PositionCompetencies = props => {
               <>
                 <Breadcrumbs
                   title={positionDetails.itemNumber}
-                  titleUrl={`/plantilla/${props.match.params.id}`}
+                  titleUrl={`/plantilla/${plantillaId}`}
                   breadcrumbItem="Competencies"
                   positionTitle={positionDetails.positionTitle}
                 />
@@ -403,17 +403,10 @@ const PositionCompetencies = props => {
       </Can>
 
       <Can not I="access" this="Plantilla">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
-}
-
-PositionCompetencies.propTypes = {
-  match: PropTypes.object,
-  location: PropTypes.object,
 }
 
 export default PositionCompetencies

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react"
-import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { fetchHiredApplicantDbmCscForm } from "store/actions"
@@ -14,8 +13,9 @@ import PdDbmCscDocument from "./PdDbmCscDocument"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 
-const PositionDescriptionDbmCscPdf = props => {
+const PositionDescriptionDbmCscPdf = () => {
   const dispatch = useDispatch()
+  const { postingApplicantId } = useParams
 
   // redux state for applicants position description dbm-csc data
   const {
@@ -31,9 +31,7 @@ const PositionDescriptionDbmCscPdf = props => {
   }))
 
   useEffect(() => {
-    dispatch(
-      fetchHiredApplicantDbmCscForm(props.match.params.postingApplicantId)
-    )
+    dispatch(fetchHiredApplicantDbmCscForm(postingApplicantId))
   }, [dispatch])
 
   return (
@@ -61,17 +59,10 @@ const PositionDescriptionDbmCscPdf = props => {
       </Can>
 
       <Can not I="access" this="Results_of_hiring">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
-}
-
-PositionDescriptionDbmCscPdf.propTypes = {
-  location: PropTypes.object,
-  match: PropTypes.object,
 }
 
 export default PositionDescriptionDbmCscPdf

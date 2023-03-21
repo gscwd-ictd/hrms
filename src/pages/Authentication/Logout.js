@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { isEmpty } from "lodash"
-import { useHistory } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 //redux
 import { useSelector, useDispatch } from "react-redux"
@@ -8,7 +8,7 @@ import { logoutUser, resetLogin } from "store/actions"
 
 const Logout = () => {
   const dispatch = useDispatch()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const { logoutResponse, loadingVerifyCredentials, error } = useSelector(
     state => ({
@@ -26,7 +26,7 @@ const Logout = () => {
   useEffect(() => {
     if (!isEmpty(logoutResponse)) {
       dispatch(resetLogin())
-      history.push("/login")
+      navigate("/login")
     }
   }, [logoutResponse])
 

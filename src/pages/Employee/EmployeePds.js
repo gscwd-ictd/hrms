@@ -1,10 +1,9 @@
 import React, { useEffect } from "react"
-import PropTypes from "prop-types"
 import { isEmpty } from "lodash"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchEmployeePds, resetEmployeeErrorLog } from "store/actions"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 
 import { Row, Col, Card, CardBody, Container } from "reactstrap"
 import Breadcrumb from "components/Common/Breadcrumb"
@@ -12,8 +11,9 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 import PersonalDataSheet from "components/PersonalDataSheet/Employee"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 
-const EmployeePds = props => {
+const EmployeePds = () => {
   const dispatch = useDispatch()
+  const { employeeId } = useParams()
 
   const { isLoading, error } = useSelector(state => ({
     error: state.employee.error,
@@ -21,7 +21,7 @@ const EmployeePds = props => {
   }))
 
   useEffect(() => {
-    dispatch(fetchEmployeePds(props.match.params.id))
+    dispatch(fetchEmployeePds(employeeId))
   }, [dispatch])
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const EmployeePds = props => {
                     {isLoading ? (
                       <LoadingIndicator />
                     ) : (
-                      <PersonalDataSheet employeeId={props.match.params.id} />
+                      <PersonalDataSheet employeeId={employeeId} />
                     )}
                   </CardBody>
                 </Card>
@@ -63,17 +63,10 @@ const EmployeePds = props => {
       </Can>
 
       <Can not I="access" this="Employees">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
-}
-
-EmployeePds.propTypes = {
-  location: PropTypes.object,
-  match: PropTypes.object,
 }
 
 export default EmployeePds

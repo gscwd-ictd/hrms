@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchCommittees } from "store/actions"
 import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useLocation } from "react-router-dom"
 
 import { Container, Row, Col, Card, CardBody } from "reactstrap"
 import TableCommittee from "components/Table/TableCommittee"
@@ -15,8 +15,9 @@ import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import Breadcrumb from "components/Common/Breadcrumb"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 
-const Committees = props => {
+const Committees = () => {
   const dispatch = useDispatch()
+  const location = useLocation()
 
   const tableColumns = [
     {
@@ -43,9 +44,7 @@ const Committees = props => {
           <div className="d-flex">
             <InRowAction
               buttonTitle={"Members"}
-              editRedirectUrl={
-                props.location.pathname + "/" + cell.row.values._id
-              }
+              editRedirectUrl={location.pathname + "/" + cell.row.values._id}
             />
             <InRowAction
               cell={cell}
@@ -168,16 +167,13 @@ const Committees = props => {
       </Can>
 
       <Can not I="access" this="Committees">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
 }
 
 Committees.propTypes = {
-  location: PropTypes.object,
   cell: PropTypes.any,
 }
 

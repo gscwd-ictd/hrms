@@ -1,49 +1,29 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { Route, Redirect } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 
 // Import Cookies
 import Cookies from "universal-cookie"
 
 const cookies = new Cookies()
 
-const hasAccess = (props, Component, Layout, isAuthProtected) => {
+const Authmiddleware = props => {
   if (
-    isAuthProtected &&
-    (localStorage.getItem("userId") === null ||
-      localStorage.getItem("userId") === "undefined" ||
-      typeof cookies.get("isSuperUser") === "undefined")
+    localStorage.getItem("userId") === null ||
+    localStorage.getItem("userId") === "undefined" ||
+    typeof cookies.get("isSuperUser") === "undefined"
   ) {
     localStorage.clear()
     return (
-      <Redirect to={{ pathname: "/login", state: { from: props.location } }} />
+      <Navigate to={{ pathname: "/login", state: { from: props.location } }} />
     )
   }
-
-  return (
-    <Layout>
-      <Component {...props} />
-    </Layout>
-  )
+  return <React.Fragment>{props.children}</React.Fragment>
 }
 
-const Authmiddleware = ({
-  component: Component,
-  layout: Layout,
-  isAuthProtected,
-  ...rest
-}) => (
-  <Route
-    {...rest}
-    render={props => hasAccess(props, Component, Layout, isAuthProtected)}
-  />
-)
-
 Authmiddleware.propTypes = {
-  isAuthProtected: PropTypes.bool,
-  component: PropTypes.any,
   location: PropTypes.object,
-  layout: PropTypes.any,
+  children: PropTypes.any,
 }
 
 export default Authmiddleware

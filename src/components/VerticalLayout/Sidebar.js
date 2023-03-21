@@ -1,8 +1,8 @@
 import PropTypes from "prop-types"
 import React from "react"
 import { connect } from "react-redux"
-import { withRouter } from "react-router-dom"
 import { Link } from "react-router-dom"
+import withRouter from "components/Common/withRouter"
 
 //i18n
 import SidebarContent from "./SidebarContent"

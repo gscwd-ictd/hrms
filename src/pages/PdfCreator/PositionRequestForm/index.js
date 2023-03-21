@@ -1,8 +1,7 @@
 import React, { useEffect } from "react"
 import dayjs from "dayjs"
-import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { getSinglePRF, fetchPRFTrail } from "store/actions"
@@ -15,8 +14,9 @@ import PrfDocument from "./PrfDocument"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 
-const PositionRequestFormPdf = props => {
+const PositionRequestFormPdf = () => {
   const dispatch = useDispatch()
+  const { prfId } = useParams()
 
   // redux state for PRF details
   const { prfDetails, loadingPrf, errorPrf } = useSelector(state => ({
@@ -35,8 +35,8 @@ const PositionRequestFormPdf = props => {
   const formatDate = assignedDate => dayjs(assignedDate).format("MMMM DD, YYYY")
 
   useEffect(() => {
-    dispatch(getSinglePRF(props.match.params.prfId)) //  fetch PRF details
-    dispatch(fetchPRFTrail(props.match.params.prfId)) //  fetch trail of signatories
+    dispatch(getSinglePRF(prfId)) //  fetch PRF details
+    dispatch(fetchPRFTrail(prfId)) //  fetch trail of signatories
   }, [dispatch])
 
   return (
@@ -71,16 +71,10 @@ const PositionRequestFormPdf = props => {
       </Can>
 
       <Can not I="access" this="Prf_list">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
 }
 
-PositionRequestFormPdf.propTypes = {
-  match: PropTypes.object,
-  location: PropTypes.object,
-}
 export default PositionRequestFormPdf

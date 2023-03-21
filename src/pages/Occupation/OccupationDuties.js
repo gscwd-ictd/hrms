@@ -12,7 +12,7 @@ import {
 } from "store/actions"
 import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 import { isEmpty } from "lodash"
 
 import Select from "react-select"
@@ -36,6 +36,7 @@ import "styles/custom_gscwd/global.scss"
 
 const OccupationDuties = props => {
   const dispatch = useDispatch()
+  const { occupationId } = useParams()
 
   const [selectedDuties, setSelectedDuties] = useState([])
   const [disableDeleteBtn, setDisableDeleteBtn] = useState(true)
@@ -140,12 +141,7 @@ const OccupationDuties = props => {
     const dutyResponsibilityIds = {
       dutyResponsibilityIds: selectedDuties,
     }
-    dispatch(
-      addAssignOccupationDuties(
-        props.match.params.occupationId,
-        dutyResponsibilityIds
-      )
-    )
+    dispatch(addAssignOccupationDuties(occupationId, dutyResponsibilityIds))
   }
 
   // Unassigning of duties from occupation
@@ -162,8 +158,10 @@ const OccupationDuties = props => {
 
   // Get duties & responsibilities assigned to the occupation
   useEffect(() => {
-    dispatch(fetchOccupationDuties(props.match.params.occupationId))
-    dispatch(fetchAvailableDuties(props.match.params.occupationId))
+    if (occupationId) {
+      dispatch(fetchOccupationDuties(occupationId))
+      dispatch(fetchAvailableDuties(occupationId))
+    }
   }, [dispatch])
 
   // Trigger when assigning position is success
@@ -172,7 +170,7 @@ const OccupationDuties = props => {
       !isEmpty(assignedDutyResponsibilities) ||
       !isEmpty(unassignedDutyResponsibilities)
     ) {
-      dispatch(fetchOccupationDuties(props.match.params.occupationId))
+      dispatch(fetchOccupationDuties(occupationId))
       dispatch(fetchAvailableDuties())
 
       dispatch(resetDutiesResponse())
@@ -223,12 +221,6 @@ const OccupationDuties = props => {
                 notifMessage={errorAvailableDutyResponsibilities}
               />
             ) : null}
-            {errorOccupationDutyResponsibilities ? (
-              <ToastrNotification
-                toastType={"error"}
-                notifMessage={errorOccupationDutyResponsibilities}
-              />
-            ) : null}
 
             {/* Success Notif */}
             {!isEmpty(assignedDutyResponsibilities) ? (
@@ -252,12 +244,12 @@ const OccupationDuties = props => {
                       <LoadingIndicator />
                     ) : (
                       <>
-                        <div className="multi-select-top-right-actions">
+                        <div
+                          className="multi-select-top-right-actions"
+                          style={{ maxWidth: "100%", padding: "15px 0" }}
+                        >
                           <Row className="justify-content-end">
-                            {loadingAvailableDutyResponsibilities ? (
-                              <Spinner className="ms-2" color="secondary" />
-                            ) : null}
-                            <Col md={8}>
+                            <Col md={10}>
                               <Select
                                 isMulti={true}
                                 onChange={e => {
@@ -265,6 +257,13 @@ const OccupationDuties = props => {
                                 }}
                                 name="select-employees"
                                 options={availableDutyResponsibilities}
+                                minMenuHeight={100}
+                                maxMenuHeight={300}
+                                isLoading={
+                                  loadingAvailableDutyResponsibilities
+                                    ? true
+                                    : false
+                                }
                               />
                             </Col>
                             <Col md={2}>
@@ -297,9 +296,7 @@ const OccupationDuties = props => {
       </Can>
 
       <Can not I="access" this="Occupations">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
@@ -307,8 +304,6 @@ const OccupationDuties = props => {
 
 OccupationDuties.propTypes = {
   cell: PropTypes.any,
-  match: PropTypes.object,
-  location: PropTypes.object,
 }
 
 export default OccupationDuties

@@ -1,9 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchCrossCuttingCompetencies } from "store/actions"
-import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 
 import { Card, CardBody, Col, Container, Row } from "reactstrap"
 import InRowAction from "components/InRowAction/InRowAction"
@@ -16,7 +15,7 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 // style
 import "styles/custom_gscwd/global.scss"
 
-const CrossCuttingModels = props => {
+const CrossCuttingModels = () => {
   const dispatch = useDispatch()
 
   const tblColumns = [
@@ -124,16 +123,10 @@ const CrossCuttingModels = props => {
       </Can>
 
       <Can not I="access" this="Competency_models">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
-}
-
-CrossCuttingModels.propTypes = {
-  location: PropTypes.object,
 }
 
 export default CrossCuttingModels
