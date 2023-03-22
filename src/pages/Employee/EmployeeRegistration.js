@@ -7,9 +7,8 @@ import {
   resetEmpAssgnResponse,
 } from "store/actions"
 import { useDispatch, useSelector } from "react-redux"
-import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 
 import {
   Button,
@@ -40,7 +39,7 @@ import "styles/custom_gscwd/pages/employeeassignment.scss"
 import * as Yup from "yup"
 import { useFormik } from "formik"
 
-const EmployeeRegistration = props => {
+const EmployeeRegistration = () => {
   const dispatch = useDispatch()
   const [selectedPosition, setSelectedPosition] = useState(null)
 
@@ -356,16 +355,10 @@ const EmployeeRegistration = props => {
       </Can>
 
       <Can not I="access" this="Employee_registration">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
-}
-
-EmployeeRegistration.propTypes = {
-  location: PropTypes.object,
 }
 
 export default EmployeeRegistration

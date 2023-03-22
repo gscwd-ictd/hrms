@@ -2,9 +2,8 @@ import React, { useEffect, useMemo } from "react"
 import dayjs from "dayjs"
 import { useDispatch, useSelector } from "react-redux"
 import { getPRFList } from "store/prf/actions"
-import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useLocation } from "react-router-dom"
 
 import { Card, CardBody, Col, Row, Badge } from "reactstrap"
 import Breadcrumbs from "components/Common/Breadcrumb"
@@ -16,8 +15,9 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 // style
 import "styles/custom_gscwd/components/table.scss"
 
-const PrfList = props => {
+const PrfList = () => {
   const dispatch = useDispatch()
+  const location = useLocation()
 
   const prfListColumns = [
     {
@@ -94,9 +94,7 @@ const PrfList = props => {
       Cell: function ActionDropdown(cell) {
         return (
           <InRowAction
-            viewRedirectUrl={
-              props.location.pathname + "/" + cell.row.values._id
-            }
+            viewRedirectUrl={location.pathname + "/" + cell.row.values._id}
           />
         )
       },
@@ -148,17 +146,10 @@ const PrfList = props => {
       </Can>
 
       <Can not I="access" this="Prf_list">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
-}
-
-PrfList.propTypes = {
-  location: PropTypes.object,
-  match: PropTypes.object,
 }
 
 export default PrfList

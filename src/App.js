@@ -1,15 +1,13 @@
 import PropTypes from "prop-types"
 import React from "react"
-import { Switch, BrowserRouter as Router } from "react-router-dom"
-import { connect } from "react-redux"
-import { AbilityContext } from "casl/Can"
-import ability from "casl/ability"
-
+import { useSelector } from "react-redux"
+import { Routes, Route } from "react-router-dom"
+import { layoutTypes } from "./constants/layout"
 // Import Routes all
 import {
   authProtectedRoutes,
-  moduleDashboardRoutes,
   publicRoutes,
+  moduleDashboardRoutes,
 } from "./routes"
 
 // Import all middleware
@@ -20,50 +18,69 @@ import VerticalLayout from "./components/VerticalLayout/"
 import NonAuthLayout from "./components/NonAuthLayout"
 import ModuleDashboardLayout from "components/ModuleDashboardLayout"
 
+import { AbilityContext } from "casl/Can"
+import ability from "casl/ability"
+
 // Import scss
 import "./assets/scss/theme.scss"
 import "../src/styles/custom_gscwd/global.scss"
 
-const App = props => {
+const getLayout = layoutType => {
+  let Layout = VerticalLayout
+  switch (layoutType) {
+    case layoutTypes.VERTICAL:
+      Layout = VerticalLayout
+      break
+    default:
+      break
+  }
+  return Layout
+}
+
+const App = () => {
+  const { layoutType } = useSelector(state => ({
+    layoutType: state.Layout.layoutType,
+  }))
+
+  const Layout = getLayout(layoutType)
+
   return (
     <React.Fragment>
       <AbilityContext.Provider value={ability}>
-        <Router>
-          <Switch>
-            {publicRoutes.map((route, idx) => (
-              <Authmiddleware
-                path={route.path}
-                layout={NonAuthLayout}
-                component={route.component}
-                key={idx}
-                isAuthProtected={false}
-                exact
-              />
-            ))}
+        <Routes>
+          {publicRoutes.map((route, idx) => (
+            <Route
+              path={route.path}
+              element={<NonAuthLayout>{route.component}</NonAuthLayout>}
+              key={idx}
+              exact={true}
+            />
+          ))}
 
-            {authProtectedRoutes.map((route, idx) => (
-              <Authmiddleware
-                path={route.path}
-                layout={VerticalLayout}
-                component={route.component}
-                key={idx}
-                isAuthProtected={true}
-                exact
-              />
-            ))}
+          {authProtectedRoutes.map((route, idx) => (
+            <Route
+              path={route.path}
+              element={
+                <Authmiddleware>
+                  <Layout>{route.component}</Layout>
+                </Authmiddleware>
+              }
+              key={idx}
+              exact={true}
+            />
+          ))}
 
-            {moduleDashboardRoutes.map((route, idx) => (
-              <Authmiddleware
-                path={route.path}
-                layout={ModuleDashboardLayout}
-                component={route.component}
-                key={idx}
-                isAuthProtected={true}
-                exact
-              />
-            ))}
-          </Switch>
-        </Router>
+          {moduleDashboardRoutes.map((route, idx) => (
+            <Route
+              path={route.path}
+              element={
+                <ModuleDashboardLayout>{route.component}</ModuleDashboardLayout>
+              }
+              key={idx}
+              exact={true}
+            />
+          ))}
+        </Routes>
       </AbilityContext.Provider>
     </React.Fragment>
   )
@@ -73,10 +90,4 @@ App.propTypes = {
   layout: PropTypes.any,
 }
 
-const mapStateToProps = state => {
-  return {
-    layout: state.Layout,
-  }
-}
-
-export default connect(mapStateToProps, null)(App)
+export default App

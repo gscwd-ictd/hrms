@@ -1,7 +1,6 @@
 import React, { useEffect } from "react"
-import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import {
@@ -21,8 +20,9 @@ import PdDocument from "./PdDocument"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 
-const PositionDescriptionPdf = props => {
+const PositionDescriptionPdf = () => {
   const dispatch = useDispatch()
+  const { prfId, positionId } = useParams()
 
   // Redux state for job description
   const { jobDescription, loadingJobDescription, errorJobDescription } =
@@ -84,12 +84,12 @@ const PositionDescriptionPdf = props => {
   }))
 
   useEffect(() => {
-    dispatch(fetchJobDescription(props.match.params.positionId)) // fetch job description of plantilla position
-    dispatch(fetchPositionDuties(props.match.params.positionId)) // fetch position duties of plantilla position
-    dispatch(fetchPositionQualificationStandards(props.match.params.positionId)) // fetch qualification standards of plantilla position
-    dispatch(fetchCompetencyProficiencyLevels(props.match.params.positionId)) // fetch competencies of plantilla position4
-    dispatch(fetchPRFTrail(props.match.params.prfId)) //  fetch trail of signatories
-    dispatch(getSinglePRF(props.match.params.prfId)) //  fetch PRF details
+    dispatch(fetchJobDescription(positionId)) // fetch job description of plantilla position
+    dispatch(fetchPositionDuties(positionId)) // fetch position duties of plantilla position
+    dispatch(fetchPositionQualificationStandards(positionId)) // fetch qualification standards of plantilla position
+    dispatch(fetchCompetencyProficiencyLevels(positionId)) // fetch competencies of plantilla position4
+    dispatch(fetchPRFTrail(prfId)) //  fetch trail of signatories
+    dispatch(getSinglePRF(prfId)) //  fetch PRF details
   }, [dispatch])
 
   return (
@@ -163,16 +163,10 @@ const PositionDescriptionPdf = props => {
       </Can>
 
       <Can not I="access" this="Prf_list">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
 }
 
-PositionDescriptionPdf.propTypes = {
-  match: PropTypes.object,
-  location: PropTypes.object,
-}
 export default PositionDescriptionPdf

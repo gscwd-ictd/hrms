@@ -1,8 +1,7 @@
 import React, { useEffect } from "react"
 import dayjs from "dayjs"
-import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { fetchDocumentResultsOfHiring } from "store/actions"
@@ -15,8 +14,9 @@ import RoHDocument from "./RoHDocument"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 
-const ResultsOfHiringPdf = props => {
+const ResultsOfHiringPdf = () => {
   const dispatch = useDispatch()
+  const { appointmentEffectivityDate } = useParams()
 
   // redux state of results of hiring document
   const { resultsOfHiringDocument, loadingRoHDocument, errorRoHDocument } =
@@ -29,11 +29,7 @@ const ResultsOfHiringPdf = props => {
   const formatDate = assignedDate => dayjs(assignedDate).format("MMMM DD, YYYY")
 
   useEffect(() => {
-    dispatch(
-      fetchDocumentResultsOfHiring(
-        props.match.params.appointmentEffectivityDate
-      )
-    )
+    dispatch(fetchDocumentResultsOfHiring(appointmentEffectivityDate))
   }, [dispatch])
 
   return (
@@ -54,9 +50,7 @@ const ResultsOfHiringPdf = props => {
               <PDFViewer width={"100%"} height={700} showToolbar>
                 <RoHDocument
                   resultsOfHiringDocument={resultsOfHiringDocument}
-                  effectivityDate={formatDate(
-                    props.match.params.appointmentEffectivityDate
-                  )}
+                  effectivityDate={formatDate(appointmentEffectivityDate)}
                 />
               </PDFViewer>
             )}
@@ -65,16 +59,10 @@ const ResultsOfHiringPdf = props => {
       </Can>
 
       <Can not I="access" this="Results_of_hiring">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
 }
 
-ResultsOfHiringPdf.propTypes = {
-  match: PropTypes.object,
-  location: PropTypes.object,
-}
 export default ResultsOfHiringPdf

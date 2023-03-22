@@ -22,7 +22,11 @@ const TableEmployeeList = props => {
       data,
       initialState: {
         pageIndex: 0,
-        hiddenColumns: ["employmentDetails.employeeId"],
+        hiddenColumns: [
+          "employmentDetails.employeeId",
+          "employmentDetails.positionId",
+          "employmentDetails.natureOfAppointment",
+        ],
       },
     },
     useFilters,
@@ -72,9 +76,9 @@ const TableEmployeeList = props => {
 
       <Table
         {...getTableProps()}
-        className="table mb-0 wd-table tbl-competency-models"
+        className="table mb-0 wd-table"
         hover
-        responsive
+        // responsive
       >
         <thead className="thead-light">
           {headerGroups.map((headerGroup, hGi) => (

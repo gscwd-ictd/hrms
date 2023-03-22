@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchDutyResponsibilities } from "store/actions"
 import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 
 import { Card, CardBody, Col, Row } from "reactstrap"
 import InRowAction from "components/InRowAction/InRowAction"
@@ -18,7 +18,7 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 // style
 import "styles/custom_gscwd/components/table.scss"
 
-const Duties = props => {
+const Duties = () => {
   const dispatch = useDispatch()
 
   const tblColumns = [
@@ -166,16 +166,10 @@ const Duties = props => {
       </Can>
 
       <Can not I="access" this="Duties_responsibilities">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
-}
-
-Duties.propTypes = {
-  location: PropTypes.object,
 }
 
 export default Duties

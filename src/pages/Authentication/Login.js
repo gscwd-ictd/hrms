@@ -1,9 +1,9 @@
+/* eslint-disable react/prop-types */
 import PropTypes from "prop-types"
 import React, { useEffect } from "react"
 import { isEmpty } from "lodash"
-
-import { useHistory, withRouter, Link } from "react-router-dom"
-import Cookies from "universal-cookie"
+import { Link } from "react-router-dom"
+import withRouter from "components/Common/withRouter"
 
 //redux
 import { useSelector, useDispatch } from "react-redux"
@@ -34,24 +34,21 @@ import "styles/custom_gscwd/pages/login.scss"
 
 const Login = props => {
   const dispatch = useDispatch()
-  const history = useHistory()
-
-  const cookies = new Cookies()
 
   const validation = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
 
     initialValues: {
-      email: "allynjosephcubero@gscwd.com" || "",
-      password: "@allynjoseph2020008" || "",
+      email: "hanellebalansag@gscwd.com" || "",
+      password: "NQuBHDVq" || "",
     },
     validationSchema: Yup.object({
       email: Yup.string().required("Please Enter Your Email"),
       password: Yup.string().required("Please Enter Your Password"),
     }),
     onSubmit: values => {
-      dispatch(loginUser(values, props.history))
+      dispatch(loginUser(values, props.router.navigate))
     },
   })
 

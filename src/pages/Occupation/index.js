@@ -1,9 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchOccupations, resetOccupationResponses } from "store/actions"
-import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 
 import { Card, CardBody, Col, Row } from "reactstrap"
 import InRowAction from "components/InRowAction/InRowAction"
@@ -18,7 +17,7 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 // style
 import "styles/custom_gscwd/components/table.scss"
 
-const Occupation = props => {
+const Occupation = () => {
   const dispatch = useDispatch()
 
   const occupationColumns = [
@@ -50,7 +49,7 @@ const Occupation = props => {
             <InRowAction
               cell={cell}
               editModal={editModal}
-              deleteModal={deleteModal}
+              // deleteModal={deleteModal}
             />
           </div>
         )
@@ -94,15 +93,15 @@ const Occupation = props => {
   }
 
   // Delete Modal
-  const [showDel, setShowDel] = useState(false)
+  // const [showDel, setShowDel] = useState(false)
 
-  const handleCloseDel = () => setShowDel(false)
-  const handleShowDel = () => setShowDel(true)
+  // const handleCloseDel = () => setShowDel(false)
+  // const handleShowDel = () => setShowDel(true)
 
-  const deleteModal = rowData => {
-    setModalData(rowData)
-    handleShowDel()
-  }
+  // const deleteModal = rowData => {
+  //   setModalData(rowData)
+  //   handleShowDel()
+  // }
 
   return (
     <>
@@ -147,11 +146,11 @@ const Occupation = props => {
                       modalData={modalData}
                       handleCloseEdt={handleCloseEdt}
                     />
-                    <DeleteOccupationModal
+                    {/* <DeleteOccupationModal
                       showDel={showDel}
                       modalData={modalData}
                       handleCloseDel={handleCloseDel}
-                    />
+                    /> */}
                   </CardBody>
                 </Card>
               </Col>
@@ -161,16 +160,10 @@ const Occupation = props => {
       </Can>
 
       <Can not I="access" this="Occupations">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </>
   )
-}
-
-Occupation.propTypes = {
-  location: PropTypes.object,
 }
 
 export default Occupation

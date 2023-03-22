@@ -1,19 +1,19 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchOccupations, resetOGCompetencies } from "store/actions"
-import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useLocation } from "react-router-dom"
 
-import { Card, CardBody, Col, Row, Table } from "reactstrap"
+import { Card, CardBody, Col, Row } from "reactstrap"
 import InRowAction from "components/InRowAction/InRowAction"
 import TableOccupations from "components/Table/TableOccupations"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 
-const Competency = props => {
+const Competency = () => {
   const dispatch = useDispatch()
+  const location = useLocation()
 
   const occupationColumns = [
     {
@@ -36,19 +36,13 @@ const Competency = props => {
             <InRowAction
               buttonTitle={"Competencies"}
               editRedirectUrl={
-                props.location.pathname +
-                "/" +
-                cell.row.values._id +
-                "/competencies"
+                location.pathname + "/" + cell.row.values._id + "/competencies"
               }
             />{" "}
             <InRowAction
               buttonTitle={"Positions"}
               viewRedirectUrl={
-                props.location.pathname +
-                "/" +
-                cell.row.values._id +
-                "/positions"
+                location.pathname + "/" + cell.row.values._id + "/positions"
               }
             />
           </div>
@@ -100,16 +94,10 @@ const Competency = props => {
       </Can>
 
       <Can not I="access" this="Competency">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </>
   )
-}
-
-Competency.propTypes = {
-  location: PropTypes.object,
 }
 
 export default Competency

@@ -12,19 +12,10 @@ import {
 } from "store/actions"
 import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 import { isEmpty } from "lodash"
 
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  CardBody,
-  Button,
-  Input,
-  Spinner,
-} from "reactstrap"
+import { Container, Row, Col, Card, CardBody, Button, Input } from "reactstrap"
 import Select from "react-select"
 import TableCommitteeMembers from "components/Table/TableCommitteeMembers"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
@@ -33,6 +24,7 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 
 const CommitteeMembers = props => {
   const dispatch = useDispatch()
+  const { committeesId } = useParams()
 
   const [disableDeleteBtn, setDisableDeleteBtn] = useState(true)
   const [disableAssignBtn, setDisableAssignBtn] = useState(true)
@@ -123,7 +115,7 @@ const CommitteeMembers = props => {
   // Assigning of employees to committee
   const handleAssignEmployees = () => {
     const assignedEmployees = {
-      committeeId: props.match.params.id,
+      committeeId: committeesId,
       employeeIds: selectedEmployees,
     }
     dispatch(assignCommitteeMembers(assignedEmployees))
@@ -133,7 +125,7 @@ const CommitteeMembers = props => {
   const handleDeleteRows = () => {
     if (!isEmpty(selectedRows)) {
       const availableUnassignedEmployees = {
-        committeeId: props.match.params.id,
+        committeeId: committeesId,
         employeeIds: selectedRows,
       }
       dispatch(unassignCommitteeMembers(availableUnassignedEmployees))
@@ -153,8 +145,8 @@ const CommitteeMembers = props => {
   // Trigger if assigning of members response is successful
   useEffect(() => {
     if (!isEmpty(assignedMembers)) {
-      dispatch(fetchCommitteeMembers(props.match.params.id))
-      dispatch(getUnassignedEmployees(props.match.params.id))
+      dispatch(fetchCommitteeMembers(committeesId))
+      dispatch(getUnassignedEmployees(committeesId))
       dispatch(resetCommitteeResponse())
       dispatch(resetEmployeeCheckBoxes())
       setSelectedEmployees([])
@@ -164,8 +156,8 @@ const CommitteeMembers = props => {
   // Trigger if unassigning of members response is successful
   useEffect(() => {
     if (!isEmpty(unassignedMembers)) {
-      dispatch(fetchCommitteeMembers(props.match.params.id))
-      dispatch(getUnassignedEmployees(props.match.params.id))
+      dispatch(fetchCommitteeMembers(committeesId))
+      dispatch(getUnassignedEmployees(committeesId))
       dispatch(resetCommitteeResponse())
       dispatch(resetEmployeeCheckBoxes())
       setSelectedEmployees([])
@@ -183,8 +175,8 @@ const CommitteeMembers = props => {
 
   // On load of the page
   useEffect(() => {
-    dispatch(fetchCommitteeMembers(props.match.params.id))
-    dispatch(getUnassignedEmployees(props.match.params.id))
+    dispatch(fetchCommitteeMembers(committeesId))
+    dispatch(getUnassignedEmployees(committeesId))
   }, [dispatch])
 
   return (
@@ -236,9 +228,6 @@ const CommitteeMembers = props => {
                       <>
                         <div className="multi-select-top-right-actions">
                           <Row className="justify-content-end">
-                            {loadingAvailableUnassignedEmployees ? (
-                              <Spinner className="ms-2" color="secondary" />
-                            ) : null}
                             <Col md={8}>
                               <Select
                                 isMulti={true}
@@ -247,6 +236,11 @@ const CommitteeMembers = props => {
                                 }}
                                 name="select-employees"
                                 options={availableUnassignedEmployees}
+                                isLoading={
+                                  loadingAvailableUnassignedEmployees
+                                    ? true
+                                    : false
+                                }
                               />
                             </Col>
                             <Col md={2}>
@@ -278,9 +272,7 @@ const CommitteeMembers = props => {
       </Can>
 
       <Can not I="access" this="Committees">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
@@ -288,8 +280,6 @@ const CommitteeMembers = props => {
 
 CommitteeMembers.propTypes = {
   cell: PropTypes.any,
-  match: PropTypes.object,
-  location: PropTypes.object,
 }
 
 export default CommitteeMembers

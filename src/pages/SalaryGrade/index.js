@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchSalaryGradeList, resetSalaryGradeResponses } from "store/actions"
-import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 
 import { Card, CardBody, Col, Row, Container, Table } from "reactstrap"
 import UploadSalaryGradeListModal from "components/Modal/SalaryGrade/UploadSalaryGradeListModal"
@@ -14,7 +13,7 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 // style
 import "styles/custom_gscwd/components/table.scss"
 
-const SalaryGrade = props => {
+const SalaryGrade = () => {
   const dispatch = useDispatch()
 
   // redux state for salary grade table
@@ -117,16 +116,10 @@ const SalaryGrade = props => {
       </Can>
 
       <Can not I="access" this="Salary_grade">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </>
   )
-}
-
-SalaryGrade.propTypes = {
-  location: PropTypes.object,
 }
 
 export default SalaryGrade

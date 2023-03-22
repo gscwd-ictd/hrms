@@ -4,14 +4,12 @@ import {
   fetchQualificationStandardsList,
   resetQualificationStandards,
 } from "store/actions"
-import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 
 import { Card, CardBody, Col, Row } from "reactstrap"
 import InRowAction from "components/InRowAction/InRowAction"
 import EditQSModal from "components/Modal/QualificationStandards/EditQSModal"
-import DeleteQSModal from "components/Modal/QualificationStandards/DeleteQSModal"
 import TableQualificationStandard from "components/Table/TableQualificationStandard"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
@@ -20,7 +18,7 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 // style
 import "styles/custom_gscwd/components/table.scss"
 
-const QualificationStandards = props => {
+const QualificationStandards = () => {
   const dispatch = useDispatch()
 
   const tableColumns = [
@@ -59,13 +57,7 @@ const QualificationStandards = props => {
       align: "center",
       disableGlobalFilter: true,
       Cell: function ActionDropdown(cell) {
-        return (
-          <InRowAction
-            cell={cell}
-            editModal={editModal}
-            // deleteModal={deleteModal}
-          />
-        )
+        return <InRowAction cell={cell} editModal={editModal} />
       },
     },
   ]
@@ -110,16 +102,6 @@ const QualificationStandards = props => {
     handleShowEdt()
   }
 
-  // Delete Modal
-  const [showDel, setShowDel] = useState(false)
-  const handleCloseDel = () => setShowDel(false)
-  const handleShowDel = () => setShowDel(true)
-
-  const deleteModal = rowData => {
-    setModalData(rowData)
-    handleShowDel()
-  }
-
   return (
     <React.Fragment>
       <Can I="access" this="Qualification_standards">
@@ -157,11 +139,6 @@ const QualificationStandards = props => {
                       modalData={modalData}
                       handleCloseEdt={handleCloseEdt}
                     />
-                    <DeleteQSModal
-                      showDel={showDel}
-                      modalData={modalData}
-                      handleCloseDel={handleCloseDel}
-                    />
                   </CardBody>
                 </Card>
               </Col>
@@ -171,16 +148,10 @@ const QualificationStandards = props => {
       </Can>
 
       <Can not I="access" this="Qualification_standards">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
-}
-
-QualificationStandards.propTypes = {
-  location: PropTypes.object,
 }
 
 export default QualificationStandards

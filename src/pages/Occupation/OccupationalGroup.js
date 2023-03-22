@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react"
+import PropTypes from "prop-types"
 import { useDispatch, useSelector } from "react-redux"
 import {
   fetchOGPositions,
@@ -10,9 +11,8 @@ import {
   unselectPositionCheckBox,
   resetPositionCheckBoxes,
 } from "store/actions"
-import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 import { isEmpty } from "lodash"
 
 import Select from "react-select"
@@ -35,8 +35,9 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 // style
 import "styles/custom_gscwd/global.scss"
 
-const OccupationalGroup = props => {
+const OccupationalGroup = () => {
   const dispatch = useDispatch()
+  const { occupationId } = useParams()
 
   const [selectedPositions, setSelectedPositions] = useState([])
   const [disableDeleteBtn, setDisableDeleteBtn] = useState(true)
@@ -147,9 +148,7 @@ const OccupationalGroup = props => {
     const positionIds = {
       positionIds: selectedPositions,
     }
-    dispatch(
-      updatePositionsToOccupation(props.match.params.occupationId, positionIds)
-    )
+    dispatch(updatePositionsToOccupation(occupationId, positionIds))
   }
 
   // Unassigning of positions from occupation
@@ -159,26 +158,21 @@ const OccupationalGroup = props => {
         positionIds: selectedRows,
       }
 
-      dispatch(
-        removePositionsToOccupation(
-          props.match.params.occupationId,
-          positionIds
-        )
-      )
+      dispatch(removePositionsToOccupation(occupationId, positionIds))
       setDisableDeleteBtn(true)
     }
   }
 
   // Get occupational group and list of positions without occupation assigned
   useEffect(() => {
-    dispatch(fetchOGPositions(props.match.params.occupationId))
+    dispatch(fetchOGPositions(occupationId))
     dispatch(fetchPositionsWithoutOccupation())
   }, [dispatch])
 
   // Trigger when assigning position is success
   useEffect(() => {
     if (!isEmpty(assignedPositions) || !isEmpty(unassignedPositions)) {
-      dispatch(fetchOGPositions(props.match.params.occupationId))
+      dispatch(fetchOGPositions(occupationId))
       dispatch(fetchPositionsWithoutOccupation())
       dispatch(resetOccupationResponses())
       dispatch(resetPositionCheckBoxes())
@@ -292,9 +286,7 @@ const OccupationalGroup = props => {
       </Can>
 
       <Can not I="access" this="Occupations">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
@@ -302,8 +294,6 @@ const OccupationalGroup = props => {
 
 OccupationalGroup.propTypes = {
   cell: PropTypes.any,
-  match: PropTypes.object,
-  location: PropTypes.object,
 }
 
 export default OccupationalGroup

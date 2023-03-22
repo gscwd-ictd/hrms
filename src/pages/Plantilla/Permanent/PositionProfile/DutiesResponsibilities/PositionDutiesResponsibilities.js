@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react"
-import PropTypes from "prop-types"
 import { isEmpty } from "lodash"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { fetchPositionDuties, fetchPlantillaPosition } from "store/actions"
@@ -12,7 +11,6 @@ import {
   CardBody,
   CardTitle,
   CardSubtitle,
-  Button,
   Col,
   Container,
   Row,
@@ -25,8 +23,10 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 // style
 import "styles/custom_gscwd/components/table.scss"
 
-const PositionDutiesResponsibilities = props => {
+const PositionDutiesResponsibilities = () => {
   const dispatch = useDispatch()
+  const { plantillaId } = useParams()
+
   const [corePercentage, setCorePercentage] = useState(0)
   const [supportPercentage, setSupportPercentage] = useState(0)
 
@@ -49,24 +49,11 @@ const PositionDutiesResponsibilities = props => {
   }))
 
   useEffect(() => {
-    dispatch(fetchPositionDuties(props.match.params.id))
-    dispatch(fetchPlantillaPosition(props.match.params.id))
+    if (plantillaId) {
+      dispatch(fetchPositionDuties(plantillaId))
+      dispatch(fetchPlantillaPosition(plantillaId))
+    }
   }, [dispatch])
-
-  // useEffect(() => {
-  //   if (requestPositionDuties) {
-  //     if (positionDutyResponsibilities) {
-  //       setCoreDuties(positionDutyResponsibilities.duties.core)
-  //       setSupportDuties(positionDutyResponsibilities.duties.support)
-  //     }
-  //   } else {
-  //     if (props.match.params.id) {
-  //       dispatch(fetchPositionDuties(props.match.params.id))
-  //       dispatch(fetchPlantillaPosition(props.match.params.id))
-  //       setRequestPositionDuties(true)
-  //     }
-  //   }
-  // }, [positionDutyResponsibilities])
 
   useEffect(() => {
     if (!isEmpty(positionDutyResponsibilities.duties.core)) {
@@ -108,7 +95,7 @@ const PositionDutiesResponsibilities = props => {
               <>
                 <Breadcrumbs
                   title={positionDetails.itemNumber}
-                  titleUrl={`/plantilla/${props.match.params.id}`}
+                  titleUrl={`/plantilla/${plantillaId}`}
                   breadcrumbItem="Duties and Responsibilities"
                   positionTitle={positionDetails.positionTitle}
                 />
@@ -211,17 +198,10 @@ const PositionDutiesResponsibilities = props => {
       </Can>
 
       <Can not I="access" this="Plantilla">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
-}
-
-PositionDutiesResponsibilities.propTypes = {
-  match: PropTypes.object,
-  location: PropTypes.object,
 }
 
 export default PositionDutiesResponsibilities

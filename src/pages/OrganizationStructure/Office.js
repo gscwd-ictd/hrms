@@ -1,9 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getOffices } from "store/actions"
-import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 
 import { Card, CardBody, Col, Row } from "reactstrap"
 import InRowAction from "components/InRowAction/InRowAction"
@@ -18,7 +17,7 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 // style
 import "styles/custom_gscwd/components/table.scss"
 
-const Office = props => {
+const Office = () => {
   const dispatch = useDispatch()
 
   const tblColumns = [
@@ -164,16 +163,10 @@ const Office = props => {
       </Can>
 
       <Can not I="access" this="Organization_structure">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
-}
-
-Office.propTypes = {
-  location: PropTypes.object,
 }
 
 export default Office

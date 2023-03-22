@@ -154,6 +154,7 @@ const AddCommitteeModal = props => {
                         ? true
                         : false
                     }
+                    rows={6}
                   />
                   {validation.touched.description &&
                   validation.errors.description ? (

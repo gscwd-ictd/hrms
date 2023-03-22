@@ -1,7 +1,6 @@
 import React, { useEffect } from "react"
-import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { fetchDocumentReportOnAppointmentsIssued } from "store/actions"
@@ -14,8 +13,9 @@ import RAIDocument from "./RAIDocument"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 
-const ReportOnAppointmentsIssuedPdf = props => {
+const ReportOnAppointmentsIssuedPdf = () => {
   const dispatch = useDispatch()
+  const { yearMonth } = useParams()
 
   // Redux state for RAI document
   const { reportOnAppointmentsIssued, loadingRAIDocument, errorRAIDocument } =
@@ -27,7 +27,7 @@ const ReportOnAppointmentsIssuedPdf = props => {
 
   useEffect(() => {
     dispatch(
-      fetchDocumentReportOnAppointmentsIssued(props.match.params.yearMonth) //  fetch RAI document
+      fetchDocumentReportOnAppointmentsIssued(yearMonth) //  fetch RAI document
     )
   }, [dispatch])
 
@@ -51,7 +51,7 @@ const ReportOnAppointmentsIssuedPdf = props => {
                 <PDFViewer width={"100%"} height={700} showToolbar>
                   <RAIDocument
                     reportOnAppointmentsIssued={reportOnAppointmentsIssued}
-                    yearMonth={props.match.params.yearMonth}
+                    yearMonth={yearMonth}
                   />
                 </PDFViewer>
               </>
@@ -61,16 +61,10 @@ const ReportOnAppointmentsIssuedPdf = props => {
       </Can>
 
       <Can not I="access" this="Results_of_hiring">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
 }
 
-ReportOnAppointmentsIssuedPdf.propTypes = {
-  match: PropTypes.object,
-  location: PropTypes.object,
-}
 export default ReportOnAppointmentsIssuedPdf

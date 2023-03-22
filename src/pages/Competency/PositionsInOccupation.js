@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchOGPositions, fetchOccupation } from "store/actions"
 import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 
 import { Card, CardBody, Col, Container, Row } from "reactstrap"
 import InRowAction from "components/InRowAction/InRowAction"
@@ -19,6 +19,7 @@ import "styles/custom_gscwd/global.scss"
 
 const PositionsInOccupation = props => {
   const dispatch = useDispatch()
+  const { occupationId } = useParams()
 
   const [hideDeleteBtn, setHideDeleteBtn] = useState(true)
 
@@ -80,8 +81,8 @@ const PositionsInOccupation = props => {
   const data = useMemo(() => positions, [positions])
 
   useEffect(() => {
-    dispatch(fetchOGPositions(props.match.params.occupationId))
-    dispatch(fetchOccupation(props.match.params.occupationId))
+    dispatch(fetchOGPositions(occupationId))
+    dispatch(fetchOccupation(occupationId))
   }, [dispatch])
 
   /**
@@ -169,17 +170,10 @@ const PositionsInOccupation = props => {
       </Can>
 
       <Can not I="access" this="Competency">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
-}
-
-PositionsInOccupation.propTypes = {
-  match: PropTypes.object,
-  location: PropTypes.object,
 }
 
 export default PositionsInOccupation

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react"
-import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { fetchApplicantPds } from "store/actions"
@@ -11,20 +10,16 @@ import Breadcrumb from "components/Common/Breadcrumb"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 import PersonalDataSheetView from "components/PersonalDataSheet/Applicant"
 
-const ApplicantPds = props => {
+const ApplicantPds = () => {
   const dispatch = useDispatch()
+  const { applicantId, prfId, publicationId, isInternal } = useParams()
 
   const { error } = useSelector(state => ({
     error: state.applicants.error.errorApplicant,
   }))
 
   useEffect(() => {
-    dispatch(
-      fetchApplicantPds(
-        props.match.params.applicantId,
-        props.match.params.isInternal
-      )
-    )
+    dispatch(fetchApplicantPds(applicantId, isInternal))
   }, [dispatch])
 
   return (
@@ -36,9 +31,9 @@ const ApplicantPds = props => {
               title="Applicants"
               titleUrl={
                 "/personnel-selection/publication-positions/" +
-                props.match.params.prfId +
+                prfId +
                 "/publications/" +
-                props.match.params.publicationId +
+                publicationId +
                 "/applicants"
               }
               breadcrumbItem="Applicant"
@@ -62,17 +57,10 @@ const ApplicantPds = props => {
       </Can>
 
       <Can not I="access" this="Personnel_selection">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
-}
-
-ApplicantPds.propTypes = {
-  match: PropTypes.object,
-  location: PropTypes.object,
 }
 
 export default ApplicantPds

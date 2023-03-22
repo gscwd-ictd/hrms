@@ -47,7 +47,7 @@ function* loginUser({ payload: { user, history } }) {
     const suId = response.userDetails.userId
     localStorage.setItem("userId", employeeId ? employeeId : suId)
 
-    history.push("/module-dashboard")
+    history("/module-dashboard")
     // window.location.reload()
   } catch (error) {
     yield put(apiError(error))

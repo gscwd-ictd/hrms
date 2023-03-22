@@ -3,12 +3,21 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchEmployeeList } from "store/actions"
 import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect, Link } from "react-router-dom"
+import { Navigate, Link, useLocation } from "react-router-dom"
 
-import { Container, Row, Col, Card, CardBody } from "reactstrap"
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  CardBody,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap"
 
 // modal components
-import InRowAction from "components/InRowAction/InRowAction"
 import PortalRegistrationModal from "components/Modal/Portal/PortalRegistrationModal"
 
 // table components
@@ -20,18 +29,24 @@ import Breadcrumb from "components/Common/Breadcrumb"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 
-const EmployeeList = props => {
+const EmployeeList = () => {
   const dispatch = useDispatch()
+  const location = useLocation()
 
   const tableColumns = [
     {
-      Header: "ID",
+      Header: "",
       accessor: "employmentDetails.employeeId",
       disableGlobalFilter: true,
     },
     {
       Header: "Name",
       accessor: "personalDetails.fullName",
+    },
+    {
+      Header: "",
+      accessor: "employmentDetails.positionId",
+      disableGlobalFilter: true,
     },
     {
       Header: "Position Title",
@@ -43,31 +58,78 @@ const EmployeeList = props => {
       Filter: SelectColumnFilter,
     },
     {
+      Header: "",
+      accessor: "employmentDetails.natureOfAppointment",
+      disableGlobalFilter: true,
+    },
+    {
       Header: "Actions",
       accessor: "",
       align: "center",
       disableGlobalFilter: true,
       disableSortBy: true,
-      Cell: function ActionDropdown({ cell }) {
-        return (
-          <div className="d-flex">
+      Cell: cell => rowActions(cell),
+    },
+  ]
+
+  const rowActions = cell => {
+    return (
+      <UncontrolledDropdown className="ms-auto">
+        <DropdownToggle className="font-size-18" color="white" type="button">
+          <i className="mdi mdi-dots-horizontal"></i>
+        </DropdownToggle>
+        <DropdownMenu direction="right">
+          <DropdownItem>
             <Link
+              className="dropdown-item"
               to={`${
-                props.location.pathname +
-                "/" +
+                location.pathname +
+                "/pds/" +
                 cell.row.values["employmentDetails.employeeId"]
               }`}
               style={{ paddingRight: 5 }}
             >
-              <button className="btn btn-info waves-effect waves-light">
-                201
-              </button>
+              PDS
             </Link>
-          </div>
-        )
-      },
-    },
-  ]
+          </DropdownItem>
+          <DropdownItem>
+            <Link
+              className="dropdown-item"
+              to={`${
+                location.pathname +
+                "/201/" +
+                cell.row.values["employmentDetails.employeeId"]
+              }`}
+              style={{ paddingRight: 5 }}
+            >
+              201
+            </Link>
+          </DropdownItem>
+          <DropdownItem>
+            <Link
+              className="dropdown-item"
+              to={`${
+                "/plantilla/" +
+                `${convertToUrlString(
+                  cell.row.values["employmentDetails.natureOfAppointment"]
+                )}` +
+                `${cell.row.values["employmentDetails.positionId"]}`
+              }`}
+              style={{ paddingRight: 5 }}
+            >
+              Position Description
+            </Link>
+          </DropdownItem>
+        </DropdownMenu>
+      </UncontrolledDropdown>
+    )
+  }
+
+  const convertToUrlString = str => {
+    if (typeof str === "string") {
+      return str.replace(/\s+/g, "-") + "/"
+    }
+  }
 
   const { employeeListRes, isLoading, error } = useSelector(state => ({
     employeeListRes: state.employee.employeeListRes,
@@ -85,8 +147,7 @@ const EmployeeList = props => {
 
   useEffect(() => {
     dispatch(fetchEmployeeList())
-    // dispatch(fetchPlantillaPositionsSelect())
-  }, [dispatch])
+  }, [])
 
   return (
     <React.Fragment>
@@ -139,16 +200,13 @@ const EmployeeList = props => {
       </Can>
 
       <Can not I="access" this="Employees">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
 }
 
 EmployeeList.propTypes = {
-  location: PropTypes.object,
   cell: PropTypes.any,
 }
 

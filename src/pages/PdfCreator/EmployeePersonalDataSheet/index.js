@@ -5,7 +5,7 @@ import { fetchEmployeePds, resetEmployeeErrorLog } from "store/actions"
 import dayjs from "dayjs"
 import { isEmpty } from "lodash"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 
 import { Container } from "reactstrap"
 import { PDFViewer } from "@react-pdf/renderer"
@@ -13,8 +13,9 @@ import PdsDocument from "./PdsDocument"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 
-const EmployeePersonalDataSheetPdf = props => {
+const EmployeePersonalDataSheetPdf = () => {
   const dispatch = useDispatch()
+  const { employeeId } = useParams()
 
   // Redux state for employee PDS
   const {
@@ -92,7 +93,7 @@ const EmployeePersonalDataSheetPdf = props => {
   }
 
   useEffect(() => {
-    dispatch(fetchEmployeePds(props.match.params.employeeId))
+    dispatch(fetchEmployeePds(employeeId))
   }, [dispatch])
 
   useEffect(() => {
@@ -152,17 +153,10 @@ const EmployeePersonalDataSheetPdf = props => {
       </Can>
 
       <Can not I="access" this="Employees">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
-}
-
-EmployeePersonalDataSheetPdf.propTypes = {
-  location: PropTypes.object,
-  match: PropTypes.object,
 }
 
 export default EmployeePersonalDataSheetPdf

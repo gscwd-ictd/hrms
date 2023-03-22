@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react"
 import dayjs from "dayjs"
 import { isEmpty } from "lodash"
-import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { fetchPublicationDocumentDetails, fetchPRFTrail } from "store/actions"
@@ -16,8 +15,10 @@ import PublicationDocument from "./PublicationDocument"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 
-const PublicationPdf = props => {
+const PublicationPdf = () => {
   const dispatch = useDispatch()
+  const { prfId } = useParams()
+
   const [filteredPublicationData, setFilteredPublicationData] = useState([])
 
   // Redux state for job description
@@ -884,8 +885,8 @@ const PublicationPdf = props => {
 
   // Fetch data of document
   useEffect(() => {
-    dispatch(fetchPublicationDocumentDetails(props.match.params.prfId)) //  fetch publication document details
-    dispatch(fetchPRFTrail(props.match.params.prfId)) //  fetch trail of signatories
+    dispatch(fetchPublicationDocumentDetails(prfId)) //  fetch publication document details
+    dispatch(fetchPRFTrail(prfId)) //  fetch trail of signatories
   }, [dispatch])
 
   return (
@@ -932,16 +933,10 @@ const PublicationPdf = props => {
       </Can>
 
       <Can not I="access" this="Prf_list">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
 }
 
-PublicationPdf.propTypes = {
-  match: PropTypes.object,
-  location: PropTypes.object,
-}
 export default PublicationPdf

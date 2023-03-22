@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react"
 import PropTypes from "prop-types"
 import { Can } from "casl/Can"
-import { Redirect } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { fetchPublicationsWithHiredApplicants } from "store/actions"
@@ -16,13 +16,8 @@ import HiredApplicants from "components/Modal/HiringResults/HiredApplicants"
 // style
 import "styles/custom_gscwd/components/table.scss"
 
-const HiringResults = props => {
+const HiringResults = () => {
   const dispatch = useDispatch()
-
-  // current state of input for appointment effectivity
-  // const [printRoH, setPrintRoH] = useState(false) // state to check if table has content then user can print
-  // const [appointmentEffectivityDate, setAppointmentEffectivityDate] =
-  //   useState("")
 
   const tableColumns = [
     {
@@ -56,12 +51,6 @@ const HiringResults = props => {
       accessor: "effectivityDate",
       vertical: "middle",
     },
-    // {
-    //   Header: "SELECTED APPLICANT/S",
-    //   accessor: "selected",
-    //   vertical: "middle",
-    // },
-
     {
       Header: "Actions",
       accessor: "",
@@ -75,18 +64,6 @@ const HiringResults = props => {
           >
             <i className="fas fa-user-check"></i> Applicants
           </Button>
-
-          // <Link
-          //   to={
-          //     props.location.pathname +
-          //     "/results-of-hiring-pdf/" +
-          //     cell.row.original.effectivityDate
-          //   }
-          // >
-          //   <Button className="btn btn-info waves-effect waves-light">
-          //     DBM-CSC Additional Data
-          //   </Button>
-          // </Link>
         )
       },
     },
@@ -148,38 +125,13 @@ const HiringResults = props => {
                 notifMessage={errorPublicationsWithHiredApplicants}
               />
             ) : null}
+
             <Card>
               <CardBody className="card-table">
                 {loadingPublicationsWithHiredApplicants ? (
                   <LoadingIndicator />
                 ) : (
-                  <>
-                    <div className="multi-select-top-right-actions">
-                      {/* <Row className="justify-content-end">
-                      <Col md={8}>
-                        <Input
-                          type="date"
-                          onChange={e =>
-                            setInputAppointmentDate(e.target.value)
-                          }
-                        />
-                      </Col>
-                      <Col md={2}>
-                        <Button
-                          className="btn btn-info w-100"
-                          onClick={() => handleFetchHiredApplicants()}
-                          disabled={
-                            !isEmpty(inputAppointmentDate) ? false : true
-                          }
-                        >
-                          Search
-                        </Button>
-                      </Col>
-                    </Row> */}
-                    </div>
-
-                    <TableHiringResults columns={columns} data={data} />
-                  </>
+                  <TableHiringResults columns={columns} data={data} />
                 )}
 
                 <HiredApplicants
@@ -196,16 +148,13 @@ const HiringResults = props => {
       </Can>
 
       <Can not I="access" this="Results_of_hiring">
-        <Redirect
-          to={{ pathname: "/page-404", state: { from: props.location } }}
-        />
+        <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
   )
 }
 
 HiringResults.propTypes = {
-  location: PropTypes.object,
   cell: PropTypes.any,
 }
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { withRouter } from "react-router-dom"
+import withRouter from "components/Common/withRouter"
 import PropTypes from "prop-types"
 
 import {
