@@ -6,6 +6,7 @@ import ArialNarrowItalic from "assets/fonts/uploads/arial-narrow-italic.ttf"
 import ArialNarrowBold from "assets/fonts/uploads/arial-narrow-bold.ttf"
 import ArialNarrowBoldItalic from "assets/fonts/uploads/arial-narrow-bold-italic.ttf"
 import PropTypes from "prop-types"
+import { chunkSubstr } from "pages/PdfCreator/EmployeePersonalDataSheet/PdsDocument"
 
 const styles = StyleSheet.create({
   sectionTitleContainer: {
@@ -37,6 +38,7 @@ const styles = StyleSheet.create({
     fontWeight: 100,
     fontSize: 6.7,
     padding: "5.5 8",
+    textTransform: "uppercase",
   },
   warningText: {
     fontFamily: "ArialNarrowBoldItalic",
@@ -80,8 +82,6 @@ Font.register({
   src: ArialNarrowBoldItalic,
 })
 
-Font.registerHyphenationCallback(word => [word])
-
 const WorkExperiencePdf = props => {
   const { workExperience, formatDate } = props
   const [emptyWorkExperienceRows, setEmptyWorkExperienceRows] = useState(28)
@@ -114,7 +114,7 @@ const WorkExperiencePdf = props => {
           </View>
           <View style={[styles.w50, styles.horizontalCenter]}>
             <View style={[styles.verticalCenter, { padding: "3 0" }]}>
-              <Text>{formatDate(experience.to) || "N/A"}</Text>
+              <Text>{formatDate(experience.to) || "PRESENT"}</Text>
             </View>
           </View>
         </View>
@@ -191,11 +191,13 @@ const WorkExperiencePdf = props => {
             styles.inputValue,
             styles.horizontalCenter,
             styles.w7,
-            { padding: 0 },
+            { fontSize: 6.2, padding: 0 },
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{experience.appointmentStatus || "N/A"}</Text>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {experience.appointmentStatus || "N/A"}
+            </Text>
           </View>
         </View>
 
@@ -209,7 +211,7 @@ const WorkExperiencePdf = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{experience.isGovernmentService ? "Y" : "N"}</Text>
+            <Text>{experience.isGovernmentService === 1 ? "Y" : "N"}</Text>
           </View>
         </View>
       </View>
@@ -327,7 +329,7 @@ const WorkExperiencePdf = props => {
               styles.inputValue,
               styles.horizontalCenter,
               styles.w7,
-              { padding: 0 },
+              { fontSize: 6.2, padding: 0 },
             ]}
           >
             <View style={[styles.verticalCenter]}>
@@ -538,7 +540,7 @@ WorkExperiencePdf.propTypes = {
       monthlySalary: PropTypes.number,
       salaryGrade: PropTypes.string,
       appointmentStatus: PropTypes.string,
-      isGovernmentService: PropTypes.bool,
+      isGovernmentService: PropTypes.number,
       from: PropTypes.string,
       to: PropTypes.string,
     })

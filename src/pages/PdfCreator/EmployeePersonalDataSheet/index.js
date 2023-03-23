@@ -114,7 +114,7 @@ const EmployeePersonalDataSheetPdf = () => {
             {isLoading ? (
               <LoadingIndicator />
             ) : (
-              <PDFViewer width={"100%"} height={700} showToolbar>
+              <PDFViewer width={"100%"} height={850} showToolbar>
                 <PdsDocument
                   formatDate={formatDate}
                   personalInfo={personalInfo}

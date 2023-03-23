@@ -75,10 +75,10 @@ Font.register({
 
 const VoluntaryWorkPdf = props => {
   const { voluntaryWork, formatDate } = props
-  const [emptyVoluntaryWorkRows, setEmptyVoluntaryWorkRows] = useState(7)
+  const [emptyVoluntaryWorkRows, setEmptyVoluntaryWorkRows] = useState(5)
 
   const renderVoluntaryWorkRows = () => {
-    var content = voluntaryWork.slice(0, 7).map((voluntaryWork, index) => (
+    var content = voluntaryWork.slice(0, 5).map((voluntaryWork, index) => (
       <View
         style={[
           styles.borderTop,

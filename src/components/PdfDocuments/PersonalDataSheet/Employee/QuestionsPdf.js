@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     borderBottom: "0.5 solid #000000",
     padding: "1 5 2 5",
     textAlign: "center",
+    fontSize: 7,
   },
   iDText: {
     fontFamily: "ArialRegular",
@@ -159,7 +160,7 @@ const QuestionsPdf = props => {
             styles.w30,
             styles.borderRight,
             styles.inputAnswers,
-            { textAlign: "center", fontSize: 8 },
+            { textAlign: "center", fontSize: 6.5 },
           ]}
         >
           <Text>{reference.address}</Text>
@@ -201,7 +202,7 @@ const QuestionsPdf = props => {
               styles.w30,
               styles.borderRight,
               styles.inputAnswers,
-              { textAlign: "center", fontSize: 8 },
+              { textAlign: "center", fontSize: 6.5 },
             ]}
           >
             <Text>N/A</Text>

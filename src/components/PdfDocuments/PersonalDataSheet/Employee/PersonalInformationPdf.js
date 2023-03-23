@@ -1309,7 +1309,13 @@ const PersonalInformationPdf = props => {
             <Text>21. E-MAIL ADDRESS (if any)</Text>
           </View>
 
-          <View style={[styles.inputValue, styles.w73_5, { padding: "4 8" }]}>
+          <View
+            style={[
+              styles.inputValue,
+              styles.w73_5,
+              { padding: "4 8", textTransform: "lowercase" },
+            ]}
+          >
             <Text style={[styles.w100]}>{personalInfo.email || "N/A"}</Text>
           </View>
         </View>

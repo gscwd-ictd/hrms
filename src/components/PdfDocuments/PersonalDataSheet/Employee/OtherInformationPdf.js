@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     fontWeight: 100,
     fontSize: 6.7,
     padding: "4 8",
+    height: 25,
   },
   inputAddressKey: {
     fontFamily: "Arial",
