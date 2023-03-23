@@ -6,6 +6,7 @@ import ArialNarrowItalic from "assets/fonts/uploads/arial-narrow-italic.ttf"
 import ArialNarrowBold from "assets/fonts/uploads/arial-narrow-bold.ttf"
 import ArialNarrowBoldItalic from "assets/fonts/uploads/arial-narrow-bold-italic.ttf"
 import PropTypes from "prop-types"
+import { chunkSubstr } from "pages/PdfCreator/EmployeePersonalDataSheet/PdsDocument"
 
 const styles = StyleSheet.create({
   sectionTitleContainer: {
@@ -37,6 +38,7 @@ const styles = StyleSheet.create({
     fontWeight: 100,
     fontSize: 6.7,
     padding: "4 8",
+    textTransform: "uppercase",
   },
   inputAddressKey: {
     fontFamily: "Arial",
@@ -88,10 +90,10 @@ Font.register({
 
 const LearningAndDevelopmentPdf = props => {
   const { learningDevelopment, formatDate } = props
-  const [emptyLearningDevRows, setEmptyLearningDevRows] = useState(21)
+  const [emptyLearningDevRows, setEmptyLearningDevRows] = useState(18)
 
   const renderLearningDevelopmentRows = () => {
-    var content = learningDevelopment.slice(0, 21).map((training, index) => (
+    var content = learningDevelopment.slice(0, 18).map((training, index) => (
       <View
         style={[
           styles.borderTop,
@@ -157,11 +159,13 @@ const LearningAndDevelopmentPdf = props => {
             styles.inputValue,
             styles.horizontalCenter,
             styles.w6,
-            { padding: "5.5 3" },
+            { fontSize: 5, padding: "5.5 3" },
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{training.type || "N/A"}</Text>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {training.type || "N/A"}
+            </Text>
           </View>
         </View>
 
@@ -175,7 +179,9 @@ const LearningAndDevelopmentPdf = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{training.conductedBy || "N/A"}</Text>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {training.conductedBy || "N/A"}
+            </Text>
           </View>
         </View>
       </View>

@@ -7,6 +7,7 @@ import ArialNarrowBold from "assets/fonts/uploads/arial-narrow-bold.ttf"
 import ArialNarrowBoldItalic from "assets/fonts/uploads/arial-narrow-bold-italic.ttf"
 import PropTypes from "prop-types"
 import { isEmpty } from "lodash"
+import { chunkSubstr } from "pages/PdfCreator/EmployeePersonalDataSheet/PdsDocument"
 
 const styles = StyleSheet.create({
   lineContainer: {
@@ -41,6 +42,7 @@ const styles = StyleSheet.create({
     fontWeight: 100,
     fontSize: 6.7,
     padding: "5.5 8",
+    textTransform: "uppercase",
   },
   inputAddressKey: {
     fontFamily: "Arial",
@@ -89,8 +91,6 @@ Font.register({
   family: "ArialNarrowBoldItalic",
   src: ArialNarrowBoldItalic,
 })
-
-Font.registerHyphenationCallback(word => [word])
 
 const EligibilityPdf = props => {
   const { formatDate, eligibilities } = props
@@ -186,7 +186,10 @@ const EligibilityPdf = props => {
           <View
             style={[styles.w50, styles.horizontalCenter, styles.borderRight]}
           >
-            <Text style={[styles.verticalCenter, { padding: "3 0" }]}>
+            <Text
+              style={[styles.verticalCenter, { padding: "3 0" }]}
+              hyphenationCallback={e => chunkSubstr(e)}
+            >
               {eligibility.licenseNumber || "N/A"}
             </Text>
           </View>

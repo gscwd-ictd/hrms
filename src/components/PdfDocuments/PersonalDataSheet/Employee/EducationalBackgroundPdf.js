@@ -10,6 +10,7 @@ import ArialBoldItalic from "assets/fonts/uploads/arial-bold-italic.ttf"
 import ArialNarrowBoldItalic from "assets/fonts/uploads/arial-narrow-bold-italic.ttf"
 import PropTypes from "prop-types"
 import { isEmpty } from "lodash"
+import { chunkSubstr } from "pages/PdfCreator/EmployeePersonalDataSheet/PdsDocument"
 
 const styles = StyleSheet.create({
   lineContainer: {
@@ -44,6 +45,7 @@ const styles = StyleSheet.create({
     fontWeight: 100,
     fontSize: 6.7,
     padding: "4 8",
+    textTransform: "uppercase",
   },
   inputAddressKey: {
     fontFamily: "Arial",
@@ -246,14 +248,28 @@ const EducationalBackgroundPdf = props => {
         </View>
 
         {/* Name of School */}
-        <View style={[styles.borderRight, styles.inputValue, styles.w24_5]}>
+        <View
+          style={[
+            styles.borderRight,
+            styles.inputValue,
+            styles.w24_5,
+            { padding: "4 2" },
+          ]}
+        >
           <View style={[styles.verticalCenter]}>
             <Text>{elementary.schoolName || "N/A"}</Text>
           </View>
         </View>
 
         {/* Degree/Course */}
-        <View style={[styles.borderRight, styles.inputValue, styles.w22_5]}>
+        <View
+          style={[
+            styles.borderRight,
+            styles.inputValue,
+            styles.w22_5,
+            { padding: "4 2" },
+          ]}
+        >
           <View style={[styles.verticalCenter]}>
             <Text>{elementary.degree || "N/A"}</Text>
           </View>
@@ -289,10 +305,17 @@ const EducationalBackgroundPdf = props => {
             styles.inputValue,
             styles.horizontalCenter,
             styles.w8_9,
+            { padding: "4 2" },
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{elementary.units || "N/A"}</Text>
+            <Text>
+              {elementary.yearGraduated !== null
+                ? "GRADUATED"
+                : elementary.units === "" && elementary.yearGraduated === null
+                ? "N/A"
+                : elementary.units}
+            </Text>
           </View>
         </View>
 
@@ -312,10 +335,17 @@ const EducationalBackgroundPdf = props => {
 
         {/* Scholarship/Honors */}
         <View
-          style={[styles.inputValue, styles.horizontalCenter, styles.w7_45]}
+          style={[
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w7_45,
+            { fontSize: 6.2, padding: "4 2" },
+          ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{elementary.awards || "N/A"}</Text>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {elementary.awards || "N/A"}
+            </Text>
           </View>
         </View>
       </View>
@@ -333,14 +363,28 @@ const EducationalBackgroundPdf = props => {
         </View>
 
         {/* Name of School */}
-        <View style={[styles.borderRight, styles.inputValue, styles.w24_5]}>
+        <View
+          style={[
+            styles.borderRight,
+            styles.inputValue,
+            styles.w24_5,
+            { padding: "4 2" },
+          ]}
+        >
           <View style={[styles.verticalCenter]}>
             <Text>{secondary.schoolName || "N/A"}</Text>
           </View>
         </View>
 
         {/* Degree/Course */}
-        <View style={[styles.borderRight, styles.inputValue, styles.w22_5]}>
+        <View
+          style={[
+            styles.borderRight,
+            styles.inputValue,
+            styles.w22_5,
+            { padding: "4 2" },
+          ]}
+        >
           <View style={[styles.verticalCenter]}>
             <Text>{secondary.degree || "N/A"}</Text>
           </View>
@@ -377,7 +421,13 @@ const EducationalBackgroundPdf = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{secondary.units || "N/A"}</Text>
+            <Text>
+              {secondary.yearGraduated !== null
+                ? "GRADUATED"
+                : secondary.units === "" && secondary.yearGraduated === null
+                ? "N/A"
+                : secondary.units}
+            </Text>
           </View>
         </View>
 
@@ -397,10 +447,17 @@ const EducationalBackgroundPdf = props => {
 
         {/* Scholarship/Honors */}
         <View
-          style={[styles.inputValue, styles.horizontalCenter, styles.w7_45]}
+          style={[
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w7_45,
+            { fontSize: 6.2, padding: "4 2" },
+          ]}
         >
-          <View style={[styles.verticalCenter]}>
-            <Text>{secondary.awards || "N/A"}</Text>
+          <View style={[styles.verticalCenter, styles.w100]}>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {secondary.awards || "N/A"}
+            </Text>
           </View>
         </View>
       </View>
@@ -425,7 +482,12 @@ const EducationalBackgroundPdf = props => {
 
               {/* Name of School */}
               <View
-                style={[styles.borderRight, styles.inputValue, styles.w24_5]}
+                style={[
+                  styles.borderRight,
+                  styles.inputValue,
+                  styles.w24_5,
+                  { padding: "4 2" },
+                ]}
               >
                 <View style={[styles.verticalCenter]}>
                   <Text>{vocation.schoolName || "N/A"}</Text>
@@ -434,7 +496,12 @@ const EducationalBackgroundPdf = props => {
 
               {/* Degree/Course */}
               <View
-                style={[styles.borderRight, styles.inputValue, styles.w22_5]}
+                style={[
+                  styles.borderRight,
+                  styles.inputValue,
+                  styles.w22_5,
+                  { padding: "4 2" },
+                ]}
               >
                 <View style={[styles.verticalCenter]}>
                   <Text>{vocation.degree || "N/A"}</Text>
@@ -478,7 +545,13 @@ const EducationalBackgroundPdf = props => {
                 ]}
               >
                 <View style={[styles.verticalCenter]}>
-                  <Text>{vocation.units || "N/A"}</Text>
+                  <Text>
+                    {vocation.yearGraduated !== null
+                      ? "GRADUATED"
+                      : vocation.units === "" && vocation.yearGraduated === null
+                      ? "N/A"
+                      : vocation.units}
+                  </Text>
                 </View>
               </View>
 
@@ -502,10 +575,13 @@ const EducationalBackgroundPdf = props => {
                   styles.inputValue,
                   styles.horizontalCenter,
                   styles.w7_45,
+                  { fontSize: 6.2, padding: "4 2" },
                 ]}
               >
                 <View style={[styles.verticalCenter]}>
-                  <Text>{vocation.awards || "N/A"}</Text>
+                  <Text hyphenationCallback={e => chunkSubstr(e)}>
+                    {vocation.awards || "N/A"}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -524,14 +600,28 @@ const EducationalBackgroundPdf = props => {
           </View>
 
           {/* Name of School */}
-          <View style={[styles.borderRight, styles.inputValue, styles.w24_5]}>
+          <View
+            style={[
+              styles.borderRight,
+              styles.inputValue,
+              styles.w24_5,
+              { padding: "4 2" },
+            ]}
+          >
             <View style={[styles.verticalCenter]}>
               <Text>N/A</Text>
             </View>
           </View>
 
           {/* Degree/Course */}
-          <View style={[styles.borderRight, styles.inputValue, styles.w22_5]}>
+          <View
+            style={[
+              styles.borderRight,
+              styles.inputValue,
+              styles.w22_5,
+              { padding: "4 2" },
+            ]}
+          >
             <View style={[styles.verticalCenter]}>
               <Text>N/A</Text>
             </View>
@@ -586,7 +676,12 @@ const EducationalBackgroundPdf = props => {
 
           {/* Scholarship/Honors */}
           <View
-            style={[styles.inputValue, styles.horizontalCenter, styles.w7_45]}
+            style={[
+              styles.inputValue,
+              styles.horizontalCenter,
+              styles.w7_45,
+              { fontSize: 6.2, padding: "4 2" },
+            ]}
           >
             <View style={[styles.verticalCenter]}>
               <Text>N/A</Text>
@@ -613,7 +708,12 @@ const EducationalBackgroundPdf = props => {
 
               {/* Name of School */}
               <View
-                style={[styles.borderRight, styles.inputValue, styles.w24_5]}
+                style={[
+                  styles.borderRight,
+                  styles.inputValue,
+                  styles.w24_5,
+                  { padding: "4 2" },
+                ]}
               >
                 <View style={[styles.verticalCenter]}>
                   <Text>{college.schoolName || "N/A"}</Text>
@@ -622,7 +722,12 @@ const EducationalBackgroundPdf = props => {
 
               {/* Degree/Course */}
               <View
-                style={[styles.borderRight, styles.inputValue, styles.w22_5]}
+                style={[
+                  styles.borderRight,
+                  styles.inputValue,
+                  styles.w22_5,
+                  { padding: "4 2" },
+                ]}
               >
                 <View style={[styles.verticalCenter]}>
                   <Text>{college.degree || "N/A"}</Text>
@@ -666,7 +771,13 @@ const EducationalBackgroundPdf = props => {
                 ]}
               >
                 <View style={[styles.verticalCenter]}>
-                  <Text>{college.units || "N/A"}</Text>
+                  <Text>
+                    {college.yearGraduated !== null
+                      ? "GRADUATED"
+                      : college.units === "" && college.yearGraduated === null
+                      ? "N/A"
+                      : college.units}
+                  </Text>
                 </View>
               </View>
 
@@ -690,10 +801,13 @@ const EducationalBackgroundPdf = props => {
                   styles.inputValue,
                   styles.horizontalCenter,
                   styles.w7_45,
+                  { fontSize: 6.2, padding: "4 2" },
                 ]}
               >
                 <View style={[styles.verticalCenter]}>
-                  <Text>{college.awards || "N/A"}</Text>
+                  <Text hyphenationCallback={e => chunkSubstr(e)}>
+                    {college.awards || "N/A"}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -712,14 +826,28 @@ const EducationalBackgroundPdf = props => {
           </View>
 
           {/* Name of School */}
-          <View style={[styles.borderRight, styles.inputValue, styles.w24_5]}>
+          <View
+            style={[
+              styles.borderRight,
+              styles.inputValue,
+              styles.w24_5,
+              { padding: "4 2" },
+            ]}
+          >
             <View style={[styles.verticalCenter]}>
               <Text>N/A</Text>
             </View>
           </View>
 
           {/* Degree/Course */}
-          <View style={[styles.borderRight, styles.inputValue, styles.w22_5]}>
+          <View
+            style={[
+              styles.borderRight,
+              styles.inputValue,
+              styles.w22_5,
+              { padding: "4 2" },
+            ]}
+          >
             <View style={[styles.verticalCenter]}>
               <Text>N/A</Text>
             </View>
@@ -774,7 +902,12 @@ const EducationalBackgroundPdf = props => {
 
           {/* Scholarship/Honors */}
           <View
-            style={[styles.inputValue, styles.horizontalCenter, styles.w7_45]}
+            style={[
+              styles.inputValue,
+              styles.horizontalCenter,
+              styles.w7_45,
+              { fontSize: 6.2, padding: "4 2" },
+            ]}
           >
             <View style={[styles.verticalCenter]}>
               <Text>N/A</Text>
@@ -801,7 +934,12 @@ const EducationalBackgroundPdf = props => {
 
               {/* Name of School */}
               <View
-                style={[styles.borderRight, styles.inputValue, styles.w24_5]}
+                style={[
+                  styles.borderRight,
+                  styles.inputValue,
+                  styles.w24_5,
+                  { padding: "4 2" },
+                ]}
               >
                 <View style={[styles.verticalCenter]}>
                   <Text>{graduate.schoolName || "N/A"}</Text>
@@ -810,7 +948,12 @@ const EducationalBackgroundPdf = props => {
 
               {/* Degree/Course */}
               <View
-                style={[styles.borderRight, styles.inputValue, styles.w22_5]}
+                style={[
+                  styles.borderRight,
+                  styles.inputValue,
+                  styles.w22_5,
+                  { padding: "4 2" },
+                ]}
               >
                 <View style={[styles.verticalCenter]}>
                   <Text>{graduate.degree || "N/A"}</Text>
@@ -854,7 +997,13 @@ const EducationalBackgroundPdf = props => {
                 ]}
               >
                 <View style={[styles.verticalCenter]}>
-                  <Text>{graduate.units || "N/A"}</Text>
+                  <Text>
+                    {graduate.yearGraduated !== null
+                      ? "GRADUATED"
+                      : graduate.units === "" && graduate.yearGraduated === null
+                      ? "N/A"
+                      : graduate.units}
+                  </Text>
                 </View>
               </View>
 
@@ -878,10 +1027,13 @@ const EducationalBackgroundPdf = props => {
                   styles.inputValue,
                   styles.horizontalCenter,
                   styles.w7_45,
+                  { fontSize: 6.2, padding: "4 2" },
                 ]}
               >
                 <View style={[styles.verticalCenter]}>
-                  <Text>{graduate.awards || "N/A"}</Text>
+                  <Text hyphenationCallback={e => chunkSubstr(e)}>
+                    {graduate.awards || "N/A"}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -900,14 +1052,28 @@ const EducationalBackgroundPdf = props => {
           </View>
 
           {/* Name of School */}
-          <View style={[styles.borderRight, styles.inputValue, styles.w24_5]}>
+          <View
+            style={[
+              styles.borderRight,
+              styles.inputValue,
+              styles.w24_5,
+              { padding: "4 2" },
+            ]}
+          >
             <View style={[styles.verticalCenter]}>
               <Text>N/A</Text>
             </View>
           </View>
 
           {/* Degree/Course */}
-          <View style={[styles.borderRight, styles.inputValue, styles.w22_5]}>
+          <View
+            style={[
+              styles.borderRight,
+              styles.inputValue,
+              styles.w22_5,
+              { padding: "4 2" },
+            ]}
+          >
             <View style={[styles.verticalCenter]}>
               <Text>N/A</Text>
             </View>
@@ -962,7 +1128,12 @@ const EducationalBackgroundPdf = props => {
 
           {/* Scholarship/Honors */}
           <View
-            style={[styles.inputValue, styles.horizontalCenter, styles.w7_45]}
+            style={[
+              styles.inputValue,
+              styles.horizontalCenter,
+              styles.w7_45,
+              { fontSize: 6.2, padding: "4 2" },
+            ]}
           >
             <View style={[styles.verticalCenter]}>
               <Text>N/A</Text>
