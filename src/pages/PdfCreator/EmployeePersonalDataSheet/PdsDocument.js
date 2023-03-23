@@ -1017,7 +1017,7 @@ const PdsDocument = props => {
   }
 
   const renderLearningDevelopmentExtraPage2 = () => {
-    var content = learningDevelopment.slice(51, 88).map(training => (
+    var content = learningDevelopment.slice(51, 84).map(training => (
       <View
         style={[
           styles.borderTop,
@@ -1115,7 +1115,7 @@ const PdsDocument = props => {
   }
 
   const renderLearningDevelopmentExtraPage3 = () => {
-    var content = learningDevelopment.slice(88, 125).map(training => (
+    var content = learningDevelopment.slice(84, 117).map(training => (
       <View
         style={[
           styles.borderTop,
@@ -1213,7 +1213,7 @@ const PdsDocument = props => {
   }
 
   const renderLearningDevelopmentExtraPage4 = () => {
-    var content = learningDevelopment.slice(125, 162).map(training => (
+    var content = learningDevelopment.slice(117, 150).map(training => (
       <View
         style={[
           styles.borderTop,
@@ -1311,7 +1311,7 @@ const PdsDocument = props => {
   }
 
   const renderLearningDevelopmentExtraPage5 = () => {
-    var content = learningDevelopment.slice(162, 199).map(training => (
+    var content = learningDevelopment.slice(150, 183).map(training => (
       <View
         style={[
           styles.borderTop,
@@ -1409,7 +1409,7 @@ const PdsDocument = props => {
   }
 
   const renderLearningDevelopmentExtraPage6 = () => {
-    var content = learningDevelopment.slice(199, 236).map(training => (
+    var content = learningDevelopment.slice(183, 216).map(training => (
       <View
         style={[
           styles.borderTop,
@@ -1705,6 +1705,12 @@ const PdsDocument = props => {
       {vocational.length > 1 || college.length > 1 || graduate.length > 1 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
+            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
+              <Text style={styles.sectionTitleText}>
+                III. EDUCATIONAL BACKGROUND
+              </Text>
+            </View>
+
             {/* Educational Background Header */}
             <View style={[{ flexDirection: "row", alignItems: "stretch" }]}>
               {/* Level */}
@@ -1849,6 +1855,12 @@ const PdsDocument = props => {
       {eligibilities.length > 7 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
+            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
+              <Text style={styles.sectionTitleText}>
+                IV. CIVIL SERVICE ELIGIBILITY
+              </Text>
+            </View>
+
             {/* Eligibility Header */}
             <View style={[{ flexDirection: "row", alignItems: "stretch" }]}>
               {/* Eligibility Name */}
@@ -1964,6 +1976,10 @@ const PdsDocument = props => {
       {workExperience.length > 28 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
+            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
+              <Text style={styles.sectionTitleText}>V. WORK EXPERIENCE</Text>
+            </View>
+
             {/* Work Experience Header */}
             <View style={[{ flexDirection: "row", alignItems: "stretch" }]}>
               {/* Inclusive Dates */}
@@ -2122,6 +2138,13 @@ const PdsDocument = props => {
       {voluntaryWork.length > 6 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
+            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
+              <Text style={styles.sectionTitleText}>
+                VI. VOLUNTARY WORK OR INVOLVEMENT IN CIVIC / NON-GOVERNMENT /
+                PEOPLE / VOLUNTARY ORGANIZATION/S
+              </Text>
+            </View>
+
             {/* Voluntary Work header */}
             <View
               style={[
@@ -2228,6 +2251,13 @@ const PdsDocument = props => {
       {learningDevelopment.length > 19 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
+            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
+              <Text style={styles.sectionTitleText}>
+                VII. LEARNING AND DEVELOPMENT (L&D) INTERVENTIONS/TRAINING
+                PROGRAMS ATTENDED
+              </Text>
+            </View>
+
             {/* Learning and Development header */}
             <View style={[{ flexDirection: "row", alignItems: "stretch" }]}>
               {/* Title of Learning and Development */}
@@ -2350,6 +2380,13 @@ const PdsDocument = props => {
       {learningDevelopment.length > 52 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
+            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
+              <Text style={styles.sectionTitleText}>
+                VII. LEARNING AND DEVELOPMENT (L&D) INTERVENTIONS/TRAINING
+                PROGRAMS ATTENDED
+              </Text>
+            </View>
+
             {/* Learning and Development header */}
             <View style={[{ flexDirection: "row", alignItems: "stretch" }]}>
               {/* Title of Learning and Development */}
@@ -2469,9 +2506,16 @@ const PdsDocument = props => {
         </Page>
       ) : null}
 
-      {learningDevelopment.length > 89 ? (
+      {learningDevelopment.length > 85 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
+            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
+              <Text style={styles.sectionTitleText}>
+                VII. LEARNING AND DEVELOPMENT (L&D) INTERVENTIONS/TRAINING
+                PROGRAMS ATTENDED
+              </Text>
+            </View>
+
             {/* Learning and Development header */}
             <View style={[{ flexDirection: "row", alignItems: "stretch" }]}>
               {/* Title of Learning and Development */}
@@ -2591,9 +2635,16 @@ const PdsDocument = props => {
         </Page>
       ) : null}
 
-      {learningDevelopment.length > 126 ? (
+      {learningDevelopment.length > 118 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
+            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
+              <Text style={styles.sectionTitleText}>
+                VII. LEARNING AND DEVELOPMENT (L&D) INTERVENTIONS/TRAINING
+                PROGRAMS ATTENDED
+              </Text>
+            </View>
+
             {/* Learning and Development header */}
             <View style={[{ flexDirection: "row", alignItems: "stretch" }]}>
               {/* Title of Learning and Development */}
@@ -2713,9 +2764,16 @@ const PdsDocument = props => {
         </Page>
       ) : null}
 
-      {learningDevelopment.length > 163 ? (
+      {learningDevelopment.length > 151 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
+            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
+              <Text style={styles.sectionTitleText}>
+                VII. LEARNING AND DEVELOPMENT (L&D) INTERVENTIONS/TRAINING
+                PROGRAMS ATTENDED
+              </Text>
+            </View>
+
             {/* Learning and Development header */}
             <View style={[{ flexDirection: "row", alignItems: "stretch" }]}>
               {/* Title of Learning and Development */}
@@ -2835,9 +2893,16 @@ const PdsDocument = props => {
         </Page>
       ) : null}
 
-      {learningDevelopment.length > 200 ? (
+      {learningDevelopment.length > 184 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
+            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
+              <Text style={styles.sectionTitleText}>
+                VII. LEARNING AND DEVELOPMENT (L&D) INTERVENTIONS/TRAINING
+                PROGRAMS ATTENDED
+              </Text>
+            </View>
+
             {/* Learning and Development header */}
             <View style={[{ flexDirection: "row", alignItems: "stretch" }]}>
               {/* Title of Learning and Development */}
