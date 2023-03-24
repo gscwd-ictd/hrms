@@ -128,6 +128,9 @@ const styles = StyleSheet.create({
   borderRight: {
     borderRight: "1px solid #000000",
   },
+  borderBottom: {
+    borderBottom: "1px solid #000000",
+  },
 
   // Field Styles
   inputKey: {
@@ -146,6 +149,21 @@ const styles = StyleSheet.create({
   },
   verticalCenter: { margin: "auto 0" },
   horizontalCenter: { textAlign: "center" },
+  sectionTitleContainer: {
+    backgroundColor: "#969696",
+    padding: 1.5,
+  },
+  sectionTitleText: {
+    color: "#ffffff",
+    fontFamily: "ArialNarrowBoldItalic",
+    fontSize: 9.2,
+  },
+  sectionSubtitleText: {
+    color: "#ffffff",
+    fontFamily: "ArialNarrowBoldItalic",
+    fontSize: 6.5,
+    paddingTop: 2,
+  },
 
   // Width Styles
   w100: { width: "100%" },
@@ -329,7 +347,13 @@ const PdsDocument = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{vocation.units || "N/A"}</Text>
+            <Text>
+              {vocation.yearGraduated !== null
+                ? "GRADUATED"
+                : vocation.units === "" && vocation.yearGraduated === null
+                ? "N/A"
+                : vocation.units}
+            </Text>
           </View>
         </View>
 
@@ -441,7 +465,13 @@ const PdsDocument = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{college.units || "N/A"}</Text>
+            <Text>
+              {college.yearGraduated !== null
+                ? "GRADUATED"
+                : college.units === "" && college.yearGraduated === null
+                ? "N/A"
+                : college.units}
+            </Text>
           </View>
         </View>
 
@@ -555,7 +585,13 @@ const PdsDocument = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{graduate.units || "N/A"}</Text>
+            <Text>
+              {graduate.yearGraduated !== null
+                ? "GRADUATED"
+                : graduate.units === "" && graduate.yearGraduated === null
+                ? "N/A"
+                : graduate.units}
+            </Text>
           </View>
         </View>
 
