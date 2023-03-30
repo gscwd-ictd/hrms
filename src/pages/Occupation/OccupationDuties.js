@@ -212,7 +212,12 @@ const OccupationDuties = props => {
             {errorOccupationDutyResponsibilities ? (
               <ToastrNotification
                 toastType={"error"}
-                notifMessage={errorOccupationDutyResponsibilities}
+                notifMessage={
+                  errorOccupationDutyResponsibilities.message ===
+                  "Request failed with status code 403"
+                    ? "Duty/ies is already assigned to a position."
+                    : errorOccupationDutyResponsibilities
+                }
               />
             ) : null}
             {errorAvailableDutyResponsibilities ? (

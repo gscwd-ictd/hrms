@@ -340,8 +340,7 @@ const VoluntaryWorkPdf = props => {
       </View>
 
       {renderVoluntaryWorkRows()}
-
-      {voluntaryWork.length < 28 ? <>{renderEmptyVoluntaryWorkRows()}</> : null}
+      {renderEmptyVoluntaryWorkRows()}
 
       <View style={[styles.borderTop]}>
         <View style={[styles.inputKey, styles.w100, { padding: "1 0" }]}>
