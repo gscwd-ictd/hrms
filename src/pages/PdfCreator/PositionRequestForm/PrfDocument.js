@@ -212,7 +212,7 @@ const PrfDocument = props => {
 
         {/* FIXED */}
         <Text style={[styles.borderTop, { padding: "5 0 0 2" }]}>
-          Requesting Department Manager
+          {prfTrail.department.position}
         </Text>
       </>
     )
@@ -246,7 +246,7 @@ const PrfDocument = props => {
 
         {/* FIXED */}
         <Text style={[styles.borderTop, { padding: "5 0 0 2" }]}>
-          Requesting Assistant General Manager
+          {prfTrail.agm.position}
         </Text>
       </>
     )
@@ -446,7 +446,7 @@ const PrfDocument = props => {
               <Image src={SampleSignature} style={[styles.signature]} />
               <Text style={[styles.signatoryName]}>{prfDetails.from.name}</Text>
               <Text style={[styles.borderTop, { padding: "5 0 0 2" }]}>
-                Requesting {prfDetails.from.position}
+                {prfDetails.from.position}
               </Text>
             </View>
 
@@ -483,7 +483,7 @@ const PrfDocument = props => {
               <Text style={[styles.signatoryName]}>{prfTrail.admin.name}</Text>
               {/* FIXED */}
               <Text style={[styles.borderTop, { padding: "5 0 0 2" }]}>
-                Assistant General Manager for Administration
+                {prfTrail.admin.position}
               </Text>
             </View>
 
