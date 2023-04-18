@@ -32,7 +32,7 @@ export const DateRangeColumnFilter = props => {
   }
 
   return (
-    <div className="daterange-wrapper d-flex gap-1">
+    <div className="daterange-wrapper d-flex gap-2">
       <Label className="col-form-label">{render("FilterName")}: </Label>
       <p className="col-form-label">from</p>
       <Input
@@ -62,8 +62,8 @@ export const DateRangeColumnFilter = props => {
         value={filterValue && filterValue[1] ? filterValue[1].slice(0, 10) : ""}
       />
 
-      <Button color="dark" outline onClick={() => resetDateInputs()}>
-        <i className="fas fa-sync"></i>
+      <Button onClick={() => resetDateInputs()} color="light" outline>
+        {""} <i className="fas fa-undo"></i>
       </Button>
     </div>
   )

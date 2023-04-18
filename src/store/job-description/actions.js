@@ -4,6 +4,7 @@ import {
   UPDATE_JOB_DESCRIPTION,
   UPDATE_JOB_DESCRIPTION_SUCCESS,
   JOB_DESCRIPTION_API_FAIL,
+  RESET_JOB_DESCRIPTION,
 } from "./actionTypes"
 
 // Get position job description details
@@ -17,10 +18,7 @@ export const fetchJobDescriptionSuccess = jobDescription => ({
 })
 
 // Update position job description details
-export const updateJobDescription = (
-  positionId,
-  updatedJobDescription
-) => ({
+export const updateJobDescription = (positionId, updatedJobDescription) => ({
   type: UPDATE_JOB_DESCRIPTION,
   payload: { positionId, updatedJobDescription },
 })
@@ -32,4 +30,8 @@ export const updateJobDescriptionSuccess = updatedJobDescription => ({
 export const jobDescriptionApiFail = error => ({
   type: JOB_DESCRIPTION_API_FAIL,
   payload: error,
+})
+
+export const resetJobDescriptionResponse = () => ({
+  type: RESET_JOB_DESCRIPTION,
 })

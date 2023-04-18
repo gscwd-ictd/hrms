@@ -48,12 +48,6 @@ const TableSystemLogs = props => {
 
   return (
     <>
-      {/* <div className="flex-container filters-wrapper"> */}
-      {/* <GlobalFilter
-        preGlobalFilteredRows={preGlobalFilteredRows}
-        globalFilter={globalFilter}
-        setGlobalFilter={setGlobalFilter}
-      /> */}
       <div className="column-filters d-flex gap-4 mt-3">
         {headerGroups.map(headerGroup =>
           headerGroup.headers.map((column, i) =>
@@ -65,7 +59,7 @@ const TableSystemLogs = props => {
           )
         )}
       </div>
-      {/* </div> */}
+
       <Table
         {...getTableProps()}
         className="table mb-0 wd-table"

@@ -4,6 +4,7 @@ import {
   UPDATE_JOB_DESCRIPTION,
   UPDATE_JOB_DESCRIPTION_SUCCESS,
   JOB_DESCRIPTION_API_FAIL,
+  RESET_JOB_DESCRIPTION,
 } from "./actionTypes"
 
 const INIT_STATE = {
@@ -143,6 +144,38 @@ const jobDescription = (state = INIT_STATE, action) => {
           errorJobDescription: action.payload,
         },
       }
+
+    case RESET_JOB_DESCRIPTION:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          get: {
+            ...state.response.get,
+            positionId: "",
+            itemNumber: "",
+            positionTitle: "",
+            salaryGrade: 0,
+            stepIncrement: 0,
+            actualSalary: 0,
+            natureOfAppointment: "",
+            summary: "",
+            description: "",
+            reportsTo: "",
+            assignedTo: {
+              ...state.response.get.assignedTo,
+              office: "",
+              department: "",
+              division: "",
+            },
+          },
+          patch: {},
+        },
+        error: {
+          errorJobDescription: null,
+        },
+      }
+
     default:
       return state
   }

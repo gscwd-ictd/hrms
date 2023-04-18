@@ -99,7 +99,7 @@ const PositionCompetencies = () => {
               <>
                 <Breadcrumbs
                   title={positionDetails.itemNumber}
-                  titleUrl={`/plantilla/${plantillaId}`}
+                  titleUrl={`/plantilla/permanent/${plantillaId}`}
                   breadcrumbItem="Competencies"
                   positionTitle={positionDetails.positionTitle}
                 />

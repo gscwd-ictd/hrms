@@ -39,7 +39,6 @@ const Department = () => {
       Header: "Office",
       accessor: "officeCode",
       Filter: SelectColumnFilter,
-      filter: "includes",
     },
     {
       Header: "Description",

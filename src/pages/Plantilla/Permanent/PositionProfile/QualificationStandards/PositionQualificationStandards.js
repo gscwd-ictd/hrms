@@ -82,7 +82,7 @@ const PositionQualificationStandards = () => {
               <>
                 <Breadcrumbs
                   title={positionDetails.itemNumber}
-                  titleUrl={`/plantilla/${plantillaId}`}
+                  titleUrl={`/plantilla/permanent/${plantillaId}`}
                   breadcrumbItem="Qualification Standards"
                   positionTitle={positionDetails.positionTitle}
                 />

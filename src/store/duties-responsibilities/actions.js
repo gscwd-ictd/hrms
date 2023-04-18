@@ -101,15 +101,19 @@ export const fetchOccupationDutiesFail = error => ({
 })
 
 // Assign duties for specific occupation
-export const addAssignOccupationDuties = (occupationId, assignedDutyResponsibilities) => ({
+export const addAssignOccupationDuties = (
+  occupationId,
+  assignedDutyResponsibilities
+) => ({
   type: ASSIGN_OCCUPATION_DUTIES,
-  payload: {occupationId, assignedDutyResponsibilities},
+  payload: { occupationId, assignedDutyResponsibilities },
 })
 
-export const addAssignOccupationDutiesSuccess = assignedDutyResponsibilities => ({
-  type: ASSIGN_OCCUPATION_DUTIES_SUCCESS,
-  payload: assignedDutyResponsibilities,
-})
+export const addAssignOccupationDutiesSuccess =
+  assignedDutyResponsibilities => ({
+    type: ASSIGN_OCCUPATION_DUTIES_SUCCESS,
+    payload: assignedDutyResponsibilities,
+  })
 
 export const addAssignOccupationDutiesFail = error => ({
   type: ASSIGN_OCCUPATION_DUTIES_FAIL,
@@ -117,10 +121,11 @@ export const addAssignOccupationDutiesFail = error => ({
 })
 
 // Unassign duties for specific occupation
-export const removeUnassignOccupationDuties = unassignedDutyResponsibilities => ({
-  type: UNASSIGN_OCCUPATION_DUTIES,
-  payload: unassignedDutyResponsibilities,
-})
+export const removeUnassignOccupationDuties =
+  unassignedDutyResponsibilities => ({
+    type: UNASSIGN_OCCUPATION_DUTIES,
+    payload: unassignedDutyResponsibilities,
+  })
 
 export const removeUnassignOccupationDutiesSuccess =
   unassignedDutyResponsibilities => ({
