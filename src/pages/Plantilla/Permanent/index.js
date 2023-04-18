@@ -45,6 +45,7 @@ const PlantillaTable = () => {
     {
       Header: "Assigned To",
       accessor: "assignedTo",
+      Filter: SelectColumnFilter,
     },
     {
       Header: "Occupation",

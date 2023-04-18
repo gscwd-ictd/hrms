@@ -2,7 +2,10 @@ import "flatpickr/dist/themes/material_blue.css"
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import { fetchPlantillaPosition } from "store/actions"
+import {
+  fetchPlantillaPosition,
+  resetJobDescriptionResponse,
+} from "store/actions"
 import { Can } from "casl/Can"
 import { Navigate, useLocation, useParams } from "react-router-dom"
 
@@ -37,7 +40,8 @@ const PositionProfile = () => {
 
   useEffect(() => {
     dispatch(fetchPlantillaPosition(plantillaId))
-  }, [dispatch])
+    dispatch(resetJobDescriptionResponse())
+  }, [])
 
   return (
     <React.Fragment>

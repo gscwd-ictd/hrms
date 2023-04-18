@@ -14,3 +14,20 @@
 #layout-wrapper .main-content {
   overflow: unset;
 }
+
+#layout-wrapper .main-content::before {
+  content: "";
+  background-image: url(../../assets/images/main_logo_bg.png);
+  background-size: 50%;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.5;
+
+  background-repeat: no-repeat;
+  background-position: 110vh 29vh;
+  background-origin: border-box;
+  background-attachment: fixed;
+}

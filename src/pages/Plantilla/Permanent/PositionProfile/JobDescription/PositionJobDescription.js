@@ -44,6 +44,11 @@ const PositionJobDescription = () => {
   const [filteredStepIncrements, setFilteredStepIncrements] = useState([])
   const [filteredSG, setfilteredSG] = useState({})
 
+  // checker state for selected radio button
+  const [isOfficeDefault, setIsOfficeDefault] = useState(false)
+  const [isDepartmentDefault, setIsDepartmentDefault] = useState(false)
+  const [isDivisionDefault, setIsDivisionDefault] = useState(false)
+
   // Redux state for organization structure
   const {
     offices,
@@ -148,6 +153,7 @@ const PositionJobDescription = () => {
     setfilteredSG(parsedValue)
   }
 
+  // Submit updated job description
   const updatePlantillaPosition = event => {
     event.preventDefault()
 
@@ -160,7 +166,9 @@ const PositionJobDescription = () => {
         summary: event.target.positionSummary.value,
       },
     }
-    dispatch(updateJobDescription(plantillaId, formData))
+
+    console.log(formData)
+    // dispatch(updateJobDescription(plantillaId, formData))
   }
 
   useEffect(() => {
@@ -171,8 +179,12 @@ const PositionJobDescription = () => {
       dispatch(getDepartments())
       dispatch(getDivisions())
       dispatch(fetchSGListStepIncrement())
+
+      setIsDivisionDefault(false)
+      setIsDepartmentDefault(false)
+      setIsOfficeDefault(false)
     }
-  }, [dispatch])
+  }, [])
 
   useEffect(() => {
     if (filteredSG.amount > 0) {
@@ -192,6 +204,21 @@ const PositionJobDescription = () => {
       }
     }
   }, [responseUpdateJobDescription])
+
+  useEffect(() => {
+    console.log(jobDescription)
+
+    if (!isEmpty(jobDescription.assignedTo.division)) {
+      setIsDivisionDefault(true)
+      setDirectAssignment("division")
+    } else if (!isEmpty(jobDescription.assignedTo.department)) {
+      setIsDepartmentDefault(true)
+      setDirectAssignment("department")
+    } else if (!isEmpty(jobDescription.assignedTo.office)) {
+      setIsOfficeDefault(true)
+      setDirectAssignment("office")
+    }
+  }, [jobDescription])
 
   return (
     <React.Fragment>
@@ -240,7 +267,7 @@ const PositionJobDescription = () => {
               <>
                 <Breadcrumbs
                   title={positionDetails.itemNumber}
-                  titleUrl={`/plantilla/${plantillaId}`}
+                  titleUrl={`/plantilla/permanent/${plantillaId}`}
                   breadcrumbItem="Job Description"
                   positionTitle={positionDetails.positionTitle}
                 />
@@ -284,20 +311,12 @@ const PositionJobDescription = () => {
                                     <Label for="formrow-itemnumber-Input">
                                       Item No
                                     </Label>
-                                    {/* <Input
-                                    type="text"
-                                    className="form-control"
-                                    name="itemNumber"
-                                    id="formrow-itemnumber-Input"
-                                    defaultValue={jobDescription.itemNumber}
-                                    required
-                                  /> */}
 
                                     <InputMask
                                       name="itemNumber"
                                       mask="aaa-aaa-999"
                                       defaultValue={jobDescription.itemNumber}
-                                      className="form-control input-color"
+                                      className="form-control input-color text-uppercase"
                                     ></InputMask>
                                   </FormGroup>
                                 </Col>
@@ -322,7 +341,7 @@ const PositionJobDescription = () => {
                                 </Col>
 
                                 {/* Assignment */}
-                                <Col md={6}>
+                                <Col md={4}>
                                   <FormGroup>
                                     <legend className="col-form-label font-weight-bold col-sm-6">
                                       Assignment:
@@ -336,7 +355,8 @@ const PositionJobDescription = () => {
                                             value="office"
                                             onChange={handleAssignment}
                                             required
-                                          />{" "}
+                                            defaultChecked={isOfficeDefault}
+                                          />
                                           Office
                                         </Label>
                                       </FormGroup>
@@ -349,7 +369,8 @@ const PositionJobDescription = () => {
                                             value="department"
                                             onChange={handleAssignment}
                                             required
-                                          />{" "}
+                                            defaultChecked={isDepartmentDefault}
+                                          />
                                           Department
                                         </Label>
                                       </FormGroup>
@@ -362,7 +383,8 @@ const PositionJobDescription = () => {
                                             value="division"
                                             onChange={handleAssignment}
                                             required
-                                          />{" "}
+                                            defaultChecked={isDivisionDefault}
+                                          />
                                           Division
                                         </Label>
                                       </FormGroup>
@@ -371,7 +393,7 @@ const PositionJobDescription = () => {
                                 </Col>
 
                                 {/* Assigned To */}
-                                <Col md={6}>
+                                <Col md={8}>
                                   <FormGroup>
                                     <Label for="formrow-assignedto">
                                       Assigned to
@@ -396,6 +418,14 @@ const PositionJobDescription = () => {
                                               <option
                                                 key={office._id}
                                                 value={office._id}
+                                                selected={
+                                                  isOfficeDefault &&
+                                                  office.name ===
+                                                    jobDescription.assignedTo
+                                                      .office
+                                                    ? true
+                                                    : false
+                                                }
                                               >
                                                 {office.code}
                                                 {" - "}
@@ -407,6 +437,14 @@ const PositionJobDescription = () => {
                                               <option
                                                 key={department._id}
                                                 value={department._id}
+                                                selected={
+                                                  isDepartmentDefault &&
+                                                  department.name ===
+                                                    jobDescription.assignedTo
+                                                      .department
+                                                    ? true
+                                                    : false
+                                                }
                                               >
                                                 {department.code}
                                                 {" - "}
@@ -418,6 +456,14 @@ const PositionJobDescription = () => {
                                               <option
                                                 key={division._id}
                                                 value={division._id}
+                                                selected={
+                                                  isDivisionDefault &&
+                                                  division.name ===
+                                                    jobDescription.assignedTo
+                                                      .division
+                                                    ? true
+                                                    : false
+                                                }
                                               >
                                                 {division.code}
                                                 {" - "}
@@ -462,21 +508,25 @@ const PositionJobDescription = () => {
                                         name="salaryGrade"
                                         onChange={filterSG}
                                         required
+                                        // sas
                                       >
                                         <option value="">Choose...</option>
                                         {salaryGrades.map(sg => {
                                           return (
-                                            <option key={sg} value={sg}>
+                                            <option
+                                              key={sg}
+                                              value={sg}
+                                              selected={
+                                                sg ===
+                                                jobDescription.salaryGrade
+                                              }
+                                            >
                                               {sg}
                                             </option>
                                           )
                                         })}
                                       </select>
                                     )}
-                                    <FormText>
-                                      Current Salary Grade is{" "}
-                                      {jobDescription.salaryGrade}
-                                    </FormText>
                                   </FormGroup>
                                 </Col>
 
@@ -509,6 +559,10 @@ const PositionJobDescription = () => {
                                             <option
                                               key={sg._id}
                                               value={JSON.stringify(optionVal)}
+                                              selected={
+                                                sg.stepIncrement ===
+                                                jobDescription.stepIncrement
+                                              }
                                             >
                                               {sg.stepIncrement}
                                             </option>
@@ -516,10 +570,6 @@ const PositionJobDescription = () => {
                                         })}
                                       </select>
                                     )}
-                                    <FormText>
-                                      Current Step Increment is{" "}
-                                      {jobDescription.stepIncrement}
-                                    </FormText>
                                   </FormGroup>
                                 </Col>
 

@@ -95,7 +95,7 @@ const PositionDutiesResponsibilities = () => {
               <>
                 <Breadcrumbs
                   title={positionDetails.itemNumber}
-                  titleUrl={`/plantilla/${plantillaId}`}
+                  titleUrl={`/plantilla/permanent/${plantillaId}`}
                   breadcrumbItem="Duties and Responsibilities"
                   positionTitle={positionDetails.positionTitle}
                 />

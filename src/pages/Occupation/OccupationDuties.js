@@ -171,7 +171,7 @@ const OccupationDuties = props => {
       !isEmpty(unassignedDutyResponsibilities)
     ) {
       dispatch(fetchOccupationDuties(occupationId))
-      dispatch(fetchAvailableDuties())
+      dispatch(fetchAvailableDuties(occupationId))
 
       dispatch(resetDutiesResponse())
       dispatch(resetDutyCheckBoxes())
@@ -179,7 +179,7 @@ const OccupationDuties = props => {
     }
   }, [assignedDutyResponsibilities, unassignedDutyResponsibilities])
 
-  // Enable/Disable button for assigning dependent on the state of input
+  // Enable/Disable assign button if there is a option selected
   useEffect(() => {
     if (!isEmpty(selectedDuties)) {
       setDisableAssignBtn(false)
@@ -188,7 +188,7 @@ const OccupationDuties = props => {
     }
   }, [selectedDuties])
 
-  // Enable or disable delete button if there is a row checked
+  // Enable/Disable delete button if there is a row checked
   useEffect(() => {
     if (!isEmpty(selectedRows)) {
       setDisableDeleteBtn(false)

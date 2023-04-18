@@ -194,7 +194,7 @@ const SinglePositionRequest = props => {
                             <Col md={4} key={position.positionId}>
                               <Link
                                 to={{
-                                  pathname: `/plantilla/${position.positionId}`,
+                                  pathname: `/plantilla/permanent/${position.positionId}`,
                                 }}
                                 className="text-dark"
                                 target="_blank"
