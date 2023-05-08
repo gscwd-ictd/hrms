@@ -3,19 +3,22 @@ import PropTypes from "prop-types"
 import { isEmpty } from "lodash"
 
 import { useDispatch, useSelector } from "react-redux"
-import { updateAppointmentEffectivityDate } from "store/actions"
+import {
+  updateAppointmentEffectivityDate,
+  getPublications,
+  resetPublicationResponses,
+} from "store/actions"
 
 import { Modal } from "react-bootstrap"
 import { Col, Row, Input, Alert, Form, Button } from "reactstrap"
 import ToastrNotification from "components/Notifications/ToastrNotification"
-
-import { examInterviewVenues } from "constants/selectInputs"
 
 const SetAppointmentEffectivity = props => {
   const {
     showSetAppointmentEffectivity,
     handleCloseSetAppointmentEffectivity,
     modalData,
+    prfId,
   } = props
   const dispatch = useDispatch()
 
@@ -24,8 +27,8 @@ const SetAppointmentEffectivity = props => {
   // redux state for response
   const { response, loading, error } = useSelector(state => ({
     response: state.publications.response.appointmentEffectivity,
-    loading: state.publications.loading.loadingPublicationExamInterviewSchedule,
-    error: state.publications.error.errorPublicationExamInterviewSchedule,
+    loading: state.publications.loading.loadingAppointmentEffectivity,
+    error: state.publications.error.errorAppointmentEffectivity,
   }))
 
   const handleSubmit = event => {
@@ -38,6 +41,15 @@ const SetAppointmentEffectivity = props => {
       updateAppointmentEffectivityDate(modalData.vppId, effectivityDateDetails)
     )
   }
+
+  // refresh list of publications
+  useEffect(() => {
+    if (!isEmpty(response)) {
+      dispatch(getPublications(prfId))
+      handleCloseSetAppointmentEffectivity()
+      dispatch(resetPublicationResponses())
+    }
+  }, [response])
 
   return (
     <>
@@ -71,7 +83,9 @@ const SetAppointmentEffectivity = props => {
         {!isEmpty(response) ? (
           <ToastrNotification
             toastType={"success"}
-            notifMessage={"Examination scheduled"}
+            notifMessage={
+              "Effectivity date of appointment has been sucesfully set"
+            }
           />
         ) : null}
 
@@ -106,6 +120,7 @@ SetAppointmentEffectivity.propTypes = {
   showSetAppointmentEffectivity: PropTypes.bool,
   handleCloseSetAppointmentEffectivity: PropTypes.func,
   modalData: PropTypes.object,
+  prfId: PropTypes.string,
 }
 
 export default SetAppointmentEffectivity

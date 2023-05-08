@@ -90,7 +90,7 @@ const PositionDescriptionPdf = () => {
     dispatch(fetchCompetencyProficiencyLevels(positionId)) // fetch competencies of plantilla position4
     dispatch(fetchPRFTrail(prfId)) //  fetch trail of signatories
     dispatch(getSinglePRF(prfId)) //  fetch PRF details
-  }, [dispatch])
+  }, [])
 
   return (
     <React.Fragment>

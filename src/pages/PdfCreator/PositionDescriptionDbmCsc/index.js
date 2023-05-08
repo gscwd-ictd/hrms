@@ -15,7 +15,7 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 
 const PositionDescriptionDbmCscPdf = () => {
   const dispatch = useDispatch()
-  const { postingApplicantId } = useParams
+  const { postingApplicantId } = useParams()
 
   // redux state for applicants position description dbm-csc data
   const {
@@ -31,8 +31,10 @@ const PositionDescriptionDbmCscPdf = () => {
   }))
 
   useEffect(() => {
-    dispatch(fetchHiredApplicantDbmCscForm(postingApplicantId))
-  }, [dispatch])
+    if (postingApplicantId) {
+      dispatch(fetchHiredApplicantDbmCscForm(postingApplicantId))
+    }
+  }, [])
 
   return (
     <React.Fragment>

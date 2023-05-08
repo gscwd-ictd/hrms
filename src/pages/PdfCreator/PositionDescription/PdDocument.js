@@ -160,28 +160,6 @@ const PdDocument = props => {
     return content
   }
 
-  // const renderSupportDuties = () => {
-  //   var content = positionDutyResponsibilities.duties.support.map(
-  //     (duty, index) => (
-  //       <View style={[styles.rowContainerTable, styles.borderTop]} key={index}>
-  //         <View style={[styles.w14, styles.tData, styles.borderRight]}>
-  //           <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
-  //             {duty.percentage}
-  //           </Text>
-  //         </View>
-  //         <View style={[styles.w70, styles.tData, styles.borderRight]}>
-  //           <Text>{duty.description}</Text>
-  //         </View>
-  //         <View style={[styles.w16, styles.tData]}>
-  //           <Text>{duty.level}</Text>
-  //         </View>
-  //       </View>
-  //     )
-  //   )
-
-  //   return content
-  // }
-
   const renderFunctionalCompetencies = () => {
     var content = proficiencyLevel.functional.map((competency, index) => (
       <View style={[styles.rowContainerTable, styles.borderTop]} key={index}>
@@ -264,7 +242,10 @@ const PdDocument = props => {
           </Text>
         ) : (
           <>
-            <Image src={SampleSignature} style={[styles.signature]} />
+            <Image
+              src={`${prfTrail.department.signatureUrl}`}
+              style={[styles.signature]}
+            />
             <Text style={[styles.signatoryName]}>
               {prfTrail.department.name}
             </Text>
@@ -295,7 +276,10 @@ const PdDocument = props => {
           </Text>
         ) : (
           <>
-            <Image src={SampleSignature} style={[styles.signature]} />
+            <Image
+              src={`${prfTrail.agm.signatureUrl}`}
+              style={[styles.signature]}
+            />
             <Text style={[styles.signatoryName]}>{prfTrail.agm.name}</Text>
             <Text>{prfTrail.agm.position}</Text>
           </>
@@ -369,7 +353,7 @@ const PdDocument = props => {
                 </View>
 
                 <View style={[styles.w60]}>
-                  <Text>{jobDescription.assignedTo.office || "N/A"}</Text>
+                  <Text>{jobDescription.assignedTo.office.name || "N/A"}</Text>
                 </View>
               </View>
 
@@ -384,7 +368,9 @@ const PdDocument = props => {
                 </View>
 
                 <View style={[styles.w60]}>
-                  <Text>{jobDescription.assignedTo.department || "N/A"}</Text>
+                  <Text>
+                    {jobDescription.assignedTo.department.name || "N/A"}
+                  </Text>
                 </View>
               </View>
 
@@ -399,7 +385,9 @@ const PdDocument = props => {
                 </View>
 
                 <View style={[styles.w60]}>
-                  <Text>{jobDescription.assignedTo.division || "N/A"}</Text>
+                  <Text>
+                    {jobDescription.assignedTo.division.name || "N/A"}
+                  </Text>
                 </View>
               </View>
 
@@ -429,7 +417,7 @@ const PdDocument = props => {
                 </View>
 
                 <View style={[styles.w60]}>
-                  <Text>{jobDescription.salaryGrade || 0}</Text>
+                  <Text>{jobDescription.salary.salaryGrade || 0}</Text>
                 </View>
               </View>
 
@@ -661,7 +649,10 @@ const PdDocument = props => {
                 <View style={[styles.w33_33]}>
                   <Text>Requested by:</Text>
                   <View style={[styles.horizontalCenter]}>
-                    <Image src={SampleSignature} style={[styles.signature]} />
+                    <Image
+                      source={`${prfDetails.from.fromSignatureUrl}`}
+                      style={[styles.signature]}
+                    />
                     <Text style={[styles.signatoryName]}>
                       {prfDetails.from.name}
                     </Text>
@@ -695,11 +686,14 @@ const PdDocument = props => {
                 <View style={[styles.w50]}>
                   <Text>Certified correct by:</Text>
                   <View style={[styles.horizontalCenter]}>
-                    <Image src={SampleSignature} style={[styles.signature]} />
+                    <Image
+                      source={`${prfTrail.admin.signatureUrl}`}
+                      style={[styles.signature]}
+                    />
                     <Text style={[styles.signatoryName]}>
                       {prfTrail.admin.name}
                     </Text>
-                    <Text>Assistant General Manager for Administration</Text>
+                    <Text>{prfTrail.admin.position}</Text>
                   </View>
                 </View>
 
@@ -707,7 +701,10 @@ const PdDocument = props => {
                 <View style={[styles.w50]}>
                   <Text>Approved by:</Text>
                   <View style={[styles.horizontalCenter]}>
-                    <Image src={SampleSignature} style={[styles.signature]} />
+                    <Image
+                      source={`${prfDetails.for.forSignatureUrl}`}
+                      style={[styles.signature]}
+                    />
                     <Text style={[styles.signatoryName]}>
                       {prfDetails.for.name}
                     </Text>

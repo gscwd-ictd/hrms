@@ -12,6 +12,7 @@ import {
   getDivisions,
   fetchSGListStepIncrement,
   updateJobDescription,
+  resetJobDescriptionResponse,
 } from "store/actions"
 
 import {
@@ -143,6 +144,7 @@ const PositionJobDescription = () => {
     )
 
     setFilteredStepIncrements(sgCurrentStepIncrement)
+    document.getElementById("authsalary-input").value = 0
   }
 
   // for filtering the salary grade list and update authorized salary field
@@ -150,6 +152,8 @@ const PositionJobDescription = () => {
     const value = event.target.value
     const parsedValue = JSON.parse(value)
 
+    // Set "Authorized Salary" value to sudo-input
+    document.getElementById("authsalary-input").value = parsedValue.amount
     setfilteredSG(parsedValue)
   }
 
@@ -168,9 +172,24 @@ const PositionJobDescription = () => {
     }
 
     console.log(formData)
-    // dispatch(updateJobDescription(plantillaId, formData))
+    dispatch(updateJobDescription(plantillaId, formData))
   }
 
+  // Assign default value to "Assigned To" input
+  const setAssignedToDefaultValue = () => {
+    let assignedToValue = ""
+
+    if (isOfficeDefault) {
+      assignedToValue = jobDescription.assignedTo.office.id
+    } else if (isDepartmentDefault) {
+      assignedToValue = jobDescription.assignedTo.department.id
+    } else if (isDivisionDefault) {
+      assignedToValue = jobDescription.assignedTo.division.id
+    }
+    return assignedToValue
+  }
+
+  // Initial pull of required data
   useEffect(() => {
     if (plantillaId) {
       dispatch(fetchJobDescription(plantillaId))
@@ -179,19 +198,40 @@ const PositionJobDescription = () => {
       dispatch(getDepartments())
       dispatch(getDivisions())
       dispatch(fetchSGListStepIncrement())
-
-      setIsDivisionDefault(false)
-      setIsDepartmentDefault(false)
-      setIsOfficeDefault(false)
     }
   }, [])
 
+  // Set initial data for form
   useEffect(() => {
-    if (filteredSG.amount > 0) {
-      document.getElementById("authsalary-input").value = filteredSG.amount
+    // Set initial states for default values of "Assignment" radio input and "Assigned to" select input
+    if (jobDescription) {
+      if (!isEmpty(jobDescription.assignedTo.division.id)) {
+        setIsDivisionDefault(true)
+        setIsDepartmentDefault(false)
+        setIsOfficeDefault(false)
+        setDirectAssignment("division")
+      } else if (!isEmpty(jobDescription.assignedTo.department.id)) {
+        setIsDepartmentDefault(true)
+        setIsDivisionDefault(false)
+        setIsOfficeDefault(false)
+        setDirectAssignment("department")
+      } else if (!isEmpty(jobDescription.assignedTo.office.id)) {
+        setIsOfficeDefault(true)
+        setIsDepartmentDefault(false)
+        setIsDivisionDefault(false)
+        setDirectAssignment("office")
+      }
+    } else {
+      setDirectAssignment("")
+      setIsOfficeDefault(false)
+      setIsDepartmentDefault(false)
+      setIsDivisionDefault(false)
     }
-  }, [filteredSG])
 
+    console.log(jobDescription)
+  }, [jobDescription])
+
+  // If succesful response, reload pull of required page data
   useEffect(() => {
     if (!isEmpty(responseUpdateJobDescription)) {
       if (plantillaId) {
@@ -206,19 +246,19 @@ const PositionJobDescription = () => {
   }, [responseUpdateJobDescription])
 
   useEffect(() => {
-    console.log(jobDescription)
+    // Set initial state for "Step Increment" select input
+    if (jobDescription.salary.id && salaryGradeStepIncrement) {
+      const sgCurrentStepIncrement = salaryGradeStepIncrement.filter(
+        sg => sg.salaryGrade == jobDescription.salary.salaryGrade
+      )
 
-    if (!isEmpty(jobDescription.assignedTo.division)) {
-      setIsDivisionDefault(true)
-      setDirectAssignment("division")
-    } else if (!isEmpty(jobDescription.assignedTo.department)) {
-      setIsDepartmentDefault(true)
-      setDirectAssignment("department")
-    } else if (!isEmpty(jobDescription.assignedTo.office)) {
-      setIsOfficeDefault(true)
-      setDirectAssignment("office")
+      setFilteredStepIncrements(sgCurrentStepIncrement)
+      setfilteredSG({
+        _id: jobDescription.salary.id,
+        amount: jobDescription.salary.amount,
+      })
     }
-  }, [jobDescription])
+  }, [salaryGradeStepIncrement])
 
   return (
     <React.Fragment>
@@ -348,45 +388,51 @@ const PositionJobDescription = () => {
                                     </legend>
                                     <div className="custom-control custom-control-inline">
                                       <FormGroup check inline>
-                                        <Label check>
-                                          <Input
-                                            type="radio"
-                                            name="assignment"
-                                            value="office"
-                                            onChange={handleAssignment}
-                                            required
-                                            defaultChecked={isOfficeDefault}
-                                          />
-                                          Office
-                                        </Label>
+                                        <Input
+                                          type="radio"
+                                          name="assignment"
+                                          value="office"
+                                          onChange={handleAssignment}
+                                          required
+                                          defaultChecked={
+                                            directAssignment === "office"
+                                              ? true
+                                              : false
+                                          }
+                                        />
+                                        <Label check> Office</Label>
                                       </FormGroup>
 
                                       <FormGroup check inline>
-                                        <Label check>
-                                          <Input
-                                            type="radio"
-                                            name="assignment"
-                                            value="department"
-                                            onChange={handleAssignment}
-                                            required
-                                            defaultChecked={isDepartmentDefault}
-                                          />
-                                          Department
-                                        </Label>
+                                        <Input
+                                          type="radio"
+                                          name="assignment"
+                                          value="department"
+                                          onChange={handleAssignment}
+                                          required
+                                          defaultChecked={
+                                            directAssignment === "department"
+                                              ? true
+                                              : false
+                                          }
+                                        />
+                                        <Label check>Department</Label>
                                       </FormGroup>
 
                                       <FormGroup check inline>
-                                        <Label check>
-                                          <Input
-                                            type="radio"
-                                            name="assignment"
-                                            value="division"
-                                            onChange={handleAssignment}
-                                            required
-                                            defaultChecked={isDivisionDefault}
-                                          />
-                                          Division
-                                        </Label>
+                                        <Input
+                                          type="radio"
+                                          name="assignment"
+                                          value="division"
+                                          onChange={handleAssignment}
+                                          required
+                                          defaultChecked={
+                                            directAssignment === "division"
+                                              ? true
+                                              : false
+                                          }
+                                        />
+                                        <Label check> Division</Label>
                                       </FormGroup>
                                     </div>
                                   </FormGroup>
@@ -411,21 +457,14 @@ const PositionJobDescription = () => {
                                         className="form-control"
                                         name="directAssignment"
                                         required
+                                        defaultValue={setAssignedToDefaultValue()}
                                       >
-                                        <option value="">Choose...</option>
+                                        {/* Set option list */}
                                         {directAssignment === "office"
                                           ? offices.map(office => (
                                               <option
                                                 key={office._id}
                                                 value={office._id}
-                                                selected={
-                                                  isOfficeDefault &&
-                                                  office.name ===
-                                                    jobDescription.assignedTo
-                                                      .office
-                                                    ? true
-                                                    : false
-                                                }
                                               >
                                                 {office.code}
                                                 {" - "}
@@ -433,18 +472,10 @@ const PositionJobDescription = () => {
                                               </option>
                                             ))
                                           : directAssignment === "department"
-                                          ? departments.map((department, i) => (
+                                          ? departments.map(department => (
                                               <option
                                                 key={department._id}
                                                 value={department._id}
-                                                selected={
-                                                  isDepartmentDefault &&
-                                                  department.name ===
-                                                    jobDescription.assignedTo
-                                                      .department
-                                                    ? true
-                                                    : false
-                                                }
                                               >
                                                 {department.code}
                                                 {" - "}
@@ -452,18 +483,10 @@ const PositionJobDescription = () => {
                                               </option>
                                             ))
                                           : directAssignment === "division"
-                                          ? divisions.map((division, i) => (
+                                          ? divisions.map(division => (
                                               <option
                                                 key={division._id}
                                                 value={division._id}
-                                                selected={
-                                                  isDivisionDefault &&
-                                                  division.name ===
-                                                    jobDescription.assignedTo
-                                                      .division
-                                                    ? true
-                                                    : false
-                                                }
                                               >
                                                 {division.code}
                                                 {" - "}
@@ -477,15 +500,15 @@ const PositionJobDescription = () => {
                                       <span className="text-danger">
                                         OFFICE:
                                       </span>{" "}
-                                      {assignedTo.office} |{" "}
+                                      {assignedTo.office.name} |{" "}
                                       <span className="text-danger">
                                         DEPARTMENT:
                                       </span>{" "}
-                                      {assignedTo.department} |{" "}
+                                      {assignedTo.department.name} |{" "}
                                       <span className="text-danger">
                                         DIVISION:
                                       </span>{" "}
-                                      {assignedTo.division}
+                                      {assignedTo.division.name}
                                     </FormText>
                                   </FormGroup>
                                 </Col>
@@ -508,19 +531,13 @@ const PositionJobDescription = () => {
                                         name="salaryGrade"
                                         onChange={filterSG}
                                         required
-                                        // sas
+                                        defaultValue={
+                                          jobDescription.salary.salaryGrade
+                                        }
                                       >
-                                        <option value="">Choose...</option>
                                         {salaryGrades.map(sg => {
                                           return (
-                                            <option
-                                              key={sg}
-                                              value={sg}
-                                              selected={
-                                                sg ===
-                                                jobDescription.salaryGrade
-                                              }
-                                            >
+                                            <option key={sg} value={sg}>
                                               {sg}
                                             </option>
                                           )
@@ -548,8 +565,11 @@ const PositionJobDescription = () => {
                                         name="stepIncrement"
                                         onChange={filterSI}
                                         required
+                                        defaultValue={JSON.stringify({
+                                          _id: jobDescription.salary.id,
+                                          amount: jobDescription.salary.amount,
+                                        })}
                                       >
-                                        <option value="">Choose...</option>
                                         {filteredStepIncrements.map(sg => {
                                           let optionVal = {
                                             _id: sg._id,
@@ -559,10 +579,6 @@ const PositionJobDescription = () => {
                                             <option
                                               key={sg._id}
                                               value={JSON.stringify(optionVal)}
-                                              selected={
-                                                sg.stepIncrement ===
-                                                jobDescription.stepIncrement
-                                              }
                                             >
                                               {sg.stepIncrement}
                                             </option>
@@ -586,6 +602,7 @@ const PositionJobDescription = () => {
                                       id="authsalary-input"
                                       required
                                       readOnly
+                                      defaultValue={filteredSG.amount || "N/A"}
                                     />
                                   </FormGroup>
                                 </Col>
@@ -644,35 +661,39 @@ const PositionJobDescription = () => {
                               <Col sm={2}>
                                 <OutlinedBox
                                   label={"Salary Grade"}
-                                  value={jobDescription.salaryGrade || "N/A"}
+                                  value={
+                                    jobDescription.salary.salaryGrade || "N/A"
+                                  }
                                 />
                               </Col>
 
                               <Col sm={2}>
                                 <OutlinedBox
                                   label={"Step Increment"}
-                                  value={jobDescription.stepIncrement || "N/A"}
+                                  value={
+                                    jobDescription.salary.stepIncrement || "N/A"
+                                  }
                                 />
                               </Col>
 
                               <Col sm={4} className="mt-4">
                                 <OutlinedBox
                                   label={"Office"}
-                                  value={assignedTo.office || "N/A"}
+                                  value={assignedTo.office.name || "N/A"}
                                 />
                               </Col>
 
                               <Col sm={4} className="mt-4">
                                 <OutlinedBox
                                   label={"Department"}
-                                  value={assignedTo.department || "N/A"}
+                                  value={assignedTo.department.name || "N/A"}
                                 />
                               </Col>
 
                               <Col sm={4} className="mt-4">
                                 <OutlinedBox
                                   label={"Division"}
-                                  value={assignedTo.division || "N/A"}
+                                  value={assignedTo.division.name || "N/A"}
                                 />
                               </Col>
 

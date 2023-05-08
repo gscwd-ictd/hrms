@@ -235,7 +235,7 @@ const PublicationPositions = () => {
           ) : null}
 
           {cell.row.values.postingStatus ===
-          "Requesting entity selection done" ? (
+            "Requesting entity selection done" ? (
             <>
               <DropdownItem onClick={() => shortlist(cell.row.values)}>
                 <Link className="dropdown-item" to="#">
@@ -308,7 +308,7 @@ const PublicationPositions = () => {
           ) : null}
 
           {cell.row.values.postingStatus ===
-          "Appointing authority selection done" ? (
+            "Appointing authority selection done" ? (
             <>
               <DropdownItem
                 onClick={() => viewSelectedByAppAuth(cell.row.values)}
@@ -340,7 +340,13 @@ const PublicationPositions = () => {
 
           <DropdownItem onClick={() => publicationDetails(cell.row.values)}>
             <Link className="dropdown-item" to="#">
-              Publication Details
+              Publication Summary
+            </Link>
+          </DropdownItem>
+
+          <DropdownItem >
+            <Link className="dropdown-item" to="#">
+              Cancel Publication
             </Link>
           </DropdownItem>
         </DropdownMenu>
@@ -649,6 +655,7 @@ const PublicationPositions = () => {
                       handleCloseSetAppointmentEffectivity={
                         handleCloseSetAppointmentEffectivity
                       }
+                      prfId={prfId}
                     />
 
                     <PublicationDetails

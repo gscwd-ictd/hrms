@@ -157,7 +157,7 @@ const EditCompetencyModelModal = props => {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button type="submit" color="success" onClick={handleUpdateModel}>
+          <Button type="submit" color="info" onClick={handleUpdateModel}>
             Update
           </Button>
           <Button color="danger" onClick={handleCloseEdt}>

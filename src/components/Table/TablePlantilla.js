@@ -80,7 +80,7 @@ const TablePlantilla = props => {
             outline
             className="btn-md waves-effect"
           >
-            {""} <i className="fas fa-undo"></i>
+            <i className="fas fa-undo"></i>
           </Button>
         </div>
       </div>

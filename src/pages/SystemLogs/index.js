@@ -12,35 +12,13 @@ import ToastrNotification from "components/Notifications/ToastrNotification"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ViewSystemLogModal from "components/Modal/SystemLogs/ViewSystemLogModal"
 import { SelectColumnFilter } from "components/Filters/SelectColumnFilter"
-import { DateRangeColumnFilter } from "components/Filters/DateRangeColumnFilter"
+import { DateRangeColumnFilter, dateBetweenFilterFn } from "components/Filters/DateRangeColumnFilter"
 
 // style
 import "styles/custom_gscwd/components/table.scss"
 
 const SystemLogs = () => {
   const dispatch = useDispatch()
-
-  // function for filtering date in between
-  const dateBetweenFilterFn = (rows, id, filterValues) => {
-    const sd = filterValues[0] ? new Date(filterValues[0]) : undefined
-    const ed = filterValues[1] ? new Date(filterValues[1]) : undefined
-
-    if (ed || sd) {
-      return rows.filter(r => {
-        const cellDate = new Date(r.values[id])
-
-        if (ed && sd) {
-          return cellDate >= sd && cellDate <= ed
-        } else if (sd) {
-          return cellDate >= sd
-        } else if (ed) {
-          return cellDate <= ed
-        }
-      })
-    } else {
-      return rows
-    }
-  }
 
   const tableColumns = [
     {

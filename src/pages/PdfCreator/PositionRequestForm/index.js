@@ -37,7 +37,7 @@ const PositionRequestFormPdf = () => {
   useEffect(() => {
     dispatch(getSinglePRF(prfId)) //  fetch PRF details
     dispatch(fetchPRFTrail(prfId)) //  fetch trail of signatories
-  }, [dispatch])
+  }, [])
 
   return (
     <React.Fragment>

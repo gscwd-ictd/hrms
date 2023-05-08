@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     marginHorizontal: "auto",
   },
   signatureApproving: {
-    width: 80,
+    width: 88,
     marginHorizontal: "auto",
   },
   signatureCertified: {
@@ -189,31 +189,35 @@ const PrfDocument = props => {
     var content = (
       <>
         {prfDetails.from.name === prfTrail.department.name ||
-        prfTrail.department.status === "N/A" ? (
-          <Text
-            style={[
-              {
-                fontFamily: "CalibriRegularBold",
-                textTransform: "uppercase",
-                padding: "61.3 0 0 2",
-              },
-            ]}
-          >
-            N/A
-          </Text>
+          prfTrail.department.status === "N/A" ? (
+          <>
+            <Text
+              style={[
+                {
+                  fontFamily: "CalibriRegularBold",
+                  textTransform: "uppercase",
+                  padding: "72 0 0 2",
+                },
+              ]}
+            >
+              N/A
+            </Text>
+            <Text style={[styles.borderTop, { padding: "5 0 0 2" }]}>N/A</Text>
+          </>
         ) : (
           <>
-            <Image src={SampleSignature} style={[styles.signature]} />
+            <Image
+              src={`${prfTrail.department.signatureUrl}`}
+              style={[styles.signature]}
+            />
             <Text style={[styles.signatoryName]}>
               {prfTrail.department.name}
             </Text>
+            <Text style={[styles.borderTop, { padding: "5 0 0 2" }]}>
+              {prfTrail.department.position}
+            </Text>
           </>
         )}
-
-        {/* FIXED */}
-        <Text style={[styles.borderTop, { padding: "5 0 0 2" }]}>
-          {prfTrail.department.position}
-        </Text>
       </>
     )
 
@@ -225,29 +229,33 @@ const PrfDocument = props => {
     var content = (
       <>
         {prfDetails.from.name === prfTrail.agm.name ||
-        prfTrail.agm.status === "N/A" ? (
-          <Text
-            style={[
-              {
-                fontFamily: "CalibriRegularBold",
-                textTransform: "uppercase",
-                padding: "61.3 0 0 2",
-              },
-            ]}
-          >
-            N/A
-          </Text>
+          prfTrail.agm.status === "N/A" ? (
+          <>
+            <Text
+              style={[
+                {
+                  fontFamily: "CalibriRegularBold",
+                  textTransform: "uppercase",
+                  padding: "72 0 0 2",
+                },
+              ]}
+            >
+              N/A
+            </Text>
+            <Text style={[styles.borderTop, { padding: "5 0 0 2" }]}>N/A</Text>
+          </>
         ) : (
           <>
-            <Image src={SampleSignature} style={[styles.signature]} />
+            <Image
+              src={`${prfTrail.agm.signatureUrl}`}
+              style={[styles.signature]}
+            />
             <Text style={[styles.signatoryName]}>{prfTrail.agm.name}</Text>
+            <Text style={[styles.borderTop, { padding: "5 0 0 2" }]}>
+              {prfTrail.agm.position}
+            </Text>
           </>
         )}
-
-        {/* FIXED */}
-        <Text style={[styles.borderTop, { padding: "5 0 0 2" }]}>
-          {prfTrail.agm.position}
-        </Text>
       </>
     )
 
@@ -443,7 +451,10 @@ const PrfDocument = props => {
               style={[styles.w33_33, styles.signatureText, styles.borderRight]}
             >
               <Text style={[{ padding: "4 0 0 2" }]}>Requested by:</Text>
-              <Image src={SampleSignature} style={[styles.signature]} />
+              <Image
+                source={`${prfDetails.from.fromSignatureUrl}`}
+                style={[styles.signature]}
+              />
               <Text style={[styles.signatoryName]}>{prfDetails.from.name}</Text>
               <Text style={[styles.borderTop, { padding: "5 0 0 2" }]}>
                 {prfDetails.from.position}
@@ -475,11 +486,13 @@ const PrfDocument = props => {
               <Text style={[{ padding: "4 0 0 2" }]}>
                 Certified correct by:
               </Text>
+
               {/* Update Signature */}
               <Image
-                src={SampleSignature}
+                source={`${prfTrail.admin.signatureUrl}`}
                 style={[styles.signatureCertified]}
               />
+
               <Text style={[styles.signatoryName]}>{prfTrail.admin.name}</Text>
               {/* FIXED */}
               <Text style={[styles.borderTop, { padding: "5 0 0 2" }]}>
@@ -537,7 +550,7 @@ const PrfDocument = props => {
               {/* FINAL APPROVING BODY */}
               <View style={[styles.w65]}>
                 <Image
-                  src={SampleSignature}
+                  source={`${prfDetails.for.forSignatureUrl}`}
                   style={[styles.signatureApproving]}
                 />
               </View>

@@ -132,7 +132,13 @@ const INIT_STATE = {
       core: [],
       support: [],
     },
-    signatories: {},
+    signatories: {
+      employee: "",
+      hrdDepartmentManager: {
+        employeeName: "",
+        positionTitle: "",
+      },
+    },
   },
   loading: {
     loadingApplicants: false,
@@ -773,7 +779,16 @@ const applicants = (state = INIT_STATE, action) => {
             core: [],
             support: [],
           },
-          signatories: {},
+          signatories: {
+            ...state.dbmCscPositionDescriptionForm.signatories,
+            employee: "",
+            hrdDepartmentManager: {
+              ...state.dbmCscPositionDescriptionForm.signatories
+                .hrdDepartmentManager,
+              employeeName: "",
+              positionTitle: "",
+            },
+          },
         },
         loading: {
           ...state.loading,
@@ -812,7 +827,18 @@ const applicants = (state = INIT_STATE, action) => {
             core: action.payload.dutiesAndResponsibilities.core,
             support: action.payload.dutiesAndResponsibilities.support,
           },
-          signatories: action.payload.signatories,
+          signatories: {
+            ...state.dbmCscPositionDescriptionForm.signatories,
+            employee: action.payload.signatories.employee,
+            hrdDepartmentManager: {
+              ...state.dbmCscPositionDescriptionForm.signatories
+                .hrdDepartmentManager,
+              employeeName:
+                action.payload.signatories.hrdDepartmentManager.employeeName,
+              positionTitle:
+                action.payload.signatories.hrdDepartmentManager.positionTitle,
+            },
+          },
         },
         loading: {
           ...state.loading,

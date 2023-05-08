@@ -20,6 +20,7 @@ import {
   NavLink,
   TabContent,
   TabPane,
+  Table
 } from "reactstrap"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import ToastrNotification from "components/Notifications/ToastrNotification"
@@ -155,6 +156,7 @@ const PublicationDetails = props => {
                     Applied Applicants
                   </NavLink>
                 </NavItem>
+
                 <NavItem>
                   <NavLink
                     style={{ cursor: "pointer" }}
@@ -168,6 +170,7 @@ const PublicationDetails = props => {
                     Endorsed Applicants
                   </NavLink>
                 </NavItem>
+
                 <NavItem>
                   <NavLink
                     style={{ cursor: "pointer" }}
@@ -181,6 +184,7 @@ const PublicationDetails = props => {
                     Shortlisted Applicants
                   </NavLink>
                 </NavItem>
+
                 <NavItem>
                   <NavLink
                     style={{ cursor: "pointer" }}
@@ -191,9 +195,24 @@ const PublicationDetails = props => {
                       toggle("4")
                     }}
                   >
+                    PSB Details
+                  </NavLink>
+                </NavItem>
+
+                <NavItem>
+                  <NavLink
+                    style={{ cursor: "pointer" }}
+                    className={classnames({
+                      active: activeTab === "6",
+                    })}
+                    onClick={() => {
+                      toggle("6")
+                    }}
+                  >
                     PSB Summary
                   </NavLink>
                 </NavItem>
+
                 <NavItem>
                   <NavLink
                     style={{ cursor: "pointer" }}
@@ -207,33 +226,34 @@ const PublicationDetails = props => {
                     Hired Applicants
                   </NavLink>
                 </NavItem>
-                <NavItem>
-                  <NavLink
-                    style={{ cursor: "pointer" }}
-                    className={classnames({
-                      active: activeTab === "6",
-                    })}
-                    onClick={() => {
-                      toggle("6")
-                    }}
-                  >
-                    PSB Members
-                  </NavLink>
-                </NavItem>
               </Nav>
 
               <TabContent activeTab={activeTab} className="p-3 text-muted">
+                {/* Applied Applicants */}
                 <TabPane tabId="1">
                   <Row>
                     <Col sm="12">
                       {loadingApplicants ? (
                         <LoadingIndicator />
                       ) : !isEmpty(applicantList) ? (
-                        <ul>
-                          {applicantList.map(applicant => (
-                            <li key={applicant._id}>{applicant.fullName}</li>
-                          ))}
-                        </ul>
+                        <div className="table-responsive">
+                          <Table className="table mb-0">
+                            <thead className="thead-light">
+                              <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {applicantList.map(applicant => (
+                                <tr key={applicant._id}>
+                                  <td>{applicant.fullName}</td>
+                                  <td>{applicant.applicantType}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </Table>
+                        </div>
                       ) : (
                         <p
                           style={{ textAlign: "center" }}
@@ -246,43 +266,61 @@ const PublicationDetails = props => {
                   </Row>
                 </TabPane>
 
+                {/* Edoresed Applicants */}
                 <TabPane tabId="2">
                   <Row>
                     <Col sm="12">
                       {loadingEndorsedApplicants ? (
                         <LoadingIndicator />
                       ) : !isEmpty(endorsedApplicantList.postingApplicants) ? (
-                        <ul>
-                          {endorsedApplicantList.postingApplicants.map(
-                            applicant => (
-                              <li key={applicant.postingApplicantId}>
-                                {applicant.applicantName2}
-                              </li>
-                            )
-                          )}
-                        </ul>
+                        <div className="table-responsive">
+                          <Table className="table mb-0">
+                            <thead className="thead-light">
+                              <tr>
+                                <th>Name</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {endorsedApplicantList.postingApplicants.map(applicant => (
+                                <tr key={applicant.postingApplicantId}>
+                                  <td>{applicant.applicantName2}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </Table>
+                        </div>
                       ) : (
                         <p style={{ textAlign: "center" }}>
-                          No Qualified Applicants
+                          No Endoresed Applicants
                         </p>
                       )}
                     </Col>
                   </Row>
                 </TabPane>
 
+                {/* Shortlisted Applicants */}
                 <TabPane tabId="3">
                   <Row>
                     <Col sm="12">
                       {loadingShortlistedApplicants ? (
                         <LoadingIndicator />
                       ) : !isEmpty(shortlistedApplicantList) ? (
-                        <ul>
-                          {shortlistedApplicantList.map(applicant => (
-                            <li key={applicant.applicantEndorsementId}>
-                              {applicant.applicantName}
-                            </li>
-                          ))}
-                        </ul>
+                        <div className="table-responsive">
+                          <Table className="table mb-0">
+                            <thead className="thead-light">
+                              <tr>
+                                <th>Name</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {shortlistedApplicantList.map(applicant => (
+                                <tr key={applicant.applicantEndorsementId}>
+                                  <td>{applicant.applicantName}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </Table>
+                        </div>
                       ) : (
                         <p
                           style={{ textAlign: "center" }}
@@ -295,25 +333,43 @@ const PublicationDetails = props => {
                   </Row>
                 </TabPane>
 
+                {/* PSB Details */}
                 <TabPane tabId="4">
                   <Row>
                     <Col sm="12"></Col>
                   </Row>
                 </TabPane>
 
+                {/* PSB Summary */}
+                <TabPane tabId="6">
+                  <Row>
+                    <Col sm="12"></Col>
+                  </Row>
+                </TabPane>
+
+                {/* Hired Applicants */}
                 <TabPane tabId="5">
                   <Row>
                     <Col sm="12">
                       {loadingSelectedByAppointingAuth ? (
                         <LoadingIndicator />
                       ) : !isEmpty(selectedApplicantsByAppAuth) ? (
-                        <ul>
-                          {selectedApplicantsByAppAuth.map(applicant => (
-                            <li key={applicant.applicantEndorsementId}>
-                              {applicant.applicantName}
-                            </li>
-                          ))}
-                        </ul>
+                        <div className="table-responsive">
+                          <Table className="table mb-0">
+                            <thead className="thead-light">
+                              <tr>
+                                <th>Name</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {selectedApplicantsByAppAuth.map(applicant => (
+                                <tr key={applicant.applicantEndorsementId}>
+                                  <td>{applicant.applicantName}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </Table>
+                        </div>
                       ) : (
                         <p
                           style={{ textAlign: "center" }}
@@ -323,12 +379,6 @@ const PublicationDetails = props => {
                         </p>
                       )}
                     </Col>
-                  </Row>
-                </TabPane>
-
-                <TabPane tabId="6">
-                  <Row>
-                    <Col sm="12"></Col>
                   </Row>
                 </TabPane>
               </TabContent>
