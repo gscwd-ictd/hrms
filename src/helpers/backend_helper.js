@@ -286,6 +286,8 @@ export const patchScheduleExamInterview = (scheduleId, newScheduleDetails) =>
     newScheduleDetails
   )
 
+export const getPsbDetails = vppId =>
+  getHris(url.PUBLICATIONS + url.PSB_DETAILS + vppId)
 export const getPsbSummary = vppId =>
   getHris(url.PUBLICATIONS + url.PSB_SUMMARY + vppId)
 export const getSelectedByAppointingAuthority = vppId =>
@@ -331,8 +333,8 @@ export const patchApplicantApplicationStatus = (
 ) =>
   patchHris(
     url.GET_APPLICANT +
-      positingApplicantId +
-      url.PATCH_APPLICANT_APPLICATION_STATUS,
+    positingApplicantId +
+    url.PATCH_APPLICANT_APPLICATION_STATUS,
     applicantStatus
   )
 export const patchApplicantsExamScores = examScores =>
@@ -376,43 +378,43 @@ export const getDocumentPositionDescriptionDBMCSC = postingApplicantId =>
 export const getCBIReports = vppId =>
   getHris(
     url.PUBLICATIONS +
-      url.PSB_SUMMARY +
-      url.HRMS_REPORTS +
-      url.COMPETENCY_BASED_INTERVIEW +
-      vppId
+    url.PSB_SUMMARY +
+    url.HRMS_REPORTS +
+    url.COMPETENCY_BASED_INTERVIEW +
+    vppId
   )
 export const getDocumentResultsOfHiring = appointmentEffectivity =>
   getHris(
     url.PUBLICATIONS +
-      url.PSB_SUMMARY +
-      url.HRMS_REPORTS +
-      url.RESULTS_OF_HIRING +
-      "?effectivity_date=" +
-      appointmentEffectivity
+    url.PSB_SUMMARY +
+    url.HRMS_REPORTS +
+    url.RESULTS_OF_HIRING +
+    "?effectivity_date=" +
+    appointmentEffectivity
   )
 export const getDocumentReportOnAppointmentsIssued = monthYear =>
   getHris(
     url.PUBLICATIONS +
-      url.PSB_SUMMARY +
-      url.HRMS_REPORTS +
-      url.REPORT_ON_APPOINTMENTS +
-      monthYear
+    url.PSB_SUMMARY +
+    url.HRMS_REPORTS +
+    url.REPORT_ON_APPOINTMENTS +
+    monthYear
   )
 export const getDocumentCertOfAssumptionToDuty = postingApplicantId =>
   getHris(
     url.PUBLICATIONS +
-      url.PSB_SUMMARY +
-      url.HRMS_REPORTS +
-      url.CERTIFICATION_OF_ASSUMPTION_TO_DUTY +
-      postingApplicantId
+    url.PSB_SUMMARY +
+    url.HRMS_REPORTS +
+    url.CERTIFICATION_OF_ASSUMPTION_TO_DUTY +
+    postingApplicantId
   )
 export const getDocumentCertificateOfAppointment = postingApplicantId =>
   getHris(
     url.PUBLICATIONS +
-      url.PSB_SUMMARY +
-      url.HRMS_REPORTS +
-      url.CERTIFICATE_OF_APPOINTMENT +
-      postingApplicantId
+    url.PSB_SUMMARY +
+    url.HRMS_REPORTS +
+    url.CERTIFICATE_OF_APPOINTMENT +
+    postingApplicantId
   )
 
 // Modules-------------------------------------------------------------------------

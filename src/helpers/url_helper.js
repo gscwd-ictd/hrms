@@ -161,6 +161,7 @@ export const APPLICANT_ENDORSEMENT = "applicant-endorsement/"
 export const SCHEDULE_EXAM_INTERVIEW = "/schedules"
 export const APPOINTMENT_EFFECTIVITY = "appointment-effectivity/"
 
+export const PSB_DETAILS = "psb-details/"
 export const PSB_SUMMARY = "interview-rating/"
 export const SELECTED_BY_APPOINTING_AUTHORITY =
   "appointing-authority-selection/"

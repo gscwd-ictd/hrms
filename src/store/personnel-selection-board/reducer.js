@@ -5,6 +5,9 @@ import {
   GET_UNASSIGNED_PSB_MEMBERS,
   GET_UNASSIGNED_PSB_MEMBERS_SUCCESS,
   GET_UNASSIGNED_PSB_MEMBERS_FAIL,
+  GET_PSB_DETAILS,
+  GET_PSB_DETAILS_SUCCESS,
+  GET_PSB_DETAILS_FAIL,
   GET_PSB_SUMMARY,
   GET_PSB_SUMMARY_SUCCESS,
   GET_PSB_SUMMARY_FAIL,
@@ -33,6 +36,12 @@ const INIT_STATE = {
       assignedPSBMembers: [],
       unassignedPSBMembers: [],
     },
+    psbDetails: {
+      id: '',
+      noOfApplicants: '',
+      psbMembers: [],
+      schedule: {}
+    },
     psbSummary: {
       positionDetails: {},
       ranking: [],
@@ -56,6 +65,7 @@ const INIT_STATE = {
     loadingGetAssignedPSBMember: false,
     loadingGetUnassignedPSBMember: false,
     loadingPostAssignedPSBMembers: false,
+    loadingPsbDetails: false,
     loadingPsbSummary: false,
     loadingSelectedByAppointingAuth: false,
     loadingCompetencyBasedInterviewReports: false,
@@ -65,6 +75,7 @@ const INIT_STATE = {
     errorGetAssignedPSBMember: null,
     errorGetUnassignedPSBMember: null,
     errorPostAssignedPSBMembers: null,
+    errorPsbDetails: null,
     errorPsbSummary: null,
     errorSelectedByAppointingAuth: null,
     errorCompetencyBasedInterviewReports: null,
@@ -165,6 +176,61 @@ const personnelSelectionBoard = (state = INIT_STATE, action) => {
         error: {
           ...state.error,
           errorGetUnassignedPSBMember: action.payload,
+        },
+      }
+
+    case GET_PSB_DETAILS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          psbDetails: {
+            ...state.response.psbDetails,
+            id: '',
+            noOfApplicants: '',
+            psbMembers: [],
+            schedule: {}
+          },
+        },
+        loading: {
+          ...state.loading,
+          loadingPsbDetails: true,
+        },
+        error: {
+          ...state.error,
+          errorPsbDetails: null,
+        },
+      }
+    case GET_PSB_DETAILS_SUCCESS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          psbDetails: {
+            ...state.response.psbDetails,
+            id: action.payload.id,
+            noOfApplicants: action.payload.noOfApplicants,
+            psbMembers: action.payload.psbMembers,
+            schedule: action.payload.schedule,
+          },
+        },
+        loading: {
+          ...state.loading,
+          loadingPsbDetails: false,
+        },
+      }
+
+
+    case GET_PSB_DETAILS_FAIL:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingPsbDetails: false,
+        },
+        error: {
+          ...state.error,
+          errorPsbDetails: action.payload,
         },
       }
 

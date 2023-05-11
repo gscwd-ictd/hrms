@@ -38,7 +38,7 @@ import SendPsbSummaryToAppointingAuth from "components/Modal/Confirmation/SendPs
 import ViewSelectedByAppointingAuth from "components/Modal/PersonnelSelection/ViewSelectedByAppointingAuth"
 import SelectionDocuments from "components/Modal/PersonnelSelection/SelectionDocuments"
 import SetAppointmentEffectivity from "components/Modal/PersonnelSelection/SetAppointmentEffectivity"
-import PublicationDetails from "components/Modal/PersonnelSelection/PublicationDetails"
+import PublicationDetails from "components/Modal/PersonnelSelection/PublicationDetails/index"
 
 // style
 import "styles/custom_gscwd/components/table.scss"

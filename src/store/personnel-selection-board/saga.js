@@ -2,6 +2,7 @@ import { call, put, takeEvery } from "redux-saga/effects"
 import {
   getAssignedPsbMembers,
   getUnassignedPsbMembers,
+  getPsbDetails,
   getPsbSummary,
   getSelectedByAppointingAuthority,
   getCBIReportsHeaders,
@@ -12,6 +13,8 @@ import {
   fetchAssignedPSBMembersFail,
   fetchUnassignedPSBMembersSuccess,
   fetchUnassignedPSBMembersFail,
+  fetchPsbDetailsSuccess,
+  fetchPsbDetailsFail,
   fetchPsbSummarySuccess,
   fetchPsbSummaryFail,
   fetchSelectedByAppointingAuthSuccess,
@@ -24,6 +27,7 @@ import {
 import {
   GET_ASSIGNED_PSB_MEMBERS,
   GET_UNASSIGNED_PSB_MEMBERS,
+  GET_PSB_DETAILS,
   GET_PSB_SUMMARY,
   GET_SELECTED_BY_APPOINTING_AUTHORITY,
   GET_PSB_CBI_REPORTS_HEADER,
@@ -45,6 +49,16 @@ function* fetchUnassignedPSBMembers({ payload: vppId }) {
     yield put(fetchUnassignedPSBMembersSuccess(response))
   } catch (error) {
     yield put(fetchUnassignedPSBMembersFail(error))
+  }
+}
+
+function* fetchPsbDetails({ payload: vppId }) {
+  try {
+    const response = yield call(getPsbDetails, vppId)
+    console.log(response)
+    yield put(fetchPsbDetailsSuccess(response))
+  } catch (error) {
+    yield put(fetchPsbDetailsFail(error))
   }
 }
 
@@ -87,6 +101,7 @@ function* fetchPsbCBIReports({ payload: vppId }) {
 function* personnelSelectionBoardSaga() {
   yield takeEvery(GET_ASSIGNED_PSB_MEMBERS, fetchAssignedPSBMembers)
   yield takeEvery(GET_UNASSIGNED_PSB_MEMBERS, fetchUnassignedPSBMembers)
+  yield takeEvery(GET_PSB_DETAILS, fetchPsbDetails)
   yield takeEvery(GET_PSB_SUMMARY, fetchPsbSummary)
   yield takeEvery(
     GET_SELECTED_BY_APPOINTING_AUTHORITY,
