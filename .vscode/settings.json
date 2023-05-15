@@ -13,5 +13,7 @@
     "plantilla",
     "Thumbmark"
   ],
-  "git.terminalAuthentication": true
+  "git.terminalAuthentication": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true
 }

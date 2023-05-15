@@ -5,7 +5,7 @@ import {
   LOGOUT_SUCCESS,
   API_ERROR,
   RESET_LOGIN,
-} from "./actionTypes"
+} from './actionTypes'
 
 export const loginUser = (user, history) => {
   return {
@@ -20,13 +20,6 @@ export const loginSuccess = loginVerificationResponse => {
     payload: loginVerificationResponse,
   }
 }
-
-// export const logoutUser = history => {
-//   return {
-//     type: LOGOUT_USER,
-//     payload: { history },
-//   }
-// }
 
 export const logoutUser = () => {
   return {

@@ -1,47 +1,46 @@
-import React, { useEffect, useRef, useCallback } from "react"
-import { useLocation } from "react-router-dom"
-import PropTypes from "prop-types"
-import { Can } from "casl/Can"
+import React, { useEffect, useRef, useCallback } from 'react'
+import PropTypes from 'prop-types'
+import { Can } from 'casl/Can'
 
 //Import Scrollbar
-import SimpleBar from "simplebar-react"
+import SimpleBar from 'simplebar-react'
 
 // MetisMenu
-import MetisMenu from "metismenujs"
-import withRouter from "components/Common/withRouter"
-import { Link } from "react-router-dom"
+import MetisMenu from 'metismenujs'
+import withRouter from 'components/Common/withRouter'
+import { Link, useLocation } from 'react-router-dom'
 
 const SidebarContent = props => {
   const ref = useRef()
 
   const activateParentDropdown = useCallback(item => {
-    item.classList.add("active")
+    item.classList.add('active')
     const parent = item.parentElement
     const parent2El = parent.childNodes[1]
 
-    if (parent2El && parent2El.id !== "side-menu") {
-      parent2El.classList.add("mm-show")
+    if (parent2El && parent2El.id !== 'side-menu') {
+      parent2El.classList.add('mm-show')
     }
 
     if (parent) {
-      parent.classList.add("mm-active")
+      parent.classList.add('mm-active')
       const parent2 = parent.parentElement
 
       if (parent2) {
-        parent2.classList.add("mm-show") // ul tag
+        parent2.classList.add('mm-show') // ul tag
 
         const parent3 = parent2.parentElement // li tag
 
         if (parent3) {
-          parent3.classList.add("mm-active") // li
-          parent3.childNodes[0].classList.add("mm-active") //a
+          parent3.classList.add('mm-active') // li
+          parent3.childNodes[0].classList.add('mm-active') //a
           const parent4 = parent3.parentElement // ul
           if (parent4) {
-            parent4.classList.add("mm-show") // ul
+            parent4.classList.add('mm-show') // ul
             const parent5 = parent4.parentElement
             if (parent5) {
-              parent5.classList.add("mm-show") // li
-              parent5.childNodes[0].classList.add("mm-active") // a tag
+              parent5.classList.add('mm-show') // li
+              parent5.childNodes[0].classList.add('mm-active') // a tag
             }
           }
         }
@@ -58,36 +57,36 @@ const SidebarContent = props => {
       var item = items[i]
       const parent = items[i].parentElement
 
-      if (item && item.classList.contains("active")) {
-        item.classList.remove("active")
+      if (item && item.classList.contains('active')) {
+        item.classList.remove('active')
       }
       if (parent) {
         const parent2El =
           parent.childNodes && parent.childNodes.lenght && parent.childNodes[1]
             ? parent.childNodes[1]
             : null
-        if (parent2El && parent2El.id !== "side-menu") {
-          parent2El.classList.remove("mm-show")
+        if (parent2El && parent2El.id !== 'side-menu') {
+          parent2El.classList.remove('mm-show')
         }
 
-        parent.classList.remove("mm-active")
+        parent.classList.remove('mm-active')
         const parent2 = parent.parentElement
 
         if (parent2) {
-          parent2.classList.remove("mm-show")
+          parent2.classList.remove('mm-show')
 
           const parent3 = parent2.parentElement
           if (parent3) {
-            parent3.classList.remove("mm-active") // li
-            parent3.childNodes[0].classList.remove("mm-active")
+            parent3.classList.remove('mm-active') // li
+            parent3.childNodes[0].classList.remove('mm-active')
 
             const parent4 = parent3.parentElement // ul
             if (parent4) {
-              parent4.classList.remove("mm-show") // ul
+              parent4.classList.remove('mm-show') // ul
               const parent5 = parent4.parentElement
               if (parent5) {
-                parent5.classList.remove("mm-show") // li
-                parent5.childNodes[0].classList.remove("mm-active") // a tag
+                parent5.classList.remove('mm-show') // li
+                parent5.childNodes[0].classList.remove('mm-active') // a tag
               }
             }
           }
@@ -100,8 +99,8 @@ const SidebarContent = props => {
   const activeMenu = useCallback(() => {
     const pathName = path.pathname
     let matchingMenuItem = null
-    const ul = document.getElementById("side-menu")
-    const items = ul.getElementsByTagName("a")
+    const ul = document.getElementById('side-menu')
+    const items = ul.getElementsByTagName('a')
     removeActivation(items)
 
     for (let i = 0; i < items.length; ++i) {
@@ -120,12 +119,12 @@ const SidebarContent = props => {
   }, [])
 
   useEffect(() => {
-    new MetisMenu("#side-menu")
+    new MetisMenu('#side-menu')
     activeMenu()
   }, [])
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
     activeMenu()
   }, [activeMenu])
 
@@ -147,23 +146,23 @@ const SidebarContent = props => {
               <Link to="/#" className="">
                 <i className="bx bx-home-circle"></i>
                 {/* <span className="badge rounded-pill bg-info float-end">04</span> */}
-                <span>{"Dashboards"}</span>
+                <span>{'Dashboards'}</span>
               </Link>
             </li>
 
-            <li className="menu-title">{"Personnel"}</li>
+            <li className="menu-title">{'Personnel'}</li>
             <Can I="access" this="Plantilla">
               <li>
                 <Link to="/#" className="has-arrow waves-effect">
                   <i className="bx bx-list-ul"></i>
-                  <span>{"Plantilla"}</span>
+                  <span>{'Plantilla'}</span>
                 </Link>
 
                 <ul className="sub-menu" aria-expanded="false">
                   <li>
                     <Link to="/plantilla/permanent" className=" waves-effect">
                       <i className="bx bx-list-ul"></i>
-                      <span>{"Permanent"}</span>
+                      <span>{'Permanent'}</span>
                     </Link>
                   </li>
                   {/* <li>
@@ -194,7 +193,7 @@ const SidebarContent = props => {
               <li>
                 <Link to="/employee-registration" className=" waves-effect">
                   <i className="bx bxs-user-plus"></i>
-                  <span>{"Employee Registration"}</span>
+                  <span>{'Employee Registration'}</span>
                 </Link>
               </li>
             </Can>
@@ -202,7 +201,7 @@ const SidebarContent = props => {
               <li>
                 <Link to="/employees" className=" waves-effect">
                   <i className="bx bxs-user-circle"></i>
-                  <span>{"Employees"}</span>
+                  <span>{'Employees'}</span>
                 </Link>
               </li>
             </Can>
@@ -212,25 +211,25 @@ const SidebarContent = props => {
               <li>
                 <Link to="/#" className="has-arrow waves-effect">
                   <i className="bx bx-sitemap"></i>
-                  <span>{"Org. Structure"}</span>
+                  <span>{'Org. Structure'}</span>
                 </Link>
                 <ul className="sub-menu" aria-expanded="false">
                   <li>
                     <Link to="/office" className="waves-effect">
                       <i className="fas fa-dice-one"></i>
-                      <span>{"Office"}</span>
+                      <span>{'Office'}</span>
                     </Link>
                   </li>
                   <li>
                     <Link to="/department" className="waves-effect">
                       <i className="fas fa-dice-two"></i>
-                      <span>{"Department"}</span>
+                      <span>{'Department'}</span>
                     </Link>
                   </li>
                   <li>
                     <Link to="/division" className="waves-effect">
                       <i className="fas fa-dice-three"></i>
-                      <span>{"Division"}</span>
+                      <span>{'Division'}</span>
                     </Link>
                   </li>
                 </ul>
@@ -240,7 +239,7 @@ const SidebarContent = props => {
               <li>
                 <Link to="/salary-grade" className="waves-effect">
                   <i className="bx bx-money"></i>
-                  <span>{"Salary Grade"}</span>
+                  <span>{'Salary Grade'}</span>
                 </Link>
               </li>
             </Can>
@@ -248,7 +247,7 @@ const SidebarContent = props => {
               <li>
                 <Link to="/qualification-standards" className="waves-effect">
                   <i className="bx bx-list-check"></i>
-                  <span>{"Qualification Standards"}</span>
+                  <span>{'Qualification Standards'}</span>
                 </Link>
               </li>
             </Can>
@@ -256,7 +255,7 @@ const SidebarContent = props => {
               <li>
                 <Link to="/occupations" className="waves-effect">
                   <i className="bx bxs-group"></i>
-                  <span>{"Occupations"}</span>
+                  <span>{'Occupations'}</span>
                 </Link>
               </li>
             </Can>
@@ -264,7 +263,7 @@ const SidebarContent = props => {
               <li>
                 <Link to="/duties-responsibilities" className="waves-effect">
                   <i className="bx bx-list-ol"></i>
-                  <span>{"Duties & Responsibilities"}</span>
+                  <span>{'Duties & Responsibilities'}</span>
                 </Link>
               </li>
             </Can>
@@ -272,7 +271,7 @@ const SidebarContent = props => {
               <li>
                 <Link to="/committees" className="waves-effect">
                   <i className="bx bxs-group"></i>
-                  <span>{"Committees"}</span>
+                  <span>{'Committees'}</span>
                 </Link>
               </li>
             </Can>
@@ -282,31 +281,31 @@ const SidebarContent = props => {
               <li>
                 <Link to="/#" className="has-arrow waves-effect">
                   <i className="bx bx-list-ul"></i>
-                  <span>{"Domains"}</span>
+                  <span>{'Domains'}</span>
                 </Link>
                 <ul className="sub-menu" aria-expanded="false">
                   <li>
                     <Link to="/core-models" className="waves-effect">
                       <i className="bx bx-list-ul"></i>
-                      <span>{"Core"}</span>
+                      <span>{'Core'}</span>
                     </Link>
                   </li>
                   <li>
                     <Link to="/functional-models" className="waves-effect">
                       <i className="bx bx-list-ul"></i>
-                      <span>{"Functional"}</span>
+                      <span>{'Functional'}</span>
                     </Link>
                   </li>
                   <li>
                     <Link to="/cross-cutting-models" className="waves-effect">
                       <i className="bx bx-list-ul"></i>
-                      <span>{"Cross-cutting"}</span>
+                      <span>{'Cross-cutting'}</span>
                     </Link>
                   </li>
                   <li>
                     <Link to="/managerial-models" className="waves-effect">
                       <i className="bx bx-list-ul"></i>
-                      <span>{"Managerial"}</span>
+                      <span>{'Managerial'}</span>
                     </Link>
                   </li>
                 </ul>
@@ -316,7 +315,7 @@ const SidebarContent = props => {
               <li>
                 <Link to="/competency" className="waves-effect">
                   <i className="bx bx-list-plus"></i>
-                  <span>{"Assignment"}</span>
+                  <span>{'Assignment'}</span>
                 </Link>
               </li>
             </Can>
@@ -326,7 +325,7 @@ const SidebarContent = props => {
               <li>
                 <Link to="/prf-list" className="waves-effect">
                   <i className="bx bx-edit"></i>
-                  <span>{"Position Request List"}</span>
+                  <span>{'Position Request List'}</span>
                 </Link>
               </li>
             </Can>
@@ -334,7 +333,7 @@ const SidebarContent = props => {
               <li>
                 <Link to="/personnel-selection" className="waves-effect">
                   <i className="bx bx-select-multiple"></i>
-                  <span>{"Personnel Selection"}</span>
+                  <span>{'Personnel Selection'}</span>
                 </Link>
               </li>
             </Can>
@@ -344,7 +343,7 @@ const SidebarContent = props => {
               <li>
                 <Link to="/hiring-results" className="waves-effect">
                   <i className="bx bx-user-check"></i>
-                  <span>{"Results of Hiring"}</span>
+                  <span>{'Results of Hiring'}</span>
                 </Link>
               </li>
             </Can>
@@ -354,13 +353,13 @@ const SidebarContent = props => {
               <li>
                 <Link to="/#" className="has-arrow waves-effect">
                   <i className="bx bx-cog"></i>
-                  <span>{"Settings"}</span>
+                  <span>{'Settings'}</span>
                 </Link>
                 <ul className="sub-menu" aria-expanded="false">
                   <li>
                     <Link to="/settings/users" className="waves-effect">
                       <i className="bx bxs-user-account"></i>
-                      <span>{"Users"}</span>
+                      <span>{'Users'}</span>
                     </Link>
                   </li>
                   <li>
@@ -369,19 +368,19 @@ const SidebarContent = props => {
                       className="waves-effect"
                     >
                       <i className="bx bxs-user-badge"></i>
-                      <span>{"Officer In Charge"}</span>
+                      <span>{'Officer In Charge'}</span>
                     </Link>
                   </li>
                   <li>
                     <Link to="/settings/modules" className="waves-effect">
                       <i className="bx bx-package"></i>
-                      <span>{"Modules"}</span>
+                      <span>{'Modules'}</span>
                     </Link>
                   </li>
                   <li>
                     <Link to="/settings/system-logs" className="waves-effect">
                       <i className="bx bx-detail"></i>
-                      <span>{"System Logs"}</span>
+                      <span>{'System Logs'}</span>
                     </Link>
                   </li>
                 </ul>

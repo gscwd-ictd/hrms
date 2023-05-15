@@ -55,7 +55,6 @@ function* fetchUnassignedPSBMembers({ payload: vppId }) {
 function* fetchPsbDetails({ payload: vppId }) {
   try {
     const response = yield call(getPsbDetails, vppId)
-    console.log(response)
     yield put(fetchPsbDetailsSuccess(response))
   } catch (error) {
     yield put(fetchPsbDetailsFail(error))

@@ -1,13 +1,13 @@
-import React, { useEffect, useMemo, useState } from "react"
-import dayjs from "dayjs"
-import { Can } from "casl/Can"
-import { Link, Navigate, useLocation, useParams } from "react-router-dom"
-import PropTypes from "prop-types"
-import { useDispatch, useSelector } from "react-redux"
-import { getPublications } from "store/actions"
+import React, { useEffect, useMemo, useState } from 'react'
+import dayjs from 'dayjs'
+import { Can } from 'casl/Can'
+import { Link, Navigate, useLocation, useParams } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from 'react-redux'
+import { getPublications } from 'store/actions'
 
-import TablePublications from "components/Table/TablePublications"
-import { SelectColumnFilter } from "components/Filters/SelectColumnFilter"
+import TablePublications from 'components/Table/TablePublications'
+import { SelectColumnFilter } from 'components/Filters/SelectColumnFilter'
 import {
   Container,
   Row,
@@ -19,30 +19,30 @@ import {
   DropdownItem,
   DropdownToggle,
   UncontrolledDropdown,
-} from "reactstrap"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import Breadcrumb from "components/Common/Breadcrumb"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+} from 'reactstrap'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import Breadcrumb from 'components/Common/Breadcrumb'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // modal components
-import Deadline from "components/Modal/PersonnelSelection/Deadline"
-import ExamScore from "components/Modal/PersonnelSelection/ExamScore"
-import CloseApplicationPSBMemberAssignment from "components/Modal/PersonnelSelection/CloseApplicationPSBMemberAssignment"
-import SendEndorsementToRequestingEntity from "components/Modal/PersonnelSelection/SendEndorsementToRequestingEntity"
-import ViewShortlist from "components/Modal/PersonnelSelection/ViewShortlist"
-import ScheduleExam from "components/Modal/PersonnelSelection/ScheduleExam"
-import ScheduleInterview from "components/Modal/PersonnelSelection/ScheduleInterview"
-import ExamDone from "components/Modal/PersonnelSelection/ExamDone"
-import PsbSummary from "components/Modal/PersonnelSelection/PsbSummary"
-import SendPsbSummaryToAppointingAuth from "components/Modal/Confirmation/SendPsbSummaryToAppointingAuth"
-import ViewSelectedByAppointingAuth from "components/Modal/PersonnelSelection/ViewSelectedByAppointingAuth"
-import SelectionDocuments from "components/Modal/PersonnelSelection/SelectionDocuments"
-import SetAppointmentEffectivity from "components/Modal/PersonnelSelection/SetAppointmentEffectivity"
-import PublicationDetails from "components/Modal/PersonnelSelection/PublicationDetails/index"
+import Deadline from 'components/Modal/PersonnelSelection/Deadline'
+import ExamScore from 'components/Modal/PersonnelSelection/ExamScore'
+import CloseApplicationPSBMemberAssignment from 'components/Modal/PersonnelSelection/CloseApplicationPSBMemberAssignment'
+import SendEndorsementToRequestingEntity from 'components/Modal/PersonnelSelection/SendEndorsementToRequestingEntity'
+import ViewShortlist from 'components/Modal/PersonnelSelection/ViewShortlist'
+import ScheduleExam from 'components/Modal/PersonnelSelection/ScheduleExam'
+import ScheduleInterview from 'components/Modal/PersonnelSelection/ScheduleInterview'
+import ExamDone from 'components/Modal/PersonnelSelection/ExamDone'
+import PsbSummary from 'components/Modal/PersonnelSelection/PsbSummary'
+import SendPsbSummaryToAppointingAuth from 'components/Modal/Confirmation/SendPsbSummaryToAppointingAuth'
+import ViewSelectedByAppointingAuth from 'components/Modal/PersonnelSelection/ViewSelectedByAppointingAuth'
+import SelectionDocuments from 'components/Modal/PersonnelSelection/SelectionDocuments'
+import SetAppointmentEffectivity from 'components/Modal/PersonnelSelection/SetAppointmentEffectivity'
+import PublicationDetails from 'components/Modal/PersonnelSelection/PublicationDetails/index'
 
 // style
-import "styles/custom_gscwd/components/table.scss"
-import { isEmpty } from "lodash"
+import 'styles/custom_gscwd/components/table.scss'
+import { isEmpty } from 'lodash'
 
 const PublicationPositions = () => {
   const dispatch = useDispatch()
@@ -51,38 +51,38 @@ const PublicationPositions = () => {
 
   const tblColumns = [
     {
-      Header: "ID",
-      accessor: "vppId",
+      Header: 'ID',
+      accessor: 'vppId',
       disableGlobalFilter: true,
     },
     {
-      Header: "Position Title",
-      accessor: "positionTitle",
+      Header: 'Position Title',
+      accessor: 'positionTitle',
     },
     {
-      Header: "SG Level",
-      accessor: "salaryGradeLevel",
+      Header: 'SG Level',
+      accessor: 'salaryGradeLevel',
     },
     {
-      Header: "Publication Date",
-      accessor: "postingDate",
+      Header: 'Publication Date',
+      accessor: 'postingDate',
       Cell: cell => dateRequested(cell),
     },
     {
-      Header: "Deadline",
-      accessor: "postingDeadline",
+      Header: 'Deadline',
+      accessor: 'postingDeadline',
       Cell: cell => postingDeadlineBadge(cell),
     },
     {
-      Header: "No. of Applicants",
-      accessor: "numberOfApplicants",
+      Header: 'No. of Applicants',
+      accessor: 'numberOfApplicants',
     },
     {
-      Header: "With Exam",
-      accessor: "withExam",
+      Header: 'With Exam',
+      accessor: 'withExam',
       Filter: SelectColumnFilter,
       Cell: function WithExam(cell) {
-        if (cell.row.values.withExam === "Yes") {
+        if (cell.row.values.withExam === 'Yes') {
           return <p>Yes</p>
         } else {
           return <p>No</p>
@@ -90,48 +90,48 @@ const PublicationPositions = () => {
       },
     },
     {
-      Header: "Publication Status",
-      accessor: "postingStatus",
+      Header: 'Publication Status',
+      accessor: 'postingStatus',
       Cell: cell => publicationStatusBadge(cell),
     },
     {
-      Header: "Action",
-      accessor: "",
+      Header: 'Action',
+      accessor: '',
       disableGlobalFilter: true,
       Cell: cell => rowActions(cell),
     },
   ]
 
   const dateRequested = cell => {
-    return <>{dayjs(cell.value, "MMMM DD, YYYY").format("MMMM DD, YYYY")}</>
+    return <>{dayjs(cell.value, 'MMMM DD, YYYY').format('MMMM DD, YYYY')}</>
   }
 
   const postingDeadlineBadge = cell => {
     if (!isEmpty(cell.row.original.postingDeadline)) {
-      if (cell.row.values.postingStatus === "Open for application") {
-        if (dayjs().isBefore(dayjs(cell.row.original.postingDeadline), "day")) {
+      if (cell.row.values.postingStatus === 'Open for application') {
+        if (dayjs().isBefore(dayjs(cell.row.original.postingDeadline), 'day')) {
           return (
             <Badge className="me-2 bg-success font-size-12">
-              {dayjs(cell.row.original.postingDeadline, "MMMM DD, YYYY").format(
-                "MMMM DD, YYYY"
+              {dayjs(cell.row.original.postingDeadline, 'MMMM DD, YYYY').format(
+                'MMMM DD, YYYY'
               )}
             </Badge>
           )
         } else if (
-          dayjs().isSame(dayjs(cell.row.original.postingDeadline), "day")
+          dayjs().isSame(dayjs(cell.row.original.postingDeadline), 'day')
         ) {
           return (
             <Badge className="me-2 bg-warning font-size-12">
-              {dayjs(cell.row.original.postingDeadline, "MMMM DD, YYYY").format(
-                "MMMM DD, YYYY"
+              {dayjs(cell.row.original.postingDeadline, 'MMMM DD, YYYY').format(
+                'MMMM DD, YYYY'
               )}
             </Badge>
           )
         } else {
           return (
             <Badge className="me-2 bg-danger font-size-12">
-              {dayjs(cell.row.original.postingDeadline, "MMMM DD, YYYY").format(
-                "MMMM DD, YYYY"
+              {dayjs(cell.row.original.postingDeadline, 'MMMM DD, YYYY').format(
+                'MMMM DD, YYYY'
               )}
             </Badge>
           )
@@ -139,8 +139,8 @@ const PublicationPositions = () => {
       } else {
         return (
           <>
-            {dayjs(cell.row.original.postingDeadline, "MMMM DD, YYYY").format(
-              "MMMM DD, YYYY"
+            {dayjs(cell.row.original.postingDeadline, 'MMMM DD, YYYY').format(
+              'MMMM DD, YYYY'
             )}
           </>
         )
@@ -151,15 +151,15 @@ const PublicationPositions = () => {
   }
 
   const publicationStatusBadge = cell => {
-    if (cell.row.values.postingStatus === "For CSC approval") {
+    if (cell.row.values.postingStatus === 'For CSC approval') {
       return (
         <Badge className="me-2 bg-warning font-size-12">
           {cell.row.values.postingStatus}
         </Badge>
       )
     } else if (
-      cell.row.values.postingStatus === "Open for application" ||
-      cell.row.values.postingStatus === "Closed for application"
+      cell.row.values.postingStatus === 'Open for application' ||
+      cell.row.values.postingStatus === 'Closed for application'
     ) {
       return (
         <Badge className="me-2 bg-info font-size-12">
@@ -167,11 +167,11 @@ const PublicationPositions = () => {
         </Badge>
       )
     } else if (
-      cell.row.values.postingStatus === "Requesting entity selection done" ||
-      cell.row.values.postingStatus === "Examination done" ||
-      cell.row.values.postingStatus === "Interview done" ||
-      cell.row.values.postingStatus === "Appointing authority selection done" ||
-      cell.row.values.postingStatus === "Hiring process done"
+      cell.row.values.postingStatus === 'Requesting entity selection done' ||
+      cell.row.values.postingStatus === 'Examination done' ||
+      cell.row.values.postingStatus === 'Interview done' ||
+      cell.row.values.postingStatus === 'Appointing authority selection done' ||
+      cell.row.values.postingStatus === 'Hiring process done'
     ) {
       return (
         <Badge className="me-2 bg-success font-size-12">
@@ -194,15 +194,15 @@ const PublicationPositions = () => {
           <i className="mdi mdi-dots-horizontal"></i>
         </DropdownToggle>
         <DropdownMenu direction="right">
-          {cell.row.values.postingStatus !== "Hiring process done" ? (
+          {cell.row.values.postingStatus !== 'Hiring process done' ? (
             <DropdownItem>
               <Link
                 className="dropdown-item"
                 to={
                   location.pathname +
-                  "/publications/" +
+                  '/publications/' +
                   cell.row.values.vppId +
-                  "/applicants"
+                  '/applicants'
                 }
               >
                 Applicants
@@ -210,7 +210,7 @@ const PublicationPositions = () => {
             </DropdownItem>
           ) : null}
 
-          {cell.row.values.postingStatus === "For CSC approval" ? (
+          {cell.row.values.postingStatus === 'For CSC approval' ? (
             <DropdownItem onClick={() => deadline(cell.row.values)}>
               <Link className="dropdown-item" to="#">
                 Deadline
@@ -218,7 +218,7 @@ const PublicationPositions = () => {
             </DropdownItem>
           ) : null}
 
-          {cell.row.values.postingStatus === "Open for application" ? (
+          {cell.row.values.postingStatus === 'Open for application' ? (
             <DropdownItem onClick={() => closeApplication(cell.row.values)}>
               <Link className="dropdown-item" to="#">
                 Close Application
@@ -226,7 +226,7 @@ const PublicationPositions = () => {
             </DropdownItem>
           ) : null}
 
-          {cell.row.values.postingStatus === "Closed for application" ? (
+          {cell.row.values.postingStatus === 'Closed for application' ? (
             <DropdownItem onClick={() => sendEndorsement(cell.row.values)}>
               <Link className="dropdown-item" to="#">
                 Send Endorsement To R.E.
@@ -235,7 +235,7 @@ const PublicationPositions = () => {
           ) : null}
 
           {cell.row.values.postingStatus ===
-            "Requesting entity selection done" ? (
+          'Requesting entity selection done' ? (
             <>
               <DropdownItem onClick={() => shortlist(cell.row.values)}>
                 <Link className="dropdown-item" to="#">
@@ -243,7 +243,7 @@ const PublicationPositions = () => {
                 </Link>
               </DropdownItem>
 
-              {cell.row.values.withExam === "Yes" ? (
+              {cell.row.values.withExam === 'Yes' ? (
                 <DropdownItem
                   onClick={() => scheduleExamination(cell.row.values)}
                 >
@@ -263,7 +263,7 @@ const PublicationPositions = () => {
             </>
           ) : null}
 
-          {cell.row.values.postingStatus === "Scheduled for examination" ? (
+          {cell.row.values.postingStatus === 'Scheduled for examination' ? (
             <>
               <DropdownItem onClick={() => examScore(cell.row.values)}>
                 <Link className="dropdown-item" to="#">
@@ -279,7 +279,7 @@ const PublicationPositions = () => {
             </>
           ) : null}
 
-          {cell.row.values.postingStatus === "Examination done" ? (
+          {cell.row.values.postingStatus === 'Examination done' ? (
             <DropdownItem onClick={() => scheduleInterview(cell.row.values)}>
               <Link className="dropdown-item" to="#">
                 Schedule for interview
@@ -287,7 +287,7 @@ const PublicationPositions = () => {
             </DropdownItem>
           ) : null}
 
-          {cell.row.values.postingStatus === "Scheduled for interview" ? (
+          {cell.row.values.postingStatus === 'Scheduled for interview' ? (
             <>
               <DropdownItem onClick={() => psbSummary(cell.row.values)}>
                 <Link className="dropdown-item" to="#">
@@ -297,7 +297,7 @@ const PublicationPositions = () => {
             </>
           ) : null}
 
-          {cell.row.values.postingStatus === "Interview done" ? (
+          {cell.row.values.postingStatus === 'Interview done' ? (
             <>
               <DropdownItem onClick={() => sendPsbSummary(cell.row.values)}>
                 <Link className="dropdown-item" to="#">
@@ -308,7 +308,7 @@ const PublicationPositions = () => {
           ) : null}
 
           {cell.row.values.postingStatus ===
-            "Appointing authority selection done" ? (
+          'Appointing authority selection done' ? (
             <>
               <DropdownItem
                 onClick={() => viewSelectedByAppAuth(cell.row.values)}
@@ -320,7 +320,7 @@ const PublicationPositions = () => {
             </>
           ) : null}
 
-          {cell.row.values.postingStatus === "Hiring process done" ? (
+          {cell.row.values.postingStatus === 'Hiring process done' ? (
             <>
               <DropdownItem onClick={() => selectionDocuments(cell.row.values)}>
                 <Link className="dropdown-item" to="#">
@@ -344,7 +344,7 @@ const PublicationPositions = () => {
             </Link>
           </DropdownItem>
 
-          <DropdownItem >
+          <DropdownItem>
             <Link className="dropdown-item" to="#">
               Cancel Publication
             </Link>
@@ -547,7 +547,7 @@ const PublicationPositions = () => {
             />
 
             {error ? (
-              <ToastrNotification toastType={"error"} notifMessage={error} />
+              <ToastrNotification toastType={'error'} notifMessage={error} />
             ) : null}
 
             <Row>

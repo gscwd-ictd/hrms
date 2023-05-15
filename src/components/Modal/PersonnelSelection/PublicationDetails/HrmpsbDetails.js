@@ -42,7 +42,7 @@ const HrmpsbDetails = () => {
                   }
 
                   {
-                    psbDetails.schedule.exam ? (
+                    psbDetails.schedule.interview ? (
                       <>
                         <tr>
                           <td>Interview Schedule</td>
@@ -52,7 +52,6 @@ const HrmpsbDetails = () => {
                           <td>Interview Venue</td>
                           <td>{psbDetails.schedule.interview.venue}</td>
                         </tr>
-
                       </>
                     ) : null
                   }
@@ -73,8 +72,7 @@ const HrmpsbDetails = () => {
                                 <tr key={i}>
                                   <td>{member.role}</td>
                                   <td>{member.fullName}</td>
-
-                                  <td>{member.hasAcknowledged ? 'Confirmed' : 'Pending'}</td>
+                                  <td>{member.psbMemberStatus}</td>
                                 </tr>
                               )
                             })
@@ -95,24 +93,6 @@ const HrmpsbDetails = () => {
 
             </tbody>
           </Table>
-
-
-          {/* {!isEmpty(applicantList) ? (
-                applicantList.map(applicant => {
-                  return (
-                    <tr key={applicant._id}>
-                      <td>{applicant.fullName}</td>
-                      <td>{applicant.applicantType}</td>
-                    </tr>
-                  )
-                }
-                )) : (
-                <tr>
-                  <td colSpan={2} className="text-center text-danger">No Applicants</td>
-                </tr>
-              )
-              } */}
-
         </div>
       )}
     </>
