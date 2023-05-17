@@ -7,7 +7,6 @@ import {
   useTable,
   useSortBy,
 } from "react-table"
-import { GlobalFilter } from "components/Filters/GlobalFilter"
 import PropTypes from "prop-types"
 
 const TableSystemLogs = props => {
@@ -106,9 +105,9 @@ const TableSystemLogs = props => {
                         style={
                           cell.column.align
                             ? {
-                                width: "fit-content",
-                                margin: "auto",
-                              }
+                              width: "fit-content",
+                              margin: "auto",
+                            }
                             : {}
                         }
                       >

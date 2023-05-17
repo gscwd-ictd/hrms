@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useMemo } from 'react'
-import PropTypes from 'prop-types'
-import { isEmpty } from 'lodash'
+import React, { useEffect, useState, useMemo } from "react"
+import PropTypes from "prop-types"
+import { isEmpty } from "lodash"
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from "react-redux"
 import {
   fetchUnassignedPSBMembers,
   addPSBMemberToTable,
@@ -16,17 +16,17 @@ import {
   updatePublicationStatus,
   getPublications,
   resetPublicationResponses,
-} from 'store/actions'
+} from "store/actions"
 
-import { Modal } from 'react-bootstrap'
-import { Button, Col, Row, Alert, Spinner } from 'reactstrap'
-import Select from 'react-select'
-import ToastrNotification from 'components/Notifications/ToastrNotification'
+import { Modal } from "react-bootstrap"
+import { Button, Col, Row, Alert, Spinner } from "reactstrap"
+import Select from "react-select"
+import ToastrNotification from "components/Notifications/ToastrNotification"
 
 // table components
-import TablePSBMembers from 'components/Table/TablePSBMembers'
+import TablePSBMembers from "components/Table/TablePSBMembers"
 
-import { psb23AndBelow, psb24, psb26AndAbove } from 'constants/selectInputs'
+import { psb23AndBelow, psb24, psb26AndAbove } from "constants/selectInputs"
 
 const CloseApplicationPSBMemberAssignment = props => {
   const {
@@ -38,7 +38,7 @@ const CloseApplicationPSBMemberAssignment = props => {
   const dispatch = useDispatch()
 
   // whole value of the selected option with the label
-  const [mainSelectedPSBMember, setMainSelectedPSBMember] = useState('')
+  const [mainSelectedPSBMember, setMainSelectedPSBMember] = useState("")
 
   // value of the selected option without label
   const [selectedPSBMember, setSelectedPSBMember] = useState({})
@@ -51,21 +51,21 @@ const CloseApplicationPSBMemberAssignment = props => {
 
   const tableColumns = [
     {
-      Header: 'ID',
-      accessor: 'employeeId',
+      Header: "ID",
+      accessor: "employeeId",
       disableGlobalFilter: true,
     },
     {
-      Header: 'Name',
-      accessor: 'fullName',
+      Header: "Name",
+      accessor: "fullName",
     },
     {
-      Header: 'PSB Role',
-      accessor: 'psbNo',
+      Header: "PSB Role",
+      accessor: "psbNo",
     },
     {
-      Header: 'Action',
-      accessor: '',
+      Header: "Action",
+      accessor: "",
       disableGlobalFilter: true,
       sortable: false,
       Cell: function RowActions(cell) {
@@ -151,7 +151,7 @@ const CloseApplicationPSBMemberAssignment = props => {
     dispatch(removePSBRoleFromOptions(selectedPSBRole))
 
     // clear input for psb member options
-    setMainSelectedPSBMember('')
+    setMainSelectedPSBMember("")
     setSelectedPSBMember({})
     setSelectedPSBRole(0)
 
@@ -182,7 +182,7 @@ const CloseApplicationPSBMemberAssignment = props => {
   const handleAssignPSBMembers = () => {
     let closeApplicationData = {}
     closeApplicationData = {
-      postingStatus: 'Closed for application',
+      postingStatus: "Closed for application",
       assignedPSBMembers: tableData,
     }
 
@@ -220,6 +220,10 @@ const CloseApplicationPSBMemberAssignment = props => {
     }
   }, [showCloseApplication])
 
+  useEffect(() => {
+    console.log(isEmpty(tableData))
+  }, [tableData])
+
   return (
     <>
       <Modal
@@ -235,14 +239,14 @@ const CloseApplicationPSBMemberAssignment = props => {
         {/* Error Notif */}
         {errorGetUnassignedPSBMember ? (
           <ToastrNotification
-            toastType={'error'}
+            toastType={"error"}
             notifMessage={errorGetUnassignedPSBMember}
           />
         ) : null}
 
         {errorCloseForApplication ? (
           <ToastrNotification
-            toastType={'error'}
+            toastType={"error"}
             notifMessage={errorCloseForApplication}
           />
         ) : null}
@@ -259,26 +263,33 @@ const CloseApplicationPSBMemberAssignment = props => {
 
         {!isEmpty(responseCloseForApplication) ? (
           <ToastrNotification
-            toastType={'success'}
+            toastType={"success"}
             notifMessage={
-              'PSB members added successfully. Proceed to assign roles.'
+              "PSB members added successfully. Proceed to assign roles."
             }
           />
         ) : null}
 
         <Modal.Body>
-          <div className="pb-3">
+          <div className="pb-5">
             <h5></h5>
             <p className="fs-6">Assignment roles:</p>
 
             <table>
               <tbody>
                 <tr>
-                  <td className="px-3 fs-6">1 - HRMPSB Chairperson</td>
-                  <td className="px-3 fs-6">2 - Requesting Manager</td>
-                  <td className="px-3 fs-6">3 - HRMO</td>
                   <td className="px-3 fs-6">
-                    4-8 - Next to immediate Manager/Union representative
+                    <span className="fw-bold">PSB 1</span> - HRMPSB Chairperson
+                  </td>
+                  <td className="px-3 fs-6">
+                    <span className="fw-bold">PSB 2</span> - Requesting Manager
+                  </td>
+                  <td className="px-3 fs-6">
+                    <span className="fw-bold">PSB 3</span> - HRMO
+                  </td>
+                  <td className="px-3 fs-6">
+                    <span className="fw-bold">PSB 4-8</span> - Higher
+                    Manager/Union representative
                   </td>
                 </tr>
                 <tr></tr>
@@ -301,7 +312,7 @@ const CloseApplicationPSBMemberAssignment = props => {
                             onChange={e => {
                               handleSelectPSBMember(e)
                             }}
-                            value={mainSelectedPSBMember || ''}
+                            value={mainSelectedPSBMember || ""}
                             options={getUnassignedPSBMembers}
                           />
                         </Col>
@@ -354,9 +365,7 @@ const CloseApplicationPSBMemberAssignment = props => {
           <Button
             color="info"
             onClick={() => handleAssignPSBMembers()}
-            disabled={
-              isEmpty(tableData) && tableData.length >= 3 ? true : false
-            }
+            disabled={tableData.length < 4 ? true : false} // create function to check if PSB role 1, 2 and 3 are selected
           >
             Close Application
           </Button>
