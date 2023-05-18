@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react"
-import { Modal } from "react-bootstrap"
+import React, { useEffect, useState } from 'react'
 import {
   Button,
   Col,
@@ -9,28 +8,32 @@ import {
   Form,
   FormGroup,
   Label,
-} from "reactstrap"
-import TextareaAutosize from "react-textarea-autosize"
-import { useDispatch, useSelector } from "react-redux"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import TextareaAutosize from 'react-textarea-autosize'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchProficiencyKeyActions,
   updateKeyActionDetails,
   resetCompetencyResponse,
-} from "store/actions"
-import PropTypes from "prop-types"
+} from 'store/actions'
+import PropTypes from 'prop-types'
 
 // extra components
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // style
-import "styles/custom_gscwd/components/table.scss"
+import 'styles/custom_gscwd/components/table.scss'
 
 const EditCompetencyModelModal = props => {
   const { showEdt, handleCloseEdt, modalData } = props
-  const [code, setCode] = useState("")
-  const [name, setName] = useState("")
-  const [definition, setDefinition] = useState("")
+  const [code, setCode] = useState('')
+  const [name, setName] = useState('')
+  const [definition, setDefinition] = useState('')
 
   const dispatch = useDispatch()
   const { proficiencyKeyActions, isLoading, error } = useSelector(state => ({
@@ -66,14 +69,14 @@ const EditCompetencyModelModal = props => {
 
   return (
     <React.Fragment>
-      <Modal show={showEdt} onHide={handleCloseEdt} size="lg" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {error ? (
-            <ToastrNotification toastType={"error"} notifMessage={error} />
-          ) : null}
+      <Modal isOpen={showEdt} toggle={handleCloseEdt} size="lg" centered>
+        <ModalHeader toggle={handleCloseEdt}>Edit</ModalHeader>
+
+        {error ? (
+          <ToastrNotification toastType={'error'} notifMessage={error} />
+        ) : null}
+
+        <ModalBody>
           <Row>
             <Col>
               <FormGroup>
@@ -155,15 +158,16 @@ const EditCompetencyModelModal = props => {
               ) : null}
             </Col>
           </Row>
-        </Modal.Body>
-        <Modal.Footer>
+        </ModalBody>
+
+        <ModalFooter>
           <Button type="submit" color="info" onClick={handleUpdateModel}>
             Update
           </Button>
           <Button color="danger" onClick={handleCloseEdt}>
             Cancel
           </Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </React.Fragment>
   )

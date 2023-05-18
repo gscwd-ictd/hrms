@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import React, { useEffect, useState } from 'react'
+import { isEmpty } from 'lodash'
+import PropTypes from 'prop-types'
+
+import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchSG20UpEmployees,
   fetchVacantManagerialPositions,
   fetchOICList,
   addAssignOIC,
   resetOICResponse,
-} from "store/actions"
-import { isEmpty } from "lodash"
+} from 'store/actions'
 
-import { Modal } from "react-bootstrap"
 import {
   Col,
   Row,
@@ -19,14 +20,17 @@ import {
   FormFeedback,
   Alert,
   Button,
-} from "reactstrap"
-import PropTypes from "prop-types"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import Select from "react-select"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
+import Select from 'react-select'
 
 // Formik formik
-import * as Yup from "yup"
-import { useFormik } from "formik"
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 const AddOfficerInChargeModal = props => {
   const { showAdd, handleCloseAdd } = props
@@ -69,14 +73,14 @@ const AddOfficerInChargeModal = props => {
     enableReinitialize: true,
 
     initialValues: {
-      employeeId: "",
-      orgPositionId: "",
-      orgType: "",
+      employeeId: '',
+      orgPositionId: '',
+      orgType: '',
     },
     validationSchema: Yup.object({
-      employeeId: Yup.string().required("Please select an employee"),
-      orgPositionId: Yup.string().required("Please select a position"),
-      orgType: Yup.string().required("Please select a position"),
+      employeeId: Yup.string().required('Please select an employee'),
+      orgPositionId: Yup.string().required('Please select a position'),
+      orgType: Yup.string().required('Please select a position'),
     }),
     onSubmit: values => {
       dispatch(addAssignOIC(values))
@@ -114,10 +118,10 @@ const AddOfficerInChargeModal = props => {
 
   return (
     <>
-      <Modal show={showAdd} onHide={handleCloseAdd} size="lg" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Assign Officer-In-Charge</Modal.Title>
-        </Modal.Header>
+      <Modal isOpen={showAdd} toggle={handleCloseAdd} size="lg" centered>
+        <ModalHeader toggle={handleCloseAdd}>
+          Assign Officer-In-Charge
+        </ModalHeader>
 
         {/* Notifications */}
         {loadingPostAssignOIC ? (
@@ -132,38 +136,39 @@ const AddOfficerInChargeModal = props => {
 
         {errorSg20UpEmployees ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorSg20UpEmployees}
           />
         ) : null}
         {errorSg24UpVacantPositions ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorSg24UpVacantPositions}
           />
         ) : null}
         {errorPostAssignOIC ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorPostAssignOIC}
           />
         ) : null}
 
         {!isEmpty(postAssignOIC) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Officer-In-Charge successfully assigned"}
+            toastType={'success'}
+            notifMessage={'Officer-In-Charge successfully assigned'}
           />
         ) : null}
 
-        <Form
-          onSubmit={e => {
-            e.preventDefault()
-            formik.handleSubmit()
-            return false
-          }}
-        >
-          <Modal.Body>
+        <ModalBody>
+          <Form
+            id="addOfficerInChargeForm"
+            onSubmit={e => {
+              e.preventDefault()
+              formik.handleSubmit()
+              return false
+            }}
+          >
             <Row>
               <Col md={12}>
                 <FormGroup>
@@ -176,13 +181,13 @@ const AddOfficerInChargeModal = props => {
                     name="employeeId"
                     id="employee-selection"
                     onChange={selectedOption => {
-                      formik.handleChange("employeeId")(
+                      formik.handleChange('employeeId')(
                         selectedOption.value.employeeId
                       )
                       handleSelectEmployee(selectedOption)
                     }}
                     onBlur={formik.handleBlur}
-                    value={selectedEmployee || ""}
+                    value={selectedEmployee || ''}
                     options={sg20UpEmployees}
                     getOptionLabel={option =>
                       `${option.label} | ${option.value.positionTitle}`
@@ -192,14 +197,14 @@ const AddOfficerInChargeModal = props => {
                         ...styles,
                         borderColor:
                           formik.errors.employeeId && formik.touched.employeeId
-                            ? "red"
+                            ? 'red'
                             : styles.borderColor,
-                        "&:hover": {
+                        '&:hover': {
                           borderColor:
                             formik.errors.employeeId &&
                             formik.touched.employeeId
-                              ? "red"
-                              : styles["&:hover"].borderColor,
+                              ? 'red'
+                              : styles['&:hover'].borderColor,
                         },
                       }),
                     }}
@@ -210,8 +215,8 @@ const AddOfficerInChargeModal = props => {
                     style={{
                       display:
                         formik.errors.employeeId && formik.touched.employeeId
-                          ? "block"
-                          : "none",
+                          ? 'block'
+                          : 'none',
                     }}
                   >
                     {formik.errors.employeeId}
@@ -228,13 +233,13 @@ const AddOfficerInChargeModal = props => {
                     name="orgPositionId"
                     id="position-selection"
                     onChange={selectedOption => {
-                      formik.handleChange("orgPositionId")(
+                      formik.handleChange('orgPositionId')(
                         selectedOption.value.orgPositionId
                       )
                       handleSelectPosition(selectedOption)
                     }}
                     onBlur={formik.handleBlur}
-                    value={selectedPosition || ""}
+                    value={selectedPosition || ''}
                     options={sg24UpVacantPositions}
                     getOptionLabel={option =>
                       `${option.label} | ${option.value.assignedTo}`
@@ -245,14 +250,14 @@ const AddOfficerInChargeModal = props => {
                         borderColor:
                           formik.errors.orgPositionId &&
                           formik.touched.orgPositionId
-                            ? "red"
+                            ? 'red'
                             : styles.borderColor,
-                        "&:hover": {
+                        '&:hover': {
                           borderColor:
                             formik.errors.orgPositionId &&
                             formik.touched.orgPositionId
-                              ? "red"
-                              : styles["&:hover"].borderColor,
+                              ? 'red'
+                              : styles['&:hover'].borderColor,
                         },
                       }),
                     }}
@@ -264,8 +269,8 @@ const AddOfficerInChargeModal = props => {
                       display:
                         formik.errors.orgPositionId &&
                         formik.touched.orgPositionId
-                          ? "block"
-                          : "none",
+                          ? 'block'
+                          : 'none',
                     }}
                   >
                     {formik.errors.orgPositionId}
@@ -273,14 +278,14 @@ const AddOfficerInChargeModal = props => {
                 </FormGroup>
               </Col>
             </Row>
-          </Modal.Body>
+          </Form>
+        </ModalBody>
 
-          <Modal.Footer>
-            <Button type="submit" color="info">
-              Submit
-            </Button>
-          </Modal.Footer>
-        </Form>
+        <ModalFooter>
+          <Button type="submit" form="addOfficerInChargeForm" color="info">
+            Submit
+          </Button>
+        </ModalFooter>
       </Modal>
     </>
   )

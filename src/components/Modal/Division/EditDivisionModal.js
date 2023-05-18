@@ -1,5 +1,10 @@
-import React, { useEffect } from "react"
-import { Modal } from "react-bootstrap"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
+
+import { updateDivision, getDivisions, resetDivision } from 'store/actions'
+import { useDispatch, useSelector } from 'react-redux'
+
 import {
   Button,
   Col,
@@ -10,16 +15,16 @@ import {
   FormGroup,
   FormFeedback,
   Alert,
-} from "reactstrap"
-import PropTypes from "prop-types"
-import { updateDivision, getDivisions, resetDivision } from "store/actions"
-import { useDispatch, useSelector } from "react-redux"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import { isEmpty } from "lodash"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // Formik validation
-import * as Yup from "yup"
-import { useFormik } from "formik"
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 const EditDivisionModal = props => {
   const { showEdt, handleCloseEdt, modalData } = props
@@ -51,16 +56,16 @@ const EditDivisionModal = props => {
     enableReinitialize: true,
 
     initialValues: {
-      name: modalData.name || "",
-      code: modalData.code || "",
-      description: modalData.description || "",
-      departmentId: defValDepartment(modalData.departmentCode) || "",
+      name: modalData.name || '',
+      code: modalData.code || '',
+      description: modalData.description || '',
+      departmentId: defValDepartment(modalData.departmentCode) || '',
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Please enter a division name"),
-      code: Yup.string().required("Please enter a division code"),
-      description: Yup.string().required("Please enter a division description"),
-      departmentId: Yup.string().required("Please delect a parent department"),
+      name: Yup.string().required('Please enter a division name'),
+      code: Yup.string().required('Please enter a division code'),
+      description: Yup.string().required('Please enter a division description'),
+      departmentId: Yup.string().required('Please delect a parent department'),
     }),
     onSubmit: values => {
       dispatch(updateDivision(modalData._id, values))
@@ -86,10 +91,9 @@ const EditDivisionModal = props => {
 
   return (
     <>
-      <Modal show={showEdt} onHide={handleCloseEdt} size="lg" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit</Modal.Title>
-        </Modal.Header>
+      <Modal isOpen={showEdt} toggle={handleCloseEdt} size="lg" centered>
+        <ModalHeader toggle={handleCloseEdt}>Edit</ModalHeader>
+
         {isLoading ? (
           <Alert
             color="info"
@@ -101,24 +105,25 @@ const EditDivisionModal = props => {
         ) : null}
 
         {error ? (
-          <ToastrNotification toastType={"error"} notifMessage={error} />
+          <ToastrNotification toastType={'error'} notifMessage={error} />
         ) : null}
 
         {!isEmpty(putDivisionRes) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Update Successful"}
+            toastType={'success'}
+            notifMessage={'Update Successful'}
           />
         ) : null}
 
-        <Form
-          onSubmit={e => {
-            e.preventDefault()
-            validation.handleSubmit()
-            return false
-          }}
-        >
-          <Modal.Body>
+        <ModalBody>
+          <Form
+            id="editDivisionForm"
+            onSubmit={e => {
+              e.preventDefault()
+              validation.handleSubmit()
+              return false
+            }}
+          >
             <Row>
               <Col md={6}>
                 <FormGroup>
@@ -130,7 +135,7 @@ const EditDivisionModal = props => {
                     id="name-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.name || ""}
+                    value={validation.values.name || ''}
                     invalid={
                       validation.touched.name && validation.errors.name
                         ? true
@@ -154,7 +159,7 @@ const EditDivisionModal = props => {
                     id="code-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.code || ""}
+                    value={validation.values.code || ''}
                     invalid={
                       validation.touched.code && validation.errors.code
                         ? true
@@ -179,7 +184,7 @@ const EditDivisionModal = props => {
                     rows="5"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.description || ""}
+                    value={validation.values.description || ''}
                     invalid={
                       validation.touched.description &&
                       validation.errors.description
@@ -205,7 +210,7 @@ const EditDivisionModal = props => {
                     id="department-select"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.departmentId || ""}
+                    value={validation.values.departmentId || ''}
                     invalid={
                       validation.touched.departmentId &&
                       validation.errors.departmentId
@@ -217,7 +222,7 @@ const EditDivisionModal = props => {
                     {departments.map(department => (
                       <option key={department._id} value={department._id}>
                         {department.code}
-                        {" - "}
+                        {' - '}
                         {department.name}
                       </option>
                     ))}
@@ -231,14 +236,14 @@ const EditDivisionModal = props => {
                 </FormGroup>
               </Col>
             </Row>
-          </Modal.Body>
+          </Form>
+        </ModalBody>
 
-          <Modal.Footer>
-            <Button type="submit" color="info">
-              Submit
-            </Button>
-          </Modal.Footer>
-        </Form>
+        <ModalFooter>
+          <Button type="submit" form="editDivisionForm" color="info">
+            Submit
+          </Button>
+        </ModalFooter>
       </Modal>
     </>
   )

@@ -1,15 +1,25 @@
-import React, { useEffect } from "react"
-import { Modal } from "react-bootstrap"
-import { Button, Col, Row, Alert } from "reactstrap"
-import PropTypes from "prop-types"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import { isEmpty } from "lodash"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
+
 import {
   removeDutyResponsibility,
   fetchDutyResponsibilities,
   resetDutiesResponse,
-} from "store/actions"
-import { useDispatch, useSelector } from "react-redux"
+} from 'store/actions'
+import { useDispatch, useSelector } from 'react-redux'
+
+import {
+  Button,
+  Col,
+  Row,
+  Alert,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const DeleteDutyModal = props => {
   const { showDel, handleCloseDel, modalData } = props
@@ -50,10 +60,8 @@ const DeleteDutyModal = props => {
 
   return (
     <>
-      <Modal show={showDel} onHide={handleCloseDel} size="sm" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Delete</Modal.Title>
-        </Modal.Header>
+      <Modal isOpen={showDel} toggle={handleCloseDel} size="sm" centered>
+        <ModalHeader toggle={handleCloseDel}>Confirm Delete</ModalHeader>
 
         {loadingDutyResponsibilities ? (
           <Alert
@@ -67,19 +75,19 @@ const DeleteDutyModal = props => {
 
         {errorDutyResponsibilities ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorDutyResponsibilities}
           />
         ) : null}
 
         {!isEmpty(delDutiesRes) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Duty and responsibility deleted"}
+            toastType={'success'}
+            notifMessage={'Duty and responsibility deleted'}
           />
         ) : null}
 
-        <Modal.Body>
+        <ModalBody>
           <Row>
             <Col lg={12}>
               <p>
@@ -88,15 +96,16 @@ const DeleteDutyModal = props => {
               </p>
             </Col>
           </Row>
-        </Modal.Body>
-        <Modal.Footer>
+        </ModalBody>
+
+        <ModalFooter>
           <Button type="submit" color="info" onClick={submitDelete}>
             Confirm
           </Button>
           <Button color="danger" onClick={handleCloseDel}>
             Cancel
           </Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </>
   )

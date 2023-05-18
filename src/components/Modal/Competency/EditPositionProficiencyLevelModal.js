@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import React, { useEffect, useState } from 'react'
+import classnames from 'classnames'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
+import { levels } from 'constants/selectInputs'
+
+import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchCompetencyProficiencyLevels,
   updateCompetencyProficiciencyLevel,
   updatePositionCompetencyProficiencyLevels,
-} from "store/actions"
-import classnames from "classnames"
-import PropTypes from "prop-types"
+} from 'store/actions'
 
-import { Modal } from "react-bootstrap"
 import {
   Button,
   Col,
@@ -23,20 +25,21 @@ import {
   NavItem,
   Nav,
   FormGroup,
-} from "reactstrap"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
 
 // extra components
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-
-import { levels } from "constants/selectInputs"
-import { isEmpty } from "lodash"
+import ToastrNotification from 'components/Notifications/ToastrNotification'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 
 const EditPositionProficiencyLevelModal = props => {
   const { showEdt, handleCloseEdt, modalData } = props
   const dispatch = useDispatch()
 
-  const [activeTab, setactiveTab] = useState("1")
+  const [activeTab, setactiveTab] = useState('1')
 
   // Proficiency levels of individual model domains
   const {
@@ -66,18 +69,21 @@ const EditPositionProficiencyLevelModal = props => {
     proficiencyLevels: state.positionCompetencySet.response.proficiencyLevel,
   }))
 
+  // Update proficiency levels of all domains
   const handleSubmit = event => {
     event.preventDefault()
 
     dispatch(updatePositionCompetencyProficiencyLevels(proficiencyLevels))
   }
 
+  // Setting the active tab
   const toggle = tab => {
     if (activeTab !== tab) {
       setactiveTab(tab)
     }
   }
 
+  // Update reducer state
   const updateSelectValue = (index, domain, event) => {
     dispatch(
       updateCompetencyProficiciencyLevel(index, domain, event.target.value)
@@ -87,41 +93,33 @@ const EditPositionProficiencyLevelModal = props => {
   useEffect(() => {
     if (showEdt) {
       dispatch(fetchCompetencyProficiencyLevels(modalData.positionId))
+    } else {
+      setactiveTab('1')
     }
   }, [showEdt])
 
   return (
     <>
-      <Modal
-        show={showEdt}
-        onHide={() => {
-          handleCloseEdt()
-          setactiveTab("1")
-        }}
-        size="xl"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Proficiency Level</Modal.Title>
-        </Modal.Header>
+      <Modal isOpen={showEdt} toggle={handleCloseEdt} size="xl" centered>
+        <ModalHeader toggle={handleCloseEdt}>Proficiency Level</ModalHeader>
 
-        <Modal.Body>
-          {/* Error Notif */}
-          {errorProficiencyLevel ? (
-            <ToastrNotification
-              toastType={"error"}
-              notifMessage={errorProficiencyLevel}
-            />
-          ) : null}
+        {/* Error Notif */}
+        {errorProficiencyLevel ? (
+          <ToastrNotification
+            toastType={'error'}
+            notifMessage={errorProficiencyLevel}
+          />
+        ) : null}
 
-          {/* Success Notif */}
-          {!isEmpty(coreProficiencyLevel) ? (
-            <ToastrNotification
-              toastType={"success"}
-              notifMessage={"Proficiency levels retrieved"}
-            />
-          ) : null}
+        {/* Success Notif */}
+        {!isEmpty(coreProficiencyLevel) ? (
+          <ToastrNotification
+            toastType={'success'}
+            notifMessage={'Proficiency levels retrieved'}
+          />
+        ) : null}
 
+        <ModalBody>
           <Row>
             <Col lg={12}>
               <Card>
@@ -130,16 +128,17 @@ const EditPositionProficiencyLevelModal = props => {
                     {modalData.itemNumber} | {modalData.positionTitle}
                   </CardTitle>
                   <Row>
+                    {/* Vertical Nav */}
                     <Col md={3}>
                       <Nav pills vertical>
                         <NavItem>
                           <NavLink
-                            style={{ cursor: "pointer" }}
+                            style={{ cursor: 'pointer' }}
                             className={classnames({
-                              active: activeTab === "1",
+                              active: activeTab === '1',
                             })}
                             onClick={() => {
-                              toggle("1")
+                              toggle('1')
                             }}
                           >
                             Core
@@ -148,12 +147,12 @@ const EditPositionProficiencyLevelModal = props => {
 
                         <NavItem>
                           <NavLink
-                            style={{ cursor: "pointer" }}
+                            style={{ cursor: 'pointer' }}
                             className={classnames({
-                              active: activeTab === "2",
+                              active: activeTab === '2',
                             })}
                             onClick={() => {
-                              toggle("2")
+                              toggle('2')
                             }}
                           >
                             Functional
@@ -162,12 +161,12 @@ const EditPositionProficiencyLevelModal = props => {
 
                         <NavItem>
                           <NavLink
-                            style={{ cursor: "pointer" }}
+                            style={{ cursor: 'pointer' }}
                             className={classnames({
-                              active: activeTab === "3",
+                              active: activeTab === '3',
                             })}
                             onClick={() => {
-                              toggle("3")
+                              toggle('3')
                             }}
                           >
                             Functional Cross-Cutting
@@ -176,12 +175,12 @@ const EditPositionProficiencyLevelModal = props => {
 
                         <NavItem>
                           <NavLink
-                            style={{ cursor: "pointer" }}
+                            style={{ cursor: 'pointer' }}
                             className={classnames({
-                              active: activeTab === "4",
+                              active: activeTab === '4',
                             })}
                             onClick={() => {
-                              toggle("4")
+                              toggle('4')
                             }}
                           >
                             Managerial
@@ -220,19 +219,19 @@ const EditPositionProficiencyLevelModal = props => {
                                                   <FormGroup>
                                                     <select
                                                       id={
-                                                        "core-level-row-" +
+                                                        'core-level-row-' +
                                                         core.code
                                                       }
                                                       className="form-control"
                                                       name={
-                                                        "coreLevelRow" +
+                                                        'coreLevelRow' +
                                                         core.code
                                                       }
                                                       defaultValue={core.level}
                                                       onChange={event =>
                                                         updateSelectValue(
                                                           index,
-                                                          "core",
+                                                          'core',
                                                           event
                                                         )
                                                       }
@@ -294,12 +293,12 @@ const EditPositionProficiencyLevelModal = props => {
                                                   <FormGroup>
                                                     <select
                                                       id={
-                                                        "functional-level-row-" +
+                                                        'functional-level-row-' +
                                                         functional.code
                                                       }
                                                       className="form-control"
                                                       name={
-                                                        "functionalLevelRow" +
+                                                        'functionalLevelRow' +
                                                         functional.code
                                                       }
                                                       defaultValue={
@@ -308,7 +307,7 @@ const EditPositionProficiencyLevelModal = props => {
                                                       onChange={event =>
                                                         updateSelectValue(
                                                           index,
-                                                          "functional",
+                                                          'functional',
                                                           event
                                                         )
                                                       }
@@ -371,12 +370,12 @@ const EditPositionProficiencyLevelModal = props => {
                                                   <FormGroup>
                                                     <select
                                                       id={
-                                                        "cross-cutting-level-row-" +
+                                                        'cross-cutting-level-row-' +
                                                         crossCutting.code
                                                       }
                                                       className="form-control"
                                                       name={
-                                                        "crossCuttingLevelRow" +
+                                                        'crossCuttingLevelRow' +
                                                         crossCutting.code
                                                       }
                                                       defaultValue={
@@ -385,7 +384,7 @@ const EditPositionProficiencyLevelModal = props => {
                                                       onChange={event =>
                                                         updateSelectValue(
                                                           index,
-                                                          "crossCutting",
+                                                          'crossCutting',
                                                           event
                                                         )
                                                       }
@@ -447,12 +446,12 @@ const EditPositionProficiencyLevelModal = props => {
                                                   <FormGroup>
                                                     <select
                                                       id={
-                                                        "managerial-level-row-" +
+                                                        'managerial-level-row-' +
                                                         managerial.code
                                                       }
                                                       className="form-control"
                                                       name={
-                                                        "managerialLevelRow" +
+                                                        'managerialLevelRow' +
                                                         managerial.code
                                                       }
                                                       defaultValue={
@@ -461,7 +460,7 @@ const EditPositionProficiencyLevelModal = props => {
                                                       onChange={event =>
                                                         updateSelectValue(
                                                           index,
-                                                          "managerial",
+                                                          'managerial',
                                                           event
                                                         )
                                                       }
@@ -505,8 +504,9 @@ const EditPositionProficiencyLevelModal = props => {
               </Card>
             </Col>
           </Row>
-        </Modal.Body>
-        <Modal.Footer>
+        </ModalBody>
+
+        <ModalFooter>
           <Button color="info" onClick={event => handleSubmit(event)}>
             Update
           </Button>
@@ -514,12 +514,11 @@ const EditPositionProficiencyLevelModal = props => {
             color="danger"
             onClick={() => {
               handleCloseEdt()
-              setactiveTab("1")
             }}
           >
             Cancel
           </Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </>
   )

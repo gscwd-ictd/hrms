@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from "redux-saga/effects"
+import { call, put, takeEvery } from 'redux-saga/effects'
 import {
   getPositionCompetencyProficiencyLevels,
   getPositionFunctionalCompetenciesProficiencyLevels,
@@ -6,7 +6,7 @@ import {
   postFunctionalCompetenciesOfPosition,
   delFunctionalCompetenciesOfPosition,
   patchPositionCompetencyProficiencyLevels,
-} from "helpers/backend_helper"
+} from 'helpers/backend_helper'
 import {
   fetchCompetencyProficiencyLevelsSuccess,
   fetchCompetencyProficiencyLevelsFail,
@@ -20,7 +20,7 @@ import {
   removeFunctionalCompetenciesOfPositionFail,
   updatePositionCompetencyProficiencyLevelsSuccess,
   updatePositionCompetencyProficiencyLevelsFail,
-} from "./actions"
+} from './actions'
 import {
   GET_COMPETENCY_PROFICIENCY_LEVELS,
   GET_POSITION_FUNCTIONAL_COMPETENCIES,
@@ -28,7 +28,7 @@ import {
   ASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION,
   UNASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION,
   UPDATE_POSITION_PROFICIENCY_LEVELS,
-} from "./actionTypes"
+} from './actionTypes'
 
 function* fetchCompetencyProficiencyLevels({ payload: positionId }) {
   try {
@@ -38,9 +38,6 @@ function* fetchCompetencyProficiencyLevels({ payload: positionId }) {
     )
 
     yield put(fetchCompetencyProficiencyLevelsSuccess(response))
-
-    // const filtered = mockData.positionCompetencies.filter((positionCompetency) => positionCompetency.positionId === parseInt(positionId))
-    // yield put(fetchPositionCompetenciesSuccess(filtered[0]))
   } catch (error) {
     yield put(fetchCompetencyProficiencyLevelsFail(error))
   }

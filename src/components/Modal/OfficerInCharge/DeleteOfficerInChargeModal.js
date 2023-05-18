@@ -1,15 +1,26 @@
-import React, { useEffect } from "react"
-import { Modal } from "react-bootstrap"
-import { Button, Col, Row, Alert } from "reactstrap"
-import PropTypes from "prop-types"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import { isEmpty } from "lodash"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
+
 import {
   removeUnassignOIC,
   fetchOICList,
   resetOICResponse,
-} from "store/actions"
-import { useDispatch, useSelector } from "react-redux"
+} from 'store/actions'
+import { useDispatch, useSelector } from 'react-redux'
+
+import {
+  Button,
+  Col,
+  Row,
+  Alert,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const DeleteOfficerInChargeModal = props => {
   const { showDel, handleCloseDel, modalData } = props
@@ -46,10 +57,8 @@ const DeleteOfficerInChargeModal = props => {
 
   return (
     <>
-      <Modal show={showDel} onHide={handleCloseDel} size="sm" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Unassignment</Modal.Title>
-        </Modal.Header>
+      <Modal isOpen={showDel} toggle={handleCloseDel} size="sm" centered>
+        <ModalHeader toggle={handleCloseDel}>Confirm Unassignment</ModalHeader>
 
         {/* Notifications */}
         {loadingDelUnassignOIC ? (
@@ -64,33 +73,34 @@ const DeleteOfficerInChargeModal = props => {
 
         {errorDelUnassignOIC ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorDelUnassignOIC}
           />
         ) : null}
 
         {!isEmpty(delUnassignOIC) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Officer-In-Charge Removed"}
+            toastType={'success'}
+            notifMessage={'Officer-In-Charge Removed'}
           />
         ) : null}
 
-        <Modal.Body>
+        <ModalBody>
           <Row>
             <Col lg={12}>
               <p>Are you sure you want unassign this employee as OIC?</p>
             </Col>
           </Row>
-        </Modal.Body>
-        <Modal.Footer>
+        </ModalBody>
+
+        <ModalFooter>
           <Button type="submit" color="success" onClick={submitDelete}>
             Confirm
           </Button>
           <Button color="danger" onClick={handleCloseDel}>
             Cancel
           </Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </>
   )

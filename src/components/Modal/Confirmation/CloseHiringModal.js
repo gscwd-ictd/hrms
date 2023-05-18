@@ -1,19 +1,25 @@
-import React, { useEffect } from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux'
 import {
   updatePublicationStatus,
   getPublications,
   resetPublicationResponses,
-} from "store/actions"
+} from 'store/actions'
 
-import { Modal } from "react-bootstrap"
-import { Alert, Button } from "reactstrap"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import {
+  Alert,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
-import "./confirmationModal.scss"
+import './confirmationModal.scss'
 
 const CloseHiringModal = props => {
   const {
@@ -39,7 +45,7 @@ const CloseHiringModal = props => {
 
   const handleCloseHiring = () => {
     const hiringProcessDoneData = {
-      postingStatus: "Hiring process done",
+      postingStatus: 'Hiring process done',
     }
     dispatch(updatePublicationStatus(modalData.vppId, hiringProcessDoneData))
   }
@@ -57,18 +63,18 @@ const CloseHiringModal = props => {
   return (
     <>
       <Modal
-        show={showHiringDone}
-        onHide={handleCloseHiringDone}
+        isOpen={showHiringDone}
+        toggle={handleCloseHiringDone}
         size="sm"
         centered
         className="modal-confirmation"
       >
-        <Modal.Header closeButton></Modal.Header>
+        <ModalHeader toggle={handleCloseHiringDone}></ModalHeader>
 
         {/* Error Notif */}
         {errorHiringProcessDone ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorHiringProcessDone}
           />
         ) : null}
@@ -85,25 +91,25 @@ const CloseHiringModal = props => {
 
         {!isEmpty(responseHiringProcessDone) ? (
           <ToastrNotification
-            toastType={"success"}
+            toastType={'success'}
             notifMessage={"Publication status updated to 'Interview Done'"}
           />
         ) : null}
 
-        <Modal.Body>
+        <ModalBody>
           <div className="d-grid gap-2">
-            <h5 style={{ textAlign: "center" }}>
+            <h5 style={{ textAlign: 'center' }}>
               Hiring process will be closed. This action can not be undone. Are
               you sure you want to proceed?
             </h5>
           </div>
-        </Modal.Body>
+        </ModalBody>
 
-        <Modal.Footer>
+        <ModalFooter>
           <Button color="info" onClick={() => handleCloseHiring()}>
             Yes
           </Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </>
   )

@@ -1,15 +1,25 @@
-import React, { useEffect, useState } from "react"
-import { updateSalaryGradeList, fetchSalaryGradeList } from "store/actions"
-import { useDispatch, useSelector } from "react-redux"
+import React, { useEffect, useState } from 'react'
+import { isEmpty } from 'lodash'
+import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
-import { Modal } from "react-bootstrap"
-import { Col, Row, Form, Card, Alert, Button } from "reactstrap"
-import { useDropzone } from "react-dropzone"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import { updateSalaryGradeList, fetchSalaryGradeList } from 'store/actions'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { isEmpty } from "lodash"
-import { Link } from "react-router-dom"
-import PropTypes from "prop-types"
+import {
+  Col,
+  Row,
+  Form,
+  Card,
+  Alert,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import { useDropzone } from 'react-dropzone'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const UploadSalaryGradeListModal = props => {
   const { showAdd, handleCloseAdd } = props
@@ -36,9 +46,9 @@ const UploadSalaryGradeListModal = props => {
     isDragReject,
   } = useDropzone({
     accept: {
-      "application/application/vnd.ms-excel": [".xls"],
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [
-        ".xlsx",
+      'application/application/vnd.ms-excel': ['.xls'],
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': [
+        '.xlsx',
       ],
     },
   })
@@ -48,15 +58,15 @@ const UploadSalaryGradeListModal = props => {
     e.preventDefault()
     setLoadingExcelToJSON(true)
 
-    var XLSX = require("xlsx")
+    var XLSX = require('xlsx')
 
     /* f is a File */
     var file = acceptedFiles[0]
 
     var reader = new FileReader()
     const rABS = !!reader.readAsBinaryString
-    reader.onabort = () => console.log("file reading was aborted")
-    reader.onerror = () => console.log("file reading has failed")
+    reader.onabort = () => console.log('file reading was aborted')
+    reader.onerror = () => console.log('file reading has failed')
 
     reader.onload = function (e) {
       var data = e.target.result
@@ -64,7 +74,7 @@ const UploadSalaryGradeListModal = props => {
 
       /* DO SOMETHING WITH workbook HERE */
       var workbook = XLSX.read(data, {
-        type: rABS ? "binary" : "array",
+        type: rABS ? 'binary' : 'array',
       })
       var sheet_name_list = workbook.SheetNames[0]
       var jsonFromExcel = XLSX.utils.sheet_to_json(
@@ -121,14 +131,14 @@ const UploadSalaryGradeListModal = props => {
     return (
       <Card
         className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
-        key={index + "-file"}
+        key={index + '-file'}
       >
         <div className="p-2">
           <Row className="align-items-center">
             <Col className="col-auto">
               <i
                 className="fas fa-file-excel"
-                style={{ fontSize: "2.5em" }}
+                style={{ fontSize: '2.5em' }}
               ></i>
             </Col>
             <Col>
@@ -149,13 +159,13 @@ const UploadSalaryGradeListModal = props => {
    * Formats the size
    */
   function formatBytes(bytes, decimals = 2) {
-    if (bytes === 0) return "0 Bytes"
+    if (bytes === 0) return '0 Bytes'
     const k = 1024
     const dm = decimals < 0 ? 0 : decimals
-    const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
 
     const i = Math.floor(Math.log(bytes) / Math.log(k))
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i]
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i]
   }
 
   useEffect(() => {
@@ -179,10 +189,10 @@ const UploadSalaryGradeListModal = props => {
 
   return (
     <>
-      <Modal show={showAdd} onHide={handleCloseAdd} size="lg" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Upload Salary Grade File</Modal.Title>
-        </Modal.Header>
+      <Modal isOpen={showAdd} toggle={handleCloseAdd} size="lg" centered>
+        <ModalHeader toggle={handleCloseAdd}>
+          Upload Salary Grade File
+        </ModalHeader>
 
         {/* Notifications */}
         {loadingExcelToJSON ? (
@@ -208,21 +218,21 @@ const UploadSalaryGradeListModal = props => {
 
         {errorSalaryGrade ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorSalaryGrade}
           />
         ) : null}
 
         {!isEmpty(salaryGradeResponse) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Salary Grade List Updated!"}
+            toastType={'success'}
+            notifMessage={'Salary Grade List Updated!'}
           />
         ) : null}
 
-        <Form onSubmit={e => handleSubmit(e)}>
-          <Modal.Body>
-            <div {...getRootProps({ className: "dropzone" })}>
+        <ModalBody>
+          <Form onSubmit={e => handleSubmit(e)} id="uploadSalaryGradeForm">
+            <div {...getRootProps({ className: 'dropzone' })}>
               <div className="dz-message needsclick mt-2" {...getRootProps()}>
                 <input {...getInputProps()} />
                 {isDragAccept && <h5>File will be accepted</h5>}
@@ -244,13 +254,14 @@ const UploadSalaryGradeListModal = props => {
             <div className="dropzone-previews mt-3" id="file-previews">
               {acceptedFileItems}
             </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button type="submit" color="info">
-              Upload File
-            </Button>
-          </Modal.Footer>
-        </Form>
+          </Form>
+        </ModalBody>
+
+        <ModalFooter>
+          <Button type="submit" form="uploadSalaryGradeForm" color="info">
+            Upload File
+          </Button>
+        </ModalFooter>
       </Modal>
     </>
   )

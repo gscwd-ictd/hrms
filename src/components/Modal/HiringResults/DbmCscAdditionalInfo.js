@@ -1,26 +1,22 @@
-import React, { useEffect } from "react"
-import { isEmpty } from "lodash"
-import PropTypes from "prop-types"
-import { useDispatch, useSelector } from "react-redux"
-import {
-  addDbmCscAdditionalData,
-  fetchAvailableItemNumbers,
-  resetApplicantsResponses,
-  fetchSelectedByAppointingAuth,
-} from "store/actions"
-
-// Formik validation
-import * as Yup from "yup"
-import { useFormik, getIn } from "formik"
+import React, { useEffect } from 'react'
+import { isEmpty } from 'lodash'
+import PropTypes from 'prop-types'
 import {
   workstations,
   supervisorManagers,
   appointmentTypes,
   publicationModes,
   frequencies,
-} from "constants/selectInputs"
+} from 'constants/selectInputs'
 
-import { Modal } from "react-bootstrap"
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  addDbmCscAdditionalData,
+  fetchAvailableItemNumbers,
+  resetApplicantsResponses,
+  fetchSelectedByAppointingAuth,
+} from 'store/actions'
+
 import {
   Col,
   Row,
@@ -33,8 +29,16 @@ import {
   Label,
   Card,
   CardBody,
-} from "reactstrap"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
+
+// Formik validation
+import * as Yup from 'yup'
+import { useFormik, getIn } from 'formik'
 
 const DbmCscAdditionalInfo = props => {
   const {
@@ -72,15 +76,15 @@ const DbmCscAdditionalInfo = props => {
 
     initialValues: {
       basic: {
-        itemNumber: "",
-        immediateSupervisor: "",
-        supervisorNextHigher: "",
-        toolsUsed: "",
-        workStation: "",
-        appointmentType: "",
-        publicationMode: "",
-        directlySupervised: "",
-        directlySupervisedItemNumbers: "",
+        itemNumber: '',
+        immediateSupervisor: '',
+        supervisorNextHigher: '',
+        toolsUsed: '',
+        workStation: '',
+        appointmentType: '',
+        publicationMode: '',
+        directlySupervised: '',
+        directlySupervisedItemNumbers: '',
       },
       contacts: {
         internal: {
@@ -92,61 +96,61 @@ const DbmCscAdditionalInfo = props => {
         external: {
           generalPublicIsOccasional: false,
           otherAgenciesIsOccasional: false,
-          others: "",
+          others: '',
         },
       },
       workingCondition: {
         isOfficeWork: false,
         isFieldWork: false,
-        others: "",
+        others: '',
       },
     },
 
     validationSchema: Yup.object().shape({
       basic: Yup.object().shape({
         itemNumber: Yup.string().required(
-          "Please select an available item number"
+          'Please select an available item number'
         ),
         immediateSupervisor: Yup.string().required(
-          "Please input the immediate supervisor"
+          'Please input the immediate supervisor'
         ),
         supervisorNextHigher: Yup.string().required(
-          "Please input the next higher supervisor"
+          'Please input the next higher supervisor'
         ),
         toolsUsed: Yup.string().required(
-          "Please input a machine/equipment/tools used for work"
+          'Please input a machine/equipment/tools used for work'
         ),
-        workStation: Yup.string().required("Please select a place of work"),
+        workStation: Yup.string().required('Please select a place of work'),
         appointmentType: Yup.string().required(
-          "Please select an appointment type"
+          'Please select an appointment type'
         ),
         publicationMode: Yup.string().required(
-          "Please select a mode of publication"
+          'Please select a mode of publication'
         ),
       }),
       contacts: Yup.object().shape({
         internal: Yup.object().shape({
-          executiveIsOccasional: Yup.bool().required("Please select an option"),
+          executiveIsOccasional: Yup.bool().required('Please select an option'),
           supervisorIsOccasional: Yup.bool().required(
-            "Please select an option"
+            'Please select an option'
           ),
           nonSupervisorIsOccasional: Yup.bool().required(
-            "Please select an option"
+            'Please select an option'
           ),
-          staffIsOccasional: Yup.bool().required("Please select an option"),
+          staffIsOccasional: Yup.bool().required('Please select an option'),
         }),
         external: Yup.object().shape({
           generalPublicIsOccasional: Yup.bool().required(
-            "Please select an option"
+            'Please select an option'
           ),
           otherAgenciesIsOccasional: Yup.bool().required(
-            "Please select an option"
+            'Please select an option'
           ),
         }),
       }),
       workingCondition: Yup.object().shape({
-        isOfficeWork: Yup.bool().required("Please select an option"),
-        isFieldWork: Yup.bool().required("Please select an option"),
+        isOfficeWork: Yup.bool().required('Please select an option'),
+        isFieldWork: Yup.bool().required('Please select an option'),
       }),
     }),
 
@@ -159,7 +163,7 @@ const DbmCscAdditionalInfo = props => {
 
   // Change string value to boolean
   const stringToBool = str => {
-    if (str === "true") {
+    if (str === 'true') {
       return true
     } else {
       return false
@@ -187,14 +191,14 @@ const DbmCscAdditionalInfo = props => {
   return (
     <>
       <Modal
-        show={showDbmCscAdditionalInfo}
-        onHide={handleCloseDbmCscAdditionalInfoModal}
+        isOpen={showDbmCscAdditionalInfo}
+        toggle={handleCloseDbmCscAdditionalInfoModal}
         size="xl"
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title>DBM-CSC Form</Modal.Title>
-        </Modal.Header>
+        <ModalHeader toggle={handleCloseDbmCscAdditionalInfoModal}>
+          DBM-CSC Form
+        </ModalHeader>
 
         {/* Notifications */}
         {loadingPostDbmCscAdditionalDetails ? (
@@ -209,40 +213,36 @@ const DbmCscAdditionalInfo = props => {
 
         {errorPostDbmCscAdditionalDetails ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorPostDbmCscAdditionalDetails}
           />
         ) : null}
-        {/* {errorDbmCscPositionDescriptionForm ? (
-          <ToastrNotification
-            toastType={"error"}
-            notifMessage={errorDbmCscPositionDescriptionForm}
-          />
-        ) : null} */}
+
         {publicationsError ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={publicationsError}
           />
         ) : null}
 
         {!isEmpty(postDbmCscAdditionalDetails) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Succesfully added DBM-CSC additional details"}
+            toastType={'success'}
+            notifMessage={'Succesfully added DBM-CSC additional details'}
           />
         ) : null}
 
         <Card>
           <CardBody>
-            <Form
-              onSubmit={e => {
-                e.preventDefault()
-                validation.handleSubmit()
-                return false
-              }}
-            >
-              <Modal.Body>
+            <ModalBody>
+              <Form
+                id="dbmCscAdditionalInfoForm"
+                onSubmit={e => {
+                  e.preventDefault()
+                  validation.handleSubmit()
+                  return false
+                }}
+              >
                 {/* BASIC */}
                 <Row>
                   {/* Item Number */}
@@ -256,10 +256,10 @@ const DbmCscAdditionalInfo = props => {
                         id="item-number-select"
                         onChange={validation.handleChange}
                         onBlur={validation.handleBlur}
-                        value={validation.values.basic.itemNumber || ""}
+                        value={validation.values.basic.itemNumber || ''}
                         invalid={
-                          getIn(validation.touched, "basic.itemNumber") &&
-                          getIn(validation.errors, "basic.itemNumber")
+                          getIn(validation.touched, 'basic.itemNumber') &&
+                          getIn(validation.errors, 'basic.itemNumber')
                             ? true
                             : false
                         }
@@ -276,10 +276,10 @@ const DbmCscAdditionalInfo = props => {
                           </option>
                         ))}
                       </Input>
-                      {getIn(validation.touched, "basic.itemNumber") &&
-                      getIn(validation.errors, "basic.itemNumber") ? (
+                      {getIn(validation.touched, 'basic.itemNumber') &&
+                      getIn(validation.errors, 'basic.itemNumber') ? (
                         <FormFeedback type="invalid">
-                          {getIn(validation.errors, "basic.itemNumber")}
+                          {getIn(validation.errors, 'basic.itemNumber')}
                         </FormFeedback>
                       ) : null}
                     </FormGroup>
@@ -298,10 +298,10 @@ const DbmCscAdditionalInfo = props => {
                         id="workstation-select"
                         onChange={validation.handleChange}
                         onBlur={validation.handleBlur}
-                        value={validation.values.basic.workStation || ""}
+                        value={validation.values.basic.workStation || ''}
                         invalid={
-                          getIn(validation.touched, "basic.workStation") &&
-                          getIn(validation.errors, "basic.workStation")
+                          getIn(validation.touched, 'basic.workStation') &&
+                          getIn(validation.errors, 'basic.workStation')
                             ? true
                             : false
                         }
@@ -315,10 +315,10 @@ const DbmCscAdditionalInfo = props => {
                           </option>
                         ))}
                       </Input>
-                      {getIn(validation.touched, "basic.workStation") &&
-                      getIn(validation.errors, "basic.workStation") ? (
+                      {getIn(validation.touched, 'basic.workStation') &&
+                      getIn(validation.errors, 'basic.workStation') ? (
                         <FormFeedback type="invalid">
-                          {getIn(validation.errors, "basic.workStation")}
+                          {getIn(validation.errors, 'basic.workStation')}
                         </FormFeedback>
                       ) : null}
                     </FormGroup>
@@ -338,14 +338,14 @@ const DbmCscAdditionalInfo = props => {
                         onChange={validation.handleChange}
                         onBlur={validation.handleBlur}
                         value={
-                          validation.values.basic.immediateSupervisor || ""
+                          validation.values.basic.immediateSupervisor || ''
                         }
                         invalid={
                           getIn(
                             validation.touched,
-                            "basic.immediateSupervisor"
+                            'basic.immediateSupervisor'
                           ) &&
-                          getIn(validation.errors, "basic.immediateSupervisor")
+                          getIn(validation.errors, 'basic.immediateSupervisor')
                             ? true
                             : false
                         }
@@ -359,12 +359,12 @@ const DbmCscAdditionalInfo = props => {
                           </option>
                         ))}
                       </Input>
-                      {getIn(validation.touched, "basic.immediateSupervisor") &&
-                      getIn(validation.errors, "basic.immediateSupervisor") ? (
+                      {getIn(validation.touched, 'basic.immediateSupervisor') &&
+                      getIn(validation.errors, 'basic.immediateSupervisor') ? (
                         <FormFeedback type="invalid">
                           {getIn(
                             validation.errors,
-                            "basic.immediateSupervisor"
+                            'basic.immediateSupervisor'
                           )}
                         </FormFeedback>
                       ) : null}
@@ -385,14 +385,14 @@ const DbmCscAdditionalInfo = props => {
                         onChange={validation.handleChange}
                         onBlur={validation.handleBlur}
                         value={
-                          validation.values.basic.supervisorNextHigher || ""
+                          validation.values.basic.supervisorNextHigher || ''
                         }
                         invalid={
                           getIn(
                             validation.touched,
-                            "basic.supervisorNextHigher"
+                            'basic.supervisorNextHigher'
                           ) &&
-                          getIn(validation.errors, "basic.supervisorNextHigher")
+                          getIn(validation.errors, 'basic.supervisorNextHigher')
                             ? true
                             : false
                         }
@@ -408,13 +408,13 @@ const DbmCscAdditionalInfo = props => {
                       </Input>
                       {getIn(
                         validation.touched,
-                        "basic.supervisorNextHigher"
+                        'basic.supervisorNextHigher'
                       ) &&
-                      getIn(validation.errors, "basic.supervisorNextHigher") ? (
+                      getIn(validation.errors, 'basic.supervisorNextHigher') ? (
                         <FormFeedback type="invalid">
                           {getIn(
                             validation.errors,
-                            "basic.supervisorNextHigher"
+                            'basic.supervisorNextHigher'
                           )}
                         </FormFeedback>
                       ) : null}
@@ -434,10 +434,10 @@ const DbmCscAdditionalInfo = props => {
                         id="appointment-type-select"
                         onChange={validation.handleChange}
                         onBlur={validation.handleBlur}
-                        value={validation.values.basic.appointmentType || ""}
+                        value={validation.values.basic.appointmentType || ''}
                         invalid={
-                          getIn(validation.touched, "basic.appointmentType") &&
-                          getIn(validation.errors, "basic.appointmentType")
+                          getIn(validation.touched, 'basic.appointmentType') &&
+                          getIn(validation.errors, 'basic.appointmentType')
                             ? true
                             : false
                         }
@@ -451,10 +451,10 @@ const DbmCscAdditionalInfo = props => {
                           </option>
                         ))}
                       </Input>
-                      {getIn(validation.touched, "basic.appointmentType") &&
-                      getIn(validation.errors, "basic.appointmentType") ? (
+                      {getIn(validation.touched, 'basic.appointmentType') &&
+                      getIn(validation.errors, 'basic.appointmentType') ? (
                         <FormFeedback type="invalid">
-                          {getIn(validation.errors, "basic.appointmentType")}
+                          {getIn(validation.errors, 'basic.appointmentType')}
                         </FormFeedback>
                       ) : null}
                     </FormGroup>
@@ -473,10 +473,10 @@ const DbmCscAdditionalInfo = props => {
                         id="publication-mode-select"
                         onChange={validation.handleChange}
                         onBlur={validation.handleBlur}
-                        value={validation.values.basic.publicationMode || ""}
+                        value={validation.values.basic.publicationMode || ''}
                         invalid={
-                          getIn(validation.touched, "basic.publicationMode") &&
-                          getIn(validation.errors, "basic.publicationMode")
+                          getIn(validation.touched, 'basic.publicationMode') &&
+                          getIn(validation.errors, 'basic.publicationMode')
                             ? true
                             : false
                         }
@@ -490,10 +490,10 @@ const DbmCscAdditionalInfo = props => {
                           </option>
                         ))}
                       </Input>
-                      {getIn(validation.touched, "basic.publicationMode") &&
-                      getIn(validation.errors, "basic.publicationMode") ? (
+                      {getIn(validation.touched, 'basic.publicationMode') &&
+                      getIn(validation.errors, 'basic.publicationMode') ? (
                         <FormFeedback type="invalid">
-                          {getIn(validation.errors, "basic.publicationMode")}
+                          {getIn(validation.errors, 'basic.publicationMode')}
                         </FormFeedback>
                       ) : null}
                     </FormGroup>
@@ -513,18 +513,18 @@ const DbmCscAdditionalInfo = props => {
                         id="tools-used-input"
                         onChange={validation.handleChange}
                         onBlur={validation.handleBlur}
-                        value={validation.values.basic.toolsUsed || ""}
+                        value={validation.values.basic.toolsUsed || ''}
                         invalid={
-                          getIn(validation.touched, "basic.toolsUsed") &&
-                          getIn(validation.errors, "basic.toolsUsed")
+                          getIn(validation.touched, 'basic.toolsUsed') &&
+                          getIn(validation.errors, 'basic.toolsUsed')
                             ? true
                             : false
                         }
                       />
-                      {getIn(validation.touched, "basic.toolsUsed") &&
-                      getIn(validation.errors, "basic.toolsUsed") ? (
+                      {getIn(validation.touched, 'basic.toolsUsed') &&
+                      getIn(validation.errors, 'basic.toolsUsed') ? (
                         <FormFeedback type="invalid">
-                          {getIn(validation.errors, "basic.toolsUsed")}
+                          {getIn(validation.errors, 'basic.toolsUsed')}
                         </FormFeedback>
                       ) : null}
                     </FormGroup>
@@ -547,7 +547,7 @@ const DbmCscAdditionalInfo = props => {
                         id="directly-supervised-input"
                         onChange={validation.handleChange}
                         onBlur={validation.handleBlur}
-                        value={validation.values.basic.directlySupervised || ""}
+                        value={validation.values.basic.directlySupervised || ''}
                       />
                     </FormGroup>
                   </Col>
@@ -567,7 +567,7 @@ const DbmCscAdditionalInfo = props => {
                         onBlur={validation.handleBlur}
                         value={
                           validation.values.basic
-                            .directlySupervisedItemNumbers || ""
+                            .directlySupervisedItemNumbers || ''
                         }
                       />
                     </FormGroup>
@@ -593,7 +593,7 @@ const DbmCscAdditionalInfo = props => {
                         id="executive-select"
                         onChange={selectedValue => {
                           validation.setFieldValue(
-                            "contacts.internal.executiveIsOccasional",
+                            'contacts.internal.executiveIsOccasional',
                             stringToBool(selectedValue.target.value)
                           )
                         }}
@@ -605,11 +605,11 @@ const DbmCscAdditionalInfo = props => {
                         invalid={
                           getIn(
                             validation.touched,
-                            "contacts.internal.executiveIsOccasional"
+                            'contacts.internal.executiveIsOccasional'
                           ) &&
                           getIn(
                             validation.errors,
-                            "contacts.internal.executiveIsOccasional"
+                            'contacts.internal.executiveIsOccasional'
                           )
                             ? true
                             : false
@@ -623,16 +623,16 @@ const DbmCscAdditionalInfo = props => {
                       </Input>
                       {getIn(
                         validation.touched,
-                        "contacts.internal.executiveIsOccasional"
+                        'contacts.internal.executiveIsOccasional'
                       ) &&
                       getIn(
                         validation.errors,
-                        "contacts.internal.executiveIsOccasional"
+                        'contacts.internal.executiveIsOccasional'
                       ) ? (
                         <FormFeedback type="invalid">
                           {getIn(
                             validation.errors,
-                            "contacts.internal.executiveIsOccasional"
+                            'contacts.internal.executiveIsOccasional'
                           )}
                         </FormFeedback>
                       ) : null}
@@ -650,7 +650,7 @@ const DbmCscAdditionalInfo = props => {
                         id="supervisors-select"
                         onChange={selectedValue => {
                           validation.setFieldValue(
-                            "contacts.internal.supervisorIsOccasional",
+                            'contacts.internal.supervisorIsOccasional',
                             stringToBool(selectedValue.target.value)
                           )
                         }}
@@ -662,11 +662,11 @@ const DbmCscAdditionalInfo = props => {
                         invalid={
                           getIn(
                             validation.touched,
-                            "contacts.internal.supervisorIsOccasional"
+                            'contacts.internal.supervisorIsOccasional'
                           ) &&
                           getIn(
                             validation.errors,
-                            "contacts.internal.supervisorIsOccasional"
+                            'contacts.internal.supervisorIsOccasional'
                           )
                             ? true
                             : false
@@ -680,16 +680,16 @@ const DbmCscAdditionalInfo = props => {
                       </Input>
                       {getIn(
                         validation.touched,
-                        "contacts.internal.supervisorIsOccasional"
+                        'contacts.internal.supervisorIsOccasional'
                       ) &&
                       getIn(
                         validation.errors,
-                        "contacts.internal.supervisorIsOccasional"
+                        'contacts.internal.supervisorIsOccasional'
                       ) ? (
                         <FormFeedback type="invalid">
                           {getIn(
                             validation.errors,
-                            "contacts.internal.supervisorIsOccasional"
+                            'contacts.internal.supervisorIsOccasional'
                           )}
                         </FormFeedback>
                       ) : null}
@@ -709,7 +709,7 @@ const DbmCscAdditionalInfo = props => {
                         id="non-supervisors-select"
                         onChange={selectedValue => {
                           validation.setFieldValue(
-                            "contacts.internal.nonSupervisorIsOccasional",
+                            'contacts.internal.nonSupervisorIsOccasional',
                             stringToBool(selectedValue.target.value)
                           )
                         }}
@@ -721,11 +721,11 @@ const DbmCscAdditionalInfo = props => {
                         invalid={
                           getIn(
                             validation.touched,
-                            "contacts.internal.nonSupervisorIsOccasional"
+                            'contacts.internal.nonSupervisorIsOccasional'
                           ) &&
                           getIn(
                             validation.errors,
-                            "contacts.internal.nonSupervisorIsOccasional"
+                            'contacts.internal.nonSupervisorIsOccasional'
                           )
                             ? true
                             : false
@@ -739,16 +739,16 @@ const DbmCscAdditionalInfo = props => {
                       </Input>
                       {getIn(
                         validation.touched,
-                        "contacts.internal.nonSupervisorIsOccasional"
+                        'contacts.internal.nonSupervisorIsOccasional'
                       ) &&
                       getIn(
                         validation.errors,
-                        "contacts.internal.nonSupervisorIsOccasional"
+                        'contacts.internal.nonSupervisorIsOccasional'
                       ) ? (
                         <FormFeedback type="invalid">
                           {getIn(
                             validation.errors,
-                            "contacts.internal.nonSupervisorIsOccasional"
+                            'contacts.internal.nonSupervisorIsOccasional'
                           )}
                         </FormFeedback>
                       ) : null}
@@ -766,7 +766,7 @@ const DbmCscAdditionalInfo = props => {
                         id="staff-select"
                         onChange={selectedValue => {
                           validation.setFieldValue(
-                            "contacts.internal.staffIsOccasional",
+                            'contacts.internal.staffIsOccasional',
                             stringToBool(selectedValue.target.value)
                           )
                         }}
@@ -777,11 +777,11 @@ const DbmCscAdditionalInfo = props => {
                         invalid={
                           getIn(
                             validation.touched,
-                            "contacts.internal.staffIsOccasional"
+                            'contacts.internal.staffIsOccasional'
                           ) &&
                           getIn(
                             validation.errors,
-                            "contacts.internal.staffIsOccasional"
+                            'contacts.internal.staffIsOccasional'
                           )
                             ? true
                             : false
@@ -795,16 +795,16 @@ const DbmCscAdditionalInfo = props => {
                       </Input>
                       {getIn(
                         validation.touched,
-                        "contacts.internal.staffIsOccasional"
+                        'contacts.internal.staffIsOccasional'
                       ) &&
                       getIn(
                         validation.errors,
-                        "contacts.internal.staffIsOccasional"
+                        'contacts.internal.staffIsOccasional'
                       ) ? (
                         <FormFeedback type="invalid">
                           {getIn(
                             validation.errors,
-                            "contacts.internal.staffIsOccasional"
+                            'contacts.internal.staffIsOccasional'
                           )}
                         </FormFeedback>
                       ) : null}
@@ -825,7 +825,7 @@ const DbmCscAdditionalInfo = props => {
                         id="general-public-select"
                         onChange={selectedValue => {
                           validation.setFieldValue(
-                            "contacts.external.generalPublicIsOccasional",
+                            'contacts.external.generalPublicIsOccasional',
                             stringToBool(selectedValue.target.value)
                           )
                         }}
@@ -837,11 +837,11 @@ const DbmCscAdditionalInfo = props => {
                         invalid={
                           getIn(
                             validation.touched,
-                            "contacts.external.generalPublicIsOccasional"
+                            'contacts.external.generalPublicIsOccasional'
                           ) &&
                           getIn(
                             validation.errors,
-                            "contacts.external.generalPublicIsOccasional"
+                            'contacts.external.generalPublicIsOccasional'
                           )
                             ? true
                             : false
@@ -855,16 +855,16 @@ const DbmCscAdditionalInfo = props => {
                       </Input>
                       {getIn(
                         validation.touched,
-                        "contacts.external.generalPublicIsOccasional"
+                        'contacts.external.generalPublicIsOccasional'
                       ) &&
                       getIn(
                         validation.errors,
-                        "contacts.external.generalPublicIsOccasional"
+                        'contacts.external.generalPublicIsOccasional'
                       ) ? (
                         <FormFeedback type="invalid">
                           {getIn(
                             validation.errors,
-                            "contacts.external.generalPublicIsOccasional"
+                            'contacts.external.generalPublicIsOccasional'
                           )}
                         </FormFeedback>
                       ) : null}
@@ -882,7 +882,7 @@ const DbmCscAdditionalInfo = props => {
                         id="other-agencies-select"
                         onChange={selectedValue => {
                           validation.setFieldValue(
-                            "contacts.external.otherAgenciesIsOccasional",
+                            'contacts.external.otherAgenciesIsOccasional',
                             stringToBool(selectedValue.target.value)
                           )
                         }}
@@ -894,11 +894,11 @@ const DbmCscAdditionalInfo = props => {
                         invalid={
                           getIn(
                             validation.touched,
-                            "contacts.external.otherAgenciesIsOccasional"
+                            'contacts.external.otherAgenciesIsOccasional'
                           ) &&
                           getIn(
                             validation.errors,
-                            "contacts.external.otherAgenciesIsOccasional"
+                            'contacts.external.otherAgenciesIsOccasional'
                           )
                             ? true
                             : false
@@ -912,16 +912,16 @@ const DbmCscAdditionalInfo = props => {
                       </Input>
                       {getIn(
                         validation.touched,
-                        "contacts.external.otherAgenciesIsOccasional"
+                        'contacts.external.otherAgenciesIsOccasional'
                       ) &&
                       getIn(
                         validation.errors,
-                        "contacts.external.otherAgenciesIsOccasional"
+                        'contacts.external.otherAgenciesIsOccasional'
                       ) ? (
                         <FormFeedback type="invalid">
                           {getIn(
                             validation.errors,
-                            "contacts.external.otherAgenciesIsOccasional"
+                            'contacts.external.otherAgenciesIsOccasional'
                           )}
                         </FormFeedback>
                       ) : null}
@@ -941,7 +941,7 @@ const DbmCscAdditionalInfo = props => {
                         id="others-external-input"
                         onChange={validation.handleChange}
                         onBlur={validation.handleBlur}
-                        value={validation.values.contacts.external.others || ""}
+                        value={validation.values.contacts.external.others || ''}
                       />
                     </FormGroup>
                   </Col>
@@ -963,7 +963,7 @@ const DbmCscAdditionalInfo = props => {
                         id="office-work-select"
                         onChange={selectedValue => {
                           validation.setFieldValue(
-                            "workingCondition.isOfficeWork",
+                            'workingCondition.isOfficeWork',
                             stringToBool(selectedValue.target.value)
                           )
                         }}
@@ -972,11 +972,11 @@ const DbmCscAdditionalInfo = props => {
                         invalid={
                           getIn(
                             validation.touched,
-                            "workingCondition.isOfficeWork"
+                            'workingCondition.isOfficeWork'
                           ) &&
                           getIn(
                             validation.errors,
-                            "workingCondition.isOfficeWork"
+                            'workingCondition.isOfficeWork'
                           )
                             ? true
                             : false
@@ -990,16 +990,16 @@ const DbmCscAdditionalInfo = props => {
                       </Input>
                       {getIn(
                         validation.touched,
-                        "workingCondition.isOfficeWork"
+                        'workingCondition.isOfficeWork'
                       ) &&
                       getIn(
                         validation.errors,
-                        "workingCondition.isOfficeWork"
+                        'workingCondition.isOfficeWork'
                       ) ? (
                         <FormFeedback type="invalid">
                           {getIn(
                             validation.errors,
-                            "workingCondition.isOfficeWork"
+                            'workingCondition.isOfficeWork'
                           )}
                         </FormFeedback>
                       ) : null}
@@ -1017,7 +1017,7 @@ const DbmCscAdditionalInfo = props => {
                         id="field-work-select"
                         onChange={selectedValue => {
                           validation.setFieldValue(
-                            "workingCondition.isFieldWork",
+                            'workingCondition.isFieldWork',
                             stringToBool(selectedValue.target.value)
                           )
                         }}
@@ -1026,11 +1026,11 @@ const DbmCscAdditionalInfo = props => {
                         invalid={
                           getIn(
                             validation.touched,
-                            "workingCondition.isFieldWork"
+                            'workingCondition.isFieldWork'
                           ) &&
                           getIn(
                             validation.errors,
-                            "workingCondition.isFieldWork"
+                            'workingCondition.isFieldWork'
                           )
                             ? true
                             : false
@@ -1044,16 +1044,16 @@ const DbmCscAdditionalInfo = props => {
                       </Input>
                       {getIn(
                         validation.touched,
-                        "workingCondition.isFieldWork"
+                        'workingCondition.isFieldWork'
                       ) &&
                       getIn(
                         validation.errors,
-                        "workingCondition.isFieldWork"
+                        'workingCondition.isFieldWork'
                       ) ? (
                         <FormFeedback type="invalid">
                           {getIn(
                             validation.errors,
-                            "workingCondition.isFieldWork"
+                            'workingCondition.isFieldWork'
                           )}
                         </FormFeedback>
                       ) : null}
@@ -1073,26 +1073,27 @@ const DbmCscAdditionalInfo = props => {
                         id="others-working-condition-input"
                         onChange={validation.handleChange}
                         onBlur={validation.handleBlur}
-                        value={validation.values.workingCondition.others || ""}
+                        value={validation.values.workingCondition.others || ''}
                       />
                     </FormGroup>
                   </Col>
                 </Row>
-              </Modal.Body>
+              </Form>
+            </ModalBody>
 
-              <Modal.Footer>
-                <Button
-                  color="danger"
-                  className="btn btn-danger "
-                  onClick={handleCloseDbmCscAdditionalInfoModal}
-                >
-                  Cancel
-                </Button>
-                <Button type="submit" color="info">
-                  Submit
-                </Button>
-              </Modal.Footer>
-            </Form>
+            <ModalFooter>
+              <Button
+                color="danger"
+                form="dbmCscAdditionalInfoForm"
+                className="btn btn-danger "
+                onClick={handleCloseDbmCscAdditionalInfoModal}
+              >
+                Cancel
+              </Button>
+              <Button type="submit" color="info">
+                Submit
+              </Button>
+            </ModalFooter>
           </CardBody>
         </Card>
       </Modal>

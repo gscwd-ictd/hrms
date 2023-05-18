@@ -1,10 +1,10 @@
-import React, { useEffect } from "react"
-import { updateOffice, getOffices, resetOffice } from "store/actions"
-import { useDispatch, useSelector } from "react-redux"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
-import { Modal } from "react-bootstrap"
+import { updateOffice, getOffices, resetOffice } from 'store/actions'
+import { useDispatch, useSelector } from 'react-redux'
+
 import {
   Button,
   Col,
@@ -15,12 +15,16 @@ import {
   FormGroup,
   FormFeedback,
   Alert,
-} from "reactstrap"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // Formik validation
-import * as Yup from "yup"
-import { useFormik } from "formik"
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 const EditOfficeModal = props => {
   const { showEdt, handleCloseEdt, modalData } = props
@@ -36,14 +40,14 @@ const EditOfficeModal = props => {
     enableReinitialize: true,
 
     initialValues: {
-      name: modalData.name || "",
-      code: modalData.code || "",
-      description: modalData.description || "",
+      name: modalData.name || '',
+      code: modalData.code || '',
+      description: modalData.description || '',
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Please enter an office name"),
-      code: Yup.string().required("Please enter an office code"),
-      description: Yup.string().required("Please enter an office description"),
+      name: Yup.string().required('Please enter an office name'),
+      code: Yup.string().required('Please enter an office code'),
+      description: Yup.string().required('Please enter an office description'),
     }),
     onSubmit: values => {
       dispatch(updateOffice(modalData._id, values))
@@ -69,10 +73,8 @@ const EditOfficeModal = props => {
 
   return (
     <>
-      <Modal show={showEdt} onHide={handleCloseEdt} size="lg" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit</Modal.Title>
-        </Modal.Header>
+      <Modal isOpen={showEdt} toggle={handleCloseEdt} size="lg" centered>
+        <ModalHeader toggle={handleCloseEdt}>Edit</ModalHeader>
 
         {/* Notifications */}
         {isLoading ? (
@@ -86,24 +88,25 @@ const EditOfficeModal = props => {
         ) : null}
 
         {error ? (
-          <ToastrNotification toastType={"error"} notifMessage={error} />
+          <ToastrNotification toastType={'error'} notifMessage={error} />
         ) : null}
 
         {!isEmpty(putOfficeRes) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Update Successful"}
+            toastType={'success'}
+            notifMessage={'Update Successful'}
           />
         ) : null}
 
-        <Form
-          onSubmit={e => {
-            e.preventDefault()
-            validation.handleSubmit()
-            return false
-          }}
-        >
-          <Modal.Body>
+        <ModalBody>
+          <Form
+            id="editOfficeForm"
+            onSubmit={e => {
+              e.preventDefault()
+              validation.handleSubmit()
+              return false
+            }}
+          >
             <Row>
               <Col lg={12}>
                 <FormGroup>
@@ -115,7 +118,7 @@ const EditOfficeModal = props => {
                     id="name-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.name || ""}
+                    value={validation.values.name || ''}
                     invalid={
                       validation.touched.name && validation.errors.name
                         ? true
@@ -137,7 +140,7 @@ const EditOfficeModal = props => {
                     id="code-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.code || ""}
+                    value={validation.values.code || ''}
                     invalid={
                       validation.touched.code && validation.errors.code
                         ? true
@@ -160,7 +163,7 @@ const EditOfficeModal = props => {
                     rows="5"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.description || ""}
+                    value={validation.values.description || ''}
                     invalid={
                       validation.touched.description &&
                       validation.errors.description
@@ -177,17 +180,17 @@ const EditOfficeModal = props => {
                 </FormGroup>
               </Col>
             </Row>
-          </Modal.Body>
+          </Form>
+        </ModalBody>
 
-          <Modal.Footer>
-            <Button type="submit" color="info">
-              Update
-            </Button>
-            <Button color="danger" onClick={handleCloseEdt}>
-              Cancel
-            </Button>
-          </Modal.Footer>
-        </Form>
+        <ModalFooter>
+          <Button type="submit" form="editOfficeForm" color="info">
+            Update
+          </Button>
+          <Button color="danger" onClick={handleCloseEdt}>
+            Cancel
+          </Button>
+        </ModalFooter>
       </Modal>
     </>
   )

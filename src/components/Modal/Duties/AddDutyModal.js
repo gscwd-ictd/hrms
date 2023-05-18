@@ -1,5 +1,14 @@
-import React, { useEffect } from "react"
-import { Modal } from "react-bootstrap"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
+
+import {
+  addDutyResponsibility,
+  fetchDutyResponsibilities,
+  resetDutiesResponse,
+} from 'store/actions'
+import { useDispatch, useSelector } from 'react-redux'
+
 import {
   Col,
   Row,
@@ -9,20 +18,16 @@ import {
   FormFeedback,
   Alert,
   Button,
-} from "reactstrap"
-import PropTypes from "prop-types"
-import {
-  addDutyResponsibility,
-  fetchDutyResponsibilities,
-  resetDutiesResponse,
-} from "store/actions"
-import { useDispatch, useSelector } from "react-redux"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import { isEmpty } from "lodash"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // Formik validation
-import * as Yup from "yup"
-import { useFormik } from "formik"
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 const AddDutyModal = props => {
   const { showAdd, handleCloseAdd } = props
@@ -45,11 +50,11 @@ const AddDutyModal = props => {
     enableReinitialize: true,
 
     initialValues: {
-      description: "",
+      description: '',
     },
     validationSchema: Yup.object({
       description: Yup.string().required(
-        "Please enter a duty and responsibility description"
+        'Please enter a duty and responsibility description'
       ),
     }),
     onSubmit: (values, { resetForm }) => {
@@ -76,10 +81,10 @@ const AddDutyModal = props => {
 
   return (
     <>
-      <Modal show={showAdd} onHide={handleCloseAdd} size="lg" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Duty and Responsibility Details</Modal.Title>
-        </Modal.Header>
+      <Modal isOpen={showAdd} toggle={handleCloseAdd} size="lg" centered>
+        <ModalHeader toggle={handleCloseAdd}>
+          Duty and Responsibility Details
+        </ModalHeader>
 
         {loadingDutyResponsibilities ? (
           <Alert
@@ -93,26 +98,27 @@ const AddDutyModal = props => {
 
         {errorDutyResponsibilities ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorDutyResponsibilities}
           />
         ) : null}
 
         {!isEmpty(postDutiesRes) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"New duty & responsibility created"}
+            toastType={'success'}
+            notifMessage={'New duty & responsibility created'}
           />
         ) : null}
 
-        <Form
-          onSubmit={e => {
-            e.preventDefault()
-            validation.handleSubmit()
-            return false
-          }}
-        >
-          <Modal.Body>
+        <ModalBody>
+          <Form
+            id="addDutyForm"
+            onSubmit={e => {
+              e.preventDefault()
+              validation.handleSubmit()
+              return false
+            }}
+          >
             <Row>
               <Col lg={12}>
                 <Row>
@@ -125,7 +131,7 @@ const AddDutyModal = props => {
                         id="desc-Input"
                         onChange={validation.handleChange}
                         onBlur={validation.handleBlur}
-                        value={validation.values.description || ""}
+                        value={validation.values.description || ''}
                         invalid={
                           validation.touched.description &&
                           validation.errors.description
@@ -144,14 +150,14 @@ const AddDutyModal = props => {
                 </Row>
               </Col>
             </Row>
-          </Modal.Body>
+          </Form>
+        </ModalBody>
 
-          <Modal.Footer>
-            <Button type="submit" color="info">
-              Submit
-            </Button>
-          </Modal.Footer>
-        </Form>
+        <ModalFooter>
+          <Button type="submit" form="addDutyForm" color="info">
+            Submit
+          </Button>
+        </ModalFooter>
       </Modal>
     </>
   )

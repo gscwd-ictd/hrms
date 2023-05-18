@@ -1,11 +1,21 @@
-import React, { useEffect } from "react"
-import { Modal } from "react-bootstrap"
-import { Button, Col, Row, Alert } from "reactstrap"
-import PropTypes from "prop-types"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import { isEmpty } from "lodash"
-import { deleteOffice, getOffices, resetOffice } from "store/actions"
-import { useDispatch, useSelector } from "react-redux"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
+
+import { deleteOffice, getOffices, resetOffice } from 'store/actions'
+import { useDispatch, useSelector } from 'react-redux'
+
+import {
+  Button,
+  Col,
+  Row,
+  Alert,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const DeleteOfficeModal = props => {
   const { showDel, handleCloseDel, modalData } = props
@@ -39,10 +49,8 @@ const DeleteOfficeModal = props => {
 
   return (
     <>
-      <Modal show={showDel} onHide={handleCloseDel} size="sm" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Delete</Modal.Title>
-        </Modal.Header>
+      <Modal isOpen={showDel} toggle={handleCloseDel} size="sm" centered>
+        <ModalHeader toggle={handleCloseDel}>Confirm Delete</ModalHeader>
 
         {isLoading ? (
           <Alert
@@ -55,31 +63,32 @@ const DeleteOfficeModal = props => {
         ) : null}
 
         {error ? (
-          <ToastrNotification toastType={"error"} notifMessage={error} />
+          <ToastrNotification toastType={'error'} notifMessage={error} />
         ) : null}
 
         {!isEmpty(delOfficeRes) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Office deleted"}
+            toastType={'success'}
+            notifMessage={'Office deleted'}
           />
         ) : null}
 
-        <Modal.Body>
+        <ModalBody>
           <Row>
             <Col lg={12}>
               <p>Are you sure you want to permanently delete this office?</p>
             </Col>
           </Row>
-        </Modal.Body>
-        <Modal.Footer>
+        </ModalBody>
+
+        <ModalFooter>
           <Button type="submit" color="info" onClick={submitDelete}>
             Confirm
           </Button>
           <Button color="danger" onClick={handleCloseDel}>
             Cancel
           </Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </>
   )

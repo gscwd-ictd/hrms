@@ -1,33 +1,41 @@
-import React, { useState, useEffect } from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
-import { Link } from "react-router-dom"
-import dayjs from "dayjs"
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
+import { Link } from 'react-router-dom'
+import dayjs from 'dayjs'
 
-import { Modal } from "react-bootstrap"
-import { Col, Row, Input, Button } from "reactstrap"
+import {
+  Col,
+  Row,
+  Input,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
 
 const PrintResultsOfHiring = props => {
   const { showPrintRoH, handleClosePrintRoH } = props
   const [inputAppointmentDate, setInputAppointmentDate] = useState(new Date())
 
   const formatDate = aedate => {
-    return dayjs(aedate).format("YYYY-MM-DD")
+    return dayjs(aedate).format('YYYY-MM-DD')
   }
 
   return (
     <>
       <Modal
-        show={showPrintRoH}
-        onHide={handleClosePrintRoH}
+        isOpen={showPrintRoH}
+        toggle={handleClosePrintRoH}
         size="md"
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Select Effectivity Date</Modal.Title>
-        </Modal.Header>
+        <ModalHeader toggle={handleClosePrintRoH}>
+          Select Effectivity Date
+        </ModalHeader>
 
-        <Modal.Body>
+        <ModalBody>
           <Row>
             <Col lg={12}>
               <Row className="justify-content-end">
@@ -40,12 +48,12 @@ const PrintResultsOfHiring = props => {
               </Row>
             </Col>
           </Row>
-        </Modal.Body>
+        </ModalBody>
 
-        <Modal.Footer>
+        <ModalFooter>
           <Link
-            style={{ pointerEvents: "inherit" }}
-            to={"/results-of-hiring-pdf/" + formatDate(inputAppointmentDate)}
+            style={{ pointerEvents: 'inherit' }}
+            to={'/results-of-hiring-pdf/' + formatDate(inputAppointmentDate)}
             target="_blank"
             onClick={handleClosePrintRoH}
           >
@@ -56,7 +64,7 @@ const PrintResultsOfHiring = props => {
               <i className="bx bx-printer"></i> PDF Document
             </Button>
           </Link>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </>
   )

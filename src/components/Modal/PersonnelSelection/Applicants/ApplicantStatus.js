@@ -1,14 +1,15 @@
-import React, { useEffect } from "react"
-import PropTypes from "prop-types"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { applicantStatuses } from 'constants/selectInputs'
+import { constant, isEmpty } from 'lodash'
+
 import {
   fetchApplicants,
   updateApplicantApplicationStatus,
   resetApplicantsResponses,
-} from "store/actions"
-import { useDispatch, useSelector } from "react-redux"
-import { applicantStatuses } from "constants/selectInputs"
+} from 'store/actions'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { Modal } from "react-bootstrap"
 import {
   Button,
   Col,
@@ -18,13 +19,16 @@ import {
   FormGroup,
   FormFeedback,
   Alert,
-} from "reactstrap"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import { constant, isEmpty } from "lodash"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // Formik validation
-import * as Yup from "yup"
-import { useFormik } from "formik"
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 const ApplicantStatus = props => {
   const { showEdt, handleCloseEdt, modalData, publicationId } = props
@@ -47,11 +51,11 @@ const ApplicantStatus = props => {
     enableReinitialize: true,
 
     initialValues: {
-      applicantStatus: modalData.applicantStatus || "",
+      applicantStatus: modalData.applicantStatus || '',
     },
     validationSchema: Yup.object({
       applicantStatus: Yup.string().required(
-        "Please select a applicant status"
+        'Please select a applicant status'
       ),
     }),
     onSubmit: values => {
@@ -69,10 +73,8 @@ const ApplicantStatus = props => {
 
   return (
     <>
-      <Modal show={showEdt} onHide={handleCloseEdt} size="md" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Change Status</Modal.Title>
-        </Modal.Header>
+      <Modal isOpen={showEdt} toggle={handleCloseEdt} size="md" centered>
+        <ModalHeader toggle={handleCloseEdt}>Change Status</ModalHeader>
 
         {loadingResponseApplicantApplicationStatus ? (
           <Alert
@@ -86,26 +88,27 @@ const ApplicantStatus = props => {
 
         {errorApplicantApplicationStatus ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorApplicantApplicationStatus}
           />
         ) : null}
 
         {!isEmpty(patchApplicantApplicationStatus) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Application Status Updated"}
+            toastType={'success'}
+            notifMessage={'Application Status Updated'}
           />
         ) : null}
 
-        <Form
-          onSubmit={e => {
-            e.preventDefault()
-            validation.handleSubmit()
-            return false
-          }}
-        >
-          <Modal.Body>
+        <ModalBody>
+          <Form
+            id="applicantStatusForm"
+            onSubmit={e => {
+              e.preventDefault()
+              validation.handleSubmit()
+              return false
+            }}
+          >
             <Row>
               <Col md={12}>
                 <FormGroup>
@@ -116,7 +119,7 @@ const ApplicantStatus = props => {
                     id="applicantStatus-select"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.applicantStatus || ""}
+                    value={validation.values.applicantStatus || ''}
                     invalid={
                       validation.touched.applicantStatus &&
                       validation.errors.applicantStatus
@@ -140,14 +143,14 @@ const ApplicantStatus = props => {
                 </FormGroup>
               </Col>
             </Row>
-          </Modal.Body>
+          </Form>
+        </ModalBody>
 
-          <Modal.Footer>
-            <Button type="submit" color="info">
-              Submit
-            </Button>
-          </Modal.Footer>
-        </Form>
+        <ModalFooter>
+          <Button type="submit" form="applicantStatusForm" color="info">
+            Submit
+          </Button>
+        </ModalFooter>
       </Modal>
     </>
   )

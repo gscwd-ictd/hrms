@@ -1,17 +1,27 @@
-import React, { useEffect, useState } from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux'
 import {
   updateAppointmentEffectivityDate,
   getPublications,
   resetPublicationResponses,
-} from "store/actions"
+} from 'store/actions'
 
-import { Modal } from "react-bootstrap"
-import { Col, Row, Input, Alert, Form, Button } from "reactstrap"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import {
+  Col,
+  Row,
+  Input,
+  Alert,
+  Form,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const SetAppointmentEffectivity = props => {
   const {
@@ -54,18 +64,18 @@ const SetAppointmentEffectivity = props => {
   return (
     <>
       <Modal
-        show={showSetAppointmentEffectivity}
-        onHide={handleCloseSetAppointmentEffectivity}
+        isOpen={showSetAppointmentEffectivity}
+        toggle={handleCloseSetAppointmentEffectivity}
         size="md"
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Effectivity Date of Appointment</Modal.Title>
-        </Modal.Header>
+        <ModalHeader toggle={handleCloseSetAppointmentEffectivity}>
+          Effectivity Date of Appointment
+        </ModalHeader>
 
         {/* Error Notif */}
         {error ? (
-          <ToastrNotification toastType={"error"} notifMessage={error} />
+          <ToastrNotification toastType={'error'} notifMessage={error} />
         ) : null}
 
         {/* Loading Notif */}
@@ -82,15 +92,15 @@ const SetAppointmentEffectivity = props => {
         {/* Success Notif */}
         {!isEmpty(response) ? (
           <ToastrNotification
-            toastType={"success"}
+            toastType={'success'}
             notifMessage={
-              "Effectivity date of appointment has been sucesfully set"
+              'Effectivity date of appointment has been sucesfully set'
             }
           />
         ) : null}
 
-        <Form onSubmit={handleSubmit}>
-          <Modal.Body>
+        <ModalBody>
+          <Form id="appointmentEffectivityForm" onSubmit={handleSubmit}>
             <Row className="mb-3">
               <Col>
                 <Input
@@ -102,15 +112,15 @@ const SetAppointmentEffectivity = props => {
                   required
                 />
               </Col>
-            </Row>
-          </Modal.Body>
+            </Row>{' '}
+          </Form>
+        </ModalBody>
 
-          <Modal.Footer>
-            <Button color="info" type="submit">
-              Send
-            </Button>
-          </Modal.Footer>
-        </Form>
+        <ModalFooter>
+          <Button color="info" form="appointmentEffectivityForm" type="submit">
+            Send
+          </Button>
+        </ModalFooter>
       </Modal>
     </>
   )

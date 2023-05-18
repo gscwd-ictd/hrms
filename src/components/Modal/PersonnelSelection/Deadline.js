@@ -1,15 +1,14 @@
-import React, { useEffect } from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux'
 import {
   updatePublicationStatus,
   getPublications,
   resetPublicationResponses,
-} from "store/actions"
+} from 'store/actions'
 
-import { Modal } from "react-bootstrap"
 import {
   Button,
   Col,
@@ -19,12 +18,16 @@ import {
   FormGroup,
   FormFeedback,
   Alert,
-} from "reactstrap"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // Formik validation
-import * as Yup from "yup"
-import { useFormik } from "formik"
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 const Deadline = props => {
   const { showDeadline, modalData, handleCloseDeadline, prfId } = props
@@ -45,11 +48,11 @@ const Deadline = props => {
     enableReinitialize: true,
 
     initialValues: {
-      postingDeadline: "", // yyyy-mm-dd
-      postingStatus: "Open for application",
+      postingDeadline: '', // yyyy-mm-dd
+      postingStatus: 'Open for application',
     },
     validationSchema: Yup.object({
-      postingDeadline: Yup.date().required("Please enter a date"),
+      postingDeadline: Yup.date().required('Please enter a date'),
     }),
     onSubmit: (values, { resetForm }) => {
       dispatch(updatePublicationStatus(modalData.vppId, values))
@@ -68,14 +71,12 @@ const Deadline = props => {
   return (
     <>
       <Modal
-        show={showDeadline}
-        onHide={handleCloseDeadline}
+        isOpen={showDeadline}
+        toggle={handleCloseDeadline}
         size="md"
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Set Deadline</Modal.Title>
-        </Modal.Header>
+        <ModalHeader toggle={handleCloseDeadline}>Set Deadline</ModalHeader>
 
         {loadingPublicationDeadline ? (
           <Alert
@@ -89,26 +90,27 @@ const Deadline = props => {
 
         {errorPublicationDeadline ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorPublicationDeadline}
           />
         ) : null}
 
         {!isEmpty(responsePublicationDeadline) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Deadline Updated Successfully"}
+            toastType={'success'}
+            notifMessage={'Deadline Updated Successfully'}
           />
         ) : null}
 
-        <Form
-          onSubmit={e => {
-            e.preventDefault()
-            validation.handleSubmit()
-            return false
-          }}
-        >
-          <Modal.Body>
+        <ModalBody>
+          <Form
+            id="deadlineForm"
+            onSubmit={e => {
+              e.preventDefault()
+              validation.handleSubmit()
+              return false
+            }}
+          >
             <Row>
               <Col md={12}>
                 <FormGroup>
@@ -119,7 +121,7 @@ const Deadline = props => {
                     id="postingDeadline-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.postingDeadline || ""}
+                    value={validation.values.postingDeadline || ''}
                     invalid={
                       validation.touched.postingDeadline &&
                       validation.errors.postingDeadline
@@ -136,14 +138,14 @@ const Deadline = props => {
                 </FormGroup>
               </Col>
             </Row>
-          </Modal.Body>
+          </Form>
+        </ModalBody>
 
-          <Modal.Footer>
-            <Button type="submit" color="info">
-              Submit
-            </Button>
-          </Modal.Footer>
-        </Form>
+        <ModalFooter>
+          <Button type="submit" form="deadlineForm" color="info">
+            Submit
+          </Button>
+        </ModalFooter>
       </Modal>
     </>
   )

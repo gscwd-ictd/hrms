@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
-import { Link } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
-import { fetchSelectedByAppointingAuth } from "store/actions"
+import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
+import { Link } from 'react-router-dom'
 
-import { Modal } from "react-bootstrap"
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchSelectedByAppointingAuth } from 'store/actions'
+
 import {
   Col,
   Row,
@@ -16,11 +16,15 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-} from "reactstrap"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import SendApplicantHiredStatus from "../Confirmation/SendApplicantHiredStatus"
-import DbmCscAdditionalInfo from "./DbmCscAdditionalInfo"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import SendApplicantHiredStatus from '../Confirmation/SendApplicantHiredStatus'
+import DbmCscAdditionalInfo from './DbmCscAdditionalInfo'
 
 const HiredApplicants = props => {
   const { showHiredApplicants, handleCloseHiredApplicantsModal, modalData } =
@@ -41,14 +45,15 @@ const HiredApplicants = props => {
       state.personnelSelectionBoard.error.errorSelectedByAppointingAuth,
   }))
 
+  // Styling badge pill for status
   const statusBadge = applicantStatus => {
-    if (applicantStatus === "Accepted") {
+    if (applicantStatus === 'Accepted') {
       return (
         <Badge className="me-2 bg-success font-size-12">
           {applicantStatus}
         </Badge>
       )
-    } else if (applicantStatus === "Declined") {
+    } else if (applicantStatus === 'Declined') {
       return (
         <Badge className="me-2 bg-danger font-size-12">{applicantStatus}</Badge>
       )
@@ -67,7 +72,7 @@ const HiredApplicants = props => {
           className="font-size-18"
           color="white"
           type="button"
-          style={{ boxShadow: "none" }}
+          style={{ boxShadow: 'none' }}
         >
           <div className="btn btn-sm btn-info">
             <i className="fas fa-user-edit"></i> Status
@@ -75,12 +80,12 @@ const HiredApplicants = props => {
         </DropdownToggle>
         <DropdownMenu direction="right">
           <DropdownItem
-            onClick={() => changeApplicantStatus(applicant, "Accepted")}
+            onClick={() => changeApplicantStatus(applicant, 'Accepted')}
           >
             Accepted
           </DropdownItem>
           <DropdownItem
-            onClick={() => changeApplicantStatus(applicant, "Declined")}
+            onClick={() => changeApplicantStatus(applicant, 'Declined')}
           >
             Declined
           </DropdownItem>
@@ -89,8 +94,9 @@ const HiredApplicants = props => {
     )
   }
 
+  // Dropdown action for row actions
   const printableDocsColumnActions = applicant => {
-    if (applicant.applicantStatus === "Accepted") {
+    if (applicant.applicantStatus === 'Accepted') {
       if (applicant.hasDbmCsc) {
         return (
           <UncontrolledDropdown>
@@ -98,7 +104,7 @@ const HiredApplicants = props => {
               className="font-size-18"
               color="white"
               type="button"
-              style={{ boxShadow: "none" }}
+              style={{ boxShadow: 'none' }}
             >
               <div className="btn btn-sm btn-info">
                 <i className="fas fa-print"></i> Printable Docs
@@ -107,9 +113,9 @@ const HiredApplicants = props => {
             <DropdownMenu direction="right">
               <DropdownItem>
                 <Link
-                  style={{ pointerEvents: "inherit" }}
+                  style={{ pointerEvents: 'inherit' }}
                   to={
-                    "/position-description-dbm-csc-form-no-1/" +
+                    '/position-description-dbm-csc-form-no-1/' +
                     applicant.postingApplicantId
                   }
                   target="_blank"
@@ -120,9 +126,9 @@ const HiredApplicants = props => {
               <DropdownItem>
                 <Link
                   style={{
-                    pointerEvents: "inherit",
+                    pointerEvents: 'inherit',
                   }}
-                  to={"/cs-form-no-4/" + applicant.postingApplicantId}
+                  to={'/cs-form-no-4/' + applicant.postingApplicantId}
                   target="_blank"
                 >
                   CS Form No. 4
@@ -131,9 +137,9 @@ const HiredApplicants = props => {
               <DropdownItem>
                 <Link
                   style={{
-                    pointerEvents: "inherit",
+                    pointerEvents: 'inherit',
                   }}
-                  to={"/cs-form-no-33-b/" + applicant.postingApplicantId}
+                  to={'/cs-form-no-33-b/' + applicant.postingApplicantId}
                   target="_blank"
                 >
                   CS Form No. 33-B
@@ -148,7 +154,7 @@ const HiredApplicants = props => {
           <Button
             onClick={() => openDbmCscModal(applicant)}
             className="btn btn-sm btn-info waves-effect waves-light"
-            style={{ margin: "auto 0" }}
+            style={{ margin: 'auto 0' }}
           >
             <i className="fas fa-file-alt"></i> Fill DBM-CSC Form
           </Button>
@@ -179,7 +185,7 @@ const HiredApplicants = props => {
   // Change applicant status modal
   const [showUpdateApplicantStatus, setShowUpdateApplicantStatus] =
     useState(false)
-  const [strApplicantStatus, setStrApplicantStatus] = useState("")
+  const [strApplicantStatus, setStrApplicantStatus] = useState('')
 
   const handleCloseUpdateApplicantStatus = () =>
     setShowUpdateApplicantStatus(false)
@@ -202,24 +208,24 @@ const HiredApplicants = props => {
   return (
     <>
       <Modal
-        show={showHiredApplicants}
-        onHide={handleCloseHiredApplicantsModal}
+        isOpen={showHiredApplicants}
+        toggle={handleCloseHiredApplicantsModal}
         size="lg"
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Hired Applicants</Modal.Title>
-        </Modal.Header>
+        <ModalHeader toggle={handleCloseHiredApplicantsModal}>
+          Hired Applicants
+        </ModalHeader>
 
         {/* Error Notification */}
         {errorSelectedByAppointingAuth ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorSelectedByAppointingAuth}
           />
         ) : null}
 
-        <Modal.Body>
+        <ModalBody>
           <Row>
             <Col lg={12}>
               {loadingSelectedByAppointingAuth ? (
@@ -227,15 +233,15 @@ const HiredApplicants = props => {
               ) : (
                 <div
                   className="table-responsive"
-                  style={{ overflow: "visible" }}
+                  style={{ overflow: 'visible' }}
                 >
                   <Table className="table mb-0">
                     <thead className="thead-light">
                       <tr>
                         {/* <th>ID</th> */}
                         <th>Name</th>
-                        <th style={{ textAlign: "center" }}>Status</th>
-                        <th style={{ textAlign: "center" }}>Action</th>
+                        <th style={{ textAlign: 'center' }}>Status</th>
+                        <th style={{ textAlign: 'center' }}>Action</th>
                       </tr>
                     </thead>
 
@@ -247,15 +253,15 @@ const HiredApplicants = props => {
                               {/* <td>{applicant.postingApplicantId}</td> */}
                               <td
                                 style={{
-                                  verticalAlign: "middle",
+                                  verticalAlign: 'middle',
                                 }}
                               >
                                 {applicant.applicantName}
                               </td>
                               <td
                                 style={{
-                                  textAlign: "center",
-                                  verticalAlign: "middle",
+                                  textAlign: 'center',
+                                  verticalAlign: 'middle',
                                 }}
                               >
                                 {statusBadge(applicant.applicantStatus)}
@@ -263,13 +269,13 @@ const HiredApplicants = props => {
 
                               <td
                                 style={{
-                                  textAlign: "center",
+                                  textAlign: 'center',
                                 }}
                               >
                                 <div
                                   style={{
-                                    display: "flex",
-                                    justifyContent: "center",
+                                    display: 'flex',
+                                    justifyContent: 'center',
                                   }}
                                 >
                                   {statusColumnActions(applicant)}
@@ -311,9 +317,9 @@ const HiredApplicants = props => {
               />
             </Col>
           </Row>
-        </Modal.Body>
+        </ModalBody>
 
-        <Modal.Footer></Modal.Footer>
+        <ModalFooter></ModalFooter>
       </Modal>
     </>
   )

@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchQualifiedApplicants,
   updateQualifiedApplicantExamScore,
   updateQualifiedApplicantsExamScores,
   resetApplicantsResponses,
-} from "store/actions"
+} from 'store/actions'
 
-import { Modal } from "react-bootstrap"
 import {
   Button,
   Col,
@@ -20,9 +19,13 @@ import {
   Table,
   Input,
   FormFeedback,
-} from "reactstrap"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 
 const ExamScore = props => {
   const { showExamScore, modalData, handleCloseExamScore } = props
@@ -65,7 +68,7 @@ const ExamScore = props => {
       Number(min),
       Math.min(Number(max), Number(value))
     )
-    document.getElementById("examScore-input-" + index).value = floatedValue
+    document.getElementById('examScore-input-' + index).value = floatedValue
 
     dispatch(updateQualifiedApplicantExamScore(index, floatedValue))
   }
@@ -86,14 +89,14 @@ const ExamScore = props => {
   return (
     <>
       <Modal
-        show={showExamScore}
-        onHide={handleCloseExamScore}
+        isOpen={showExamScore}
+        toggle={handleCloseExamScore}
         size="lg"
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Applicants Examination Score</Modal.Title>
-        </Modal.Header>
+        <ModalHeader toggle={handleCloseExamScore}>
+          Applicants Examination Score
+        </ModalHeader>
 
         {loadingResponseApplicantsScores ? (
           <Alert
@@ -107,26 +110,26 @@ const ExamScore = props => {
 
         {errorQualifiedApplicants ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorQualifiedApplicants}
           />
         ) : null}
 
         {errorResponseApplicantsScores ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorResponseApplicantsScores}
           />
         ) : null}
 
         {!isEmpty(patchApplicantsScores) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Exam Scores Updated Successfully"}
+            toastType={'success'}
+            notifMessage={'Exam Scores Updated Successfully'}
           />
         ) : null}
 
-        <Modal.Body>
+        <ModalBody>
           <p>
             <span className="text-danger">Note:</span> Maximum percentage for
             examination is 40%
@@ -155,10 +158,10 @@ const ExamScore = props => {
                                 <td>
                                   <FormGroup>
                                     <Input
-                                      name={"examScore" + index}
+                                      name={'examScore' + index}
                                       type="number"
                                       className="form-control"
-                                      id={"examScore-input-" + index}
+                                      id={'examScore-input-' + index}
                                       defaultValue={applicant.examScore}
                                       onChange={event =>
                                         handleApplicantScore(index, event)
@@ -190,13 +193,13 @@ const ExamScore = props => {
               )}
             </Col>
           </Row>
-        </Modal.Body>
+        </ModalBody>
 
-        <Modal.Footer>
+        <ModalFooter>
           <Button color="info" onClick={event => handleSubmit(event)}>
             Send
           </Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </>
   )

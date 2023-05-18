@@ -1,14 +1,10 @@
-import React, { useEffect } from "react"
-import PropTypes from "prop-types"
-import { useDispatch, useSelector } from "react-redux"
-import { postDivision, getDivisions, resetDivision } from "store/actions"
-import { isEmpty } from "lodash"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
-// Formik validation
-import * as Yup from "yup"
-import { useFormik } from "formik"
+import { useDispatch, useSelector } from 'react-redux'
+import { postDivision, getDivisions, resetDivision } from 'store/actions'
 
-import { Modal } from "react-bootstrap"
 import {
   Col,
   Row,
@@ -19,8 +15,16 @@ import {
   FormFeedback,
   Alert,
   Button,
-} from "reactstrap"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
+
+// Formik validation
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 const AddDivisionModal = props => {
   const { showAdd, handleCloseAdd } = props
@@ -40,16 +44,16 @@ const AddDivisionModal = props => {
     enableReinitialize: true,
 
     initialValues: {
-      name: "",
-      code: "",
-      description: "",
-      departmentId: "",
+      name: '',
+      code: '',
+      description: '',
+      departmentId: '',
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Please enter a division name"),
-      code: Yup.string().required("Please enter a division code"),
-      description: Yup.string().required("Please enter a division description"),
-      departmentId: Yup.string().required("Please select a parent department"),
+      name: Yup.string().required('Please enter a division name'),
+      code: Yup.string().required('Please enter a division code'),
+      description: Yup.string().required('Please enter a division description'),
+      departmentId: Yup.string().required('Please select a parent department'),
     }),
     onSubmit: (values, { resetForm }) => {
       dispatch(postDivision(values))
@@ -75,10 +79,11 @@ const AddDivisionModal = props => {
 
   return (
     <>
-      <Modal show={showAdd} onHide={handleCloseAdd} size="lg" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Division Details</Modal.Title>
-        </Modal.Header>
+      <Modal isOpen={showAdd} toggle={handleCloseAdd} size="lg" centered>
+        <ModalHeader toggle={handleCloseAdd}>
+          Division HrmpsbDetails
+        </ModalHeader>
+
         {isLoading ? (
           <Alert
             color="info"
@@ -90,24 +95,25 @@ const AddDivisionModal = props => {
         ) : null}
 
         {error ? (
-          <ToastrNotification toastType={"error"} notifMessage={error} />
+          <ToastrNotification toastType={'error'} notifMessage={error} />
         ) : null}
 
         {!isEmpty(postDivisionRes) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"New Division Created"}
+            toastType={'success'}
+            notifMessage={'New Division Created'}
           />
         ) : null}
 
-        <Form
-          onSubmit={e => {
-            e.preventDefault()
-            validation.handleSubmit()
-            return false
-          }}
-        >
-          <Modal.Body>
+        <ModalBody>
+          <Form
+            id="addDivisionForm"
+            onSubmit={e => {
+              e.preventDefault()
+              validation.handleSubmit()
+              return false
+            }}
+          >
             <Row>
               <Col md={6}>
                 <FormGroup>
@@ -119,7 +125,7 @@ const AddDivisionModal = props => {
                     id="name-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.name || ""}
+                    value={validation.values.name || ''}
                     invalid={
                       validation.touched.name && validation.errors.name
                         ? true
@@ -143,7 +149,7 @@ const AddDivisionModal = props => {
                     id="code-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.code || ""}
+                    value={validation.values.code || ''}
                     invalid={
                       validation.touched.code && validation.errors.code
                         ? true
@@ -168,7 +174,7 @@ const AddDivisionModal = props => {
                     rows="5"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.description || ""}
+                    value={validation.values.description || ''}
                     invalid={
                       validation.touched.description &&
                       validation.errors.description
@@ -194,7 +200,7 @@ const AddDivisionModal = props => {
                     id="department-select"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.departmentId || ""}
+                    value={validation.values.departmentId || ''}
                     invalid={
                       validation.touched.departmentId &&
                       validation.errors.departmentId
@@ -206,7 +212,7 @@ const AddDivisionModal = props => {
                     {departments.map(department => (
                       <option key={department._id} value={department._id}>
                         {department.code}
-                        {" - "}
+                        {' - '}
                         {department.name}
                       </option>
                     ))}
@@ -220,14 +226,14 @@ const AddDivisionModal = props => {
                 </FormGroup>
               </Col>
             </Row>
-          </Modal.Body>
+          </Form>
+        </ModalBody>
 
-          <Modal.Footer>
-            <Button type="submit" color="info">
-              Submit
-            </Button>
-          </Modal.Footer>
-        </Form>
+        <ModalFooter>
+          <Button type="submit" form="addDivisionForm" color="info">
+            Submit
+          </Button>
+        </ModalFooter>
       </Modal>
     </>
   )

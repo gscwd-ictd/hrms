@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import React, { useEffect, useState } from 'react'
+import { isEmpty } from 'lodash'
+import PropTypes from 'prop-types'
+
+import { useDispatch, useSelector } from 'react-redux'
 import {
   submitEmpAssgn,
   fetchPlantillaPositionsSelect,
   resetEmpAssgnResponse,
   resetPlantillaPositions,
   fetchEmployeeList,
-} from "store/actions"
-import { isEmpty } from "lodash"
-import PropTypes from "prop-types"
-import * as Yup from "yup"
-import { useFormik } from "formik"
+} from 'store/actions'
 
-import { Modal } from "react-bootstrap"
 import {
   Button,
   Col,
@@ -24,12 +22,18 @@ import {
   Input,
   FormText,
   FormFeedback,
-} from "reactstrap"
-import Select from "react-select"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import Select from 'react-select'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 // import scss
-import "styles/custom_gscwd/pages/employeeassignment.scss"
+import 'styles/custom_gscwd/pages/employeeassignment.scss'
 
 const PortalRegistrationModal = props => {
   const { showAdd, handleCloseAdd } = props
@@ -56,19 +60,19 @@ const PortalRegistrationModal = props => {
     enableReinitialize: true,
 
     initialValues: {
-      firstName: "",
-      lastName: "",
-      middleName: "",
-      nameExtension: "",
-      positionId: "",
-      email: "",
+      firstName: '',
+      lastName: '',
+      middleName: '',
+      nameExtension: '',
+      positionId: '',
+      email: '',
       salaryGrade: 0,
     },
     validationSchema: Yup.object().shape({
-      firstName: Yup.string().required("Please enter a first name"),
-      lastName: Yup.string().required("Please enter a last name"),
-      positionId: Yup.string().required("Please select a position"),
-      email: Yup.string().required("Please enter an email address"),
+      firstName: Yup.string().required('Please enter a first name'),
+      lastName: Yup.string().required('Please enter a last name'),
+      positionId: Yup.string().required('Please select a position'),
+      email: Yup.string().required('Please enter an email address'),
       salaryGrade: Yup.number(),
     }),
     onSubmit: values => {
@@ -106,55 +110,53 @@ const PortalRegistrationModal = props => {
   return (
     <>
       <Modal
-        show={showAdd}
-        onHide={handleCloseAdd}
+        isOpen={showAdd}
+        toggle={handleCloseAdd}
         size="xl"
         animation={false}
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Portal Registration</Modal.Title>
-        </Modal.Header>
+        <ModalHeader toggle={handleCloseAdd}>Portal Registration</ModalHeader>
 
-        <Form
-          onSubmit={e => {
-            e.preventDefault()
-            formik.handleSubmit()
-            return false
-          }}
-        >
-          <Modal.Body>
-            {/* Info Alert with Spinner */}
-            {isLoading ? (
-              <Alert
-                color="info"
-                className="alert-dismissible fade show"
-                role="alert"
-              >
-                <i className="mdi mdi-loading mdi-spin me-2"></i> Sending
-                Request
-              </Alert>
-            ) : null}
+        {/* Info Alert with Spinner */}
+        {isLoading ? (
+          <Alert
+            color="info"
+            className="alert-dismissible fade show"
+            role="alert"
+          >
+            <i className="mdi mdi-loading mdi-spin me-2"></i> Sending Request
+          </Alert>
+        ) : null}
 
-            {/* Error Alert */}
-            {error ? (
-              <ToastrNotification toastType={"error"} notifMessage={error} />
-            ) : null}
-            {positionsError ? (
-              <ToastrNotification
-                toastType={"error"}
-                notifMessage={"Error: Failed to retrieve plantilla positions"}
-              />
-            ) : null}
+        {/* Error Alert */}
+        {error ? (
+          <ToastrNotification toastType={'error'} notifMessage={error} />
+        ) : null}
+        {positionsError ? (
+          <ToastrNotification
+            toastType={'error'}
+            notifMessage={'Error: Failed to retrieve plantilla positions'}
+          />
+        ) : null}
 
-            {/* Success Alert */}
-            {!isEmpty(empAssignmentRes) ? (
-              <ToastrNotification
-                toastType={"success"}
-                notifMessage={"Employee Successfully Assigned"}
-              />
-            ) : null}
+        {/* Success Alert */}
+        {!isEmpty(empAssignmentRes) ? (
+          <ToastrNotification
+            toastType={'success'}
+            notifMessage={'Employee Successfully Assigned'}
+          />
+        ) : null}
 
+        <ModalBody>
+          <Form
+            id="portalRegistrationForm"
+            onSubmit={e => {
+              e.preventDefault()
+              formik.handleSubmit()
+              return false
+            }}
+          >
             <div className="outer">
               <div data-repeater-item className="outer">
                 <Row>
@@ -167,7 +169,7 @@ const PortalRegistrationModal = props => {
                         id="formrow-fName-Input"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.firstName || ""}
+                        value={formik.values.firstName || ''}
                         invalid={
                           formik.touched.firstName && formik.errors.firstName
                             ? true
@@ -191,7 +193,7 @@ const PortalRegistrationModal = props => {
                         id="formrow-lName-Input"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.lastName || ""}
+                        value={formik.values.lastName || ''}
                         invalid={
                           formik.touched.lastName && formik.errors.lastName
                             ? true
@@ -215,7 +217,7 @@ const PortalRegistrationModal = props => {
                         id="formrow-mName-Input"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.middleName || ""}
+                        value={formik.values.middleName || ''}
                       />
                     </FormGroup>
                   </Col>
@@ -233,7 +235,7 @@ const PortalRegistrationModal = props => {
                         id="formrow-nameExtension-Input"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.nameExtension || ""}
+                        value={formik.values.nameExtension || ''}
                       />
                       <FormText color="muted">(Jr, Sr, II)</FormText>
                     </FormGroup>
@@ -250,13 +252,13 @@ const PortalRegistrationModal = props => {
                         name="positionId"
                         id="position-selection"
                         onChange={selectedOption => {
-                          formik.handleChange("positionId")(
+                          formik.handleChange('positionId')(
                             selectedOption.value.positionId
                           )
                           handleChangeSelect(selectedOption)
                         }}
                         onBlur={formik.handleBlur}
-                        value={selectedPosition || ""}
+                        value={selectedPosition || ''}
                         options={positionsOptions}
                         styles={{
                           control: styles => ({
@@ -264,14 +266,14 @@ const PortalRegistrationModal = props => {
                             borderColor:
                               formik.errors.positionId &&
                               formik.touched.positionId
-                                ? "red"
+                                ? 'red'
                                 : styles.borderColor,
-                            "&:hover": {
+                            '&:hover': {
                               borderColor:
                                 formik.errors.positionId &&
                                 formik.touched.positionId
-                                  ? "red"
-                                  : styles["&:hover"].borderColor,
+                                  ? 'red'
+                                  : styles['&:hover'].borderColor,
                             },
                           }),
                         }}
@@ -283,8 +285,8 @@ const PortalRegistrationModal = props => {
                           display:
                             formik.errors.positionId &&
                             formik.touched.positionId
-                              ? "block"
-                              : "none",
+                              ? 'block'
+                              : 'none',
                         }}
                       >
                         {formik.errors.positionId}
@@ -301,7 +303,7 @@ const PortalRegistrationModal = props => {
                         id="formrow-email-Input"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.email || ""}
+                        value={formik.values.email || ''}
                         invalid={
                           formik.touched.email && formik.errors.email
                             ? true
@@ -322,18 +324,19 @@ const PortalRegistrationModal = props => {
                     id="formrow-salaryGrade-Input"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    value={formik.values.salaryGrade || ""}
+                    value={formik.values.salaryGrade || ''}
                   />
                 </Row>
               </div>
             </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button type="submit" color="info">
-              Register
-            </Button>
-          </Modal.Footer>
-        </Form>
+          </Form>
+        </ModalBody>
+
+        <ModalFooter>
+          <Button type="submit" form="portalRegistrationForm" color="info">
+            Register
+          </Button>
+        </ModalFooter>
       </Modal>
     </>
   )

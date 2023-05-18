@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import classnames from 'classnames'
 
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchSelectedByAppointingAuth,
   fetchApplicants,
   fetchEndorsedApplicants,
   fetchShortlistedApplicants,
   fetchPsbDetails,
-  fetchPsbSummary
-} from "store/actions"
+  fetchPsbSummary,
+} from 'store/actions'
 
-import { Modal } from "react-bootstrap"
 import {
   Col,
   Row,
@@ -22,42 +21,44 @@ import {
   NavLink,
   TabContent,
   TabPane,
-  Table
-} from "reactstrap"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
-import classnames from "classnames"
-import AppliedApplicants from "./AppliedApplicants"
-import EndorsedApplicants from "./EndorsedApplicants"
-import ShortlistedApplicants from "./ShortlistedApplicants"
-import HiredApplicants from "./HiredApplicants"
-import HrmpsbSummary from "./HrmpsbSummary"
-import HrmpsbDetails from "./HrmpsbDetails"
+import AppliedApplicants from './AppliedApplicants'
+import EndorsedApplicants from './EndorsedApplicants'
+import ShortlistedApplicants from './ShortlistedApplicants'
+import HiredApplicants from './HiredApplicants'
+import HrmpsbSummary from './HrmpsbSummary'
+import HrmpsbDetails from './HrmpsbDetails'
 
 const PublicationDetails = props => {
   const { showPublicationDetails, handleClosePublicationDetails, modalData } =
     props
   const dispatch = useDispatch()
-  const [activeTab, setactiveTab] = useState("1")
+  const [activeTab, setactiveTab] = useState('1')
 
   // redux state for all errors that each individual dispatch
-  const { errorApplicants,
+  const {
+    errorApplicants,
     errorSelectedByAppointingAuth,
     errorEndorsedApplicants,
     errorShortlistedApplicants,
     errorPsbDetails,
     errorPsbSummary,
-  } = useSelector(
-    state => ({
-      errorApplicants: state.applicants.error.errorApplicants,
-      errorSelectedByAppointingAuth: state.personnelSelectionBoard.error.errorSelectedByAppointingAuth,
-      errorEndorsedApplicants: state.applicants.error.errorEndorsedApplicants,
-      errorShortlistedApplicants: state.applicants.error.errorShortlistedApplicants,
-      errorPsbDetails: state.personnelSelectionBoard.error.errorPsbDetails,
-      errorPsbSummary: state.personnelSelectionBoard.error.errorPsbSummary,
-    })
-  )
+  } = useSelector(state => ({
+    errorApplicants: state.applicants.error.errorApplicants,
+    errorSelectedByAppointingAuth:
+      state.personnelSelectionBoard.error.errorSelectedByAppointingAuth,
+    errorEndorsedApplicants: state.applicants.error.errorEndorsedApplicants,
+    errorShortlistedApplicants:
+      state.applicants.error.errorShortlistedApplicants,
+    errorPsbDetails: state.personnelSelectionBoard.error.errorPsbDetails,
+    errorPsbSummary: state.personnelSelectionBoard.error.errorPsbSummary,
+  }))
 
   // set active tab from toggling the navigation
   const toggle = tab => {
@@ -82,71 +83,71 @@ const PublicationDetails = props => {
   return (
     <>
       <Modal
-        show={showPublicationDetails}
-        onHide={handleClosePublicationDetails}
+        isOpen={showPublicationDetails}
+        toggle={handleClosePublicationDetails}
         size="xl"
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Publication Details</Modal.Title>
-        </Modal.Header>
+        <ModalHeader toggle={handleClosePublicationDetails}>
+          Publication Details
+        </ModalHeader>
 
         {/* Error Notif */}
         {errorSelectedByAppointingAuth ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorSelectedByAppointingAuth}
           />
         ) : null}
 
         {errorApplicants ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorApplicants}
           />
         ) : null}
 
         {errorEndorsedApplicants ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorEndorsedApplicants}
           />
         ) : null}
 
         {errorShortlistedApplicants ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorShortlistedApplicants}
           />
         ) : null}
 
         {errorPsbDetails ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorPsbDetails}
           />
         ) : null}
 
         {errorPsbSummary ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorPsbSummary}
           />
         ) : null}
 
-        <Modal.Body>
+        <ModalBody>
           <Row>
             <Col>
               {/* Tab Navigations */}
               <Nav tabs>
                 <NavItem>
                   <NavLink
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: 'pointer' }}
                     className={classnames({
-                      active: activeTab === "1",
+                      active: activeTab === '1',
                     })}
                     onClick={() => {
-                      toggle("1")
+                      toggle('1')
                     }}
                   >
                     Applied Applicants
@@ -155,12 +156,12 @@ const PublicationDetails = props => {
 
                 <NavItem>
                   <NavLink
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: 'pointer' }}
                     className={classnames({
-                      active: activeTab === "2",
+                      active: activeTab === '2',
                     })}
                     onClick={() => {
-                      toggle("2")
+                      toggle('2')
                     }}
                   >
                     Endorsed Applicants
@@ -169,12 +170,12 @@ const PublicationDetails = props => {
 
                 <NavItem>
                   <NavLink
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: 'pointer' }}
                     className={classnames({
-                      active: activeTab === "3",
+                      active: activeTab === '3',
                     })}
                     onClick={() => {
-                      toggle("3")
+                      toggle('3')
                     }}
                   >
                     Shortlisted Applicants
@@ -183,12 +184,12 @@ const PublicationDetails = props => {
 
                 <NavItem>
                   <NavLink
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: 'pointer' }}
                     className={classnames({
-                      active: activeTab === "4",
+                      active: activeTab === '4',
                     })}
                     onClick={() => {
-                      toggle("4")
+                      toggle('4')
                     }}
                   >
                     HRMPSB Details
@@ -197,12 +198,12 @@ const PublicationDetails = props => {
 
                 <NavItem>
                   <NavLink
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: 'pointer' }}
                     className={classnames({
-                      active: activeTab === "6",
+                      active: activeTab === '6',
                     })}
                     onClick={() => {
-                      toggle("6")
+                      toggle('6')
                     }}
                   >
                     HRMPSB Summary
@@ -211,12 +212,12 @@ const PublicationDetails = props => {
 
                 <NavItem>
                   <NavLink
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: 'pointer' }}
                     className={classnames({
-                      active: activeTab === "5",
+                      active: activeTab === '5',
                     })}
                     onClick={() => {
-                      toggle("5")
+                      toggle('5')
                     }}
                   >
                     Hired Applicants
@@ -282,9 +283,9 @@ const PublicationDetails = props => {
               </TabContent>
             </Col>
           </Row>
-        </Modal.Body>
+        </ModalBody>
 
-        <Modal.Footer>
+        <ModalFooter>
           <Button
             type="button"
             color="info"
@@ -292,7 +293,7 @@ const PublicationDetails = props => {
           >
             Close
           </Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </>
   )

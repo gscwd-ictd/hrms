@@ -1,15 +1,14 @@
-import React, { useEffect } from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchOccupations,
   updateOccupation,
   resetOccupationResponses,
-} from "store/actions"
+} from 'store/actions'
 
-import { Modal } from "react-bootstrap"
 import {
   Button,
   Col,
@@ -20,12 +19,16 @@ import {
   FormGroup,
   FormFeedback,
   Alert,
-} from "reactstrap"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // Formik validation
-import * as Yup from "yup"
-import { useFormik } from "formik"
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 const EditOccupationModal = props => {
   const { showEdt, handleCloseEdt, modalData } = props
@@ -41,10 +44,10 @@ const EditOccupationModal = props => {
     enableReinitialize: true,
 
     initialValues: {
-      occupationName: modalData.occupationName || "",
+      occupationName: modalData.occupationName || '',
     },
     validationSchema: Yup.object({
-      occupationName: Yup.string().required("Please enter an occupation name"),
+      occupationName: Yup.string().required('Please enter an occupation name'),
     }),
     onSubmit: (values, { resetForm }) => {
       dispatch(updateOccupation(modalData._id, values))
@@ -70,10 +73,8 @@ const EditOccupationModal = props => {
 
   return (
     <>
-      <Modal show={showEdt} onHide={handleCloseEdt} size="md" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit</Modal.Title>
-        </Modal.Header>
+      <Modal isOpen={showEdt} toggle={handleCloseEdt} size="md" centered>
+        <ModalHeader toggle={handleCloseEdt}>Edit</ModalHeader>
 
         {isLoading ? (
           <Alert
@@ -86,24 +87,25 @@ const EditOccupationModal = props => {
         ) : null}
 
         {error ? (
-          <ToastrNotification toastType={"error"} notifMessage={error} />
+          <ToastrNotification toastType={'error'} notifMessage={error} />
         ) : null}
 
         {!isEmpty(responsePut) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Update Successful"}
+            toastType={'success'}
+            notifMessage={'Update Successful'}
           />
         ) : null}
 
-        <Form
-          onSubmit={e => {
-            e.preventDefault()
-            validation.handleSubmit()
-            return false
-          }}
-        >
-          <Modal.Body>
+        <ModalBody>
+          <Form
+            id="editOccupationForm"
+            onSubmit={e => {
+              e.preventDefault()
+              validation.handleSubmit()
+              return false
+            }}
+          >
             <Row>
               <Col md={12}>
                 <FormGroup>
@@ -115,7 +117,7 @@ const EditOccupationModal = props => {
                     id="occupationName-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.occupationName || ""}
+                    value={validation.values.occupationName || ''}
                     invalid={
                       validation.touched.occupationName &&
                       validation.errors.occupationName
@@ -132,14 +134,14 @@ const EditOccupationModal = props => {
                 </FormGroup>
               </Col>
             </Row>
-          </Modal.Body>
+          </Form>
+        </ModalBody>
 
-          <Modal.Footer>
-            <Button type="submit" color="info">
-              Submit
-            </Button>
-          </Modal.Footer>
-        </Form>
+        <ModalFooter>
+          <Button type="submit" form="editOccupationForm" color="info">
+            Submit
+          </Button>
+        </ModalFooter>
       </Modal>
     </>
   )

@@ -1,17 +1,23 @@
-import React, { useEffect } from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux'
 import {
   updatePublicationStatus,
   getPublications,
   resetPublicationResponses,
-} from "store/actions"
+} from 'store/actions'
 
-import { Modal } from "react-bootstrap"
-import { Alert, Button } from "reactstrap"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import {
+  Alert,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const ExamDone = props => {
   const { showExamDone, handleCloseExamDone, modalData, prfId } = props
@@ -28,7 +34,7 @@ const ExamDone = props => {
 
   const handleCloseExamination = () => {
     const examDoneData = {
-      postingStatus: "Examination done",
+      postingStatus: 'Examination done',
     }
     dispatch(updatePublicationStatus(modalData.vppId, examDoneData))
   }
@@ -45,19 +51,17 @@ const ExamDone = props => {
   return (
     <>
       <Modal
-        show={showExamDone}
-        onHide={handleCloseExamDone}
+        isOpen={showExamDone}
+        toggle={handleCloseExamDone}
         size="lg"
         centered
       >
-        <Modal.Header closeButton>
-          {/* <Modal.Title>Close the Examination</Modal.Title> */}
-        </Modal.Header>
+        <ModalHeader toggle={handleCloseExamDone}></ModalHeader>
 
         {/* Error Notif */}
         {errorExamDone ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorExamDone}
           />
         ) : null}
@@ -76,25 +80,25 @@ const ExamDone = props => {
         {/* Success Notif */}
         {!isEmpty(responseExamDone) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Examination scheduled"}
+            toastType={'success'}
+            notifMessage={'Examination scheduled'}
           />
         ) : null}
 
-        <Modal.Body>
+        <ModalBody>
           <div className="d-grid gap-2">
-            <h5 style={{ textAlign: "center" }}>
+            <h5 style={{ textAlign: 'center' }}>
               Submission of applicants examination results will now be closed.
               Are you sure you want to proceed?
             </h5>
           </div>
-        </Modal.Body>
+        </ModalBody>
 
-        <Modal.Footer>
+        <ModalFooter>
           <Button color="info" onClick={() => handleCloseExamination()}>
             Yes
           </Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </>
   )

@@ -1,19 +1,25 @@
-import React, { useEffect } from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux'
 import {
   updatePublicationStatus,
   getPublications,
   resetPublicationResponses,
-} from "store/actions"
+} from 'store/actions'
 
-import { Modal } from "react-bootstrap"
-import { Alert, Button } from "reactstrap"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import {
+  Alert,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
-import "./confirmationModal.scss"
+import './confirmationModal.scss'
 
 const CloseInterviewModal = props => {
   const {
@@ -36,7 +42,7 @@ const CloseInterviewModal = props => {
 
   const handleCloseInterview = () => {
     const interviewDoneData = {
-      postingStatus: "Interview done",
+      postingStatus: 'Interview done',
     }
     dispatch(updatePublicationStatus(modalData.vppId, interviewDoneData))
   }
@@ -54,20 +60,18 @@ const CloseInterviewModal = props => {
   return (
     <>
       <Modal
-        show={showCloseInterview}
-        onHide={handleCloseCloseInterview}
+        isOpen={showCloseInterview}
+        toggle={handleCloseCloseInterview}
         size="sm"
         centered
         className="modal-confirmation"
       >
-        <Modal.Header closeButton>
-          {/* <Modal.Title>Close the Examination</Modal.Title> */}
-        </Modal.Header>
+        <ModalHeader toggle={handleCloseCloseInterview}></ModalHeader>
 
         {/* Error Notif */}
         {errorCloseInterview ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorCloseInterview}
           />
         ) : null}
@@ -84,25 +88,25 @@ const CloseInterviewModal = props => {
 
         {!isEmpty(responseInterviewDone) ? (
           <ToastrNotification
-            toastType={"success"}
+            toastType={'success'}
             notifMessage={"Publication status updated to 'Interview Done'"}
           />
         ) : null}
 
-        <Modal.Body>
+        <ModalBody>
           <div className="d-grid gap-2">
-            <h5 style={{ textAlign: "center" }}>
+            <h5 style={{ textAlign: 'center' }}>
               Submission of PSB member ratings will now be closed. Are you sure
               you want to proceed?
             </h5>
           </div>
-        </Modal.Body>
+        </ModalBody>
 
-        <Modal.Footer>
+        <ModalFooter>
           <Button color="info" onClick={() => handleCloseInterview()}>
             Yes
           </Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </>
   )

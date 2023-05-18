@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useMemo } from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import React, { useEffect, useState, useMemo } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchUnassignedPSBMembers,
   addPSBMemberToTable,
@@ -16,17 +16,26 @@ import {
   updatePublicationStatus,
   getPublications,
   resetPublicationResponses,
-} from "store/actions"
+} from 'store/actions'
 
-import { Modal } from "react-bootstrap"
-import { Button, Col, Row, Alert, Spinner } from "reactstrap"
-import Select from "react-select"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import {
+  Button,
+  Col,
+  Row,
+  Alert,
+  Spinner,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import Select from 'react-select'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // table components
-import TablePSBMembers from "components/Table/TablePSBMembers"
+import TablePSBMembers from 'components/Table/TablePSBMembers'
 
-import { psb23AndBelow, psb24, psb26AndAbove } from "constants/selectInputs"
+import { psb23AndBelow, psb24, psb26AndAbove } from 'constants/selectInputs'
 
 const CloseApplicationPSBMemberAssignment = props => {
   const {
@@ -38,7 +47,7 @@ const CloseApplicationPSBMemberAssignment = props => {
   const dispatch = useDispatch()
 
   // whole value of the selected option with the label
-  const [mainSelectedPSBMember, setMainSelectedPSBMember] = useState("")
+  const [mainSelectedPSBMember, setMainSelectedPSBMember] = useState('')
 
   // value of the selected option without label
   const [selectedPSBMember, setSelectedPSBMember] = useState({})
@@ -49,25 +58,24 @@ const CloseApplicationPSBMemberAssignment = props => {
   // state for a row insert in table
   const [tableRow, setTableRow] = useState({})
 
+  // React table column initialization
   const tableColumns = [
     {
-      Header: "ID",
-      accessor: "employeeId",
+      Header: 'ID',
+      accessor: 'employeeId',
       disableGlobalFilter: true,
     },
     {
-      Header: "Name",
-      accessor: "fullName",
+      Header: 'Name',
+      accessor: 'fullName',
     },
     {
-      Header: "PSB Role",
-      accessor: "psbNo",
+      Header: 'PSB Role',
+      accessor: 'psbNo',
     },
     {
-      Header: "Action",
-      accessor: "",
-      disableGlobalFilter: true,
-      sortable: false,
+      Header: 'Action',
+      accessor: '',
       Cell: function RowActions(cell) {
         return (
           <button
@@ -151,7 +159,7 @@ const CloseApplicationPSBMemberAssignment = props => {
     dispatch(removePSBRoleFromOptions(selectedPSBRole))
 
     // clear input for psb member options
-    setMainSelectedPSBMember("")
+    setMainSelectedPSBMember('')
     setSelectedPSBMember({})
     setSelectedPSBRole(0)
 
@@ -182,13 +190,15 @@ const CloseApplicationPSBMemberAssignment = props => {
   const handleAssignPSBMembers = () => {
     let closeApplicationData = {}
     closeApplicationData = {
-      postingStatus: "Closed for application",
+      postingStatus: 'Closed for application',
       assignedPSBMembers: tableData,
     }
 
-    dispatch(updatePublicationStatus(modalData.vppId, closeApplicationData))
+    console.log(closeApplicationData)
+    // dispatch(updatePublicationStatus(modalData.vppId, closeApplicationData))
   }
 
+  // Set role input options
   const handleNumberOfPSBMembers = () => {
     if (modalData.salaryGradeLevel <= 23) {
       dispatch(setPSBRoles(psb23AndBelow))
@@ -197,8 +207,22 @@ const CloseApplicationPSBMemberAssignment = props => {
     } else if (modalData.salaryGradeLevel >= 26) {
       dispatch(setPSBRoles(psb26AndAbove))
     } else {
-      // console.log("Please supply salaryGradeLevel")
+      dispatch(setPSBRoles(psb23AndBelow))
     }
+  }
+
+  const checkAssignedMembers = () => {
+    if (tableData.length < 4) {
+      // console.log('true')
+
+      if ((psbRoles[0] = 1) && (psbRoles[1] = 2) && (psbRoles[2] = 3)) {
+        return true
+      } else {
+        return false
+      }
+    }
+
+    return true
   }
 
   // if update is success
@@ -215,38 +239,40 @@ const CloseApplicationPSBMemberAssignment = props => {
     if (showCloseApplication) {
       dispatch(fetchUnassignedPSBMembers(modalData.vppId))
 
+      dispatch(resetPSBMembersTable())
       // set local state for psb role options
       handleNumberOfPSBMembers()
     }
   }, [showCloseApplication])
 
   useEffect(() => {
-    console.log(isEmpty(tableData))
-  }, [tableData])
+    // console.log(isEmpty(tableData))
+    console.log(psbRoles)
+  }, [psbRoles])
 
   return (
     <>
       <Modal
-        show={showCloseApplication}
-        onHide={handleCloseCloseApplication}
+        isOpen={showCloseApplication}
+        toggle={handleCloseCloseApplication}
         size="xl"
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Close Application | Assigning PSB Members</Modal.Title>
-        </Modal.Header>
+        <ModalHeader toggle={handleCloseCloseApplication}>
+          Close Application | Assigning PSB Members
+        </ModalHeader>
 
         {/* Error Notif */}
         {errorGetUnassignedPSBMember ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorGetUnassignedPSBMember}
           />
         ) : null}
 
         {errorCloseForApplication ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorCloseForApplication}
           />
         ) : null}
@@ -263,14 +289,14 @@ const CloseApplicationPSBMemberAssignment = props => {
 
         {!isEmpty(responseCloseForApplication) ? (
           <ToastrNotification
-            toastType={"success"}
+            toastType={'success'}
             notifMessage={
-              "PSB members added successfully. Proceed to assign roles."
+              'PSB members added successfully. Proceed to assign roles.'
             }
           />
         ) : null}
 
-        <Modal.Body>
+        <ModalBody>
           <div className="pb-5">
             <h5></h5>
             <p className="fs-6">Assignment roles:</p>
@@ -312,7 +338,7 @@ const CloseApplicationPSBMemberAssignment = props => {
                             onChange={e => {
                               handleSelectPSBMember(e)
                             }}
-                            value={mainSelectedPSBMember || ""}
+                            value={mainSelectedPSBMember || ''}
                             options={getUnassignedPSBMembers}
                           />
                         </Col>
@@ -327,7 +353,7 @@ const CloseApplicationPSBMemberAssignment = props => {
                             }}
                           >
                             <option value="">Choose Role...</option>
-                            {psbRoles.map(option => (
+                            {psbRoles.sort().map(option => (
                               <option key={option} value={option}>
                                 {option}
                               </option>
@@ -359,17 +385,18 @@ const CloseApplicationPSBMemberAssignment = props => {
               </>
             </Col>
           </Row>
-        </Modal.Body>
+        </ModalBody>
 
-        <Modal.Footer>
+        <ModalFooter>
           <Button
             color="info"
             onClick={() => handleAssignPSBMembers()}
-            disabled={tableData.length < 4 ? true : false} // create function to check if PSB role 1, 2 and 3 are selected
+            // disabled={checkAssignedMembers()}
+            // disabled={tableData.length < 4 ? true : false} // create function to check if PSB role 1, 2 and 3 are selected
           >
             Close Application
           </Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </>
   )

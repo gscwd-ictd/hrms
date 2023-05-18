@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
-import { useDispatch, useSelector } from "react-redux"
-import { fetchSelectedByAppointingAuth } from "store/actions"
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchSelectedByAppointingAuth } from 'store/actions'
 
-import { Modal } from "react-bootstrap"
-import { Col, Row, Button } from "reactstrap"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import CloseHiringModal from "../Confirmation/CloseHiringModal"
+import {
+  Col,
+  Row,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
+import CloseHiringModal from '../Confirmation/CloseHiringModal'
 
 const ViewSelectedByAppointingAuth = props => {
   const {
@@ -50,28 +57,28 @@ const ViewSelectedByAppointingAuth = props => {
   return (
     <>
       <Modal
-        show={showViewSelectedByAppAuth}
-        onHide={handleCloseSelectedByAppAuth}
+        isOpen={showViewSelectedByAppAuth}
+        toggle={handleCloseSelectedByAppAuth}
         size="lg"
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Selected by Appointing Authority</Modal.Title>
-        </Modal.Header>
+        <ModalHeader toggle={handleCloseSelectedByAppAuth}>
+          Selected by Appointing Authority
+        </ModalHeader>
 
         {/* Error Notif */}
         {errorSelectedByAppointingAuth ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorSelectedByAppointingAuth}
           />
         ) : null}
 
-        <Modal.Body>
+        <ModalBody>
           <Row>
             <Col>
               <p>
-                The following applicant/s are selected for the position of{" "}
+                The following applicant/s are selected for the position of{' '}
                 {modalData.positionTitle}
               </p>
               {loadingSelectedByAppointingAuth ? (
@@ -85,15 +92,15 @@ const ViewSelectedByAppointingAuth = props => {
                   ))}
                 </ul>
               ) : (
-                <p style={{ textAlign: "center" }} className="text-danger">
+                <p style={{ textAlign: 'center' }} className="text-danger">
                   No Selected Applicants
                 </p>
               )}
             </Col>
           </Row>
-        </Modal.Body>
+        </ModalBody>
 
-        <Modal.Footer>
+        <ModalFooter>
           <Button
             type="button"
             color="info"
@@ -101,7 +108,7 @@ const ViewSelectedByAppointingAuth = props => {
           >
             Close Hiring
           </Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
 
       <CloseHiringModal
