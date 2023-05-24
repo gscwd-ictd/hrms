@@ -58,6 +58,9 @@ const CloseApplicationPSBMemberAssignment = props => {
   // state for a row insert in table
   const [tableRow, setTableRow] = useState({})
 
+  const [disableCloseApplicationButton, setDisableCloseApplicationButton] =
+    useState(true)
+
   // React table column initialization
   const tableColumns = [
     {
@@ -211,20 +214,6 @@ const CloseApplicationPSBMemberAssignment = props => {
     }
   }
 
-  const checkAssignedMembers = () => {
-    if (tableData.length < 4) {
-      // console.log('true')
-
-      if ((psbRoles[0] = 1) && (psbRoles[1] = 2) && (psbRoles[2] = 3)) {
-        return true
-      } else {
-        return false
-      }
-    }
-
-    return true
-  }
-
   // if update is success
   useEffect(() => {
     if (!isEmpty(responseCloseForApplication)) {
@@ -246,8 +235,12 @@ const CloseApplicationPSBMemberAssignment = props => {
   }, [showCloseApplication])
 
   useEffect(() => {
-    // console.log(isEmpty(tableData))
-    console.log(psbRoles)
+    // check if roles 1,2 and 3 is already assigned before enabling close application
+    if (psbRoles.includes(1) || psbRoles.includes(2) || psbRoles.includes(3)) {
+      setDisableCloseApplicationButton(true)
+    } else {
+      setDisableCloseApplicationButton(false)
+    }
   }, [psbRoles])
 
   return (
@@ -365,7 +358,7 @@ const CloseApplicationPSBMemberAssignment = props => {
                     <Col md={2}>
                       <Button
                         className="btn btn-info w-100"
-                        onClick={addToTable}
+                        onClick={() => addToTable()}
                         disabled={
                           isEmpty(selectedPSBMember) || selectedPSBRole == 0
                             ? true
@@ -391,7 +384,7 @@ const CloseApplicationPSBMemberAssignment = props => {
           <Button
             color="info"
             onClick={() => handleAssignPSBMembers()}
-            // disabled={checkAssignedMembers()}
+            disabled={disableCloseApplicationButton}
             // disabled={tableData.length < 4 ? true : false} // create function to check if PSB role 1, 2 and 3 are selected
           >
             Close Application

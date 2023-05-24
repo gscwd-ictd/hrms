@@ -1,9 +1,9 @@
-import React, { useMemo, useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { fetchEmployeeList } from "store/actions"
-import PropTypes from "prop-types"
-import { Can } from "casl/Can"
-import { Navigate, Link, useLocation } from "react-router-dom"
+import React, { useMemo, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchEmployeeList } from 'store/actions'
+import PropTypes from 'prop-types'
+import { Can } from 'casl/Can'
+import { Navigate, Link, useLocation } from 'react-router-dom'
 
 import {
   Container,
@@ -15,19 +15,19 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-} from "reactstrap"
+} from 'reactstrap'
 
 // modal components
-import PortalRegistrationModal from "components/Modal/Portal/PortalRegistrationModal"
+import PortalRegistrationModal from 'components/Modal/Portal/PortalRegistrationModal'
 
 // table components
-import TableEmployeeList from "components/Table/TableEmployeeList"
-import { SelectColumnFilter } from "components/Filters/SelectColumnFilter"
+import TableEmployeeList from 'components/Table/TableEmployeeList'
+import { SelectColumnFilter } from 'components/Filters/SelectColumnFilter'
 
 // extra components
-import Breadcrumb from "components/Common/Breadcrumb"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import Breadcrumb from 'components/Common/Breadcrumb'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const EmployeeList = () => {
   const dispatch = useDispatch()
@@ -35,37 +35,41 @@ const EmployeeList = () => {
 
   const tableColumns = [
     {
-      Header: "",
-      accessor: "employmentDetails.employeeId",
+      Header: '',
+      accessor: 'employmentDetails.employeeId',
       disableGlobalFilter: true,
     },
     {
-      Header: "Name",
-      accessor: "personalDetails.fullName",
+      Header: 'Company ID',
+      accessor: 'employmentDetails.companyId',
     },
     {
-      Header: "",
-      accessor: "employmentDetails.positionId",
+      Header: 'Name',
+      accessor: 'personalDetails.fullName',
+    },
+    {
+      Header: '',
+      accessor: 'employmentDetails.positionId',
       disableGlobalFilter: true,
     },
     {
-      Header: "Position Title",
-      accessor: "employmentDetails.positionTitle",
+      Header: 'Position Title',
+      accessor: 'employmentDetails.positionTitle',
     },
     {
-      Header: "Assignment",
-      accessor: "employmentDetails.assignment.name",
+      Header: 'Assignment',
+      accessor: 'employmentDetails.assignment.name',
       Filter: SelectColumnFilter,
     },
     {
-      Header: "",
-      accessor: "employmentDetails.natureOfAppointment",
+      Header: '',
+      accessor: 'employmentDetails.natureOfAppointment',
       disableGlobalFilter: true,
     },
     {
-      Header: "Actions",
-      accessor: "",
-      align: "center",
+      Header: 'Actions',
+      accessor: '',
+      align: 'center',
       disableGlobalFilter: true,
       disableSortBy: true,
       Cell: cell => rowActions(cell),
@@ -84,8 +88,8 @@ const EmployeeList = () => {
               className="dropdown-item"
               to={`${
                 location.pathname +
-                "/pds/" +
-                cell.row.values["employmentDetails.employeeId"]
+                '/pds/' +
+                cell.row.values['employmentDetails.employeeId']
               }`}
               style={{ paddingRight: 5 }}
             >
@@ -97,8 +101,8 @@ const EmployeeList = () => {
               className="dropdown-item"
               to={`${
                 location.pathname +
-                "/201/" +
-                cell.row.values["employmentDetails.employeeId"]
+                '/201/' +
+                cell.row.values['employmentDetails.employeeId']
               }`}
               style={{ paddingRight: 5 }}
             >
@@ -109,11 +113,11 @@ const EmployeeList = () => {
             <Link
               className="dropdown-item"
               to={`${
-                "/plantilla/" +
+                '/plantilla/' +
                 `${convertToUrlString(
-                  cell.row.values["employmentDetails.natureOfAppointment"]
+                  cell.row.values['employmentDetails.natureOfAppointment']
                 )}` +
-                `${cell.row.values["employmentDetails.positionId"]}`
+                `${cell.row.values['employmentDetails.positionId']}`
               }`}
               style={{ paddingRight: 5 }}
             >
@@ -126,8 +130,8 @@ const EmployeeList = () => {
   }
 
   const convertToUrlString = str => {
-    if (typeof str === "string") {
-      return str.replace(/\s+/g, "-") + "/"
+    if (typeof str === 'string') {
+      return str.replace(/\s+/g, '-') + '/'
     }
   }
 
@@ -161,7 +165,7 @@ const EmployeeList = () => {
             />
 
             {error ? (
-              <ToastrNotification toastType={"error"} notifMessage={error} />
+              <ToastrNotification toastType={'error'} notifMessage={error} />
             ) : null}
 
             <Row>
