@@ -28,7 +28,7 @@ import {
   SET_PSB_ROLES,
   ADD_PSB_ROLE_TO_OPTIONS,
   REMOVE_PSB_ROLE_FROM_OPTIONS,
-} from "./actionTypes"
+} from './actionTypes'
 
 // Get assigned Personnel Selection Board members for a specific publication
 export const fetchAssignedPSBMembers = vppId => ({

@@ -35,7 +35,7 @@ import HiredApplicants from './HiredApplicants'
 import HrmpsbSummary from './HrmpsbSummary'
 import HrmpsbDetails from './HrmpsbDetails'
 
-const PublicationDetails = props => {
+const PublicationSummary = props => {
   const { showPublicationDetails, handleClosePublicationDetails, modalData } =
     props
   const dispatch = useDispatch()
@@ -299,10 +299,10 @@ const PublicationDetails = props => {
   )
 }
 
-PublicationDetails.propTypes = {
+PublicationSummary.propTypes = {
   showPublicationDetails: PropTypes.bool,
   handleClosePublicationDetails: PropTypes.func,
   modalData: PropTypes.object,
 }
 
-export default PublicationDetails
+export default PublicationSummary

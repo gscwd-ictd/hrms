@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { isEmpty } from 'lodash'
 import PropTypes from 'prop-types'
+import { listOfRestDays } from 'constants/selectInputs'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
   submitEmpAssgn,
   fetchPlantillaPositionsSelect,
+  fetchSchedules,
   resetEmpAssgnResponse,
   resetPlantillaPositions,
   fetchEmployeeList,
+  fetchHiredExternalConfirmedApplicants,
 } from 'store/actions'
 
 import {
@@ -29,6 +32,7 @@ import {
 } from 'reactstrap'
 import Select from 'react-select'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
+
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 
@@ -39,8 +43,9 @@ const PortalRegistrationModal = props => {
   const { showAdd, handleCloseAdd } = props
   const dispatch = useDispatch()
   const [selectedPosition, setSelectedPosition] = useState(null)
+  const [selectedRestDays, setSelectedRestDays] = useState([])
 
-  // form submission to submitEmpAssgn()
+  // redux state for employee assignment
   const { empAssignmentRes, isLoading, error } = useSelector(state => ({
     empAssignmentRes: state.employee.empAssignmentRes,
     isLoading: state.employee.isLoading,
@@ -56,24 +61,50 @@ const PortalRegistrationModal = props => {
     })
   )
 
+  const {
+    hiredExternalConfirmedApplicants,
+    loadinghiredExternalConfirmedApplicants,
+    errorhiredExternalConfirmedApplicants,
+
+    schedules,
+    schedulesLoading,
+    schedulesError,
+  } = useSelector(state => ({
+    // redux state for list of external, hired, and confirmed applicants
+    hiredExternalConfirmedApplicants:
+      state.applicants.hiredExternalConfirmedApplicants,
+    loadinghiredExternalConfirmedApplicants:
+      state.applicants.loading.loadinghiredExternalConfirmedApplicants,
+    errorhiredExternalConfirmedApplicants:
+      state.applicants.error.errorhiredExternalConfirmedApplicants,
+
+    // redux state for list schedules
+    schedules: state.schedules.schedules,
+    schedulesLoading: state.schedules.isLoading,
+    schedulesError: state.schedules.error,
+  }))
+
+  // formik initialization
   const formik = useFormik({
     enableReinitialize: true,
 
     initialValues: {
+      applicantId: '',
       firstName: '',
       lastName: '',
       middleName: '',
       nameExtension: '',
-      positionId: '',
       email: '',
       salaryGrade: 0,
+      scheduleId: '',
+      restDays: [],
     },
     validationSchema: Yup.object().shape({
       firstName: Yup.string().required('Please enter a first name'),
       lastName: Yup.string().required('Please enter a last name'),
-      positionId: Yup.string().required('Please select a position'),
       email: Yup.string().required('Please enter an email address'),
-      salaryGrade: Yup.number(),
+
+      scheduleId: Yup.string().required('Please select a schedule.'),
     }),
     onSubmit: values => {
       dispatch(submitEmpAssgn(values))
@@ -89,6 +120,8 @@ const PortalRegistrationModal = props => {
   useEffect(() => {
     if (showAdd) {
       dispatch(fetchPlantillaPositionsSelect())
+      dispatch(fetchSchedules())
+      dispatch(fetchHiredExternalConfirmedApplicants())
     } else {
       dispatch(resetEmpAssgnResponse())
       dispatch(resetPlantillaPositions())
@@ -109,13 +142,7 @@ const PortalRegistrationModal = props => {
 
   return (
     <>
-      <Modal
-        isOpen={showAdd}
-        toggle={handleCloseAdd}
-        size="xl"
-        animation={false}
-        centered
-      >
+      <Modal isOpen={showAdd} toggle={handleCloseAdd} size="xl" centered>
         <ModalHeader toggle={handleCloseAdd}>Portal Registration</ModalHeader>
 
         {/* Info Alert with Spinner */}
@@ -139,6 +166,18 @@ const PortalRegistrationModal = props => {
             notifMessage={'Error: Failed to retrieve plantilla positions'}
           />
         ) : null}
+        {errorhiredExternalConfirmedApplicants ? (
+          <ToastrNotification
+            toastType={'error'}
+            notifMessage={'Error: Failed to retrieve applicants'}
+          />
+        ) : null}
+        {schedulesError ? (
+          <ToastrNotification
+            toastType={'error'}
+            notifMessage={'Error: Failed to retrieve schedules'}
+          />
+        ) : null}
 
         {/* Success Alert */}
         {!isEmpty(empAssignmentRes) ? (
@@ -158,7 +197,7 @@ const PortalRegistrationModal = props => {
             }}
           >
             <div className="outer">
-              <div data-repeater-item className="outer">
+              <div className="outer">
                 <Row>
                   <Col sm={4}>
                     <FormGroup>
@@ -326,6 +365,95 @@ const PortalRegistrationModal = props => {
                     onBlur={formik.handleBlur}
                     value={formik.values.salaryGrade || ''}
                   />
+                </Row>
+
+                <Row>
+                  <Col sm={8}>
+                    <FormGroup>
+                      <Label for="position-selection">Schedules</Label>
+                      {schedulesLoading ? (
+                        <i className="mdi mdi-loading mdi-spin ms-2 "></i>
+                      ) : null}
+
+                      <Select
+                        name="scheduleId"
+                        id="scheduleId"
+                        onChange={selectedOption => {
+                          formik.handleChange('scheduleId')(
+                            selectedOption.value.id
+                          )
+                          // handleChangeSelect(selectedOption)
+                        }}
+                        onBlur={formik.handleBlur}
+                        // value={selectedPosition || ''}
+                        getOptionLabel={option => `${option.name}`}
+                        options={schedules}
+                        styles={{
+                          control: styles => ({
+                            ...styles,
+                            borderColor:
+                              formik.errors.scheduleId &&
+                              formik.touched.scheduleId
+                                ? 'red'
+                                : styles.borderColor,
+                            '&:hover': {
+                              borderColor:
+                                formik.errors.scheduleId &&
+                                formik.touched.scheduleId
+                                  ? 'red'
+                                  : styles['&:hover'].borderColor,
+                            },
+                          }),
+                        }}
+                        isDisabled={schedulesLoading ? true : false}
+                      />
+
+                      <FormFeedback
+                        style={{
+                          display:
+                            formik.errors.scheduleId &&
+                            formik.touched.scheduleId
+                              ? 'block'
+                              : 'none',
+                        }}
+                      >
+                        {formik.errors.scheduleId}
+                      </FormFeedback>
+                    </FormGroup>
+                  </Col>
+
+                  <Col sm={4}>
+                    <FormGroup>
+                      <Label>Rest Days</Label>
+
+                      <Select
+                        name="scheduleRestDays"
+                        id="scheduleRestDays"
+                        isMulti={true}
+                        options={listOfRestDays}
+                        value={selectedRestDays}
+                        onBlur={formik.handleBlur}
+                        onChange={o => setSelectedRestDays(o)}
+                        styles={{
+                          control: styles => ({
+                            ...styles,
+                            borderColor:
+                              formik.errors.scheduleId &&
+                              formik.touched.scheduleId
+                                ? 'red'
+                                : styles.borderColor,
+                            '&:hover': {
+                              borderColor:
+                                formik.errors.scheduleId &&
+                                formik.touched.scheduleId
+                                  ? 'red'
+                                  : styles['&:hover'].borderColor,
+                            },
+                          }),
+                        }}
+                      />
+                    </FormGroup>
+                  </Col>
                 </Row>
               </div>
             </div>

@@ -28,7 +28,7 @@ import {
   SET_PSB_ROLES,
   ADD_PSB_ROLE_TO_OPTIONS,
   REMOVE_PSB_ROLE_FROM_OPTIONS,
-} from "./actionTypes"
+} from './actionTypes'
 
 const INIT_STATE = {
   response: {
@@ -40,19 +40,19 @@ const INIT_STATE = {
       id: '',
       noOfApplicants: '',
       psbMembers: [],
-      schedule: {}
+      schedule: {},
     },
     psbSummary: {
       positionDetails: {},
       ranking: [],
-      postingDate: "",
-      numberOfApplicants: "",
-      dateOfPanelInterview: "",
-      numberOfQualifiedApplicants: "",
-      numberOfInterviewedApplicants: "",
-      interviewDone: "",
-      allPsbSubmitted: "",
-      salaryGrade: "",
+      postingDate: '',
+      numberOfApplicants: '',
+      dateOfPanelInterview: '',
+      numberOfQualifiedApplicants: '',
+      numberOfInterviewedApplicants: '',
+      interviewDone: '',
+      allPsbSubmitted: '',
+      salaryGrade: '',
       signatories: [],
     },
     selectedByAppointingAuth: [],
@@ -189,7 +189,7 @@ const personnelSelectionBoard = (state = INIT_STATE, action) => {
             id: '',
             noOfApplicants: '',
             psbMembers: [],
-            schedule: {}
+            schedule: {},
           },
         },
         loading: {
@@ -220,7 +220,6 @@ const personnelSelectionBoard = (state = INIT_STATE, action) => {
         },
       }
 
-
     case GET_PSB_DETAILS_FAIL:
       return {
         ...state,
@@ -243,14 +242,14 @@ const personnelSelectionBoard = (state = INIT_STATE, action) => {
             ...state.response.psbSummary,
             positionDetails: {},
             ranking: [],
-            postingDate: "",
-            numberOfApplicants: "",
-            dateOfPanelInterview: "",
-            numberOfQualifiedApplicants: "",
-            numberOfInterviewedApplicants: "",
-            interviewDone: "",
-            allPsbSubmitted: "",
-            salaryGrade: "",
+            postingDate: '',
+            numberOfApplicants: '',
+            dateOfPanelInterview: '',
+            numberOfQualifiedApplicants: '',
+            numberOfInterviewedApplicants: '',
+            interviewDone: '',
+            allPsbSubmitted: '',
+            salaryGrade: '',
             signatories: [],
           },
         },

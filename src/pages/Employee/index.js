@@ -18,7 +18,7 @@ import {
 } from 'reactstrap'
 
 // modal components
-import PortalRegistrationModal from 'components/Modal/Portal/PortalRegistrationModal'
+import PortalRegistrationModal from 'components/Modal/Employee/PortalRegistrationModal'
 
 // table components
 import TableEmployeeList from 'components/Table/TableEmployeeList'
@@ -96,6 +96,7 @@ const EmployeeList = () => {
               PDS
             </Link>
           </DropdownItem>
+
           <DropdownItem>
             <Link
               className="dropdown-item"
@@ -109,6 +110,7 @@ const EmployeeList = () => {
               201
             </Link>
           </DropdownItem>
+
           <DropdownItem>
             <Link
               className="dropdown-item"
@@ -129,6 +131,15 @@ const EmployeeList = () => {
     )
   }
 
+  /**
+   * Modal
+   */
+  // Register Employee to Portal
+  const [showAdd, setShowAdd] = useState(false)
+  const handleCloseAdd = () => setShowAdd(false)
+  const handleShowAdd = () => setShowAdd(true)
+
+  //  function to convert string
   const convertToUrlString = str => {
     if (typeof str === 'string') {
       return str.replace(/\s+/g, '-') + '/'
@@ -143,11 +154,6 @@ const EmployeeList = () => {
 
   const columns = useMemo(() => tableColumns, [])
   const data = useMemo(() => employeeListRes, [employeeListRes])
-
-  // Register Employee to Portal
-  const [showAdd, setShowAdd] = useState(false)
-  const handleCloseAdd = () => setShowAdd(false)
-  const handleShowAdd = () => setShowAdd(true)
 
   useEffect(() => {
     dispatch(fetchEmployeeList())

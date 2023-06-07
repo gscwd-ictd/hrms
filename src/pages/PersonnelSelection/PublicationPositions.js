@@ -38,7 +38,7 @@ import SendPsbSummaryToAppointingAuth from 'components/Modal/Confirmation/SendPs
 import ViewSelectedByAppointingAuth from 'components/Modal/PersonnelSelection/ViewSelectedByAppointingAuth'
 import SelectionDocuments from 'components/Modal/PersonnelSelection/SelectionDocuments'
 import SetAppointmentEffectivity from 'components/Modal/PersonnelSelection/SetAppointmentEffectivity'
-import PublicationDetails from 'components/Modal/PersonnelSelection/PublicationDetails/index'
+import PublicationSummary from 'components/Modal/PersonnelSelection/PublicationSummary/index'
 
 // style
 import 'styles/custom_gscwd/components/table.scss'
@@ -658,7 +658,7 @@ const PublicationPositions = () => {
                       prfId={prfId}
                     />
 
-                    <PublicationDetails
+                    <PublicationSummary
                       showPublicationDetails={showPublicationDetails}
                       modalData={modalData}
                       handleClosePublicationDetails={

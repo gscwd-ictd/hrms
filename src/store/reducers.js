@@ -1,84 +1,87 @@
-import { combineReducers } from "redux"
+import { combineReducers } from 'redux'
 
 // Front
-import Layout from "./layout/reducer"
+import Layout from './layout/reducer'
 
 // Authentication
-import Login from "./auth/login/reducer"
-import Account from "./auth/register/reducer"
-import ForgetPassword from "./auth/forgetpwd/reducer"
-import Profile from "./auth/profile/reducer"
+import Login from './auth/login/reducer'
+import Account from './auth/register/reducer'
+import ForgetPassword from './auth/forgetpwd/reducer'
+import Profile from './auth/profile/reducer'
 
 //Dashboard
-import Dashboard from "./dashboard/reducer"
+import Dashboard from './dashboard/reducer'
 
 //Dashboard saas
-import DashboardSaas from "./dashboard-saas/reducer"
+import DashboardSaas from './dashboard-saas/reducer'
 
 // organization structure
-import departmentList from "./organization-structure/department/reducer"
-import divisionList from "./organization-structure/division/reducer"
-import officeList from "./organization-structure/office/reducer"
+import departmentList from './organization-structure/department/reducer'
+import divisionList from './organization-structure/division/reducer'
+import officeList from './organization-structure/office/reducer'
 
 // prf
-import positionRequest from "./prf/reducer"
+import positionRequest from './prf/reducer'
 
 // employee
-import employee from "./employee/reducer"
+import employee from './employee/reducer'
 
 //plantilla
-import plantilla from "./plantilla/reducer"
-import jobDescription from "./job-description/reducer"
+import plantilla from './plantilla/reducer'
+import jobDescription from './job-description/reducer'
 
 // duties and responsibilities
-import dutiesResponsibilities from "./duties-responsibilities/reducer"
+import dutiesResponsibilities from './duties-responsibilities/reducer'
 
 // pds
-import pds from "./pds/reducer"
+import pds from './pds/reducer'
 
 // qualification standards
-import qualificationStandards from "./qualification-standards/reducer"
+import qualificationStandards from './qualification-standards/reducer'
 
 // occupations
-import Occupation from "./occupations/reducer"
+import Occupation from './occupations/reducer'
 
 // salary grade
-import salaryGrade from "./salary-grade/reducer"
+import salaryGrade from './salary-grade/reducer'
 
 // competency
-import occupationCompetencySet from "./competency/occupation/reducer"
-import positionCompetencySet from "./competency/position/reducer"
-import competencyModel from "./competency/model/reducer"
+import occupationCompetencySet from './competency/occupation/reducer'
+import positionCompetencySet from './competency/position/reducer'
+import competencyModel from './competency/model/reducer'
 
 //Calendar
-import calendar from "./calendar/reducer"
+import calendar from './calendar/reducer'
 
 // Countries
-import countries from "./countries/reducer"
+import countries from './countries/reducer'
 
 // Committee
-import committee from "./committee/reducer"
+import committee from './committee/reducer'
 
 // Publication
-import publications from "./publication/reducer"
+import publications from './publication/reducer'
 
 // Personnel Selection Board
-import personnelSelectionBoard from "./personnel-selection-board/reducer"
+import personnelSelectionBoard from './personnel-selection-board/reducer'
 
 // Applicant
-import applicants from "./applicants/reducer"
+import applicants from './applicants/reducer'
 
 // Officer-In-Charge
-import officerInCharge from "./officer-in-charge/reducer"
+import officerInCharge from './officer-in-charge/reducer'
 
 // Users
-import users from "./users/reducer"
+import users from './users/reducer'
 
 // Modules
-import modules from "./modules/reducer"
+import modules from './modules/reducer'
 
 // System Logs
-import systemLogs from "./system-logs/reducer"
+import systemLogs from './system-logs/reducer'
+
+// Schedules
+import schedules from './schedules/reducer'
 
 // TEST
 // import otpService from "./test/otp/reducer"
@@ -117,6 +120,7 @@ const rootReducer = combineReducers({
   users,
   modules,
   systemLogs,
+  schedules,
   // otpService,
 })
 
