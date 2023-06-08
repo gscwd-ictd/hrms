@@ -178,7 +178,8 @@ export const PATCH_APPLICANTS_EXAM_SCORES = 'applicant/scores/'
 
 export const ENDORSED_APPLICANTS = 'qualified/'
 export const SHORTLISTED_APPLICANTS = 'shortlisted/'
-export const HIRED_EXTERNAL_CONFIRMED_APPLICANTS = 'xyz/'
+export const HIRED_EXTERNAL_CONFIRMED_APPLICANTS =
+  'confirmed/external/onboarding/all/'
 
 export const HIRING_PROCESS_RESULTS = 'hiring-process-results/'
 
@@ -212,4 +213,4 @@ export const SYSTEM_LOGS = 'user-logs/'
 export const VERSION_2 = '/v2'
 
 // SCHEDULES
-export const SCHEDULES = '/schedules'
+export const SCHEDULES = 'schedules/dropdown/'

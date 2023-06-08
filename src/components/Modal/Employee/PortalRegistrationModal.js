@@ -6,10 +6,8 @@ import { listOfRestDays } from 'constants/selectInputs'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   submitEmpAssgn,
-  fetchPlantillaPositionsSelect,
   fetchSchedules,
   resetEmpAssgnResponse,
-  resetPlantillaPositions,
   fetchEmployeeList,
   fetchHiredExternalConfirmedApplicants,
 } from 'store/actions'
@@ -22,8 +20,6 @@ import {
   Alert,
   Form,
   Label,
-  Input,
-  FormText,
   FormFeedback,
   Modal,
   ModalHeader,
@@ -42,46 +38,42 @@ import 'styles/custom_gscwd/pages/employeeassignment.scss'
 const PortalRegistrationModal = props => {
   const { showAdd, handleCloseAdd } = props
   const dispatch = useDispatch()
-  const [selectedPosition, setSelectedPosition] = useState(null)
+  const [selectedApplicant, setSelectedApplicant] = useState(null)
+  const [selectedSchedule, setSelectedSchedule] = useState(null)
   const [selectedRestDays, setSelectedRestDays] = useState([])
 
-  // redux state for employee assignment
-  const { empAssignmentRes, isLoading, error } = useSelector(state => ({
-    empAssignmentRes: state.employee.empAssignmentRes,
-    isLoading: state.employee.isLoading,
-    error: state.employee.error,
-  }))
-
-  // redux state for list of plantilla positions
-  const { positionsOptions, positionsLoading, positionsError } = useSelector(
-    state => ({
-      positionsOptions: state.plantilla.plantillaPositions,
-      positionsLoading: state.plantilla.isLoading,
-      positionsError: state.plantilla.error,
-    })
-  )
+  const {} = useSelector(state => ({}))
 
   const {
+    employeeAssignmentResponse,
+    loadingEmployeeAssignmentResponse,
+    errorEmployeeAssignmentResponse,
+
     hiredExternalConfirmedApplicants,
     loadinghiredExternalConfirmedApplicants,
     errorhiredExternalConfirmedApplicants,
 
     schedules,
-    schedulesLoading,
-    schedulesError,
+    loadingSchedules,
+    errorSchedules,
   } = useSelector(state => ({
+    // redux state for employee assignment
+    employeeAssignmentResponse: state.employee.empAssignmentRes,
+    isLoading: state.employee.isLoading,
+    error: state.employee.error,
+
     // redux state for list of external, hired, and confirmed applicants
     hiredExternalConfirmedApplicants:
       state.applicants.hiredExternalConfirmedApplicants,
     loadinghiredExternalConfirmedApplicants:
-      state.applicants.loading.loadinghiredExternalConfirmedApplicants,
+      state.applicants.loading.loadingHiredExternalConfirmedApplicants,
     errorhiredExternalConfirmedApplicants:
-      state.applicants.error.errorhiredExternalConfirmedApplicants,
+      state.applicants.error.errorHiredExternalConfirmedApplicants,
 
     // redux state for list schedules
     schedules: state.schedules.schedules,
-    schedulesLoading: state.schedules.isLoading,
-    schedulesError: state.schedules.error,
+    loadingSchedules: state.schedules.isLoading,
+    errorSchedules: state.schedules.error,
   }))
 
   // formik initialization
@@ -100,53 +92,77 @@ const PortalRegistrationModal = props => {
       restDays: [],
     },
     validationSchema: Yup.object().shape({
-      firstName: Yup.string().required('Please enter a first name'),
-      lastName: Yup.string().required('Please enter a last name'),
-      email: Yup.string().required('Please enter an email address'),
-
-      scheduleId: Yup.string().required('Please select a schedule.'),
+      applicantId: Yup.string().required('Please select an applicant'),
+      scheduleId: Yup.string().required('Please select a schedule'),
+      restDays: Yup.array().min(2, 'Select atleast 2 rest days'),
     }),
     onSubmit: values => {
+      // console.log(values)
       dispatch(submitEmpAssgn(values))
     },
   })
 
-  const handleChangeSelect = selectedOption => {
-    setSelectedPosition(selectedOption)
-    formik.values.salaryGrade = selectedOption.value.salaryGrade
+  // on change of input field for selecting applicant
+  const handleSelectedApplicant = selectedOption => {
+    console.log(selectedOption)
+    setSelectedApplicant(selectedOption)
+
+    formik.setFieldValue('firstName', selectedOption.value.applicantFirstName)
+    formik.setFieldValue('lastName', selectedOption.value.applicantLastName)
+    formik.setFieldValue('middleName', selectedOption.value.applicantMiddleName)
+    formik.setFieldValue(
+      'nameExtension',
+      selectedOption.value.applicantNameExtension
+    )
+    formik.setFieldValue('email', selectedOption.value.email)
+    formik.setFieldValue('salaryGrade', selectedOption.value.salaryGradeLevel)
+  }
+
+  // on change of input field for selecting rest days
+  const handleSelectedRestDays = selectedOptions => {
+    setSelectedRestDays(selectedOptions)
+
+    let restDays = []
+    selectedOptions.map(option => {
+      const restDay = option.value
+      restDays.push(restDay)
+    })
+
+    formik.setFieldValue('restDays', restDays)
   }
 
   // Reset response state upon close of modal
   useEffect(() => {
     if (showAdd) {
-      dispatch(fetchPlantillaPositionsSelect())
-      dispatch(fetchSchedules())
       dispatch(fetchHiredExternalConfirmedApplicants())
+      dispatch(fetchSchedules())
     } else {
       dispatch(resetEmpAssgnResponse())
-      dispatch(resetPlantillaPositions())
     }
   }, [showAdd])
 
   // Execute after successful submission of form
   useEffect(() => {
-    if (!isEmpty(empAssignmentRes)) {
-      dispatch(resetPlantillaPositions())
-      dispatch(resetEmpAssgnResponse())
+    if (!isEmpty(employeeAssignmentResponse)) {
       dispatch(fetchEmployeeList())
-
       formik.resetForm()
-      setSelectedPosition(null)
+
+      dispatch(resetEmpAssgnResponse())
+      setSelectedApplicant(null)
+      setSelectedSchedule(null)
+      setSelectedRestDays([])
+
+      handleCloseAdd()
     }
-  }, [empAssignmentRes])
+  }, [employeeAssignmentResponse])
 
   return (
     <>
-      <Modal isOpen={showAdd} toggle={handleCloseAdd} size="xl" centered>
+      <Modal isOpen={showAdd} toggle={handleCloseAdd} size="lg" centered>
         <ModalHeader toggle={handleCloseAdd}>Portal Registration</ModalHeader>
 
         {/* Info Alert with Spinner */}
-        {isLoading ? (
+        {loadingEmployeeAssignmentResponse ? (
           <Alert
             color="info"
             className="alert-dismissible fade show"
@@ -157,13 +173,10 @@ const PortalRegistrationModal = props => {
         ) : null}
 
         {/* Error Alert */}
-        {error ? (
-          <ToastrNotification toastType={'error'} notifMessage={error} />
-        ) : null}
-        {positionsError ? (
+        {errorEmployeeAssignmentResponse ? (
           <ToastrNotification
             toastType={'error'}
-            notifMessage={'Error: Failed to retrieve plantilla positions'}
+            notifMessage={errorEmployeeAssignmentResponse}
           />
         ) : null}
         {errorhiredExternalConfirmedApplicants ? (
@@ -172,7 +185,7 @@ const PortalRegistrationModal = props => {
             notifMessage={'Error: Failed to retrieve applicants'}
           />
         ) : null}
-        {schedulesError ? (
+        {errorSchedules ? (
           <ToastrNotification
             toastType={'error'}
             notifMessage={'Error: Failed to retrieve schedules'}
@@ -180,10 +193,10 @@ const PortalRegistrationModal = props => {
         ) : null}
 
         {/* Success Alert */}
-        {!isEmpty(empAssignmentRes) ? (
+        {!isEmpty(employeeAssignmentResponse) ? (
           <ToastrNotification
             toastType={'success'}
-            notifMessage={'Employee Successfully Assigned'}
+            notifMessage={'Employee successfully registered'}
           />
         ) : null}
 
@@ -199,182 +212,69 @@ const PortalRegistrationModal = props => {
             <div className="outer">
               <div className="outer">
                 <Row>
-                  <Col sm={4}>
+                  <Col sm={12}>
                     <FormGroup>
-                      <Label for="formrow-fName-Input">First Name</Label>
-                      <Input
-                        name="firstName"
-                        type="text"
-                        id="formrow-fName-Input"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.firstName || ''}
-                        invalid={
-                          formik.touched.firstName && formik.errors.firstName
-                            ? true
-                            : false
-                        }
-                      />
-                      {formik.touched.firstName && formik.errors.firstName ? (
-                        <FormFeedback type="invalid">
-                          {formik.errors.firstName}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
-
-                  <Col sm={4}>
-                    <FormGroup>
-                      <Label for="formrow-lName-Input">Last Name</Label>
-                      <Input
-                        name="lastName"
-                        type="text"
-                        id="formrow-lName-Input"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.lastName || ''}
-                        invalid={
-                          formik.touched.lastName && formik.errors.lastName
-                            ? true
-                            : false
-                        }
-                      />
-                      {formik.touched.lastName && formik.errors.lastName ? (
-                        <FormFeedback type="invalid">
-                          {formik.errors.lastName}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
-
-                  <Col sm={4}>
-                    <FormGroup>
-                      <Label for="formrow-mName-Input">Middle Name</Label>
-                      <Input
-                        name="middleName"
-                        type="text"
-                        id="formrow-mName-Input"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.middleName || ''}
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
-
-                <Row>
-                  <Col sm={2}>
-                    <FormGroup>
-                      <Label for="formrow-nameExtension-Input">
-                        Name Extension
-                      </Label>
-                      <Input
-                        name="nameExtension"
-                        type="text"
-                        id="formrow-nameExtension-Input"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.nameExtension || ''}
-                      />
-                      <FormText color="muted">(Jr, Sr, II)</FormText>
-                    </FormGroup>
-                  </Col>
-
-                  <Col sm={5}>
-                    <FormGroup>
-                      <Label for="position-selection">Position Title</Label>
-                      {positionsLoading ? (
-                        <i className="mdi mdi-loading mdi-spin ms-2 "></i>
-                      ) : null}
+                      <Label for="applicantId">Applicants</Label>
 
                       <Select
-                        name="positionId"
-                        id="position-selection"
+                        name="applicantId"
+                        id="applicantId"
                         onChange={selectedOption => {
-                          formik.handleChange('positionId')(
-                            selectedOption.value.positionId
+                          formik.handleChange('applicantId')(
+                            selectedOption.value.applicantId
                           )
-                          handleChangeSelect(selectedOption)
+                          handleSelectedApplicant(selectedOption)
                         }}
                         onBlur={formik.handleBlur}
-                        value={selectedPosition || ''}
-                        options={positionsOptions}
+                        value={selectedApplicant || ''}
+                        getOptionLabel={option =>
+                          `${option.label}  |  ${option.value.itemNumber}  |  ${option.value.positionTitle} `
+                        }
+                        options={hiredExternalConfirmedApplicants}
                         styles={{
                           control: styles => ({
                             ...styles,
                             borderColor:
-                              formik.errors.positionId &&
-                              formik.touched.positionId
+                              formik.errors.applicantId &&
+                              formik.touched.applicantId
                                 ? 'red'
                                 : styles.borderColor,
                             '&:hover': {
                               borderColor:
-                                formik.errors.positionId &&
-                                formik.touched.positionId
+                                formik.errors.applicantId &&
+                                formik.touched.applicantId
                                   ? 'red'
                                   : styles['&:hover'].borderColor,
                             },
                           }),
                         }}
-                        isDisabled={positionsLoading ? true : false}
+                        isDisabled={
+                          loadinghiredExternalConfirmedApplicants ? true : false
+                        }
+                        isLoading={
+                          loadinghiredExternalConfirmedApplicants ? true : false
+                        }
                       />
 
                       <FormFeedback
                         style={{
                           display:
-                            formik.errors.positionId &&
-                            formik.touched.positionId
+                            formik.errors.applicantId &&
+                            formik.touched.applicantId
                               ? 'block'
                               : 'none',
                         }}
                       >
-                        {formik.errors.positionId}
+                        {formik.errors.applicantId}
                       </FormFeedback>
                     </FormGroup>
                   </Col>
-
-                  <Col sm={5}>
-                    <FormGroup>
-                      <Label for="formrow-email-Input">Email</Label>
-                      <Input
-                        name="email"
-                        type="email"
-                        id="formrow-email-Input"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.email || ''}
-                        invalid={
-                          formik.touched.email && formik.errors.email
-                            ? true
-                            : false
-                        }
-                      />
-                      {formik.touched.email && formik.errors.email ? (
-                        <FormFeedback type="invalid">
-                          {formik.errors.email}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
-
-                  <Input
-                    name="salaryGrade"
-                    type="hidden"
-                    id="formrow-salaryGrade-Input"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.salaryGrade || ''}
-                  />
                 </Row>
 
                 <Row>
-                  <Col sm={8}>
+                  <Col sm={7}>
                     <FormGroup>
-                      <Label for="position-selection">Schedules</Label>
-                      {schedulesLoading ? (
-                        <i className="mdi mdi-loading mdi-spin ms-2 "></i>
-                      ) : null}
-
+                      <Label for="scheduleId">Schedules</Label>
                       <Select
                         name="scheduleId"
                         id="scheduleId"
@@ -382,11 +282,10 @@ const PortalRegistrationModal = props => {
                           formik.handleChange('scheduleId')(
                             selectedOption.value.id
                           )
-                          // handleChangeSelect(selectedOption)
+                          setSelectedSchedule(selectedOption)
                         }}
                         onBlur={formik.handleBlur}
-                        // value={selectedPosition || ''}
-                        getOptionLabel={option => `${option.name}`}
+                        value={selectedSchedule || ''}
                         options={schedules}
                         styles={{
                           control: styles => ({
@@ -405,8 +304,40 @@ const PortalRegistrationModal = props => {
                             },
                           }),
                         }}
-                        isDisabled={schedulesLoading ? true : false}
+                        isDisabled={loadingSchedules ? true : false}
+                        isLoading={loadingSchedules ? true : false}
                       />
+                      <FormFeedback
+                        style={{
+                          display: !isEmpty(selectedSchedule)
+                            ? 'block'
+                            : 'none',
+                          color: 'gray',
+                        }}
+                      >
+                        {!isEmpty(selectedSchedule) ? (
+                          <>
+                            <span className="fw-medium"> Time In:</span>{' '}
+                            {selectedSchedule.value.timeIn}
+                            &nbsp;<span className="fw-bold">|</span>&nbsp;
+                            <span className="fw-medium">Time Out:</span>{' '}
+                            {selectedSchedule.value.timeOut}
+                            &nbsp;<span className="fw-bold">|</span>&nbsp;
+                            <span className="fw-medium">Lunch In:</span>{' '}
+                            {selectedSchedule.value.lunchIn
+                              ? selectedSchedule.value.lunchIn
+                              : '--'}
+                            &nbsp;<span className="fw-bold">|</span>&nbsp;
+                            <span className="fw-medium">Lunch Out:</span>{' '}
+                            {selectedSchedule.value.lunchOut
+                              ? selectedSchedule.value.lunchOut
+                              : '--'}
+                            &nbsp;<span className="fw-bold">|</span>&nbsp;
+                            <span className="fw-medium">Shift:</span>{' '}
+                            {selectedSchedule.value.shift || ''}
+                          </>
+                        ) : null}
+                      </FormFeedback>
 
                       <FormFeedback
                         style={{
@@ -422,36 +353,47 @@ const PortalRegistrationModal = props => {
                     </FormGroup>
                   </Col>
 
-                  <Col sm={4}>
+                  <Col sm={5}>
                     <FormGroup>
-                      <Label>Rest Days</Label>
-
+                      <Label for="restDays">Rest Days</Label>
                       <Select
-                        name="scheduleRestDays"
-                        id="scheduleRestDays"
+                        name="restDays"
+                        id="restDays"
                         isMulti={true}
                         options={listOfRestDays}
                         value={selectedRestDays}
                         onBlur={formik.handleBlur}
-                        onChange={o => setSelectedRestDays(o)}
+                        onChange={selectedOptions => {
+                          handleSelectedRestDays(selectedOptions)
+                        }}
                         styles={{
                           control: styles => ({
                             ...styles,
                             borderColor:
-                              formik.errors.scheduleId &&
-                              formik.touched.scheduleId
+                              formik.errors.restDays && formik.touched.restDays
                                 ? 'red'
                                 : styles.borderColor,
                             '&:hover': {
                               borderColor:
-                                formik.errors.scheduleId &&
-                                formik.touched.scheduleId
+                                formik.errors.restDays &&
+                                formik.touched.restDays
                                   ? 'red'
                                   : styles['&:hover'].borderColor,
                             },
                           }),
                         }}
                       />
+
+                      <FormFeedback
+                        style={{
+                          display:
+                            formik.errors.restDays && formik.touched.restDays
+                              ? 'block'
+                              : 'none',
+                        }}
+                      >
+                        {formik.errors.restDays}
+                      </FormFeedback>
                     </FormGroup>
                   </Col>
                 </Row>

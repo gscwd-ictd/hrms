@@ -158,7 +158,7 @@ const INIT_STATE = {
     loadingRAIDocument: false,
     loadingCoAtDDocument: false,
     loadingCoADocument: false,
-    loadinghiredExternalConfirmedApplicants: false,
+    loadingHiredExternalConfirmedApplicants: false,
   },
   error: {
     errorApplicants: null,
@@ -174,7 +174,7 @@ const INIT_STATE = {
     errorRAIDocument: null,
     errorCoAtDDocument: null,
     errorCoADocument: null,
-    errorhiredExternalConfirmedApplicants: null,
+    errorHiredExternalConfirmedApplicants: null,
   },
 }
 
@@ -870,11 +870,11 @@ const applicants = (state = INIT_STATE, action) => {
         hiredExternalConfirmedApplicants: [],
         loading: {
           ...state.loading,
-          loadinghiredExternalConfirmedApplicants: true,
+          loadingHiredExternalConfirmedApplicants: true,
         },
         error: {
           ...state.error,
-          errorhiredExternalConfirmedApplicants: null,
+          errorHiredExternalConfirmedApplicants: null,
         },
       }
     case GET_HIRED_EXTERNAL_APPLICANTS_SUCCESS:
@@ -883,7 +883,7 @@ const applicants = (state = INIT_STATE, action) => {
         hiredExternalConfirmedApplicants: action.payload,
         loading: {
           ...state.loading,
-          loadinghiredExternalConfirmedApplicants: false,
+          loadingHiredExternalConfirmedApplicants: false,
         },
       }
     case GET_HIRED_EXTERNAL_APPLICANTS_FAIL:
@@ -891,11 +891,11 @@ const applicants = (state = INIT_STATE, action) => {
         ...state,
         loading: {
           ...state.loading,
-          loadinghiredExternalConfirmedApplicants: false,
+          loadingHiredExternalConfirmedApplicants: false,
         },
         error: {
           ...state.error,
-          errorhiredExternalConfirmedApplicants: action.payload,
+          errorHiredExternalConfirmedApplicants: action.payload,
         },
       }
 

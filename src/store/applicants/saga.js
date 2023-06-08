@@ -14,6 +14,7 @@ import {
   getDocumentCertificateOfAppointment,
   getDocumentPositionDescriptionDBMCSC,
   postDbmCscAdditionalData,
+  getHiredExternalConfirmedApplicants,
 } from 'helpers/backend_helper'
 import {
   fetchApplicantsSuccess,
