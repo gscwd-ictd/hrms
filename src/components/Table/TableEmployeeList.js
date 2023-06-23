@@ -1,5 +1,5 @@
 import React from "react"
-import { Table } from "reactstrap"
+import { Table, Button } from "reactstrap"
 import {
   useFilters,
   useGlobalFilter,
@@ -25,7 +25,6 @@ const TableEmployeeList = props => {
         hiddenColumns: [
           "employmentDetails.employeeId",
           "employmentDetails.positionId",
-          "employmentDetails.natureOfAppointment",
         ],
       },
     },
@@ -49,28 +48,48 @@ const TableEmployeeList = props => {
     state,
     setGlobalFilter,
     preGlobalFilteredRows,
+    setAllFilters
   } = tableInstance
 
   const { globalFilter, pageIndex, pageSize } = state
 
+  const revertSelectFilter = event => {
+    event.preventDefault()
+    setAllFilters([])
+  }
+
   return (
     <>
+  
+
       <div className="flex-container filters-wrapper">
         <GlobalFilter
           preGlobalFilteredRows={preGlobalFilteredRows}
           globalFilter={globalFilter}
           setGlobalFilter={setGlobalFilter}
         />
-        <div className="column-filters">
+      </div>
+
+      <div className="container-fluid column-filters-row2 gap-2 my-4">
+        <label className="col-md-2 col-form-label">Column Filters:</label>
+        <div className="filters d-flex gap-3">
           {headerGroups.map(headerGroup =>
-            headerGroup.headers.map((column, i) =>
+            headerGroup.headers.map(column =>
               column.Filter ? (
-                <div className={"sm:mt-0 filter-" + i} key={i}>
+                <div className="mt-1 filter-item" key={column.id}>
                   {column.render("Filter")}
                 </div>
               ) : null
             )
           )}
+          <Button
+            onClick={revertSelectFilter}
+            color="light"
+            outline
+            className="btn-md waves-effect"
+          >
+            <i className="fas fa-undo"></i>
+          </Button>
         </div>
       </div>
 

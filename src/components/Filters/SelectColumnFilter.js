@@ -1,6 +1,6 @@
-import React, { useMemo } from "react"
-import PropTypes from "prop-types"
-import { Input, Label, Row, Col } from "reactstrap"
+import React, { useMemo } from 'react'
+import PropTypes from 'prop-types'
+import { Input, Label, Row, Col } from 'reactstrap'
 
 export const SelectColumnFilter = props => {
   const {
@@ -19,13 +19,13 @@ export const SelectColumnFilter = props => {
 
   return (
     <div className="d-flex gap-1">
-      <Label className="col-form-label text-nowrap">{render("Header")}:</Label>
+      <Label className="col-form-label text-nowrap">{render('Header')}:</Label>
       <Input
         type="select"
         className="dropdown-col-filter"
         title={id}
         name={id}
-        value={filterValue || "All"}
+        value={filterValue || 'All'}
         onChange={e => {
           setFilter(e.target.value || undefined)
         }}
@@ -33,7 +33,11 @@ export const SelectColumnFilter = props => {
         <option value="">All</option>
         {options.map((option, i) =>
           option !== undefined ? (
-            <option key={i} value={option}>
+            <option
+              key={i}
+              value={option}
+              style={{ textTransform: 'capitalize' }}
+            >
               {option}
             </option>
           ) : null

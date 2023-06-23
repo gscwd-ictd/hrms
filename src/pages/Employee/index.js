@@ -62,9 +62,16 @@ const EmployeeList = () => {
       Filter: SelectColumnFilter,
     },
     {
-      Header: '',
+      Header: 'Appointment',
       accessor: 'employmentDetails.natureOfAppointment',
-      disableGlobalFilter: true,
+      Cell: cell => {
+        return (
+          <p style={{ textTransform: 'capitalize' }}>
+            {cell.row.values[`employmentDetails.natureOfAppointment`]}
+          </p>
+        )
+      },
+      Filter: SelectColumnFilter,
     },
     {
       Header: 'Actions',

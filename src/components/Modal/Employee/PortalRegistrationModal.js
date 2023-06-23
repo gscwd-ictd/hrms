@@ -20,6 +20,7 @@ import {
   Alert,
   Form,
   Label,
+  Input,
   FormFeedback,
   Modal,
   ModalHeader,
@@ -82,29 +83,28 @@ const PortalRegistrationModal = props => {
 
     initialValues: {
       applicantId: '',
+      positionId: '',
+      email: '',
+      scheduleId: '',
+      restDays: [],
       firstName: '',
       lastName: '',
       middleName: '',
       nameExtension: '',
-      email: '',
-      salaryGrade: 0,
-      scheduleId: '',
-      restDays: [],
     },
     validationSchema: Yup.object().shape({
       applicantId: Yup.string().required('Please select an applicant'),
       scheduleId: Yup.string().required('Please select a schedule'),
       restDays: Yup.array().min(2, 'Select atleast 2 rest days'),
+      email: Yup.string().required('Please use the official GSCWD email'),
     }),
     onSubmit: values => {
-      // console.log(values)
       dispatch(submitEmpAssgn(values))
     },
   })
 
   // on change of input field for selecting applicant
   const handleSelectedApplicant = selectedOption => {
-    console.log(selectedOption)
     setSelectedApplicant(selectedOption)
 
     formik.setFieldValue('firstName', selectedOption.value.applicantFirstName)
@@ -114,8 +114,8 @@ const PortalRegistrationModal = props => {
       'nameExtension',
       selectedOption.value.applicantNameExtension
     )
-    formik.setFieldValue('email', selectedOption.value.email)
-    formik.setFieldValue('salaryGrade', selectedOption.value.salaryGradeLevel)
+
+    formik.setFieldValue('positionId', selectedOption.value.positionId)
   }
 
   // on change of input field for selecting rest days
@@ -394,6 +394,31 @@ const PortalRegistrationModal = props => {
                       >
                         {formik.errors.restDays}
                       </FormFeedback>
+                    </FormGroup>
+                  </Col>
+
+                  <Col sm={6}>
+                    <FormGroup>
+                      <Label for="email">Email</Label>
+                      <Input
+                        name="email"
+                        type="email"
+                        className="form-control"
+                        id="email-Input"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.email || ''}
+                        invalid={
+                          formik.touched.email && formik.errors.email
+                            ? true
+                            : false
+                        }
+                      />
+                      {formik.touched.email && formik.errors.email ? (
+                        <FormFeedback type="invalid">
+                          {formik.errors.email}
+                        </FormFeedback>
+                      ) : null}
                     </FormGroup>
                   </Col>
                 </Row>
