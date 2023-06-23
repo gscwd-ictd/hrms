@@ -416,7 +416,7 @@ const LearningAndDevelopmentPdf = props => {
 
       {renderLearningDevelopmentRows()}
 
-      {learningDevelopment.length < 21 ? (
+      {learningDevelopment.length < 18 ? (
         <>{renderEmptyLearningDevelopmentRows()}</>
       ) : null}
 

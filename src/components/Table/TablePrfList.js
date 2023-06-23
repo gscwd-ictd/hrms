@@ -1,10 +1,11 @@
 import React from "react"
-import { Table } from "reactstrap"
+import { Table, Button } from "reactstrap"
 import {
   useFilters,
   useGlobalFilter,
   usePagination,
   useTable,
+  useSortBy,
 } from "react-table"
 import { GlobalFilter } from "components/Filters/GlobalFilter"
 import PropTypes from "prop-types"
@@ -21,12 +22,13 @@ const TablePrfList = props => {
       data,
       initialState: {
         pageIndex: 0,
-        hiddenColumns: ["_id"],
+        hiddenColumns: ["_id", "for"],
         pageSize: 10,
       },
     },
     useFilters,
     useGlobalFilter,
+    useSortBy,
     usePagination
   )
   const {
@@ -44,9 +46,15 @@ const TablePrfList = props => {
     state,
     setGlobalFilter,
     preGlobalFilteredRows,
+    setAllFilters,
   } = tableInstance
 
   const { globalFilter, pageIndex, pageSize } = state
+
+  const revertSelectFilter = event => {
+    event.preventDefault()
+    setAllFilters([])
+  }
 
   return (
     <>
@@ -56,16 +64,28 @@ const TablePrfList = props => {
           globalFilter={globalFilter}
           setGlobalFilter={setGlobalFilter}
         />
-        <div className="column-filters">
+      </div>
+
+      <div className="container-fluid column-filters-row2 gap-2 my-4">
+        <label className="col-md-2 col-form-label">Column Filters:</label>
+        <div className="filters d-flex gap-3">
           {headerGroups.map(headerGroup =>
             headerGroup.headers.map(column =>
               column.Filter ? (
-                <div className="mt-2 sm:mt-0" key={column.id}>
+                <div className="mt-1 filter-item" key={column.id}>
                   {column.render("Filter")}
                 </div>
               ) : null
             )
           )}
+          <Button
+            onClick={revertSelectFilter}
+            color="light"
+            outline
+            className="btn-md waves-effect"
+          >
+            <i className="fas fa-undo"></i>
+          </Button>
         </div>
       </div>
 
@@ -80,12 +100,25 @@ const TablePrfList = props => {
             <tr {...headerGroup.getHeaderGroupProps()} key={hGi}>
               {headerGroup.headers.map((column, hi) => (
                 <th
-                  {...column.getHeaderProps()}
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
                   key={hi}
                   className={"th_" + column.getHeaderProps("Header").key}
                   style={{ textAlign: column.align ? "center" : "left" }}
+
                 >
                   {column.render("Header")}
+                  {/* Sort */}
+                  <span>
+                    {column.isSorted ? (
+                      column.isSortedDesc ? (
+                        <i className="bx bx-up-arrow pl-1"></i>
+                      ) : (
+                        <i className="bx bx-down-arrow pl-1"></i>
+                      )
+                    ) : (
+                      ""
+                    )}
+                  </span>
                 </th>
               ))}
             </tr>
@@ -103,9 +136,9 @@ const TablePrfList = props => {
                         style={
                           cell.column.align
                             ? {
-                                width: "fit-content",
-                                margin: "auto",
-                              }
+                              width: "fit-content",
+                              margin: "auto",
+                            }
                             : {}
                         }
                       >

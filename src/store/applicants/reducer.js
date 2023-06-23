@@ -39,26 +39,24 @@ import {
   GET_APPLICANT_DBMCSC_DETAILS,
   GET_APPLICANT_DBMCSC_DETAILS_SUCCESS,
   GET_APPLICANT_DBMCSC_DETAILS_FAIL,
+  GET_HIRED_EXTERNAL_APPLICANTS,
+  GET_HIRED_EXTERNAL_APPLICANTS_SUCCESS,
+  GET_HIRED_EXTERNAL_APPLICANTS_FAIL,
   RESET_APPLICANTS_RESPONSES,
-} from "./actionTypes"
-import update from "immutability-helper"
+} from './actionTypes'
+import update from 'immutability-helper'
 
 const INIT_STATE = {
   applicantList: [],
   qualifiedApplicantList: [],
   endorsedApplicantList: {
     requestingEntity: {
-      name: "",
-      position: "",
+      name: '',
+      position: '',
     },
     postingApplicants: [],
   },
   shortlistedApplicantList: [],
-  response: {
-    patchApplicantsScores: [],
-    patchApplicantApplicationStatus: {},
-    postDbmCscAdditionalDetails: {},
-  },
   pds: {
     personalInfo: {},
     permanentAddress: {},
@@ -102,9 +100,9 @@ const INIT_STATE = {
   },
   certificationOfAssumptionToDuty: {
     data: {
-      applicantName: "",
-      positionTitle: "",
-      placeOfAssignment: "",
+      applicantName: '',
+      positionTitle: '',
+      placeOfAssignment: '',
       effectivityDate: {},
     },
     signatories: [],
@@ -121,8 +119,8 @@ const INIT_STATE = {
       external: {},
     },
     workingCondition: {},
-    generalFunctionOfUnit: "",
-    jobSummary: "",
+    generalFunctionOfUnit: '',
+    jobSummary: '',
     qualificationStandards: {},
     competencies: {
       core: [],
@@ -132,7 +130,19 @@ const INIT_STATE = {
       core: [],
       support: [],
     },
-    signatories: {},
+    signatories: {
+      employee: '',
+      hrdDepartmentManager: {
+        employeeName: '',
+        positionTitle: '',
+      },
+    },
+  },
+  hiredExternalConfirmedApplicants: [],
+  response: {
+    patchApplicantsScores: [],
+    patchApplicantApplicationStatus: {},
+    postDbmCscAdditionalDetails: {},
   },
   loading: {
     loadingApplicants: false,
@@ -148,6 +158,7 @@ const INIT_STATE = {
     loadingRAIDocument: false,
     loadingCoAtDDocument: false,
     loadingCoADocument: false,
+    loadingHiredExternalConfirmedApplicants: false,
   },
   error: {
     errorApplicants: null,
@@ -163,6 +174,7 @@ const INIT_STATE = {
     errorRAIDocument: null,
     errorCoAtDDocument: null,
     errorCoADocument: null,
+    errorHiredExternalConfirmedApplicants: null,
   },
 }
 
@@ -245,8 +257,8 @@ const applicants = (state = INIT_STATE, action) => {
           ...state.endorsedApplicantList,
           requestingEntity: {
             ...state.endorsedApplicantList.requestingEntity,
-            name: "",
-            position: "",
+            name: '',
+            position: '',
           },
           postingApplicants: [],
         },
@@ -612,9 +624,9 @@ const applicants = (state = INIT_STATE, action) => {
         certificationOfAssumptionToDuty: {
           ...state.certificationOfAssumptionToDuty,
           data: {
-            applicantName: "",
-            positionTitle: "",
-            placeOfAssignment: "",
+            applicantName: '',
+            positionTitle: '',
+            placeOfAssignment: '',
             effectivityDate: {},
           },
           signatories: [],
@@ -760,8 +772,8 @@ const applicants = (state = INIT_STATE, action) => {
             external: {},
           },
           workingCondition: {},
-          generalFunctionOfUnit: "",
-          jobSummary: "",
+          generalFunctionOfUnit: '',
+          jobSummary: '',
           qualificationStandards: {},
           competencies: {
             ...state.dbmCscPositionDescriptionForm.competencies,
@@ -773,7 +785,16 @@ const applicants = (state = INIT_STATE, action) => {
             core: [],
             support: [],
           },
-          signatories: {},
+          signatories: {
+            ...state.dbmCscPositionDescriptionForm.signatories,
+            employee: '',
+            hrdDepartmentManager: {
+              ...state.dbmCscPositionDescriptionForm.signatories
+                .hrdDepartmentManager,
+              employeeName: '',
+              positionTitle: '',
+            },
+          },
         },
         loading: {
           ...state.loading,
@@ -812,7 +833,18 @@ const applicants = (state = INIT_STATE, action) => {
             core: action.payload.dutiesAndResponsibilities.core,
             support: action.payload.dutiesAndResponsibilities.support,
           },
-          signatories: action.payload.signatories,
+          signatories: {
+            ...state.dbmCscPositionDescriptionForm.signatories,
+            employee: action.payload.signatories.employee,
+            hrdDepartmentManager: {
+              ...state.dbmCscPositionDescriptionForm.signatories
+                .hrdDepartmentManager,
+              employeeName:
+                action.payload.signatories.hrdDepartmentManager.employeeName,
+              positionTitle:
+                action.payload.signatories.hrdDepartmentManager.positionTitle,
+            },
+          },
         },
         loading: {
           ...state.loading,
@@ -829,6 +861,41 @@ const applicants = (state = INIT_STATE, action) => {
         error: {
           ...state.error,
           errorDbmCscPositionDescriptionForm: action.payload,
+        },
+      }
+
+    case GET_HIRED_EXTERNAL_APPLICANTS:
+      return {
+        ...state,
+        hiredExternalConfirmedApplicants: [],
+        loading: {
+          ...state.loading,
+          loadingHiredExternalConfirmedApplicants: true,
+        },
+        error: {
+          ...state.error,
+          errorHiredExternalConfirmedApplicants: null,
+        },
+      }
+    case GET_HIRED_EXTERNAL_APPLICANTS_SUCCESS:
+      return {
+        ...state,
+        hiredExternalConfirmedApplicants: action.payload,
+        loading: {
+          ...state.loading,
+          loadingHiredExternalConfirmedApplicants: false,
+        },
+      }
+    case GET_HIRED_EXTERNAL_APPLICANTS_FAIL:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingHiredExternalConfirmedApplicants: false,
+        },
+        error: {
+          ...state.error,
+          errorHiredExternalConfirmedApplicants: action.payload,
         },
       }
 

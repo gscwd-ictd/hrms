@@ -486,17 +486,6 @@ const CBIRDocument = props => {
                       <View style={[styles.rowContainer]}>
                         {/* RECOMMENDATION */}
                         <View style={[styles.w60, { paddingRight: 5 }]}>
-                          {/* RECOMMENDATION VALUE */}
-                          {/* <View style={[{ paddingBottom: 15 }]}>
-                            <Text>RECOMMENDATION:</Text>
-                            <Text style={[styles.borderBottom]}>
-                              {
-                                psb.competencyBasedInterviewReport
-                                  .recommendation
-                              }
-                            </Text>
-                          </View> */}
-
                           {/* PSB MEMBER DETAILS */}
                           <View style={[styles.rowContainer]}>
                             {/* PSB ROLE */}
@@ -535,7 +524,6 @@ const CBIRDocument = props => {
                                 style={[styles.signature]}
                               />
                               <View style={[styles.borderBottom]}>
-                                {" "}
                                 <Text style={[{ textTransform: "uppercase" }]}>
                                   {
                                     psb.competencyBasedInterviewReport
@@ -557,7 +545,6 @@ const CBIRDocument = props => {
                               ]}
                             >
                               <View style={[styles.borderBottom]}>
-                                {" "}
                                 <Text style={[{ textTransform: "uppercase" }]}>
                                   {
                                     psb.competencyBasedInterviewReport
@@ -1573,7 +1560,6 @@ const CBIRDocument = props => {
                             ]}
                           >
                             <View style={[styles.borderBottom]}>
-                              {" "}
                               <Text style={[{ textTransform: "uppercase" }]}>
                                 {
                                   psb.competencyBasedInterviewReport

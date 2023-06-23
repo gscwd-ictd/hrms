@@ -1,14 +1,13 @@
-import React, { useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import PropTypes from "prop-types"
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
 import {
   addCommittee,
   fetchCommittees,
   resetCommitteeResponse,
-} from "store/actions"
-import { isEmpty } from "lodash"
+} from 'store/actions'
+import { isEmpty } from 'lodash'
 
-import { Modal } from "react-bootstrap"
 import {
   Col,
   Row,
@@ -19,12 +18,16 @@ import {
   FormFeedback,
   Alert,
   Button,
-} from "reactstrap"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // Formik validation
-import * as Yup from "yup"
-import { useFormik } from "formik"
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 const AddCommitteeModal = props => {
   const { showAdd, handleCloseAdd } = props
@@ -42,13 +45,13 @@ const AddCommitteeModal = props => {
     enableReinitialize: true,
 
     initialValues: {
-      name: "",
-      description: "",
+      name: '',
+      description: '',
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Please enter a committee name"),
+      name: Yup.string().required('Please enter a committee name'),
       description: Yup.string().required(
-        "Please enter a committee description"
+        'Please enter a committee description'
       ),
     }),
     onSubmit: (values, { resetForm }) => {
@@ -75,10 +78,8 @@ const AddCommitteeModal = props => {
 
   return (
     <>
-      <Modal show={showAdd} onHide={handleCloseAdd} size="lg" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Committee Details</Modal.Title>
-        </Modal.Header>
+      <Modal isOpen={showAdd} toggle={handleCloseAdd} size="lg" centered>
+        <ModalHeader toggle={handleCloseAdd}>Committee Details</ModalHeader>
         {loadingCommittees ? (
           <Alert
             color="info"
@@ -91,26 +92,27 @@ const AddCommitteeModal = props => {
 
         {errorCommittees ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorCommittees}
           />
         ) : null}
 
         {!isEmpty(postCommitteeRes) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"New Committee Created"}
+            toastType={'success'}
+            notifMessage={'New Committee Created'}
           />
         ) : null}
 
-        <Form
-          onSubmit={e => {
-            e.preventDefault()
-            validation.handleSubmit()
-            return false
-          }}
-        >
-          <Modal.Body>
+        <ModalBody>
+          <Form
+            id="addCommitteeForm"
+            onSubmit={e => {
+              e.preventDefault()
+              validation.handleSubmit()
+              return false
+            }}
+          >
             <Row>
               <Col lg={12}>
                 <FormGroup>
@@ -122,7 +124,7 @@ const AddCommitteeModal = props => {
                     id="name-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.name || ""}
+                    value={validation.values.name || ''}
                     invalid={
                       validation.touched.name && validation.errors.name
                         ? true
@@ -147,7 +149,7 @@ const AddCommitteeModal = props => {
                     id="desc-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.description || ""}
+                    value={validation.values.description || ''}
                     invalid={
                       validation.touched.description &&
                       validation.errors.description
@@ -165,14 +167,14 @@ const AddCommitteeModal = props => {
                 </FormGroup>
               </Col>
             </Row>
-          </Modal.Body>
+          </Form>
+        </ModalBody>
 
-          <Modal.Footer>
-            <Button type="submit" color="info">
-              Submit
-            </Button>
-          </Modal.Footer>
-        </Form>
+        <ModalFooter>
+          <Button type="submit" form="addCommitteeForm" color="info">
+            Submit
+          </Button>
+        </ModalFooter>
       </Modal>
     </>
   )

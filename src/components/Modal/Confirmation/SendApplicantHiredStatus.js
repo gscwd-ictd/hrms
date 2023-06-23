@@ -1,19 +1,25 @@
-import React, { useEffect, useState } from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux'
 import {
   updateApplicantApplicationStatus,
   fetchSelectedByAppointingAuth,
   resetApplicantsResponses,
-} from "store/actions"
+} from 'store/actions'
 
-import { Modal } from "react-bootstrap"
-import { Alert, Button } from "reactstrap"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import {
+  Alert,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
-import "./confirmationModal.scss"
+import './confirmationModal.scss'
 
 const SendApplicantHiredStatus = props => {
   const {
@@ -61,20 +67,18 @@ const SendApplicantHiredStatus = props => {
   return (
     <>
       <Modal
-        show={showUpdateApplicantStatus}
-        onHide={handleCloseUpdateApplicantStatus}
+        isOpen={showUpdateApplicantStatus}
+        toggle={handleCloseUpdateApplicantStatus}
         size="sm"
         centered
         className="modal-confirmation"
       >
-        <Modal.Header closeButton>
-          {/* <Modal.Title>Close the Examination</Modal.Title> */}
-        </Modal.Header>
+        <ModalHeader toggle={handleCloseUpdateApplicantStatus}></ModalHeader>
 
         {/* Error Notif */}
         {errorApplicantApplicationStatus ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorApplicantApplicationStatus}
           />
         ) : null}
@@ -91,26 +95,26 @@ const SendApplicantHiredStatus = props => {
 
         {!isEmpty(patchApplicantApplicationStatus) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Applicant Status Updated"}
+            toastType={'success'}
+            notifMessage={'Applicant Status Updated'}
           />
         ) : null}
 
-        <Modal.Body>
-          <div className="d-grid gap-2" style={{ textAlign: "center" }}>
+        <ModalBody>
+          <div className="d-grid gap-2" style={{ textAlign: 'center' }}>
             <h5>
               Applicant status will be set to &quot;
               <span className="text-danger">{strApplicantStatus}</span>&quot;
             </h5>
             <h5>Do you want to proceed?</h5>
           </div>
-        </Modal.Body>
+        </ModalBody>
 
-        <Modal.Footer>
+        <ModalFooter>
           <Button color="info" onClick={() => handleSendApplicantStatus()}>
             Yes
           </Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </>
   )

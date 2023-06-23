@@ -1,32 +1,40 @@
-import React from "react"
-import { Modal } from "react-bootstrap"
-import { Button, Col, Row } from "reactstrap"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
+
+import {
+  Button,
+  Col,
+  Row,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
 
 const DeleteQSModal = props => {
   const { showDel, handleCloseDel, modalData } = props
 
   return (
     <>
-      <Modal show={showDel} onHide={handleCloseDel} size="sm" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Delete</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+      <Modal isOpen={showDel} toggle={handleCloseDel} size="sm" centered>
+        <ModalHeader toggle={handleCloseDel}>Confirm delete</ModalHeader>
+
+        <ModalBody>
           <Row>
             <Col lg={12}>
               <p>Are you sure you want to permanently delete this entry?</p>
             </Col>
           </Row>
-        </Modal.Body>
-        <Modal.Footer>
+        </ModalBody>
+
+        <ModalFooter>
           <Button type="submit" color="success">
             Confirm
           </Button>
           <Button color="danger" onClick={handleCloseDel}>
             Cancel
           </Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </>
   )

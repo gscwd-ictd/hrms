@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import React, { useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchCommitteeMembers,
   unassignCommitteeMembers,
@@ -9,18 +9,18 @@ import {
   selectEmployeeCheckBox,
   unselectEmployeeCheckBox,
   resetEmployeeCheckBoxes,
-} from "store/actions"
-import PropTypes from "prop-types"
-import { Can } from "casl/Can"
-import { Navigate, useParams } from "react-router-dom"
-import { isEmpty } from "lodash"
+} from 'store/actions'
+import PropTypes from 'prop-types'
+import { Can } from 'casl/Can'
+import { Navigate, useParams } from 'react-router-dom'
+import { isEmpty } from 'lodash'
 
-import { Container, Row, Col, Card, CardBody, Button, Input } from "reactstrap"
-import Select from "react-select"
-import TableCommitteeMembers from "components/Table/TableCommitteeMembers"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import Breadcrumb from "components/Common/Breadcrumb"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import { Container, Row, Col, Card, CardBody, Button, Input } from 'reactstrap'
+import Select from 'react-select'
+import TableCommitteeMembers from 'components/Table/TableCommitteeMembers'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import Breadcrumb from 'components/Common/Breadcrumb'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const CommitteeMembers = props => {
   const dispatch = useDispatch()
@@ -32,7 +32,7 @@ const CommitteeMembers = props => {
 
   const tableColumns = [
     {
-      id: "selection",
+      id: 'selection',
       disableGlobalFilter: true,
       Cell: function RowCheckBox({ cell }) {
         return (
@@ -45,13 +45,13 @@ const CommitteeMembers = props => {
       },
     },
     {
-      Header: "ID",
-      accessor: "employeeId",
+      Header: 'ID',
+      accessor: 'employeeId',
       disableGlobalFilter: true,
     },
     {
-      Header: "Name",
-      accessor: "fullName",
+      Header: 'Name',
+      accessor: 'fullName',
     },
   ]
 
@@ -193,13 +193,13 @@ const CommitteeMembers = props => {
             {/* Error Notif */}
             {errorMembers ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorMembers}
               />
             ) : null}
             {errorAvailableUnassignedEmployees ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorAvailableUnassignedEmployees}
               />
             ) : null}
@@ -207,14 +207,14 @@ const CommitteeMembers = props => {
             {/* Success Notif */}
             {!isEmpty(assignedMembers) ? (
               <ToastrNotification
-                toastType={"success"}
-                notifMessage={"Members successfully assigned"}
+                toastType={'success'}
+                notifMessage={'Members successfully assigned'}
               />
             ) : null}
             {!isEmpty(unassignedMembers) ? (
               <ToastrNotification
-                toastType={"success"}
-                notifMessage={"Members successfully unassigned"}
+                toastType={'success'}
+                notifMessage={'Members successfully unassigned'}
               />
             ) : null}
 

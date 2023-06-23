@@ -1,15 +1,23 @@
-import React, { useEffect } from "react"
-import { Modal } from "react-bootstrap"
-import { Button, Col, Row, Alert } from "reactstrap"
-import PropTypes from "prop-types"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import { isEmpty } from "lodash"
+import React, { useEffect } from 'react'
+import {
+  Button,
+  Col,
+  Row,
+  Alert,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import PropTypes from 'prop-types'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
+import { isEmpty } from 'lodash'
 import {
   removeCommittee,
   fetchCommittees,
   resetCommitteeResponse,
-} from "store/actions"
-import { useDispatch, useSelector } from "react-redux"
+} from 'store/actions'
+import { useDispatch, useSelector } from 'react-redux'
 
 const DeleteCommitteeModal = props => {
   const { showDel, handleCloseDel, modalData } = props
@@ -44,10 +52,8 @@ const DeleteCommitteeModal = props => {
 
   return (
     <>
-      <Modal show={showDel} onHide={handleCloseDel} size="sm" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Delete</Modal.Title>
-        </Modal.Header>
+      <Modal isOpen={showDel} toggle={handleCloseDel} size="sm" centered>
+        <ModalHeader toggle={handleCloseDel}>Confirm Delete</ModalHeader>
 
         {loadingCommittees ? (
           <Alert
@@ -62,7 +68,7 @@ const DeleteCommitteeModal = props => {
         {/* Error notification */}
         {errorCommittees ? (
           <ToastrNotification
-            toastType={"errorCommittees"}
+            toastType={'errorCommittees'}
             notifMessage={errorCommittees}
           />
         ) : null}
@@ -70,26 +76,26 @@ const DeleteCommitteeModal = props => {
         {/* Success notification */}
         {!isEmpty(delCommitteeResponse) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Committee Deleted"}
+            toastType={'success'}
+            notifMessage={'Committee Deleted'}
           />
         ) : null}
 
-        <Modal.Body>
+        <ModalBody>
           <Row>
             <Col lg={12}>
               <p>Are you sure you want to permanently delete this committee?</p>
             </Col>
           </Row>
-        </Modal.Body>
-        <Modal.Footer>
+        </ModalBody>
+        <ModalFooter>
           <Button type="submit" color="info" onClick={submitDelete}>
             Confirm
           </Button>
           <Button color="danger" onClick={handleCloseDel}>
             Cancel
           </Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </>
   )

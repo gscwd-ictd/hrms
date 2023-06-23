@@ -1,15 +1,23 @@
-import React, { useEffect, useState, useMemo } from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import React, { useEffect, useState, useMemo } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
-import { useDispatch, useSelector } from "react-redux"
-import { fetchPsbSummary } from "store/actions"
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchPsbSummary } from 'store/actions'
 
-import { Modal } from "react-bootstrap"
-import { Button, Col, Row, Table } from "reactstrap"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import CloseInterviewModal from "components/Modal/Confirmation/CloseInterviewModal"
+import {
+  Button,
+  Col,
+  Row,
+  Table,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import CloseInterviewModal from 'components/Modal/Confirmation/CloseInterviewModal'
 
 const PsbSummary = props => {
   const { showPsbSummary, modalData, handleClosePsbSummary, prfId } = props
@@ -40,22 +48,20 @@ const PsbSummary = props => {
   return (
     <>
       <Modal
-        show={showPsbSummary}
-        onHide={handleClosePsbSummary}
+        isOpen={showPsbSummary}
+        toggle={handleClosePsbSummary}
         fullscreen={true}
       >
-        <Modal.Header closeButton>
-          <Modal.Title>HRMPSB Summary</Modal.Title>
-        </Modal.Header>
+        <ModalHeader toggle={handleClosePsbSummary}>HRMPSB Summary</ModalHeader>
 
         {errorPsbSummary ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorPsbSummary}
           />
         ) : null}
 
-        <Modal.Body>
+        <ModalBody>
           <Row>
             <Col>
               {loadingPsbSummary ? (
@@ -179,17 +185,17 @@ const PsbSummary = props => {
               )}
             </Col>
           </Row>
-        </Modal.Body>
+        </ModalBody>
 
-        <Modal.Footer>
+        <ModalFooter>
           <Button
             color="info"
             onClick={() => handleShowCloseInterview()}
-            disabled={psbSummary.allPsbSubmitted == "0" ? true : false}
+            disabled={psbSummary.allPsbSubmitted == '0' ? true : false}
           >
             Close Interview
           </Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
 
       <CloseInterviewModal

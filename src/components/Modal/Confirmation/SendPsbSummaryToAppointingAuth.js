@@ -1,19 +1,25 @@
-import React, { useEffect } from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux'
 import {
   updatePublicationStatus,
   getPublications,
   resetPublicationResponses,
-} from "store/actions"
+} from 'store/actions'
 
-import { Modal } from "react-bootstrap"
-import { Alert, Button } from "reactstrap"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import {
+  Alert,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
-import "./confirmationModal.scss"
+import './confirmationModal.scss'
 
 const SendPsbSummaryToAppointingAuth = props => {
   const { showSendPsbSummary, modalData, prfId, handleCloseSendPsbSummary } =
@@ -31,7 +37,7 @@ const SendPsbSummaryToAppointingAuth = props => {
 
   const handleSendPsbSummary = () => {
     const psbSummaryData = {
-      postingStatus: "Appointing authority selection",
+      postingStatus: 'Appointing authority selection',
     }
     dispatch(updatePublicationStatus(modalData.vppId, psbSummaryData))
   }
@@ -48,20 +54,18 @@ const SendPsbSummaryToAppointingAuth = props => {
   return (
     <>
       <Modal
-        show={showSendPsbSummary}
-        onHide={handleCloseSendPsbSummary}
+        isOpen={showSendPsbSummary}
+        toggle={handleCloseSendPsbSummary}
         size="sm"
         centered
         className="modal-confirmation"
       >
-        <Modal.Header closeButton>
-          {/* <Modal.Title>Close the Examination</Modal.Title> */}
-        </Modal.Header>
+        <ModalHeader toggle={handleCloseSendPsbSummary}></ModalHeader>
 
         {/* Error Notif */}
         {errorSendPsbSummary ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorSendPsbSummary}
           />
         ) : null}
@@ -78,27 +82,27 @@ const SendPsbSummaryToAppointingAuth = props => {
 
         {!isEmpty(responseSendPsbSummary) ? (
           <ToastrNotification
-            toastType={"success"}
+            toastType={'success'}
             notifMessage={
               "Publication status updated to 'Appointing authority selection'"
             }
           />
         ) : null}
 
-        <Modal.Body>
+        <ModalBody>
           <div className="d-grid gap-2">
-            <h5 style={{ textAlign: "center" }}>
+            <h5 style={{ textAlign: 'center' }}>
               PSB summary will be sent to appointing authority for final
               selection. Are you sure you want to proceed?
             </h5>
           </div>
-        </Modal.Body>
+        </ModalBody>
 
-        <Modal.Footer>
+        <ModalFooter>
           <Button color="info" onClick={() => handleSendPsbSummary()}>
             Yes
           </Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </>
   )

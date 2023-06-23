@@ -1,15 +1,14 @@
-import React, { useEffect } from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux'
 import {
   updatePositionQualificationStandards,
   fetchQualificationStandardsList,
   resetQualificationStandards,
-} from "store/actions"
+} from 'store/actions'
 
-import { Modal } from "react-bootstrap"
 import {
   Button,
   Col,
@@ -20,12 +19,16 @@ import {
   FormGroup,
   Alert,
   FormFeedback,
-} from "reactstrap"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // Formik validation
-import * as Yup from "yup"
-import { useFormik } from "formik"
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 const EditQSModal = props => {
   const { showEdt, handleCloseEdt, modalData } = props
@@ -45,16 +48,16 @@ const EditQSModal = props => {
 
     initialValues: {
       positionId: modalData.positionId,
-      eligibility: modalData.eligibility || "",
-      education: modalData.education || "",
-      experience: modalData.experience || "",
-      training: modalData.training || "",
+      eligibility: modalData.eligibility || '',
+      education: modalData.education || '',
+      experience: modalData.experience || '',
+      training: modalData.training || '',
     },
     validationSchema: Yup.object({
-      eligibility: Yup.string().required("Please enter an eligibility"),
-      education: Yup.string().required("Please enter an education"),
-      experience: Yup.string().required("Please enter an experience"),
-      training: Yup.string().required("Please enter a training"),
+      eligibility: Yup.string().required('Please enter an eligibility'),
+      education: Yup.string().required('Please enter an education'),
+      experience: Yup.string().required('Please enter an experience'),
+      training: Yup.string().required('Please enter a training'),
     }),
     onSubmit: values => {
       dispatch(
@@ -87,10 +90,10 @@ const EditQSModal = props => {
 
   return (
     <>
-      <Modal show={showEdt} onHide={handleCloseEdt} size="lg" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>{modalData.positionTitle}</Modal.Title>
-        </Modal.Header>
+      <Modal isOpen={showEdt} toggle={handleCloseEdt} size="lg" centered>
+        <ModalHeader toggle={handleCloseEdt}>
+          {modalData.positionTitle}
+        </ModalHeader>
 
         {isLoading ? (
           <Alert
@@ -103,24 +106,25 @@ const EditQSModal = props => {
         ) : null}
 
         {error ? (
-          <ToastrNotification toastType={"error"} notifMessage={error} />
+          <ToastrNotification toastType={'error'} notifMessage={error} />
         ) : null}
 
         {!isEmpty(responsePut) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Update Successful"}
+            toastType={'success'}
+            notifMessage={'Update Successful'}
           />
         ) : null}
 
-        <Form
-          onSubmit={e => {
-            e.preventDefault()
-            validation.handleSubmit()
-            return false
-          }}
-        >
-          <Modal.Body>
+        <ModalBody>
+          <Form
+            id="editQualificationForm"
+            onSubmit={e => {
+              e.preventDefault()
+              validation.handleSubmit()
+              return false
+            }}
+          >
             <Row>
               <Col lg={12}>
                 <FormGroup>
@@ -132,7 +136,7 @@ const EditQSModal = props => {
                     id="eligibility-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.eligibility || ""}
+                    value={validation.values.eligibility || ''}
                     invalid={
                       validation.touched.eligibility &&
                       validation.errors.eligibility
@@ -156,7 +160,7 @@ const EditQSModal = props => {
                     id="education-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.education || ""}
+                    value={validation.values.education || ''}
                     invalid={
                       validation.touched.education &&
                       validation.errors.education
@@ -180,7 +184,7 @@ const EditQSModal = props => {
                     id="experience-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.experience || ""}
+                    value={validation.values.experience || ''}
                     invalid={
                       validation.touched.experience &&
                       validation.errors.experience
@@ -204,7 +208,7 @@ const EditQSModal = props => {
                     id="training-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.training || ""}
+                    value={validation.values.training || ''}
                     invalid={
                       validation.touched.training && validation.errors.training
                         ? true
@@ -219,17 +223,17 @@ const EditQSModal = props => {
                 </FormGroup>
               </Col>
             </Row>
-          </Modal.Body>
+          </Form>
+        </ModalBody>
 
-          <Modal.Footer>
-            <Button type="submit" color="info">
-              Update
-            </Button>
-            <Button color="danger" onClick={handleCloseEdt}>
-              Cancel
-            </Button>
-          </Modal.Footer>
-        </Form>
+        <ModalFooter>
+          <Button type="submit" form="editQualificationForm" color="info">
+            Update
+          </Button>
+          <Button color="danger" onClick={handleCloseEdt}>
+            Cancel
+          </Button>
+        </ModalFooter>
       </Modal>
     </>
   )

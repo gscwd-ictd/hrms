@@ -536,6 +536,7 @@ const publications = (state = INIT_STATE, action) => {
             post: {},
             patch: {},
           },
+          appointmentEffectivity: {},
         },
         error: {
           ...state.error,

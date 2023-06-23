@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import React, { useEffect, useState } from 'react'
+import { isEmpty } from 'lodash'
+import PropTypes from 'prop-types'
+
+import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchNonUsers,
   fetchUsers,
   addUser,
   resetUserResponse,
   fetchHrmsModules,
-} from "store/actions"
-import { isEmpty } from "lodash"
-import PropTypes from "prop-types"
+} from 'store/actions'
 
-import { Modal } from "react-bootstrap"
 import {
   Col,
   Row,
@@ -21,13 +21,17 @@ import {
   Alert,
   Button,
   Input,
-} from "reactstrap"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import Select from "react-select"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
+import Select from 'react-select'
 
 // Formik formik
-import * as Yup from "yup"
-import { useFormik } from "formik"
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 const AddUserModal = props => {
   const { showAdd, handleCloseAdd } = props
@@ -67,11 +71,11 @@ const AddUserModal = props => {
     enableReinitialize: true,
 
     initialValues: {
-      employeeId: "",
+      employeeId: '',
       userRoles: userRoles,
     },
     validationSchema: Yup.object({
-      employeeId: Yup.string().required("Please select an employee"),
+      employeeId: Yup.string().required('Please select an employee'),
     }),
     onSubmit: values => {
       dispatch(addUser(values))
@@ -134,152 +138,145 @@ const AddUserModal = props => {
   }, [modulesList])
 
   return (
-    <>
-      <Modal
-        show={showAdd}
-        onHide={handleCloseAdd}
-        size="lg"
-        animation={false}
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Assign HRMS User</Modal.Title>
-        </Modal.Header>
+    <Modal
+      isOpen={showAdd}
+      toggle={handleCloseAdd}
+      size="lg"
+      animation={false}
+      centered
+    >
+      <ModalHeader toggle={handleCloseAdd}>Assign HRMS User</ModalHeader>
 
-        {/* Notifications */}
-        {loadingResponse ? (
-          <Alert
-            color="info"
-            className="alert-dismissible fade show m-3"
-            role="alert"
-          >
-            <i className="mdi mdi-loading mdi-spin me-2 "></i> Sending Request
-          </Alert>
-        ) : null}
+      {/* Notifications */}
+      {loadingResponse ? (
+        <Alert
+          color="info"
+          className="alert-dismissible fade show m-3"
+          role="alert"
+        >
+          <i className="mdi mdi-loading mdi-spin me-2 "></i> Sending Request
+        </Alert>
+      ) : null}
 
-        {errorResponse ? (
-          <ToastrNotification
-            toastType={"error"}
-            notifMessage={errorResponse}
-          />
-        ) : null}
-        {errorNonUserList ? (
-          <ToastrNotification
-            toastType={"error"}
-            notifMessage={errorNonUserList}
-          />
-        ) : null}
+      {errorResponse ? (
+        <ToastrNotification toastType={'error'} notifMessage={errorResponse} />
+      ) : null}
+      {errorNonUserList ? (
+        <ToastrNotification
+          toastType={'error'}
+          notifMessage={errorNonUserList}
+        />
+      ) : null}
 
-        {!isEmpty(postAddUser) ? (
-          <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Employee assigned successfully as HRMS user"}
-          />
-        ) : null}
+      {!isEmpty(postAddUser) ? (
+        <ToastrNotification
+          toastType={'success'}
+          notifMessage={'Employee assigned successfully as HRMS user'}
+        />
+      ) : null}
 
+      <ModalBody>
         <Form
+          id="addUserForm"
           onSubmit={e => {
             e.preventDefault()
             formik.handleSubmit()
             return false
           }}
         >
-          <Modal.Body>
-            <Row>
-              <Col md={12}>
-                <FormGroup>
-                  <Label for="name-Input">Employee</Label>
-                  {loadingNonUserList ? (
-                    <i className="mdi mdi-loading mdi-spin ms-2 "></i>
-                  ) : null}
+          <Row>
+            <Col md={12}>
+              <FormGroup>
+                <Label for="name-Input">Employee</Label>
+                {loadingNonUserList ? (
+                  <i className="mdi mdi-loading mdi-spin ms-2 "></i>
+                ) : null}
 
-                  <Select
-                    name="employeeId"
-                    id="employee-selection"
-                    onChange={selectedOption => {
-                      formik.handleChange("employeeId")(
-                        selectedOption.value.employeeId
-                      )
-                      handleSelectEmployee(selectedOption)
-                    }}
-                    onBlur={formik.handleBlur}
-                    value={selectedEmployee || ""}
-                    options={nonUserList}
-                    getOptionLabel={option =>
-                      `${option.value.fullName} | ${option.value.positionTitle}`
-                    }
-                    styles={{
-                      control: styles => ({
-                        ...styles,
+                <Select
+                  name="employeeId"
+                  id="employee-selection"
+                  onChange={selectedOption => {
+                    formik.handleChange('employeeId')(
+                      selectedOption.value.employeeId
+                    )
+                    handleSelectEmployee(selectedOption)
+                  }}
+                  onBlur={formik.handleBlur}
+                  value={selectedEmployee || ''}
+                  options={nonUserList}
+                  getOptionLabel={option =>
+                    `${option.value.fullName} | ${option.value.positionTitle}`
+                  }
+                  styles={{
+                    control: styles => ({
+                      ...styles,
+                      borderColor:
+                        formik.errors.employeeId && formik.touched.employeeId
+                          ? 'red'
+                          : styles.borderColor,
+                      '&:hover': {
                         borderColor:
                           formik.errors.employeeId && formik.touched.employeeId
-                            ? "red"
-                            : styles.borderColor,
-                        "&:hover": {
-                          borderColor:
-                            formik.errors.employeeId &&
-                            formik.touched.employeeId
-                              ? "red"
-                              : styles["&:hover"].borderColor,
-                        },
-                      }),
-                    }}
-                    isDisabled={loadingNonUserList ? true : false}
-                  />
+                            ? 'red'
+                            : styles['&:hover'].borderColor,
+                      },
+                    }),
+                  }}
+                  isDisabled={loadingNonUserList ? true : false}
+                />
 
-                  <FormFeedback
-                    style={{
-                      display:
-                        formik.errors.employeeId && formik.touched.employeeId
-                          ? "block"
-                          : "none",
-                    }}
-                  >
-                    {formik.errors.employeeId}
-                  </FormFeedback>
-                </FormGroup>
+                <FormFeedback
+                  style={{
+                    display:
+                      formik.errors.employeeId && formik.touched.employeeId
+                        ? 'block'
+                        : 'none',
+                  }}
+                >
+                  {formik.errors.employeeId}
+                </FormFeedback>
+              </FormGroup>
 
-                <FormGroup row>
-                  <Label sm={2}>Modules</Label>
+              <FormGroup row>
+                <Label sm={2}>Modules</Label>
 
-                  <Col style={{ columns: 2 }}>
-                    {loadingModulesList ||
-                    isEmpty(formik.values.userRoles) ||
-                    isEmpty(userRoles) ? (
-                      <i className="mdi mdi-loading mdi-spin "></i>
-                    ) : (
-                      userRoles.map((role, index) => {
-                        return (
-                          <FormGroup check key={index}>
-                            <Input
-                              name={`userRoles[${index}].hasAccess`}
-                              id={role.slug + "-checkbox"}
-                              type="checkbox"
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBlur}
-                            />
+                <Col style={{ columns: 2 }}>
+                  {loadingModulesList ||
+                  isEmpty(formik.values.userRoles) ||
+                  isEmpty(userRoles) ? (
+                    <i className="mdi mdi-loading mdi-spin "></i>
+                  ) : (
+                    userRoles.map((role, index) => {
+                      return (
+                        <FormGroup check key={index}>
+                          <Input
+                            name={`userRoles[${index}].hasAccess`}
+                            id={role.slug + '-checkbox'}
+                            type="checkbox"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
 
-                            <Label for={role.slug + "-checkbox"} check>
-                              {role.module}
-                            </Label>
-                          </FormGroup>
-                        )
-                      })
-                    )}
-                  </Col>
-                </FormGroup>
-              </Col>
-            </Row>
-          </Modal.Body>
-
-          <Modal.Footer>
-            <Button type="submit" color="info">
-              Submit
-            </Button>
-          </Modal.Footer>
+                          <Label for={role.slug + '-checkbox'} check>
+                            {role.module}
+                          </Label>
+                        </FormGroup>
+                      )
+                    })
+                  )}
+                </Col>
+              </FormGroup>
+            </Col>
+          </Row>
         </Form>
-      </Modal>
-    </>
+      </ModalBody>
+
+      <ModalFooter>
+        <Button type="submit" form="addUserForm" color="info">
+          Submit
+        </Button>
+      </ModalFooter>
+    </Modal>
   )
 }
 

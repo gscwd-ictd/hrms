@@ -1,22 +1,21 @@
-import React, { useState, useEffect } from "react"
-import { Modal } from "react-bootstrap"
-import { Row, Col, Table } from "reactstrap"
-import { isEmpty } from "lodash"
-import { fetchCalendarInterviewSchedules } from "store/actions"
-import { useDispatch, useSelector } from "react-redux"
+import React, { useState, useEffect } from 'react'
+import { Row, Col, Table, Modal, ModalHeader, ModalBody } from 'reactstrap'
+import { isEmpty } from 'lodash'
+import { fetchCalendarInterviewSchedules } from 'store/actions'
+import { useDispatch, useSelector } from 'react-redux'
 
 // Calendar
-import FullCalendar from "@fullcalendar/react"
-import dayGridPlugin from "@fullcalendar/daygrid"
-import interactionPlugin from "@fullcalendar/interaction"
-import BootstrapTheme from "@fullcalendar/bootstrap"
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import interactionPlugin from '@fullcalendar/interaction'
+import BootstrapTheme from '@fullcalendar/bootstrap'
 
 // extra components
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // style
-import "@fullcalendar/bootstrap/main.css"
+import '@fullcalendar/bootstrap/main.css'
 
 const InterviewScheduleCalendar = () => {
   const dispatch = useDispatch()
@@ -56,8 +55,8 @@ const InterviewScheduleCalendar = () => {
       psbMembers: event._def.extendedProps.psbMembers,
       scheduleType: event._def.extendedProps.scheduleType,
       venue: event._def.extendedProps.venue,
-      start: event.start.toLocaleString("en-US", {
-        timeZone: "Asia/Manila",
+      start: event.start.toLocaleString('en-US', {
+        timeZone: 'Asia/Manila',
       }),
     })
 
@@ -71,7 +70,7 @@ const InterviewScheduleCalendar = () => {
   return (
     <>
       {error ? (
-        <ToastrNotification toastType={"error"} notifMessage={error} />
+        <ToastrNotification toastType={'error'} notifMessage={error} />
       ) : null}
 
       {isLoading ? (
@@ -82,9 +81,9 @@ const InterviewScheduleCalendar = () => {
           handleWindowResize={true}
           themeSystem="bootstrap"
           headerToolbar={{
-            left: "prev,next today",
-            center: "title",
-            right: "",
+            left: 'prev,next today',
+            center: 'title',
+            right: '',
           }}
           editable={false}
           droppable={false}
@@ -95,11 +94,12 @@ const InterviewScheduleCalendar = () => {
       )}
 
       {/* View Event */}
-      <Modal show={modalViewEvent} onHide={toggle} size="lg" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>{modalViewEvent ? event.positionTitle : ""}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+      <Modal isOpen={modalViewEvent} toggle={toggle} size="lg" centered>
+        <ModalHeader toggle={toggle}>
+          {modalViewEvent ? event.positionTitle : ''}
+        </ModalHeader>
+
+        <ModalBody>
           <Row>
             <Col md={12}>
               {!isEmpty(event) ? (
@@ -151,7 +151,7 @@ const InterviewScheduleCalendar = () => {
               ) : null}
             </Col>
           </Row>
-        </Modal.Body>
+        </ModalBody>
       </Modal>
     </>
   )

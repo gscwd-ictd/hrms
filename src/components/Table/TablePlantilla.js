@@ -60,25 +60,28 @@ const TablePlantilla = props => {
           globalFilter={globalFilter}
           setGlobalFilter={setGlobalFilter}
         />
-        <div className="column-filters">
+      </div>
+
+      <div className="container-fluid column-filters-row2 gap-2 my-4">
+        <label className="col-md-2 col-form-label">Column Filters:</label>
+        <div className="filters d-flex gap-3">
           {headerGroups.map(headerGroup =>
             headerGroup.headers.map(column =>
               column.Filter ? (
-                <div className="sm:mt-0" key={column.id}>
+                <div className="mt-1 filter-item" key={column.id}>
                   {column.render("Filter")}
                 </div>
               ) : null
             )
           )}
-
-          {/* <Button
+          <Button
             onClick={revertSelectFilter}
             color="light"
             outline
-            className="btn-md waves-effect my-3"
+            className="btn-md waves-effect"
           >
             <i className="fas fa-undo"></i>
-          </Button> */}
+          </Button>
         </div>
       </div>
 

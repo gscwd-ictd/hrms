@@ -4,6 +4,7 @@ import {
   UPDATE_JOB_DESCRIPTION,
   UPDATE_JOB_DESCRIPTION_SUCCESS,
   JOB_DESCRIPTION_API_FAIL,
+  RESET_JOB_DESCRIPTION,
 } from "./actionTypes"
 
 const INIT_STATE = {
@@ -12,17 +13,29 @@ const INIT_STATE = {
       positionId: "",
       itemNumber: "",
       positionTitle: "",
-      salaryGrade: 0,
-      stepIncrement: 0,
-      actualSalary: 0,
+      salary: {
+        id: "",
+        salaryGrade: 0,
+        stepIncrement: 0,
+        amount: 0,
+      },
       natureOfAppointment: "",
       summary: "",
       description: "",
       reportsTo: "",
       assignedTo: {
-        office: "",
-        department: "",
-        division: "",
+        office: {
+          id: "",
+          name: "",
+        },
+        department: {
+          id: "",
+          name: "",
+        },
+        division: {
+          id: "",
+          name: "",
+        },
       },
     },
     patch: {},
@@ -47,18 +60,34 @@ const jobDescription = (state = INIT_STATE, action) => {
             positionId: "",
             itemNumber: "",
             positionTitle: "",
-            salaryGrade: 0,
-            stepIncrement: 0,
-            actualSalary: 0,
+            salary: {
+              ...state.response.get.salary,
+              id: "",
+              salaryGrade: 0,
+              stepIncrement: 0,
+              amount: 0,
+            },
             natureOfAppointment: "",
             summary: "",
             description: "",
             reportsTo: "",
             assignedTo: {
               ...state.response.get.assignedTo,
-              office: "",
-              department: "",
-              division: "",
+              office: {
+                ...state.response.get.assignedTo.office,
+                id: "",
+                name: "",
+              },
+              department: {
+                ...state.response.get.assignedTo.department,
+                id: "",
+                name: "",
+              },
+              division: {
+                ...state.response.get.assignedTo.division,
+                id: "",
+                name: "",
+              },
             },
           },
         },
@@ -81,18 +110,34 @@ const jobDescription = (state = INIT_STATE, action) => {
             positionId: action.payload.positionId,
             itemNumber: action.payload.itemNumber,
             positionTitle: action.payload.positionTitle,
-            salaryGrade: action.payload.salaryGrade,
-            stepIncrement: action.payload.stepIncrement,
-            actualSalary: action.payload.actualSalary,
+            salary: {
+              ...state.response.get.salary,
+              id: action.payload.salary.id,
+              salaryGrade: action.payload.salary.salaryGrade,
+              stepIncrement: action.payload.salary.stepIncrement,
+              amount: action.payload.salary.amount,
+            },
             natureOfAppointment: action.payload.natureOfAppointment,
             summary: action.payload.summary,
             description: action.payload.description,
             reportsTo: action.payload.reportsTo,
             assignedTo: {
               ...state.response.get.assignedTo,
-              office: action.payload.assignedTo.office,
-              department: action.payload.assignedTo.department,
-              division: action.payload.assignedTo.division,
+              office: {
+                ...state.response.get.assignedTo.office,
+                id: action.payload.assignedTo.office.id,
+                name: action.payload.assignedTo.office.name,
+              },
+              department: {
+                ...state.response.get.assignedTo.department,
+                id: action.payload.assignedTo.department.id,
+                name: action.payload.assignedTo.department.name,
+              },
+              division: {
+                ...state.response.get.assignedTo.division,
+                id: action.payload.assignedTo.division.id,
+                name: action.payload.assignedTo.division.name,
+              },
             },
           },
         },
@@ -143,6 +188,54 @@ const jobDescription = (state = INIT_STATE, action) => {
           errorJobDescription: action.payload,
         },
       }
+
+    case RESET_JOB_DESCRIPTION:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          get: {
+            ...state.response.get,
+            positionId: "",
+            itemNumber: "",
+            positionTitle: "",
+            salary: {
+              ...state.response.get.salary,
+              id: "",
+              salaryGrade: 0,
+              stepIncrement: 0,
+              amount: 0,
+            },
+            natureOfAppointment: "",
+            summary: "",
+            description: "",
+            reportsTo: "",
+            assignedTo: {
+              ...state.response.get.assignedTo,
+              office: {
+                ...state.response.get.assignedTo.office,
+                id: "",
+                name: "",
+              },
+              department: {
+                ...state.response.get.assignedTo.department,
+                id: "",
+                name: "",
+              },
+              division: {
+                ...state.response.get.assignedTo.division,
+                id: "",
+                name: "",
+              },
+            },
+          },
+          patch: {},
+        },
+        error: {
+          errorJobDescription: null,
+        },
+      }
+
     default:
       return state
   }

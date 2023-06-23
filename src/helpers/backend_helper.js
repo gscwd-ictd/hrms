@@ -4,9 +4,10 @@ import {
   postHris,
   putHris,
   patchHris,
-} from "./hris_api_helper"
-import { delEmp, getEmp, postEmp, putEmp } from "./employee_api_helper"
-import * as url from "./url_helper"
+} from './hris_api_helper'
+import { getEmp } from './employee_api_helper'
+import { getEmpMon } from './employee_monitoring_api_helper'
+import * as url from './url_helper'
 
 // Office ----------------------------------------------------------------------------
 export const getOfficeList = () => getHris(url.GET_OFFICES)
@@ -286,6 +287,8 @@ export const patchScheduleExamInterview = (scheduleId, newScheduleDetails) =>
     newScheduleDetails
   )
 
+export const getPsbDetails = vppId =>
+  getHris(url.PUBLICATIONS + url.PSB_DETAILS + vppId)
 export const getPsbSummary = vppId =>
   getHris(url.PUBLICATIONS + url.PSB_SUMMARY + vppId)
 export const getSelectedByAppointingAuthority = vppId =>
@@ -324,6 +327,12 @@ export const getEndorsedApplicants = vppId =>
   getHris(url.APPLICANT_ENDORSEMENT + url.ENDORSED_APPLICANTS + vppId)
 export const getShortlistedApplicants = vppId =>
   getHris(url.APPLICANT_ENDORSEMENT + url.SHORTLISTED_APPLICANTS + vppId)
+export const getHiredExternalConfirmedApplicants = () =>
+  getHris(
+    url.PUBLICATIONS +
+      url.QUALIFIED_APPLICANTS +
+      url.HIRED_EXTERNAL_CONFIRMED_APPLICANTS
+  )
 
 export const patchApplicantApplicationStatus = (
   positingApplicantId,
@@ -387,7 +396,7 @@ export const getDocumentResultsOfHiring = appointmentEffectivity =>
       url.PSB_SUMMARY +
       url.HRMS_REPORTS +
       url.RESULTS_OF_HIRING +
-      "?effectivity_date=" +
+      '?effectivity_date=' +
       appointmentEffectivity
   )
 export const getDocumentReportOnAppointmentsIssued = monthYear =>
@@ -425,3 +434,6 @@ export const patchHrmsModule = (moduleId, moduleDetails) =>
 // System Logs---------------------------------------------------------------------
 export const getSystemLogs = () => getHris(url.SYSTEM_LOGS)
 export const getSystemLog = logId => getHris(url.SYSTEM_LOGS + logId)
+
+// Schedules-----------------------------------------------------------------------
+export const getSchedules = () => getEmpMon(url.SCHEDULES)

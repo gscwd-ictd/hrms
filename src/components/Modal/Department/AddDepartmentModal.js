@@ -1,5 +1,10 @@
-import React, { useEffect } from "react"
-import { Modal } from "react-bootstrap"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
+
+import { postDepartment, getDepartments, resetDepartment } from 'store/actions'
+import { useDispatch, useSelector } from 'react-redux'
+
 import {
   Col,
   Row,
@@ -10,16 +15,16 @@ import {
   FormFeedback,
   Alert,
   Button,
-} from "reactstrap"
-import PropTypes from "prop-types"
-import { postDepartment, getDepartments, resetDepartment } from "store/actions"
-import { useDispatch, useSelector } from "react-redux"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import { isEmpty } from "lodash"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // Formik validation
-import * as Yup from "yup"
-import { useFormik } from "formik"
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 const AddDepartmentModal = props => {
   const { showAdd, handleCloseAdd } = props
@@ -39,18 +44,18 @@ const AddDepartmentModal = props => {
     enableReinitialize: true,
 
     initialValues: {
-      name: "",
-      code: "",
-      description: "",
-      officeId: "",
+      name: '',
+      code: '',
+      description: '',
+      officeId: '',
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Please enter a department name"),
-      code: Yup.string().required("Please enter a department code"),
+      name: Yup.string().required('Please enter a department name'),
+      code: Yup.string().required('Please enter a department code'),
       description: Yup.string().required(
-        "Please enter a department description"
+        'Please enter a department description'
       ),
-      officeId: Yup.string().required("Please select a parent office"),
+      officeId: Yup.string().required('Please select a parent office'),
     }),
     onSubmit: (values, { resetForm }) => {
       dispatch(postDepartment(values))
@@ -76,10 +81,8 @@ const AddDepartmentModal = props => {
 
   return (
     <>
-      <Modal show={showAdd} onHide={handleCloseAdd} size="lg" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Department Details</Modal.Title>
-        </Modal.Header>
+      <Modal isOpen={showAdd} toggle={handleCloseAdd} size="lg" centered>
+        <ModalHeader toggle={handleCloseAdd}>Department Details</ModalHeader>
         {isLoading ? (
           <Alert
             color="info"
@@ -91,24 +94,25 @@ const AddDepartmentModal = props => {
         ) : null}
 
         {error ? (
-          <ToastrNotification toastType={"error"} notifMessage={error} />
+          <ToastrNotification toastType={'error'} notifMessage={error} />
         ) : null}
 
         {!isEmpty(postDepartmentRes) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"New Department Created"}
+            toastType={'success'}
+            notifMessage={'New Department Created'}
           />
         ) : null}
 
-        <Form
-          onSubmit={e => {
-            e.preventDefault()
-            validation.handleSubmit()
-            return false
-          }}
-        >
-          <Modal.Body>
+        <ModalBody>
+          <Form
+            id="addDepartmentForm"
+            onSubmit={e => {
+              e.preventDefault()
+              validation.handleSubmit()
+              return false
+            }}
+          >
             <Row>
               <Col md={6}>
                 <FormGroup>
@@ -120,7 +124,7 @@ const AddDepartmentModal = props => {
                     id="name-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.name || ""}
+                    value={validation.values.name || ''}
                     invalid={
                       validation.touched.name && validation.errors.name
                         ? true
@@ -144,7 +148,7 @@ const AddDepartmentModal = props => {
                     id="code-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.code || ""}
+                    value={validation.values.code || ''}
                     invalid={
                       validation.touched.code && validation.errors.code
                         ? true
@@ -169,7 +173,7 @@ const AddDepartmentModal = props => {
                     rows="5"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.description || ""}
+                    value={validation.values.description || ''}
                     invalid={
                       validation.touched.description &&
                       validation.errors.description
@@ -195,7 +199,7 @@ const AddDepartmentModal = props => {
                     id="office-select"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.officeId || ""}
+                    value={validation.values.officeId || ''}
                     invalid={
                       validation.touched.officeId && validation.errors.officeId
                         ? true
@@ -206,7 +210,7 @@ const AddDepartmentModal = props => {
                     {offices.map(office => (
                       <option key={office._id} value={office._id}>
                         {office.code}
-                        {" - "}
+                        {' - '}
                         {office.name}
                       </option>
                     ))}
@@ -219,14 +223,14 @@ const AddDepartmentModal = props => {
                 </FormGroup>
               </Col>
             </Row>
-          </Modal.Body>
+          </Form>
+        </ModalBody>
 
-          <Modal.Footer>
-            <Button type="submit" color="info">
-              Submit
-            </Button>
-          </Modal.Footer>
-        </Form>
+        <ModalFooter>
+          <Button type="submit" form="addDepartmentForm" color="info">
+            Submit
+          </Button>
+        </ModalFooter>
       </Modal>
     </>
   )

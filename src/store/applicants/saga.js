@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from "redux-saga/effects"
+import { call, put, takeEvery } from 'redux-saga/effects'
 import {
   getApplicants,
   getApplicantExternal,
@@ -14,7 +14,8 @@ import {
   getDocumentCertificateOfAppointment,
   getDocumentPositionDescriptionDBMCSC,
   postDbmCscAdditionalData,
-} from "helpers/backend_helper"
+  getHiredExternalConfirmedApplicants,
+} from 'helpers/backend_helper'
 import {
   fetchApplicantsSuccess,
   fetchApplicantsFailed,
@@ -42,7 +43,9 @@ import {
   addDbmCscAdditionalDataFailed,
   fetchHiredApplicantDbmCscFormSuccess,
   fetchHiredApplicantDbmCscFormFailed,
-} from "./actions"
+  fetchHiredExternalConfirmedApplicantsSuccess,
+  fetchHiredExternalConfirmedApplicantsFailed,
+} from './actions'
 import {
   GET_APPLICANTS,
   GET_APPLICANT_PDS,
@@ -57,7 +60,8 @@ import {
   GET_DOCUMENT_CERTIFICATE_OF_APPOINTMENT,
   POST_DBMCSC_DETAILS,
   GET_APPLICANT_DBMCSC_DETAILS,
-} from "./actionTypes"
+  GET_HIRED_EXTERNAL_APPLICANTS,
+} from './actionTypes'
 
 function* fetchApplicants({ payload: publicationId }) {
   try {
@@ -89,7 +93,7 @@ function* updateQualifiedApplicantsExamScores({ payload: examScores }) {
 
 function* fetchApplicantPds({ payload: { applicantId, isInternal } }) {
   try {
-    if (isInternal === "internal") {
+    if (isInternal === 'internal') {
       const response = yield call(getApplicantInternal, applicantId)
       yield put(fetchApplicantPdsSuccess(response))
     } else {
@@ -213,6 +217,15 @@ function* fetchHiredApplicantDbmCscForm({ payload: postingApplicantId }) {
   }
 }
 
+function* fetchHiredExternalConfirmedApplicants() {
+  try {
+    const response = yield call(getHiredExternalConfirmedApplicants)
+    yield put(fetchHiredExternalConfirmedApplicantsSuccess(response))
+  } catch (error) {
+    yield put(fetchHiredExternalConfirmedApplicantsFailed(error))
+  }
+}
+
 function* applicantsSaga() {
   yield takeEvery(GET_APPLICANTS, fetchApplicants)
   yield takeEvery(GET_QUALIFIED_APPLICANTS, fetchQualifiedApplicants)
@@ -242,6 +255,10 @@ function* applicantsSaga() {
   )
   yield takeEvery(POST_DBMCSC_DETAILS, addDbmCscAdditionalData)
   yield takeEvery(GET_APPLICANT_DBMCSC_DETAILS, fetchHiredApplicantDbmCscForm)
+  yield takeEvery(
+    GET_HIRED_EXTERNAL_APPLICANTS,
+    fetchHiredExternalConfirmedApplicants
+  )
 }
 
 export default applicantsSaga

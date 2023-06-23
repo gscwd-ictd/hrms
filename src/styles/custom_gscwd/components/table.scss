@@ -143,29 +143,12 @@
     }
   }
 
-  // For table with date range filter
-  // .search-box {
-  // order: 1;
-  // margin: auto 0;
-  // width: 25%;
+  .column-filters-row2 {
+    order: 3;
+    margin-top: 5px;
+  }
 
-  // .input-group {
-  //   width: 25%;
-
-  //   .input-group-text {
-  //     background-color: white;
-  //     border-top-left-radius: 30px;
-  //     border-bottom-left-radius: 30px;
-  //     border-right: none;
-  //   }
-  //   .wd-table-search-input {
-  //     padding-left: 10px;
-  //     border-left: none;
-  //     width: 25%;
-  //   }
-  // }
-  // }
-
+  // Table container
   .table-responsive {
     order: 3;
   }
@@ -187,6 +170,10 @@
     }
     .wd-pagination {
       width: 50%;
+
+      .page-link {
+        font-size: 0.8125rem;
+      }
     }
   }
 

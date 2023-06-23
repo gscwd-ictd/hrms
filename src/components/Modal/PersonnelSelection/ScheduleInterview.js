@@ -1,19 +1,29 @@
-import React, { useEffect, useState } from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux'
 import {
   addExamInterviewSchedule,
   getPublications,
   resetPublicationResponses,
-} from "store/actions"
+} from 'store/actions'
 
-import { Modal } from "react-bootstrap"
-import { Col, Row, Input, Alert, Form, Button } from "reactstrap"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import {
+  Col,
+  Row,
+  Input,
+  Alert,
+  Form,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
-import { examInterviewVenues } from "constants/selectInputs"
+import { examInterviewVenues } from 'constants/selectInputs'
 
 const ScheduleInterview = props => {
   const {
@@ -26,7 +36,7 @@ const ScheduleInterview = props => {
 
   const [scheduleDate, setScheduleDate] = useState(new Date())
   const [scheduleTime, setScheduleTime] = useState(new Date())
-  const [venue, setVenue] = useState("")
+  const [venue, setVenue] = useState('')
 
   // redux state for response
   const { response, loading, error } = useSelector(state => ({
@@ -39,9 +49,9 @@ const ScheduleInterview = props => {
     event.preventDefault()
 
     const scheduleDetails = {
-      schedule: scheduleDate + " " + scheduleTime,
+      schedule: scheduleDate + ' ' + scheduleTime,
       venue: venue,
-      scheduleType: "interview",
+      scheduleType: 'interview',
     }
     dispatch(addExamInterviewSchedule(modalData.vppId, scheduleDetails))
   }
@@ -58,18 +68,18 @@ const ScheduleInterview = props => {
   return (
     <>
       <Modal
-        show={showScheduleInterview}
-        onHide={handleCloseScheduleInterview}
+        isOpen={showScheduleInterview}
+        toggle={handleCloseScheduleInterview}
         size="lg"
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Schedule Interview</Modal.Title>
-        </Modal.Header>
+        <ModalHeader toggle={handleCloseScheduleInterview}>
+          Schedule Interview
+        </ModalHeader>
 
         {/* Error Notif */}
         {error ? (
-          <ToastrNotification toastType={"error"} notifMessage={error} />
+          <ToastrNotification toastType={'error'} notifMessage={error} />
         ) : null}
 
         {/* Loading Notif */}
@@ -86,13 +96,13 @@ const ScheduleInterview = props => {
         {/* Success Notif */}
         {!isEmpty(response) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Interview scheduled"}
+            toastType={'success'}
+            notifMessage={'Interview scheduled'}
           />
         ) : null}
 
-        <Form onSubmit={handleSubmit}>
-          <Modal.Body>
+        <ModalBody>
+          <Form id="scheduleInterviewForm" onSubmit={handleSubmit}>
             <Row className="mb-3">
               <Col>
                 <Input
@@ -135,14 +145,14 @@ const ScheduleInterview = props => {
                 </Input>
               </Col>
             </Row>
-          </Modal.Body>
+          </Form>
+        </ModalBody>
 
-          <Modal.Footer>
-            <Button color="info" type="submit">
-              Send
-            </Button>
-          </Modal.Footer>
-        </Form>
+        <ModalFooter>
+          <Button color="info" form="scheduleInterviewForm" type="submit">
+            Send
+          </Button>
+        </ModalFooter>
       </Modal>
     </>
   )

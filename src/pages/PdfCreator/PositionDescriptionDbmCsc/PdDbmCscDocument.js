@@ -141,10 +141,6 @@ Font.register({
 const PdDbmCscDocument = props => {
   const { applicantDbmCsc } = props
 
-  // const capitalizeFirstLetter = string => {
-  //   return string.charAt(0).toUpperCase() + string.slice(1)
-  // }
-
   const renderIsOccasionalCheckBox = isOccasional => {
     if (isOccasional === "Occasional") {
       return (
@@ -1562,7 +1558,10 @@ const PdDbmCscDocument = props => {
                     styles.verticalCenter,
                   ]}
                 >
-                  {applicantDbmCsc.signatories.hrdDepartmentManager}
+                  {
+                    applicantDbmCsc.signatories.hrdDepartmentManager
+                      .employeeName
+                  }
                 </Text>
                 <Text
                   style={[
@@ -1572,7 +1571,10 @@ const PdDbmCscDocument = props => {
                     { paddingTop: 0 },
                   ]}
                 >
-                  Human Resource Department Manager
+                  {
+                    applicantDbmCsc.signatories.hrdDepartmentManager
+                      .positionTitle
+                  }
                 </Text>
               </View>
             </View>

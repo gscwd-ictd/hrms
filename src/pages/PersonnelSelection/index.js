@@ -23,6 +23,7 @@ import ApplicationChart from "./ApplicationChart"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import Breadcrumb from "components/Common/Breadcrumb"
 import ToastrNotification from "components/Notifications/ToastrNotification"
+import { SelectColumnFilter } from "components/Filters/SelectColumnFilter"
 
 // style
 import "styles/custom_gscwd/components/table.scss"
@@ -44,6 +45,7 @@ const PersonnelSelection = () => {
     {
       Header: "Requested by",
       accessor: "from",
+      Filter: SelectColumnFilter,
     },
     {
       Header: "Positions",

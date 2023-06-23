@@ -1,14 +1,20 @@
-import React, { useEffect } from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
-import { useDispatch, useSelector } from "react-redux"
-import { fetchShortlistedApplicants } from "store/actions"
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchShortlistedApplicants } from 'store/actions'
 
-import { Modal } from "react-bootstrap"
-import { Col, Row } from "reactstrap"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import {
+  Col,
+  Row,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const ViewShortlist = props => {
   const { showViewShortlist, handleCloseViewShortlist, modalData } = props
@@ -37,24 +43,24 @@ const ViewShortlist = props => {
   return (
     <>
       <Modal
-        show={showViewShortlist}
-        onHide={handleCloseViewShortlist}
+        isOpen={showViewShortlist}
+        toggle={handleCloseViewShortlist}
         size="lg"
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Shortlisted Applicants</Modal.Title>
-        </Modal.Header>
+        <ModalHeader toggle={handleCloseViewShortlist}>
+          Shortlisted Applicants
+        </ModalHeader>
 
         {/* Error Notif */}
         {errorShortlistedApplicants ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorShortlistedApplicants}
           />
         ) : null}
 
-        <Modal.Body>
+        <ModalBody>
           <Row>
             <Col>
               {loadingShortlistedApplicants ? (
@@ -68,15 +74,15 @@ const ViewShortlist = props => {
                   ))}
                 </ul>
               ) : (
-                <p style={{ textAlign: "center" }} className="text-danger">
+                <p style={{ textAlign: 'center' }} className="text-danger">
                   No Shortlisted Applicants
                 </p>
               )}
             </Col>
           </Row>
-        </Modal.Body>
+        </ModalBody>
 
-        <Modal.Footer></Modal.Footer>
+        <ModalFooter></ModalFooter>
       </Modal>
     </>
   )

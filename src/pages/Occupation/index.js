@@ -49,7 +49,6 @@ const Occupation = () => {
             <InRowAction
               cell={cell}
               editModal={editModal}
-              // deleteModal={deleteModal}
             />
           </div>
         )
@@ -91,17 +90,6 @@ const Occupation = () => {
     setModalData(rowData)
     handleShowEdt()
   }
-
-  // Delete Modal
-  // const [showDel, setShowDel] = useState(false)
-
-  // const handleCloseDel = () => setShowDel(false)
-  // const handleShowDel = () => setShowDel(true)
-
-  // const deleteModal = rowData => {
-  //   setModalData(rowData)
-  //   handleShowDel()
-  // }
 
   return (
     <>

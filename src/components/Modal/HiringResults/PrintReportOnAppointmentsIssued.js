@@ -1,33 +1,39 @@
-import React, { useState, useEffect } from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
-import { Link } from "react-router-dom"
-import dayjs from "dayjs"
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
+import { Link } from 'react-router-dom'
+import dayjs from 'dayjs'
 
-import { Modal } from "react-bootstrap"
-import { Col, Row, Input, Button } from "reactstrap"
+import {
+  Col,
+  Row,
+  Input,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
 
 const PrintReportOnAppointmentsIssued = props => {
   const { showPrintRAI, handleClosePrintRAI } = props
   const [inputRAIMonth, setInputRAIMonth] = useState(new Date())
 
   const formatDate = aedate => {
-    return dayjs(aedate).format("YYYY-MM")
+    return dayjs(aedate).format('YYYY-MM')
   }
 
   return (
     <>
       <Modal
-        show={showPrintRAI}
-        onHide={handleClosePrintRAI}
+        isOpen={showPrintRAI}
+        toggle={handleClosePrintRAI}
         size="md"
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Select Month</Modal.Title>
-        </Modal.Header>
+        <ModalHeader toggle={handleClosePrintRAI}>Select Month</ModalHeader>
 
-        <Modal.Body>
+        <ModalBody>
           <Row>
             <Col lg={12}>
               <Row className="justify-content-end">
@@ -40,13 +46,13 @@ const PrintReportOnAppointmentsIssued = props => {
               </Row>
             </Col>
           </Row>
-        </Modal.Body>
+        </ModalBody>
 
-        <Modal.Footer>
+        <ModalFooter>
           <Link
-            style={{ pointerEvents: "inherit" }}
+            style={{ pointerEvents: 'inherit' }}
             to={
-              "/report-on-appointments-issued-pdf/" + formatDate(inputRAIMonth)
+              '/report-on-appointments-issued-pdf/' + formatDate(inputRAIMonth)
             }
             target="_blank"
             onClick={handleClosePrintRAI}
@@ -58,7 +64,7 @@ const PrintReportOnAppointmentsIssued = props => {
               <i className="bx bx-printer"></i> PDF Document
             </Button>
           </Link>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </>
   )

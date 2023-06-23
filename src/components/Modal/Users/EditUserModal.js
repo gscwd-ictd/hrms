@@ -1,15 +1,15 @@
-import React, { useEffect } from "react"
-import PropTypes from "prop-types"
-import { useDispatch, useSelector } from "react-redux"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
+
+import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchUserRoles,
   updateUserRoles,
   fetchUsers,
   resetUserResponse,
-} from "store/actions"
-import { isEmpty } from "lodash"
+} from 'store/actions'
 
-import { Modal } from "react-bootstrap"
 import {
   Button,
   Col,
@@ -19,12 +19,16 @@ import {
   Input,
   FormGroup,
   Alert,
-} from "reactstrap"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // Formik formik
-import * as Yup from "yup"
-import { useFormik } from "formik"
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 const EditUserModal = props => {
   const { showEdt, handleCloseEdt, modalData } = props
@@ -86,94 +90,88 @@ const EditUserModal = props => {
   }, [patchUpdateUserRoles])
 
   return (
-    <>
-      <Modal show={showEdt} onHide={handleCloseEdt} size="lg" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Modules</Modal.Title>
-        </Modal.Header>
+    <Modal isOpen={showEdt} toggle={handleCloseEdt} size="lg" centered>
+      <ModalHeader toggle={handleCloseEdt}>Modules</ModalHeader>
 
-        {/* Notifications */}
-        {loadingResponseUpdate ? (
-          <Alert
-            color="info"
-            className="alert-dismissible fade show m-3"
-            role="alert"
-          >
-            <i className="mdi mdi-loading mdi-spin me-2 "></i> Sending Request
-          </Alert>
-        ) : null}
+      {/* Notifications */}
+      {loadingResponseUpdate ? (
+        <Alert
+          color="info"
+          className="alert-dismissible fade show m-3"
+          role="alert"
+        >
+          <i className="mdi mdi-loading mdi-spin me-2 "></i> Sending Request
+        </Alert>
+      ) : null}
 
-        {errorResponse ? (
-          <ToastrNotification
-            toastType={"error"}
-            notifMessage={errorResponse}
-          />
-        ) : null}
+      {errorResponse ? (
+        <ToastrNotification toastType={'error'} notifMessage={errorResponse} />
+      ) : null}
 
-        {!isEmpty(patchUpdateUserRoles) ? (
-          <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Update Successful"}
-          />
-        ) : null}
+      {!isEmpty(patchUpdateUserRoles) ? (
+        <ToastrNotification
+          toastType={'success'}
+          notifMessage={'Update Successful'}
+        />
+      ) : null}
 
+      <ModalBody>
         <Form
+          id="editUserForm"
           onSubmit={e => {
             e.preventDefault()
             formik.handleSubmit()
             return false
           }}
         >
-          <Modal.Body>
-            <Row>
-              <Col md={12}>
-                <FormGroup row>
-                  <Col style={{ columns: 2 }}>
-                    {loadingResponse ||
-                    isEmpty(formik.values.userRoles) ||
-                    isEmpty(userRoles) ? (
-                      <i className="mdi mdi-loading mdi-spin "></i>
-                    ) : (
-                      userRoles.map((role, index) => {
-                        return (
-                          <FormGroup check key={index}>
-                            <Input
-                              name={`userRoles[${index}].hasAccess`}
-                              id={role.slug + "-checkbox"}
-                              type="checkbox"
-                              // onChange={formik.handleChange}
-                              onChange={isChecked => {
-                                // formik.handleChange(`userRoles[${index}].hasAccess`)(formik)
+          <Row>
+            <Col md={12}>
+              <FormGroup row>
+                <Col style={{ columns: 2 }}>
+                  {loadingResponse ||
+                  isEmpty(formik.values.userRoles) ||
+                  isEmpty(userRoles) ? (
+                    <i className="mdi mdi-loading mdi-spin "></i>
+                  ) : (
+                    userRoles.map((role, index) => {
+                      return (
+                        <FormGroup check key={index}>
+                          <Input
+                            name={`userRoles[${index}].hasAccess`}
+                            id={role.slug + '-checkbox'}
+                            type="checkbox"
+                            // onChange={formik.handleChange}
+                            onChange={isChecked => {
+                              // formik.handleChange(`userRoles[${index}].hasAccess`)(formik)
 
-                                handleIsChecked(isChecked.target.checked, index)
-                              }}
-                              onBlur={formik.handleBlur}
-                              defaultChecked={
-                                formik.values.userRoles[index].hasAccess
-                              }
-                            />
+                              handleIsChecked(isChecked.target.checked, index)
+                            }}
+                            onBlur={formik.handleBlur}
+                            defaultChecked={
+                              formik.values.userRoles[index].hasAccess
+                            }
+                          />
 
-                            <Label for={role.slug + "-checkbox"} check>
-                              {role.module}
-                            </Label>
-                          </FormGroup>
-                        )
-                      })
-                    )}
-                  </Col>
-                </FormGroup>
-              </Col>
-            </Row>
-          </Modal.Body>
-
-          <Modal.Footer>
-            <Button type="submit" color="info">
-              Submit
-            </Button>
-          </Modal.Footer>
+                          <Label for={role.slug + '-checkbox'} check>
+                            {role.module}
+                          </Label>
+                        </FormGroup>
+                      )
+                    })
+                  )}
+                </Col>
+              </FormGroup>
+            </Col>
+          </Row>
         </Form>
-      </Modal>
-    </>
+      </ModalBody>
+
+      <ModalFooter>
+        <Button type="submit" form="editUserForm" color="info">
+          Submit
+        </Button>
+      </ModalFooter>
+    </Modal>
   )
 }
 

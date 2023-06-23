@@ -10,6 +10,7 @@ import Breadcrumbs from "components/Common/Breadcrumb"
 import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
 import InRowAction from "components/InRowAction/InRowAction"
 import TablePrfList from "components/Table/TablePrfList"
+import { SelectColumnFilter } from "components/Filters/SelectColumnFilter"
 import ToastrNotification from "components/Notifications/ToastrNotification"
 
 // style
@@ -45,6 +46,7 @@ const PrfList = () => {
     {
       Header: "Status",
       accessor: "status",
+      Filter: SelectColumnFilter,
       Cell: function Status(cell) {
         if (cell.row.original.status === "Pending") {
           return (
@@ -86,6 +88,7 @@ const PrfList = () => {
     {
       Header: "Requested by",
       accessor: "from",
+      Filter: SelectColumnFilter,
     },
     {
       Header: "Actions",
@@ -133,9 +136,9 @@ const PrfList = () => {
                     {loadingPrf ? (
                       <LoadingIndicator />
                     ) : (
-                      <>
-                        <TablePrfList columns={columns} data={data} />
-                      </>
+
+                      <TablePrfList columns={columns} data={data} />
+
                     )}
                   </CardBody>
                 </Card>

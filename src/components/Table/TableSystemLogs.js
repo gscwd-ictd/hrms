@@ -7,7 +7,6 @@ import {
   useTable,
   useSortBy,
 } from "react-table"
-import { GlobalFilter } from "components/Filters/GlobalFilter"
 import PropTypes from "prop-types"
 
 const TableSystemLogs = props => {
@@ -48,12 +47,6 @@ const TableSystemLogs = props => {
 
   return (
     <>
-      {/* <div className="flex-container filters-wrapper"> */}
-      {/* <GlobalFilter
-        preGlobalFilteredRows={preGlobalFilteredRows}
-        globalFilter={globalFilter}
-        setGlobalFilter={setGlobalFilter}
-      /> */}
       <div className="column-filters d-flex gap-4 mt-3">
         {headerGroups.map(headerGroup =>
           headerGroup.headers.map((column, i) =>
@@ -65,7 +58,7 @@ const TableSystemLogs = props => {
           )
         )}
       </div>
-      {/* </div> */}
+
       <Table
         {...getTableProps()}
         className="table mb-0 wd-table"
@@ -112,9 +105,9 @@ const TableSystemLogs = props => {
                         style={
                           cell.column.align
                             ? {
-                                width: "fit-content",
-                                margin: "auto",
-                              }
+                              width: "fit-content",
+                              margin: "auto",
+                            }
                             : {}
                         }
                       >

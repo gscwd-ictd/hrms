@@ -1,18 +1,26 @@
-import React, { useEffect } from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux'
 import {
   getPublications,
   addEndorsementToReqEntity,
   fetchEndorsedApplicants,
-} from "store/actions"
+} from 'store/actions'
 
-import { Modal } from "react-bootstrap"
-import { Button, Col, Row, Alert } from "reactstrap"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import {
+  Button,
+  Col,
+  Row,
+  Alert,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const SendEndorsementToRequestingEntity = props => {
   const { showSendEndorsement, handleCloseSendEndorsement, modalData, prfId } =
@@ -68,29 +76,27 @@ const SendEndorsementToRequestingEntity = props => {
   return (
     <>
       <Modal
-        show={showSendEndorsement}
-        onHide={handleCloseSendEndorsement}
+        isOpen={showSendEndorsement}
+        toggle={handleCloseSendEndorsement}
         size="lg"
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title>
-            Send endorsement to{" "}
-            {endorsedApplicantList.requestingEntity.name || "REQUESTING ENTITY"}
-          </Modal.Title>
-        </Modal.Header>
+        <ModalHeader toggle={handleCloseSendEndorsement}>
+          Send endorsement to{' '}
+          {endorsedApplicantList.requestingEntity.name || 'REQUESTING ENTITY'}
+        </ModalHeader>
 
         {/* Error Notif */}
         {errorEndorsementToRequestingEntity ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorEndorsementToRequestingEntity}
           />
         ) : null}
 
         {errorEndorsedApplicants ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorEndorsedApplicants}
           />
         ) : null}
@@ -107,12 +113,12 @@ const SendEndorsementToRequestingEntity = props => {
 
         {!isEmpty(responseEndorsementToRequestingEntity) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Successful endorsement to requesting entity."}
+            toastType={'success'}
+            notifMessage={'Successful endorsement to requesting entity.'}
           />
         ) : null}
 
-        <Modal.Body>
+        <ModalBody>
           <Row>
             <Col>
               {loadingEndorsedApplicants ? (
@@ -126,29 +132,29 @@ const SendEndorsementToRequestingEntity = props => {
                   ))}
                 </ul>
               ) : (
-                <p style={{ textAlign: "center" }} className="text-danger">
+                <p style={{ textAlign: 'center' }} className="text-danger">
                   No Qualified Applicants
                 </p>
               )}
             </Col>
           </Row>
-        </Modal.Body>
+        </ModalBody>
 
-        <Modal.Footer>
+        <ModalFooter>
           <div className="d-grid gap-2">
             <p>
-              All qualified applicants will be sent to{" "}
+              All qualified applicants will be sent to{' '}
               {endorsedApplicantList.requestingEntity.name +
-                " | " +
+                ' | ' +
                 endorsedApplicantList.requestingEntity.position +
-                " " || "REQUESTING ENTITY"}
+                ' ' || 'REQUESTING ENTITY'}
               for shortlisting. Are you sure you want to proceed?
             </p>
             <Button type="button" color="info" onClick={() => handleSubmit()}>
               Send
             </Button>
           </div>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </>
   )

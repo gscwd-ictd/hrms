@@ -162,7 +162,11 @@ const CoADocument = props => {
 
   const renderGMSignatory = () => {
     var content = certificateOfAppointment.signatories
-      .filter(signee => signee.role === "Appointing Officer/Authority")
+      .filter(
+        signee =>
+          signee.role === "Appointing Officer/Authority" ||
+          signee.role === "OIC-General Manager"
+      )
       .map((filtered, index) => (
         <View key={index}>
           <Text
@@ -189,7 +193,7 @@ const CoADocument = props => {
 
   const renderHRMOSignatory = () => {
     var content = certificateOfAppointment.signatories
-      .filter(signee => signee.role === "PSB# 2")
+      .filter(signee => signee.role === "PSB# 2") //Change PSB #3
       .map((filtered, index) => (
         <View key={index}>
           <Text

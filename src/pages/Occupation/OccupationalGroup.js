@@ -167,7 +167,7 @@ const OccupationalGroup = () => {
   useEffect(() => {
     dispatch(fetchOGPositions(occupationId))
     dispatch(fetchPositionsWithoutOccupation())
-  }, [dispatch])
+  }, [])
 
   // Trigger when assigning position is success
   useEffect(() => {

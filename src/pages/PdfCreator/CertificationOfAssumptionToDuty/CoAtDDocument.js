@@ -114,7 +114,11 @@ const CoAtDDocument = props => {
 
   const renderGeneralManagerSignatory = () => {
     var content = certificationOfAssumptionToDuty.signatories
-      .filter(signee => signee.role === "General Manager")
+      .filter(
+        signee =>
+          signee.position === "General Manager A" ||
+          signee.position === "OIC-General Manager"
+      )
       .map((filtered, index) => (
         <View key={index}>
           <View style={[styles.horizontalCenter]}>
@@ -131,7 +135,11 @@ const CoAtDDocument = props => {
 
   const renderAttestedBySignatory = () => {
     var content = certificationOfAssumptionToDuty.signatories
-      .filter(signee => signee.role === "Department Manager")
+      .filter(
+        signee =>
+          signee.position === "Department Manager A" ||
+          signee.position === "OIC-Department Manager"
+      )
       .map((filtered, index) => (
         <View key={index} style={[{ paddingTop: 50 }]}>
           <View>

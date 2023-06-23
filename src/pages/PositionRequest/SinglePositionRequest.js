@@ -138,50 +138,62 @@ const SinglePositionRequest = props => {
                       <>
                         {renderStatus(prfDetails.status)}
 
-                        <div className="table-responsive ">
-                          <Table className="table table-borderless mb-0">
+                        <div className="table-responsive">
+                          <Table className="table-nowrap mb-0">
                             <tbody>
                               <tr>
-                                <td>
-                                  <span className="fw-medium">PRF No.: </span>
-                                  &nbsp;{prfDetails.prfNo}
-                                </td>
-                                <td>
-                                  <span className="fw-medium">
-                                    Date Requested:{" "}
-                                  </span>
-                                  &nbsp;{formatDate(prfDetails.dateRequested)}
-                                </td>
-                                <td>
-                                  <span className="fw-medium">
-                                    With examination:{" "}
-                                  </span>
-                                  &nbsp;{prfDetails.withExam ? "Yes" : "No"}
-                                </td>
+                                <th scope="row">PRF No. :</th>
+                                <td>{prfDetails.prfNo}</td>
                               </tr>
                               <tr>
-                                <td>
-                                  <span className="fw-medium">For: </span>
-                                  &nbsp;{prfDetails.for.name}
-                                </td>
-                                <td>
-                                  <span className="fw-medium">From: </span>
-                                  &nbsp;{prfDetails.from.name}
-                                </td>
+                                <th scope="row">Date Requested :</th>
+                                <td>{formatDate(prfDetails.dateRequested)}</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">With examination :</th>
+                                <td>{prfDetails.withExam ? "Yes" : "No"}</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">For : </th>
+                                <td>{prfDetails.for.name}</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">From : </th>
+                                <td>{prfDetails.from.name}</td>
                               </tr>
                             </tbody>
                           </Table>
                         </div>
-                      </>
+                      </>)}
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+
+            {/* PRF Trail */}
+            <Row>
+              <Col md={12}>
+                <Card>
+
+                  <CardBody>
+                    {loadingPrfTrail ? (
+                      <LoadingIndicator />
+                    ) : (
+                      <PrfSignatory
+                        prfTrail={prfTrail}
+                        prfDetails={prfDetails}
+                        formatDate={formatDate}
+                      />
                     )}
                   </CardBody>
                 </Card>
               </Col>
             </Row>
 
-            {/* Requested Positions */}
+
             <Row>
-              <Col lg={12}>
+              {/* Requested Positions */}
+              <Col lg={6}>
                 <Card>
                   <h5 className="card-header bg-transparent border-bottom">
                     Requested Positions
@@ -191,10 +203,10 @@ const SinglePositionRequest = props => {
                       {!isEmpty(prfDetails.prfPositions) ? (
                         <>
                           {prfDetails.prfPositions.map(position => (
-                            <Col md={4} key={position.positionId}>
+                            <Col md={12} key={position.positionId}>
                               <Link
                                 to={{
-                                  pathname: `/plantilla/${position.positionId}`,
+                                  pathname: `/plantilla/permanent/${position.positionId}`,
                                 }}
                                 className="text-dark"
                                 target="_blank"
@@ -223,107 +235,117 @@ const SinglePositionRequest = props => {
                   </CardBody>
                 </Card>
               </Col>
-            </Row>
 
-            <Row>
-              {/* PRF Trail */}
-              <Col md={12}>
-                <Card>
-                  <h5 className="card-header bg-transparent border-bottom">
-                    Trail
-                  </h5>
-                  <CardBody>
-                    {loadingPrfTrail ? (
-                      <LoadingIndicator />
-                    ) : (
-                      <PrfSignatory
-                        prfTrail={prfTrail}
-                        prfDetails={prfDetails}
-                        formatDate={formatDate}
-                      />
-                    )}
-                  </CardBody>
-                </Card>
-              </Col>
-            </Row>
-
-            {/* Printables */}
-            <Row>
+              {/* Printables */}
               {prfDetails.status === "Approved" ? (
-                <Col md={6}>
+                <Col lg={6}>
                   <Card>
                     <h5 className="card-header bg-transparent border-bottom">
-                      Printables
+                      Printable Files
                     </h5>
                     <CardBody>
-                      <Row>
-                        <Col md={12}>
-                          <Row>
-                            <Col md={6}>
-                              <Link
-                                to={{
-                                  pathname: `/prf-pdf/${prfId}`,
-                                }}
-                                target="_blank"
-                              >
-                                <Button
-                                  color="info"
-                                  className="btn-block"
-                                  style={{ width: "100%" }}
-                                >
-                                  Position Request Form
-                                </Button>
-                              </Link>
-                            </Col>
-                            <Col md={6}>
-                              <Link
-                                to={{
-                                  pathname: `/publication-pdf/${prfId}`,
-                                }}
-                                target="_blank"
-                              >
-                                <Button
-                                  color="info"
-                                  className="btn-block"
-                                  style={{ width: "100%" }}
-                                >
-                                  Publication
-                                </Button>
-                              </Link>
-                            </Col>
-                          </Row>
-                          <ul className="list-unstyled">
-                            <li></li>
-
-                            <li className="mt-3"></li>
-
-                            <li className="mt-3">
-                              <h6>Position Descriptions</h6>
-                            </li>
-
-                            {prfDetails.prfPositions.map(position => (
-                              <li key={position.positionId} className="mt-1">
-                                <Link
-                                  to={{
-                                    pathname: `/position-description-pdf/${prfId}/${position.positionId}`,
+                      <div className="table-responsive">
+                        <Table className="table-nowrap align-middle table-hover mb-0">
+                          <tbody>
+                            {/* PRF PDF */}
+                            <tr>
+                              <td style={{ width: "45px" }}>
+                                <div className="avatar-sm">
+                                  <span className="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-24">
+                                    <i className="bx bxs-file-pdf" />
+                                  </span>
+                                </div>
+                              </td>
+                              <td>
+                                <h5 className="font-size-14 mb-1">
+                                  <Link to={{
+                                    pathname: `/prf-pdf/${prfId}`,
                                   }}
-                                  target="_blank"
-                                >
-                                  <Button
-                                    color="info"
-                                    className="btn-block"
-                                    style={{ width: "100%" }}
-                                  >
-                                    {position.itemNumber}
-                                  </Button>
-                                </Link>
-                              </li>
+                                    className="text-dark" target="_blank">
+                                    HRD-001-4
+                                  </Link>
+                                </h5>
+                                <small> Position Request Form</small>
+                              </td>
+                              <td>
+                                <div className="text-center">
+                                  <Link to={{
+                                    pathname: `/prf-pdf/${prfId}`,
+                                  }} className="text-dark" target="_blank">
+                                    <i className="bx bx-download h3 m-0" />
+                                  </Link>
+                                </div>
+                              </td>
+                            </tr>
+
+                            {/* PUBLICATION PDF */}
+                            <tr>
+                              <td style={{ width: "45px" }}>
+                                <div className="avatar-sm">
+                                  <span className="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-24">
+                                    <i className="bx bxs-file-pdf" />
+                                  </span>
+                                </div>
+                              </td>
+                              <td>
+                                <h5 className="font-size-14 mb-1">
+                                  <Link to={{
+                                    pathname: `/publication-pdf/${prfId}`,
+                                  }}
+                                    className="text-dark" target="_blank">
+                                    CS Form No. 9
+                                  </Link>
+                                </h5>
+                                <small>Publication</small>
+                              </td>
+                              <td>
+                                <div className="text-center">
+                                  <Link to={{
+                                    pathname: `/publication-pdf/${prfId}`,
+                                  }} className="text-dark" target="_blank">
+                                    <i className="bx bx-download h3 m-0" />
+                                  </Link>
+                                </div>
+                              </td>
+                            </tr>
+
+                            {/* PD PDF */}
+                            {prfDetails.prfPositions.map(position => (
+                              <tr key={"_file_" + position.positionId}>
+                                <td style={{ width: "45px" }}>
+                                  <div className="avatar-sm">
+                                    <span className="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-24">
+                                      <i className="bx bxs-file-pdf" />
+                                    </span>
+                                  </div>
+                                </td>
+                                <td>
+                                  <h5 className="font-size-14 mb-1">
+                                    <Link to={{
+                                      pathname: `/position-description-pdf/${prfId}/${position.positionId}`,
+                                    }} className="text-dark" target="_blank">
+                                      {position.itemNumber}
+                                    </Link>
+                                  </h5>
+                                  <small>Position Description</small>
+                                </td>
+                                <td>
+                                  <div className="text-center">
+                                    <Link to={{
+                                      pathname: `/position-description-pdf/${prfId}/${position.positionId}`,
+                                    }} className="text-dark" target="_blank">
+                                      <i className="bx bx-download h3 m-0" />
+                                    </Link>
+                                  </div>
+                                </td>
+                              </tr>
                             ))}
-                          </ul>
-                        </Col>
-                      </Row>
+                          </tbody>
+                        </Table>
+                      </div>
                     </CardBody>
                   </Card>
+
                 </Col>
               ) : null}
             </Row>

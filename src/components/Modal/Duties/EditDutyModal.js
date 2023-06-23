@@ -1,5 +1,14 @@
-import React, { useEffect } from "react"
-import { Modal } from "react-bootstrap"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
+
+import {
+  updateDutyResponsibility,
+  fetchDutyResponsibilities,
+  resetDutiesResponse,
+} from 'store/actions'
+import { useDispatch, useSelector } from 'react-redux'
+
 import {
   Button,
   Col,
@@ -10,20 +19,16 @@ import {
   FormGroup,
   FormFeedback,
   Alert,
-} from "reactstrap"
-import PropTypes from "prop-types"
-import {
-  updateDutyResponsibility,
-  fetchDutyResponsibilities,
-  resetDutiesResponse,
-} from "store/actions"
-import { useDispatch, useSelector } from "react-redux"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import { isEmpty } from "lodash"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // Formik validation
-import * as Yup from "yup"
-import { useFormik } from "formik"
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 const EditDutyModal = props => {
   const { showEdt, handleCloseEdt, modalData } = props
@@ -45,11 +50,11 @@ const EditDutyModal = props => {
     enableReinitialize: true,
 
     initialValues: {
-      description: modalData.description || "",
+      description: modalData.description || '',
     },
     validationSchema: Yup.object({
       description: Yup.string().required(
-        "Please enter a duty and responsibility description"
+        'Please enter a duty and responsibility description'
       ),
     }),
     onSubmit: (values, { resetForm }) => {
@@ -76,10 +81,9 @@ const EditDutyModal = props => {
 
   return (
     <>
-      <Modal show={showEdt} onHide={handleCloseEdt} size="lg" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit</Modal.Title>
-        </Modal.Header>
+      <Modal isOpen={showEdt} toggle={handleCloseEdt} size="lg" centered>
+        <ModalHeader toggle={handleCloseEdt}>Edit</ModalHeader>
+
         {loadingDutyResponsibilities ? (
           <Alert
             color="info"
@@ -92,26 +96,27 @@ const EditDutyModal = props => {
 
         {errorDutyResponsibilities ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorDutyResponsibilities}
           />
         ) : null}
 
         {!isEmpty(putDutiesRes) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Update Successful"}
+            toastType={'success'}
+            notifMessage={'Update Successful'}
           />
         ) : null}
 
-        <Form
-          onSubmit={e => {
-            e.preventDefault()
-            validation.handleSubmit()
-            return false
-          }}
-        >
-          <Modal.Body>
+        <ModalBody>
+          <Form
+            id="editDutyForm"
+            onSubmit={e => {
+              e.preventDefault()
+              validation.handleSubmit()
+              return false
+            }}
+          >
             <Row>
               <Col lg={12}>
                 <FormGroup>
@@ -123,7 +128,7 @@ const EditDutyModal = props => {
                     id="desc-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.description || ""}
+                    value={validation.values.description || ''}
                     invalid={
                       validation.touched.description &&
                       validation.errors.description
@@ -140,17 +145,17 @@ const EditDutyModal = props => {
                 </FormGroup>
               </Col>
             </Row>
-          </Modal.Body>
+          </Form>
+        </ModalBody>
 
-          <Modal.Footer>
-            <Button type="submit" color="info">
-              Update
-            </Button>
-            <Button color="danger" onClick={handleCloseEdt}>
-              Cancel
-            </Button>
-          </Modal.Footer>
-        </Form>
+        <ModalFooter>
+          <Button type="submit" form="editDutyForm" color="info">
+            Update
+          </Button>
+          <Button color="danger" onClick={handleCloseEdt}>
+            Cancel
+          </Button>
+        </ModalFooter>
       </Modal>
     </>
   )

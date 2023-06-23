@@ -1,15 +1,7 @@
-import React, { useEffect, useState } from "react"
-import { Modal } from "react-bootstrap"
-import {
-  Alert,
-  Col,
-  Row,
-  Label,
-  Form,
-  Input,
-  FormGroup,
-  Spinner,
-} from "reactstrap"
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
+
 import {
   getOffices,
   resetOffice,
@@ -20,23 +12,34 @@ import {
   fetchSGListStepIncreOne,
   resetSalaryGradeResponses,
   submitPosition,
-} from "store/actions"
-import { useDispatch, useSelector } from "react-redux"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+} from 'store/actions'
+import { useDispatch, useSelector } from 'react-redux'
 
-// extra components
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import {
+  Alert,
+  Col,
+  Row,
+  Label,
+  Form,
+  Input,
+  FormGroup,
+  Spinner,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // styles
-import "toastr/build/toastr.min.css"
-import "styles/custom_gscwd/components/loadingindicator.scss"
+import 'toastr/build/toastr.min.css'
+import 'styles/custom_gscwd/components/loadingindicator.scss'
 
 const AddPositionModal = props => {
   const { showAdd, handleCloseAdd } = props
 
   const dispatch = useDispatch()
-  const [directAssignment, setDirectAssignment] = useState("")
+  const [directAssignment, setDirectAssignment] = useState('')
   const [salaryGradeInputValue, setSalaryGradeInputValue] = useState({})
   // const [ filteredSGByStep, setFilteredSGByStep ] = useState([])
 
@@ -92,12 +95,12 @@ const AddPositionModal = props => {
   const handleAssignment = event => {
     const value = event.target.value
 
-    if (value === "office") {
-      setDirectAssignment("office")
-    } else if (value === "department") {
-      setDirectAssignment("department")
-    } else if (value === "division") {
-      setDirectAssignment("division")
+    if (value === 'office') {
+      setDirectAssignment('office')
+    } else if (value === 'department') {
+      setDirectAssignment('department')
+    } else if (value === 'division') {
+      setDirectAssignment('division')
     }
   }
 
@@ -142,7 +145,7 @@ const AddPositionModal = props => {
 
   useEffect(() => {
     if (!isEmpty(salaryGradeInputValue)) {
-      document.getElementById("authsalary-input").value =
+      document.getElementById('authsalary-input').value =
         salaryGradeInputValue.amount
     }
   }, [salaryGradeInputValue])
@@ -151,35 +154,33 @@ const AddPositionModal = props => {
     <>
       {/* Error Notif */}
       {errorSGList ? ( // error in pulling salary grade list
-        <ToastrNotification toastType={"error"} notifMessage={errorSGList} />
+        <ToastrNotification toastType={'error'} notifMessage={errorSGList} />
       ) : null}
 
       {errorOfc ? ( // error in pulling offices
-        <ToastrNotification toastType={"error"} notifMessage={errorOfc} />
+        <ToastrNotification toastType={'error'} notifMessage={errorOfc} />
       ) : null}
       {errorDept ? ( // error in pulling departments
-        <ToastrNotification toastType={"error"} notifMessage={errorDept} />
+        <ToastrNotification toastType={'error'} notifMessage={errorDept} />
       ) : null}
       {errorDiv ? ( // error in pulling divisions
-        <ToastrNotification toastType={"error"} notifMessage={errorDiv} />
+        <ToastrNotification toastType={'error'} notifMessage={errorDiv} />
       ) : null}
 
       {errorPositionDataResponse ? ( // error adding new positions
-        <ToastrNotification toastType={"error"} notifMessage={errorDiv} />
+        <ToastrNotification toastType={'error'} notifMessage={errorDiv} />
       ) : null}
 
       {/* Success Notif */}
       {!isEmpty(positionDataResponse) ? ( // error in pulling divisions
         <ToastrNotification
-          toastType={"success"}
-          notifMessage={"Position successfully created"}
+          toastType={'success'}
+          notifMessage={'Position successfully created'}
         />
       ) : null}
 
-      <Modal show={showAdd} onHide={handleCloseAdd} size="xl" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Position Details</Modal.Title>
-        </Modal.Header>
+      <Modal isOpen={showAdd} toggle={handleCloseAdd} size="xl" centered>
+        <ModalHeader toggle={handleCloseAdd}>Position Details</ModalHeader>
 
         {loadingPositionDataResponse ? (
           <Alert
@@ -190,8 +191,9 @@ const AddPositionModal = props => {
             <i className="mdi mdi-loading mdi-spin me-2 "></i> Sending Request
           </Alert>
         ) : null}
-        <Form onSubmit={addPlantillaPosition}>
-          <Modal.Body>
+
+        <ModalBody>
+          <Form onSubmit={addPlantillaPosition} id="addPositionForm">
             <Row>
               <Col lg={12}>
                 <Row>
@@ -236,7 +238,7 @@ const AddPositionModal = props => {
                               value="office"
                               onChange={handleAssignment}
                               required
-                            />{" "}
+                            />{' '}
                             Office
                           </Label>
                         </FormGroup>
@@ -249,7 +251,7 @@ const AddPositionModal = props => {
                               value="department"
                               onChange={handleAssignment}
                               required
-                            />{" "}
+                            />{' '}
                             Department
                           </Label>
                         </FormGroup>
@@ -262,7 +264,7 @@ const AddPositionModal = props => {
                               value="division"
                               onChange={handleAssignment}
                               required
-                            />{" "}
+                            />{' '}
                             Division
                           </Label>
                         </FormGroup>
@@ -286,30 +288,30 @@ const AddPositionModal = props => {
                           required
                         >
                           <option value="">Choose...</option>
-                          {directAssignment === "office"
+                          {directAssignment === 'office'
                             ? offices.map(office => (
                                 <option key={office._id} value={office._id}>
                                   {office.code}
-                                  {" - "}
+                                  {' - '}
                                   {office.name}
                                 </option>
                               ))
-                            : directAssignment === "department"
+                            : directAssignment === 'department'
                             ? departments.map((department, i) => (
                                 <option
                                   key={department._id}
                                   value={department._id}
                                 >
                                   {department.code}
-                                  {" - "}
+                                  {' - '}
                                   {department.name}
                                 </option>
                               ))
-                            : directAssignment === "division"
+                            : directAssignment === 'division'
                             ? divisions.map((division, i) => (
                                 <option key={division._id} value={division._id}>
                                   {division.code}
-                                  {" - "}
+                                  {' - '}
                                   {division.name}
                                 </option>
                               ))
@@ -385,14 +387,18 @@ const AddPositionModal = props => {
                 </Row>
               </Col>
             </Row>
-          </Modal.Body>
+          </Form>
+        </ModalBody>
 
-          <Modal.Footer>
-            <button type="submit" className="btn btn-primary w-md">
-              Submit
-            </button>
-          </Modal.Footer>
-        </Form>
+        <ModalFooter>
+          <button
+            type="submit"
+            form="addPositionForm"
+            className="btn btn-primary w-md"
+          >
+            Submit
+          </button>
+        </ModalFooter>
       </Modal>
     </>
   )

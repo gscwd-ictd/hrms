@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useMemo } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import React, { useEffect, useState, useMemo } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchPositionFunctionalCompetencies,
   fetchAvailableFunctionalCompetencies,
@@ -9,11 +9,10 @@ import {
   selectFunctionalCompetencyCheckBox,
   unselectFunctionalCompetencyCheckBox,
   resetFunctionalCompetencyCheckBoxes,
-} from "store/actions"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+} from 'store/actions'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
-import { Modal } from "react-bootstrap"
 import {
   Button,
   Col,
@@ -24,13 +23,16 @@ import {
   Input,
   Spinner,
   CardSubtitle,
-} from "reactstrap"
-import Select from "react-select"
-import TablePositionFunctionalCompetencies from "components/Table/TablePositionFunctionalCompetencies"
+  Modal,
+  ModalHeader,
+  ModalBody,
+} from 'reactstrap'
+import Select from 'react-select'
+import TablePositionFunctionalCompetencies from 'components/Table/TablePositionFunctionalCompetencies'
 
 // extra components
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const EditPositionFunctionalCompetenciesModal = props => {
   const { showEdt, handleCloseEdt, modalData } = props
@@ -90,7 +92,7 @@ const EditPositionFunctionalCompetenciesModal = props => {
 
   const tblColumns = [
     {
-      id: "selection",
+      id: 'selection',
       disableGlobalFilter: true,
       Cell: function RowCheckBox({ cell }) {
         return (
@@ -103,21 +105,21 @@ const EditPositionFunctionalCompetenciesModal = props => {
       },
     },
     {
-      Header: "ID",
-      accessor: "pcplId",
+      Header: 'ID',
+      accessor: 'pcplId',
       disableGlobalFilter: true,
     },
     {
-      Header: "Code",
-      accessor: "code",
+      Header: 'Code',
+      accessor: 'code',
     },
     {
-      Header: "Name",
-      accessor: "name",
+      Header: 'Name',
+      accessor: 'name',
     },
     {
-      Header: "Level",
-      accessor: "level",
+      Header: 'Level',
+      accessor: 'level',
     },
   ]
 
@@ -217,18 +219,12 @@ const EditPositionFunctionalCompetenciesModal = props => {
 
   return (
     <>
-      <Modal
-        show={showEdt}
-        onHide={() => {
-          handleCloseEdt()
-        }}
-        size="xl"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Functional Competency Assignment</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+      <Modal isOpen={showEdt} toggle={handleCloseEdt} size="xl" centered>
+        <ModalHeader toggle={handleCloseEdt}>
+          Functional Competency Assignment
+        </ModalHeader>
+
+        <ModalBody>
           <Row>
             <Col lg={12}>
               <Card>
@@ -243,13 +239,13 @@ const EditPositionFunctionalCompetenciesModal = props => {
                   {/* Error Notif */}
                   {errorPositionFunctionalCompetencies ? (
                     <ToastrNotification
-                      toastType={"error"}
+                      toastType={'error'}
                       notifMessage={errorPositionFunctionalCompetencies}
                     />
                   ) : null}
                   {errorAvailableFunctionalCompetencies ? (
                     <ToastrNotification
-                      toastType={"error"}
+                      toastType={'error'}
                       notifMessage={errorAvailableFunctionalCompetencies}
                     />
                   ) : null}
@@ -257,17 +253,17 @@ const EditPositionFunctionalCompetenciesModal = props => {
                   {/* Success Notif */}
                   {!isEmpty(assignedFunctionalCompetencies) ? (
                     <ToastrNotification
-                      toastType={"success"}
+                      toastType={'success'}
                       notifMessage={
-                        "Functional competencies successfully assigned"
+                        'Functional competencies successfully assigned'
                       }
                     />
                   ) : null}
                   {!isEmpty(unassignedFunctionalCompetencies) ? (
                     <ToastrNotification
-                      toastType={"success"}
+                      toastType={'success'}
                       notifMessage={
-                        "Functional competencies successfully unassigned"
+                        'Functional competencies successfully unassigned'
                       }
                     />
                   ) : null}
@@ -331,7 +327,7 @@ const EditPositionFunctionalCompetenciesModal = props => {
               </Card>
             </Col>
           </Row>
-        </Modal.Body>
+        </ModalBody>
       </Modal>
     </>
   )

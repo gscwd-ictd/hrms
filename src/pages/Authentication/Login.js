@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
-import PropTypes from "prop-types"
-import React, { useEffect } from "react"
-import { isEmpty } from "lodash"
-import { Link } from "react-router-dom"
-import withRouter from "components/Common/withRouter"
+import PropTypes from 'prop-types'
+import React, { useEffect } from 'react'
+import { isEmpty } from 'lodash'
+import { Link } from 'react-router-dom'
+import withRouter from 'components/Common/withRouter'
 
 //redux
-import { useSelector, useDispatch } from "react-redux"
-import { loginUser, resetLogin } from "store/actions"
+import { useSelector, useDispatch } from 'react-redux'
+import { loginUser, resetLogin } from 'store/actions'
 import {
   Row,
   Col,
@@ -19,18 +19,18 @@ import {
   Input,
   FormFeedback,
   Label,
-} from "reactstrap"
+} from 'reactstrap'
 
 // Formik validation
-import * as Yup from "yup"
-import { useFormik } from "formik"
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 // import images
-import profile from "assets/images/profile-img.png"
-import logo from "assets/images/main_logo_transparent.png"
+import profile from 'assets/images/profile-img.png'
+import logo from 'assets/images/main_logo_transparent.png'
 
 // style
-import "styles/custom_gscwd/pages/login.scss"
+import 'styles/custom_gscwd/pages/login.scss'
 
 const Login = props => {
   const dispatch = useDispatch()
@@ -40,12 +40,12 @@ const Login = props => {
     enableReinitialize: true,
 
     initialValues: {
-      email: "" || "",
-      password: "" || "",
+      email: '' || '',
+      password: '' || '',
     },
     validationSchema: Yup.object({
-      email: Yup.string().required("Please Enter Your Email"),
-      password: Yup.string().required("Please Enter Your Password"),
+      email: Yup.string().required('Please Enter Your Email'),
+      password: Yup.string().required('Please Enter Your Password'),
     }),
     onSubmit: values => {
       dispatch(loginUser(values, props.router.navigate))
@@ -116,7 +116,7 @@ const Login = props => {
                           className="alert-dismissible fade show mb-2"
                           role="alert"
                         >
-                          <i className="mdi mdi-loading mdi-spin mr-2"></i>{" "}
+                          <i className="mdi mdi-loading mdi-spin mr-2"></i>{' '}
                           Verifying Credentials
                         </Alert>
                       ) : null}
@@ -132,7 +132,7 @@ const Login = props => {
                           type="text"
                           onChange={validation.handleChange}
                           onBlur={validation.handleBlur}
-                          value={validation.values.email || ""}
+                          value={validation.values.email || ''}
                           invalid={
                             validation.touched.email && validation.errors.email
                               ? true
@@ -150,7 +150,7 @@ const Login = props => {
                         <Label className="form-label">Password</Label>
                         <Input
                           name="password"
-                          value={validation.values.password || ""}
+                          value={validation.values.password || ''}
                           type="password"
                           placeholder="Enter Password"
                           onChange={validation.handleChange}

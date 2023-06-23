@@ -5,6 +5,9 @@ import {
   GET_UNASSIGNED_PSB_MEMBERS,
   GET_UNASSIGNED_PSB_MEMBERS_SUCCESS,
   GET_UNASSIGNED_PSB_MEMBERS_FAIL,
+  GET_PSB_DETAILS,
+  GET_PSB_DETAILS_SUCCESS,
+  GET_PSB_DETAILS_FAIL,
   GET_PSB_SUMMARY,
   GET_PSB_SUMMARY_SUCCESS,
   GET_PSB_SUMMARY_FAIL,
@@ -25,7 +28,7 @@ import {
   SET_PSB_ROLES,
   ADD_PSB_ROLE_TO_OPTIONS,
   REMOVE_PSB_ROLE_FROM_OPTIONS,
-} from "./actionTypes"
+} from './actionTypes'
 
 // Get assigned Personnel Selection Board members for a specific publication
 export const fetchAssignedPSBMembers = vppId => ({
@@ -52,6 +55,20 @@ export const fetchUnassignedPSBMembersSuccess = unassignedPSBMembers => ({
 })
 export const fetchUnassignedPSBMembersFail = error => ({
   type: GET_UNASSIGNED_PSB_MEMBERS_FAIL,
+  payload: error,
+})
+
+// Get PSB details. PSB members, interview and/or exam date, location, & etc.
+export const fetchPsbDetails = vppId => ({
+  type: GET_PSB_DETAILS,
+  payload: vppId,
+})
+export const fetchPsbDetailsSuccess = response => ({
+  type: GET_PSB_DETAILS_SUCCESS,
+  payload: response,
+})
+export const fetchPsbDetailsFail = error => ({
+  type: GET_PSB_DETAILS_FAIL,
   payload: error,
 })
 

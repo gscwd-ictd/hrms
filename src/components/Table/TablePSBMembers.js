@@ -1,17 +1,15 @@
-import React from "react"
-import { Table, Button } from "reactstrap"
+import React from 'react'
+import { Table, Button } from 'reactstrap'
 import {
   useFilters,
   useGlobalFilter,
   useTable,
   usePagination,
-  useSortBy,
-} from "react-table"
-import { GlobalFilter } from "components/Filters/GlobalFilter"
-import PropTypes from "prop-types"
+} from 'react-table'
+import PropTypes from 'prop-types'
 
 // styles
-import "styles/custom_gscwd/components/table.scss"
+import 'styles/custom_gscwd/components/table.scss'
 
 const TablePSBMembers = props => {
   const { columns, data, handleDeleteRows, disableDeleteBtn } = props
@@ -22,12 +20,11 @@ const TablePSBMembers = props => {
       data,
       initialState: {
         pageIndex: 0,
-        hiddenColumns: ["employeeId"],
+        hiddenColumns: ['employeeId'],
       },
     },
     useFilters,
     useGlobalFilter,
-    useSortBy,
     usePagination
   )
   const {
@@ -36,15 +33,7 @@ const TablePSBMembers = props => {
     headerGroups,
     prepareRow,
     page,
-    canPreviousPage,
-    canNextPage,
-    pageOptions,
-    nextPage,
-    previousPage,
-    setPageSize,
     state,
-    setGlobalFilter,
-    preGlobalFilteredRows,
   } = tableInstance
 
   const { globalFilter, pageIndex, pageSize } = state
@@ -62,23 +51,11 @@ const TablePSBMembers = props => {
             <tr {...headerGroup.getHeaderGroupProps()} key={hGi}>
               {headerGroup.headers.map((column, hi) => (
                 <th
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                  {...column.getHeaderProps()}
                   key={hi}
-                  className={"th_" + column.getHeaderProps("Header").key}
+                  className={'th_' + column.getHeaderProps('Header').key}
                 >
-                  {column.render("Header")}
-                  {/* Sort */}
-                  <span>
-                    {column.isSorted ? (
-                      column.isSortedDesc ? (
-                        <i className="bx bx-up-arrow pl-1"></i>
-                      ) : (
-                        <i className="bx bx-down-arrow pl-1"></i>
-                      )
-                    ) : (
-                      ""
-                    )}
-                  </span>
+                  {column.render('Header')}
                 </th>
               ))}
             </tr>
@@ -92,7 +69,7 @@ const TablePSBMembers = props => {
                 {row.cells.map((cell, ci) => {
                   return (
                     <td {...cell.getCellProps()} key={ci}>
-                      {cell.render("Cell")}
+                      {cell.render('Cell')}
                     </td>
                   )
                 })}

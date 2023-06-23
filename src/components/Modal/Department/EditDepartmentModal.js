@@ -1,5 +1,13 @@
-import React, { useEffect } from "react"
-import { Modal } from "react-bootstrap"
+import React, { useEffect } from 'react'
+import { isEmpty } from 'lodash'
+
+import {
+  updateDepartment,
+  getDepartments,
+  resetDepartment,
+} from 'store/actions'
+import { useDispatch, useSelector } from 'react-redux'
+
 import {
   Button,
   Col,
@@ -10,20 +18,17 @@ import {
   FormGroup,
   FormFeedback,
   Alert,
-} from "reactstrap"
-import PropTypes from "prop-types"
-import {
-  updateDepartment,
-  getDepartments,
-  resetDepartment,
-} from "store/actions"
-import { useDispatch, useSelector } from "react-redux"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import { isEmpty } from "lodash"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import PropTypes from 'prop-types'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // Formik validation
-import * as Yup from "yup"
-import { useFormik } from "formik"
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 const EditDepartmentModal = props => {
   const { showEdt, handleCloseEdt, modalData } = props
@@ -55,18 +60,18 @@ const EditDepartmentModal = props => {
     enableReinitialize: true,
 
     initialValues: {
-      name: modalData.name || "",
-      code: modalData.code || "",
-      description: modalData.description || "",
-      officeId: defValOffice(modalData.officeCode) || "",
+      name: modalData.name || '',
+      code: modalData.code || '',
+      description: modalData.description || '',
+      officeId: defValOffice(modalData.officeCode) || '',
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Please enter a department name"),
-      code: Yup.string().required("Please enter a department code"),
+      name: Yup.string().required('Please enter a department name'),
+      code: Yup.string().required('Please enter a department code'),
       description: Yup.string().required(
-        "Please enter a department description"
+        'Please enter a department description'
       ),
-      officeId: Yup.string().required("Please select a parent office"),
+      officeId: Yup.string().required('Please select a parent office'),
     }),
     onSubmit: values => {
       dispatch(updateDepartment(modalData._id, values))
@@ -92,10 +97,8 @@ const EditDepartmentModal = props => {
 
   return (
     <>
-      <Modal show={showEdt} onHide={handleCloseEdt} size="lg" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit</Modal.Title>
-        </Modal.Header>
+      <Modal isOpen={showEdt} toggle={handleCloseEdt} size="lg" centered>
+        <ModalHeader toggle={handleCloseEdt}>Edit</ModalHeader>
 
         {isLoading ? (
           <Alert
@@ -108,24 +111,25 @@ const EditDepartmentModal = props => {
         ) : null}
 
         {error ? (
-          <ToastrNotification toastType={"error"} notifMessage={error} />
+          <ToastrNotification toastType={'error'} notifMessage={error} />
         ) : null}
 
         {!isEmpty(putDepartmentRes) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Update Successful"}
+            toastType={'success'}
+            notifMessage={'Update Successful'}
           />
         ) : null}
 
-        <Form
-          onSubmit={e => {
-            e.preventDefault()
-            validation.handleSubmit()
-            return false
-          }}
-        >
-          <Modal.Body>
+        <ModalBody>
+          <Form
+            id="editDepartmentForm"
+            onSubmit={e => {
+              e.preventDefault()
+              validation.handleSubmit()
+              return false
+            }}
+          >
             <Row>
               <Col md={6}>
                 <FormGroup>
@@ -137,7 +141,7 @@ const EditDepartmentModal = props => {
                     id="name-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.name || ""}
+                    value={validation.values.name || ''}
                     invalid={
                       validation.touched.name && validation.errors.name
                         ? true
@@ -161,7 +165,7 @@ const EditDepartmentModal = props => {
                     id="code-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.code || ""}
+                    value={validation.values.code || ''}
                     invalid={
                       validation.touched.code && validation.errors.code
                         ? true
@@ -186,7 +190,7 @@ const EditDepartmentModal = props => {
                     rows="5"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.description || ""}
+                    value={validation.values.description || ''}
                     invalid={
                       validation.touched.description &&
                       validation.errors.description
@@ -212,7 +216,7 @@ const EditDepartmentModal = props => {
                     id="office-select"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.officeId || ""}
+                    value={validation.values.officeId || ''}
                     invalid={
                       validation.touched.officeId && validation.errors.officeId
                         ? true
@@ -223,7 +227,7 @@ const EditDepartmentModal = props => {
                     {offices.map(office => (
                       <option key={office._id} value={office._id}>
                         {office.code}
-                        {" - "}
+                        {' - '}
                         {office.name}
                       </option>
                     ))}
@@ -236,14 +240,14 @@ const EditDepartmentModal = props => {
                 </FormGroup>
               </Col>
             </Row>
-          </Modal.Body>
+          </Form>
+        </ModalBody>
 
-          <Modal.Footer>
-            <Button type="submit" color="info">
-              Submit
-            </Button>
-          </Modal.Footer>
-        </Form>
+        <ModalFooter>
+          <Button type="submit" form="editDepartmentForm" color="info">
+            Submit
+          </Button>
+        </ModalFooter>
       </Modal>
     </>
   )

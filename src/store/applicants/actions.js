@@ -39,8 +39,11 @@ import {
   GET_APPLICANT_DBMCSC_DETAILS,
   GET_APPLICANT_DBMCSC_DETAILS_SUCCESS,
   GET_APPLICANT_DBMCSC_DETAILS_FAIL,
+  GET_HIRED_EXTERNAL_APPLICANTS,
+  GET_HIRED_EXTERNAL_APPLICANTS_SUCCESS,
+  GET_HIRED_EXTERNAL_APPLICANTS_FAIL,
   RESET_APPLICANTS_RESPONSES,
-} from "./actionTypes"
+} from './actionTypes'
 
 // Get all applicants
 export const fetchApplicants = publicationId => {
@@ -307,6 +310,25 @@ export const fetchHiredApplicantDbmCscFormSuccess = response => {
 export const fetchHiredApplicantDbmCscFormFailed = error => {
   return {
     type: GET_APPLICANT_DBMCSC_DETAILS_FAIL,
+    payload: error,
+  }
+}
+
+// Get applicants that are hired, external and has confirmed
+export const fetchHiredExternalConfirmedApplicants = () => {
+  return {
+    type: GET_HIRED_EXTERNAL_APPLICANTS,
+  }
+}
+export const fetchHiredExternalConfirmedApplicantsSuccess = response => {
+  return {
+    type: GET_HIRED_EXTERNAL_APPLICANTS_SUCCESS,
+    payload: response,
+  }
+}
+export const fetchHiredExternalConfirmedApplicantsFailed = error => {
+  return {
+    type: GET_HIRED_EXTERNAL_APPLICANTS_FAIL,
     payload: error,
   }
 }

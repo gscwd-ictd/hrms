@@ -1,14 +1,13 @@
-import React, { useEffect } from "react"
-import PropTypes from "prop-types"
-import { useDispatch, useSelector } from "react-redux"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   updateModule,
   resetModuleResponse,
   fetchHrmsModules,
-} from "store/actions"
-import { isEmpty } from "lodash"
+} from 'store/actions'
+import { isEmpty } from 'lodash'
 
-import { Modal } from "react-bootstrap"
 import {
   Button,
   Col,
@@ -19,12 +18,16 @@ import {
   FormGroup,
   Alert,
   FormFeedback,
-} from "reactstrap"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // Formik formik
-import * as Yup from "yup"
-import { useFormik } from "formik"
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 const EditModuleModal = props => {
   const { showEdt, handleCloseEdt, modalData } = props
@@ -44,13 +47,13 @@ const EditModuleModal = props => {
     enableReinitialize: true,
 
     initialValues: {
-      module: modalData.module || "",
-      slug: modalData.slug || "",
-      url: modalData.url || "/",
+      module: modalData.module || '',
+      slug: modalData.slug || '',
+      url: modalData.url || '/',
     },
     validationSchema: Yup.object({
-      module: Yup.string().required("Please input a module name"),
-      slug: Yup.string().required("Please input a slug name"),
+      module: Yup.string().required('Please input a module name'),
+      slug: Yup.string().required('Please input a slug name'),
     }),
     onSubmit: values => {
       dispatch(updateModule(modalData._id, values))
@@ -76,10 +79,8 @@ const EditModuleModal = props => {
 
   return (
     <>
-      <Modal show={showEdt} onHide={handleCloseEdt} size="md" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Modules</Modal.Title>
-        </Modal.Header>
+      <Modal isOpen={showEdt} toggle={handleCloseEdt} size="md" centered>
+        <ModalHeader toggle={handleCloseEdt}>Modules</ModalHeader>
 
         {/* Notifications */}
         {loadingResponse ? (
@@ -94,26 +95,27 @@ const EditModuleModal = props => {
 
         {errorResponse ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorResponse}
           />
         ) : null}
 
         {!isEmpty(patchUpdateModule) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Update Successful"}
+            toastType={'success'}
+            notifMessage={'Update Successful'}
           />
         ) : null}
 
-        <Form
-          onSubmit={e => {
-            e.preventDefault()
-            formik.handleSubmit()
-            return false
-          }}
-        >
-          <Modal.Body>
+        <ModalBody>
+          <Form
+            id="editModuleForm"
+            onSubmit={e => {
+              e.preventDefault()
+              formik.handleSubmit()
+              return false
+            }}
+          >
             <Row>
               <Col md={12}>
                 <FormGroup row>
@@ -126,7 +128,7 @@ const EditModuleModal = props => {
                         id="text-module-name"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.module || ""}
+                        value={formik.values.module || ''}
                         invalid={
                           formik.touched.module && formik.errors.module
                             ? true
@@ -148,7 +150,7 @@ const EditModuleModal = props => {
                         id="text-slug"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.slug || ""}
+                        value={formik.values.slug || ''}
                         invalid={
                           formik.touched.slug && formik.errors.slug
                             ? true
@@ -170,7 +172,7 @@ const EditModuleModal = props => {
                         id="text-url"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.url || ""}
+                        value={formik.values.url || ''}
                         invalid={
                           formik.touched.url && formik.errors.url ? true : false
                         }
@@ -184,15 +186,15 @@ const EditModuleModal = props => {
                   </Col>
                 </FormGroup>
               </Col>
-            </Row>
-          </Modal.Body>
+            </Row>{' '}
+          </Form>
+        </ModalBody>
 
-          <Modal.Footer>
-            <Button type="submit" color="info">
-              Submit
-            </Button>
-          </Modal.Footer>
-        </Form>
+        <ModalFooter>
+          <Button type="submit" form="editModuleForm" color="info">
+            Submit
+          </Button>
+        </ModalFooter>
       </Modal>
     </>
   )

@@ -1,21 +1,34 @@
-import React, { useEffect, useState } from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
-import { useDispatch, useSelector } from "react-redux"
-import { updateAppointmentEffectivityDate } from "store/actions"
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  updateAppointmentEffectivityDate,
+  getPublications,
+  resetPublicationResponses,
+} from 'store/actions'
 
-import { Modal } from "react-bootstrap"
-import { Col, Row, Input, Alert, Form, Button } from "reactstrap"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-
-import { examInterviewVenues } from "constants/selectInputs"
+import {
+  Col,
+  Row,
+  Input,
+  Alert,
+  Form,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const SetAppointmentEffectivity = props => {
   const {
     showSetAppointmentEffectivity,
     handleCloseSetAppointmentEffectivity,
     modalData,
+    prfId,
   } = props
   const dispatch = useDispatch()
 
@@ -24,8 +37,8 @@ const SetAppointmentEffectivity = props => {
   // redux state for response
   const { response, loading, error } = useSelector(state => ({
     response: state.publications.response.appointmentEffectivity,
-    loading: state.publications.loading.loadingPublicationExamInterviewSchedule,
-    error: state.publications.error.errorPublicationExamInterviewSchedule,
+    loading: state.publications.loading.loadingAppointmentEffectivity,
+    error: state.publications.error.errorAppointmentEffectivity,
   }))
 
   const handleSubmit = event => {
@@ -39,21 +52,30 @@ const SetAppointmentEffectivity = props => {
     )
   }
 
+  // refresh list of publications
+  useEffect(() => {
+    if (!isEmpty(response)) {
+      dispatch(getPublications(prfId))
+      handleCloseSetAppointmentEffectivity()
+      dispatch(resetPublicationResponses())
+    }
+  }, [response])
+
   return (
     <>
       <Modal
-        show={showSetAppointmentEffectivity}
-        onHide={handleCloseSetAppointmentEffectivity}
+        isOpen={showSetAppointmentEffectivity}
+        toggle={handleCloseSetAppointmentEffectivity}
         size="md"
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Effectivity Date of Appointment</Modal.Title>
-        </Modal.Header>
+        <ModalHeader toggle={handleCloseSetAppointmentEffectivity}>
+          Effectivity Date of Appointment
+        </ModalHeader>
 
         {/* Error Notif */}
         {error ? (
-          <ToastrNotification toastType={"error"} notifMessage={error} />
+          <ToastrNotification toastType={'error'} notifMessage={error} />
         ) : null}
 
         {/* Loading Notif */}
@@ -70,13 +92,15 @@ const SetAppointmentEffectivity = props => {
         {/* Success Notif */}
         {!isEmpty(response) ? (
           <ToastrNotification
-            toastType={"success"}
-            notifMessage={"Examination scheduled"}
+            toastType={'success'}
+            notifMessage={
+              'Effectivity date of appointment has been sucesfully set'
+            }
           />
         ) : null}
 
-        <Form onSubmit={handleSubmit}>
-          <Modal.Body>
+        <ModalBody>
+          <Form id="appointmentEffectivityForm" onSubmit={handleSubmit}>
             <Row className="mb-3">
               <Col>
                 <Input
@@ -88,15 +112,15 @@ const SetAppointmentEffectivity = props => {
                   required
                 />
               </Col>
-            </Row>
-          </Modal.Body>
+            </Row>{' '}
+          </Form>
+        </ModalBody>
 
-          <Modal.Footer>
-            <Button color="info" type="submit">
-              Send
-            </Button>
-          </Modal.Footer>
-        </Form>
+        <ModalFooter>
+          <Button color="info" form="appointmentEffectivityForm" type="submit">
+            Send
+          </Button>
+        </ModalFooter>
       </Modal>
     </>
   )
@@ -106,6 +130,7 @@ SetAppointmentEffectivity.propTypes = {
   showSetAppointmentEffectivity: PropTypes.bool,
   handleCloseSetAppointmentEffectivity: PropTypes.func,
   modalData: PropTypes.object,
+  prfId: PropTypes.string,
 }
 
 export default SetAppointmentEffectivity
