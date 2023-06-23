@@ -1,21 +1,31 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from 'react'
 
-import { Row, Col, Card, CardBody } from "reactstrap"
-import { Link } from "react-router-dom"
+import { Row, Col, Card, CardBody } from 'reactstrap'
+import { Link } from 'react-router-dom'
 
-import userDefaultAvatar from "../../assets/images/users/avatar.png"
-import profileBg from "../../assets/images/profile-img.png"
+import userDefaultAvatar from 'assets/images/users/avatar.png'
+import profileBg from 'assets/images/profile-img.png'
 
-import "styles/custom_gscwd/components/welcomecomp.scss"
+import 'styles/custom_gscwd/components/welcomecomp.scss'
 
 const WelcomeComp = () => {
-  const [photoBadge, setPhotoBadge] = useState("")
+  const [photoBadge, setPhotoBadge] = useState('')
+  const [fullName, setFullName] = useState('')
+  const [email, setEmail] = useState('')
 
   useEffect(() => {
-    if (localStorage.getItem("photoUrl")) {
-      setPhotoBadge(localStorage.getItem("photoUrl"))
+    if (localStorage.getItem('photoUrl')) {
+      setPhotoBadge(localStorage.getItem('photoUrl'))
     } else {
       setPhotoBadge(userDefaultAvatar)
+    }
+
+    if (localStorage.getItem('fullName')) {
+      setFullName(localStorage.getItem('fullName'))
+    }
+
+    if (localStorage.getItem('email')) {
+      setEmail(localStorage.getItem('email'))
     }
   }, [])
 
@@ -27,7 +37,7 @@ const WelcomeComp = () => {
             <Col xs="7">
               <div className="text-primary p-3">
                 <h5 className="text-primary">Welcome Back !</h5>
-                <p>HRIS Dashboard</p>
+                <p>HRMS Dashboard</p>
               </div>
             </Col>
             <Col xs="5" className="align-self-end">
@@ -39,14 +49,22 @@ const WelcomeComp = () => {
           <Row>
             <Col sm="7">
               <div className="avatar-md profile-user-wid mb-4">
-                <img
-                  src={photoBadge}
-                  alt=""
-                  className="img-thumbnail rounded-circle"
-                />
+                {photoBadge ? (
+                  <img
+                    src={photoBadge}
+                    alt=""
+                    className="img-thumbnail rounded-circle"
+                  />
+                ) : (
+                  <img
+                    src={userDefaultAvatar}
+                    alt=""
+                    className="img-thumbnail rounded-circle"
+                  />
+                )}
               </div>
-              <h5 className="font-size-15 text-truncate">Employee Name</h5>
-              <p className="text-muted mb-0 text-truncate">Position Title</p>
+              <h5 className="font-size-15 text-truncate">{fullName}</h5>
+              <p className="text-muted mb-0 text-truncate">{email}</p>
             </Col>
 
             <Col sm="5">
