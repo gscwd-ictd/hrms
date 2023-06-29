@@ -197,8 +197,7 @@ const CloseApplicationPSBMemberAssignment = props => {
       assignedPSBMembers: tableData,
     }
 
-    console.log(closeApplicationData)
-    // dispatch(updatePublicationStatus(modalData.vppId, closeApplicationData))
+    dispatch(updatePublicationStatus(modalData.vppId, closeApplicationData))
   }
 
   // Set role input options
