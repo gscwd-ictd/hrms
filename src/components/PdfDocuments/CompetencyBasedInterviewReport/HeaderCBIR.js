@@ -1,85 +1,85 @@
-import React from "react"
-import { Text, View, StyleSheet, Font, Image } from "@react-pdf/renderer"
+import React from 'react'
+import { Text, View, StyleSheet, Font, Image } from '@react-pdf/renderer'
 
 // Fonts
-import ArialRegular from "assets/fonts/uploads/arial-regular.ttf"
-import ArialSemiBold from "assets/fonts/uploads/arial.ttf"
-import CalibriRegular from "assets/fonts/uploads/calibri-regular.ttf"
+import ArialRegular from 'assets/fonts/uploads/arial-regular.ttf'
+import ArialSemiBold from 'assets/fonts/uploads/arial.ttf'
+import CalibriRegular from 'assets/fonts/uploads/calibri-regular.ttf'
 
 // Logo
-import GSCWDLogo from "assets/images/main_logo_transparent.png"
+import GSCWDLogo from 'assets/images/main_logo_transparent.png'
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
   },
   rowContainer: {
-    flexDirection: "row",
-    alignItems: "stretch",
+    flexDirection: 'row',
+    alignItems: 'stretch',
   },
   logo: {
     width: 70,
     height: 70,
-    margin: "auto",
+    margin: 'auto',
   },
 
   // Border Styles
   bodyBorder: {
     margin: 10,
-    border: "2px solid #000000",
+    border: '2px solid #000000',
   },
   borderTop: {
-    borderTop: "1px solid #000000",
+    borderTop: '1px solid #000000',
   },
   borderRight: {
-    borderRight: "1px solid #000000",
+    borderRight: '1px solid #000000',
   },
 
   // Field Styles
   headerText: {
-    fontFamily: "ArialRegular",
+    fontFamily: 'ArialRegular',
     fontSize: 9,
     padding: 1,
-    marginVertical: "auto",
+    marginVertical: 'auto',
   },
   documentCode: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 11,
-    padding: "10 15 0 0",
-    textAlign: "right",
+    padding: '10 15 0 0',
+    textAlign: 'right',
   },
   arialSemiBold: {
-    fontFamily: "ArialSemiBold",
+    fontFamily: 'ArialSemiBold',
   },
-  verticalCenter: { margin: "auto 0" },
-  horizontalCenter: { textAlign: "center" },
+  verticalCenter: { margin: 'auto 0' },
+  horizontalCenter: { textAlign: 'center' },
 
   // Width Styles
-  w100: { width: "100%" },
-  w40: { width: "40%" },
-  w30: { width: "30%" },
+  w100: { width: '100%' },
+  w40: { width: '40%' },
+  w30: { width: '30%' },
 })
 
 Font.register({
-  family: "ArialRegular",
+  family: 'ArialRegular',
   src: ArialRegular,
 })
 
 Font.register({
-  family: "ArialSemiBold",
+  family: 'ArialSemiBold',
   src: ArialSemiBold,
 })
 
 Font.register({
-  family: "CalibriRegular",
+  family: 'CalibriRegular',
   src: CalibriRegular,
 })
 
-const Header = () => {
+const HeaderCBIR = () => {
   return (
     <View style={[styles.rowContainer]}>
       {/* Logo */}
-      <View style={[styles.w30, { padding: "10 0 0 15" }]}>
+      <View style={[styles.w30, { padding: '10 0 0 15' }]}>
         <Image src={GSCWDLogo} style={[styles.logo]} />
       </View>
 
@@ -96,9 +96,9 @@ const Header = () => {
 
       {/* ISO Document Code */}
       <View style={[styles.w30, styles.documentCode]}>
-        <Text>HRD-002-3</Text>
+        <Text>HRD-003-3</Text>
       </View>
     </View>
   )
 }
-export default Header
+export default HeaderCBIR
