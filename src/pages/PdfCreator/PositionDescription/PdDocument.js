@@ -1,5 +1,5 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 
 import {
   Page,
@@ -9,122 +9,119 @@ import {
   StyleSheet,
   Font,
   Image,
-} from "@react-pdf/renderer"
-import Header from "components/PdfDocuments/PositionDescription/Header"
+} from '@react-pdf/renderer'
+import Header from 'components/PdfDocuments/PositionDescription/Header'
 
 // Fonts
-import CalibriRegular from "assets/fonts/uploads/calibri-regular.ttf"
-import CalibriRegularBold from "assets/fonts/uploads/calibri-regular-bold.ttf"
-
-// Sample e-signature
-import SampleSignature from "assets/images/sample-signature.png"
+import CalibriRegular from 'assets/fonts/uploads/calibri-regular.ttf'
+import CalibriRegularBold from 'assets/fonts/uploads/calibri-regular-bold.ttf'
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
+    paddingTop: 10,
+    paddingBottom: 25,
   },
   rowContainer: {
-    flexDirection: "row",
-    alignItems: "stretch",
+    flexDirection: 'row',
+    alignItems: 'stretch',
     marginTop: 5,
   },
   bodyBorder: {
-    marginTop: 10,
-    marginBottom: 15,
     marginHorizontal: 50,
   },
 
   // Table Styles
   tableBorder: {
-    border: "1px solid #000000",
+    border: '1px solid #000000',
   },
   rowContainerTable: {
-    flexDirection: "row",
-    alignItems: "stretch",
+    flexDirection: 'row',
+    alignItems: 'stretch',
   },
   tHeadFirstLevel: {
-    padding: "4 0 0 4",
+    padding: '4 0 0 4',
   },
   tHeadSecondLevel: {
-    padding: "4 0 0 4",
+    padding: '4 0 0 4',
   },
   tData: {
-    padding: "4 0 0 4",
+    padding: '4 0 0 4',
   },
 
   // Border Styles
   borderTop: {
-    borderTop: "1px solid #000000",
+    borderTop: '1px solid #000000',
   },
   borderRight: {
-    borderRight: "1px solid #000000",
+    borderRight: '1px solid #000000',
   },
   borderBottom: {
-    borderBottom: "1px solid #000000",
+    borderBottom: '1px solid #000000',
   },
 
   // Field Styles
   documentTitle: {
-    fontFamily: "CalibriRegularBold",
+    fontFamily: 'CalibriRegularBold',
     fontSize: 20,
-    marginVertical: 10,
-    textAlign: "center",
+    marginBottom: 10,
+    textAlign: 'center',
   },
   headerText: {
-    fontFamily: "CalibriRegularBold",
-    textDecoration: "underline",
+    fontFamily: 'CalibriRegularBold',
+    textDecoration: 'underline',
     fontSize: 13,
     marginTop: 15,
     marginBottom: 4,
   },
   bodyText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 12,
   },
   bodyTextBold: {
-    fontFamily: "CalibriRegularBold",
+    fontFamily: 'CalibriRegularBold',
     fontSize: 12,
   },
   upperCase: {
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
   },
   signatoryName: {
-    fontFamily: "CalibriRegularBold",
-    textTransform: "uppercase",
+    fontFamily: 'CalibriRegularBold',
+    textTransform: 'uppercase',
     paddingTop: 3,
   },
 
-  verticalCenter: { margin: "auto 0" },
-  horizontalCenter: { textAlign: "center" },
+  verticalCenter: { margin: 'auto 0' },
+  horizontalCenter: { textAlign: 'center' },
   signature: {
     width: 100,
-    marginHorizontal: "auto",
+    marginHorizontal: 'auto',
   },
 
   // Width Styles
-  w100: { width: "100%" },
-  w75: { width: "75%" },
-  w70: { width: "70%" },
-  w60: { width: "60%" },
-  w50: { width: "50%" },
-  w40: { width: "40%" },
-  w33_33: { width: "33.33%" },
-  w30: { width: "30%" },
-  w20: { width: "20%" },
-  w16: { width: "16%" },
-  w15: { width: "15%" },
-  w14: { width: "14%" },
-  w10: { width: "10%" },
-  w5: { width: "5%" },
+  w100: { width: '100%' },
+  w75: { width: '75%' },
+  w70: { width: '70%' },
+  w60: { width: '60%' },
+  w50: { width: '50%' },
+  w40: { width: '40%' },
+  w33_33: { width: '33.33%' },
+  w30: { width: '30%' },
+  w20: { width: '20%' },
+  w16: { width: '16%' },
+  w15: { width: '15%' },
+  w14: { width: '14%' },
+  w10: { width: '10%' },
+  w5: { width: '5%' },
 })
 
 Font.register({
-  family: "CalibriRegular",
+  family: 'CalibriRegular',
   src: CalibriRegular,
 })
 
 Font.register({
-  family: "CalibriRegularBold",
+  family: 'CalibriRegularBold',
   src: CalibriRegularBold,
 })
 
@@ -165,9 +162,9 @@ const PdDocument = props => {
       <View style={[styles.rowContainerTable, styles.borderTop]} key={index}>
         <View style={[styles.w60, styles.tData, styles.borderRight]}>
           <Text>
-            <Text style={{ fontFamily: "CalibriRegularBold" }}>
+            <Text style={{ fontFamily: 'CalibriRegularBold' }}>
               {competency.name}
-            </Text>{" "}
+            </Text>{' '}
             - {competency.description}
           </Text>
         </View>
@@ -187,9 +184,9 @@ const PdDocument = props => {
       <View style={[styles.rowContainerTable, styles.borderTop]} key={index}>
         <View style={[styles.w60, styles.tData, styles.borderRight]}>
           <Text>
-            <Text style={{ fontFamily: "CalibriRegularBold" }}>
+            <Text style={{ fontFamily: 'CalibriRegularBold' }}>
               {competency.name}
-            </Text>{" "}
+            </Text>{' '}
             - {competency.description}
           </Text>
         </View>
@@ -209,9 +206,9 @@ const PdDocument = props => {
       <View style={[styles.rowContainerTable, styles.borderTop]} key={index}>
         <View style={[styles.w60, styles.tData, styles.borderRight]}>
           <Text>
-            <Text style={{ fontFamily: "CalibriRegularBold" }}>
+            <Text style={{ fontFamily: 'CalibriRegularBold' }}>
               {competency.name}
-            </Text>{" "}
+            </Text>{' '}
             - {competency.description}
           </Text>
         </View>
@@ -228,12 +225,12 @@ const PdDocument = props => {
     var content = (
       <>
         {prfDetails.from.name === prfTrail.department.name ||
-        prfTrail.department.status === "N/A" ? (
+        prfTrail.department.status === 'N/A' ? (
           <Text
             style={[
               {
-                fontFamily: "CalibriRegularBold",
-                textTransform: "uppercase",
+                fontFamily: 'CalibriRegularBold',
+                textTransform: 'uppercase',
                 paddingTop: 25,
               },
             ]}
@@ -262,12 +259,12 @@ const PdDocument = props => {
     var content = (
       <>
         {prfDetails.from.name === prfTrail.agm.name ||
-        prfTrail.agm.status === "N/A" ? (
+        prfTrail.agm.status === 'N/A' ? (
           <Text
             style={[
               {
-                fontFamily: "CalibriRegularBold",
-                textTransform: "uppercase",
+                fontFamily: 'CalibriRegularBold',
+                textTransform: 'uppercase',
                 paddingTop: 25,
               },
             ]}
@@ -298,7 +295,7 @@ const PdDocument = props => {
     <Document
       author="General Santos City Water District"
       subject="Position Description - HRD-014-3"
-      title={"Position Description for " + jobDescription.itemNumber}
+      title={'Position Description for ' + jobDescription.itemNumber}
     >
       <Page size="A4" style={styles.page}>
         <Header />
@@ -323,7 +320,7 @@ const PdDocument = props => {
                 </View>
 
                 <View style={[styles.w60]}>
-                  <Text>{jobDescription.itemNumber || "N/A"}</Text>
+                  <Text>{jobDescription.itemNumber || 'N/A'}</Text>
                 </View>
               </View>
 
@@ -338,7 +335,7 @@ const PdDocument = props => {
                 </View>
 
                 <View style={[styles.w60]}>
-                  <Text>{jobDescription.positionTitle || "N/A"}</Text>
+                  <Text>{jobDescription.positionTitle || 'N/A'}</Text>
                 </View>
               </View>
 
@@ -353,7 +350,7 @@ const PdDocument = props => {
                 </View>
 
                 <View style={[styles.w60]}>
-                  <Text>{jobDescription.assignedTo.office.name || "N/A"}</Text>
+                  <Text>{jobDescription.assignedTo.office.name || 'N/A'}</Text>
                 </View>
               </View>
 
@@ -369,7 +366,7 @@ const PdDocument = props => {
 
                 <View style={[styles.w60]}>
                   <Text>
-                    {jobDescription.assignedTo.department.name || "N/A"}
+                    {jobDescription.assignedTo.department.name || 'N/A'}
                   </Text>
                 </View>
               </View>
@@ -386,7 +383,7 @@ const PdDocument = props => {
 
                 <View style={[styles.w60]}>
                   <Text>
-                    {jobDescription.assignedTo.division.name || "N/A"}
+                    {jobDescription.assignedTo.division.name || 'N/A'}
                   </Text>
                 </View>
               </View>
@@ -402,7 +399,7 @@ const PdDocument = props => {
                 </View>
 
                 <View style={[styles.w60]}>
-                  <Text>{jobDescription.reportsTo || "N/A"}</Text>
+                  <Text>{jobDescription.reportsTo || 'N/A'}</Text>
                 </View>
               </View>
 
@@ -435,7 +432,7 @@ const PdDocument = props => {
                   <Text>
                     {capitalizeFirstLetter(
                       jobDescription.natureOfAppointment
-                    ) || "N/A"}
+                    ) || 'N/A'}
                   </Text>
                 </View>
               </View>
@@ -446,7 +443,7 @@ const PdDocument = props => {
                   Decribe briefly the general function of
                   Office/Department/Division
                 </Text>
-                <Text>{jobDescription.description || "N/A"}</Text>
+                <Text>{jobDescription.description || 'N/A'}</Text>
               </View>
 
               {/* Job Summary */}
@@ -455,12 +452,12 @@ const PdDocument = props => {
                   Decribe briefly the general function of the position (Job
                   Summary)
                 </Text>
-                <Text>{jobDescription.summary || "N/A"}</Text>
+                <Text>{jobDescription.summary || 'N/A'}</Text>
               </View>
             </View>
 
             {/* DUTIES AND RESPONSIBILITIES */}
-            <View wrap={false}>
+            <View>
               <View>
                 <Text style={[styles.headerText]}>
                   Statement of Duties and Responsibilities
@@ -496,7 +493,162 @@ const PdDocument = props => {
                     </View>
                   </View>
 
-                  {renderCoreDuties()}
+                  {/* {renderCoreDuties()} */}
+                  <View style={[styles.rowContainerTable, styles.borderTop]}>
+                    <View
+                      style={[styles.w14, styles.tData, styles.borderRight]}
+                    >
+                      <Text
+                        style={[styles.horizontalCenter, styles.verticalCenter]}
+                      >
+                        30.00
+                      </Text>
+                    </View>
+                    <View
+                      style={[styles.w70, styles.tData, styles.borderRight]}
+                    >
+                      <Text>
+                        Spearheads in the implementation of the maintenance of
+                        heavy/light equipment, including water tanks, boom
+                        trucks, dump trucks, and backhoe loaders to ensure its
+                        availability in the engineering- operation.
+                      </Text>
+
+                      <Text>
+                        Conducts maintenance servicing of heavy/ light machinery
+                        and equipment based on the running hours schedule
+                        provided to ensure productive operation of the
+                        machinery/equipment.
+                      </Text>
+
+                      <Text>
+                        Operates machinery and equipment, such as water tanks,
+                        boom trucks, dump trucks, and backhoe loaders, according
+                        to its operating procedure and safety guidelines to
+                        ensure optimal performance
+                      </Text>
+                    </View>
+                    <View style={[styles.w16, styles.tData]}>
+                      <Text>ADVANCED</Text>
+                    </View>
+                  </View>
+
+                  <View style={[styles.rowContainerTable, styles.borderTop]}>
+                    <View
+                      style={[styles.w14, styles.tData, styles.borderRight]}
+                    >
+                      <Text
+                        style={[styles.horizontalCenter, styles.verticalCenter]}
+                      >
+                        30.00
+                      </Text>
+                    </View>
+                    <View
+                      style={[styles.w70, styles.tData, styles.borderRight]}
+                    >
+                      <Text>
+                        Spearheads in the implementation of the maintenance of
+                        heavy/light equipment, including water tanks, boom
+                        trucks, dump trucks, and backhoe loaders to ensure its
+                        availability in the engineering- operation.
+                      </Text>
+
+                      <Text>
+                        Conducts maintenance servicing of heavy/ light machinery
+                        and equipment based on the running hours schedule
+                        provided to ensure productive operation of the
+                        machinery/equipment.
+                      </Text>
+
+                      <Text>
+                        Operates machinery and equipment, such as water tanks,
+                        boom trucks, dump trucks, and backhoe loaders, according
+                        to its operating procedure and safety guidelines to
+                        ensure optimal performance
+                      </Text>
+                    </View>
+                    <View style={[styles.w16, styles.tData]}>
+                      <Text>ADVANCED</Text>
+                    </View>
+                  </View>
+
+                  <View style={[styles.rowContainerTable, styles.borderTop]}>
+                    <View
+                      style={[styles.w14, styles.tData, styles.borderRight]}
+                    >
+                      <Text
+                        style={[styles.horizontalCenter, styles.verticalCenter]}
+                      >
+                        20.00
+                      </Text>
+                    </View>
+                    <View
+                      style={[styles.w70, styles.tData, styles.borderRight]}
+                    >
+                      <Text>
+                        Spearheads in the implementation of the maintenance of
+                        heavy/light equipment, including water tanks, boom
+                        trucks, dump trucks, and backhoe loaders to ensure its
+                        availability in the engineering- operation.
+                      </Text>
+
+                      <Text>
+                        Conducts maintenance servicing of heavy/ light machinery
+                        and equipment based on the running hours schedule
+                        provided to ensure productive operation of the
+                        machinery/equipment.
+                      </Text>
+
+                      <Text>
+                        Operates machinery and equipment, such as water tanks,
+                        boom trucks, dump trucks, and backhoe loaders, according
+                        to its operating procedure and safety guidelines to
+                        ensure optimal performance
+                      </Text>
+                    </View>
+                    <View style={[styles.w16, styles.tData]}>
+                      <Text>ADVANCED</Text>
+                    </View>
+                  </View>
+
+                  <View style={[styles.rowContainerTable, styles.borderTop]}>
+                    <View
+                      style={[styles.w14, styles.tData, styles.borderRight]}
+                    >
+                      <Text
+                        style={[styles.horizontalCenter, styles.verticalCenter]}
+                      >
+                        20.00
+                      </Text>
+                    </View>
+                    <View
+                      style={[styles.w70, styles.tData, styles.borderRight]}
+                    >
+                      <Text>
+                        Spearheads in the implementation of the maintenance of
+                        heavy/light equipment, including water tanks, boom
+                        trucks, dump trucks, and backhoe loaders to ensure its
+                        availability in the engineering- operation.
+                      </Text>
+
+                      <Text>
+                        Conducts maintenance servicing of heavy/ light machinery
+                        and equipment based on the running hours schedule
+                        provided to ensure productive operation of the
+                        machinery/equipment.
+                      </Text>
+
+                      <Text>
+                        Operates machinery and equipment, such as water tanks,
+                        boom trucks, dump trucks, and backhoe loaders, according
+                        to its operating procedure and safety guidelines to
+                        ensure optimal performance
+                      </Text>
+                    </View>
+                    <View style={[styles.w16, styles.tData]}>
+                      <Text>ADVANCED</Text>
+                    </View>
+                  </View>
                 </View>
 
                 {/* SUPPORT */}
@@ -553,7 +705,7 @@ const PdDocument = props => {
 
                   <View style={[styles.w75]}>
                     <Text>
-                      {positionQualificationStandards.education || "N/A"}
+                      {positionQualificationStandards.education || 'N/A'}
                     </Text>
                   </View>
                 </View>
@@ -570,7 +722,7 @@ const PdDocument = props => {
 
                   <View style={[styles.w75]}>
                     <Text>
-                      {positionQualificationStandards.experience || "N/A"}
+                      {positionQualificationStandards.experience || 'N/A'}
                     </Text>
                   </View>
                 </View>
@@ -587,7 +739,7 @@ const PdDocument = props => {
 
                   <View style={[styles.w75]}>
                     <Text>
-                      {positionQualificationStandards.training || "N/A"}
+                      {positionQualificationStandards.training || 'N/A'}
                     </Text>
                   </View>
                 </View>
@@ -604,7 +756,7 @@ const PdDocument = props => {
 
                   <View style={[styles.w75]}>
                     <Text>
-                      {positionQualificationStandards.eligibility || "N/A"}
+                      {positionQualificationStandards.eligibility || 'N/A'}
                     </Text>
                   </View>
                 </View>
@@ -612,7 +764,7 @@ const PdDocument = props => {
             </View>
 
             {/* COMPETENCIES */}
-            <View wrap={false}>
+            <View>
               <View>
                 <Text style={[styles.headerText]}>Competencies</Text>
               </View>
