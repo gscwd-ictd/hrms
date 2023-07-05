@@ -1082,15 +1082,7 @@ const DbmCscAdditionalInfo = props => {
             </ModalBody>
 
             <ModalFooter>
-              <Button
-                color="danger"
-                form="dbmCscAdditionalInfoForm"
-                className="btn btn-danger "
-                onClick={handleCloseDbmCscAdditionalInfoModal}
-              >
-                Cancel
-              </Button>
-              <Button type="submit" color="info">
+              <Button type="submit" form="dbmCscAdditionalInfoForm" color="info">
                 Submit
               </Button>
             </ModalFooter>
