@@ -34,6 +34,9 @@ function* loginUser({ payload: { user, history } }) {
     const isSuperUser = response.userDetails.isSuperUser
     cookies.set('isSuperUser', isSuperUser)
 
+    const fullName = response.userDetails.fullName
+    localStorage.setItem('fullName', fullName)
+
     const userEmail = response.email
     localStorage.setItem('email', userEmail)
 
@@ -48,7 +51,6 @@ function* loginUser({ payload: { user, history } }) {
     localStorage.setItem('userId', employeeId ? employeeId : suId)
 
     history('/module-dashboard')
-    // window.location.reload()
   } catch (error) {
     yield put(apiError(error))
   }

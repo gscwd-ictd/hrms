@@ -56,13 +56,6 @@ const ModuleDashboard = props => {
                       Rewards and Recognition
                     </h5>
                   </CardModule>
-
-                  <CardModule moduleUrl="/module-dashboard">
-                    <i className="fas fa-money-check mb-4 card-icon text-primary" />
-                    <h5 className="font-size-15 text-uppercase">
-                      Payroll and Remittances
-                    </h5>
-                  </CardModule>
                 </Row>
               </div>
             </Col>
