@@ -1,60 +1,60 @@
-import React, { useEffect, useMemo, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import React, { useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchQualificationStandardsList,
   resetQualificationStandards,
-} from "store/actions"
-import { Can } from "casl/Can"
-import { Navigate } from "react-router-dom"
+} from 'store/actions'
+import { Can } from 'casl/Can'
+import { Navigate } from 'react-router-dom'
 
-import { Card, CardBody, Col, Row } from "reactstrap"
-import InRowAction from "components/InRowAction/InRowAction"
-import EditQSModal from "components/Modal/QualificationStandards/EditQSModal"
-import TableQualificationStandard from "components/Table/TableQualificationStandard"
-import Breadcrumbs from "components/Common/Breadcrumb"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import { Card, CardBody, Col, Row } from 'reactstrap'
+import InRowAction from 'components/InRowAction/InRowAction'
+import EditQSModal from 'components/Modal/QualificationStandards/EditQSModal'
+import TableQualificationStandard from 'components/Table/TableQualificationStandard'
+import Breadcrumbs from 'components/Common/Breadcrumb'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // style
-import "styles/custom_gscwd/components/table.scss"
+import 'styles/custom_gscwd/components/table.scss'
 
 const QualificationStandards = () => {
   const dispatch = useDispatch()
 
   const tableColumns = [
     {
-      Header: "ID",
-      accessor: "positionId",
+      Header: 'ID',
+      accessor: 'positionId',
       disableGlobalFilter: true,
     },
     {
-      Header: "Item No.",
-      accessor: "itemNumber",
+      Header: 'Item No.',
+      accessor: 'itemNumber',
     },
     {
-      Header: "Position Title",
-      accessor: "positionTitle",
+      Header: 'Position Title',
+      accessor: 'positionTitle',
     },
     {
-      Header: "Eligibility",
-      accessor: "eligibility",
+      Header: 'Eligibility',
+      accessor: 'eligibility',
     },
     {
-      Header: "Education",
-      accessor: "education",
+      Header: 'Education',
+      accessor: 'education',
     },
     {
-      Header: "Experience",
-      accessor: "experience",
+      Header: 'Experience',
+      accessor: 'experience',
     },
     {
-      Header: "Training",
-      accessor: "training",
+      Header: 'Training',
+      accessor: 'training',
     },
     {
-      Header: "Actions",
-      accessor: "",
-      align: "center",
+      Header: 'Actions',
+      accessor: '',
+      align: 'center',
       disableGlobalFilter: true,
       Cell: function ActionDropdown(cell) {
         return <InRowAction cell={cell} editModal={editModal} />
@@ -116,7 +116,7 @@ const QualificationStandards = () => {
             {/* Notifications */}
             {errorQualificationStandardsList ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorQualificationStandardsList}
               />
             ) : null}

@@ -89,7 +89,7 @@ const PublicationSummary = props => {
         centered
       >
         <ModalHeader toggle={handleClosePublicationDetails}>
-          Publication Details
+          Publication Summary
         </ModalHeader>
 
         {/* Error Notif */}

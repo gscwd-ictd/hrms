@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react"
-import dayjs from "dayjs"
-import { isEmpty } from "lodash"
-import { Can } from "casl/Can"
-import { Navigate, useParams } from "react-router-dom"
+import React, { useEffect, useState } from 'react'
+import dayjs from 'dayjs'
+import { isEmpty } from 'lodash'
+import { Can } from 'casl/Can'
+import { Navigate, useParams } from 'react-router-dom'
 
-import { useDispatch, useSelector } from "react-redux"
-import { fetchPublicationDocumentDetails, fetchPRFTrail } from "store/actions"
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchPublicationDocumentDetails, fetchPRFTrail } from 'store/actions'
 
-import { Container, Form, Button } from "reactstrap"
-import { PDFViewer } from "@react-pdf/renderer"
-import PublicationDocument from "./PublicationDocument"
+import { Container, Form, Button } from 'reactstrap'
+import { PDFViewer } from '@react-pdf/renderer'
+import PublicationDocument from './PublicationDocument'
 
 // Extra components
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const PublicationPdf = () => {
   const dispatch = useDispatch()
@@ -41,18 +41,18 @@ const PublicationPdf = () => {
     errorPrfTrail: state.positionRequest.error.errorPrfTrail,
   }))
 
-  const formatDate = assignedDate => dayjs(assignedDate).format("MMMM DD, YYYY")
+  const formatDate = assignedDate => dayjs(assignedDate).format('MMMM DD, YYYY')
 
   // Generation of excel document of publication
   const createExcelDocument = e => {
     e.preventDefault()
 
-    const XLSX = require("sheetjs-style")
+    const XLSX = require('sheetjs-style')
     // const XLSX = require("xlsx")
 
     const defaultCellStyle = {
       font: {
-        name: "Arial",
+        name: 'Arial',
         sz: 10,
       },
     }
@@ -61,7 +61,7 @@ const PublicationPdf = () => {
     //   origin: "A26",
     // })
     var worksheet = XLSX.utils.aoa_to_sheet(filteredPublicationData, {
-      origin: "A18",
+      origin: 'A18',
     })
 
     // Set colum width
@@ -78,7 +78,7 @@ const PublicationPdf = () => {
       { wch: 35 }, // J
       { wch: 12 }, // K
     ]
-    worksheet["!cols"] = wscols
+    worksheet['!cols'] = wscols
 
     // Set row height
     var wsrows = [
@@ -117,14 +117,14 @@ const PublicationPdf = () => {
       { hpx: 14.5 }, // 33
       { hpx: 14.5 }, // 34
     ]
-    worksheet["!rows"] = wsrows
+    worksheet['!rows'] = wsrows
 
     // Add header text
     XLSX.utils.sheet_add_aoa(
       worksheet,
       [
         [
-          "CS Form No. 9",
+          'CS Form No. 9',
           ,
           ,
           ,
@@ -133,48 +133,48 @@ const PublicationPdf = () => {
           ,
           ,
           ,
-          "Electronic copy to be submitted to the CSC FO  must be in MS Excel format",
+          'Electronic copy to be submitted to the CSC FO  must be in MS Excel format',
         ],
-        ["Series of 2017", , , , , , , , , ,],
-        ["Republic of the Philippines", , , , , , , , , ,],
-        ["GENERAL SANTOS CITY WATER DISTRICT", , , , , , , , , ,],
-        ["Request for Publication of Vacant Positions", , , , , , , , , ,],
+        ['Series of 2018', , , , , , , , , ,],
+        ['Republic of the Philippines', , , , , , , , , ,],
+        ['GENERAL SANTOS CITY WATER DISTRICT', , , , , , , , , ,],
+        ['Request for Publication of Vacant Positions', , , , , , , , , ,],
         [],
-        ["To: CIVIL SERVICE COMMISSION (CSC)", , , , , , , , , ,],
+        ['To: CIVIL SERVICE COMMISSION (CSC)', , , , , , , , , ,],
         [],
         [
           ,
-          "This is to request the publication of the following vacant positions of",
+          'This is to request the publication of the following vacant positions of',
           ,
           ,
           ,
-          "   General Santos City Water District   ",
+          '   General Santos City Water District   ',
           ,
-          "in the CSC website:",
+          'in the CSC website:',
           ,
           ,
           ,
         ],
       ],
-      { origin: "A1" }
+      { origin: 'A1' }
     )
 
     // Add GM name and date of approval
     XLSX.utils.sheet_add_aoa(
       worksheet,
       [
-        [prfTrail.gm.name.toUpperCase(), "", ""],
-        ["(Head of Agency)", "", ""],
+        [prfTrail.gm.name.toUpperCase(), '', ''],
+        ['(Head of Agency)', '', ''],
       ],
       {
-        origin: "I11",
+        origin: 'I11',
       }
     )
     XLSX.utils.sheet_add_aoa(
       worksheet,
-      [["Date:", formatDate(prfTrail.gm.updatedAt)]],
+      [['Date:', formatDate(prfTrail.gm.updatedAt)]],
       {
-        origin: "I14",
+        origin: 'I14',
       }
     )
 
@@ -183,39 +183,39 @@ const PublicationPdf = () => {
       worksheet,
       [
         [
-          "No.",
-          "Position Title",
-          "Plantilla Item No.",
-          "Salary/ Job/ Pay Grade",
-          "Annual Salary",
-          "Qualification Standards",
-          "",
-          "",
-          "",
-          "",
-          "Place of Assignment",
+          'No.',
+          'Position Title',
+          'Plantilla Item No.',
+          'Salary/ Job/ Pay Grade',
+          'Annual Salary',
+          'Qualification Standards',
+          '',
+          '',
+          '',
+          '',
+          'Place of Assignment',
         ],
       ],
-      { origin: "A16" }
+      { origin: 'A16' }
     )
     XLSX.utils.sheet_add_aoa(
       worksheet,
       [
         [
-          "",
-          "",
-          "",
-          "",
-          "",
-          " Education",
-          " Training",
-          "Experience",
-          "Eligibility",
-          "Competency",
-          "",
+          '',
+          '',
+          '',
+          '',
+          '',
+          ' Education',
+          ' Training',
+          'Experience',
+          'Eligibility',
+          'Competency',
+          '',
         ],
       ],
-      { origin: "A17" }
+      { origin: 'A17' }
     )
 
     // Add requirements text
@@ -223,24 +223,24 @@ const PublicationPdf = () => {
       worksheet,
       [
         [
-          "Interested and qualified applicants should signify their interest in writing. Attach the following documents to the application letter and send to the address below not later than ____________________.",
+          'Interested and qualified applicants should signify their interest in writing. Attach the following documents to the application letter and send to the address below not later than ____________________.',
         ],
       ],
-      { origin: "A22" }
+      { origin: 'A22' }
     )
     XLSX.utils.sheet_add_aoa(
       worksheet,
       [
         [
-          "1. Fully accomplished Personal Data Sheet (PDS) with recent passport-sized picture (CS Form No. 212, Revised 2017) which can be downloaded at www.csc.gov.ph;",
+          '1. Fully accomplished Personal Data Sheet (PDS) with recent passport-sized picture (CS Form No. 212, Revised 2017) which can be downloaded at www.csc.gov.ph;',
         ],
         [
-          "2. Performance rating  in the present position for one (1) year (if applicable);",
+          '2. Performance rating  in the present position for one (1) year (if applicable);',
         ],
-        ["3. Photocopy of certificate of eligibility/rating/license; and"],
-        ["4. Photocopy of Transcript of Records."],
+        ['3. Photocopy of certificate of eligibility/rating/license; and'],
+        ['4. Photocopy of Transcript of Records.'],
       ],
-      { origin: "B24" }
+      { origin: 'B24' }
     )
 
     // Bottom left text
@@ -248,25 +248,25 @@ const PublicationPdf = () => {
       worksheet,
       [
         [
-          "QUALIFIED APPLICANTS",
+          'QUALIFIED APPLICANTS',
           ,
-          "are advised to hand in or send through courier/email their application to:",
+          'are advised to hand in or send through courier/email their application to:',
         ],
       ],
       {
-        origin: "A29",
+        origin: 'A29',
       }
     )
     XLSX.utils.sheet_add_aoa(
       worksheet,
       [
-        [prfTrail.gm.name.toUpperCase(), "", ""],
-        [prfTrail.gm.position, "", ""],
-        ["E. Fernandez St., Lagao, General Santos City", "", ""],
-        ["hrd_gscwd@yahoo.com", "", ""],
+        [prfTrail.gm.name.toUpperCase(), '', ''],
+        [prfTrail.gm.position, '', ''],
+        ['E. Fernandez St., Lagao, General Santos City', '', ''],
+        ['hrd_gscwd@yahoo.com', '', ''],
       ],
       {
-        origin: "B31",
+        origin: 'B31',
       }
     )
 
@@ -276,14 +276,14 @@ const PublicationPdf = () => {
       worksheet,
       [
         [
-          "GSCWD values diversity in its workforce and encourages qualified women and men to apply regardless of religion, sex, gender or physical disability",
-          "",
-          "",
-          "",
+          'GSCWD values diversity in its workforce and encourages qualified women and men to apply regardless of religion, sex, gender, or physical disability',
+          '',
+          '',
+          '',
         ],
       ],
       {
-        origin: "H29",
+        origin: 'H29',
       }
     )
     // Reminder text
@@ -291,14 +291,14 @@ const PublicationPdf = () => {
       worksheet,
       [
         [
-          "APPLICATIONS WITH INCOMPLETE DOCUMENTS SHALL NOT BE ENTERTAINED",
-          "",
-          "",
-          "",
+          'APPLICATIONS WITH INCOMPLETE DOCUMENTS SHALL NOT BE ENTERTAINED',
+          '',
+          '',
+          '',
         ],
       ],
       {
-        origin: "H34",
+        origin: 'H34',
       }
     )
 
@@ -346,10 +346,10 @@ const PublicationPdf = () => {
       { s: { c: 7, r: 28 }, e: { c: 10, r: 32 } }, // HR Tagline H29-K33
       { s: { c: 7, r: 33 }, e: { c: 10, r: 33 } }, // Reminder text H34-K34
     ]
-    worksheet["!merges"] = merge
+    worksheet['!merges'] = merge
 
     // Styling of specific cells
-    worksheet["A1"].s = {
+    worksheet['A1'].s = {
       font: {
         sz: 11,
         bold: true,
@@ -357,49 +357,49 @@ const PublicationPdf = () => {
       },
       alignment: { wrapText: true },
     }
-    worksheet["J1"].s = {
+    worksheet['J1'].s = {
       font: {
         sz: 9,
         italic: true,
       },
-      alignment: { horizontal: "center", vertical: "center", wrapText: true },
+      alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
     }
-    worksheet["A2"].s = {
+    worksheet['A2'].s = {
       font: {
         sz: 9,
         bold: true,
         italic: true,
       },
-      alignment: { horizontal: "left", wrapText: true },
+      alignment: { horizontal: 'left', wrapText: true },
     }
-    worksheet["A3"].s = {
+    worksheet['A3'].s = {
       font: {
         sz: 11,
         bold: true,
       },
-      alignment: { horizontal: "center", wrapText: true },
+      alignment: { horizontal: 'center', wrapText: true },
     }
-    worksheet["A4"].s = {
+    worksheet['A4'].s = {
       font: {
         sz: 11,
         bold: true,
       },
-      alignment: { horizontal: "center", wrapText: true },
+      alignment: { horizontal: 'center', wrapText: true },
     }
-    worksheet["A5"].s = {
+    worksheet['A5'].s = {
       font: {
         sz: 11,
         bold: true,
       },
-      alignment: { horizontal: "center", wrapText: true },
+      alignment: { horizontal: 'center', wrapText: true },
     }
-    worksheet["A7"].s = {
+    worksheet['A7'].s = {
       font: {
         bold: true,
       },
       alignment: { wrapText: true },
     }
-    worksheet["F9"].s = {
+    worksheet['F9'].s = {
       font: {
         bold: true,
         underline: true,
@@ -407,292 +407,292 @@ const PublicationPdf = () => {
     }
 
     // GM Name
-    worksheet[["I11"]].s = {
+    worksheet[['I11']].s = {
       font: {
         bold: true,
       },
-      alignment: { horizontal: "center" },
+      alignment: { horizontal: 'center' },
       border: {
-        bottom: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["J11"].s = {
+    worksheet['J11'].s = {
       border: {
-        bottom: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["K11"].s = {
+    worksheet['K11'].s = {
       border: {
-        bottom: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
       },
     }
 
-    worksheet["I12"].s = {
-      alignment: { horizontal: "center" },
+    worksheet['I12'].s = {
+      alignment: { horizontal: 'center' },
     }
-    worksheet["I14"].s = {
-      alignment: { horizontal: "center" },
+    worksheet['I14'].s = {
+      alignment: { horizontal: 'center' },
     }
 
     // GM Date of Signatory
-    worksheet[["J14"]].s = {
-      alignment: { horizontal: "center" },
+    worksheet[['J14']].s = {
+      alignment: { horizontal: 'center' },
       border: {
-        bottom: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
       },
     }
 
     // Table header styling
-    worksheet["A16"].s = {
+    worksheet['A16'].s = {
       font: {
         bold: true,
       },
-      alignment: { horizontal: "center", vertical: "center", wrapText: true },
+      alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
       border: {
-        top: { style: "thin", color: { rgb: "000000" } },
-        left: { style: "thin", color: { rgb: "000000" } },
-        right: { style: "thin", color: { rgb: "000000" } },
+        top: { style: 'thin', color: { rgb: '000000' } },
+        left: { style: 'thin', color: { rgb: '000000' } },
+        right: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["A17"].s = {
+    worksheet['A17'].s = {
       border: {
-        bottom: { style: "thin", color: { rgb: "000000" } },
-        left: { style: "thin", color: { rgb: "000000" } },
-        right: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
+        left: { style: 'thin', color: { rgb: '000000' } },
+        right: { style: 'thin', color: { rgb: '000000' } },
       },
     }
 
-    worksheet["B16"].s = {
+    worksheet['B16'].s = {
       font: {
         bold: true,
       },
-      alignment: { horizontal: "center", vertical: "center", wrapText: true },
+      alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
       border: {
-        top: { style: "thin", color: { rgb: "000000" } },
-        left: { style: "thin", color: { rgb: "000000" } },
-        right: { style: "thin", color: { rgb: "000000" } },
+        top: { style: 'thin', color: { rgb: '000000' } },
+        left: { style: 'thin', color: { rgb: '000000' } },
+        right: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["B17"].s = {
+    worksheet['B17'].s = {
       border: {
-        bottom: { style: "thin", color: { rgb: "000000" } },
-        left: { style: "thin", color: { rgb: "000000" } },
-        right: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
+        left: { style: 'thin', color: { rgb: '000000' } },
+        right: { style: 'thin', color: { rgb: '000000' } },
       },
     }
 
-    worksheet["C16"].s = {
+    worksheet['C16'].s = {
       font: {
         bold: true,
       },
-      alignment: { horizontal: "center", vertical: "center", wrapText: true },
+      alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
       border: {
-        top: { style: "thin", color: { rgb: "000000" } },
-        left: { style: "thin", color: { rgb: "000000" } },
-        right: { style: "thin", color: { rgb: "000000" } },
+        top: { style: 'thin', color: { rgb: '000000' } },
+        left: { style: 'thin', color: { rgb: '000000' } },
+        right: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["C17"].s = {
+    worksheet['C17'].s = {
       border: {
-        bottom: { style: "thin", color: { rgb: "000000" } },
-        left: { style: "thin", color: { rgb: "000000" } },
-        right: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
+        left: { style: 'thin', color: { rgb: '000000' } },
+        right: { style: 'thin', color: { rgb: '000000' } },
       },
     }
 
-    worksheet["D16"].s = {
+    worksheet['D16'].s = {
       font: {
         bold: true,
       },
-      alignment: { horizontal: "center", vertical: "center", wrapText: true },
+      alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
       border: {
-        top: { style: "thin", color: { rgb: "000000" } },
-        left: { style: "thin", color: { rgb: "000000" } },
-        right: { style: "thin", color: { rgb: "000000" } },
+        top: { style: 'thin', color: { rgb: '000000' } },
+        left: { style: 'thin', color: { rgb: '000000' } },
+        right: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["D17"].s = {
+    worksheet['D17'].s = {
       border: {
-        bottom: { style: "thin", color: { rgb: "000000" } },
-        left: { style: "thin", color: { rgb: "000000" } },
-        right: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
+        left: { style: 'thin', color: { rgb: '000000' } },
+        right: { style: 'thin', color: { rgb: '000000' } },
       },
     }
 
-    worksheet["E16"].s = {
+    worksheet['E16'].s = {
       font: {
         bold: true,
       },
-      alignment: { horizontal: "center", vertical: "center", wrapText: true },
+      alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
       border: {
-        top: { style: "thin", color: { rgb: "000000" } },
-        left: { style: "thin", color: { rgb: "000000" } },
-        right: { style: "thin", color: { rgb: "000000" } },
+        top: { style: 'thin', color: { rgb: '000000' } },
+        left: { style: 'thin', color: { rgb: '000000' } },
+        right: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["E17"].s = {
+    worksheet['E17'].s = {
       border: {
-        bottom: { style: "thin", color: { rgb: "000000" } },
-        left: { style: "thin", color: { rgb: "000000" } },
-        right: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
+        left: { style: 'thin', color: { rgb: '000000' } },
+        right: { style: 'thin', color: { rgb: '000000' } },
       },
     }
 
     // qualification standard
-    worksheet["F16"].s = {
+    worksheet['F16'].s = {
       font: {
         bold: true,
       },
-      alignment: { horizontal: "center", vertical: "center", wrapText: true },
+      alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
       border: {
-        top: { style: "thin", color: { rgb: "000000" } },
-        bottom: { style: "thin", color: { rgb: "000000" } },
-        left: { style: "thin", color: { rgb: "000000" } },
+        top: { style: 'thin', color: { rgb: '000000' } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
+        left: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["G16"].s = {
+    worksheet['G16'].s = {
       border: {
-        top: { style: "thin", color: { rgb: "000000" } },
-        bottom: { style: "thin", color: { rgb: "000000" } },
+        top: { style: 'thin', color: { rgb: '000000' } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["G16"].s = {
+    worksheet['G16'].s = {
       border: {
-        top: { style: "thin", color: { rgb: "000000" } },
-        bottom: { style: "thin", color: { rgb: "000000" } },
+        top: { style: 'thin', color: { rgb: '000000' } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["H16"].s = {
+    worksheet['H16'].s = {
       border: {
-        top: { style: "thin", color: { rgb: "000000" } },
-        bottom: { style: "thin", color: { rgb: "000000" } },
+        top: { style: 'thin', color: { rgb: '000000' } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["I16"].s = {
+    worksheet['I16'].s = {
       border: {
-        top: { style: "thin", color: { rgb: "000000" } },
-        bottom: { style: "thin", color: { rgb: "000000" } },
+        top: { style: 'thin', color: { rgb: '000000' } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["J16"].s = {
+    worksheet['J16'].s = {
       border: {
-        top: { style: "thin", color: { rgb: "000000" } },
-        bottom: { style: "thin", color: { rgb: "000000" } },
-        right: { style: "thin", color: { rgb: "000000" } },
+        top: { style: 'thin', color: { rgb: '000000' } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
+        right: { style: 'thin', color: { rgb: '000000' } },
       },
     }
 
     // qs areas
-    worksheet["F17"].s = {
+    worksheet['F17'].s = {
       font: {
         bold: true,
       },
-      alignment: { horizontal: "center", vertical: "center", wrapText: true },
+      alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
       border: {
-        top: { style: "thin", color: { rgb: "000000" } },
-        bottom: { style: "thin", color: { rgb: "000000" } },
-        left: { style: "thin", color: { rgb: "000000" } },
-        right: { style: "thin", color: { rgb: "000000" } },
+        top: { style: 'thin', color: { rgb: '000000' } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
+        left: { style: 'thin', color: { rgb: '000000' } },
+        right: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["G17"].s = {
+    worksheet['G17'].s = {
       font: {
         bold: true,
       },
-      alignment: { horizontal: "center", vertical: "center", wrapText: true },
+      alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
       border: {
-        top: { style: "thin", color: { rgb: "000000" } },
-        bottom: { style: "thin", color: { rgb: "000000" } },
-        left: { style: "thin", color: { rgb: "000000" } },
-        right: { style: "thin", color: { rgb: "000000" } },
+        top: { style: 'thin', color: { rgb: '000000' } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
+        left: { style: 'thin', color: { rgb: '000000' } },
+        right: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["H17"].s = {
+    worksheet['H17'].s = {
       font: {
         bold: true,
       },
-      alignment: { horizontal: "center", vertical: "center", wrapText: true },
+      alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
       border: {
-        top: { style: "thin", color: { rgb: "000000" } },
-        bottom: { style: "thin", color: { rgb: "000000" } },
-        left: { style: "thin", color: { rgb: "000000" } },
-        right: { style: "thin", color: { rgb: "000000" } },
+        top: { style: 'thin', color: { rgb: '000000' } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
+        left: { style: 'thin', color: { rgb: '000000' } },
+        right: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["I17"].s = {
+    worksheet['I17'].s = {
       font: {
         bold: true,
       },
-      alignment: { horizontal: "center", vertical: "center", wrapText: true },
+      alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
       border: {
-        top: { style: "thin", color: { rgb: "000000" } },
-        bottom: { style: "thin", color: { rgb: "000000" } },
-        left: { style: "thin", color: { rgb: "000000" } },
-        right: { style: "thin", color: { rgb: "000000" } },
+        top: { style: 'thin', color: { rgb: '000000' } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
+        left: { style: 'thin', color: { rgb: '000000' } },
+        right: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["J17"].s = {
+    worksheet['J17'].s = {
       font: {
         bold: true,
       },
-      alignment: { horizontal: "center", vertical: "center", wrapText: true },
+      alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
       border: {
-        top: { style: "thin", color: { rgb: "000000" } },
-        bottom: { style: "thin", color: { rgb: "000000" } },
-        left: { style: "thin", color: { rgb: "000000" } },
-        right: { style: "thin", color: { rgb: "000000" } },
+        top: { style: 'thin', color: { rgb: '000000' } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
+        left: { style: 'thin', color: { rgb: '000000' } },
+        right: { style: 'thin', color: { rgb: '000000' } },
       },
     }
 
     // place of assignment
-    worksheet["K16"].s = {
+    worksheet['K16'].s = {
       font: {
         bold: true,
       },
-      alignment: { horizontal: "center", vertical: "center", wrapText: true },
+      alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
       border: {
-        top: { style: "thin", color: { rgb: "000000" } },
-        left: { style: "thin", color: { rgb: "000000" } },
-        right: { style: "thin", color: { rgb: "000000" } },
+        top: { style: 'thin', color: { rgb: '000000' } },
+        left: { style: 'thin', color: { rgb: '000000' } },
+        right: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["K17"].s = {
+    worksheet['K17'].s = {
       border: {
-        bottom: { style: "thin", color: { rgb: "000000" } },
-        left: { style: "thin", color: { rgb: "000000" } },
-        right: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
+        left: { style: 'thin', color: { rgb: '000000' } },
+        right: { style: 'thin', color: { rgb: '000000' } },
       },
     }
 
     // table data styling
     const columnLetterArray = [
-      "A",
-      "B",
-      "C",
-      "D",
-      "E",
-      "F",
-      "G",
-      "H",
-      "I",
-      "J",
-      "K",
+      'A',
+      'B',
+      'C',
+      'D',
+      'E',
+      'F',
+      'G',
+      'H',
+      'I',
+      'J',
+      'K',
     ]
     const positionCount = filteredPublicationData.length + 18
     for (let x = 18; x < positionCount; x++) {
       columnLetterArray.map(letter => {
-        if (letter !== "J") {
+        if (letter !== 'J') {
           worksheet[letter + x].s = {
             alignment: {
-              horizontal: "center",
-              vertical: "center",
+              horizontal: 'center',
+              vertical: 'center',
               wrapText: true,
             },
             border: {
-              top: { style: "thin", color: { rgb: "000000" } },
-              bottom: { style: "thin", color: { rgb: "000000" } },
-              left: { style: "thin", color: { rgb: "000000" } },
-              right: { style: "thin", color: { rgb: "000000" } },
+              top: { style: 'thin', color: { rgb: '000000' } },
+              bottom: { style: 'thin', color: { rgb: '000000' } },
+              left: { style: 'thin', color: { rgb: '000000' } },
+              right: { style: 'thin', color: { rgb: '000000' } },
             },
           }
         } else {
@@ -701,15 +701,15 @@ const PublicationPdf = () => {
               sz: 7,
             },
             alignment: {
-              horizontal: "center",
-              vertical: "center",
+              horizontal: 'center',
+              vertical: 'center',
               wrapText: true,
             },
             border: {
-              top: { style: "thin", color: { rgb: "000000" } },
-              bottom: { style: "thin", color: { rgb: "000000" } },
-              left: { style: "thin", color: { rgb: "000000" } },
-              right: { style: "thin", color: { rgb: "000000" } },
+              top: { style: 'thin', color: { rgb: '000000' } },
+              bottom: { style: 'thin', color: { rgb: '000000' } },
+              left: { style: 'thin', color: { rgb: '000000' } },
+              right: { style: 'thin', color: { rgb: '000000' } },
             },
           }
         }
@@ -717,123 +717,123 @@ const PublicationPdf = () => {
     }
 
     // Bottom left
-    worksheet["A29"].s = {
+    worksheet['A29'].s = {
       font: {
         bold: true,
       },
     }
     // Row 1
-    worksheet[["B31"]].s = {
+    worksheet[['B31']].s = {
       font: {
         bold: true,
       },
       border: {
-        bottom: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["C31"].s = {
+    worksheet['C31'].s = {
       border: {
-        bottom: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["D31"].s = {
+    worksheet['D31'].s = {
       border: {
-        bottom: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
       },
     }
     // Row 2
-    worksheet["B32"].s = {
+    worksheet['B32'].s = {
       border: {
-        bottom: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["C32"].s = {
+    worksheet['C32'].s = {
       border: {
-        bottom: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["D32"].s = {
+    worksheet['D32'].s = {
       border: {
-        bottom: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
       },
     }
     // Row 3
-    worksheet["B33"].s = {
+    worksheet['B33'].s = {
       border: {
-        bottom: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["C33"].s = {
+    worksheet['C33'].s = {
       border: {
-        bottom: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["D33"].s = {
+    worksheet['D33'].s = {
       border: {
-        bottom: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
       },
     }
     // Row 4
-    worksheet["B34"].s = {
+    worksheet['B34'].s = {
       border: {
-        bottom: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["C34"].s = {
+    worksheet['C34'].s = {
       border: {
-        bottom: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
       },
     }
-    worksheet["D34"].s = {
+    worksheet['D34'].s = {
       border: {
-        bottom: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: 'thin', color: { rgb: '000000' } },
       },
     }
 
     // HR tagline
-    worksheet["H29"].s = {
+    worksheet['H29'].s = {
       font: {
         sz: 13,
         bold: true,
       },
       alignment: {
         wrapText: true,
-        horizontal: "center",
-        vertical: "center",
+        horizontal: 'center',
+        vertical: 'center',
       },
     }
     // Reminder text
-    worksheet["H34"].s = {
+    worksheet['H34'].s = {
       font: {
-        color: { rgb: "ff0000" },
+        color: { rgb: 'ff0000' },
         bold: true,
       },
       alignment: {
         wrapText: true,
-        horizontal: "center",
-        vertical: "center",
+        horizontal: 'center',
+        vertical: 'center',
       },
     }
 
     const workbook = XLSX.utils.book_new()
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Publication")
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Publication')
 
-    XLSX.writeFile(workbook, "Publication.xlsx", {
+    XLSX.writeFile(workbook, 'Publication.xlsx', {
       defaultCellStyle: defaultCellStyle,
     })
   }
 
   // Convert functional competency (array of objects) to string
   const arrayToString = arr => {
-    let result = ""
+    let result = ''
 
     arr.map(competency => {
       result +=
-        "\n" +
+        '\n' +
         competency.name.toUpperCase() +
-        " - " +
+        ' - ' +
         competency.description +
-        "\n Competency Level: " +
+        '\n Competency Level: ' +
         competency.level
     })
 
@@ -897,14 +897,14 @@ const PublicationPdf = () => {
             {/* Notifications */}
             {errorPublicationDocumentDetails ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorPublicationDocumentDetails}
               />
             ) : null}
 
             {errorPrfTrail ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorPrfTrail}
               />
             ) : null}
@@ -919,7 +919,7 @@ const PublicationPdf = () => {
                   </Button>
                 </Form>
 
-                <PDFViewer width={"100%"} height={700} showToolbar>
+                <PDFViewer width={'100%'} height={700} showToolbar>
                   <PublicationDocument
                     publicationDocumentDetails={publicationDocumentDetails}
                     prfTrail={prfTrail}
