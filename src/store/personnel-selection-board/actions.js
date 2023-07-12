@@ -20,6 +20,9 @@ import {
   GET_PSB_CBI_REPORTS,
   GET_PSB_CBI_REPORTS_SUCCESS,
   GET_PSB_CBI_REPORTS_FAIL,
+  PATCH_SWAP_PSB_MEMBER,
+  PATCH_SWAP_PSB_MEMBER_SUCCESS,
+  PATCH_SWAP_PSB_MEMBER_FAIL,
   ADD_PSB_MEMBER_TO_TABLE,
   REMOVE_PSB_MEMBER_FROM_TABLE,
   RESET_PSB_MEMBERS_TABLE,
@@ -100,6 +103,7 @@ export const fetchSelectedByAppointingAuthFail = error => ({
   payload: error,
 })
 
+// Get the competencies for the CBIR report
 export const fetchPsbCBIReportsHeader = vppId => ({
   type: GET_PSB_CBI_REPORTS_HEADER,
   payload: vppId,
@@ -113,6 +117,7 @@ export const fetchPsbCBIReportsHeaderFail = error => ({
   payload: error,
 })
 
+// Get the PSB rating for CBIR
 export const fetchPsbCBIReports = vppId => ({
   type: GET_PSB_CBI_REPORTS,
   payload: vppId,
@@ -123,6 +128,20 @@ export const fetchPsbCBIReportsSuccess = response => ({
 })
 export const fetchPsbCBIReportsFail = error => ({
   type: GET_PSB_CBI_REPORTS_FAIL,
+  payload: error,
+})
+
+// Swap current PSB member assigned
+export const updateSwapPsbMember = newPsbMemberData => ({
+  type: PATCH_SWAP_PSB_MEMBER,
+  payload: newPsbMemberData,
+})
+export const updateSwapPsbMemberSuccess = response => ({
+  type: PATCH_SWAP_PSB_MEMBER_SUCCESS,
+  payload: response,
+})
+export const updateSwapPsbMemberFail = error => ({
+  type: PATCH_SWAP_PSB_MEMBER_FAIL,
   payload: error,
 })
 

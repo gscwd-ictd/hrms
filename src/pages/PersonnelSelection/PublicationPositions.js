@@ -354,11 +354,24 @@ const PublicationPositions = () => {
     )
   }
 
-  // Redux state for publications
-  const { publications, isLoading, error } = useSelector(state => ({
+  const {
+    // Redux state for publications
+    publications,
+    isLoading,
+    error,
+
+    // Redux state for patch on swap of psb member
+    patchSwapPsbMember,
+    errorPatchSwapPsbMember,
+  } = useSelector(state => ({
     publications: state.publications.publications,
     isLoading: state.publications.loading.publicationsLoading,
     error: state.publications.error.publicationsError,
+
+    patchSwapPsbMember:
+      state.personnelSelectionBoard.response.patchSwapPsbMember,
+    errorPatchSwapPsbMember:
+      state.personnelSelectionBoard.error.errorPatchSwapPsbMember,
   }))
 
   // Set data and columns to table
@@ -548,6 +561,19 @@ const PublicationPositions = () => {
 
             {error ? (
               <ToastrNotification toastType={'error'} notifMessage={error} />
+            ) : null}
+            {errorPatchSwapPsbMember ? (
+              <ToastrNotification
+                toastType={'error'}
+                notifMessage={errorPatchSwapPsbMember}
+              />
+            ) : null}
+
+            {!isEmpty(patchSwapPsbMember) ? (
+              <ToastrNotification
+                toastType={'success'}
+                notifMessage={'PSB member successfully assigned'}
+              />
             ) : null}
 
             <Row>

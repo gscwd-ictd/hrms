@@ -257,9 +257,11 @@ export const getUnassignedEmployees = committeeId =>
 
 // PSB committee members only
 export const getAssignedPsbMembers = vppId =>
-  getHris(url.PUBLICATIONS + vppId + url.GET_ASSIGNED_PSB_MEMBERS)
+  getHris(url.PUBLICATIONS + vppId + url.ASSIGNED_PSB_MEMBERS)
 export const getUnassignedPsbMembers = vppId =>
-  getHris(url.PUBLICATIONS + vppId + url.GET_UNASSIGNED_PSB_MEMBERS)
+  getHris(url.PUBLICATIONS + vppId + url.UNASSIGNED_PSB_MEMBERS)
+export const patchSwapPsbMember = newPsbMemberData =>
+  patchHris(url.PUBLICATIONS + url.PSB_MEMBER, newPsbMemberData)
 
 // Publications --------------------------------------------------------------------
 export const getPublications = prfId =>

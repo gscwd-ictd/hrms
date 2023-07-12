@@ -154,8 +154,9 @@ export const PUBLICATION_APPLICANTS_EXAM_SCORE = 'psb-applicants/exam/'
 
 export const ITEM_NUMBERS_IN_PUBLICATION = 'positions/'
 
-export const GET_ASSIGNED_PSB_MEMBERS = '/psb'
-export const GET_UNASSIGNED_PSB_MEMBERS = '/non-psb'
+export const PSB_MEMBER = 'psb'
+export const ASSIGNED_PSB_MEMBERS = '/psb'
+export const UNASSIGNED_PSB_MEMBERS = '/non-psb'
 
 export const APPLICANT_ENDORSEMENT = 'applicant-endorsement/'
 export const SCHEDULE_EXAM_INTERVIEW = '/schedules'

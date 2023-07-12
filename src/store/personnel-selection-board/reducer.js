@@ -21,6 +21,9 @@ import {
   GET_PSB_CBI_REPORTS_SUCCESS,
   GET_PSB_CBI_REPORTS_FAIL,
   ADD_PSB_MEMBER_TO_TABLE,
+  PATCH_SWAP_PSB_MEMBER,
+  PATCH_SWAP_PSB_MEMBER_SUCCESS,
+  PATCH_SWAP_PSB_MEMBER_FAIL,
   REMOVE_PSB_MEMBER_FROM_TABLE,
   RESET_PSB_MEMBERS_TABLE,
   ADD_PSB_MEMBER_TO_OPTIONS,
@@ -58,6 +61,7 @@ const INIT_STATE = {
     selectedByAppointingAuth: [],
     competencyBasedInterviewReportsHeader: {},
     competencyBasedInterviewReports: [],
+    patchSwapPsbMember: {},
   },
   tableData: [],
   psbRoles: [],
@@ -70,6 +74,7 @@ const INIT_STATE = {
     loadingSelectedByAppointingAuth: false,
     loadingCompetencyBasedInterviewReports: false,
     loadingCompetencyBasedInterviewReportsHeader: false,
+    loadingPatchSwapPsbMember: false,
   },
   error: {
     errorGetAssignedPSBMember: null,
@@ -80,6 +85,7 @@ const INIT_STATE = {
     errorSelectedByAppointingAuth: null,
     errorCompetencyBasedInterviewReports: null,
     errorCompetencyBasedInterviewReportsHeader: null,
+    errorPatchSwapPsbMember: null,
   },
 }
 
@@ -422,6 +428,47 @@ const personnelSelectionBoard = (state = INIT_STATE, action) => {
         error: {
           ...state.error,
           errorCompetencyBasedInterviewReports: action.payload,
+        },
+      }
+
+    case PATCH_SWAP_PSB_MEMBER:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          patchSwapPsbMember: {},
+        },
+        loading: {
+          ...state.loading,
+          loadingPatchSwapPsbMember: true,
+        },
+        error: {
+          ...state.error,
+          errorPatchSwapPsbMember: null,
+        },
+      }
+    case PATCH_SWAP_PSB_MEMBER_SUCCESS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          patchSwapPsbMember: action.payload,
+        },
+        loading: {
+          ...state.loading,
+          loadingPatchSwapPsbMember: false,
+        },
+      }
+    case PATCH_SWAP_PSB_MEMBER_FAIL:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingPatchSwapPsbMember: true,
+        },
+        error: {
+          ...state.error,
+          errorPatchSwapPsbMember: action.payload,
         },
       }
 

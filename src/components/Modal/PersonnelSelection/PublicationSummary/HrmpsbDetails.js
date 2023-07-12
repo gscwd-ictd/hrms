@@ -1,16 +1,31 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { isEmpty } from 'lodash'
 import { useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
 
-import { Table } from 'reactstrap'
+import { Button, Table } from 'reactstrap'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import SwapPsbMember from './SwapPsbMember'
 
-const HrmpsbDetails = () => {
+const HrmpsbDetails = vppId => {
   // redux state for list of applicants
-  const { psbDetails, loadingPsbDetails } = useSelector(state => ({
-    psbDetails: state.personnelSelectionBoard.response.psbDetails,
-    loadingPsbDetails: state.personnelSelectionBoard.loading.loadingPsbDetails,
-  }))
+  const { psbDetails, loadingPsbDetails, patchSwapPsbMember } = useSelector(
+    state => ({
+      psbDetails: state.personnelSelectionBoard.response.psbDetails,
+      loadingPsbDetails:
+        state.personnelSelectionBoard.loading.loadingPsbDetails,
+    })
+  )
+
+  // Modal for Confirmation before proceeding
+  const [memberRole, setMemberRole] = useState('')
+  const [showSwapPsbMember, setShowSwapPsbMember] = useState(false)
+
+  const handleCloseSwapPsbMember = () => setShowSwapPsbMember(false)
+  const handleShowSwapPsbMember = role => {
+    setMemberRole(role)
+    setShowSwapPsbMember(true)
+  }
 
   return (
     <>
@@ -22,6 +37,7 @@ const HrmpsbDetails = () => {
             <tbody>
               {!isEmpty(psbDetails) ? (
                 <>
+                  {/* Exam Row */}
                   {psbDetails.schedule.exam ? (
                     <>
                       <tr>
@@ -36,6 +52,7 @@ const HrmpsbDetails = () => {
                     </>
                   ) : null}
 
+                  {/* Interview Row */}
                   {psbDetails.schedule.interview ? (
                     <>
                       <tr>
@@ -49,11 +66,13 @@ const HrmpsbDetails = () => {
                     </>
                   ) : null}
 
+                  {/* No. of Applicants Row */}
                   <tr>
                     <td>No. of Applicants</td>
                     <td colSpan={2}>{psbDetails.noOfApplicants}</td>
                   </tr>
 
+                  {/* PSB Members Row */}
                   <tr>
                     <td>PSB Members</td>
                     <td>
@@ -66,6 +85,17 @@ const HrmpsbDetails = () => {
                                   <td>{member.role}</td>
                                   <td>{member.fullName}</td>
                                   <td>{member.psbMemberStatus}</td>
+                                  <td>
+                                    <Button
+                                      type="button"
+                                      color="info"
+                                      onClick={() =>
+                                        handleShowSwapPsbMember(member.role)
+                                      }
+                                    >
+                                      <i className="bx bx-transfer-alt"></i>
+                                    </Button>
+                                  </td>
                                 </tr>
                               )
                             })
@@ -88,10 +118,21 @@ const HrmpsbDetails = () => {
               )}
             </tbody>
           </Table>
+
+          <SwapPsbMember
+            showSwapPsbMember={showSwapPsbMember}
+            vppId={vppId}
+            memberRole={memberRole}
+            handleCloseSwapPsbMember={handleCloseSwapPsbMember}
+          />
         </div>
       )}
     </>
   )
+}
+
+HrmpsbDetails.propTypes = {
+  vppId: PropTypes.string,
 }
 
 export default HrmpsbDetails
