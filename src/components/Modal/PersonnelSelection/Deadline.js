@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { isEmpty } from 'lodash'
 
@@ -24,6 +24,7 @@ import {
   ModalFooter,
 } from 'reactstrap'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
+import ConfirmationDeadline from '../Confirmation/ConfirmationDeadline'
 
 // Formik validation
 import * as Yup from 'yup'
@@ -33,6 +34,7 @@ const Deadline = props => {
   const { showDeadline, modalData, handleCloseDeadline, prfId } = props
   const dispatch = useDispatch()
 
+  // Redux state for submission of publication deadline
   const {
     responsePublicationDeadline,
     loadingPublicationDeadline,
@@ -43,6 +45,18 @@ const Deadline = props => {
       state.publications.loading.loadingPublicationStatus,
     errorPublicationDeadline: state.publications.error.errorPublicationStatus,
   }))
+
+  // Modal for Confirmation before proceeding
+  const [formData, setFormData] = useState(null)
+  const [showConfirmationSetDeadline, setShowConfirmationSetDeadline] =
+    useState(false)
+
+  const handleCloseConfirmationSetDeadline = () =>
+    setShowConfirmationSetDeadline(false)
+  const handleShowConfirmationSetDeadline = formikValues => {
+    setFormData(formikValues)
+    setShowConfirmationSetDeadline(true)
+  }
 
   const validation = useFormik({
     enableReinitialize: true,
@@ -55,7 +69,8 @@ const Deadline = props => {
       postingDeadline: Yup.date().required('Please enter a date'),
     }),
     onSubmit: (values, { resetForm }) => {
-      dispatch(updatePublicationStatus(modalData.vppId, values))
+      // dispatch(updatePublicationStatus(modalData.vppId, values))
+      handleShowConfirmationSetDeadline(values)
       resetForm()
     },
   })
@@ -147,6 +162,13 @@ const Deadline = props => {
           </Button>
         </ModalFooter>
       </Modal>
+
+      <ConfirmationDeadline
+        showConfirmationSetDeadline={showConfirmationSetDeadline}
+        modalData={modalData}
+        formData={formData}
+        handleCloseConfirmationSetDeadline={handleCloseConfirmationSetDeadline}
+      />
     </>
   )
 }
