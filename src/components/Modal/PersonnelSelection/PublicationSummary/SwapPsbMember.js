@@ -74,7 +74,7 @@ const SwapPsbMember = props => {
 
     initialValues: {
       psbNo: removePsbText(memberRole),
-      vppId: vppId.vppId,
+      vppId: vppId,
       employeeId: '',
     },
     validationSchema: Yup.object({
@@ -88,7 +88,7 @@ const SwapPsbMember = props => {
   // Initial fetch of employees that are not PSB
   useEffect(() => {
     if (showSwapPsbMember) {
-      dispatch(fetchUnassignedPSBMembers(vppId.vppId))
+      dispatch(fetchUnassignedPSBMembers(vppId))
     }
   }, [showSwapPsbMember])
 
@@ -142,15 +142,6 @@ const SwapPsbMember = props => {
             }}
           >
             <FormGroup>
-              {/* <Select
-                name="select-psb-member"
-                onChange={e => {
-                  handleSelectedPSBMember(e)
-                }}
-                value={selectedPSBMember || ''}
-                options={getUnassignedPSBMembers}
-              /> */}
-
               <Select
                 name="employeeId"
                 id="select-psb-member"
@@ -179,7 +170,6 @@ const SwapPsbMember = props => {
                   }),
                 }}
                 loading={loadingGetUnassignedPSBMember ? true : false}
-                // isDisabled={loadingGetUnassignedPSBMember ? true : false}
               />
 
               <FormFeedback
@@ -208,7 +198,7 @@ const SwapPsbMember = props => {
 
 SwapPsbMember.propTypes = {
   showSwapPsbMember: PropTypes.bool,
-  vppId: PropTypes.object,
+  vppId: PropTypes.string,
   memberRole: PropTypes.string,
   handleCloseSwapPsbMember: PropTypes.func,
 }

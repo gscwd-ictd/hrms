@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { isEmpty } from 'lodash'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -6,16 +6,15 @@ import PropTypes from 'prop-types'
 import { Button, Table } from 'reactstrap'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import SwapPsbMember from './SwapPsbMember'
+import { publicationStatus } from 'constants/publicationStatus'
 
-const HrmpsbDetails = vppId => {
+const HrmpsbDetails = props => {
+  const { modalData } = props
   // redux state for list of applicants
-  const { psbDetails, loadingPsbDetails, patchSwapPsbMember } = useSelector(
-    state => ({
-      psbDetails: state.personnelSelectionBoard.response.psbDetails,
-      loadingPsbDetails:
-        state.personnelSelectionBoard.loading.loadingPsbDetails,
-    })
-  )
+  const { psbDetails, loadingPsbDetails } = useSelector(state => ({
+    psbDetails: state.personnelSelectionBoard.response.psbDetails,
+    loadingPsbDetails: state.personnelSelectionBoard.loading.loadingPsbDetails,
+  }))
 
   // Modal for Confirmation before proceeding
   const [memberRole, setMemberRole] = useState('')
@@ -85,17 +84,30 @@ const HrmpsbDetails = vppId => {
                                   <td>{member.role}</td>
                                   <td>{member.fullName}</td>
                                   <td>{member.psbMemberStatus}</td>
-                                  <td>
-                                    <Button
-                                      type="button"
-                                      color="info"
-                                      onClick={() =>
-                                        handleShowSwapPsbMember(member.role)
-                                      }
-                                    >
-                                      <i className="bx bx-transfer-alt"></i>
-                                    </Button>
-                                  </td>
+
+                                  {/* Hide swap button if this status is present */}
+                                  {modalData.postingStatus ===
+                                    publicationStatus.INTERVIEWDONE ||
+                                  modalData.postingStatus ===
+                                    publicationStatus.APPAUTHSELECTION ||
+                                  modalData.postingStatus ===
+                                    publicationStatus.APPAUTHSELECTIONDONE ||
+                                  modalData.postingStatus ===
+                                    publicationStatus.HIRINGDONE ||
+                                  modalData.postingStatus ===
+                                    publicationStatus.DOESET ? null : (
+                                    <td>
+                                      <Button
+                                        type="button"
+                                        color="info"
+                                        onClick={() =>
+                                          handleShowSwapPsbMember(member.role)
+                                        }
+                                      >
+                                        <i className="bx bx-transfer-alt"></i>
+                                      </Button>
+                                    </td>
+                                  )}
                                 </tr>
                               )
                             })
@@ -121,7 +133,7 @@ const HrmpsbDetails = vppId => {
 
           <SwapPsbMember
             showSwapPsbMember={showSwapPsbMember}
-            vppId={vppId}
+            vppId={modalData.vppId}
             memberRole={memberRole}
             handleCloseSwapPsbMember={handleCloseSwapPsbMember}
           />
@@ -132,7 +144,7 @@ const HrmpsbDetails = vppId => {
 }
 
 HrmpsbDetails.propTypes = {
-  vppId: PropTypes.string,
+  modalData: PropTypes.object,
 }
 
 export default HrmpsbDetails

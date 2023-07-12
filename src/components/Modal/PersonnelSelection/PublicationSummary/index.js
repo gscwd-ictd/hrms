@@ -272,7 +272,7 @@ const PublicationSummary = props => {
                 <TabPane tabId="4">
                   <Row>
                     <Col sm="12">
-                      <HrmpsbDetails vppId={modalData.vppId} />
+                      <HrmpsbDetails modalData={modalData} />
                     </Col>
                   </Row>
                 </TabPane>
@@ -298,16 +298,6 @@ const PublicationSummary = props => {
             </Col>
           </Row>
         </ModalBody>
-
-        <ModalFooter>
-          <Button
-            type="button"
-            color="info"
-            onClick={() => handleClosePublicationDetails()}
-          >
-            Close
-          </Button>
-        </ModalFooter>
       </Modal>
     </>
   )
