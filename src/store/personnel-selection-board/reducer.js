@@ -24,6 +24,9 @@ import {
   PATCH_SWAP_PSB_MEMBER,
   PATCH_SWAP_PSB_MEMBER_SUCCESS,
   PATCH_SWAP_PSB_MEMBER_FAIL,
+  GET_APPLICANT_PSB_REMARKS,
+  GET_APPLICANT_PSB_REMARKS_SUCCESS,
+  GET_APPLICANT_PSB_REMARKS_FAIL,
   REMOVE_PSB_MEMBER_FROM_TABLE,
   RESET_PSB_MEMBERS_TABLE,
   ADD_PSB_MEMBER_TO_OPTIONS,
@@ -62,6 +65,7 @@ const INIT_STATE = {
     competencyBasedInterviewReportsHeader: {},
     competencyBasedInterviewReports: [],
     patchSwapPsbMember: {},
+    applicantPsbRemarks: [],
   },
   tableData: [],
   psbRoles: [],
@@ -75,6 +79,7 @@ const INIT_STATE = {
     loadingCompetencyBasedInterviewReports: false,
     loadingCompetencyBasedInterviewReportsHeader: false,
     loadingPatchSwapPsbMember: false,
+    loadingApplicantPsbRemarks: false,
   },
   error: {
     errorGetAssignedPSBMember: null,
@@ -86,6 +91,7 @@ const INIT_STATE = {
     errorCompetencyBasedInterviewReports: null,
     errorCompetencyBasedInterviewReportsHeader: null,
     errorPatchSwapPsbMember: null,
+    errorApplicantPsbRemarks: null,
   },
 }
 
@@ -469,6 +475,47 @@ const personnelSelectionBoard = (state = INIT_STATE, action) => {
         error: {
           ...state.error,
           errorPatchSwapPsbMember: action.payload,
+        },
+      }
+
+    case GET_APPLICANT_PSB_REMARKS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          applicantPsbRemarks: [],
+        },
+        loading: {
+          ...state.loading,
+          loadingApplicantPsbRemarks: true,
+        },
+        error: {
+          ...state.error,
+          errorApplicantPsbRemarks: null,
+        },
+      }
+    case GET_APPLICANT_PSB_REMARKS_SUCCESS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          applicantPsbRemarks: action.payload,
+        },
+        loading: {
+          ...state.loading,
+          loadingApplicantPsbRemarks: false,
+        },
+      }
+    case GET_APPLICANT_PSB_REMARKS_FAIL:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingApplicantPsbRemarks: false,
+        },
+        error: {
+          ...state.error,
+          errorApplicantPsbRemarks: action.payload,
         },
       }
 

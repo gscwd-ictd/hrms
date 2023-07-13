@@ -150,7 +150,9 @@ export const PUBLICATIONS = 'vacant-position-postings/'
 export const GET_PUBLICATIONS = 'publication/'
 export const PUBLICATION_CALENDAR_EVENTS = 'schedules/calendar'
 export const PUBLICATION_DOCUMENT_DETAILS = 'prf/'
-export const PUBLICATION_APPLICANTS_EXAM_SCORE = 'psb-applicants/exam/'
+export const PUBLICATION_APPLICANTS = 'psb-applicants/'
+export const APPLICANTS_EXAM_SCORE = 'exam/'
+export const APPLICANT_PSB_REMARKS = 'remarks/'
 
 export const ITEM_NUMBERS_IN_PUBLICATION = 'positions/'
 

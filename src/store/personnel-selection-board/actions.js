@@ -23,6 +23,9 @@ import {
   PATCH_SWAP_PSB_MEMBER,
   PATCH_SWAP_PSB_MEMBER_SUCCESS,
   PATCH_SWAP_PSB_MEMBER_FAIL,
+  GET_APPLICANT_PSB_REMARKS,
+  GET_APPLICANT_PSB_REMARKS_SUCCESS,
+  GET_APPLICANT_PSB_REMARKS_FAIL,
   ADD_PSB_MEMBER_TO_TABLE,
   REMOVE_PSB_MEMBER_FROM_TABLE,
   RESET_PSB_MEMBERS_TABLE,
@@ -142,6 +145,20 @@ export const updateSwapPsbMemberSuccess = response => ({
 })
 export const updateSwapPsbMemberFail = error => ({
   type: PATCH_SWAP_PSB_MEMBER_FAIL,
+  payload: error,
+})
+
+// Get applicants PSB remarks
+export const fetchApplicantPsbRemarks = applicantId => ({
+  type: GET_APPLICANT_PSB_REMARKS,
+  payload: applicantId,
+})
+export const fetchApplicantPsbRemarksSuccess = response => ({
+  type: GET_APPLICANT_PSB_REMARKS_SUCCESS,
+  payload: response,
+})
+export const fetchApplicantPsbRemarksFail = error => ({
+  type: GET_APPLICANT_PSB_REMARKS_FAIL,
   payload: error,
 })
 

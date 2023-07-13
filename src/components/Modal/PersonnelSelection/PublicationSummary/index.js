@@ -51,6 +51,9 @@ const PublicationSummary = props => {
     errorPsbDetails,
     errorPsbSummary,
 
+    // Redux state for PSB remarks
+    errorApplicantPsbRemarks,
+
     // Redux state for patch on swap of psb member
     patchSwapPsbMember,
   } = useSelector(state => ({
@@ -62,6 +65,9 @@ const PublicationSummary = props => {
       state.applicants.error.errorShortlistedApplicants,
     errorPsbDetails: state.personnelSelectionBoard.error.errorPsbDetails,
     errorPsbSummary: state.personnelSelectionBoard.error.errorPsbSummary,
+
+    errorApplicantPsbRemarks:
+      state.personnelSelectionBoard.error.errorApplicantPsbRemarks,
 
     patchSwapPsbMember:
       state.personnelSelectionBoard.response.patchSwapPsbMember,
@@ -146,6 +152,13 @@ const PublicationSummary = props => {
           <ToastrNotification
             toastType={'error'}
             notifMessage={errorPsbSummary}
+          />
+        ) : null}
+
+        {errorApplicantPsbRemarks ? (
+          <ToastrNotification
+            toastType={'error'}
+            notifMessage={errorApplicantPsbRemarks}
           />
         ) : null}
 

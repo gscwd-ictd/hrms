@@ -8,6 +8,7 @@ import {
   getCBIReportsHeaders,
   getCBIReports,
   patchSwapPsbMember,
+  getApplicantPsbRemarks,
 } from 'helpers/backend_helper'
 import {
   fetchAssignedPSBMembersSuccess,
@@ -26,6 +27,8 @@ import {
   fetchPsbCBIReportsFail,
   updateSwapPsbMemberSuccess,
   updateSwapPsbMemberFail,
+  fetchApplicantPsbRemarksSuccess,
+  fetchApplicantPsbRemarksFail,
 } from './actions'
 import {
   GET_ASSIGNED_PSB_MEMBERS,
@@ -36,6 +39,7 @@ import {
   GET_PSB_CBI_REPORTS_HEADER,
   GET_PSB_CBI_REPORTS,
   PATCH_SWAP_PSB_MEMBER,
+  GET_APPLICANT_PSB_REMARKS,
 } from './actionTypes'
 
 function* fetchAssignedPSBMembers({ payload: vppId }) {
@@ -110,6 +114,15 @@ function* updateSwapPsbMember({ payload: newPsbMemberData }) {
   }
 }
 
+function* fetchApplicantPsbRemarks({ payload: applicantId }) {
+  try {
+    const response = yield call(getApplicantPsbRemarks, applicantId)
+    yield put(fetchApplicantPsbRemarksSuccess(response))
+  } catch (error) {
+    yield put(fetchApplicantPsbRemarksFail(error))
+  }
+}
+
 function* personnelSelectionBoardSaga() {
   yield takeEvery(GET_ASSIGNED_PSB_MEMBERS, fetchAssignedPSBMembers)
   yield takeEvery(GET_UNASSIGNED_PSB_MEMBERS, fetchUnassignedPSBMembers)
@@ -122,6 +135,7 @@ function* personnelSelectionBoardSaga() {
   yield takeEvery(GET_PSB_CBI_REPORTS_HEADER, fetchPsbCBIReportsHeader)
   yield takeEvery(GET_PSB_CBI_REPORTS, fetchPsbCBIReports)
   yield takeEvery(PATCH_SWAP_PSB_MEMBER, updateSwapPsbMember)
+  yield takeEvery(GET_APPLICANT_PSB_REMARKS, fetchApplicantPsbRemarks)
 }
 
 export default personnelSelectionBoardSaga

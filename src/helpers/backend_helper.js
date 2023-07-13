@@ -262,6 +262,13 @@ export const getUnassignedPsbMembers = vppId =>
   getHris(url.PUBLICATIONS + vppId + url.UNASSIGNED_PSB_MEMBERS)
 export const patchSwapPsbMember = newPsbMemberData =>
   patchHris(url.PUBLICATIONS + url.PSB_MEMBER, newPsbMemberData)
+export const getApplicantPsbRemarks = applicantId =>
+  getHris(
+    url.PUBLICATIONS +
+      url.PUBLICATION_APPLICANTS +
+      url.APPLICANT_PSB_REMARKS +
+      applicantId
+  )
 
 // Publications --------------------------------------------------------------------
 export const getPublications = prfId =>
