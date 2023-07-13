@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { publicationStatus } from 'constants/publicationStatus'
 
 import { Col, Row, Button, Modal, ModalHeader, ModalBody } from 'reactstrap'
 
 const SelectionDocuments = props => {
   const { showSelectionDocuments, handleCloseSelectionDocuments, modalData } =
     props
-
   return (
     <>
       <Modal
@@ -40,24 +40,26 @@ const SelectionDocuments = props => {
             </Col>
           </Row>
 
-          <Row>
-            <Col>
-              <Link
-                to={{
-                  pathname: `/summary-ranking-of-applicants-pdf/${modalData.vppId}`,
-                }}
-                target="_blank"
-              >
-                <Button
-                  color="info"
-                  className="btn-block"
-                  style={{ width: '100%' }}
+          {modalData.postingStatus === publicationStatus.HIRINGDONE ? (
+            <Row>
+              <Col>
+                <Link
+                  to={{
+                    pathname: `/summary-ranking-of-applicants-pdf/${modalData.vppId}`,
+                  }}
+                  target="_blank"
                 >
-                  Summary Report: Ranking of Applicants
-                </Button>
-              </Link>
-            </Col>
-          </Row>
+                  <Button
+                    color="info"
+                    className="btn-block"
+                    style={{ width: '100%' }}
+                  >
+                    Summary Report: Ranking of Applicants
+                  </Button>
+                </Link>
+              </Col>
+            </Row>
+          ) : null}
         </ModalBody>
       </Modal>
     </>

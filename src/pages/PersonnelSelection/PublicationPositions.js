@@ -5,6 +5,7 @@ import { Link, Navigate, useLocation, useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPublications } from 'store/actions'
+import { publicationStatus } from 'constants/publicationStatus'
 
 import TablePublications from 'components/Table/TablePublications'
 import { SelectColumnFilter } from 'components/Filters/SelectColumnFilter'
@@ -108,7 +109,7 @@ const PublicationPositions = () => {
 
   const postingDeadlineBadge = cell => {
     if (!isEmpty(cell.row.original.postingDeadline)) {
-      if (cell.row.values.postingStatus === 'Open for application') {
+      if (cell.row.values.postingStatus === publicationStatus.OPENFORAPP) {
         if (dayjs().isBefore(dayjs(cell.row.original.postingDeadline), 'day')) {
           return (
             <Badge className="me-2 bg-success font-size-12">
@@ -151,14 +152,14 @@ const PublicationPositions = () => {
   }
 
   const publicationStatusBadge = cell => {
-    if (cell.row.values.postingStatus === 'For CSC approval') {
+    if (cell.row.values.postingStatus === publicationStatus.FORCSCAPPROVAL) {
       return (
         <Badge className="me-2 bg-warning font-size-12">
           {cell.row.values.postingStatus}
         </Badge>
       )
     } else if (
-      cell.row.values.postingStatus === 'Open for application' ||
+      cell.row.values.postingStatus === publicationStatus.OPENFORAPP ||
       cell.row.values.postingStatus === 'Closed for application'
     ) {
       return (
@@ -171,7 +172,7 @@ const PublicationPositions = () => {
       cell.row.values.postingStatus === 'Examination done' ||
       cell.row.values.postingStatus === 'Interview done' ||
       cell.row.values.postingStatus === 'Appointing authority selection done' ||
-      cell.row.values.postingStatus === 'Hiring process done'
+      cell.row.values.postingStatus === publicationStatus.HIRINGDONE
     ) {
       return (
         <Badge className="me-2 bg-success font-size-12">
@@ -194,7 +195,7 @@ const PublicationPositions = () => {
           <i className="mdi mdi-dots-horizontal"></i>
         </DropdownToggle>
         <DropdownMenu direction="right">
-          {cell.row.values.postingStatus !== 'Hiring process done' ? (
+          {cell.row.values.postingStatus !== publicationStatus.HIRINGDONE ? (
             <DropdownItem>
               <Link
                 className="dropdown-item"
@@ -210,7 +211,8 @@ const PublicationPositions = () => {
             </DropdownItem>
           ) : null}
 
-          {cell.row.values.postingStatus === 'For CSC approval' ? (
+          {cell.row.values.postingStatus ===
+          publicationStatus.FORCSCAPPROVAL ? (
             <DropdownItem onClick={() => deadline(cell.row.values)}>
               <Link className="dropdown-item" to="#">
                 Deadline
@@ -218,7 +220,7 @@ const PublicationPositions = () => {
             </DropdownItem>
           ) : null}
 
-          {cell.row.values.postingStatus === 'Open for application' ? (
+          {cell.row.values.postingStatus === publicationStatus.OPENFORAPP ? (
             <DropdownItem onClick={() => closeApplication(cell.row.values)}>
               <Link className="dropdown-item" to="#">
                 Close Application
@@ -226,7 +228,7 @@ const PublicationPositions = () => {
             </DropdownItem>
           ) : null}
 
-          {cell.row.values.postingStatus === 'Closed for application' ? (
+          {cell.row.values.postingStatus === publicationStatus.CLOSEDFORAPP ? (
             <DropdownItem onClick={() => sendEndorsement(cell.row.values)}>
               <Link className="dropdown-item" to="#">
                 Send Endorsement To R.E.
@@ -235,7 +237,7 @@ const PublicationPositions = () => {
           ) : null}
 
           {cell.row.values.postingStatus ===
-          'Requesting entity selection done' ? (
+          publicationStatus.REQENTITYSELECTDONE ? (
             <>
               <DropdownItem onClick={() => shortlist(cell.row.values)}>
                 <Link className="dropdown-item" to="#">
@@ -263,7 +265,7 @@ const PublicationPositions = () => {
             </>
           ) : null}
 
-          {cell.row.values.postingStatus === 'Scheduled for examination' ? (
+          {cell.row.values.postingStatus === publicationStatus.SCHEDFOREXAM ? (
             <>
               <DropdownItem onClick={() => examScore(cell.row.values)}>
                 <Link className="dropdown-item" to="#">
@@ -279,7 +281,7 @@ const PublicationPositions = () => {
             </>
           ) : null}
 
-          {cell.row.values.postingStatus === 'Examination done' ? (
+          {cell.row.values.postingStatus === publicationStatus.EXAMDONE ? (
             <DropdownItem onClick={() => scheduleInterview(cell.row.values)}>
               <Link className="dropdown-item" to="#">
                 Schedule for interview
@@ -287,7 +289,8 @@ const PublicationPositions = () => {
             </DropdownItem>
           ) : null}
 
-          {cell.row.values.postingStatus === 'Scheduled for interview' ? (
+          {cell.row.values.postingStatus ===
+          publicationStatus.SCHEDFORINTERVIEW ? (
             <>
               <DropdownItem onClick={() => psbSummary(cell.row.values)}>
                 <Link className="dropdown-item" to="#">
@@ -297,7 +300,7 @@ const PublicationPositions = () => {
             </>
           ) : null}
 
-          {cell.row.values.postingStatus === 'Interview done' ? (
+          {cell.row.values.postingStatus === publicationStatus.INTERVIEWDONE ? (
             <>
               <DropdownItem onClick={() => sendPsbSummary(cell.row.values)}>
                 <Link className="dropdown-item" to="#">
@@ -308,8 +311,14 @@ const PublicationPositions = () => {
           ) : null}
 
           {cell.row.values.postingStatus ===
-          'Appointing authority selection done' ? (
+          publicationStatus.APPAUTHSELECTIONDONE ? (
             <>
+              <DropdownItem onClick={() => selectionDocuments(cell.row.values)}>
+                <Link className="dropdown-item" to="#">
+                  Selection Documents
+                </Link>
+              </DropdownItem>
+
               <DropdownItem
                 onClick={() => viewSelectedByAppAuth(cell.row.values)}
               >
@@ -320,7 +329,7 @@ const PublicationPositions = () => {
             </>
           ) : null}
 
-          {cell.row.values.postingStatus === 'Hiring process done' ? (
+          {cell.row.values.postingStatus === publicationStatus.HIRINGDONE ? (
             <>
               <DropdownItem onClick={() => selectionDocuments(cell.row.values)}>
                 <Link className="dropdown-item" to="#">
