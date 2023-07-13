@@ -32,9 +32,6 @@ const styles = StyleSheet.create({
   },
 
   // Table Styles
-  tableBorder: {
-    border: '1px solid #000000',
-  },
   rowContainerTable: {
     flexDirection: 'row',
     alignItems: 'stretch',
@@ -43,18 +40,26 @@ const styles = StyleSheet.create({
     padding: '4 0 0 4',
   },
   tHeadSecondLevel: {
+    fontFamily: 'CalibriRegularBold',
     padding: '4 0 0 4',
+    textAlign: 'center',
   },
   tData: {
     padding: '4 0 0 4',
   },
 
   // Border Styles
+  borderAll: {
+    border: '1px solid #000000',
+  },
   borderTop: {
     borderTop: '1px solid #000000',
   },
   borderRight: {
     borderRight: '1px solid #000000',
+  },
+  borderLeft: {
+    borderLeft: '1px solid #000000',
   },
   borderBottom: {
     borderBottom: '1px solid #000000',
@@ -107,6 +112,7 @@ const styles = StyleSheet.create({
   w40: { width: '40%' },
   w33_33: { width: '33.33%' },
   w30: { width: '30%' },
+  w26: { width: '26%' },
   w20: { width: '20%' },
   w16: { width: '16%' },
   w15: { width: '15%' },
@@ -138,16 +144,21 @@ const PdDocument = props => {
   const renderCoreDuties = () => {
     var content = positionDutyResponsibilities.duties.core.map(
       (duty, index) => (
-        <View style={[styles.rowContainerTable, styles.borderTop]} key={index}>
+        <View
+          style={[styles.rowContainerTable, styles.borderAll]}
+          key={index}
+          wrap={false}
+        >
           <View style={[styles.w14, styles.tData, styles.borderRight]}>
             <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
               {duty.percentage}
             </Text>
           </View>
-          <View style={[styles.w70, styles.tData, styles.borderRight]}>
+          <View style={[styles.w60, styles.tData, styles.borderRight]}>
             <Text>{duty.description}</Text>
           </View>
-          <View style={[styles.w16, styles.tData]}>
+          <View style={[styles.w26, styles.tData, styles.horizontalCenter]}>
+            <Text>{duty.competency} / </Text>
             <Text>{duty.level}</Text>
           </View>
         </View>
@@ -159,7 +170,11 @@ const PdDocument = props => {
 
   const renderFunctionalCompetencies = () => {
     var content = proficiencyLevel.functional.map((competency, index) => (
-      <View style={[styles.rowContainerTable, styles.borderTop]} key={index}>
+      <View
+        style={[styles.rowContainerTable, styles.borderAll]}
+        key={index}
+        wrap={false}
+      >
         <View style={[styles.w60, styles.tData, styles.borderRight]}>
           <Text>
             <Text style={{ fontFamily: 'CalibriRegularBold' }}>
@@ -181,7 +196,11 @@ const PdDocument = props => {
 
   const renderCrossCuttingCompetencies = () => {
     var content = proficiencyLevel.crossCutting.map((competency, index) => (
-      <View style={[styles.rowContainerTable, styles.borderTop]} key={index}>
+      <View
+        style={[styles.rowContainerTable, styles.borderAll]}
+        key={index}
+        wrap={false}
+      >
         <View style={[styles.w60, styles.tData, styles.borderRight]}>
           <Text>
             <Text style={{ fontFamily: 'CalibriRegularBold' }}>
@@ -203,7 +222,11 @@ const PdDocument = props => {
 
   const renderManagerialCompetencies = () => {
     var content = proficiencyLevel.managerial.map((competency, index) => (
-      <View style={[styles.rowContainerTable, styles.borderTop]} key={index}>
+      <View
+        style={[styles.rowContainerTable, styles.borderAll]}
+        key={index}
+        wrap={false}
+      >
         <View style={[styles.w60, styles.tData, styles.borderRight]}>
           <Text>
             <Text style={{ fontFamily: 'CalibriRegularBold' }}>
@@ -440,7 +463,7 @@ const PdDocument = props => {
               {/* Org struct description */}
               <View>
                 <Text style={[styles.headerText]}>
-                  Decribe briefly the general function of
+                  Describe briefly the general function of
                   Office/Department/Division
                 </Text>
                 <Text>{jobDescription.description || 'N/A'}</Text>
@@ -449,7 +472,7 @@ const PdDocument = props => {
               {/* Job Summary */}
               <View>
                 <Text style={[styles.headerText]}>
-                  Decribe briefly the general function of the position (Job
+                  Describe briefly the general function of the position (Job
                   Summary)
                 </Text>
                 <Text>{jobDescription.summary || 'N/A'}</Text>
@@ -464,12 +487,12 @@ const PdDocument = props => {
                 </Text>
 
                 {/* CORE */}
-                <View style={[styles.tableBorder]}>
-                  <View style={[styles.tHeadFirstLevel]}>
+                <View>
+                  {/* <View style={[styles.tHeadFirstLevel]}>
                     <Text>CORE</Text>
-                  </View>
+                  </View> */}
 
-                  <View style={[styles.rowContainerTable, styles.borderTop]}>
+                  <View style={[styles.rowContainerTable, styles.borderAll]}>
                     <View
                       style={[
                         styles.w14,
@@ -477,24 +500,30 @@ const PdDocument = props => {
                         styles.borderRight,
                       ]}
                     >
-                      <Text>Percentage</Text>
+                      <Text>Percentage of Work</Text>
                     </View>
+
                     <View
                       style={[
-                        styles.w70,
+                        styles.w60,
                         styles.tHeadSecondLevel,
                         styles.borderRight,
                       ]}
                     >
-                      <Text>Duty Description</Text>
+                      <Text>Duties and Responsibilities</Text>
                     </View>
-                    <View style={[styles.w16, styles.tHeadSecondLevel]}>
-                      <Text>Level</Text>
+
+                    <View style={[styles.w26, styles.tHeadSecondLevel]}>
+                      <Text>Competency/Level</Text>
                     </View>
                   </View>
 
-                  {/* {renderCoreDuties()} */}
-                  <View style={[styles.rowContainerTable, styles.borderTop]}>
+                  {renderCoreDuties()}
+
+                  {/* <View
+                    style={[styles.rowContainerTable, styles.borderAll]}
+                    wrap={false}
+                  >
                     <View
                       style={[styles.w14, styles.tData, styles.borderRight]}
                     >
@@ -505,35 +534,38 @@ const PdDocument = props => {
                       </Text>
                     </View>
                     <View
-                      style={[styles.w70, styles.tData, styles.borderRight]}
+                      style={[styles.w60, styles.tData, styles.borderRight]}
                     >
                       <Text>
                         Spearheads in the implementation of the maintenance of
                         heavy/light equipment, including water tanks, boom
                         trucks, dump trucks, and backhoe loaders to ensure its
-                        availability in the engineering- operation.
-                      </Text>
-
-                      <Text>
-                        Conducts maintenance servicing of heavy/ light machinery
-                        and equipment based on the running hours schedule
-                        provided to ensure productive operation of the
-                        machinery/equipment.
-                      </Text>
-
-                      <Text>
-                        Operates machinery and equipment, such as water tanks,
-                        boom trucks, dump trucks, and backhoe loaders, according
-                        to its operating procedure and safety guidelines to
-                        ensure optimal performance
+                        availability in the engineering- operation. Conducts
+                        maintenance servicing of heavy/ light machinery and
+                        equipment based on the running hours schedule provided
+                        to ensure productive operation of the
+                        machinery/equipment. Operates machinery and equipment,
+                        such as water tanks, boom trucks, dump trucks, and
+                        backhoe loaders, according to its operating procedure
+                        and safety guidelines to ensure optimal performanc
                       </Text>
                     </View>
-                    <View style={[styles.w16, styles.tData]}>
+                    <View
+                      style={[
+                        styles.w26,
+                        styles.tData,
+                        styles.horizontalCenter,
+                      ]}
+                    >
+                      <Text>Customer Assistance and Request Handling / </Text>
                       <Text>ADVANCED</Text>
                     </View>
                   </View>
 
-                  <View style={[styles.rowContainerTable, styles.borderTop]}>
+                  <View
+                    style={[styles.rowContainerTable, styles.borderAll]}
+                    wrap={false}
+                  >
                     <View
                       style={[styles.w14, styles.tData, styles.borderRight]}
                     >
@@ -544,111 +576,33 @@ const PdDocument = props => {
                       </Text>
                     </View>
                     <View
-                      style={[styles.w70, styles.tData, styles.borderRight]}
+                      style={[styles.w60, styles.tData, styles.borderRight]}
                     >
                       <Text>
                         Spearheads in the implementation of the maintenance of
                         heavy/light equipment, including water tanks, boom
                         trucks, dump trucks, and backhoe loaders to ensure its
-                        availability in the engineering- operation.
-                      </Text>
-
-                      <Text>
-                        Conducts maintenance servicing of heavy/ light machinery
-                        and equipment based on the running hours schedule
-                        provided to ensure productive operation of the
-                        machinery/equipment.
-                      </Text>
-
-                      <Text>
-                        Operates machinery and equipment, such as water tanks,
-                        boom trucks, dump trucks, and backhoe loaders, according
-                        to its operating procedure and safety guidelines to
-                        ensure optimal performance
+                        availability in the engineering- operation. Conducts
+                        maintenance servicing of heavy/ light machinery and
+                        equipment based on the running hours schedule provided
+                        to ensure productive operation of the
+                        machinery/equipment. Operates machinery and equipment,
+                        such as water tanks, boom trucks, dump trucks, and
+                        backhoe loaders, according to its operating procedure
+                        and safety guidelines to ensure optimal performanc
                       </Text>
                     </View>
-                    <View style={[styles.w16, styles.tData]}>
+                    <View
+                      style={[
+                        styles.w26,
+                        styles.tData,
+                        styles.horizontalCenter,
+                      ]}
+                    >
+                      <Text>Customer Assistance and Request Handling / </Text>
                       <Text>ADVANCED</Text>
                     </View>
-                  </View>
-
-                  <View style={[styles.rowContainerTable, styles.borderTop]}>
-                    <View
-                      style={[styles.w14, styles.tData, styles.borderRight]}
-                    >
-                      <Text
-                        style={[styles.horizontalCenter, styles.verticalCenter]}
-                      >
-                        20.00
-                      </Text>
-                    </View>
-                    <View
-                      style={[styles.w70, styles.tData, styles.borderRight]}
-                    >
-                      <Text>
-                        Spearheads in the implementation of the maintenance of
-                        heavy/light equipment, including water tanks, boom
-                        trucks, dump trucks, and backhoe loaders to ensure its
-                        availability in the engineering- operation.
-                      </Text>
-
-                      <Text>
-                        Conducts maintenance servicing of heavy/ light machinery
-                        and equipment based on the running hours schedule
-                        provided to ensure productive operation of the
-                        machinery/equipment.
-                      </Text>
-
-                      <Text>
-                        Operates machinery and equipment, such as water tanks,
-                        boom trucks, dump trucks, and backhoe loaders, according
-                        to its operating procedure and safety guidelines to
-                        ensure optimal performance
-                      </Text>
-                    </View>
-                    <View style={[styles.w16, styles.tData]}>
-                      <Text>ADVANCED</Text>
-                    </View>
-                  </View>
-
-                  <View style={[styles.rowContainerTable, styles.borderTop]}>
-                    <View
-                      style={[styles.w14, styles.tData, styles.borderRight]}
-                    >
-                      <Text
-                        style={[styles.horizontalCenter, styles.verticalCenter]}
-                      >
-                        20.00
-                      </Text>
-                    </View>
-                    <View
-                      style={[styles.w70, styles.tData, styles.borderRight]}
-                    >
-                      <Text>
-                        Spearheads in the implementation of the maintenance of
-                        heavy/light equipment, including water tanks, boom
-                        trucks, dump trucks, and backhoe loaders to ensure its
-                        availability in the engineering- operation.
-                      </Text>
-
-                      <Text>
-                        Conducts maintenance servicing of heavy/ light machinery
-                        and equipment based on the running hours schedule
-                        provided to ensure productive operation of the
-                        machinery/equipment.
-                      </Text>
-
-                      <Text>
-                        Operates machinery and equipment, such as water tanks,
-                        boom trucks, dump trucks, and backhoe loaders, according
-                        to its operating procedure and safety guidelines to
-                        ensure optimal performance
-                      </Text>
-                    </View>
-                    <View style={[styles.w16, styles.tData]}>
-                      <Text>ADVANCED</Text>
-                    </View>
-                  </View>
+                  </View> */}
                 </View>
 
                 {/* SUPPORT */}
@@ -710,23 +664,6 @@ const PdDocument = props => {
                   </View>
                 </View>
 
-                {/* Experience */}
-                <View style={[styles.rowContainer]}>
-                  <View style={[styles.w20, styles.bodyTextBold]}>
-                    <Text>Experience</Text>
-                  </View>
-
-                  <View style={[styles.w5]}>
-                    <Text>:</Text>
-                  </View>
-
-                  <View style={[styles.w75]}>
-                    <Text>
-                      {positionQualificationStandards.experience || 'N/A'}
-                    </Text>
-                  </View>
-                </View>
-
                 {/* Training */}
                 <View style={[styles.rowContainer]}>
                   <View style={[styles.w20, styles.bodyTextBold]}>
@@ -740,6 +677,23 @@ const PdDocument = props => {
                   <View style={[styles.w75]}>
                     <Text>
                       {positionQualificationStandards.training || 'N/A'}
+                    </Text>
+                  </View>
+                </View>
+
+                {/* Experience */}
+                <View style={[styles.rowContainer]}>
+                  <View style={[styles.w20, styles.bodyTextBold]}>
+                    <Text>Experience</Text>
+                  </View>
+
+                  <View style={[styles.w5]}>
+                    <Text>:</Text>
+                  </View>
+
+                  <View style={[styles.w75]}>
+                    <Text>
+                      {positionQualificationStandards.experience || 'N/A'}
                     </Text>
                   </View>
                 </View>
@@ -769,9 +723,9 @@ const PdDocument = props => {
                 <Text style={[styles.headerText]}>Competencies</Text>
               </View>
 
-              <View style={[styles.tableBorder]}>
+              <View>
                 {/* Table Header */}
-                <View style={[styles.rowContainerTable]}>
+                <View style={[styles.rowContainerTable, styles.borderAll]}>
                   <View
                     style={[
                       styles.w60,

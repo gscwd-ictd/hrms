@@ -92,7 +92,7 @@ const CloseHiringModal = props => {
         {!isEmpty(responseHiringProcessDone) ? (
           <ToastrNotification
             toastType={'success'}
-            notifMessage={"Publication status updated to 'Interview Done'"}
+            notifMessage={"Publication status updated to 'Hiring process done'"}
           />
         ) : null}
 

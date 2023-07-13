@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import { isEmpty } from 'lodash'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -49,6 +50,12 @@ const PublicationSummary = props => {
     errorShortlistedApplicants,
     errorPsbDetails,
     errorPsbSummary,
+
+    // Redux state for PSB remarks
+    errorApplicantPsbRemarks,
+
+    // Redux state for patch on swap of psb member
+    patchSwapPsbMember,
   } = useSelector(state => ({
     errorApplicants: state.applicants.error.errorApplicants,
     errorSelectedByAppointingAuth:
@@ -58,6 +65,12 @@ const PublicationSummary = props => {
       state.applicants.error.errorShortlistedApplicants,
     errorPsbDetails: state.personnelSelectionBoard.error.errorPsbDetails,
     errorPsbSummary: state.personnelSelectionBoard.error.errorPsbSummary,
+
+    errorApplicantPsbRemarks:
+      state.personnelSelectionBoard.error.errorApplicantPsbRemarks,
+
+    patchSwapPsbMember:
+      state.personnelSelectionBoard.response.patchSwapPsbMember,
   }))
 
   // set active tab from toggling the navigation
@@ -80,6 +93,13 @@ const PublicationSummary = props => {
     }
   }, [showPublicationDetails])
 
+  // Reload table and reset form
+  useEffect(() => {
+    if (!isEmpty(patchSwapPsbMember)) {
+      dispatch(fetchPsbDetails(modalData.vppId))
+    }
+  }, [patchSwapPsbMember])
+
   return (
     <>
       <Modal
@@ -89,7 +109,7 @@ const PublicationSummary = props => {
         centered
       >
         <ModalHeader toggle={handleClosePublicationDetails}>
-          Publication Details
+          Publication Summary
         </ModalHeader>
 
         {/* Error Notif */}
@@ -132,6 +152,13 @@ const PublicationSummary = props => {
           <ToastrNotification
             toastType={'error'}
             notifMessage={errorPsbSummary}
+          />
+        ) : null}
+
+        {errorApplicantPsbRemarks ? (
+          <ToastrNotification
+            toastType={'error'}
+            notifMessage={errorApplicantPsbRemarks}
           />
         ) : null}
 
@@ -258,7 +285,7 @@ const PublicationSummary = props => {
                 <TabPane tabId="4">
                   <Row>
                     <Col sm="12">
-                      <HrmpsbDetails />
+                      <HrmpsbDetails modalData={modalData} />
                     </Col>
                   </Row>
                 </TabPane>
@@ -284,16 +311,6 @@ const PublicationSummary = props => {
             </Col>
           </Row>
         </ModalBody>
-
-        <ModalFooter>
-          <Button
-            type="button"
-            color="info"
-            onClick={() => handleClosePublicationDetails()}
-          >
-            Close
-          </Button>
-        </ModalFooter>
       </Modal>
     </>
   )

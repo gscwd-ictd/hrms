@@ -190,7 +190,7 @@ const Login = props => {
                 </CardBody>
               </Card>
               <div className="mt-5 text-center">
-                <p>© {new Date().getFullYear()} HRIS by GSCWD</p>
+                <p>© {new Date().getFullYear()} HRMS by GSCWD</p>
               </div>
             </Col>
           </Row>
