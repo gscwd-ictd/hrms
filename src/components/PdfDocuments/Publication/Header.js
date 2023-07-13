@@ -1,49 +1,49 @@
-import React from "react"
-import { Text, View, StyleSheet, Font } from "@react-pdf/renderer"
+import React from 'react'
+import { Text, View, StyleSheet, Font } from '@react-pdf/renderer'
 
 // Fonts
-import CalibriRegularBold from "../../../assets/fonts/uploads/calibri-regular-bold.ttf"
-import CalibriRegularItalic from "../../../assets/fonts/uploads/calibri-regular-italic.ttf"
+import CalibriRegularBold from '../../../assets/fonts/uploads/calibri-regular-bold.ttf'
+import CalibriRegularItalic from '../../../assets/fonts/uploads/calibri-regular-italic.ttf'
 
 Font.register({
-  family: "CalibriRegularItalic",
+  family: 'CalibriRegularItalic',
   src: CalibriRegularItalic,
 })
 
 Font.register({
-  family: "CalibriRegularBold",
+  family: 'CalibriRegularBold',
   src: CalibriRegularBold,
 })
 
 const styles = StyleSheet.create({
   rowContainer: {
-    flexDirection: "row",
-    alignItems: "stretch",
+    flexDirection: 'row',
+    alignItems: 'stretch',
     marginTop: 10,
   },
   headerText: {
-    fontFamily: "CalibriRegularBold",
+    fontFamily: 'CalibriRegularBold',
     fontSize: 11,
     padding: 1,
-    marginVertical: "auto",
+    marginVertical: 'auto',
   },
   leftText: {
-    fontFamily: "CalibriRegularBold",
+    fontFamily: 'CalibriRegularBold',
     fontSize: 9,
-    padding: "5 0 0 10",
-    textAlign: "left",
+    padding: '5 0 0 10',
+    textAlign: 'left',
   },
   rightText: {
-    fontFamily: "CalibriRegularItalic",
+    fontFamily: 'CalibriRegularItalic',
     fontSize: 9,
-    padding: "5 0 0 22",
-    textAlign: "center",
+    padding: '5 0 0 22',
+    textAlign: 'center',
   },
-  horizontalCenter: { textAlign: "center" },
+  horizontalCenter: { textAlign: 'center' },
 
   // Width Styles
-  w50: { width: "50%" },
-  w25: { width: "25%" },
+  w50: { width: '50%' },
+  w25: { width: '25%' },
 })
 
 const Header = () => {
@@ -52,7 +52,7 @@ const Header = () => {
       {/* Logo */}
       <View style={[styles.w25, styles.leftText]}>
         <Text>CS Form No. 9</Text>
-        <Text>Series of 2017</Text>
+        <Text>Series of 2018</Text>
       </View>
 
       {/* Center Text */}

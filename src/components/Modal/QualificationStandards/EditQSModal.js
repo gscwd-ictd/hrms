@@ -82,12 +82,6 @@ const EditQSModal = props => {
     }
   }, [responsePut])
 
-  // const handleValidSubmit = (event, values) => {
-  // const positionsRequested = document.getElementById("prf-positions-tbl").rows.length
-  // props.positionRequest(values, props.history, positionsRequested)
-  //   // console.log(values)
-  // }
-
   return (
     <>
       <Modal isOpen={showEdt} toggle={handleCloseEdt} size="lg" centered>
@@ -128,30 +122,6 @@ const EditQSModal = props => {
             <Row>
               <Col lg={12}>
                 <FormGroup>
-                  <Label for="eligibility">Eligibility:</Label>
-                  <Input
-                    name="eligibility"
-                    type="text"
-                    className="form-control"
-                    id="eligibility-Input"
-                    onChange={validation.handleChange}
-                    onBlur={validation.handleBlur}
-                    value={validation.values.eligibility || ''}
-                    invalid={
-                      validation.touched.eligibility &&
-                      validation.errors.eligibility
-                        ? true
-                        : false
-                    }
-                  />
-                  {validation.touched.eligibility &&
-                  validation.errors.eligibility ? (
-                    <FormFeedback type="invalid">
-                      {validation.errors.eligibility}
-                    </FormFeedback>
-                  ) : null}
-                </FormGroup>
-                <FormGroup>
                   <Label for="education">Education:</Label>
                   <Input
                     name="education"
@@ -175,6 +145,30 @@ const EditQSModal = props => {
                     </FormFeedback>
                   ) : null}
                 </FormGroup>
+
+                <FormGroup>
+                  <Label for="training">Training:</Label>
+                  <Input
+                    name="training"
+                    type="text"
+                    className="form-control"
+                    id="training-Input"
+                    onChange={validation.handleChange}
+                    onBlur={validation.handleBlur}
+                    value={validation.values.training || ''}
+                    invalid={
+                      validation.touched.training && validation.errors.training
+                        ? true
+                        : false
+                    }
+                  />
+                  {validation.touched.training && validation.errors.training ? (
+                    <FormFeedback type="invalid">
+                      {validation.errors.training}
+                    </FormFeedback>
+                  ) : null}
+                </FormGroup>
+
                 <FormGroup>
                   <Label for="experience">Experience:</Label>
                   <Input
@@ -199,25 +193,28 @@ const EditQSModal = props => {
                     </FormFeedback>
                   ) : null}
                 </FormGroup>
+
                 <FormGroup>
-                  <Label for="training">Training:</Label>
+                  <Label for="eligibility">Eligibility:</Label>
                   <Input
-                    name="training"
+                    name="eligibility"
                     type="text"
                     className="form-control"
-                    id="training-Input"
+                    id="eligibility-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.training || ''}
+                    value={validation.values.eligibility || ''}
                     invalid={
-                      validation.touched.training && validation.errors.training
+                      validation.touched.eligibility &&
+                      validation.errors.eligibility
                         ? true
                         : false
                     }
                   />
-                  {validation.touched.training && validation.errors.training ? (
+                  {validation.touched.eligibility &&
+                  validation.errors.eligibility ? (
                     <FormFeedback type="invalid">
-                      {validation.errors.training}
+                      {validation.errors.eligibility}
                     </FormFeedback>
                   ) : null}
                 </FormGroup>

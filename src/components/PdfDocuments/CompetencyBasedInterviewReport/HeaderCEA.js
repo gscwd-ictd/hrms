@@ -75,7 +75,7 @@ Font.register({
   src: CalibriRegular,
 })
 
-const Header = () => {
+const HeaderCEA = () => {
   return (
     <View style={[styles.rowContainer]}>
       {/* Logo */}
@@ -96,9 +96,9 @@ const Header = () => {
 
       {/* ISO Document Code */}
       <View style={[styles.w30, styles.documentCode]}>
-        <Text>HRD-004-0</Text>
+        <Text>HRD-002-3</Text>
       </View>
     </View>
   )
 }
-export default Header
+export default HeaderCEA

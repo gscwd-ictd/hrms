@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from "redux-saga/effects"
+import { call, put, takeEvery } from 'redux-saga/effects'
 import {
   getAssignedPsbMembers,
   getUnassignedPsbMembers,
@@ -7,7 +7,9 @@ import {
   getSelectedByAppointingAuthority,
   getCBIReportsHeaders,
   getCBIReports,
-} from "helpers/backend_helper"
+  patchSwapPsbMember,
+  getApplicantPsbRemarks,
+} from 'helpers/backend_helper'
 import {
   fetchAssignedPSBMembersSuccess,
   fetchAssignedPSBMembersFail,
@@ -23,7 +25,11 @@ import {
   fetchPsbCBIReportsHeaderFail,
   fetchPsbCBIReportsSuccess,
   fetchPsbCBIReportsFail,
-} from "./actions"
+  updateSwapPsbMemberSuccess,
+  updateSwapPsbMemberFail,
+  fetchApplicantPsbRemarksSuccess,
+  fetchApplicantPsbRemarksFail,
+} from './actions'
 import {
   GET_ASSIGNED_PSB_MEMBERS,
   GET_UNASSIGNED_PSB_MEMBERS,
@@ -32,7 +38,9 @@ import {
   GET_SELECTED_BY_APPOINTING_AUTHORITY,
   GET_PSB_CBI_REPORTS_HEADER,
   GET_PSB_CBI_REPORTS,
-} from "./actionTypes"
+  PATCH_SWAP_PSB_MEMBER,
+  GET_APPLICANT_PSB_REMARKS,
+} from './actionTypes'
 
 function* fetchAssignedPSBMembers({ payload: vppId }) {
   try {
@@ -97,6 +105,24 @@ function* fetchPsbCBIReports({ payload: vppId }) {
   }
 }
 
+function* updateSwapPsbMember({ payload: newPsbMemberData }) {
+  try {
+    const response = yield call(patchSwapPsbMember, newPsbMemberData)
+    yield put(updateSwapPsbMemberSuccess(response))
+  } catch (error) {
+    yield put(updateSwapPsbMemberFail(error))
+  }
+}
+
+function* fetchApplicantPsbRemarks({ payload: applicantId }) {
+  try {
+    const response = yield call(getApplicantPsbRemarks, applicantId)
+    yield put(fetchApplicantPsbRemarksSuccess(response))
+  } catch (error) {
+    yield put(fetchApplicantPsbRemarksFail(error))
+  }
+}
+
 function* personnelSelectionBoardSaga() {
   yield takeEvery(GET_ASSIGNED_PSB_MEMBERS, fetchAssignedPSBMembers)
   yield takeEvery(GET_UNASSIGNED_PSB_MEMBERS, fetchUnassignedPSBMembers)
@@ -108,6 +134,8 @@ function* personnelSelectionBoardSaga() {
   )
   yield takeEvery(GET_PSB_CBI_REPORTS_HEADER, fetchPsbCBIReportsHeader)
   yield takeEvery(GET_PSB_CBI_REPORTS, fetchPsbCBIReports)
+  yield takeEvery(PATCH_SWAP_PSB_MEMBER, updateSwapPsbMember)
+  yield takeEvery(GET_APPLICANT_PSB_REMARKS, fetchApplicantPsbRemarks)
 }
 
 export default personnelSelectionBoardSaga

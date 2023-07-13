@@ -1,5 +1,5 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 
 import {
   Page,
@@ -8,49 +8,57 @@ import {
   Document,
   StyleSheet,
   Font,
-} from "@react-pdf/renderer"
-import Header from "components/PdfDocuments/Publication/Header"
+} from '@react-pdf/renderer'
+import Header from 'components/PdfDocuments/Publication/Header'
 
 // Fonts
-import CalibriRegular from "../../../assets/fonts/uploads/calibri-regular.ttf"
-import CalibriRegularBold from "../../../assets/fonts/uploads/calibri-regular-bold.ttf"
-import CalibriRegularBoldItalic from "../../../assets/fonts/uploads/calibri-bold-italic.ttf"
+import CalibriRegular from '../../../assets/fonts/uploads/calibri-regular.ttf'
+import CalibriRegularBold from '../../../assets/fonts/uploads/calibri-regular-bold.ttf'
+import CalibriRegularBoldItalic from '../../../assets/fonts/uploads/calibri-bold-italic.ttf'
 
-Font.registerHyphenationCallback(word => {
-  screen
-  const middle = Math.floor(word.length / 2)
-  const parts =
-    word.length === 1
-      ? [word]
-      : [word.substring(0, middle), word.substring(middle)]
+export const chunkSubstr = (str, size) => {
+  const numChunks = Math.ceil(str.length / size)
+  const chunks = new Array(numChunks)
 
-  return parts
-})
+  for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+    chunks[i] = str.substr(o, size)
+  }
+
+  return chunks
+}
+
+function breakPlaceOfAssignment(word) {
+  if (word.length > 5) {
+    return chunkSubstr(word, 10)
+  } else {
+    return [word]
+  }
+}
 
 Font.register({
-  family: "CalibriRegular",
+  family: 'CalibriRegular',
   src: CalibriRegular,
 })
 
 Font.register({
-  family: "CalibriRegularBold",
+  family: 'CalibriRegularBold',
   src: CalibriRegularBold,
 })
 
 Font.register({
-  family: "CalibriRegularBoldItalic",
+  family: 'CalibriRegularBoldItalic',
   src: CalibriRegularBoldItalic,
 })
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
     paddingTop: 20,
     paddingBottom: 20,
   },
   rowContainer: {
-    flexDirection: "row",
-    alignItems: "stretch",
+    flexDirection: 'row',
+    alignItems: 'stretch',
     marginTop: 5,
   },
   bodyBorder: {
@@ -61,118 +69,118 @@ const styles = StyleSheet.create({
 
   // Table Styles
   tableBorder: {
-    border: "1px solid #000000",
+    border: '1px solid #000000',
   },
   rowContainerTable: {
-    flexDirection: "row",
-    alignItems: "stretch",
+    flexDirection: 'row',
+    alignItems: 'stretch',
   },
   tableHeader: {},
   tableData: {},
 
   // Border Styles
   borderTop: {
-    borderTop: "1px solid #000000",
+    borderTop: '1px solid #000000',
   },
   borderRight: {
-    borderRight: "1px solid #000000",
+    borderRight: '1px solid #000000',
   },
   borderBottom: {
-    borderBottom: "1px solid #000000",
+    borderBottom: '1px solid #000000',
   },
 
   // Container Styles
   sectionOne: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 10,
   },
   sectionTwo: {
     marginTop: 10,
-    flexDirection: "row",
-    alignItems: "stretch",
+    flexDirection: 'row',
+    alignItems: 'stretch',
   },
   sectionTwoHeader: {
-    fontFamily: "CalibriRegularBold",
+    fontFamily: 'CalibriRegularBold',
     fontSize: 10,
   },
   sectionThree: {
-    flexDirection: "row",
-    alignItems: "stretch",
+    flexDirection: 'row',
+    alignItems: 'stretch',
   },
 
   // Field Styles
   bodyText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 10,
   },
   bodyTextBold: {
-    fontFamily: "CalibriRegularBold",
+    fontFamily: 'CalibriRegularBold',
     fontSize: 10,
   },
   tableBodyText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 8.5,
   },
   tableBodyTextBold: {
-    fontFamily: "CalibriRegularBold",
+    fontFamily: 'CalibriRegularBold',
     fontSize: 8.5,
   },
   tableBodyCompetencyText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 7,
   },
   tableBodyCompetencyTextBold: {
-    fontFamily: "CalibriRegularBold",
-    textDecoration: "underline",
+    fontFamily: 'CalibriRegularBold',
+    textDecoration: 'underline',
     fontSize: 7,
   },
   hrTagLineText: {
-    fontFamily: "CalibriRegularBoldItalic",
+    fontFamily: 'CalibriRegularBoldItalic',
     fontSize: 14,
   },
   reminderText: {
-    fontFamily: "CalibriRegularBold",
+    fontFamily: 'CalibriRegularBold',
     fontSize: 12,
-    color: "#ff0000",
+    color: '#ff0000',
     paddingTop: 5,
   },
   upperCase: {
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
   },
   signatoryName: {
-    fontFamily: "CalibriRegularBold",
-    textTransform: "uppercase",
+    fontFamily: 'CalibriRegularBold',
+    textTransform: 'uppercase',
     paddingTop: 3,
   },
 
-  verticalCenter: { margin: "auto 0" },
-  horizontalCenter: { textAlign: "center" },
+  verticalCenter: { margin: 'auto 0' },
+  horizontalCenter: { textAlign: 'center' },
   signature: {
     width: 100,
-    marginHorizontal: "auto",
+    marginHorizontal: 'auto',
   },
 
   // Width Styles
-  w100: { width: "100%" },
-  w90: { width: "90%" },
-  w80: { width: "80%" },
-  w75: { width: "75%" },
-  w70: { width: "70%" },
-  w59: { width: "59%" },
-  w50: { width: "50%" },
-  w46: { width: "46%" },
-  w40: { width: "40%" },
-  w30: { width: "30%" },
-  w20: { width: "20%" },
-  w13: { width: "13%" },
-  w12: { width: "12%" },
-  w12_5: { width: "12.5%" },
-  w10: { width: "10%" },
-  w7: { width: "7%" },
-  w6_5: { width: "6.5%" },
-  w6: { width: "6%" },
-  w5_5: { width: "5.5%" },
-  w2_5: { width: "2.5%" },
+  w100: { width: '100%' },
+  w90: { width: '90%' },
+  w80: { width: '80%' },
+  w75: { width: '75%' },
+  w70: { width: '70%' },
+  w59: { width: '59%' },
+  w50: { width: '50%' },
+  w46: { width: '46%' },
+  w40: { width: '40%' },
+  w30: { width: '30%' },
+  w20: { width: '20%' },
+  w13: { width: '13%' },
+  w12: { width: '12%' },
+  w12_5: { width: '12.5%' },
+  w10: { width: '10%' },
+  w7: { width: '7%' },
+  w6_5: { width: '6.5%' },
+  w6: { width: '6%' },
+  w5_5: { width: '5.5%' },
+  w2_5: { width: '2.5%' },
 })
 
 const PublicationDocument = props => {
@@ -190,8 +198,8 @@ const PublicationDocument = props => {
             ]}
           >
             <Text>
-              <Text style={[{ textTransform: "uppercase" }]}>
-                {competency.name} -{" "}
+              <Text style={[{ textTransform: 'uppercase' }]}>
+                {competency.name} -{' '}
               </Text>
               <Text>{competency.description}</Text>
             </Text>
@@ -219,8 +227,8 @@ const PublicationDocument = props => {
             ]}
           >
             <Text>
-              <Text style={[{ textTransform: "uppercase" }]}>
-                {competency.name} -{" "}
+              <Text style={[{ textTransform: 'uppercase' }]}>
+                {competency.name} -{' '}
               </Text>
               <Text>{competency.description}</Text>
             </Text>
@@ -253,12 +261,12 @@ const PublicationDocument = props => {
             </Text>
             <Text style={[{ marginLeft: 20 }]}>
               This is to request the publication of the following vacant
-              positions of{" "}
+              positions of{' '}
               <Text
-                style={[styles.bodyTextBold, { textDecoration: "underline" }]}
+                style={[styles.bodyTextBold, { textDecoration: 'underline' }]}
               >
                 General Santos City Water District
-              </Text>{" "}
+              </Text>{' '}
               in the CSC website:
             </Text>
           </View>
@@ -284,7 +292,7 @@ const PublicationDocument = props => {
             <View
               style={[
                 styles.w50,
-                { flexDirection: "row", alignItems: "stretch" },
+                { flexDirection: 'row', alignItems: 'stretch' },
               ]}
             >
               <Text>Date:</Text>
@@ -296,7 +304,7 @@ const PublicationDocument = props => {
                     styles.borderBottom,
                     styles.w30,
                     styles.horizontalCenter,
-                    { marginHorizontal: "auto" },
+                    { marginHorizontal: 'auto' },
                   ]}
                 >
                   {formatDate(prfTrail.gm.updatedAt)}
@@ -357,7 +365,7 @@ const PublicationDocument = props => {
                     { paddingHorizontal: 2 },
                   ]}
                 >
-                  {"Salary Job/\n Pay Grade"}
+                  {'Salary Job/\n Pay Grade'}
                 </Text>
               </View>
 
@@ -369,7 +377,7 @@ const PublicationDocument = props => {
                     { paddingHorizontal: 2 },
                   ]}
                 >
-                  {"Annual \nSalary"}
+                  {'Annual \nSalary'}
                 </Text>
               </View>
 
@@ -454,7 +462,7 @@ const PublicationDocument = props => {
 
               <View style={[styles.tableHeader, styles.w6_5]}>
                 <Text style={[styles.verticalCenter, styles.horizontalCenter]}>
-                  {"Place of \n Assignment"}
+                  {'Place of \n Assignment'}
                 </Text>
               </View>
             </View>
@@ -552,7 +560,7 @@ const PublicationDocument = props => {
                         { paddingHorizontal: 2 },
                       ]}
                     >
-                      {position.education || "N/A"}
+                      {position.education || 'N/A'}
                     </Text>
                   </View>
 
@@ -565,7 +573,7 @@ const PublicationDocument = props => {
                         { paddingHorizontal: 2 },
                       ]}
                     >
-                      {position.training || "N/A"}
+                      {position.training || 'N/A'}
                     </Text>
                   </View>
 
@@ -578,7 +586,7 @@ const PublicationDocument = props => {
                         { paddingHorizontal: 2 },
                       ]}
                     >
-                      {position.experience || "N/A"}
+                      {position.experience || 'N/A'}
                     </Text>
                   </View>
 
@@ -591,7 +599,7 @@ const PublicationDocument = props => {
                         { paddingHorizontal: 2 },
                       ]}
                     >
-                      {position.eligibility || "N/A"}
+                      {position.eligibility || 'N/A'}
                     </Text>
                   </View>
 
@@ -608,10 +616,15 @@ const PublicationDocument = props => {
                     style={[
                       styles.verticalCenter,
                       styles.horizontalCenter,
-                      { textTransform: "uppercase", textOverflow: "ellipsis" },
+                      {
+                        textTransform: 'uppercase',
+                        textOverflow: 'ellipsis',
+                        marginHorizontal: 3,
+                      },
                     ]}
+                    hyphenationCallback={e => breakPlaceOfAssignment(e)}
                   >
-                    {position.placeOfAssignment || "N/A"}
+                    {position.placeOfAssignment || 'N/A'}
                   </Text>
                 </View>
               </View>
@@ -651,7 +664,7 @@ const PublicationDocument = props => {
                   <Text>
                     <Text style={[styles.upperCase, styles.bodyTextBold]}>
                       QUALIFIED APPLICANTS
-                    </Text>{" "}
+                    </Text>{' '}
                     are advised to hand in or send through courier/email theri
                     application to
                   </Text>
@@ -696,7 +709,7 @@ const PublicationDocument = props => {
                     qualified women and men to apply regardless of religion,
                     sex,
                   </Text>
-                  <Text>gender or physical disability</Text>
+                  <Text>gender, or physical disability</Text>
                 </View>
 
                 <View>

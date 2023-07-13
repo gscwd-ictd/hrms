@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { Input, Label, Row, Col } from 'reactstrap'
+import { Input, Label } from 'reactstrap'
 
 export const SelectColumnFilter = props => {
   const {
@@ -11,6 +11,7 @@ export const SelectColumnFilter = props => {
   // using the preFilteredRows
   const options = useMemo(() => {
     const options = new Set()
+
     preFilteredRows.forEach(row => {
       options.add(row.values[id])
     })

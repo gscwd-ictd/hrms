@@ -1,6 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
 import {
   Page,
@@ -10,13 +10,14 @@ import {
   StyleSheet,
   Font,
   Image,
-} from "@react-pdf/renderer"
-import Header from "components/PdfDocuments/CompetencyBasedInterviewReport/Header"
+} from '@react-pdf/renderer'
+import HeaderCBIR from 'components/PdfDocuments/CompetencyBasedInterviewReport/HeaderCBIR'
+import HeaderCEA from 'components/PdfDocuments/CompetencyBasedInterviewReport/HeaderCEA'
 
 // Fonts
-import CalibriRegular from "assets/fonts/uploads/calibri-regular.ttf"
-import CalibriRegularBold from "assets/fonts/uploads/calibri-regular-bold.ttf"
-import CalibriBoldItalic from "assets/fonts/uploads/calibri-bold-italic.ttf"
+import CalibriRegular from 'assets/fonts/uploads/calibri-regular.ttf'
+import CalibriRegularBold from 'assets/fonts/uploads/calibri-regular-bold.ttf'
+import CalibriBoldItalic from 'assets/fonts/uploads/calibri-bold-italic.ttf'
 
 Font.registerHyphenationCallback(word => {
   screen
@@ -31,48 +32,48 @@ Font.registerHyphenationCallback(word => {
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
   },
   rowContainer: {
-    flexDirection: "row",
-    alignItems: "stretch",
+    flexDirection: 'row',
+    alignItems: 'stretch',
   },
   signature: {
     width: 100,
-    marginHorizontal: "auto",
+    marginHorizontal: 'auto',
   },
 
   // Border Styles
   borderAll: {
-    border: "2px solid #000000",
+    border: '2px solid #000000',
   },
   borderTop: {
-    borderTop: "1px solid #000000",
+    borderTop: '1px solid #000000',
   },
   borderRight: {
-    borderRight: "1px solid #000000",
+    borderRight: '1px solid #000000',
   },
   borderBottom: {
-    borderBottom: "1px solid #000000",
+    borderBottom: '1px solid #000000',
   },
   borderLeft: {
-    borderLeft: "1px solid #000000",
+    borderLeft: '1px solid #000000',
   },
 
   // Field Styles
   documentTitle: {
-    fontFamily: "CalibriRegularBold",
+    fontFamily: 'CalibriRegularBold',
     fontSize: 11,
     marginVertical: 8,
-    textAlign: "center",
+    textAlign: 'center',
   },
   pleaseIndicateText: {
-    fontFamily: "CalibriBoldItalic",
+    fontFamily: 'CalibriBoldItalic',
     fontSize: 11,
     marginVertical: 2,
   },
   bodyText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 10,
   },
   coeaKey: {
@@ -82,59 +83,59 @@ const styles = StyleSheet.create({
   coeaValue: {
     paddingTop: 2,
     paddingLeft: 2,
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
   },
 
   upperCase: {
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
   },
   signatoryName: {
-    fontFamily: "CalibriRegularBold",
-    textTransform: "uppercase",
+    fontFamily: 'CalibriRegularBold',
+    textTransform: 'uppercase',
   },
 
-  verticalCenter: { margin: "auto 0" },
-  horizontalCenter: { textAlign: "center" },
+  verticalCenter: { margin: 'auto 0' },
+  horizontalCenter: { textAlign: 'center' },
 
   // Width Styles
-  w100: { width: "100%" },
-  w92: { width: "92%" },
-  w80: { width: "80%" },
-  w70: { width: "70%" },
-  w65: { width: "65%" },
-  w60: { width: "60%" },
-  w50: { width: "50%" },
-  w45: { width: "45%" },
-  w42_5: { width: "42.5%" },
-  w40: { width: "40%" },
-  w35: { width: "35%" },
-  w32: { width: "32%" },
-  w30: { width: "30%" },
-  w27_5: { width: "27.5%" },
-  w20: { width: "20%" },
-  w16_66: { width: "16.66%" },
-  w15: { width: "15%" },
-  w8_5: { width: "8.5%" },
-  w8: { width: "8%" },
-  w7_75: { width: "7.75" },
-  w7_1: { width: "7.1%" },
-  w6: { width: "6%" },
+  w100: { width: '100%' },
+  w92: { width: '92%' },
+  w80: { width: '80%' },
+  w70: { width: '70%' },
+  w65: { width: '65%' },
+  w60: { width: '60%' },
+  w50: { width: '50%' },
+  w45: { width: '45%' },
+  w42_5: { width: '42.5%' },
+  w40: { width: '40%' },
+  w35: { width: '35%' },
+  w32: { width: '32%' },
+  w30: { width: '30%' },
+  w27_5: { width: '27.5%' },
+  w20: { width: '20%' },
+  w16_66: { width: '16.66%' },
+  w15: { width: '15%' },
+  w8_5: { width: '8.5%' },
+  w8: { width: '8%' },
+  w7_75: { width: '7.75' },
+  w7_1: { width: '7.1%' },
+  w6: { width: '6%' },
 
   h55: { height: 55 },
 })
 
 Font.register({
-  family: "CalibriRegular",
+  family: 'CalibriRegular',
   src: CalibriRegular,
 })
 
 Font.register({
-  family: "CalibriRegularBold",
+  family: 'CalibriRegularBold',
   src: CalibriRegularBold,
 })
 
 Font.register({
-  family: "CalibriBoldItalic",
+  family: 'CalibriBoldItalic',
   src: CalibriBoldItalic,
 })
 
@@ -147,7 +148,7 @@ const CBIRDocument = props => {
   const renderCoreCompeteciesHeader = () => {
     if (!isEmpty(competencyBasedInterviewReportsHeader.core)) {
       var content = (
-        <View style={[styles.w42_5, { borderRight: "2px solid #000000" }]}>
+        <View style={[styles.w42_5, { borderRight: '2px solid #000000' }]}>
           <View style={[styles.borderBottom]}>
             <View style={[styles.horizontalCenter]}>
               <Text style={[{ paddingTop: 2 }]}>CORE COMPETENCIES</Text>
@@ -279,7 +280,7 @@ const CBIRDocument = props => {
               >
                 {/* APPLICANT NAME */}
                 <View
-                  style={[styles.w15, { borderRight: "2px solid #000000" }]}
+                  style={[styles.w15, { borderRight: '2px solid #000000' }]}
                 >
                   <View
                     style={[styles.horizontalCenter, styles.verticalCenter]}
@@ -291,7 +292,7 @@ const CBIRDocument = props => {
                 {/* CORE */}
                 {!isEmpty(applicant.competencies.coreScores) ? (
                   <View
-                    style={[styles.w42_5, { borderRight: "2px solid #000000" }]}
+                    style={[styles.w42_5, { borderRight: '2px solid #000000' }]}
                   >
                     <View style={[styles.rowContainer]}>
                       {applicant.competencies.coreScores.map(score => (
@@ -423,7 +424,7 @@ const CBIRDocument = props => {
             {competencyBasedInterviewReports.map((psb, index) => {
               return (
                 <View key={index} wrap={false}>
-                  <Header />
+                  <HeaderCBIR />
 
                   <View style={[{ paddingHorizontal: 5 }]}>
                     {/* DOCUMENT TITLE */}
@@ -448,7 +449,7 @@ const CBIRDocument = props => {
                           style={[
                             styles.w15,
                             styles.borderBottom,
-                            { borderRight: "2px solid #000000" },
+                            { borderRight: '2px solid #000000' },
                           ]}
                         >
                           <View
@@ -492,7 +493,7 @@ const CBIRDocument = props => {
                             <View
                               style={[
                                 styles.w20,
-                                { marginTop: "auto", paddingBottom: 10 },
+                                { marginTop: 'auto', paddingBottom: 10 },
                               ]}
                             >
                               <Text
@@ -513,7 +514,7 @@ const CBIRDocument = props => {
                               style={[
                                 styles.horizontalCenter,
                                 styles.w60,
-                                { marginTop: "auto" },
+                                { marginTop: 'auto' },
                               ]}
                             >
                               <Image
@@ -524,7 +525,7 @@ const CBIRDocument = props => {
                                 style={[styles.signature]}
                               />
                               <View style={[styles.borderBottom]}>
-                                <Text style={[{ textTransform: "uppercase" }]}>
+                                <Text style={[{ textTransform: 'uppercase' }]}>
                                   {
                                     psb.competencyBasedInterviewReport
                                       .psbMemberDetails.fullName
@@ -541,11 +542,11 @@ const CBIRDocument = props => {
                               style={[
                                 styles.horizontalCenter,
                                 styles.w20,
-                                { marginTop: "auto" },
+                                { marginTop: 'auto' },
                               ]}
                             >
                               <View style={[styles.borderBottom]}>
-                                <Text style={[{ textTransform: "uppercase" }]}>
+                                <Text style={[{ textTransform: 'uppercase' }]}>
                                   {
                                     psb.competencyBasedInterviewReport
                                       .recommendationDate
@@ -562,14 +563,14 @@ const CBIRDocument = props => {
                           <View
                             style={[
                               styles.borderAll,
-                              { backgroundColor: "#d1d1d1" },
+                              { backgroundColor: '#d1d1d1' },
                             ]}
                           >
                             <View style={[styles.borderBottom]}>
                               <Text
                                 style={[
                                   {
-                                    fontFamily: "CalibriRegularBold",
+                                    fontFamily: 'CalibriRegularBold',
                                     padding: 2,
                                   },
                                 ]}
@@ -607,7 +608,7 @@ const CBIRDocument = props => {
                                 >
                                   <Text
                                     style={[
-                                      { fontFamily: "CalibriRegularBold" },
+                                      { fontFamily: 'CalibriRegularBold' },
                                     ]}
                                   >
                                     Excellent
@@ -652,7 +653,7 @@ const CBIRDocument = props => {
                                 >
                                   <Text
                                     style={[
-                                      { fontFamily: "CalibriRegularBold" },
+                                      { fontFamily: 'CalibriRegularBold' },
                                     ]}
                                   >
                                     Good
@@ -696,7 +697,7 @@ const CBIRDocument = props => {
                                 >
                                   <Text
                                     style={[
-                                      { fontFamily: "CalibriRegularBold" },
+                                      { fontFamily: 'CalibriRegularBold' },
                                     ]}
                                   >
                                     Average
@@ -740,7 +741,7 @@ const CBIRDocument = props => {
                                 >
                                   <Text
                                     style={[
-                                      { fontFamily: "CalibriRegularBold" },
+                                      { fontFamily: 'CalibriRegularBold' },
                                     ]}
                                   >
                                     Poor
@@ -782,7 +783,7 @@ const CBIRDocument = props => {
                                 >
                                   <Text
                                     style={[
-                                      { fontFamily: "CalibriRegularBold" },
+                                      { fontFamily: 'CalibriRegularBold' },
                                     ]}
                                   >
                                     No evidence
@@ -813,7 +814,7 @@ const CBIRDocument = props => {
             {competencyBasedInterviewReports.map((psb, index) => {
               return (
                 <View key={index} wrap={false}>
-                  <Header />
+                  <HeaderCEA />
 
                   <View
                     style={[
@@ -828,13 +829,13 @@ const CBIRDocument = props => {
                         <View
                           style={[
                             styles.w40,
-                            { borderRight: "2px solid #000000" },
+                            { borderRight: '2px solid #000000' },
                           ]}
                         >
                           <Text
                             style={[
                               {
-                                fontFamily: "CalibriRegularBold",
+                                fontFamily: 'CalibriRegularBold',
                                 paddingTop: 2,
                                 paddingLeft: 2,
                               },
@@ -847,7 +848,7 @@ const CBIRDocument = props => {
                           <Text
                             style={[
                               {
-                                fontFamily: "CalibriRegularBold",
+                                fontFamily: 'CalibriRegularBold',
                                 paddingTop: 2,
                                 paddingLeft: 2,
                               },
@@ -864,7 +865,7 @@ const CBIRDocument = props => {
                         <View
                           style={[
                             styles.w40,
-                            { borderRight: "2px solid #000000" },
+                            { borderRight: '2px solid #000000' },
                           ]}
                         >
                           <View
@@ -908,7 +909,7 @@ const CBIRDocument = props => {
                           >
                             <View style={[styles.w35, styles.borderRight]}>
                               <Text style={[styles.coeaKey]}>
-                                {"Office / Department /\n Division"}
+                                {'Office / Department /\n Division'}
                               </Text>
                             </View>
                             <View style={[styles.w65]}>
@@ -1077,6 +1078,14 @@ const CBIRDocument = props => {
                                   >
                                     AVERAGE
                                   </Text>
+                                  <Text
+                                    style={[
+                                      styles.horizontalCenter,
+                                      { paddingTop: 3 },
+                                    ]}
+                                  >
+                                    (A)
+                                  </Text>
                                 </View>
                                 <View style={[styles.w50]}>
                                   <Text
@@ -1085,7 +1094,15 @@ const CBIRDocument = props => {
                                       { paddingTop: 3 },
                                     ]}
                                   >
-                                    30%
+                                    (A/5)x%
+                                  </Text>
+                                  <Text
+                                    style={[
+                                      styles.horizontalCenter,
+                                      { paddingTop: 3 },
+                                    ]}
+                                  >
+                                    (B)
                                   </Text>
                                 </View>
                               </View>
@@ -1118,6 +1135,14 @@ const CBIRDocument = props => {
                                   >
                                     AVERAGE
                                   </Text>
+                                  <Text
+                                    style={[
+                                      styles.horizontalCenter,
+                                      { paddingTop: 3 },
+                                    ]}
+                                  >
+                                    (C)
+                                  </Text>
                                 </View>
                                 <View style={[styles.w50]}>
                                   <Text
@@ -1126,7 +1151,15 @@ const CBIRDocument = props => {
                                       { paddingTop: 3 },
                                     ]}
                                   >
-                                    40%
+                                    (C/5)x%
+                                  </Text>
+                                  <Text
+                                    style={[
+                                      styles.horizontalCenter,
+                                      { paddingTop: 3 },
+                                    ]}
+                                  >
+                                    (D)
                                   </Text>
                                 </View>
                               </View>
@@ -1147,7 +1180,6 @@ const CBIRDocument = props => {
                                 ]}
                               >
                                 <Text>EXAM</Text>
-                                <Text style={[{ paddingTop: 4 }]}>30%</Text>
                               </View>
                             </View>
 
@@ -1159,7 +1191,7 @@ const CBIRDocument = props => {
                                   styles.verticalCenter,
                                 ]}
                               >
-                                TOTAL RATING
+                                PERCENTAGE TOTAL RATING (B+D)
                               </Text>
                             </View>
                           </View>
@@ -1292,7 +1324,7 @@ const CBIRDocument = props => {
                               style={[
                                 styles.rowContainer,
                                 styles.borderBottom,
-                                { backgroundColor: "#d1d1d1" },
+                                { backgroundColor: '#d1d1d1' },
                               ]}
                             >
                               <View style={[styles.w60, styles.borderRight]}>
@@ -1498,7 +1530,7 @@ const CBIRDocument = props => {
                           <View
                             style={[
                               styles.w20,
-                              { marginTop: "auto", paddingBottom: 10 },
+                              { marginTop: 'auto', paddingBottom: 10 },
                             ]}
                           >
                             <Text
@@ -1519,7 +1551,7 @@ const CBIRDocument = props => {
                             style={[
                               styles.horizontalCenter,
                               styles.w60,
-                              { marginTop: "auto" },
+                              { marginTop: 'auto' },
                             ]}
                           >
                             {/* signature image */}
@@ -1531,7 +1563,7 @@ const CBIRDocument = props => {
                               style={[styles.signature]}
                             />
                             {/* psb member name */}
-                            <Text style={[{ textTransform: "uppercase" }]}>
+                            <Text style={[{ textTransform: 'uppercase' }]}>
                               {
                                 psb.competencyBasedInterviewReport
                                   .psbMemberDetails.fullName
@@ -1556,11 +1588,11 @@ const CBIRDocument = props => {
                             style={[
                               styles.horizontalCenter,
                               styles.w20,
-                              { marginTop: "auto" },
+                              { marginTop: 'auto' },
                             ]}
                           >
                             <View style={[styles.borderBottom]}>
-                              <Text style={[{ textTransform: "uppercase" }]}>
+                              <Text style={[{ textTransform: 'uppercase' }]}>
                                 {
                                   psb.competencyBasedInterviewReport
                                     .recommendationDate

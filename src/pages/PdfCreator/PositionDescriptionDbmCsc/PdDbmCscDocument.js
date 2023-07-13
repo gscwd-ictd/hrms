@@ -1,5 +1,5 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 
 import {
   Page,
@@ -10,43 +10,42 @@ import {
   Font,
   Svg,
   Path,
-} from "@react-pdf/renderer"
+} from '@react-pdf/renderer'
 
 // Fonts
-import CalibriRegular from "assets/fonts/uploads/calibri-regular.ttf"
-import CalibriRegularBold from "assets/fonts/uploads/calibri-regular-bold.ttf"
-import CalibriRegularItalic from "assets/fonts/uploads/calibri-bold-italic.ttf"
+import CalibriRegular from 'assets/fonts/uploads/calibri-regular.ttf'
+import CalibriRegularBold from 'assets/fonts/uploads/calibri-regular-bold.ttf'
+import CalibriRegularItalic from 'assets/fonts/uploads/calibri-bold-italic.ttf'
 
 Font.registerHyphenationCallback(word => [word])
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
+    paddingTop: 10,
+    paddingBottom: 25,
   },
   rowContainer: {
-    flexDirection: "row",
-    alignItems: "stretch",
+    flexDirection: 'row',
+    alignItems: 'stretch',
   },
   bodyBorder: {
-    marginTop: 10,
-    marginBottom: 15,
     marginHorizontal: 25,
-    border: "1.5px solid #000000",
   },
 
   // Table Styles
   tableBorder: {
-    border: "1px solid #000000",
+    border: '1px solid #000000',
   },
   rowContainerTable: {
-    flexDirection: "row",
-    alignItems: "stretch",
+    flexDirection: 'row',
+    alignItems: 'stretch',
   },
   tData: {
-    padding: "4 0 0 4",
+    padding: '4 0 0 4',
   },
   tDataColored: {
-    backgroundColor: "#D3CFBA",
+    backgroundColor: '#D3CFBA',
   },
   tDataVerticalCenter: {
     paddingTop: 11,
@@ -54,87 +53,90 @@ const styles = StyleSheet.create({
   },
 
   // Border Styles
+  borderAll: {
+    border: '1.5px solid #000000',
+  },
   borderTop: {
-    borderTop: "1.5px solid #000000",
+    borderTop: '1.5px solid #000000',
   },
   borderRight: {
-    borderRight: "1.5px solid #000000",
+    borderRight: '1.5px solid #000000',
   },
   borderBottom: {
-    borderBottom: "1.5px solid #000000",
+    borderBottom: '1.5px solid #000000',
   },
   borderLeft: {
-    borderLeft: "1.5px solid #000000",
+    borderLeft: '1.5px solid #000000',
   },
 
   // Field Styles
   subtitleText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 8,
     paddingTop: 2,
     paddingHorizontal: 2,
   },
   bodyText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 9.5,
     paddingTop: 2,
     paddingHorizontal: 2,
   },
   bodyTextItalic: {
-    fontFamily: "CalibriRegularItalic",
+    fontFamily: 'CalibriRegularItalic',
     fontSize: 9.5,
     paddingTop: 2,
     paddingHorizontal: 2,
   },
   bodyTextBold: {
-    fontFamily: "CalibriRegularBold",
+    fontFamily: 'CalibriRegularBold',
     fontSize: 11,
     paddingTop: 2,
     paddingHorizontal: 2,
   },
   bodyTextBoldUppercase: {
-    fontFamily: "CalibriRegularBold",
+    fontFamily: 'CalibriRegularBold',
     fontSize: 11,
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
     paddingTop: 2,
     paddingHorizontal: 2,
   },
   textWithCheckbox: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 9.5,
     paddingTop: 1,
   },
 
-  verticalCenter: { margin: "auto 0" },
-  horizontalCenter: { textAlign: "center" },
+  verticalCenter: { margin: 'auto 0' },
+  horizontalCenter: { textAlign: 'center' },
 
   // Width Styles
-  w100: { width: "100%" },
-  w75: { width: "75%" },
-  w70: { width: "70%" },
-  w60: { width: "60%" },
-  w50: { width: "50%" },
-  w40: { width: "40%" },
-  w33_33: { width: "33.33%" },
-  w30: { width: "30%" },
-  w25: { width: "25%" },
-  w20: { width: "20%" },
-  w10: { width: "10%" },
-  w5: { width: "5%" },
+  w100: { width: '100%' },
+  w75: { width: '75%' },
+  w70: { width: '70%' },
+  w60: { width: '60%' },
+  w50: { width: '50%' },
+  w40: { width: '40%' },
+  w33_33: { width: '33.33%' },
+  w30: { width: '30%' },
+  w25: { width: '25%' },
+  w20: { width: '20%' },
+  w10: { width: '10%' },
+  w5: { width: '5%' },
 })
 
 Font.register({
-  family: "CalibriRegular",
+  family: 'CalibriRegular',
   src: CalibriRegular,
 })
 
 Font.register({
-  family: "CalibriRegularBold",
+  family: 'CalibriRegularBold',
   src: CalibriRegularBold,
 })
 
 Font.register({
-  family: "CalibriRegularItalic",
+  family: 'CalibriRegularItalic',
   src: CalibriRegularItalic,
 })
 
@@ -142,9 +144,9 @@ const PdDbmCscDocument = props => {
   const { applicantDbmCsc } = props
 
   const renderIsOccasionalCheckBox = isOccasional => {
-    if (isOccasional === "Occasional") {
+    if (isOccasional === 'Occasional') {
       return (
-        <View style={[{ margin: "auto" }]}>
+        <View style={[{ margin: 'auto' }]}>
           <Svg viewBox="0 0 24 24" width={10} height={10}>
             <Path
               d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -155,7 +157,7 @@ const PdDbmCscDocument = props => {
       )
     } else {
       return (
-        <View style={[{ margin: "auto" }]}>
+        <View style={[{ margin: 'auto' }]}>
           <Svg viewBox="0 0 24 24" width={10} height={10}>
             <Path d="M22 2v20h-20v-20h20zm2-2h-24v24h24v-24z" stroke="black" />
           </Svg>
@@ -165,9 +167,9 @@ const PdDbmCscDocument = props => {
   }
 
   const renderIsFrequentCheckBox = isFrequent => {
-    if (isFrequent === "Frequent") {
+    if (isFrequent === 'Frequent') {
       return (
-        <View style={[{ margin: "auto" }]}>
+        <View style={[{ margin: 'auto' }]}>
           <Svg viewBox="0 0 24 24" width={10} height={10}>
             <Path
               d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -178,7 +180,7 @@ const PdDbmCscDocument = props => {
       )
     } else {
       return (
-        <View style={[{ margin: "auto" }]}>
+        <View style={[{ margin: 'auto' }]}>
           <Svg viewBox="0 0 24 24" width={10} height={10}>
             <Path d="M22 2v20h-20v-20h20zm2-2h-24v24h24v-24z" stroke="black" />
           </Svg>
@@ -191,7 +193,7 @@ const PdDbmCscDocument = props => {
     var content = competencyArray.map((competency, index) => (
       <View style={[styles.rowContainer, styles.borderBottom]} key={index}>
         <View style={[styles.w75, styles.borderRight]}>
-          <Text style={[styles.bodyText, { textTransform: "uppercase" }]}>
+          <Text style={[styles.bodyText, { textTransform: 'uppercase' }]}>
             {competency.competencyName}
           </Text>
           <Text style={[styles.bodyText, styles.horizontalCenter]}>
@@ -266,7 +268,7 @@ const PdDbmCscDocument = props => {
       <Page size={[612.3, 935.4]} style={styles.page}>
         <View style={[styles.bodyBorder]}>
           {/* ROW 1 */}
-          <View style={[styles.rowContainer]}>
+          <View style={[styles.rowContainer, styles.borderAll]}>
             <View
               style={[
                 styles.w50,
@@ -312,7 +314,7 @@ const PdDbmCscDocument = props => {
           </View>
 
           {/* ROW 2 */}
-          <View style={[styles.rowContainer, styles.borderTop]}>
+          <View style={[styles.rowContainer, styles.borderAll]}>
             <View style={[styles.w50, styles.borderRight]}>
               <Text
                 style={[
@@ -359,7 +361,7 @@ const PdDbmCscDocument = props => {
           </View>
 
           {/* ROW 3 */}
-          <View style={[styles.borderTop]}>
+          <View style={[styles.borderAll]}>
             <View>
               <Text
                 style={[
@@ -522,7 +524,7 @@ const PdDbmCscDocument = props => {
           </View>
 
           {/* ROW 4 */}
-          <View style={[styles.rowContainer, styles.borderTop]}>
+          <View style={[styles.rowContainer, styles.borderAll]}>
             <View style={[styles.w50, styles.borderRight]}>
               <Text
                 style={[
@@ -570,7 +572,7 @@ const PdDbmCscDocument = props => {
           </View>
 
           {/* ROW 5 */}
-          <View style={[styles.rowContainer, styles.borderTop]}>
+          <View style={[styles.rowContainer, styles.borderAll]}>
             <View style={[styles.w50, styles.borderRight]}>
               <Text
                 style={[
@@ -617,7 +619,7 @@ const PdDbmCscDocument = props => {
           </View>
 
           {/* ROW 6 */}
-          <View style={[styles.rowContainer, styles.borderTop]}>
+          <View style={[styles.rowContainer, styles.borderAll]}>
             <View style={[styles.w50, styles.borderRight]}>
               <View style={[styles.rowContainer]}>
                 {/* 9 */}
@@ -639,7 +641,7 @@ const PdDbmCscDocument = props => {
                       styles.tDataVerticalCenter,
                     ]}
                   >
-                    {"  "}
+                    {'  '}
                   </Text>
                 </View>
 
@@ -662,7 +664,7 @@ const PdDbmCscDocument = props => {
                       styles.tDataVerticalCenter,
                     ]}
                   >
-                    {"  "}
+                    {'  '}
                   </Text>
                 </View>
               </View>
@@ -720,7 +722,7 @@ const PdDbmCscDocument = props => {
           </View>
 
           {/* ROW 7 */}
-          <View style={[styles.rowContainer, styles.borderTop]}>
+          <View style={[styles.rowContainer, styles.borderAll]}>
             <View style={[styles.w50, styles.borderRight]}>
               <Text
                 style={[
@@ -773,7 +775,7 @@ const PdDbmCscDocument = props => {
           </View>
 
           {/* ROW 8 */}
-          <View style={[styles.borderTop]}>
+          <View style={[styles.borderAll]}>
             <View>
               <Text
                 style={[
@@ -848,7 +850,7 @@ const PdDbmCscDocument = props => {
           </View>
 
           {/* ROW 9 */}
-          <View style={[styles.borderTop]}>
+          <View style={[styles.borderAll]}>
             <View>
               <Text
                 style={[
@@ -875,7 +877,7 @@ const PdDbmCscDocument = props => {
           </View>
 
           {/* ROW 10 */}
-          <View style={[styles.borderTop]}>
+          <View style={[styles.borderAll]}>
             <View>
               <Text
                 style={[
@@ -1062,7 +1064,7 @@ const PdDbmCscDocument = props => {
                     <View
                       style={[
                         styles.w60,
-                        { borderBottom: "1px solid #000000" },
+                        { borderBottom: '1px solid #000000' },
                       ]}
                     >
                       <Text style={[styles.bodyText]}>
@@ -1098,7 +1100,7 @@ const PdDbmCscDocument = props => {
           </View>
 
           {/* ROW 11 */}
-          <View style={[styles.borderTop]} wrap={false}>
+          <View style={[styles.borderAll]} wrap={false}>
             <View>
               <Text
                 style={[
@@ -1137,7 +1139,7 @@ const PdDbmCscDocument = props => {
                     <View
                       style={[
                         styles.w60,
-                        { borderBottom: "1px solid #000000" },
+                        { borderBottom: '1px solid #000000' },
                       ]}
                     >
                       <Text style={[styles.bodyText]}>
@@ -1173,7 +1175,7 @@ const PdDbmCscDocument = props => {
           </View>
 
           {/* ROW 12 */}
-          <View style={[styles.borderTop]} wrap={false}>
+          <View style={[styles.borderAll]} wrap={false}>
             <View>
               <Text
                 style={[
@@ -1200,7 +1202,7 @@ const PdDbmCscDocument = props => {
           </View>
 
           {/* ROW 13 */}
-          <View style={[styles.borderTop]} wrap={false}>
+          <View style={[styles.borderAll]} wrap={false}>
             <View>
               <Text
                 style={[
@@ -1225,13 +1227,9 @@ const PdDbmCscDocument = props => {
               </Text>
             </View>
           </View>
-        </View>
-      </Page>
 
-      <Page size={[612.3, 935.4]} style={styles.page}>
-        <View style={[styles.bodyBorder]}>
           {/* ROW 14 */}
-          <View wrap={false}>
+          <View style={[styles.borderAll]} wrap={false}>
             <View>
               <Text
                 style={[
@@ -1364,7 +1362,7 @@ const PdDbmCscDocument = props => {
           </View>
 
           {/* ROW 15 */}
-          <View style={[styles.borderTop]} wrap={false}>
+          <View style={[styles.borderAll]} wrap={false}>
             <View style={[styles.rowContainer]}>
               <View style={[styles.w75, styles.borderRight]}>
                 <Text
@@ -1396,7 +1394,7 @@ const PdDbmCscDocument = props => {
           </View>
 
           {/* ROW 16 */}
-          <View wrap={false}>
+          <View style={[styles.borderAll]} wrap={false}>
             <View style={[styles.rowContainer]}>
               <View style={[styles.w75, styles.borderRight]}>
                 <Text
@@ -1430,7 +1428,7 @@ const PdDbmCscDocument = props => {
           </View>
 
           {/* ROW 17 */}
-          <View>
+          <View style={[styles.borderAll]} wrap={false}>
             <View style={[styles.rowContainer, styles.borderBottom]}>
               <View style={[styles.w75, styles.borderRight]}>
                 <Text style={[styles.bodyTextBold, styles.tDataColored]}>
@@ -1451,6 +1449,7 @@ const PdDbmCscDocument = props => {
               </View>
             </View>
 
+            {/* Header */}
             <View style={[styles.rowContainer, styles.borderBottom]}>
               <View style={[styles.w25, styles.borderRight]}>
                 <Text
@@ -1489,6 +1488,7 @@ const PdDbmCscDocument = props => {
 
             {renderDuties(applicantDbmCsc.dutiesAndResponsibilities.core)}
 
+            {/* Last row */}
             <View style={[styles.rowContainer]}>
               <View style={[styles.w25, styles.borderRight]}>
                 <Text
@@ -1512,7 +1512,7 @@ const PdDbmCscDocument = props => {
           </View>
 
           {/* ROW 18 */}
-          <View style={[styles.borderTop]}>
+          <View style={[styles.borderAll]} wrap={false}>
             <View style={[styles.borderBottom]}>
               <View>
                 <Text style={[styles.tDataColored]}> </Text>

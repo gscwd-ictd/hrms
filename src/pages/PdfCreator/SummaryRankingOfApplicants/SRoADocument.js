@@ -1,6 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
 import {
   Page,
@@ -10,107 +10,107 @@ import {
   StyleSheet,
   Font,
   Image,
-} from "@react-pdf/renderer"
-import Header from "components/PdfDocuments/SummaryRankingOfApplicants/Header"
+} from '@react-pdf/renderer'
+import Header from 'components/PdfDocuments/SummaryRankingOfApplicants/Header'
 
 // Fonts
-import CalibriRegular from "assets/fonts/uploads/calibri-regular.ttf"
-import CalibriRegularBold from "assets/fonts/uploads/calibri-regular-bold.ttf"
+import CalibriRegular from 'assets/fonts/uploads/calibri-regular.ttf'
+import CalibriRegularBold from 'assets/fonts/uploads/calibri-regular-bold.ttf'
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
   },
   rowContainer: {
-    flexDirection: "row",
-    alignItems: "stretch",
+    flexDirection: 'row',
+    alignItems: 'stretch',
   },
   signature: {
     width: 100,
-    marginHorizontal: "auto",
+    marginHorizontal: 'auto',
   },
   rowTable: {
-    flexDirection: "row",
-    flexWrap: "wrap",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
 
   // Border Styles
   borderTop: {
-    borderTop: "1px solid #000000",
+    borderTop: '1px solid #000000',
   },
   borderRight: {
-    borderRight: "1px solid #000000",
+    borderRight: '1px solid #000000',
   },
   borderBottom: {
-    borderBottom: "1px solid #000000",
+    borderBottom: '1px solid #000000',
   },
   borderLeft: {
-    borderLeft: "1px solid #000000",
+    borderLeft: '1px solid #000000',
   },
 
   // Field Styles
   documentTitle: {
-    fontFamily: "CalibriRegularBold",
+    fontFamily: 'CalibriRegularBold',
     fontSize: 11,
     marginVertical: 10,
-    textAlign: "center",
+    textAlign: 'center',
   },
   bodyText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 10,
     paddingLeft: 3,
   },
   thText: {
-    fontFamily: "CalibriRegularBold",
+    fontFamily: 'CalibriRegularBold',
     fontSize: 11,
-    textAlign: "center",
-    padding: "5 2 2 2",
+    textAlign: 'center',
+    padding: '5 2 2 2',
   },
   tdText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 11,
-    textAlign: "center",
-    padding: "8 4 4 4",
+    textAlign: 'center',
+    padding: '8 4 4 4',
   },
   signatureText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 11,
   },
   selectedApplicantsText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 11,
   },
 
   upperCase: {
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
   },
   signatoryName: {
-    fontFamily: "CalibriRegularBold",
-    textTransform: "uppercase",
+    fontFamily: 'CalibriRegularBold',
+    textTransform: 'uppercase',
   },
 
-  verticalCenter: { margin: "auto 0" },
-  horizontalCenter: { textAlign: "center" },
+  verticalCenter: { margin: 'auto 0' },
+  horizontalCenter: { textAlign: 'center' },
 
   // Width Styles
-  w70: { width: "70%" },
-  w50: { width: "50%" },
-  w34: { width: "34%" },
-  w32: { width: "32%" },
-  w30: { width: "30%" },
-  w8_5: { width: "8.5%" },
-  w7_75: { width: "7.75" },
-  w7_1: { width: "7.1%" },
-  w6: { width: "6%" },
+  w70: { width: '70%' },
+  w50: { width: '50%' },
+  w34: { width: '34%' },
+  w32: { width: '32%' },
+  w30: { width: '30%' },
+  w8_5: { width: '8.5%' },
+  w7_75: { width: '7.75' },
+  w7_1: { width: '7.1%' },
+  w6: { width: '6%' },
 })
 
 Font.register({
-  family: "CalibriRegular",
+  family: 'CalibriRegular',
   src: CalibriRegular,
 })
 
 Font.register({
-  family: "CalibriRegularBold",
+  family: 'CalibriRegularBold',
   src: CalibriRegularBold,
 })
 
@@ -133,17 +133,17 @@ const SRoADocument = props => {
 
             <Text>
               <Text> Position: </Text>
-              <Text style={{ textTransform: "uppercase" }}>
+              <Text style={{ textTransform: 'uppercase' }}>
                 {psbSummary.positionDetails.positionTitle}
               </Text>
             </Text>
 
             <Text>
-              {" "}
-              <Text style={{ textTransform: "capitalize" }}>
-                {psbSummary.positionDetails.orgType}:{" "}
+              {' '}
+              <Text style={{ textTransform: 'capitalize' }}>
+                {psbSummary.positionDetails.orgType}:{' '}
               </Text>
-              <Text style={{ textTransform: "uppercase" }}>
+              <Text style={{ textTransform: 'uppercase' }}>
                 {psbSummary.positionDetails.assignedTo}
               </Text>
             </Text>
@@ -336,7 +336,7 @@ const SRoADocument = props => {
             style={[
               styles.bodyText,
               styles.w70,
-              { marginHorizontal: "auto", paddingTop: 10 },
+              { marginHorizontal: 'auto', paddingTop: 10 },
             ]}
             wrap={false}
           >
@@ -413,7 +413,7 @@ const SRoADocument = props => {
             style={[
               styles.signatureText,
               styles.w70,
-              { paddingTop: 25, marginHorizontal: "auto" },
+              { paddingTop: 25, marginHorizontal: 'auto' },
             ]}
             wrap={false}
           >
@@ -421,7 +421,7 @@ const SRoADocument = props => {
               <View style={[styles.w50]}>
                 <Text>Certified Corrected by:</Text>
                 {psbSummary.signatories.map((signatory, index) => {
-                  if (signatory.role == "PSB 1") {
+                  if (signatory.role == 'PSB 1') {
                     return (
                       <View key={index}>
                         <Image
@@ -444,7 +444,7 @@ const SRoADocument = props => {
               <View style={[styles.w50]}>
                 <Text>Confirmed by:</Text>
                 {psbSummary.signatories.map((signatory, index) => {
-                  if (signatory.role == "PSB 2") {
+                  if (signatory.role == 'PSB 2') {
                     return (
                       <View key={index}>
                         <Image
@@ -466,9 +466,9 @@ const SRoADocument = props => {
 
               {psbSummary.signatories.map((signatory, index) => {
                 if (
-                  signatory.role != "PSB 1" &&
-                  signatory.role != "PSB 2" &&
-                  signatory.role != "Appointing authority"
+                  signatory.role != 'PSB 1' &&
+                  signatory.role != 'PSB 2' &&
+                  signatory.role != 'Appointing authority'
                 ) {
                   return (
                     <View style={[styles.w50]} key={index}>
@@ -495,7 +495,7 @@ const SRoADocument = props => {
             style={[
               styles.selectedApplicantsText,
               styles.w70,
-              { paddingTop: 25, marginHorizontal: "auto" },
+              { paddingTop: 25, marginHorizontal: 'auto' },
             ]}
             wrap={false}
           >
@@ -531,7 +531,7 @@ const SRoADocument = props => {
             style={[
               styles.signatureText,
               styles.w70,
-              { paddingTop: 25, marginHorizontal: "auto" },
+              { paddingTop: 25, marginHorizontal: 'auto' },
             ]}
             wrap={false}
           >
@@ -539,7 +539,7 @@ const SRoADocument = props => {
               <View style={[styles.w50]}>
                 <Text>Approved by:</Text>
                 {psbSummary.signatories.map((signatory, index) => {
-                  if (signatory.role == "Appointing authority") {
+                  if (signatory.role == 'Appointing authority') {
                     return (
                       <View key={index}>
                         <Image
