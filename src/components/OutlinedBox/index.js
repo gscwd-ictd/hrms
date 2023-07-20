@@ -1,8 +1,8 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 
 // style
-import "styles/custom_gscwd/components/outlinedbox.scss"
+import 'styles/custom_gscwd/components/outlinedbox.scss'
 
 const OutlinedBox = props => {
   const { label, value } = props
@@ -25,7 +25,7 @@ const OutlinedBox = props => {
 }
 
 OutlinedBox.defaultProps = {
-  value: "NA",
+  value: 'NA',
 }
 
 OutlinedBox.propTypes = {
