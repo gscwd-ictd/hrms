@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react"
-import { isEmpty } from "lodash"
-import { Can } from "casl/Can"
-import { Navigate, useParams } from "react-router-dom"
+import React, { useEffect, useState } from 'react'
+import { isEmpty } from 'lodash'
+import { Can } from 'casl/Can'
+import { Navigate, useParams } from 'react-router-dom'
 
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchJobDescription,
   fetchPlantillaPosition,
@@ -13,7 +13,7 @@ import {
   fetchSGListStepIncrement,
   updateJobDescription,
   resetJobDescriptionResponse,
-} from "store/actions"
+} from 'store/actions'
 
 import {
   Card,
@@ -27,21 +27,22 @@ import {
   Input,
   Spinner,
   FormText,
-} from "reactstrap"
-import OutlinedBox from "components/OutlinedBox"
-import Breadcrumbs from "components/Common/Breadcrumb"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import InputMask from "react-input-mask"
+} from 'reactstrap'
+import OutlinedBox from 'components/OutlinedBox'
+import Breadcrumbs from 'components/Common/Breadcrumb'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
+import InputMask from 'react-input-mask'
 
-import { salaryGrades } from "constants/selectInputs"
+import { salaryGrades } from 'constants/selectInputs'
 
 const PositionJobDescription = () => {
   const dispatch = useDispatch()
   const { plantillaId } = useParams()
 
   const [isEditable, setIsEditable] = useState(false)
-  const [directAssignment, setDirectAssignment] = useState("")
+  const [directAssignment, setDirectAssignment] = useState('')
+
   const [filteredStepIncrements, setFilteredStepIncrements] = useState([])
   const [filteredSG, setfilteredSG] = useState({})
 
@@ -117,12 +118,12 @@ const PositionJobDescription = () => {
   const handleAssignment = event => {
     const value = event.target.value
 
-    if (value === "office") {
-      setDirectAssignment("office")
-    } else if (value === "department") {
-      setDirectAssignment("department")
-    } else if (value === "division") {
-      setDirectAssignment("division")
+    if (value === 'office') {
+      setDirectAssignment('office')
+    } else if (value === 'department') {
+      setDirectAssignment('department')
+    } else if (value === 'division') {
+      setDirectAssignment('division')
     }
   }
 
@@ -136,24 +137,22 @@ const PositionJobDescription = () => {
   }
 
   // for filtering the salary grade list and update authorized salary field
-  const filterSG = event => {
-    const value = event.target.value
-
+  const filterSG = value => {
     const sgCurrentStepIncrement = salaryGradeStepIncrement.filter(
       sg => sg.salaryGrade == value
     )
 
     setFilteredStepIncrements(sgCurrentStepIncrement)
-    document.getElementById("authsalary-input").value = 0
+    document.getElementById('formrow-stepincrement').value = 0
+    document.getElementById('authsalary-input').value = 0
   }
 
   // for filtering the salary grade list and update authorized salary field
-  const filterSI = event => {
-    const value = event.target.value
+  const filterSI = value => {
     const parsedValue = JSON.parse(value)
 
     // Set "Authorized Salary" value to sudo-input
-    document.getElementById("authsalary-input").value = parsedValue.amount
+    document.getElementById('authsalary-input').value = parsedValue.amount
     setfilteredSG(parsedValue)
   }
 
@@ -170,14 +169,12 @@ const PositionJobDescription = () => {
         summary: event.target.positionSummary.value,
       },
     }
-
-    console.log(formData)
     dispatch(updateJobDescription(plantillaId, formData))
   }
 
   // Assign default value to "Assigned To" input
   const setAssignedToDefaultValue = () => {
-    let assignedToValue = ""
+    let assignedToValue = ''
 
     if (isOfficeDefault) {
       assignedToValue = jobDescription.assignedTo.office.id
@@ -209,26 +206,24 @@ const PositionJobDescription = () => {
         setIsDivisionDefault(true)
         setIsDepartmentDefault(false)
         setIsOfficeDefault(false)
-        setDirectAssignment("division")
+        setDirectAssignment('division')
       } else if (!isEmpty(jobDescription.assignedTo.department.id)) {
         setIsDepartmentDefault(true)
         setIsDivisionDefault(false)
         setIsOfficeDefault(false)
-        setDirectAssignment("department")
+        setDirectAssignment('department')
       } else if (!isEmpty(jobDescription.assignedTo.office.id)) {
         setIsOfficeDefault(true)
         setIsDepartmentDefault(false)
         setIsDivisionDefault(false)
-        setDirectAssignment("office")
+        setDirectAssignment('office')
       }
     } else {
-      setDirectAssignment("")
+      setDirectAssignment('')
       setIsOfficeDefault(false)
       setIsDepartmentDefault(false)
       setIsDivisionDefault(false)
     }
-
-    console.log(jobDescription)
   }, [jobDescription])
 
   // If succesful response, reload pull of required page data
@@ -268,81 +263,79 @@ const PositionJobDescription = () => {
             {/* Notifications */}
             {errorJobDescription ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorJobDescription}
               />
             ) : null}
             {pdError ? (
-              <ToastrNotification toastType={"error"} notifMessage={pdError} />
+              <ToastrNotification toastType={'error'} notifMessage={pdError} />
             ) : null}
             {errorSalaryGradeStepIncrement ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorSalaryGradeStepIncrement}
               />
             ) : null}
             {errorOfc ? (
-              <ToastrNotification toastType={"error"} notifMessage={errorOfc} />
+              <ToastrNotification toastType={'error'} notifMessage={errorOfc} />
             ) : null}
             {errorDept ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorDept}
               />
             ) : null}
             {errorDiv ? (
-              <ToastrNotification toastType={"error"} notifMessage={errorDiv} />
+              <ToastrNotification toastType={'error'} notifMessage={errorDiv} />
             ) : null}
 
             {!isEmpty(responseUpdateJobDescription) ? (
               <ToastrNotification
-                toastType={"success"}
-                notifMessage={"Position job description successfully updated"}
+                toastType={'success'}
+                notifMessage={'Position job description successfully updated'}
               />
             ) : null}
 
-            {pdIsLoading ? (
-              <LoadingIndicator />
-            ) : (
-              <>
-                <Breadcrumbs
-                  title={positionDetails.itemNumber}
-                  titleUrl={`/plantilla/permanent/${plantillaId}`}
-                  breadcrumbItem="Job Description"
-                  positionTitle={positionDetails.positionTitle}
-                />
-                <Container fluid={true}>
-                  <Row>
-                    <Col>
-                      <Card>
-                        <CardBody>
-                          <Row>
-                            <Col
-                              style={{
-                                display: "flex",
-                                justifyContent: "flex-end",
-                              }}
+            <Breadcrumbs
+              title={positionDetails.itemNumber}
+              titleUrl={`/plantilla/permanent/${plantillaId}`}
+              breadcrumbItem="Job Description"
+              positionTitle={positionDetails.positionTitle}
+            />
+            <Container fluid={true}>
+              <Row>
+                <Col>
+                  <Card>
+                    <CardBody>
+                      <Row>
+                        <Col
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                          }}
+                        >
+                          <div className="form-check form-switch form-switch-lg mb-3">
+                            <input
+                              type="checkbox"
+                              className="form-check-input"
+                              id="editSwitch"
+                              onClick={e => editSwitch(e)}
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="editSwitch"
                             >
-                              <div className="form-check form-switch form-switch-lg mb-3">
-                                <input
-                                  type="checkbox"
-                                  className="form-check-input"
-                                  id="editSwitch"
-                                  onClick={e => editSwitch(e)}
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="editSwitch"
-                                >
-                                  Edit
-                                </label>
-                              </div>
-                            </Col>
-                          </Row>
+                              Edit
+                            </label>
+                          </div>
+                        </Col>
+                      </Row>
 
-                          {loadingJobDescription ? (
-                            <LoadingIndicator />
-                          ) : isEditable ? (
+                      {pdIsLoading || loadingJobDescription ? (
+                        <LoadingIndicator />
+                      ) : (
+                        <>
+                          {isEditable ? (
                             <Form onSubmit={updatePlantillaPosition}>
                               <Row>
                                 {/* Item No */}
@@ -395,7 +388,7 @@ const PositionJobDescription = () => {
                                           onChange={handleAssignment}
                                           required
                                           defaultChecked={
-                                            directAssignment === "office"
+                                            directAssignment === 'office'
                                               ? true
                                               : false
                                           }
@@ -411,7 +404,7 @@ const PositionJobDescription = () => {
                                           onChange={handleAssignment}
                                           required
                                           defaultChecked={
-                                            directAssignment === "department"
+                                            directAssignment === 'department'
                                               ? true
                                               : false
                                           }
@@ -427,7 +420,7 @@ const PositionJobDescription = () => {
                                           onChange={handleAssignment}
                                           required
                                           defaultChecked={
-                                            directAssignment === "division"
+                                            directAssignment === 'division'
                                               ? true
                                               : false
                                           }
@@ -460,36 +453,36 @@ const PositionJobDescription = () => {
                                         defaultValue={setAssignedToDefaultValue()}
                                       >
                                         {/* Set option list */}
-                                        {directAssignment === "office"
+                                        {directAssignment === 'office'
                                           ? offices.map(office => (
                                               <option
                                                 key={office._id}
                                                 value={office._id}
                                               >
                                                 {office.code}
-                                                {" - "}
+                                                {' - '}
                                                 {office.name}
                                               </option>
                                             ))
-                                          : directAssignment === "department"
+                                          : directAssignment === 'department'
                                           ? departments.map(department => (
                                               <option
                                                 key={department._id}
                                                 value={department._id}
                                               >
                                                 {department.code}
-                                                {" - "}
+                                                {' - '}
                                                 {department.name}
                                               </option>
                                             ))
-                                          : directAssignment === "division"
+                                          : directAssignment === 'division'
                                           ? divisions.map(division => (
                                               <option
                                                 key={division._id}
                                                 value={division._id}
                                               >
                                                 {division.code}
-                                                {" - "}
+                                                {' - '}
                                                 {division.name}
                                               </option>
                                             ))
@@ -499,15 +492,15 @@ const PositionJobDescription = () => {
                                     <FormText>
                                       <span className="text-danger">
                                         OFFICE:
-                                      </span>{" "}
-                                      {assignedTo.office.name} |{" "}
+                                      </span>{' '}
+                                      {assignedTo.office.name} |{' '}
                                       <span className="text-danger">
                                         DEPARTMENT:
-                                      </span>{" "}
-                                      {assignedTo.department.name} |{" "}
+                                      </span>{' '}
+                                      {assignedTo.department.name} |{' '}
                                       <span className="text-danger">
                                         DIVISION:
-                                      </span>{" "}
+                                      </span>{' '}
                                       {assignedTo.division.name}
                                     </FormText>
                                   </FormGroup>
@@ -529,7 +522,9 @@ const PositionJobDescription = () => {
                                         id="formrow-salarygrade"
                                         className="form-control"
                                         name="salaryGrade"
-                                        onChange={filterSG}
+                                        onChange={event =>
+                                          filterSG(event.target.value)
+                                        }
                                         required
                                         defaultValue={
                                           jobDescription.salary.salaryGrade
@@ -563,13 +558,16 @@ const PositionJobDescription = () => {
                                         id="formrow-stepincrement"
                                         className="form-control"
                                         name="stepIncrement"
-                                        onChange={filterSI}
+                                        onChange={event =>
+                                          filterSI(event.target.value)
+                                        }
                                         required
                                         defaultValue={JSON.stringify({
                                           _id: jobDescription.salary.id,
                                           amount: jobDescription.salary.amount,
                                         })}
                                       >
+                                        <option value="">0</option>
                                         {filteredStepIncrements.map(sg => {
                                           let optionVal = {
                                             _id: sg._id,
@@ -602,7 +600,7 @@ const PositionJobDescription = () => {
                                       id="authsalary-input"
                                       required
                                       readOnly
-                                      defaultValue={filteredSG.amount || "N/A"}
+                                      defaultValue={filteredSG.amount || 'N/A'}
                                     />
                                   </FormGroup>
                                 </Col>
@@ -619,6 +617,7 @@ const PositionJobDescription = () => {
                                       className="form-control"
                                       id="formrow-desc-Input"
                                       name="positionSummary"
+                                      rows="10"
                                       defaultValue={jobDescription.summary}
                                     />
                                   </FormGroup>
@@ -629,8 +628,8 @@ const PositionJobDescription = () => {
                                 <Col
                                   sm={12}
                                   style={{
-                                    display: "flex",
-                                    justifyContent: "flex-end",
+                                    display: 'flex',
+                                    justifyContent: 'flex-end',
                                   }}
                                 >
                                   <button
@@ -646,71 +645,71 @@ const PositionJobDescription = () => {
                             <Row>
                               <Col sm={4}>
                                 <OutlinedBox
-                                  label={"Item No"}
-                                  value={jobDescription.itemNumber || "N/A"}
+                                  label={'Item No'}
+                                  value={jobDescription.itemNumber || 'N/A'}
                                 />
                               </Col>
 
                               <Col sm={4}>
                                 <OutlinedBox
-                                  label={"Position Title"}
-                                  value={jobDescription.positionTitle || "N/A"}
+                                  label={'Position Title'}
+                                  value={jobDescription.positionTitle || 'N/A'}
                                 />
                               </Col>
 
                               <Col sm={2}>
                                 <OutlinedBox
-                                  label={"Salary Grade"}
+                                  label={'Salary Grade'}
                                   value={
-                                    jobDescription.salary.salaryGrade || "N/A"
+                                    jobDescription.salary.salaryGrade || 'N/A'
                                   }
                                 />
                               </Col>
 
                               <Col sm={2}>
                                 <OutlinedBox
-                                  label={"Step Increment"}
+                                  label={'Step Increment'}
                                   value={
-                                    jobDescription.salary.stepIncrement || "N/A"
+                                    jobDescription.salary.stepIncrement || 'N/A'
                                   }
                                 />
                               </Col>
 
                               <Col sm={4} className="mt-4">
                                 <OutlinedBox
-                                  label={"Office"}
-                                  value={assignedTo.office.name || "N/A"}
+                                  label={'Office'}
+                                  value={assignedTo.office.name || 'N/A'}
                                 />
                               </Col>
 
                               <Col sm={4} className="mt-4">
                                 <OutlinedBox
-                                  label={"Department"}
-                                  value={assignedTo.department.name || "N/A"}
+                                  label={'Department'}
+                                  value={assignedTo.department.name || 'N/A'}
                                 />
                               </Col>
 
                               <Col sm={4} className="mt-4">
                                 <OutlinedBox
-                                  label={"Division"}
-                                  value={assignedTo.division.name || "N/A"}
+                                  label={'Division'}
+                                  value={assignedTo.division.name || 'N/A'}
                                 />
                               </Col>
 
                               <Col sm={4} className="mt-4">
                                 <OutlinedBox
-                                  label={"Reports To"}
-                                  value={jobDescription.reportsTo || "N/A"}
+                                  label={'Reports To'}
+                                  value={jobDescription.reportsTo || 'N/A'}
                                 />
                               </Col>
 
                               <Col sm={4} className="mt-4">
                                 <OutlinedBox
-                                  label={"Nature of Appointment"}
+                                  label={'Nature of Appointment'}
                                   value={
                                     capitalizeFirstLetter(
                                       jobDescription.natureOfAppointment
-                                    ) || "N/A"
+                                    ) || 'N/A'
                                   }
                                 />
                               </Col>
@@ -718,29 +717,29 @@ const PositionJobDescription = () => {
                               <Col sm={12} className="mt-4">
                                 <OutlinedBox
                                   label={
-                                    "Decribe briefly the general function of the position (Job Summary)"
+                                    'Decribe briefly the general function of the position (Job Summary)'
                                   }
-                                  value={jobDescription.summary || "N/A"}
+                                  value={jobDescription.summary || 'N/A'}
                                 />
                               </Col>
 
                               <Col sm={12} className="mt-4">
                                 <OutlinedBox
                                   label={
-                                    "Decribe briefly the general function of Office/Department/Division"
+                                    'Decribe briefly the general function of Office/Department/Division'
                                   }
-                                  value={jobDescription.description || "N/A"}
+                                  value={jobDescription.description || 'N/A'}
                                 />
                               </Col>
                             </Row>
                           )}
-                        </CardBody>
-                      </Card>
-                    </Col>
-                  </Row>
-                </Container>
-              </>
-            )}
+                        </>
+                      )}
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+            </Container>
           </div>
         </div>
       </Can>
