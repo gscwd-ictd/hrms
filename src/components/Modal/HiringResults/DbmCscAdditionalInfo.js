@@ -85,6 +85,8 @@ const DbmCscAdditionalInfo = props => {
         publicationMode: '',
         directlySupervised: '',
         directlySupervisedItemNumbers: '',
+        presentAppropriationAct: '',
+        previousAppropriationAct: '',
       },
       contacts: {
         internal: {
@@ -126,6 +128,12 @@ const DbmCscAdditionalInfo = props => {
         ),
         publicationMode: Yup.string().required(
           'Please select a mode of publication'
+        ),
+        presentAppropriationAct: Yup.string().required(
+          'This field is required'
+        ),
+        previousAppropriationAct: Yup.string().required(
+          'This field is required'
         ),
       }),
       contacts: Yup.object().shape({
@@ -319,6 +327,100 @@ const DbmCscAdditionalInfo = props => {
                       getIn(validation.errors, 'basic.workStation') ? (
                         <FormFeedback type="invalid">
                           {getIn(validation.errors, 'basic.workStation')}
+                        </FormFeedback>
+                      ) : null}
+                    </FormGroup>
+                  </Col>
+
+                  {/* Present Approp Act */}
+                  <Col lg={4}>
+                    <FormGroup>
+                      <Label for="present-approp-act-input">
+                        Present Approp Act
+                      </Label>
+                      <Input
+                        name="basic.presentAppropriationAct"
+                        type="text"
+                        className="form-control"
+                        id="present-approp-act-input"
+                        onChange={validation.handleChange}
+                        onBlur={validation.handleBlur}
+                        value={
+                          validation.values.basic.presentAppropriationAct || ''
+                        }
+                        invalid={
+                          getIn(
+                            validation.touched,
+                            'basic.presentAppropriationAct'
+                          ) &&
+                          getIn(
+                            validation.errors,
+                            'basic.presentAppropriationAct'
+                          )
+                            ? true
+                            : false
+                        }
+                      />
+                      {getIn(
+                        validation.touched,
+                        'basic.presentAppropriationAct'
+                      ) &&
+                      getIn(
+                        validation.errors,
+                        'basic.presentAppropriationAct'
+                      ) ? (
+                        <FormFeedback type="invalid">
+                          {getIn(
+                            validation.errors,
+                            'basic.presentAppropriationAct'
+                          )}
+                        </FormFeedback>
+                      ) : null}
+                    </FormGroup>
+                  </Col>
+
+                  {/* Previous Approp Act */}
+                  <Col lg={4}>
+                    <FormGroup>
+                      <Label for="previous-approp-act-input">
+                        Previous Approp Act
+                      </Label>
+                      <Input
+                        name="basic.previousAppropriationAct"
+                        type="text"
+                        className="form-control"
+                        id="present-approp-act-input"
+                        onChange={validation.handleChange}
+                        onBlur={validation.handleBlur}
+                        value={
+                          validation.values.basic.previousAppropriationAct || ''
+                        }
+                        invalid={
+                          getIn(
+                            validation.touched,
+                            'basic.previousAppropriationAct'
+                          ) &&
+                          getIn(
+                            validation.errors,
+                            'basic.previousAppropriationAct'
+                          )
+                            ? true
+                            : false
+                        }
+                      />
+                      {getIn(
+                        validation.touched,
+                        'basic.previousAppropriationAct'
+                      ) &&
+                      getIn(
+                        validation.errors,
+                        'basic.previousAppropriationAct'
+                      ) ? (
+                        <FormFeedback type="invalid">
+                          {getIn(
+                            validation.errors,
+                            'basic.previousAppropriationAct'
+                          )}
                         </FormFeedback>
                       ) : null}
                     </FormGroup>
@@ -1082,7 +1184,11 @@ const DbmCscAdditionalInfo = props => {
             </ModalBody>
 
             <ModalFooter>
-              <Button type="submit" form="dbmCscAdditionalInfoForm" color="info">
+              <Button
+                type="submit"
+                form="dbmCscAdditionalInfoForm"
+                color="info"
+              >
                 Submit
               </Button>
             </ModalFooter>

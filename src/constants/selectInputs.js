@@ -39,6 +39,7 @@ const appointmentTypes = [
 const publicationModes = [
   'CSC Website www.csc.gov.ph',
   'GSCWD Bulletin, Website, Agency facebook page',
+  'CSC Bulletin of Vacant Positions',
 ]
 
 const frequencies = [
