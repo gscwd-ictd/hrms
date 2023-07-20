@@ -1,5 +1,5 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 
 import {
   Page,
@@ -11,45 +11,45 @@ import {
   Image,
   Svg,
   Path,
-} from "@react-pdf/renderer"
-import Header from "components/PdfDocuments/CertificateOfAppointment/Header"
+} from '@react-pdf/renderer'
+import Header from 'components/PdfDocuments/CertificateOfAppointment/Header'
 
 // Fonts
-import TimesNewRomanRegular from "assets/fonts/uploads/times-new-roman-regular.ttf"
-import TimesNewRomanBold from "assets/fonts/uploads/times-new-roman-bold.ttf"
-import TimesNewRomanBoldItalic from "assets/fonts/uploads/times-new-roman-bold-italic.ttf"
-import TimesNewRomanItalic from "assets/fonts/uploads/times-new-roman-italic.ttf"
+import TimesNewRomanRegular from 'assets/fonts/uploads/times-new-roman-regular.ttf'
+import TimesNewRomanBold from 'assets/fonts/uploads/times-new-roman-bold.ttf'
+import TimesNewRomanBoldItalic from 'assets/fonts/uploads/times-new-roman-bold-italic.ttf'
+import TimesNewRomanItalic from 'assets/fonts/uploads/times-new-roman-italic.ttf'
 
-import CSForm33BLogo from "assets/images/cs_form_n_33b_background.png"
+import CSForm33BLogo from 'assets/images/cs_form_n_33b_background.png'
 
 const styles = StyleSheet.create({
   page: {
     paddingVertical: 20,
   },
   pageBackground: {
-    position: "absolute",
-    minWidth: "100%",
-    minHeight: "100%",
-    display: "block",
-    height: "100%",
-    width: "100%",
+    position: 'absolute',
+    minWidth: '100%',
+    minHeight: '100%',
+    display: 'block',
+    height: '100%',
+    width: '100%',
   },
   absoluteContainer: {
-    position: "absolute",
-    left: "0px",
-    right: "0px",
-    top: "40px",
+    position: 'absolute',
+    left: '0px',
+    right: '0px',
+    top: '40px',
   },
   rowContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "stretch",
-    justifyContent: "space-around",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'stretch',
+    justifyContent: 'space-around',
   },
   tableRowContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "stretch",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'stretch',
   },
   bodyBorder: {
     marginHorizontal: 40,
@@ -61,99 +61,99 @@ const styles = StyleSheet.create({
 
   // Border Styles
   borderAll: {
-    border: "1px solid #000000",
+    border: '1px solid #000000',
   },
   borderTop: {
-    borderTop: "1px solid #000000",
+    borderTop: '1px solid #000000',
   },
   borderRight: {
-    borderRight: "1px solid #000000",
+    borderRight: '1px solid #000000',
   },
   borderBottom: {
-    borderBottom: "1px solid #000000",
+    borderBottom: '1px solid #000000',
   },
 
   // Field Styles
   documentText: {
-    fontFamily: "TimesNewRomanRegular",
+    fontFamily: 'TimesNewRomanRegular',
     fontSize: 12,
   },
   letterBodyText: {
-    fontFamily: "TimesNewRomanBold",
+    fontFamily: 'TimesNewRomanBold',
     fontSize: 12,
   },
   textBold: {
-    fontFamily: "TimesNewRomanBold",
+    fontFamily: 'TimesNewRomanBold',
   },
   textItalic: {
-    fontFamily: "TimesNewRomanItalic",
+    fontFamily: 'TimesNewRomanItalic',
   },
   valueMainText: {
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
     // marginHorizontal: "auto",
-    textAlign: "center",
+    textAlign: 'center',
   },
   valueSubText: {
     fontSize: 9,
-    marginHorizontal: "auto",
+    marginHorizontal: 'auto',
   },
   accreditedText: {
-    fontFamily: "TimesNewRomanBoldItalic",
+    fontFamily: 'TimesNewRomanBoldItalic',
     fontSize: 12,
   },
   alignBottom: {
-    marginTop: "auto",
+    marginTop: 'auto',
   },
   upperCase: {
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
   },
   signatoryName: {
-    fontFamily: "CalibriRegularBold",
-    textTransform: "uppercase",
-    padding: "4 0 0 2",
+    fontFamily: 'CalibriRegularBold',
+    textTransform: 'uppercase',
+    padding: '4 0 0 2',
   },
 
-  verticalCenter: { margin: "auto 0" },
-  horizontalCenter: { textAlign: "center" },
+  verticalCenter: { margin: 'auto 0' },
+  horizontalCenter: { textAlign: 'center' },
 
   // Width Styles
-  w100: { width: "100%" },
-  w80: { width: "80%" },
-  w75: { width: "75%" },
-  w70: { width: "70%" },
-  w68: { width: "68%" },
-  w63: { width: "63%" },
-  w58: { width: "58%" },
-  w50: { width: "50%" },
-  w42: { width: "w42%" },
-  w40: { width: "40%" },
-  w37: { width: "37%" },
-  w35: { width: "35%" },
-  w32: { width: "32%" },
-  w25: { width: "25%" },
-  w24: { width: "24%" },
-  w20: { width: "20%" },
-  w18: { width: "18%" },
-  w12: { width: "12%" },
-  w6: { width: "6%" },
-  w5: { width: "5%" },
+  w100: { width: '100%' },
+  w80: { width: '80%' },
+  w75: { width: '75%' },
+  w70: { width: '70%' },
+  w68: { width: '68%' },
+  w63: { width: '63%' },
+  w58: { width: '58%' },
+  w50: { width: '50%' },
+  w42: { width: 'w42%' },
+  w40: { width: '40%' },
+  w37: { width: '37%' },
+  w35: { width: '35%' },
+  w32: { width: '32%' },
+  w25: { width: '25%' },
+  w24: { width: '24%' },
+  w20: { width: '20%' },
+  w18: { width: '18%' },
+  w12: { width: '12%' },
+  w6: { width: '6%' },
+  w5: { width: '5%' },
 })
 
 // FONTS
 Font.register({
-  family: "TimesNewRomanRegular",
+  family: 'TimesNewRomanRegular',
   src: TimesNewRomanRegular,
 })
 Font.register({
-  family: "TimesNewRomanBold",
+  family: 'TimesNewRomanBold',
   src: TimesNewRomanBold,
 })
 Font.register({
-  family: "TimesNewRomanBoldItalic",
+  family: 'TimesNewRomanBoldItalic',
   src: TimesNewRomanBoldItalic,
 })
 Font.register({
-  family: "TimesNewRomanItalic",
+  family: 'TimesNewRomanItalic',
   src: TimesNewRomanItalic,
 })
 
@@ -164,8 +164,8 @@ const CoADocument = props => {
     var content = certificateOfAppointment.signatories
       .filter(
         signee =>
-          signee.role === "Appointing Officer/Authority" ||
-          signee.role === "OIC-General Manager"
+          signee.role === 'Appointing Authority' ||
+          signee.role === 'OIC-General Manager'
       )
       .map((filtered, index) => (
         <View key={index}>
@@ -193,7 +193,7 @@ const CoADocument = props => {
 
   const renderHRMOSignatory = () => {
     var content = certificateOfAppointment.signatories
-      .filter(signee => signee.role === "PSB# 2") //Change PSB #3
+      .filter(signee => signee.role === 'PSB# 3')
       .map((filtered, index) => (
         <View key={index}>
           <Text
@@ -236,7 +236,7 @@ const CoADocument = props => {
 
   const renderChairpersonSignatory = () => {
     var content = certificateOfAppointment.signatories
-      .filter(signee => signee.role === "Chairperson, HRMPSB")
+      .filter(signee => signee.role === 'Chairperson, HRMPSB')
       .map((filtered, index) => (
         <View key={index}>
           <Text
@@ -388,7 +388,7 @@ const CoADocument = props => {
                 <View
                   style={[
                     styles.rowContainer,
-                    { justifyContent: "flex-start" },
+                    { justifyContent: 'flex-start' },
                   ]}
                 >
                   <View style={[styles.w25, styles.letterTextWrapper]}>
@@ -430,7 +430,7 @@ const CoADocument = props => {
                   <View style={[styles.w42, styles.letterTextWrapper]}>
                     <View style={[styles.borderBottom]}>
                       <Text style={[styles.upperCase, styles.valueMainText]}>
-                        {" "}
+                        {' '}
                       </Text>
                     </View>
                   </View>
@@ -443,7 +443,7 @@ const CoADocument = props => {
                   <View style={[styles.w42, styles.letterTextWrapper]}>
                     <View style={[styles.borderBottom]}>
                       <Text style={[styles.upperCase, styles.valueMainText]}>
-                        {" "}
+                        {' '}
                       </Text>
                     </View>
                     <Text style={[styles.documentText, styles.valueSubText]}>
@@ -460,7 +460,7 @@ const CoADocument = props => {
                 <View
                   style={[
                     styles.rowContainer,
-                    { justifyContent: "flex-start" },
+                    { justifyContent: 'flex-start' },
                   ]}
                 >
                   <View style={[styles.w18, styles.letterTextWrapper]}>
@@ -482,15 +482,15 @@ const CoADocument = props => {
 
                   {/* PAGE */}
                   <View style={[styles.w25, styles.letterTextWrapper]}>
-                    <View style={[{ flexDirection: "row" }]}>
+                    <View style={[{ flexDirection: 'row' }]}>
                       <Text
                         style={[
                           styles.upperCase,
                           styles.valueMainText,
-                          { textDecoration: "underline" },
+                          { textDecoration: 'underline' },
                         ]}
                       >
-                        {"                                       "}
+                        {'                                       '}
                       </Text>
                       <Text>.</Text>
                     </View>
@@ -530,7 +530,7 @@ const CoADocument = props => {
                   style={[
                     styles.borderAll,
                     styles.w70,
-                    { marginHorizontal: "auto" },
+                    { marginHorizontal: 'auto' },
                   ]}
                 >
                   <Text
@@ -604,7 +604,7 @@ const CoADocument = props => {
                   textIndent: 25,
                   paddingTop: 10,
                   lineHeight: 1.5,
-                  textAlign: "justify",
+                  textAlign: 'justify',
                 },
               ]}
             >
@@ -620,54 +620,52 @@ const CoADocument = props => {
                   textIndent: 25,
                   paddingTop: 10,
                   lineHeight: 1.5,
-                  textAlign: "justify",
+                  textAlign: 'justify',
                 },
               ]}
             >
-              The position was published at{" "}
-              <Text style={[styles.textBold]}>
-                CSC Website (www.csc.gov.ph)
-              </Text>{" "}
-              from{" "}
-              <Text style={[styles.textBold]}>
-                {certificateOfAppointment.data.publicationPeriod}
-              </Text>{" "}
-              and posted in{" "}
-              <Text style={[styles.textBold]}>
+              The position was published at{' '}
+              <Text style={[styles.textBold, { textTransform: 'uppercase' }]}>
                 {certificateOfAppointment.data.publicationMode}
-              </Text>{" "}
-              from{" "}
+              </Text>{' '}
+              from{' '}
               <Text style={[styles.textBold]}>
                 {certificateOfAppointment.data.publicationPeriod}
-              </Text>{" "}
+              </Text>{' '}
+              and posted in{' '}
+              <Text style={[styles.textBold]}>
+                THREE (3) CONSPICUOUS PLACES IN GENERAL SANTOS CITY WATER
+                DISTRICT
+              </Text>{' '}
+              from{' '}
+              <Text style={[styles.textBold]}>
+                {certificateOfAppointment.data.publicationPeriod}
+              </Text>{' '}
               in consonance with RA No. 7041. The assessment by the Human
-              Resource Merit Promotion and Selection Board (HRMPSB) started on{" "}
-              <Text style={[{ textDecoration: "underline" }]}>
-                {"                                       "}
-              </Text>
-              , 20
-              <Text style={[{ textDecoration: "underline" }]}>
-                {"          "}
+              Resource Merit Promotion and Selection Board (HRMPSB) started on{' '}
+              <Text style={[styles.textBold, styles.upperCase]}>
+                {certificateOfAppointment.data.scheduleDate}
               </Text>
               .
             </Text>
 
             {/* PARAGRAPH 3 */}
-            <Text
+            {/* REMOVED - 07/20/2023 */}
+            {/* <Text
               style={[
                 styles.textBold,
                 {
                   textIndent: 25,
                   paddingTop: 10,
                   lineHeight: 1.5,
-                  textAlign: "justify",
+                  textAlign: 'justify',
                 },
               ]}
             >
               EXEMPTED FROM THE PUBLICATION PURSUANT TO 2017 OMNIBUS RULES ON
               APPOINTMENTS AND OTHER HUMAN RESOURCE ACTION RULE VII, SECTION 26
               (d)
-            </Text>
+            </Text> */}
 
             {/* SIGNATORY */}
             <View style={[styles.rowContainer]}>
@@ -680,9 +678,9 @@ const CoADocument = props => {
             <View
               style={[
                 {
-                  backgroundColor: "#336BD0",
+                  backgroundColor: '#336BD0',
                   height: 10,
-                  border: "1px solid #000000",
+                  border: '1px solid #000000',
                   marginTop: 10,
                 },
               ]}
@@ -708,26 +706,23 @@ const CoADocument = props => {
                   textIndent: 25,
                   paddingTop: 10,
                   lineHeight: 1.5,
-                  textAlign: "justify",
+                  textAlign: 'justify',
                 },
               ]}
             >
               This is to certify that the appointee has been screened and found
               qualified by the majority of the HRMPSB during the deliberation
-              held on{" "}
+              held on{' '}
               <Text
                 style={[
                   styles.textBold,
                   styles.upperCase,
-                  { textDecoration: "underline" },
+                  // { textDecoration: 'underline' },
                 ]}
               >
                 {certificateOfAppointment.data.scheduleDate}
               </Text>
-              .{" "}
-              <Text style={[styles.textBold]}>
-                PLEASE SEE ATTACHED BOARD RESOLUTION.
-              </Text>
+              .
             </Text>
 
             {/* SIGNATORY */}
@@ -741,9 +736,9 @@ const CoADocument = props => {
             <View
               style={[
                 {
-                  backgroundColor: "#336BD0",
+                  backgroundColor: '#336BD0',
                   height: 10,
-                  border: "1px solid #000000",
+                  border: '1px solid #000000',
                   marginTop: 10,
                 },
               ]}
@@ -752,15 +747,6 @@ const CoADocument = props => {
 
           {/* SECTION 3 */}
           <View style={[styles.documentText, { paddingTop: 15 }]}>
-            {/* <View
-              style={[
-                {
-                  height: 1,
-                  borderTop: "1px solid #000000",
-                },
-              ]}
-            ></View> */}
-
             <Text
               style={[
                 styles.textBold,
@@ -803,7 +789,7 @@ const CoADocument = props => {
               <View style={[styles.tableRowContainer, styles.borderTop]}>
                 <View style={[styles.w80, styles.borderRight]}>
                   <View style={[styles.tableRowContainer, { margin: 5 }]}>
-                    <View style={{ margin: "1 3 0 3" }}>
+                    <View style={{ margin: '1 3 0 3' }}>
                       <Svg viewBox="0 0 24 24" width={10} height={10}>
                         <Path
                           d="M22 2v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -813,15 +799,15 @@ const CoADocument = props => {
                     </View>
 
                     <Text style={[styles.textBold]}>
-                      Validated per RAI for the month of{" "}
+                      Validated per RAI for the month of{' '}
                       <Text
                         style={[
                           styles.upperCase,
                           styles.textBold,
-                          { textDecoration: "underline" },
+                          { textDecoration: 'underline' },
                         ]}
                       >
-                        ADD MONTH HERE
+                        {certificateOfAppointment.data.effectivityDate}
                       </Text>
                     </Text>
                   </View>
@@ -841,7 +827,7 @@ const CoADocument = props => {
               <View style={[styles.tableRowContainer, styles.borderTop]}>
                 <View style={[styles.w80, styles.borderRight]}>
                   <View style={[styles.tableRowContainer, { margin: 5 }]}>
-                    <View style={{ margin: "1 3 0 3" }}>
+                    <View style={{ margin: '1 3 0 3' }}>
                       <Svg viewBox="0 0 24 24" width={10} height={10}>
                         <Path
                           d="M22 2v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -851,7 +837,7 @@ const CoADocument = props => {
                     </View>
 
                     <Text style={[styles.textBold]}>
-                      Invalidated per CSCRO/FO letter dated{" "}
+                      Invalidated per CSCRO/FO letter dated{' '}
                     </Text>
                     <View style={[styles.borderBottom, { width: 180 }]}></View>
                   </View>
@@ -871,7 +857,7 @@ const CoADocument = props => {
               <View style={[styles.tableRowContainer, styles.borderTop]}>
                 <View style={[styles.w40, styles.borderRight]}>
                   <View style={[styles.tableRowContainer, { margin: 5 }]}>
-                    <View style={{ margin: "1 3 0 3" }}>
+                    <View style={{ margin: '1 3 0 3' }}>
                       <Svg viewBox="0 0 24 24" width={10} height={10}>
                         <Path
                           d="M22 2v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -920,7 +906,7 @@ const CoADocument = props => {
               <View style={[styles.tableRowContainer, styles.borderTop]}>
                 <View style={[styles.w40, styles.borderRight]}>
                   <View style={[styles.tableRowContainer, { margin: 5 }]}>
-                    <View style={{ margin: "1 3 0 3" }}>
+                    <View style={{ margin: '1 3 0 3' }}>
                       <Svg viewBox="0 0 24 24" width={10} height={10}>
                         <Path
                           d="M22 2v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -965,7 +951,7 @@ const CoADocument = props => {
               <View style={[styles.tableRowContainer, styles.borderTop]}>
                 <View style={[styles.w40, styles.borderRight]}>
                   <View style={[styles.tableRowContainer, { margin: 5 }]}>
-                    <View style={{ margin: "1 3 0 3" }}>
+                    <View style={{ margin: '1 3 0 3' }}>
                       <Svg viewBox="0 0 24 24" width={10} height={10}>
                         <Path
                           d="M22 2v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -1010,7 +996,7 @@ const CoADocument = props => {
               <View style={[styles.tableRowContainer, styles.borderTop]}>
                 <View style={[styles.w40, styles.borderRight]}>
                   <View style={[styles.tableRowContainer, { margin: 5 }]}>
-                    <View style={{ margin: "1 3 0 3" }}>
+                    <View style={{ margin: '1 3 0 3' }}>
                       <Svg viewBox="0 0 24 24" width={10} height={10}>
                         <Path
                           d="M22 2v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -1055,7 +1041,7 @@ const CoADocument = props => {
               <View style={[styles.tableRowContainer, styles.borderTop]}>
                 <View style={[styles.w40, styles.borderRight]}>
                   <View style={[styles.tableRowContainer, { margin: 5 }]}>
-                    <View style={{ margin: "1 3 0 3" }}>
+                    <View style={{ margin: '1 3 0 3' }}>
                       <Svg viewBox="0 0 24 24" width={10} height={10}>
                         <Path
                           d="M22 2v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -1100,9 +1086,9 @@ const CoADocument = props => {
             <View
               style={[
                 {
-                  backgroundColor: "#336BD0",
+                  backgroundColor: '#336BD0',
                   height: 10,
-                  border: "1px solid #000000",
+                  border: '1px solid #000000',
                   marginTop: 10,
                 },
               ]}
@@ -1127,7 +1113,7 @@ const CoADocument = props => {
                   </Text>
                   <View style={[styles.tableRowContainer, { paddingTop: 10 }]}>
                     <Text style={[styles.textItalic]}>
-                      Received original/photocopy of appointment on{" "}
+                      Received original/photocopy of appointment on{' '}
                     </Text>
                     <View
                       style={[styles.borderBottom, { height: 13, width: 120 }]}
@@ -1160,6 +1146,7 @@ CoADocument.propTypes = {
       dateOfSigning: PropTypes.string,
       scheduleDate: PropTypes.string,
       salaryGradeLevel: PropTypes.number,
+      effectivityDate: PropTypes.string,
     }),
     signatories: PropTypes.arrayOf(
       PropTypes.shape({

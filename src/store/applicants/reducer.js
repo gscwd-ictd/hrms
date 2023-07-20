@@ -132,7 +132,7 @@ const INIT_STATE = {
     },
     signatories: {
       employee: '',
-      hrdDepartmentManager: {
+      requestingEntity: {
         employeeName: '',
         positionTitle: '',
       },
@@ -788,9 +788,9 @@ const applicants = (state = INIT_STATE, action) => {
           signatories: {
             ...state.dbmCscPositionDescriptionForm.signatories,
             employee: '',
-            hrdDepartmentManager: {
+            requestingEntity: {
               ...state.dbmCscPositionDescriptionForm.signatories
-                .hrdDepartmentManager,
+                .requestingEntity,
               employeeName: '',
               positionTitle: '',
             },
@@ -836,13 +836,13 @@ const applicants = (state = INIT_STATE, action) => {
           signatories: {
             ...state.dbmCscPositionDescriptionForm.signatories,
             employee: action.payload.signatories.employee,
-            hrdDepartmentManager: {
+            requestingEntity: {
               ...state.dbmCscPositionDescriptionForm.signatories
-                .hrdDepartmentManager,
+                .requestingEntity,
               employeeName:
-                action.payload.signatories.hrdDepartmentManager.employeeName,
+                action.payload.signatories.requestingEntity.employeeName,
               positionTitle:
-                action.payload.signatories.hrdDepartmentManager.positionTitle,
+                action.payload.signatories.requestingEntity.positionTitle,
             },
           },
         },
