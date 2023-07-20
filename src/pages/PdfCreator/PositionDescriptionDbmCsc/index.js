@@ -1,17 +1,17 @@
-import React, { useEffect } from "react"
-import { Can } from "casl/Can"
-import { Navigate, useParams } from "react-router-dom"
+import React, { useEffect } from 'react'
+import { Can } from 'casl/Can'
+import { Navigate, useParams } from 'react-router-dom'
 
-import { useDispatch, useSelector } from "react-redux"
-import { fetchHiredApplicantDbmCscForm } from "store/actions"
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchHiredApplicantDbmCscForm } from 'store/actions'
 
-import { Container } from "reactstrap"
-import { PDFViewer } from "@react-pdf/renderer"
-import PdDbmCscDocument from "./PdDbmCscDocument"
+import { Container } from 'reactstrap'
+import { PDFViewer } from '@react-pdf/renderer'
+import PdDbmCscDocument from './PdDbmCscDocument'
 
 // Extra components
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const PositionDescriptionDbmCscPdf = () => {
   const dispatch = useDispatch()
@@ -44,7 +44,7 @@ const PositionDescriptionDbmCscPdf = () => {
             {/* Notifications */}
             {errorDbmCscPositionDescriptionForm ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorDbmCscPositionDescriptionForm}
               />
             ) : null}
@@ -52,7 +52,7 @@ const PositionDescriptionDbmCscPdf = () => {
             {loadingDbmCscPositionDescriptionForm ? (
               <LoadingIndicator />
             ) : (
-              <PDFViewer width={"100%"} height={700} showToolbar>
+              <PDFViewer width={'100%'} height={700} showToolbar>
                 <PdDbmCscDocument applicantDbmCsc={applicantDbmCsc} />
               </PDFViewer>
             )}

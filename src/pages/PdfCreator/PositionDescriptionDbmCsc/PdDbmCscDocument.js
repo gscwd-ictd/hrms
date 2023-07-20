@@ -191,7 +191,11 @@ const PdDbmCscDocument = props => {
 
   const renderCompetencies = competencyArray => {
     var content = competencyArray.map((competency, index) => (
-      <View style={[styles.rowContainer, styles.borderBottom]} key={index}>
+      <View
+        style={[styles.rowContainer, styles.borderAll]}
+        key={index}
+        wrap={false}
+      >
         <View style={[styles.w75, styles.borderRight]}>
           <Text style={[styles.bodyText, { textTransform: 'uppercase' }]}>
             {competency.competencyName}
@@ -219,7 +223,11 @@ const PdDbmCscDocument = props => {
 
   const renderDuties = dutiesCoreArray => {
     var content = dutiesCoreArray.map((duty, index) => (
-      <View style={[styles.rowContainer, styles.borderBottom]} key={index}>
+      <View
+        style={[styles.rowContainer, styles.borderAll]}
+        key={index}
+        wrap={false}
+      >
         <View style={[styles.w25, styles.borderRight]}>
           <Text
             style={[
@@ -641,7 +649,10 @@ const PdDbmCscDocument = props => {
                       styles.tDataVerticalCenter,
                     ]}
                   >
-                    {'  '}
+                    {
+                      applicantDbmCsc.positionDescriptionFormBasic
+                        .presentAppropriationAct
+                    }
                   </Text>
                 </View>
 
@@ -664,7 +675,10 @@ const PdDbmCscDocument = props => {
                       styles.tDataVerticalCenter,
                     ]}
                   >
-                    {'  '}
+                    {
+                      applicantDbmCsc.positionDescriptionFormBasic
+                        .previousAppropriationAct
+                    }
                   </Text>
                 </View>
               </View>
@@ -1362,16 +1376,10 @@ const PdDbmCscDocument = props => {
           </View>
 
           {/* ROW 15 */}
-          <View style={[styles.borderAll]} wrap={false}>
-            <View style={[styles.rowContainer]}>
+          <View>
+            <View style={[styles.rowContainer, styles.borderAll]} wrap={false}>
               <View style={[styles.w75, styles.borderRight]}>
-                <Text
-                  style={[
-                    styles.bodyTextBold,
-                    styles.tDataColored,
-                    styles.borderBottom,
-                  ]}
-                >
+                <Text style={[styles.bodyTextBold, styles.tDataColored]}>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21e.
                   Core Competencies
                 </Text>
@@ -1381,7 +1389,6 @@ const PdDbmCscDocument = props => {
                   style={[
                     styles.bodyTextBold,
                     styles.tDataColored,
-                    styles.borderBottom,
                     styles.horizontalCenter,
                   ]}
                 >
@@ -1394,16 +1401,10 @@ const PdDbmCscDocument = props => {
           </View>
 
           {/* ROW 16 */}
-          <View style={[styles.borderAll]} wrap={false}>
-            <View style={[styles.rowContainer]}>
+          <View>
+            <View style={[styles.rowContainer, styles.borderAll]} wrap={false}>
               <View style={[styles.w75, styles.borderRight]}>
-                <Text
-                  style={[
-                    styles.bodyTextBold,
-                    styles.tDataColored,
-                    styles.borderBottom,
-                  ]}
-                >
+                <Text style={[styles.bodyTextBold, styles.tDataColored]}>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21f.
                   Functional/Leadership Competencies
                 </Text>
@@ -1413,7 +1414,6 @@ const PdDbmCscDocument = props => {
                   style={[
                     styles.bodyTextBold,
                     styles.tDataColored,
-                    styles.borderBottom,
                     styles.horizontalCenter,
                   ]}
                 >
@@ -1428,8 +1428,8 @@ const PdDbmCscDocument = props => {
           </View>
 
           {/* ROW 17 */}
-          <View style={[styles.borderAll]} wrap={false}>
-            <View style={[styles.rowContainer, styles.borderBottom]}>
+          <View>
+            <View style={[styles.rowContainer, styles.borderAll]}>
               <View style={[styles.w75, styles.borderRight]}>
                 <Text style={[styles.bodyTextBold, styles.tDataColored]}>
                   22. STATEMENT OF DUTIES AND RESPONSIBILITIES (Technical
@@ -1450,7 +1450,7 @@ const PdDbmCscDocument = props => {
             </View>
 
             {/* Header */}
-            <View style={[styles.rowContainer, styles.borderBottom]}>
+            <View style={[styles.rowContainer, styles.borderAll]}>
               <View style={[styles.w25, styles.borderRight]}>
                 <Text
                   style={[
@@ -1489,7 +1489,7 @@ const PdDbmCscDocument = props => {
             {renderDuties(applicantDbmCsc.dutiesAndResponsibilities.core)}
 
             {/* Last row */}
-            <View style={[styles.rowContainer]}>
+            <View style={[styles.rowContainer, styles.borderAll]}>
               <View style={[styles.w25, styles.borderRight]}>
                 <Text
                   style={[
@@ -1558,10 +1558,7 @@ const PdDbmCscDocument = props => {
                     styles.verticalCenter,
                   ]}
                 >
-                  {
-                    applicantDbmCsc.signatories.hrdDepartmentManager
-                      .employeeName
-                  }
+                  {applicantDbmCsc.signatories.requestingEntity.employeeName}
                 </Text>
                 <Text
                   style={[
@@ -1571,10 +1568,7 @@ const PdDbmCscDocument = props => {
                     { paddingTop: 0 },
                   ]}
                 >
-                  {
-                    applicantDbmCsc.signatories.hrdDepartmentManager
-                      .positionTitle
-                  }
+                  {applicantDbmCsc.signatories.requestingEntity.positionTitle}
                 </Text>
               </View>
             </View>
