@@ -1,5 +1,5 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 
 import {
   Page,
@@ -8,40 +8,46 @@ import {
   Document,
   StyleSheet,
   Font,
-} from "@react-pdf/renderer"
-import Header from "components/PdfDocuments/ReportOnAppointmentsIssued/Header"
+} from '@react-pdf/renderer'
+import Header from 'components/PdfDocuments/ReportOnAppointmentsIssued/Header'
 
 // Fonts
-import CalibriRegular from "../../../assets/fonts/uploads/calibri-regular.ttf"
-import CalibriRegularBold from "../../../assets/fonts/uploads/calibri-regular-bold.ttf"
-import CalibriRegularBoldItalic from "../../../assets/fonts/uploads/calibri-bold-italic.ttf"
+import CalibriRegular from '../../../assets/fonts/uploads/calibri-regular.ttf'
+import CalibriRegularBold from '../../../assets/fonts/uploads/calibri-regular-bold.ttf'
+import CalibriRegularItalic from '../../../assets/fonts/uploads/calibri-regular-italic.ttf'
+import CalibriRegularBoldItalic from '../../../assets/fonts/uploads/calibri-bold-italic.ttf'
 
 Font.registerHyphenationCallback(word => [word])
 
 Font.register({
-  family: "CalibriRegular",
+  family: 'CalibriRegular',
   src: CalibriRegular,
 })
 
 Font.register({
-  family: "CalibriRegularBold",
+  family: 'CalibriRegularBold',
   src: CalibriRegularBold,
 })
 
 Font.register({
-  family: "CalibriRegularBoldItalic",
+  family: 'CalibriRegularBoldItalic',
   src: CalibriRegularBoldItalic,
+})
+
+Font.register({
+  family: 'CalibriRegularItalic',
+  src: CalibriRegularItalic,
 })
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
     paddingTop: 20,
     paddingBottom: 20,
   },
   rowContainer: {
-    flexDirection: "row",
-    alignItems: "stretch",
+    flexDirection: 'row',
+    alignItems: 'stretch',
     marginTop: 5,
   },
   bodyBorder: {
@@ -52,77 +58,115 @@ const styles = StyleSheet.create({
 
   // Table Styles
   tableBorder: {
-    border: "1px solid #000000",
+    border: '1px solid #000000',
   },
   rowContainerTable: {
-    flexDirection: "row",
-    alignItems: "stretch",
+    flexDirection: 'row',
+    alignItems: 'stretch',
   },
 
   // Border Styles
+  borderAll: {
+    border: '1px solid #000000',
+  },
   borderTop: {
-    borderTop: "1px solid #000000",
+    borderTop: '1px solid #000000',
   },
   borderRight: {
-    borderRight: "1px solid #000000",
+    borderRight: '1px solid #000000',
+  },
+  borderLeft: {
+    borderLeft: '1px solid #000000',
   },
   borderBottom: {
-    borderBottom: "1px solid #000000",
+    borderBottom: '1px solid #000000',
   },
 
   // Field Styles
   bodyText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 7.5,
   },
   bodyTextBold: {
-    fontFamily: "CalibriRegularBold",
+    fontFamily: 'CalibriRegularBold',
     fontSize: 7.5,
   },
   bodyTextBoldUppercase: {
-    fontFamily: "CalibriRegularBold",
+    fontFamily: 'CalibriRegularBold',
     fontSize: 7.5,
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
   },
   tableHeaderText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 6,
-    margin: "auto 0",
-    textAlign: "center",
+    margin: 'auto 0',
+    textAlign: 'center',
     paddingTop: 2,
     paddingHorizontal: 2,
   },
   tableBodyText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 6,
-    margin: "auto 0",
-    textAlign: "center",
+    margin: 'auto 0',
+    textAlign: 'center',
     paddingTop: 2,
     paddingHorizontal: 2,
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
   },
   tableBodyTextBold: {
-    fontFamily: "CalibriRegularBold",
+    fontFamily: 'CalibriRegularBold',
     fontSize: 7.5,
   },
 
   hrTagLineText: {
-    fontFamily: "CalibriRegularBoldItalic",
+    fontFamily: 'CalibriRegularBoldItalic',
     fontSize: 14,
   },
   reminderText: {
-    fontFamily: "CalibriRegularBold",
+    fontFamily: 'CalibriRegularBold',
     fontSize: 12,
-    color: "#ff0000",
+    color: '#ff0000',
     paddingTop: 5,
   },
   upperCase: {
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
   },
   signatoryName: {
-    fontFamily: "CalibriRegularBold",
-    textTransform: "uppercase",
+    fontFamily: 'CalibriRegularBold',
+    textTransform: 'uppercase',
     paddingTop: 3,
+  },
+  tableCkHeader: {
+    fontFamily: 'CalibriRegularBold',
+    fontSize: 14,
+    textAlign: 'center',
+    paddingTop: 3,
+  },
+  instructionCkText: {
+    fontFamily: 'CalibriRegular',
+    fontSize: 9,
+    margin: 'auto 0',
+    textAlign: 'center',
+    paddingTop: 2,
+  },
+  rowNumberCkText: {
+    fontFamily: 'CalibriRegularBold',
+    fontSize: 11,
+    textAlign: 'center',
+    margin: 'auto 0',
+  },
+  requirementCkText: {
+    fontFamily: 'CalibriRegularItalic',
+    fontSize: 9.5,
+    margin: 'auto 0',
+    padding: '12 2 10 2',
+  },
+  certifyCkText: {
+    fontFamily: 'CalibriRegular',
+    fontSize: 11,
+    textAlign: 'justify',
+    padding: '2 2 0 2',
+    textIndent: '10px',
   },
 
   // Sub Columns Vertical Spacings
@@ -136,68 +180,71 @@ const styles = StyleSheet.create({
     paddingVertical: 8.25,
   },
 
-  verticalCenter: { margin: "auto 0" },
-  horizontalCenter: { textAlign: "center" },
+  verticalCenter: { margin: 'auto 0' },
+  horizontalCenter: { textAlign: 'center' },
   signature: {
     width: 100,
-    marginHorizontal: "auto",
+    marginHorizontal: 'auto',
   },
 
   // Width Styles
-  w100: { width: "100%" },
-  w90: { width: "90%" },
-  w80: { width: "80%" },
-  w77_5: { width: "77.5%" },
-  w75: { width: "75%" },
-  w70: { width: "70%" },
-  w67: { width: "67%" },
-  w65: { width: "65%" },
-  w62: { width: "62%" },
-  w60: { width: "60%" },
-  w59: { width: "59%" },
-  w55: { width: "55%" },
-  w50: { width: "50%" },
-  w46: { width: "46%" },
-  w45: { width: "45%" },
-  w40: { width: "40%" },
-  w38: { width: "38%" },
-  w35: { width: "35%" },
-  w33_33: { width: "33.33%" },
-  w33: { width: "33%" },
-  w31_5: { width: "31.5%" },
-  w30: { width: "30%" },
-  w28: { width: "28%" },
-  w25: { width: "25%" },
-  w23: { width: "23%" },
-  w22_5: { width: "22.5%" },
-  w22: { width: "22%" },
-  w21: { width: "21%" },
-  w20: { width: "20%" },
-  w14_5: { width: "14.5%" },
-  w14: { width: "14%" },
-  w13: { width: "13%" },
-  w12: { width: "12%" },
-  w12_5: { width: "12.5%" },
-  w11: { width: "11%" },
-  w10: { width: "10%" },
-  w9: { width: "9%" },
-  w7_59: { width: "7.59%" },
-  w7_245: { width: "7.245%" },
-  w7: { width: "7%" },
-  w6_5: { width: "6.5%" },
-  w6_1: { width: "6.1%" },
-  w6: { width: "6%" },
-  w5_5: { width: "5.5%" },
-  w5: { width: "5%" },
-  w4_90: { width: "4.90%" },
-  w4_83: { width: "4.83%" },
-  w4_73: { width: "4.73%" },
-  w4_63: { width: "4.63%" },
-  w4_5: { width: "4.5%" },
-  w4: { width: "4%" },
-  w3_5: { width: "3.5%" },
-  w3_335: { width: "3.335%" },
-  w2: { width: "2%" },
+  w100: { width: '100%' },
+  w90: { width: '90%' },
+  w80: { width: '80%' },
+  w77_5: { width: '77.5%' },
+  w75: { width: '75%' },
+  w70: { width: '70%' },
+  w67: { width: '67%' },
+  w65: { width: '65%' },
+  w62: { width: '62%' },
+  w60: { width: '60%' },
+  w59: { width: '59%' },
+  w55: { width: '55%' },
+  w50: { width: '50%' },
+  w46: { width: '46%' },
+  w45: { width: '45%' },
+  w40: { width: '40%' },
+  w38: { width: '38%' },
+  w35: { width: '35%' },
+  w34: { width: '34%' },
+  w33_33: { width: '33.33%' },
+  w33: { width: '33%' },
+  w32: { width: '32%' },
+  w31_5: { width: '31.5%' },
+  w30: { width: '30%' },
+  w28: { width: '28%' },
+  w25: { width: '25%' },
+  w23: { width: '23%' },
+  w22_5: { width: '22.5%' },
+  w22: { width: '22%' },
+  w21: { width: '21%' },
+  w20: { width: '20%' },
+  w14_5: { width: '14.5%' },
+  w14: { width: '14%' },
+  w13: { width: '13%' },
+  w12: { width: '12%' },
+  w12_5: { width: '12.5%' },
+  w11: { width: '11%' },
+  w10: { width: '10%' },
+  w9: { width: '9%' },
+  w7_59: { width: '7.59%' },
+  w7_245: { width: '7.245%' },
+  w7: { width: '7%' },
+  w6_5: { width: '6.5%' },
+  w6_1: { width: '6.1%' },
+  w6: { width: '6%' },
+  w5_5: { width: '5.5%' },
+  w5: { width: '5%' },
+  w4_90: { width: '4.90%' },
+  w4_83: { width: '4.83%' },
+  w4_73: { width: '4.73%' },
+  w4_63: { width: '4.63%' },
+  w4_5: { width: '4.5%' },
+  w4: { width: '4%' },
+  w3_5: { width: '3.5%' },
+  w3_335: { width: '3.335%' },
+  w3: { width: '3%' },
+  w2: { width: '2%' },
 })
 
 const RAIDocument = props => {
@@ -318,7 +365,7 @@ const RAIDocument = props => {
           {/* MODE 55% */}
           <View style={[styles.w6_1, styles.borderRight]}>
             <Text
-              style={[styles.tableBodyText, { textTransform: "capitalize" }]}
+              style={[styles.tableBodyText, { textTransform: 'capitalize' }]}
             >
               {appointedApplicant.publicationMode}
             </Text>
@@ -345,7 +392,7 @@ const RAIDocument = props => {
           {/* AGENCY RECEIVING OFFICER */}
           <View style={[styles.w4]}>
             <Text
-              style={[styles.tableBodyText, { textTransform: "capitalize" }]}
+              style={[styles.tableBodyText, { textTransform: 'capitalize' }]}
             ></Text>
           </View>
         </View>
@@ -357,16 +404,21 @@ const RAIDocument = props => {
 
   const renderHRDManagerSignatory = () => {
     var content = reportOnAppointmentsIssued.signatories
-      .filter(signee => signee.role === "Department Manager")
+      .filter(signee => signee.role === 'HR Department Manager')
       .map((filtered, index) => (
         <View style={[{ paddingTop: 20 }]} key={index}>
-          <View style={[styles.w67, styles.horizontalCenter]}>
+          <View
+            style={[styles.w67, styles.horizontalCenter, { margin: '0 auto' }]}
+          >
             <View style={[styles.borderBottom]}>
-              <Text style={[styles.bodyTextBoldUppercase, { fontSize: 8.5 }]}>
+              <Text style={[styles.bodyTextBoldUppercase, { fontSize: 9.5 }]}>
                 {filtered.fullName}
               </Text>
             </View>
-            <Text style={[styles.horizontalCenter, { paddingTop: 1 }]}>
+
+            <Text
+              style={[styles.horizontalCenter, { paddingTop: 1, fontSize: 9 }]}
+            >
               {filtered.position}
             </Text>
           </View>
@@ -378,16 +430,20 @@ const RAIDocument = props => {
 
   const renderGeneralManagerSignatory = () => {
     var content = reportOnAppointmentsIssued.signatories
-      .filter(signee => signee.role === "General Manager")
+      .filter(signee => signee.role === 'Appointing Authority')
       .map((filtered, index) => (
         <View style={[{ paddingTop: 20 }]} key={index}>
-          <View style={[styles.w67, styles.horizontalCenter]}>
+          <View
+            style={[styles.w67, styles.horizontalCenter, { margin: '0 auto' }]}
+          >
             <View style={[styles.borderBottom]}>
-              <Text style={[styles.bodyTextBoldUppercase, { fontSize: 8.5 }]}>
+              <Text style={[styles.bodyTextBoldUppercase, { fontSize: 9.5 }]}>
                 {filtered.fullName}
               </Text>
             </View>
-            <Text style={[styles.horizontalCenter, { paddingTop: 1 }]}>
+            <Text
+              style={[styles.horizontalCenter, { paddingTop: 1, fontSize: 9 }]}
+            >
               {filtered.position}
             </Text>
           </View>
@@ -401,7 +457,7 @@ const RAIDocument = props => {
     <Document
       author="General Santos City Water District"
       subject="CS Form No. 2 | Revised 2018"
-      title={"Report on Appointments Issued " + yearMonth}
+      title={'Report on Appointments Issued ' + yearMonth}
     >
       <Page size="A4" orientation="landscape" style={styles.page}>
         <Header yearMonth={yearMonth} />
@@ -412,8 +468,8 @@ const RAIDocument = props => {
             style={[
               styles.w100,
               {
-                flexDirection: "row",
-                justifyContent: "flex-end",
+                flexDirection: 'row',
+                justifyContent: 'flex-end',
                 paddingRight: 10,
               },
             ]}
@@ -429,7 +485,7 @@ const RAIDocument = props => {
           {/* AGENCY / CSC RESOLUTION / CSCFO in-charge */}
           <View style={[styles.rowContainer, styles.bodyTextBold]}>
             <View style={[styles.w33_33]}>
-              <View style={[styles.rowContainer, { justifyContent: "center" }]}>
+              <View style={[styles.rowContainer, { justifyContent: 'center' }]}>
                 <Text>AGENCY:</Text>
                 <View
                   style={[
@@ -443,16 +499,20 @@ const RAIDocument = props => {
               </View>
             </View>
             <View style={[styles.w33_33]}>
-              <View style={[styles.rowContainer, { justifyContent: "center" }]}>
+              <View style={[styles.rowContainer, { justifyContent: 'center' }]}>
                 <Text>CSC Resolution No:</Text>
                 <View
                   style={[
-                    styles.borderBottom,
-                    styles.w35,
+                    styles.borderAll,
+                    styles.w60,
                     styles.horizontalCenter,
+                    { marginLeft: 2, padding: 4 },
                   ]}
                 >
-                  <Text>1100603</Text>
+                  <Text>
+                    1100603, promulgated April 20, 2011 and 1801157 dated
+                    October 30, 2018 conferring PRIME-HRM Award to GSCWD
+                  </Text>
                 </View>
               </View>
             </View>
@@ -618,7 +678,7 @@ const RAIDocument = props => {
                     ]}
                   >
                     <View style={[styles.tableHeaderText]}>
-                      <Text style={[{ fontFamily: "CalibriRegularBold" }]}>
+                      <Text style={[{ fontFamily: 'CalibriRegularBold' }]}>
                         DATE
                       </Text>
                       <Text style={[{ fontSize: 5 }]}>
@@ -631,7 +691,7 @@ const RAIDocument = props => {
                   {/* MODE */}
                   <View style={[styles.w55, styles.publicationCols]}>
                     <View style={[styles.tableHeaderText]}>
-                      <Text style={[{ fontFamily: "CalibriRegularBold" }]}>
+                      <Text style={[{ fontFamily: 'CalibriRegularBold' }]}>
                         MODE
                       </Text>
                       <Text>(CSC Bulletin of Vacant Positions)</Text>
@@ -793,7 +853,7 @@ const RAIDocument = props => {
               <View
                 style={[
                   styles.bodyText,
-                  { paddingTop: 6, justifyContent: "center" },
+                  { paddingTop: 6, justifyContent: 'center' },
                 ]}
               >
                 <Text style={[{ paddingLeft: 8 }]}>
@@ -816,7 +876,7 @@ const RAIDocument = props => {
               <View
                 style={[
                   styles.bodyText,
-                  { paddingTop: 6, justifyContent: "center" },
+                  { paddingTop: 6, justifyContent: 'center' },
                 ]}
               >
                 <Text style={[{ paddingLeft: 8 }]}>
@@ -834,19 +894,30 @@ const RAIDocument = props => {
               <Text style={[styles.bodyTextBold]}>Post-Audited by::</Text>
 
               <View>
-                <Text>{""}</Text>
+                <Text>{''}</Text>
               </View>
 
               <View style={[{ paddingTop: 53 }]}>
-                <View style={[styles.w67, styles.horizontalCenter]}>
+                <View
+                  style={[
+                    styles.w67,
+                    styles.horizontalCenter,
+                    { margin: '0 auto' },
+                  ]}
+                >
                   <View style={[styles.borderBottom]}>
                     <Text
-                      style={[styles.bodyTextBoldUppercase, { fontSize: 8.5 }]}
+                      style={[styles.bodyTextBoldUppercase, { fontSize: 9.5 }]}
                     >
                       DIR. EDNA C. NEBRUA-MAHINAY
                     </Text>
                   </View>
-                  <Text style={[styles.horizontalCenter, { paddingTop: 1 }]}>
+                  <Text
+                    style={[
+                      styles.horizontalCenter,
+                      { paddingTop: 1, fontSize: 9 },
+                    ]}
+                  >
                     CSC Official
                   </Text>
                 </View>
@@ -869,6 +940,220 @@ const RAIDocument = props => {
                 </Text>
               </View>
               <View style={[{ paddingTop: 13 }]}></View>
+            </View>
+          </View>
+        </View>
+      </Page>
+
+      <Page size="A4" orientation="landscape" style={styles.page}>
+        {/* CHECKLIST per RAI page */}
+        <View style={[styles.borderAll, styles.bodyBorder]} wrap={false}>
+          {/* Header */}
+          <View style={[styles.rowContainerTable]}>
+            <View style={[styles.w34, styles.borderRight]}>
+              <Text style={[styles.tableCkHeader]}>
+                CHECKLIST OF COMMON REQUIREMENTS
+              </Text>
+            </View>
+
+            <View style={[styles.w33, styles.borderRight]}>
+              <Text style={[styles.tableCkHeader]}>HRMO</Text>
+            </View>
+
+            <View style={[styles.w33]}>
+              <Text style={[styles.tableCkHeader]}>CSC FO</Text>
+            </View>
+          </View>
+
+          {/* Instruction */}
+          <View style={[styles.w100, styles.borderTop]}>
+            <Text style={[styles.instructionCkText]}>
+              Instructions: Put a check if the requirements are complete. If
+              incomplete, use the space provided to indicate the name of
+              appointee and the lacking requirements/s.
+            </Text>
+          </View>
+
+          {/* Body */}
+          <View>
+            {/* Row 1 */}
+            <View style={[styles.rowContainerTable, styles.borderTop]}>
+              <View style={[styles.w2, styles.borderRight]}>
+                <Text style={[styles.rowNumberCkText]}>1</Text>
+              </View>
+              <View style={[styles.w32, styles.borderRight]}>
+                <Text style={[styles.requirementCkText]}>
+                  <Text style={{ fontFamily: 'CalibriRegularBoldItalic' }}>
+                    APPOINTMENT FORMS
+                  </Text>{' '}
+                  (CS Form No. 33-B, Revised 2017) - Original CSC copy of
+                  appointment form
+                </Text>
+              </View>
+              <View style={[styles.w33, styles.borderRight]}></View>
+              <View style={[styles.w33]}></View>
+            </View>
+
+            {/* Row 2 */}
+            <View style={[styles.rowContainerTable, styles.borderTop]}>
+              <View style={[styles.w2, styles.borderRight]}>
+                <Text style={[styles.rowNumberCkText]}>2</Text>
+              </View>
+              <View style={[styles.w32, styles.borderRight]}>
+                <Text style={[styles.requirementCkText]}>
+                  <Text style={{ fontFamily: 'CalibriRegularBoldItalic' }}>
+                    PLANTILLA OF CASUAL APPOINTMENT
+                  </Text>{' '}
+                  (CSC Form No. 33-B or D) - Original CSC copy
+                </Text>
+              </View>
+              <View style={[styles.w33, styles.borderRight]}></View>
+              <View style={[styles.w33]}></View>
+            </View>
+
+            {/* Row 3 */}
+            <View style={[styles.rowContainerTable, styles.borderTop]}>
+              <View style={[styles.w2, styles.borderRight]}>
+                <Text style={[styles.rowNumberCkText]}>3</Text>
+              </View>
+              <View style={[styles.w32, styles.borderRight]}>
+                <Text style={[styles.requirementCkText]}>
+                  <Text style={{ fontFamily: 'CalibriRegularBoldItalic' }}>
+                    PERSONAL DATA SHEET
+                  </Text>{' '}
+                  (CS Form No. 212, Revised 2017)
+                </Text>
+              </View>
+              <View style={[styles.w33, styles.borderRight]}></View>
+              <View style={[styles.w33]}></View>
+            </View>
+
+            {/* Row 4 */}
+            <View style={[styles.rowContainerTable, styles.borderTop]}>
+              <View style={[styles.w2, styles.borderRight]}>
+                <Text style={[styles.rowNumberCkText]}>4</Text>
+              </View>
+              <View style={[styles.w32, styles.borderRight]}>
+                <Text style={[styles.requirementCkText]}>
+                  <Text style={{ fontFamily: 'CalibriRegularBoldItalic' }}>
+                    ORIGINAL COPY OF AUTHENTICATED CERTIFICATE OF
+                    ELIGIBILITY/RATING/LICENSE -
+                  </Text>{' '}
+                  Except if the eligibility has been previously authenticated in
+                  2004 or onward and recorded by the CSC
+                </Text>
+              </View>
+              <View style={[styles.w33, styles.borderRight]}></View>
+              <View style={[styles.w33]}></View>
+            </View>
+
+            {/* Row 5 */}
+            <View style={[styles.rowContainerTable, styles.borderTop]}>
+              <View style={[styles.w2, styles.borderRight]}>
+                <Text style={[styles.rowNumberCkText]}>5</Text>
+              </View>
+              <View style={[styles.w32, styles.borderRight]}>
+                <Text style={[styles.requirementCkText]}>
+                  <Text style={{ fontFamily: 'CalibriRegularBoldItalic' }}>
+                    POSITION DESCRIPTION FORM
+                  </Text>{' '}
+                  (DBM-CSC Form No. 1, Revised 2017)
+                </Text>
+              </View>
+              <View style={[styles.w33, styles.borderRight]}></View>
+              <View style={[styles.w33]}></View>
+            </View>
+
+            {/* Row 6 */}
+            <View style={[styles.rowContainerTable, styles.borderTop]}>
+              <View style={[styles.w2, styles.borderRight]}>
+                <Text style={[styles.rowNumberCkText]}>6</Text>
+              </View>
+              <View style={[styles.w32, styles.borderRight]}>
+                <Text style={[styles.requirementCkText]}>
+                  <Text style={{ fontFamily: 'CalibriRegularBoldItalic' }}>
+                    OATH OF THE OFFICE
+                  </Text>{' '}
+                  (CS Form No. 32, Revised 2017)
+                </Text>
+              </View>
+              <View style={[styles.w33, styles.borderRight]}></View>
+              <View style={[styles.w33]}></View>
+            </View>
+
+            {/* Row 7 */}
+            <View style={[styles.rowContainerTable, styles.borderTop]}>
+              <View style={[styles.w2, styles.borderRight]}>
+                <Text style={[styles.rowNumberCkText]}>7</Text>
+              </View>
+              <View style={[styles.w32, styles.borderRight]}>
+                <Text style={[styles.requirementCkText]}>
+                  <Text style={{ fontFamily: 'CalibriRegularBoldItalic' }}>
+                    CERTIFICATE OF ASSUMPTION TO DUTY
+                  </Text>{' '}
+                  (CS Form No. 4)
+                </Text>
+              </View>
+              <View style={[styles.w33, styles.borderRight]}></View>
+              <View style={[styles.w33]}></View>
+            </View>
+
+            {/* Row 8 */}
+            <View style={[styles.rowContainerTable, styles.borderTop]}>
+              <View style={[styles.w2, styles.borderRight]}></View>
+              <View style={[styles.w32, styles.borderRight]}></View>
+              <View style={[styles.w33, styles.borderRight]}>
+                <Text style={[styles.certifyCkText]}>
+                  This is to certify that I have checked the veracity,
+                  authenticity and completeness of all the requirements in
+                  support of the appointments attached herein.
+                </Text>
+
+                <View
+                  style={[
+                    {
+                      paddingTop: 20,
+                      // alignItems: 'center',
+                      // display: 'flex',
+                      // textAlign: 'center',
+                    },
+                  ]}
+                >
+                  {renderHRDManagerSignatory()}
+                </View>
+              </View>
+
+              <View style={[styles.w33]}>
+                <Text style={[styles.certifyCkText]}>
+                  This is to certify that I have checked all the requirements in
+                  support of the appointments attached herein and found these to
+                  be [ &nbsp; ] complete / [ &nbsp; ] lacking.
+                </Text>
+
+                <View
+                  style={[
+                    styles.horizontalCenter,
+                    styles.w70,
+                    { paddingTop: 40, margin: '0 auto' },
+                  ]}
+                >
+                  <View style={[styles.borderBottom]}>
+                    <Text
+                      style={[styles.bodyTextBoldUppercase, { fontSize: 9.5 }]}
+                    >
+                      DIR. EDNA C. NEBRUA-MAHINAY
+                    </Text>
+                  </View>
+                  <Text
+                    style={[
+                      styles.horizontalCenter,
+                      { paddingTop: 1, fontSize: 9 },
+                    ]}
+                  >
+                    CSC FO Receiving Officer
+                  </Text>
+                </View>
+              </View>
             </View>
           </View>
         </View>
