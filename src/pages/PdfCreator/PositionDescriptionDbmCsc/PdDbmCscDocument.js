@@ -1498,7 +1498,7 @@ const PdDbmCscDocument = props => {
             {renderDuties(applicantDbmCsc.dutiesAndResponsibilities.core)}
 
             {/* Last row */}
-            <View style={[styles.rowContainer, styles.borderAll]}>
+            <View style={[styles.rowContainer, styles.borderAll]} wrap={false}>
               <View style={[styles.w25, styles.borderRight]}>
                 <Text
                   style={[
@@ -1583,13 +1583,13 @@ const PdDbmCscDocument = props => {
             </View>
           </View>
         </View>
-        <Text
+        {/* <Text
           style={styles.pageNumber}
           render={({ pageNumber, totalPages }) =>
             `${pageNumber} / ${totalPages}`
           }
           fixed
-        />
+        /> */}
       </Page>
     </Document>
   )
