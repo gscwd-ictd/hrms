@@ -22,15 +22,15 @@ Font.registerHyphenationCallback(word => [word])
 const styles = StyleSheet.create({
   page: {
     backgroundColor: '#ffffff',
-    paddingTop: 10,
-    paddingBottom: 25,
+    paddingTop: 15,
+    paddingBottom: 15,
   },
   rowContainer: {
     flexDirection: 'row',
     alignItems: 'stretch',
   },
   bodyBorder: {
-    marginHorizontal: 25,
+    marginHorizontal: 22,
   },
 
   // Table Styles
@@ -105,6 +105,15 @@ const styles = StyleSheet.create({
     fontFamily: 'CalibriRegular',
     fontSize: 9.5,
     paddingTop: 1,
+  },
+  pageNumber: {
+    position: 'absolute',
+    fontSize: 9,
+    bottom: 13,
+    left: 0,
+    right: 0,
+    textAlign: 'center',
+    color: 'grey',
   },
 
   verticalCenter: { margin: 'auto 0' },
@@ -1574,6 +1583,13 @@ const PdDbmCscDocument = props => {
             </View>
           </View>
         </View>
+        <Text
+          style={styles.pageNumber}
+          render={({ pageNumber, totalPages }) =>
+            `${pageNumber} / ${totalPages}`
+          }
+          fixed
+        />
       </Page>
     </Document>
   )
