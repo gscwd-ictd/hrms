@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from 'axios'
 
 // Gets the logged in user data from local session
 // const getLoggedInUser = () => {
@@ -25,24 +25,24 @@ export async function postLogin(url, data) {
       if (err.response && err.response.status) {
         switch (err.response.status) {
           case 404:
-            message = "Sorry! Some resources are missing"
+            message = 'Sorry! Some resources are missing'
             break
           case 500:
             message =
-              "Sorry! something went wrong, please contact our support team"
+              'Sorry! something went wrong, please contact our support team'
             break
           case 401:
-            message = "Invalid Credentials"
+            message = 'Invalid Credentials'
             break
           case 408:
-            message = "Request timeout. Try again later"
+            message = 'Request timeout. Try again later'
             break
           default:
             message = err[1]
             break
         }
       } else {
-        message = "Network error. Unable to connect to server"
+        message = 'Network error. Unable to connect to server'
       }
       throw message
     })
@@ -61,24 +61,24 @@ export async function postLogout(url, data) {
       if (err.response && err.response.status) {
         switch (err.response.status) {
           case 404:
-            message = "Sorry! Some resources are missing"
+            message = 'Sorry! Some resources are missing'
             break
           case 500:
             message =
-              "Sorry! something went wrong, please contact our support team"
+              'Sorry! something went wrong, please contact our support team'
             break
           case 401:
-            message = "Invalid Request"
+            message = 'Invalid Request'
             break
           case 408:
-            message = "Request timeout. Try again later"
+            message = 'Request timeout. Try again later'
             break
           default:
             message = err[1]
             break
         }
       } else {
-        message = "Network error. Unable to connect to server"
+        message = 'Network error. Unable to connect to server'
       }
       throw message
     })
@@ -101,24 +101,24 @@ export async function getVerifyAccessToken(url) {
       if (err.response && err.response.status) {
         switch (err.response.status) {
           case 404:
-            message = "Sorry! Some resources are missing"
+            message = 'Sorry! Some resources are missing'
             break
           case 500:
             message =
-              "Sorry! something went wrong, please contact our support team"
+              'Sorry! something went wrong, please contact our support team'
             break
           case 401:
-            message = "Invalid Token"
+            message = 'Invalid Token'
             break
           case 408:
-            message = "Request timeout. Try again later"
+            message = 'Request timeout. Try again later'
             break
           default:
             message = err[1]
             break
         }
       } else {
-        message = "Network error. Unable to connect to server"
+        message = 'Network error. Unable to connect to server'
       }
       throw message
     })
@@ -137,21 +137,21 @@ export async function postRegister(url, data) {
       if (err.response && err.response.status) {
         switch (err.response.status) {
           case 404:
-            message = "Sorry! Some resources are missing"
+            message = 'Sorry! Some resources are missing'
             break
           case 500:
             message =
-              "Sorry! something went wrong, please contact our support team"
+              'Sorry! something went wrong, please contact our support team'
             break
           case 408:
-            message = "Request timeout. Try again later"
+            message = 'Request timeout. Try again later'
             break
           default:
             message = err[1]
             break
         }
       } else {
-        message = "Network error. Unable to connect to server"
+        message = 'Network error. Unable to connect to server'
       }
       throw message
     })
@@ -170,21 +170,21 @@ export async function postForgetPwd(url, data) {
       if (err.response && err.response.status) {
         switch (err.response.status) {
           case 404:
-            message = "Sorry! Some resources are missing"
+            message = 'Sorry! Some resources are missing'
             break
           case 500:
             message =
-              "Sorry! something went wrong, please contact our support team"
+              'Sorry! something went wrong, please contact our support team'
             break
           case 408:
-            message = "Request timeout. Try again later"
+            message = 'Request timeout. Try again later'
             break
           default:
             message = err[1]
             break
         }
       } else {
-        message = "Network error. Unable to connect to server"
+        message = 'Network error. Unable to connect to server'
       }
       throw message
     })
@@ -203,21 +203,21 @@ export async function postProfileUpdate(url, data) {
       if (err.response && err.response.status) {
         switch (err.response.status) {
           case 404:
-            message = "Sorry! Some resources are missing"
+            message = 'Sorry! Some resources are missing'
             break
           case 500:
             message =
-              "Sorry! something went wrong, please contact our support team"
+              'Sorry! something went wrong, please contact our support team'
             break
           case 408:
-            message = "Request timeout. Try again later"
+            message = 'Request timeout. Try again later'
             break
           default:
             message = err[1]
             break
         }
       } else {
-        message = "Network error. Unable to connect to server"
+        message = 'Network error. Unable to connect to server'
       }
       throw message
     })
@@ -236,24 +236,24 @@ export async function postSuLogin(url, data) {
       if (err.response && err.response.status) {
         switch (err.response.status) {
           case 404:
-            message = "Sorry! Some resources are missing"
+            message = 'Sorry! Some resources are missing'
             break
           case 500:
             message =
-              "Sorry! something went wrong, please contact our support team"
+              'Sorry! something went wrong, please contact our support team'
             break
           case 401:
-            message = "Invalid Credentials"
+            message = 'Invalid Credentials'
             break
           case 408:
-            message = "Request timeout. Try again later"
+            message = 'Request timeout. Try again later'
             break
           default:
             message = err[1]
             break
         }
       } else {
-        message = "Network error. Unable to connect to server"
+        message = 'Network error. Unable to connect to server'
       }
       throw message
     })
