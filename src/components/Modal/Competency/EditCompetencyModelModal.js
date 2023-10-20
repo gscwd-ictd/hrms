@@ -8,6 +8,7 @@ import {
   Form,
   FormGroup,
   Label,
+  Alert,
   Modal,
   ModalHeader,
   ModalBody,
@@ -29,6 +30,14 @@ import ToastrNotification from 'components/Notifications/ToastrNotification'
 // style
 import 'styles/custom_gscwd/components/table.scss'
 
+// TODO
+import { isEmpty } from 'lodash'
+
+// TODO
+// Formik
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
+
 const EditCompetencyModelModal = props => {
   const { showEdt, handleCloseEdt, modalData } = props
   const [code, setCode] = useState('')
@@ -47,15 +56,25 @@ const EditCompetencyModelModal = props => {
     dispatch(updateKeyActionDetails(index, e.target.value))
   }
 
+  // TO-DO
   // Update competency model details
+  // desktop file
   const handleUpdateModel = () => {
+    // LOG
     const modelData = {
+      competencyId: modalData.competencyId,
       code: code,
       name: name,
       desc: definition,
       proficiencyKeyActions,
     }
-    // modalData.competencyId use to identify which competency model to update
+    // console.log(modelData)
+
+    if (!code) {
+      console.log('Error')
+    } else {
+      console.log(modelData)
+    }
   }
 
   // Initial dispatch request upon opening of modal
@@ -76,92 +95,129 @@ const EditCompetencyModelModal = props => {
           <ToastrNotification toastType={'error'} notifMessage={error} />
         ) : null}
 
+        {/* // TO-DO */}
+        {/* {isLoading ? (
+          <Alert
+            color="info"
+            className="alert-dismissible fade show m-3"
+            role="alert"
+          >
+            <i className="mdi mdi-loading mdi-spin me-2 "></i> Sending Request
+          </Alert>
+        ) : null}
+
+        {error ? (
+          <ToastrNotification toastType={'error'} notifMessage={error} />
+        ) : null}
+
+        {!isEmpty(proficiencyKeyActions) ? (
+          <ToastrNotification
+            toastType={'success'}
+            notifMessage={'Update Successful'}
+          />
+        ) : null} */}
+
         <ModalBody>
-          <Row>
-            <Col>
-              <FormGroup>
-                <Label for="modelCode-Input">Code</Label>
-                <Input
-                  type="text"
-                  className="form-control"
-                  name="modelCode"
-                  id="modelCode-Input"
-                  defaultValue={modalData.code}
-                  onChange={e => setCode(e.target.value)}
-                  required
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="modelName-Input">Name</Label>
-                <Input
-                  type="text"
-                  className="form-control"
-                  name="modelName"
-                  id="modelName-Input"
-                  defaultValue={modalData.name}
-                  onChange={e => setName(e.target.value)}
-                  required
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="modelDefinition-Input">Definition</Label>
-                <TextareaAutosize
-                  id="modelDefinition-Input"
-                  className="form-control"
-                  name="modelDefinition"
-                  defaultValue={modalData.desc}
-                  minRows={3}
-                  onChange={e => setDefinition(e.target.value)}
-                />
-              </FormGroup>
-            </Col>
-          </Row>
-          <Row>
-            <Col lg={12}>
-              {isLoading ? (
-                <LoadingIndicator />
-              ) : proficiencyKeyActions ? (
-                <div className="table-responsive">
-                  <Table className="table mb-0 tbl-key-actions">
-                    <thead className="thead-light">
-                      <tr>
-                        <th className="thead-pl">Proficiency Level</th>
-                        <th className="thead-ka">Key Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {proficiencyKeyActions.length > 0 ? (
-                        proficiencyKeyActions.map((proficiency, index) => {
-                          return (
-                            <tr key={proficiency._id}>
-                              <td>{proficiency.level}</td>
-                              <td className="textarea-container">
-                                <TextareaAutosize
-                                  defaultValue={proficiency.keyActions}
-                                  minRows={3}
-                                  onChange={e => updateValue(e, index)}
-                                />
-                              </td>
-                            </tr>
-                          )
-                        })
-                      ) : (
+          {/* // TO-DO */}
+          <Form
+          // id="editCompetencyForm"
+          // onSubmit={e => {
+          //   e.preventDefault()
+          //   validation.handleSubmit()
+          //   return false
+          // }}
+          >
+            <Row>
+              <Col>
+                <FormGroup>
+                  <Label for="modelCode-Input">Code</Label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="modelCode"
+                    id="modelCode-Input"
+                    defaultValue={modalData.code}
+                    onChange={e => setCode(e.target.value)}
+                    required
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="modelName-Input">Name</Label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="modelName"
+                    id="modelName-Input"
+                    defaultValue={modalData.name}
+                    onChange={e => setName(e.target.value)}
+                    required
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="modelDefinition-Input">Definition</Label>
+                  <TextareaAutosize
+                    id="modelDefinition-Input"
+                    className="form-control"
+                    name="modelDefinition"
+                    defaultValue={modalData.desc}
+                    minRows={3}
+                    onChange={e => setDefinition(e.target.value)}
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={12}>
+                {isLoading ? (
+                  <LoadingIndicator />
+                ) : proficiencyKeyActions ? (
+                  <div className="table-responsive">
+                    <Table className="table mb-0 tbl-key-actions">
+                      <thead className="thead-light">
                         <tr>
-                          <td colSpan="2" className="ta-center">
-                            No Records Available
-                          </td>
+                          <th className="thead-pl">Proficiency Level</th>
+                          <th className="thead-ka">Key Actions</th>
                         </tr>
-                      )}
-                    </tbody>
-                  </Table>
-                </div>
-              ) : null}
-            </Col>
-          </Row>
+                      </thead>
+                      <tbody>
+                        {proficiencyKeyActions.length > 0 ? (
+                          proficiencyKeyActions.map((proficiency, index) => {
+                            return (
+                              <tr key={proficiency._id}>
+                                <td>{proficiency.level}</td>
+                                <td className="textarea-container">
+                                  <TextareaAutosize
+                                    defaultValue={proficiency.keyActions}
+                                    minRows={3}
+                                    onChange={e => updateValue(e, index)}
+                                  />
+                                </td>
+                              </tr>
+                            )
+                          })
+                        ) : (
+                          <tr>
+                            <td colSpan="2" className="ta-center">
+                              No Records Available
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </Table>
+                  </div>
+                ) : null}
+              </Col>
+            </Row>
+          </Form>
         </ModalBody>
 
         <ModalFooter>
-          <Button type="submit" color="info" onClick={handleUpdateModel}>
+          <Button
+            type="submit"
+            // form="editCompetencyForm"
+            color="info"
+            onClick={handleUpdateModel}
+          >
             Update
           </Button>
           <Button color="danger" onClick={handleCloseEdt}>

@@ -1,44 +1,46 @@
-import React, { useEffect, useMemo, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { fetchCoreCompetencies } from "store/actions"
-import { Can } from "casl/Can"
-import { Navigate } from "react-router-dom"
+import React, { useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchCoreCompetencies } from 'store/actions'
+import { Can } from 'casl/Can'
+import { Navigate } from 'react-router-dom'
 
-import { Card, CardBody, Col, Container, Row } from "reactstrap"
-import InRowAction from "components/InRowAction/InRowAction"
-import EditCompetencyModelModal from "components/Modal/Competency/EditCompetencyModelModal"
-import TableCompetencyModel from "components/Table/TableCompetencyModel"
-import Breadcrumbs from "components/Common/Breadcrumb"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import { Button, Card, CardBody, Col, Container, Row } from 'reactstrap'
+import InRowAction from 'components/InRowAction/InRowAction'
+// import EditCompetencyModelModal from "components/Modal/Competency/EditCompetencyModelModal"
+import EditCompetencyModelModal2 from 'components/Modal/Competency/EditCompetencyModelModal2'
+import TableCompetencyModel from 'components/Table/TableCompetencyModel'
+import Breadcrumbs from 'components/Common/Breadcrumb'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // style
-import "styles/custom_gscwd/global.scss"
+import 'styles/custom_gscwd/global.scss'
+import AddCompetencyModelModal from 'components/Modal/Competency/AddCompetencyModelModal'
 
 const CoreModels = () => {
   const dispatch = useDispatch()
 
   const tblColumns = [
     {
-      Header: "ID",
-      accessor: "competencyId",
+      Header: 'ID',
+      accessor: 'competencyId',
       disableGlobalFilter: true,
     },
     {
-      Header: "Code",
-      accessor: "code",
+      Header: 'Code',
+      accessor: 'code',
     },
     {
-      Header: "Name",
-      accessor: "name",
+      Header: 'Name',
+      accessor: 'name',
     },
     {
-      Header: "Definition",
-      accessor: "desc",
+      Header: 'Definition',
+      accessor: 'desc',
     },
     {
-      Header: "Actions",
-      accessor: "",
+      Header: 'Actions',
+      accessor: '',
       disableGlobalFilter: true,
       Cell: function ActionDropdown(cell) {
         return <InRowAction cell={cell} editCompetencyModel={editModal} />
@@ -87,11 +89,11 @@ const CoreModels = () => {
             <Container fluid={true}>
               <Row>
                 <Col>
-                  <Card className="card-table tabular">
-                    <CardBody>
+                  <Card>
+                    <CardBody className="card-table">
                       {error ? (
                         <ToastrNotification
-                          toastType={"error"}
+                          toastType={'error'}
                           notifMessage={error}
                         />
                       ) : null}
@@ -99,13 +101,34 @@ const CoreModels = () => {
                       {isLoading ? (
                         <LoadingIndicator />
                       ) : (
-                        <TableCompetencyModel
-                          columns={columns}
-                          data={coreModelData}
-                        />
+                        <>
+                          <div className="top-right-actions">
+                            <div className="form-group add-btn">
+                              <button
+                                // onClick={handleShowAdd}
+                                className="btn btn-info waves-effect waves-light"
+                              >
+                                <i className="fas fa-plus-square"></i>&nbsp;
+                                Employee Registration
+                              </button>
+                            </div>
+                          </div>
+
+                          <TableCompetencyModel
+                            columns={columns}
+                            data={coreModelData}
+                          />
+                        </>
                       )}
 
-                      <EditCompetencyModelModal
+                      {/* <EditCompetencyModelModal
+                        showEdt={showEdt}
+                        modalData={modalData}
+                        handleCloseEdt={handleCloseEdt}
+                      /> */}
+
+                      {/* remove later */}
+                      <EditCompetencyModelModal2
                         showEdt={showEdt}
                         modalData={modalData}
                         handleCloseEdt={handleCloseEdt}

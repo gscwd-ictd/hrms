@@ -1,17 +1,17 @@
-import React from "react"
-import { Table, Button } from "reactstrap"
+import React from 'react'
+import { Table, Button } from 'reactstrap'
 import {
   useFilters,
   useGlobalFilter,
   usePagination,
   useTable,
   useSortBy,
-} from "react-table"
-import { GlobalFilter } from "components/Filters/GlobalFilter"
-import PropTypes from "prop-types"
+} from 'react-table'
+import { GlobalFilter } from 'components/Filters/GlobalFilter'
+import PropTypes from 'prop-types'
 
 // styles
-import "styles/custom_gscwd/components/table.scss"
+import 'styles/custom_gscwd/components/table.scss'
 
 const TableEmployeeList = props => {
   const { columns, data } = props
@@ -23,8 +23,8 @@ const TableEmployeeList = props => {
       initialState: {
         pageIndex: 0,
         hiddenColumns: [
-          "employmentDetails.employeeId",
-          "employmentDetails.positionId",
+          'employmentDetails.employeeId',
+          'employmentDetails.positionId',
         ],
       },
     },
@@ -48,7 +48,7 @@ const TableEmployeeList = props => {
     state,
     setGlobalFilter,
     preGlobalFilteredRows,
-    setAllFilters
+    setAllFilters,
   } = tableInstance
 
   const { globalFilter, pageIndex, pageSize } = state
@@ -60,8 +60,6 @@ const TableEmployeeList = props => {
 
   return (
     <>
-  
-
       <div className="flex-container filters-wrapper">
         <GlobalFilter
           preGlobalFilteredRows={preGlobalFilteredRows}
@@ -77,7 +75,7 @@ const TableEmployeeList = props => {
             headerGroup.headers.map(column =>
               column.Filter ? (
                 <div className="mt-1 filter-item" key={column.id}>
-                  {column.render("Filter")}
+                  {column.render('Filter')}
                 </div>
               ) : null
             )
@@ -106,10 +104,10 @@ const TableEmployeeList = props => {
                 <th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                   key={hi}
-                  className={"th_" + column.getHeaderProps("Header").key}
-                  style={{ textAlign: column.align ? "center" : "left" }}
+                  className={'th_' + column.getHeaderProps('Header').key}
+                  style={{ textAlign: column.align ? 'center' : 'left' }}
                 >
-                  {column.render("Header")}
+                  {column.render('Header')}
                   {/* Sort */}
                   <span>
                     {column.isSorted ? (
@@ -119,7 +117,7 @@ const TableEmployeeList = props => {
                         <i className="bx bx-down-arrow pl-1"></i>
                       )
                     ) : (
-                      ""
+                      ''
                     )}
                   </span>
                 </th>
@@ -139,13 +137,13 @@ const TableEmployeeList = props => {
                         style={
                           cell.column.align
                             ? {
-                                width: "fit-content",
-                                margin: "auto",
+                                width: 'fit-content',
+                                margin: 'auto',
                               }
                             : {}
                         }
                       >
-                        {cell.render("Cell")}
+                        {cell.render('Cell')}
                       </div>
                     </td>
                   )
@@ -165,23 +163,23 @@ const TableEmployeeList = props => {
               onClick={() => previousPage()}
               disabled={!canPreviousPage}
             >
-              {"Previous"}
-            </button>{" "}
+              {'Previous'}
+            </button>{' '}
             <button
               className="page-link"
               onClick={() => nextPage()}
               disabled={!canNextPage}
             >
-              {"Next"}
-            </button>{" "}
+              {'Next'}
+            </button>{' '}
           </div>
 
           {/* Page number */}
           <div className="pagenumber-container">
-            Page{" "}
+            Page{' '}
             <strong>
               {pageIndex + 1} of {pageOptions.length}
-            </strong>{" "}
+            </strong>{' '}
           </div>
 
           {/* Dropdown page size */}

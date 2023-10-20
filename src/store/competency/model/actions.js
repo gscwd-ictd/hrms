@@ -16,7 +16,10 @@ import {
   GET_PROFICIENCY_KEY_ACTIONS_FAIL,
   UPDATE_KEY_ACTION_DETAILS,
   RESET_COMPETENCY_RESPONSES,
-} from "./actionTypes"
+  PUT_COMPETENCY_DETAILS,
+  PUT_COMPETENCY_DETAILS_SUCCESS,
+  PUT_COMPETENCY_DETAILS_FAIL,
+} from './actionTypes'
 
 // Core
 export const fetchCoreCompetencies = () => ({
@@ -93,4 +96,18 @@ export const updateKeyActionDetails = (index, keyActions) => ({
 // Reset response/errors from competency
 export const resetCompetencyResponse = () => ({
   type: RESET_COMPETENCY_RESPONSES,
+})
+
+// Update compectency details
+export const updateCompetencyDetails = competencyDetails => ({
+  type: PUT_COMPETENCY_DETAILS,
+  payload: competencyDetails,
+})
+export const updateCompetencyDetailsSuccess = competencyDetailsResponse => ({
+  type: PUT_COMPETENCY_DETAILS_SUCCESS,
+  payload: competencyDetailsResponse,
+})
+export const updateCompetencyDetailsFail = error => ({
+  type: PUT_COMPETENCY_DETAILS_FAIL,
+  payload: error,
 })
