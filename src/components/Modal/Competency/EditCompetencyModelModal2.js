@@ -73,6 +73,11 @@ const EditCompetencyModelModal2 = props => {
       code: Yup.string().required('Please enter a code name'),
       name: Yup.string().required('Please enter a name'),
       desc: Yup.string().required('Please enter a competency description'),
+      proficiencyKeyActions: Yup.array().of(
+        Yup.object().shape({
+          keyActions: Yup.string().required('Key action should not be empty'),
+        })
+      ),
     }),
     onSubmit: (values, { resetForm }) => {
       console.log(values)
@@ -98,28 +103,6 @@ const EditCompetencyModelModal2 = props => {
         {error ? (
           <ToastrNotification toastType={'error'} notifMessage={error} />
         ) : null}
-
-        {/* // TO-DO */}
-        {/* {isLoading ? (
-          <Alert
-            color="info"
-            className="alert-dismissible fade show m-3"
-            role="alert"
-          >
-            <i className="mdi mdi-loading mdi-spin me-2 "></i> Sending Request
-          </Alert>
-        ) : null}
-
-        {error ? (
-          <ToastrNotification toastType={'error'} notifMessage={error} />
-        ) : null}
-
-        {!isEmpty(proficiencyKeyActions) ? (
-          <ToastrNotification
-            toastType={'success'}
-            notifMessage={'Update Successful'}
-          />
-        ) : null} */}
 
         <ModalBody>
           <Form
@@ -233,7 +216,36 @@ const EditCompetencyModelModal2 = props => {
                                     }
                                     onChange={validation.handleChange}
                                     onBlur={validation.handleBlur}
+                                    style={{
+                                      border:
+                                        validation.errors
+                                          .proficiencyKeyActions &&
+                                        validation.errors.proficiencyKeyActions[
+                                          index
+                                        ] &&
+                                        validation.errors.proficiencyKeyActions[
+                                          index
+                                        ].keyActions
+                                          ? '1px solid red'
+                                          : '',
+                                      padding: '8px',
+                                    }}
                                   />
+                                  {validation.errors.proficiencyKeyActions &&
+                                    validation.errors.proficiencyKeyActions[
+                                      index
+                                    ] &&
+                                    validation.errors.proficiencyKeyActions[
+                                      index
+                                    ].street && (
+                                      <p style={{ color: 'red' }}>
+                                        {
+                                          validation.errors
+                                            .proficiencyKeyActions[index]
+                                            .keyActions
+                                        }
+                                      </p>
+                                    )}
                                 </td>
                               </tr>
                             )
