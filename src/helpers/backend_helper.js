@@ -140,6 +140,9 @@ export const delFunctionalCompetenciesOfPosition =
       selectedFunctionalCompetencies
     )
 
+// Add (post) the competency details
+export const postCompetencyDetails = competencyDetails => postHris(url.COMPETENCY_MODEL, competencyDetails)
+
 // Update (put) the competency details
 export const putCompetencyDetails = competencyDetails => putHris(url.COMPETENCY_MODEL, competencyDetails)
 

@@ -53,9 +53,9 @@ const EditCompetencyModelModal2 = props => {
   }))
 
   // Update redux state value for specific proficiency level
-  const updateValue = (e, index) => {
-    dispatch(updateKeyActionDetails(index, e.target.value))
-  }
+  // const updateValue = (e, index) => {
+  //   dispatch(updateKeyActionDetails(index, e.target.value))
+  // }
 
   // TO-DO
   // Update competency model details
@@ -75,7 +75,9 @@ const EditCompetencyModelModal2 = props => {
       desc: Yup.string().required('Please enter a competency description'),
       proficiencyKeyActions: Yup.array().of(
         Yup.object().shape({
-          keyActions: Yup.string().required('Key action should not be empty'),
+          keyActions: Yup.string().required(
+            'Proficiency key action is required'
+          ),
         })
       ),
     }),
@@ -234,10 +236,7 @@ const EditCompetencyModelModal2 = props => {
                                   {validation.errors.proficiencyKeyActions &&
                                     validation.errors.proficiencyKeyActions[
                                       index
-                                    ] &&
-                                    validation.errors.proficiencyKeyActions[
-                                      index
-                                    ].street && (
+                                    ]?.keyActions && (
                                       <p style={{ color: 'red' }}>
                                         {
                                           validation.errors

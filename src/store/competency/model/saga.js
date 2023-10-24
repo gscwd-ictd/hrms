@@ -7,6 +7,7 @@ import {
   getManagerialModels,
   getProficiencyKeyActions,
   putCompetencyDetails,
+  postCompetencyDetails,
 } from 'helpers/backend_helper'
 import {
   fetchCoreCompetenciesSuccess,
@@ -19,6 +20,8 @@ import {
   fetchManagerialCompetenciesFail,
   fetchProficiencyKeyActionsSuccess,
   fetchProficiencyKeyActionsFail,
+  addCompetencyDetailsSuccess,
+  addCompetencyDetailsFail,
   updateCompetencyDetailsSuccess,
   updateCompetencyDetailsFail,
 } from './actions'
@@ -28,6 +31,7 @@ import {
   GET_CROSSCUTTING_COMPETENCIES,
   GET_MANAGERIAL_COMPETENCIES,
   GET_PROFICIENCY_KEY_ACTIONS,
+  POST_COMPETENCY_DETAILS,
   PUT_COMPETENCY_DETAILS,
 } from './actionTypes'
 
@@ -87,10 +91,18 @@ function* fetchProficiencyKeyActions({ payload: competencyId }) {
   }
 }
 
+function* addCompetencyDetails({ payload: competencyDetails }) {
+  try {
+    const response = yield call(postCompetencyDetails, competencyDetails)
+    yield put(addCompetencyDetailsSuccess(response))
+  } catch (error) {
+    yield put(addCompetencyDetailsFail(error))
+  }
+}
 // saga for updateCompetencyDetails
 function* updateCompetencyDetails({ payload: competencyDetails }) {
   try {
-    const response = yield call(updateCompetencyDetails, competencyDetails)
+    const response = yield call(putCompetencyDetails, competencyDetails)
     yield put(updateCompetencyDetailsSuccess(response))
   } catch (error) {
     yield put(updateCompetencyDetailsFail(error))
@@ -104,7 +116,10 @@ function* competencyModelSaga() {
   yield takeEvery(GET_MANAGERIAL_COMPETENCIES, fetchManagerialCompetencies)
   yield takeEvery(GET_PROFICIENCY_KEY_ACTIONS, fetchProficiencyKeyActions)
 
-  //
+  // post
+  yield takeEvery(POST_COMPETENCY_DETAILS, addCompetencyDetails)
+
+  // put
   yield takeEvery(PUT_COMPETENCY_DETAILS, updateCompetencyDetails)
 }
 

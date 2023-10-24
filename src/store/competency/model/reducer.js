@@ -16,6 +16,9 @@ import {
   GET_PROFICIENCY_KEY_ACTIONS_FAIL,
   UPDATE_KEY_ACTION_DETAILS,
   RESET_COMPETENCY_RESPONSES,
+  POST_COMPETENCY_DETAILS,
+  POST_COMPETENCY_DETAILS_SUCCESS,
+  POST_COMPETENCY_DETAILS_FAIL,
   PUT_COMPETENCY_DETAILS,
   PUT_COMPETENCY_DETAILS_FAIL,
   PUT_COMPETENCY_DETAILS_SUCCESS,
@@ -30,6 +33,7 @@ const INIT_STATE = {
   managerialModels: [],
   proficiencyKeyActions: [],
   response: {
+    postCompetencyDetails: {},
     putCompetencyDetails: {},
     deleteCompetency: {},
   },
@@ -256,6 +260,47 @@ const competencyModel = (state = INIT_STATE, action) => {
           },
         },
       })
+
+    case POST_COMPETENCY_DETAILS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          postCompetencyDetails: {},
+        },
+        loading: {
+          ...state.loading,
+          loadingResponse: true,
+        },
+        error: {
+          ...state.error,
+          errorResponse: null,
+        },
+      }
+    case POST_COMPETENCY_DETAILS_SUCCESS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          postCompetencyDetails: action.payload,
+        },
+        loading: {
+          ...state.loading,
+          loadingResponse: false,
+        },
+      }
+    case POST_COMPETENCY_DETAILS_FAIL:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingResponse: false,
+        },
+        error: {
+          ...state.error,
+          errorResponse: action.payload,
+        },
+      }
 
     case PUT_COMPETENCY_DETAILS:
       return {

@@ -7,6 +7,7 @@ import {
   Input,
   Form,
   FormGroup,
+  FormFeedback,
   Label,
   Alert,
   Modal,
@@ -16,11 +17,11 @@ import {
 } from 'reactstrap'
 import TextareaAutosize from 'react-textarea-autosize'
 import { useDispatch, useSelector } from 'react-redux'
-// import {
-//   fetchProficiencyKeyActions,
-//   updateKeyActionDetails,
-//   resetCompetencyResponse,
-// } from 'store/actions'
+import {
+  // fetchProficiencyKeyActions,
+  addCompetencyDetails,
+  resetCompetencyResponse,
+} from 'store/actions'
 import PropTypes, { string } from 'prop-types'
 
 // extra components
@@ -30,41 +31,86 @@ import ToastrNotification from 'components/Notifications/ToastrNotification'
 // style
 import 'styles/custom_gscwd/components/table.scss'
 
+// Formik
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
+
 const AddCompetencyModelModal = props => {
-  const { showEdt, handleCloseEdt, modalData } = props
+  const { showAdd, handleCloseAdd, modalData } = props
 
   const dispatch = useDispatch()
-  const { proficiencyKeyActions, isLoading, error } = useSelector(state => ({
-    proficiencyKeyActions: state.competencyModel.proficiencyKeyActions,
-    isLoading: state.competencyModel.loading.loadingProficiencyKeyActions,
+  const { error } = useSelector(state => ({
+    // const { proficiencyKeyActions, isLoading, error } = useSelector(state => ({
+    // proficiencyKeyActions: state.competencyModel.proficiencyKeyActions,
+    // isLoading: state.competencyModel.loading.loadingProficiencyKeyActions,
     error: state.competencyModel.error.errorProficiencyKeyActions,
   }))
 
-  // Update redux state value for specific proficiency level
-  // const updateValue = (e, index) => {
-  //   dispatch(updateKeyActionDetails(index, e.target.value))
-  // }
+  const staticProficiencyKeyActions = [
+    {
+      level: 'BASIC',
+      keyAction: '',
+    },
+    {
+      level: 'INTERMEDIATE',
+      keyAction: '',
+    },
+    {
+      level: 'ADVANCED',
+      keyAction: '',
+    },
+    {
+      level: 'SUPERIOR',
+      keyAction: '',
+    },
+  ]
 
-  // Initial dispatch request upon opening of modal
-  // useEffect(() => {
-  //   if (showEdt) {
-  //     dispatch(fetchProficiencyKeyActions(modalData.competencyId))
-  //   } else {
-  //     dispatch(resetCompetencyResponse())
-  //   }
-  // }, [showEdt])
+  const validation = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      code: '',
+      name: '',
+      desc: '',
+      proficiencyKeyActions: staticProficiencyKeyActions || [],
+    },
+    validationSchema: Yup.object({
+      code: Yup.string().required('Please enter a code name'),
+      name: Yup.string().required('Please enter a name'),
+      desc: Yup.string().required('Please enter a competency description'),
+      proficiencyKeyActions: Yup.array().of(
+        Yup.object().shape({
+          level: Yup.string().required('Proficiency level is required'),
+          keyAction: Yup.string().required(
+            'Proficiency key action is required'
+          ),
+        })
+      ),
+    }),
+    onSubmit: (values, { resetForm }) => {
+      console.log(values)
+      //   dispatch(updateCommittee(modalData._id, values))
+      //   resetForm()
+    },
+  })
 
   return (
     <React.Fragment>
-      <Modal isOpen={showEdt} toggle={handleCloseEdt} size="lg" centered>
-        <ModalHeader toggle={handleCloseEdt}>Add Competency</ModalHeader>
+      <Modal isOpen={showAdd} toggle={handleCloseAdd} size="lg" centered>
+        <ModalHeader toggle={handleCloseAdd}>Add Competency</ModalHeader>
 
         {error ? (
           <ToastrNotification toastType={'error'} notifMessage={error} />
         ) : null}
 
         <ModalBody>
-          <Form>
+          <Form
+            id="addCompetencyForm"
+            onSubmit={e => {
+              e.preventDefault()
+              validation.handleSubmit()
+              return false
+            }}
+          >
             <Row>
               <Col>
                 <FormGroup>
@@ -74,7 +120,20 @@ const AddCompetencyModelModal = props => {
                     type="text"
                     className="form-control"
                     id="code-Input"
+                    onChange={validation.handleChange}
+                    onBlur={validation.handleBlur}
+                    value={validation.values.code || ''}
+                    invalid={
+                      validation.touched.code && validation.errors.code
+                        ? true
+                        : false
+                    }
                   />
+                  {validation.touched.code && validation.errors.code ? (
+                    <FormFeedback type="invalid">
+                      {validation.errors.code}
+                    </FormFeedback>
+                  ) : null}
                 </FormGroup>
 
                 <FormGroup>
@@ -84,7 +143,20 @@ const AddCompetencyModelModal = props => {
                     type="text"
                     className="form-control"
                     id="name-Input"
+                    onChange={validation.handleChange}
+                    onBlur={validation.handleBlur}
+                    value={validation.values.name || ''}
+                    invalid={
+                      validation.touched.name && validation.errors.name
+                        ? true
+                        : false
+                    }
                   />
+                  {validation.touched.name && validation.errors.name ? (
+                    <FormFeedback type="invalid">
+                      {validation.errors.name}
+                    </FormFeedback>
+                  ) : null}
                 </FormGroup>
 
                 <FormGroup>
@@ -94,7 +166,20 @@ const AddCompetencyModelModal = props => {
                     type="text"
                     className="form-control"
                     id="desc-Input"
+                    onChange={validation.handleChange}
+                    onBlur={validation.handleBlur}
+                    value={validation.values.desc || ''}
+                    invalid={
+                      validation.touched.desc && validation.errors.desc
+                        ? true
+                        : false
+                    }
                   />
+                  {validation.touched.desc && validation.errors.desc ? (
+                    <FormFeedback type="invalid">
+                      {validation.errors.desc}
+                    </FormFeedback>
+                  ) : null}
                 </FormGroup>
               </Col>
             </Row>
@@ -109,50 +194,60 @@ const AddCompetencyModelModal = props => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>{'BASIC'}</td>
-                        <td className="textarea-container">
-                          <TextareaAutosize
-                            id={'Test'}
-                            minRows={3}
-                            name={'BASIC'}
-                            defaultValue={'Test'}
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>{'INTERMEDIATE'}</td>
-                        <td className="textarea-container">
-                          <TextareaAutosize
-                            id={'Test'}
-                            minRows={3}
-                            name={'INTERMEDIATE'}
-                            defaultValue={'Test'}
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>{'ADVANCED'}</td>
-                        <td className="textarea-container">
-                          <TextareaAutosize
-                            id={'Test'}
-                            minRows={3}
-                            name={'ADVANCED'}
-                            defaultValue={'Test'}
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>{'SUPERIOR'}</td>
-                        <td className="textarea-container">
-                          <TextareaAutosize
-                            id={'Test'}
-                            minRows={3}
-                            name={'SUPERIOR'}
-                            defaultValue={'Test'}
-                          />
-                        </td>
-                      </tr>
+                      {validation.values.proficiencyKeyActions.map(
+                        (proficiency, index) => (
+                          <tr key={index}>
+                            <td>{proficiency.level}</td>
+                            <td className="textarea-container">
+                              <TextareaAutosize
+                                id={index}
+                                minRows={3}
+                                name={`proficiencyKeyActions[${index}].keyAction`}
+                                defaultValue={
+                                  validation.values.proficiencyKeyActions
+                                    .keyAction || ''
+                                }
+                                onChange={event => {
+                                  validation.handleChange(event)
+                                  validation.setFieldTouched(
+                                    `proficiencyKeyActions[${index}].keyAction`,
+                                    true
+                                  )
+                                }}
+                                onBlur={validation.handleBlur}
+                                style={{
+                                  border:
+                                    validation.touched.proficiencyKeyActions &&
+                                    validation.touched.proficiencyKeyActions[
+                                      index
+                                    ]?.keyAction &&
+                                    validation.errors.proficiencyKeyActions &&
+                                    validation.errors.proficiencyKeyActions[
+                                      index
+                                    ]?.keyAction
+                                      ? '1px solid red'
+                                      : '',
+                                  padding: '8px',
+                                }}
+                              />
+                              {validation.touched.proficiencyKeyActions &&
+                                validation.touched.proficiencyKeyActions[index]
+                                  ?.keyAction &&
+                                validation.errors.proficiencyKeyActions &&
+                                validation.errors.proficiencyKeyActions[index]
+                                  ?.keyAction && (
+                                  <p style={{ color: 'red' }}>
+                                    {
+                                      validation.errors.proficiencyKeyActions[
+                                        index
+                                      ].keyAction
+                                    }
+                                  </p>
+                                )}
+                            </td>
+                          </tr>
+                        )
+                      )}
                     </tbody>
                   </Table>
                 </div>
@@ -164,13 +259,13 @@ const AddCompetencyModelModal = props => {
         <ModalFooter>
           <Button
             type="submit"
-            form="editCompetencyForm"
+            form="addCompetencyForm"
             color="info"
             // onClick={handleUpdateModel}
           >
             Add
           </Button>
-          <Button color="danger" onClick={handleCloseEdt}>
+          <Button color="danger" onClick={handleCloseAdd}>
             Cancel
           </Button>
         </ModalFooter>
@@ -180,8 +275,8 @@ const AddCompetencyModelModal = props => {
 }
 
 AddCompetencyModelModal.propTypes = {
-  showEdt: PropTypes.bool,
-  handleCloseEdt: PropTypes.func,
+  showAdd: PropTypes.bool,
+  handleCloseAdd: PropTypes.func,
   modalData: PropTypes.object,
 }
 
