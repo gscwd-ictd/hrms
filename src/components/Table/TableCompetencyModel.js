@@ -57,29 +57,6 @@ const TableCompetencyModel = props => {
 
   return (
     <>
-      {/* <div className="flex-container filters-wrapper items-center justify-between">
-        <GlobalFilter
-          preGlobalFilteredRows={preGlobalFilteredRows}
-          globalFilter={globalFilter}
-          setGlobalFilter={setGlobalFilter}
-        />
-        <div className="flex-container column-filters mx-3 items-center gap-5">
-          {headerGroups.map(headerGroup =>
-            headerGroup.headers.map((column, i) =>
-              column.Filter ? (
-                <div className={'sm:mt-0 filter-' + i} key={i}>
-                  {column.render('Filter')}
-                </div>
-              ) : null
-            )
-          )}
-          <button className="btn btn-primary" onClick={editModal}>
-            <i className="fas fa-plus mr-1" />
-            Add Competency
-          </button>
-        </div>
-      </div> */}
-
       <div className="flex-container filters-wrapper">
         <GlobalFilter
           preGlobalFilteredRows={preGlobalFilteredRows}
@@ -88,6 +65,7 @@ const TableCompetencyModel = props => {
         />
       </div>
 
+      {/* render hasSelectFilter if an object under tblColumns array have SelectColumnFilter */}
       {hasSelectFilter && (
         <div className="container-fluid column-filters-row2 gap-2 my-4">
           <label className="col-md-2 col-form-label">Column Filters:</label>
@@ -211,6 +189,7 @@ const TableCompetencyModel = props => {
   )
 }
 
+// added hasSelectFilter propTypes
 TableCompetencyModel.propTypes = {
   columns: PropTypes.array,
   data: PropTypes.array,

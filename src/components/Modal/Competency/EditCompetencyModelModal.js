@@ -7,6 +7,7 @@ import {
   Input,
   Form,
   FormGroup,
+  FormFeedback,
   Label,
   Alert,
   Modal,
@@ -21,7 +22,7 @@ import {
   updateKeyActionDetails,
   resetCompetencyResponse,
 } from 'store/actions'
-import PropTypes from 'prop-types'
+import PropTypes, { string } from 'prop-types'
 
 // extra components
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
@@ -52,30 +53,40 @@ const EditCompetencyModelModal = props => {
   }))
 
   // Update redux state value for specific proficiency level
-  const updateValue = (e, index) => {
-    dispatch(updateKeyActionDetails(index, e.target.value))
-  }
+  // const updateValue = (e, index) => {
+  //   dispatch(updateKeyActionDetails(index, e.target.value))
+  // }
 
   // TO-DO
   // Update competency model details
-  // desktop file
-  const handleUpdateModel = () => {
-    // LOG
-    const modelData = {
-      competencyId: modalData.competencyId,
-      code: code,
-      name: name,
-      desc: definition,
-      proficiencyKeyActions,
-    }
-    // console.log(modelData)
 
-    if (!code) {
-      console.log('Error')
-    } else {
-      console.log(modelData)
-    }
-  }
+  const validation = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      competencyId: modalData.competencyId || '',
+      code: modalData.code || '',
+      name: modalData.name || '',
+      desc: modalData.desc || '',
+      proficiencyKeyActions: proficiencyKeyActions,
+    },
+    validationSchema: Yup.object({
+      code: Yup.string().required('Please enter a code name'),
+      name: Yup.string().required('Please enter a name'),
+      desc: Yup.string().required('Please enter a competency description'),
+      proficiencyKeyActions: Yup.array().of(
+        Yup.object().shape({
+          keyActions: Yup.string().required(
+            'Proficiency key action is required'
+          ),
+        })
+      ),
+    }),
+    onSubmit: (values, { resetForm }) => {
+      console.log(values)
+      //   dispatch(updateCommittee(modalData._id, values))
+      //   resetForm()
+    },
+  })
 
   // Initial dispatch request upon opening of modal
   useEffect(() => {
@@ -95,74 +106,84 @@ const EditCompetencyModelModal = props => {
           <ToastrNotification toastType={'error'} notifMessage={error} />
         ) : null}
 
-        {/* // TO-DO */}
-        {/* {isLoading ? (
-          <Alert
-            color="info"
-            className="alert-dismissible fade show m-3"
-            role="alert"
-          >
-            <i className="mdi mdi-loading mdi-spin me-2 "></i> Sending Request
-          </Alert>
-        ) : null}
-
-        {error ? (
-          <ToastrNotification toastType={'error'} notifMessage={error} />
-        ) : null}
-
-        {!isEmpty(proficiencyKeyActions) ? (
-          <ToastrNotification
-            toastType={'success'}
-            notifMessage={'Update Successful'}
-          />
-        ) : null} */}
-
         <ModalBody>
-          {/* // TO-DO */}
           <Form
-          // id="editCompetencyForm"
-          // onSubmit={e => {
-          //   e.preventDefault()
-          //   validation.handleSubmit()
-          //   return false
-          // }}
+            id="editCompetencyForm"
+            onSubmit={e => {
+              e.preventDefault()
+              validation.handleSubmit()
+              return false
+            }}
           >
             <Row>
               <Col>
                 <FormGroup>
-                  <Label for="modelCode-Input">Code</Label>
+                  <Label for="code-Input">Code</Label>
                   <Input
+                    name="code"
                     type="text"
                     className="form-control"
-                    name="modelCode"
-                    id="modelCode-Input"
-                    defaultValue={modalData.code}
-                    onChange={e => setCode(e.target.value)}
-                    required
+                    id="code-Input"
+                    onChange={validation.handleChange}
+                    onBlur={validation.handleBlur}
+                    value={validation.values.code || ''}
+                    invalid={
+                      validation.touched.code && validation.errors.code
+                        ? true
+                        : false
+                    }
                   />
+                  {validation.touched.code && validation.errors.code ? (
+                    <FormFeedback type="invalid">
+                      {validation.errors.code}
+                    </FormFeedback>
+                  ) : null}
                 </FormGroup>
+
                 <FormGroup>
-                  <Label for="modelName-Input">Name</Label>
+                  <Label for="name-Input">Name</Label>
                   <Input
+                    name="name"
                     type="text"
                     className="form-control"
-                    name="modelName"
-                    id="modelName-Input"
-                    defaultValue={modalData.name}
-                    onChange={e => setName(e.target.value)}
-                    required
+                    id="name-Input"
+                    onChange={validation.handleChange}
+                    onBlur={validation.handleBlur}
+                    value={validation.values.name || ''}
+                    invalid={
+                      validation.touched.name && validation.errors.name
+                        ? true
+                        : false
+                    }
                   />
+                  {validation.touched.name && validation.errors.name ? (
+                    <FormFeedback type="invalid">
+                      {validation.errors.name}
+                    </FormFeedback>
+                  ) : null}
                 </FormGroup>
+
                 <FormGroup>
-                  <Label for="modelDefinition-Input">Definition</Label>
-                  <TextareaAutosize
-                    id="modelDefinition-Input"
+                  <Label for="desc-Input">Description</Label>
+                  <Input
+                    name="desc"
+                    type="text"
                     className="form-control"
-                    name="modelDefinition"
-                    defaultValue={modalData.desc}
-                    minRows={3}
-                    onChange={e => setDefinition(e.target.value)}
+                    id="desc-Input"
+                    onChange={validation.handleChange}
+                    onBlur={validation.handleBlur}
+                    value={validation.values.desc || ''}
+                    invalid={
+                      validation.touched.desc && validation.errors.desc
+                        ? true
+                        : false
+                    }
                   />
+                  {validation.touched.desc && validation.errors.desc ? (
+                    <FormFeedback type="invalid">
+                      {validation.errors.desc}
+                    </FormFeedback>
+                  ) : null}
                 </FormGroup>
               </Col>
             </Row>
@@ -180,17 +201,50 @@ const EditCompetencyModelModal = props => {
                         </tr>
                       </thead>
                       <tbody>
-                        {proficiencyKeyActions.length > 0 ? (
+                        {proficiencyKeyActions &&
+                        proficiencyKeyActions.length > 0 ? (
                           proficiencyKeyActions.map((proficiency, index) => {
                             return (
                               <tr key={proficiency._id}>
                                 <td>{proficiency.level}</td>
                                 <td className="textarea-container">
                                   <TextareaAutosize
-                                    defaultValue={proficiency.keyActions}
+                                    id={index}
                                     minRows={3}
-                                    onChange={e => updateValue(e, index)}
+                                    name={`proficiencyKeyActions[${index}].keyActions`}
+                                    defaultValue={
+                                      validation.values.proficiencyKeyActions
+                                        .keyActions || proficiency.keyActions
+                                    }
+                                    onChange={validation.handleChange}
+                                    onBlur={validation.handleBlur}
+                                    style={{
+                                      border:
+                                        validation.errors
+                                          .proficiencyKeyActions &&
+                                        validation.errors.proficiencyKeyActions[
+                                          index
+                                        ] &&
+                                        validation.errors.proficiencyKeyActions[
+                                          index
+                                        ].keyActions
+                                          ? '1px solid red'
+                                          : '',
+                                      padding: '8px',
+                                    }}
                                   />
+                                  {validation.errors.proficiencyKeyActions &&
+                                    validation.errors.proficiencyKeyActions[
+                                      index
+                                    ]?.keyActions && (
+                                      <p style={{ color: 'red' }}>
+                                        {
+                                          validation.errors
+                                            .proficiencyKeyActions[index]
+                                            .keyActions
+                                        }
+                                      </p>
+                                    )}
                                 </td>
                               </tr>
                             )
@@ -214,9 +268,9 @@ const EditCompetencyModelModal = props => {
         <ModalFooter>
           <Button
             type="submit"
-            // form="editCompetencyForm"
+            form="editCompetencyForm"
             color="info"
-            onClick={handleUpdateModel}
+            // onClick={handleUpdateModel}
           >
             Update
           </Button>

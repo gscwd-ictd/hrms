@@ -6,7 +6,6 @@ import { Navigate } from 'react-router-dom'
 
 import { Card, CardBody, Col, Container, Row } from 'reactstrap'
 import InRowAction from 'components/InRowAction/InRowAction'
-import EditCompetencyModelModal from 'components/Modal/Competency/EditCompetencyModelModal'
 import TableCompetencyModel from 'components/Table/TableCompetencyModel'
 import { SelectColumnFilter } from 'components/Filters/SelectColumnFilter'
 import Breadcrumbs from 'components/Common/Breadcrumb'
@@ -18,7 +17,7 @@ import 'styles/custom_gscwd/global.scss'
 
 // Competency Modals
 import AddCompetencyModelModal from 'components/Modal/Competency/AddCompetencyModelModal'
-import EditCompetencyModelModal2 from 'components/Modal/Competency/EditCompetencyModelModal2'
+import EditCompetencyModelModal from 'components/Modal/Competency/EditCompetencyModelModal'
 
 const CrossCuttingModels = () => {
   const dispatch = useDispatch()
@@ -76,26 +75,26 @@ const CrossCuttingModels = () => {
    */
   const [modalData, setModalData] = useState({})
 
-  // Edit Modal
-  const [showEdt, setShowEdt] = useState(false)
-
   // Add Modal
   const [showAdd, setShowAdd] = useState(false)
-
-  const handleCloseEdt = () => setShowEdt(false)
-  const handleShowEdt = () => setShowEdt(true)
 
   const handleCloseAdd = () => setShowAdd(false)
   const handleShowAdd = () => setShowAdd(true)
 
-  const editModal = rowData => {
-    setModalData(rowData)
-    handleShowEdt()
-  }
-
   const addModal = rowData => {
     setModalData(rowData)
     handleShowAdd()
+  }
+
+  // Edit Modal
+  const [showEdt, setShowEdt] = useState(false)
+
+  const handleCloseEdt = () => setShowEdt(false)
+  const handleShowEdt = () => setShowEdt(true)
+
+  const editModal = rowData => {
+    setModalData(rowData)
+    handleShowEdt()
   }
 
   return (
@@ -143,16 +142,15 @@ const CrossCuttingModels = () => {
                         </>
                       )}
 
-                      <EditCompetencyModelModal2
-                        showEdt={showEdt}
-                        modalData={modalData}
-                        handleCloseEdt={handleCloseEdt}
-                      />
-
                       <AddCompetencyModelModal
                         showAdd={showAdd}
                         modalData={modalData}
                         handleCloseAdd={handleCloseAdd}
+                      />
+                      <EditCompetencyModelModal
+                        showEdt={showEdt}
+                        modalData={modalData}
+                        handleCloseEdt={handleCloseEdt}
                       />
                     </CardBody>
                   </Card>
