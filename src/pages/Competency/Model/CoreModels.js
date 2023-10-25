@@ -8,6 +8,7 @@ import { Button, Card, CardBody, Col, Container, Row } from 'reactstrap'
 import InRowAction from 'components/InRowAction/InRowAction'
 // import EditCompetencyModelModal from "components/Modal/Competency/EditCompetencyModelModal"
 import TableCompetencyModel from 'components/Table/TableCompetencyModel'
+import { SelectColumnFilter } from 'components/Filters/SelectColumnFilter'
 import Breadcrumbs from 'components/Common/Breadcrumb'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
@@ -49,6 +50,10 @@ const CoreModels = () => {
       },
     },
   ]
+
+  const hasSelectFilter = tblColumns.some(
+    column => column.Filter === SelectColumnFilter
+  )
 
   const { coreModels, isLoading, error } = useSelector(state => ({
     coreModels: state.competencyModel.coreModels,
@@ -130,6 +135,7 @@ const CoreModels = () => {
                           <TableCompetencyModel
                             columns={columns}
                             data={coreModelData}
+                            hasSelectFilter={hasSelectFilter}
                           />
                         </>
                       )}

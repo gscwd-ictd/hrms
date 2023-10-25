@@ -12,10 +12,9 @@ import PropTypes from 'prop-types'
 
 // styles
 import 'styles/custom_gscwd/components/table.scss'
-import AddCompetencyModelModal from 'components/Modal/Competency/AddCompetencyModelModal'
 
 const TableCompetencyModel = props => {
-  const { columns, data } = props
+  const { columns, data, hasSelectFilter } = props
 
   const tableInstance = useTable(
     {
@@ -50,22 +49,6 @@ const TableCompetencyModel = props => {
   } = tableInstance
 
   const { globalFilter, pageIndex, pageSize } = state
-
-  /**
-   * Modal
-   */
-  const [modalData, setModalData] = useState({})
-
-  // Edit Modal
-  const [showEdt, setShowEdt] = useState(false)
-
-  const handleCloseEdt = () => setShowEdt(false)
-  const handleShowEdt = () => setShowEdt(true)
-
-  const editModal = rowData => {
-    setModalData(rowData)
-    handleShowEdt()
-  }
 
   const revertSelectFilter = event => {
     event.preventDefault()
@@ -105,29 +88,30 @@ const TableCompetencyModel = props => {
         />
       </div>
 
-      <div className="container-fluid column-filters-row2 gap-2 my-4">
-        <label className="col-md-2 col-form-label">Column Filters:</label>
-        <div className="filters d-flex gap-3">
-          {headerGroups.map(headerGroup =>
-            headerGroup.headers.map(column =>
-              column.Filter ? (
-                <div className="mt-1 filter-item" key={column.id}>
-                  {column.render('Filter')}
-                </div>
-              ) : null
-            )
-          )}
-          <Button
-            onClick={revertSelectFilter}
-            color="light"
-            outline
-            className="btn-md waves-effect"
-          >
-            <i className="fas fa-undo"></i>
-          </Button>
+      {hasSelectFilter && (
+        <div className="container-fluid column-filters-row2 gap-2 my-4">
+          <label className="col-md-2 col-form-label">Column Filters:</label>
+          <div className="filters d-flex gap-3">
+            {headerGroups.map(headerGroup =>
+              headerGroup.headers.map(column =>
+                column.Filter ? (
+                  <div className="mt-1 filter-item" key={column.id}>
+                    {column.render('Filter')}
+                  </div>
+                ) : null
+              )
+            )}
+            <Button
+              onClick={revertSelectFilter}
+              color="light"
+              outline
+              className="btn-md waves-effect"
+            >
+              <i className="fas fa-undo"></i>
+            </Button>
+          </div>
         </div>
-      </div>
-
+      )}
       <Table
         {...getTableProps()}
         className="table mb-0 wd-table tbl-competency-models"
@@ -223,11 +207,6 @@ const TableCompetencyModel = props => {
           </select>
         </div>
       </div>
-      <AddCompetencyModelModal
-        showEdt={showEdt}
-        modalData={modalData}
-        handleCloseEdt={handleCloseEdt}
-      />
     </>
   )
 }
@@ -235,6 +214,7 @@ const TableCompetencyModel = props => {
 TableCompetencyModel.propTypes = {
   columns: PropTypes.array,
   data: PropTypes.array,
+  hasSelectFilter: PropTypes.bool,
 }
 
 export default TableCompetencyModel
