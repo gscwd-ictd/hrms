@@ -24,7 +24,6 @@ import {
   PUT_COMPETENCY_DETAILS_SUCCESS,
 } from './actionTypes'
 import update from 'immutability-helper'
-import { putCompetencyDetails } from './actions'
 
 const INIT_STATE = {
   coreModels: [],
@@ -346,6 +345,7 @@ const competencyModel = (state = INIT_STATE, action) => {
     case RESET_COMPETENCY_RESPONSES:
       return {
         ...state,
+        response: {},
         error: {
           ...state.error,
           errorCoreModels: null,

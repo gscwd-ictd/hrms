@@ -19,10 +19,14 @@ import TextareaAutosize from 'react-textarea-autosize'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchProficiencyKeyActions,
-  updateKeyActionDetails,
+  fetchCoreCompetencies,
+  fetchFunctionalCompetencies,
+  fetchManagerialCompetencies,
+  fetchCrossCuttingCompetencies,
   resetCompetencyResponse,
+  updateCompetencyDetails,
 } from 'store/actions'
-import PropTypes, { string } from 'prop-types'
+import PropTypes from 'prop-types'
 
 // extra components
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
@@ -34,36 +38,36 @@ import 'styles/custom_gscwd/components/table.scss'
 // TODO
 import { isEmpty } from 'lodash'
 
-// TODO
 // Formik
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 
 const EditCompetencyModelModal = props => {
   const { showEdt, handleCloseEdt, modalData } = props
-  const [code, setCode] = useState('')
-  const [name, setName] = useState('')
-  const [definition, setDefinition] = useState('')
+  // const [code, setCode] = useState('')
+  // const [name, setName] = useState('')
+  // const [definition, setDefinition] = useState('')
 
   const dispatch = useDispatch()
-  const { proficiencyKeyActions, isLoading, error } = useSelector(state => ({
-    proficiencyKeyActions: state.competencyModel.proficiencyKeyActions,
-    isLoading: state.competencyModel.loading.loadingProficiencyKeyActions,
-    error: state.competencyModel.error.errorProficiencyKeyActions,
-  }))
+
+  const { proficiencyKeyActions, putCompetencyDetails, isLoading, error } =
+    useSelector(state => ({
+      proficiencyKeyActions: state.competencyModel.proficiencyKeyActions,
+      putCompetencyDetails: state.competencyModel.response.putCompetencyDetails,
+      isLoading: state.competencyModel.loading.loadingProficiencyKeyActions,
+      error: state.competencyModel.error.errorProficiencyKeyActions,
+    }))
 
   // Update redux state value for specific proficiency level
   // const updateValue = (e, index) => {
   //   dispatch(updateKeyActionDetails(index, e.target.value))
   // }
 
-  // TO-DO
-  // Update competency model details
-
   const validation = useFormik({
     enableReinitialize: true,
+
     initialValues: {
-      competencyId: modalData.competencyId || '',
+      competencyId: modalData.competencyId,
       code: modalData.code || '',
       name: modalData.name || '',
       desc: modalData.desc || '',
@@ -82,25 +86,40 @@ const EditCompetencyModelModal = props => {
       ),
     }),
     onSubmit: (values, { resetForm }) => {
-      console.log(values)
-      //   dispatch(updateCompetencyDetails(modalData._id, values))
-      //   dispatch(updateCompetencyDetails(competencyId, values))
-      //   resetForm()
+      dispatch(updateCompetencyDetails(values))
+      resetForm()
     },
+    // onSubmit: values => {
+    //   dispatch(updateCompetencyDetails(values))
+    // },
   })
-
-  // Initial dispatch request upon opening of modal
-  useEffect(() => {
-    if (showEdt) {
-      dispatch(fetchProficiencyKeyActions(modalData.competencyId))
-    } else {
-      dispatch(resetCompetencyResponse())
-    }
-  }, [showEdt])
 
   // Reset response state upon close of modal
   useEffect(() => {
     if (!showEdt) {
+      dispatch(resetCompetencyResponse())
+    }
+  }, [showEdt])
+
+  // Execute after successful submission of form
+  useEffect(() => {
+    if (!isEmpty(putCompetencyDetails)) {
+      dispatch(fetchCoreCompetencies())
+      dispatch(fetchFunctionalCompetencies())
+      dispatch(fetchManagerialCompetencies())
+      dispatch(fetchCrossCuttingCompetencies())
+      dispatch(resetCompetencyResponse())
+      handleCloseEdt()
+      validation.resetForm()
+    }
+  }, [putCompetencyDetails])
+
+  // Initial dispatch request upon opening of modal
+  useEffect(() => {
+    if (showEdt) {
+      dispatch(resetCompetencyResponse())
+      dispatch(fetchProficiencyKeyActions(modalData.competencyId))
+    } else {
       dispatch(resetCompetencyResponse())
     }
   }, [showEdt])
@@ -110,8 +129,25 @@ const EditCompetencyModelModal = props => {
       <Modal isOpen={showEdt} toggle={handleCloseEdt} size="lg" centered>
         <ModalHeader toggle={handleCloseEdt}>Edit</ModalHeader>
 
+        {isLoading ? (
+          <Alert
+            color="info"
+            className="alert-dismissible fade show m-3"
+            role="alert"
+          >
+            <i className="mdi mdi-loading mdi-spin me-2 "></i> Sending Request
+          </Alert>
+        ) : null}
+
         {error ? (
           <ToastrNotification toastType={'error'} notifMessage={error} />
+        ) : null}
+
+        {!isEmpty(putCompetencyDetails) ? (
+          <ToastrNotification
+            toastType={'success'}
+            notifMessage={'Update Successful'}
+          />
         ) : null}
 
         <ModalBody>
