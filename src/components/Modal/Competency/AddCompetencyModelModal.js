@@ -79,7 +79,7 @@ const AddCompetencyModelModal = props => {
       desc: Yup.string().required('Please enter a competency description'),
       proficiencyKeyActions: Yup.array().of(
         Yup.object().shape({
-          level: Yup.string().required('Proficiency level is required'),
+          // level: Yup.string().required('Proficiency level is required'),
           keyAction: Yup.string().required(
             'Proficiency key action is required'
           ),
@@ -88,10 +88,17 @@ const AddCompetencyModelModal = props => {
     }),
     onSubmit: (values, { resetForm }) => {
       console.log(values)
-      //   dispatch(updateCommittee(modalData._id, values))
+      //   dispatch(addCompetencyDetails(values))
       //   resetForm()
     },
   })
+
+  // Reset response state upon close of modal
+  useEffect(() => {
+    if (!showAdd) {
+      dispatch(resetCompetencyResponse())
+    }
+  }, [showAdd])
 
   return (
     <React.Fragment>
@@ -236,7 +243,12 @@ const AddCompetencyModelModal = props => {
                                 validation.errors.proficiencyKeyActions &&
                                 validation.errors.proficiencyKeyActions[index]
                                   ?.keyAction && (
-                                  <p style={{ color: 'red' }}>
+                                  <p
+                                    style={{
+                                      color: '#f46a6a',
+                                      fontSize: `80%`,
+                                    }}
+                                  >
                                     {
                                       validation.errors.proficiencyKeyActions[
                                         index

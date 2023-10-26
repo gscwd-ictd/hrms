@@ -83,7 +83,8 @@ const EditCompetencyModelModal = props => {
     }),
     onSubmit: (values, { resetForm }) => {
       console.log(values)
-      //   dispatch(updateCommittee(modalData._id, values))
+      //   dispatch(updateCompetencyDetails(modalData._id, values))
+      //   dispatch(updateCompetencyDetails(competencyId, values))
       //   resetForm()
     },
   })
@@ -93,6 +94,13 @@ const EditCompetencyModelModal = props => {
     if (showEdt) {
       dispatch(fetchProficiencyKeyActions(modalData.competencyId))
     } else {
+      dispatch(resetCompetencyResponse())
+    }
+  }, [showEdt])
+
+  // Reset response state upon close of modal
+  useEffect(() => {
+    if (!showEdt) {
       dispatch(resetCompetencyResponse())
     }
   }, [showEdt])
