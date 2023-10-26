@@ -117,7 +117,6 @@ const EditCompetencyModelModal = props => {
   // Initial dispatch request upon opening of modal
   useEffect(() => {
     if (showEdt) {
-      dispatch(resetCompetencyResponse())
       dispatch(fetchProficiencyKeyActions(modalData.competencyId))
     } else {
       dispatch(resetCompetencyResponse())
