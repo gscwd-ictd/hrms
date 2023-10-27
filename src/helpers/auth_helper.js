@@ -1,17 +1,5 @@
 import axios from 'axios'
 
-// Gets the logged in user data from local session
-// const getLoggedInUser = () => {
-//   const user = localStorage.getItem("user")
-//   if (user) return JSON.parse(user)
-//   return null
-// }
-
-//is user is logged in
-// const isUserAuthenticated = () => {
-//   return getLoggedInUser() !== null
-// }
-
 // Login
 export async function postLogin(url, data) {
   return axios
