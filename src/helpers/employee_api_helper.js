@@ -4,7 +4,7 @@ import accessToken from './jwt-token-access/accessToken'
 //pass new generated access token here
 const token = accessToken
 
-const API_URL = process.env.REACT_APP_EMPDOMAIN
+const API_URL = process.env.REACT_APP_EMP_DOMAIN
 
 const axiosApi = axios.create({
   baseURL: API_URL,

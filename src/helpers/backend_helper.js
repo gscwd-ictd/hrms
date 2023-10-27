@@ -4,7 +4,7 @@ import {
   postHris,
   putHris,
   patchHris,
-} from './hris_api_helper'
+} from './hrms_api_helper'
 import { getEmp } from './employee_api_helper'
 import { getEmpMon } from './employee_monitoring_api_helper'
 import * as url from './url_helper'
