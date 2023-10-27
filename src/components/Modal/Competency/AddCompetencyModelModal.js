@@ -17,11 +17,7 @@ import {
 } from 'reactstrap'
 import TextareaAutosize from 'react-textarea-autosize'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  // fetchProficiencyKeyActions,
-  addCompetencyDetails,
-  resetCompetencyResponse,
-} from 'store/actions'
+import { addCompetencyDetails, resetCompetencyResponse } from 'store/actions'
 import PropTypes, { string } from 'prop-types'
 
 // extra components
@@ -40,9 +36,6 @@ const AddCompetencyModelModal = props => {
 
   const dispatch = useDispatch()
   const { error } = useSelector(state => ({
-    // const { proficiencyKeyActions, isLoading, error } = useSelector(state => ({
-    // proficiencyKeyActions: state.competencyModel.proficiencyKeyActions,
-    // isLoading: state.competencyModel.loading.loadingProficiencyKeyActions,
     error: state.competencyModel.error.errorProficiencyKeyActions,
   }))
 
@@ -269,12 +262,7 @@ const AddCompetencyModelModal = props => {
         </ModalBody>
 
         <ModalFooter>
-          <Button
-            type="submit"
-            form="addCompetencyForm"
-            color="info"
-            // onClick={handleUpdateModel}
-          >
+          <Button type="submit" form="addCompetencyForm" color="info">
             Add
           </Button>
           <Button color="danger" onClick={handleCloseAdd}>

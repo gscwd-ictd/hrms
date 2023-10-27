@@ -35,7 +35,6 @@ import ToastrNotification from 'components/Notifications/ToastrNotification'
 // style
 import 'styles/custom_gscwd/components/table.scss'
 
-// TODO
 import { isEmpty } from 'lodash'
 
 // Formik
@@ -44,9 +43,6 @@ import { useFormik } from 'formik'
 
 const EditCompetencyModelModal = props => {
   const { showEdt, handleCloseEdt, modalData } = props
-  // const [code, setCode] = useState('')
-  // const [name, setName] = useState('')
-  // const [definition, setDefinition] = useState('')
 
   const dispatch = useDispatch()
 
@@ -89,9 +85,6 @@ const EditCompetencyModelModal = props => {
       dispatch(updateCompetencyDetails(values))
       resetForm()
     },
-    // onSubmit: values => {
-    //   dispatch(updateCompetencyDetails(values))
-    // },
   })
 
   // Reset response state upon close of modal
@@ -309,12 +302,7 @@ const EditCompetencyModelModal = props => {
         </ModalBody>
 
         <ModalFooter>
-          <Button
-            type="submit"
-            form="editCompetencyForm"
-            color="info"
-            // onClick={handleUpdateModel}
-          >
+          <Button type="submit" form="editCompetencyForm" color="info">
             Update
           </Button>
           <Button color="danger" onClick={handleCloseEdt}>
