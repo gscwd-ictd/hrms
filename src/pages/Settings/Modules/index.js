@@ -1,41 +1,41 @@
-import React, { useEffect, useMemo, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { fetchHrmsModules, resetModuleResponse } from "store/actions"
+import React, { useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchHrmsModules, resetModuleResponse } from 'store/actions'
 
-import { Row, Col, Card, CardBody, Container } from "reactstrap"
-import TableBase from "components/Table/TableBase"
-import Breadcrumbs from "components/Common/Breadcrumb"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import InRowAction from "components/InRowAction/InRowAction"
-import AddModuleModal from "components/Modal/Modules/AddModuleModal"
-import EditModuleModal from "components/Modal/Modules/EditModuleModal"
+import { Row, Col, Card, CardBody, Container } from 'reactstrap'
+import TableBase from 'components/Table/TableBase'
+import Breadcrumbs from 'components/Common/Breadcrumb'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import InRowAction from 'components/InRowAction/InRowAction'
+import AddModuleModal from 'components/Modal/Modules/AddModuleModal'
+import EditModuleModal from 'components/Modal/Modules/EditModuleModal'
 
 const Modules = () => {
   const dispatch = useDispatch()
 
   const tableColumns = [
     {
-      Header: "ID",
-      accessor: "_id",
+      Header: 'ID',
+      accessor: '_id',
       disableGlobalFilter: true,
     },
     {
-      Header: "Module Name",
-      accessor: "module",
+      Header: 'Module Name',
+      accessor: 'module',
     },
     {
-      Header: "Slug",
-      accessor: "slug",
+      Header: 'Slug',
+      accessor: 'slug',
     },
     {
-      Header: "URL",
-      accessor: "url",
+      Header: 'URL',
+      accessor: 'url',
     },
     {
-      Header: "Actions",
-      accessor: "",
-      align: "center",
+      Header: 'Actions',
+      accessor: '',
+      align: 'center',
       disableGlobalFilter: true,
       disableSortBy: true,
       Cell: function ActionDropdown(cell) {
@@ -97,7 +97,7 @@ const Modules = () => {
         {/* Notifications */}
         {errorResponse ? (
           <ToastrNotification
-            toastType={"error"}
+            toastType={'error'}
             notifMessage={errorResponse}
           />
         ) : null}

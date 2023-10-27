@@ -31,7 +31,6 @@ function* submitEmpAssignmentData({ payload: empassgndata }) {
 function* fetchEmployeeList() {
   try {
     const response = yield call(getEmployees)
-    console.log(response)
 
     yield put(fetchEmployeeListSuccess(response))
   } catch (error) {

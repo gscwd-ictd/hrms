@@ -1,29 +1,29 @@
-import PropTypes from "prop-types"
-import React from "react"
-import { useSelector } from "react-redux"
-import { Routes, Route } from "react-router-dom"
-import { layoutTypes } from "./constants/layout"
+import PropTypes from 'prop-types'
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { Routes, Route } from 'react-router-dom'
+import { layoutTypes } from './constants/layout'
 // Import Routes all
 import {
   authProtectedRoutes,
   publicRoutes,
   moduleDashboardRoutes,
-} from "./routes"
+} from './routes'
 
 // Import all middleware
-import Authmiddleware from "./routes/route"
+import Authmiddleware from './routes/route'
 
 // layouts Format
-import VerticalLayout from "./components/VerticalLayout/"
-import NonAuthLayout from "./components/NonAuthLayout"
-import ModuleDashboardLayout from "components/ModuleDashboardLayout"
+import VerticalLayout from './components/VerticalLayout/'
+import NonAuthLayout from './components/NonAuthLayout'
+import ModuleDashboardLayout from 'components/ModuleDashboardLayout'
 
-import { AbilityContext } from "casl/Can"
-import ability from "casl/ability"
+import { AbilityContext } from 'casl/Can'
+import ability from 'casl/ability'
 
 // Import scss
-import "./assets/scss/theme.scss"
-import "../src/styles/custom_gscwd/global.scss"
+import './assets/scss/theme.scss'
+import '../src/styles/custom_gscwd/global.scss'
 
 const getLayout = layoutType => {
   let Layout = VerticalLayout
@@ -74,7 +74,11 @@ const App = () => {
             <Route
               path={route.path}
               element={
-                <ModuleDashboardLayout>{route.component}</ModuleDashboardLayout>
+                <Authmiddleware>
+                  <ModuleDashboardLayout>
+                    {route.component}
+                  </ModuleDashboardLayout>
+                </Authmiddleware>
               }
               key={idx}
               exact={true}

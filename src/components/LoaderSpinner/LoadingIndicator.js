@@ -1,5 +1,5 @@
-import React from "react"
-import "../../styles/custom_gscwd/components/loadingindicator.scss"
+import React from 'react'
+import '../../styles/custom_gscwd/components/loadingindicator.scss'
 
 const LoadingIndicator = () => {
   return (
@@ -10,7 +10,6 @@ const LoadingIndicator = () => {
       <br></br>
       <p>Loading Data...</p>
     </div>
-    // )
   )
 }
 

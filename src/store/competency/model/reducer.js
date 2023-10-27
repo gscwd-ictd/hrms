@@ -16,8 +16,14 @@ import {
   GET_PROFICIENCY_KEY_ACTIONS_FAIL,
   UPDATE_KEY_ACTION_DETAILS,
   RESET_COMPETENCY_RESPONSES,
-} from "./actionTypes"
-import update from "immutability-helper"
+  POST_COMPETENCY_DETAILS,
+  POST_COMPETENCY_DETAILS_SUCCESS,
+  POST_COMPETENCY_DETAILS_FAIL,
+  PUT_COMPETENCY_DETAILS,
+  PUT_COMPETENCY_DETAILS_FAIL,
+  PUT_COMPETENCY_DETAILS_SUCCESS,
+} from './actionTypes'
+import update from 'immutability-helper'
 
 const INIT_STATE = {
   coreModels: [],
@@ -25,12 +31,18 @@ const INIT_STATE = {
   crossCuttingModels: [],
   managerialModels: [],
   proficiencyKeyActions: [],
+  response: {
+    postCompetencyDetails: {},
+    putCompetencyDetails: {},
+    deleteCompetency: {},
+  },
   loading: {
     loadingCoreModels: false,
     loadingFunctionalModels: false,
     loadingCrossCuttingModels: false,
     loadingManagerialModels: false,
     loadingProficiencyKeyActions: false,
+    loadingResponse: false,
   },
   error: {
     errorCoreModels: null,
@@ -38,6 +50,7 @@ const INIT_STATE = {
     errorCrossCuttingModels: null,
     errorManagerialModels: null,
     errorProficiencyKeyActions: null,
+    errorResponse: null,
   },
 }
 
@@ -247,9 +260,92 @@ const competencyModel = (state = INIT_STATE, action) => {
         },
       })
 
+    case POST_COMPETENCY_DETAILS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          postCompetencyDetails: {},
+        },
+        loading: {
+          ...state.loading,
+          loadingResponse: true,
+        },
+        error: {
+          ...state.error,
+          errorResponse: null,
+        },
+      }
+    case POST_COMPETENCY_DETAILS_SUCCESS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          postCompetencyDetails: action.payload,
+        },
+        loading: {
+          ...state.loading,
+          loadingResponse: false,
+        },
+      }
+    case POST_COMPETENCY_DETAILS_FAIL:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingResponse: false,
+        },
+        error: {
+          ...state.error,
+          errorResponse: action.payload,
+        },
+      }
+
+    case PUT_COMPETENCY_DETAILS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          putCompetencyDetails: {},
+        },
+        loading: {
+          ...state.loading,
+          loadingResponse: true,
+        },
+        error: {
+          ...state.error,
+          errorResponse: null,
+        },
+      }
+    case PUT_COMPETENCY_DETAILS_SUCCESS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          putCompetencyDetails: action.payload,
+        },
+        loading: {
+          ...state.loading,
+          loadingResponse: false,
+        },
+      }
+    case PUT_COMPETENCY_DETAILS_FAIL:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingResponse: false,
+        },
+        error: {
+          ...state.error,
+          errorResponse: action.payload,
+        },
+      }
+
     case RESET_COMPETENCY_RESPONSES:
       return {
         ...state,
+        response: {},
         error: {
           ...state.error,
           errorCoreModels: null,

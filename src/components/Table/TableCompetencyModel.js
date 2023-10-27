@@ -1,20 +1,20 @@
-import React from "react"
-import { Table } from "reactstrap"
+import { useState, React } from 'react'
+import { Button, Table } from 'reactstrap'
 import {
   useFilters,
   useGlobalFilter,
   usePagination,
   useTable,
   useSortBy,
-} from "react-table"
-import { GlobalFilter } from "components/Filters/GlobalFilter"
-import PropTypes from "prop-types"
+} from 'react-table'
+import { GlobalFilter } from 'components/Filters/GlobalFilter'
+import PropTypes from 'prop-types'
 
 // styles
-import "styles/custom_gscwd/components/table.scss"
+import 'styles/custom_gscwd/components/table.scss'
 
 const TableCompetencyModel = props => {
-  const { columns, data } = props
+  const { columns, data, hasSelectFilter } = props
 
   const tableInstance = useTable(
     {
@@ -22,7 +22,7 @@ const TableCompetencyModel = props => {
       data,
       initialState: {
         pageIndex: 0,
-        hiddenColumns: ["competencyId"],
+        hiddenColumns: ['competencyId'],
       },
     },
     useFilters,
@@ -45,9 +45,15 @@ const TableCompetencyModel = props => {
     state,
     setGlobalFilter,
     preGlobalFilteredRows,
+    setAllFilters,
   } = tableInstance
 
   const { globalFilter, pageIndex, pageSize } = state
+
+  const revertSelectFilter = event => {
+    event.preventDefault()
+    setAllFilters([])
+  }
 
   return (
     <>
@@ -57,19 +63,33 @@ const TableCompetencyModel = props => {
           globalFilter={globalFilter}
           setGlobalFilter={setGlobalFilter}
         />
-        <div className="column-filters mx-3">
-          {headerGroups.map(headerGroup =>
-            headerGroup.headers.map((column, i) =>
-              column.Filter ? (
-                <div className={"sm:mt-0 filter-" + i} key={i}>
-                  {column.render("Filter")}
-                </div>
-              ) : null
-            )
-          )}
-        </div>
       </div>
 
+      {/* render hasSelectFilter if an object under tblColumns array have SelectColumnFilter */}
+      {hasSelectFilter && (
+        <div className="container-fluid column-filters-row2 gap-2 my-4">
+          <label className="col-md-2 col-form-label">Column Filters:</label>
+          <div className="filters d-flex gap-3">
+            {headerGroups.map(headerGroup =>
+              headerGroup.headers.map(column =>
+                column.Filter ? (
+                  <div className="mt-1 filter-item" key={column.id}>
+                    {column.render('Filter')}
+                  </div>
+                ) : null
+              )
+            )}
+            <Button
+              onClick={revertSelectFilter}
+              color="light"
+              outline
+              className="btn-md waves-effect"
+            >
+              <i className="fas fa-undo"></i>
+            </Button>
+          </div>
+        </div>
+      )}
       <Table
         {...getTableProps()}
         className="table mb-0 wd-table tbl-competency-models"
@@ -83,9 +103,9 @@ const TableCompetencyModel = props => {
                 <th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                   key={hi}
-                  className={"th_" + column.getHeaderProps("Header").key}
+                  className={'th_' + column.getHeaderProps('Header').key}
                 >
-                  {column.render("Header")}
+                  {column.render('Header')}
                   {/* Sort */}
                   <span>
                     {column.isSorted ? (
@@ -95,7 +115,7 @@ const TableCompetencyModel = props => {
                         <i className="bx bx-down-arrow pl-1"></i>
                       )
                     ) : (
-                      ""
+                      ''
                     )}
                   </span>
                 </th>
@@ -111,7 +131,7 @@ const TableCompetencyModel = props => {
                 {row.cells.map((cell, ci) => {
                   return (
                     <td {...cell.getCellProps()} key={ci}>
-                      {cell.render("Cell")}
+                      {cell.render('Cell')}
                     </td>
                   )
                 })}
@@ -130,23 +150,23 @@ const TableCompetencyModel = props => {
               onClick={() => previousPage()}
               disabled={!canPreviousPage}
             >
-              {"Previous"}
-            </button>{" "}
+              {'Previous'}
+            </button>{' '}
             <button
               className="page-link"
               onClick={() => nextPage()}
               disabled={!canNextPage}
             >
-              {"Next"}
-            </button>{" "}
+              {'Next'}
+            </button>{' '}
           </div>
 
           {/* Page number */}
           <div className="pagenumber-container">
-            Page{" "}
+            Page{' '}
             <strong>
               {pageIndex + 1} of {pageOptions.length}
-            </strong>{" "}
+            </strong>{' '}
           </div>
 
           {/* Dropdown page size */}
@@ -169,9 +189,11 @@ const TableCompetencyModel = props => {
   )
 }
 
+// added hasSelectFilter propTypes
 TableCompetencyModel.propTypes = {
   columns: PropTypes.array,
   data: PropTypes.array,
+  hasSelectFilter: PropTypes.bool,
 }
 
 export default TableCompetencyModel
