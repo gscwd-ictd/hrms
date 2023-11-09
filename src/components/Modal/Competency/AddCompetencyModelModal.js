@@ -58,16 +58,43 @@ const AddCompetencyModelModal = props => {
     },
   ]
 
+  const staticOccupationCode = [
+    'ACB',
+    'BFM',
+    'CPI',
+    'CRE',
+    'CSG',
+    'DIG',
+    'DRW',
+    'ENG',
+    'ESG',
+    'GIS',
+    'HRD',
+    'ISD',
+    'LIA',
+    'LTA',
+    'MSQ',
+    'PIR',
+    'PPD',
+    'TMO',
+    'WMG',
+    'WMW',
+    'WSM',
+    'WUD',
+  ]
+
   const validation = useFormik({
     enableReinitialize: true,
     initialValues: {
       code: '',
+      occupationCode: '',
       name: '',
       desc: '',
       proficiencyKeyActions: staticProficiencyKeyActions || [],
     },
     validationSchema: Yup.object({
       code: Yup.string().required('Please enter a code name'),
+      occupationCode: Yup.string().required('Please select an occupation code'),
       name: Yup.string().required('Please enter a name'),
       desc: Yup.string().required('Please enter a competency description'),
       proficiencyKeyActions: Yup.array().of(
@@ -113,6 +140,38 @@ const AddCompetencyModelModal = props => {
           >
             <Row>
               <Col>
+                <FormGroup>
+                  <input type="select"></input>
+                </FormGroup>
+                <FormGroup>
+                  <select
+                    name="occupationCode"
+                    className="form-control"
+                    value={validation.values.occupationCode}
+                    onChange={validation.handleChange}
+                    onBlur={validation.handleBlur}
+                  >
+                    <option value="">Select an option</option>
+                    {staticOccupationCode.map(value => (
+                      <option key={value} value={value}>
+                        {value}
+                      </option>
+                    ))}
+                  </select>
+                  {validation.touched.occupationCode &&
+                    validation.errors.occupationCode && (
+                      <div
+                        style={{
+                          width: '100%',
+                          marginTop: '0.25rem',
+                          fontSize: '80%',
+                          color: '#f46a6a',
+                        }}
+                      >
+                        {validation.errors.occupationCode}
+                      </div>
+                    )}
+                </FormGroup>
                 <FormGroup>
                   <Label for="code-Input">Code</Label>
                   <Input

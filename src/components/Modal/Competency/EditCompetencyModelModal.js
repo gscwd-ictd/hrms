@@ -66,13 +66,13 @@ const EditCompetencyModelModal = props => {
       competencyId: modalData.competencyId,
       code: modalData.code || '',
       name: modalData.name || '',
-      desc: modalData.desc || '',
+      definition: modalData.desc || '',
       proficiencyKeyActions: proficiencyKeyActions,
     },
     validationSchema: Yup.object({
       code: Yup.string().required('Please enter a code name'),
       name: Yup.string().required('Please enter a name'),
-      desc: Yup.string().required('Please enter a competency description'),
+      definition: Yup.string().required('Please enter a competency definition'),
       proficiencyKeyActions: Yup.array().of(
         Yup.object().shape({
           keyActions: Yup.string().required(
@@ -200,24 +200,26 @@ const EditCompetencyModelModal = props => {
                 </FormGroup>
 
                 <FormGroup>
-                  <Label for="desc-Input">Description</Label>
+                  <Label for="definition-Input">Definition</Label>
                   <Input
-                    name="desc"
+                    name="definition"
                     type="text"
                     className="form-control"
-                    id="desc-Input"
+                    id="definition-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.desc || ''}
+                    value={validation.values.definition || ''}
                     invalid={
-                      validation.touched.desc && validation.errors.desc
+                      validation.touched.definition &&
+                      validation.errors.definition
                         ? true
                         : false
                     }
                   />
-                  {validation.touched.desc && validation.errors.desc ? (
+                  {validation.touched.definition &&
+                  validation.errors.definition ? (
                     <FormFeedback type="invalid">
-                      {validation.errors.desc}
+                      {validation.errors.definition}
                     </FormFeedback>
                   ) : null}
                 </FormGroup>
