@@ -1,6 +1,7 @@
-import { all, call, fork, put, takeEvery } from "redux-saga/effects"
-import * as mockData from "common/data/index"
+import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
+import * as mockData from 'common/data/index'
 import {
+  getCompetencyDomains,
   getCoreModels,
   getFunctionalModels,
   getCrossCuttingModels,
@@ -10,6 +11,8 @@ import {
   postCompetencyDetails,
 } from 'helpers/backend_helper'
 import {
+  fetchCompetencyDomainsSuccess,
+  fetchCompetencyDomainsFail,
   fetchCoreCompetenciesSuccess,
   fetchCoreCompetenciesFail,
   fetchFunctionalCompetenciesSuccess,
@@ -26,6 +29,7 @@ import {
   updateCompetencyDetailsFail,
 } from './actions'
 import {
+  GET_COMPETENCY_DOMAINS,
   GET_CORE_COMPETENCIES,
   GET_FUNCTIONAL_COMPETENCIES,
   GET_CROSSCUTTING_COMPETENCIES,
@@ -34,6 +38,15 @@ import {
   POST_COMPETENCY_DETAILS,
   PUT_COMPETENCY_DETAILS,
 } from './actionTypes'
+
+function* fetchCompetencyDomains() {
+  try {
+    const response = yield call(getCompetencyDomains)
+    yield put(fetchCompetencyDomainsSuccess(response))
+  } catch (error) {
+    yield put(fetchCompetencyDomainsFail(error))
+  }
+}
 
 function* fetchCoreCompetencies() {
   try {
@@ -110,6 +123,7 @@ function* updateCompetencyDetails({ payload: competencyDetails }) {
 }
 
 function* competencyModelSaga() {
+  yield takeEvery(GET_COMPETENCY_DOMAINS, fetchCompetencyDomains)
   yield takeEvery(GET_CORE_COMPETENCIES, fetchCoreCompetencies)
   yield takeEvery(GET_FUNCTIONAL_COMPETENCIES, fetchFunctionalCompetencies)
   yield takeEvery(GET_CROSSCUTTING_COMPETENCIES, fetchCrossCuttingCompetencies)

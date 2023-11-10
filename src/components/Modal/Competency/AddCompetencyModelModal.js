@@ -17,7 +17,11 @@ import {
 } from 'reactstrap'
 import TextareaAutosize from 'react-textarea-autosize'
 import { useDispatch, useSelector } from 'react-redux'
-import { addCompetencyDetails, resetCompetencyResponse } from 'store/actions'
+import {
+  addCompetencyDetails,
+  resetCompetencyResponse,
+  fetchCompetencyDomains,
+} from 'store/actions'
 import PropTypes, { string } from 'prop-types'
 
 // extra components
@@ -35,9 +39,19 @@ const AddCompetencyModelModal = props => {
   const { showAdd, handleCloseAdd, modalData } = props
 
   const dispatch = useDispatch()
-  const { error } = useSelector(state => ({
-    error: state.competencyModel.error.errorProficiencyKeyActions,
-  }))
+
+  const { competencyDomains, isLoading, errorDomains, errorKeyActions } =
+    useSelector(state => ({
+      competencyDomains: state.competencyModel.competencyDomains,
+      isLoading: state.competencyModel.loading.loadingCompetencyDomains,
+      errorDomains: state.competencyModel.error.errorCompetencyDomains,
+      errorKeyActions: state.competencyModel.error.errorProficiencyKeyActions,
+    }))
+
+  useEffect(() => {
+    // dispatch(resetSalaryGradeResponses())
+    dispatch(fetchCompetencyDomains())
+  }, [dispatch])
 
   const staticProficiencyKeyActions = [
     {
@@ -125,8 +139,15 @@ const AddCompetencyModelModal = props => {
       <Modal isOpen={showAdd} toggle={handleCloseAdd} size="lg" centered>
         <ModalHeader toggle={handleCloseAdd}>Add Competency</ModalHeader>
 
-        {error ? (
-          <ToastrNotification toastType={'error'} notifMessage={error} />
+        {errorKeyActions ? (
+          <ToastrNotification
+            toastType={'error'}
+            notifMessage={errorKeyActions}
+          />
+        ) : null}
+
+        {errorDomains ? (
+          <ToastrNotification toastType={'error'} notifMessage={errorDomains} />
         ) : null}
 
         <ModalBody>
@@ -141,38 +162,22 @@ const AddCompetencyModelModal = props => {
             <Row>
               <Col>
                 <FormGroup>
-                  <input type="select"></input>
-                </FormGroup>
-                <FormGroup>
-                  <select
-                    name="occupationCode"
-                    className="form-control"
-                    value={validation.values.occupationCode}
-                    onChange={validation.handleChange}
-                    onBlur={validation.handleBlur}
-                  >
-                    <option value="">Select an option</option>
-                    {staticOccupationCode.map(value => (
-                      <option key={value} value={value}>
-                        {value}
-                      </option>
-                    ))}
-                  </select>
-                  {validation.touched.occupationCode &&
-                    validation.errors.occupationCode && (
-                      <div
-                        style={{
-                          width: '100%',
-                          marginTop: '0.25rem',
-                          fontSize: '80%',
-                          color: '#f46a6a',
-                        }}
-                      >
-                        {validation.errors.occupationCode}
-                      </div>
-                    )}
-                </FormGroup>
-                <FormGroup>
+                  {isLoading ? (
+                    <LoadingIndicator />
+                  ) : (
+                    <div>
+                      {competencyDomains.map(competencyDomain => (
+                        <p
+                          key={competencyDomain._id}
+                          value={competencyDomain._id}
+                        >
+                          {competencyDomain.type}
+                          {' - '}
+                          {/* {competencyDomain.description} */}
+                        </p>
+                      ))}
+                    </div>
+                  )}
                   <Label for="code-Input">Code</Label>
                   <Input
                     name="code"

@@ -1,4 +1,7 @@
 import {
+  GET_COMPETENCY_DOMAINS,
+  GET_COMPETENCY_DOMAINS_SUCCESS,
+  GET_COMPETENCY_DOMAINS_FAIL,
   GET_CORE_COMPETENCIES,
   GET_CORE_COMPETENCIES_SUCCESS,
   GET_CORE_COMPETENCIES_FAIL,
@@ -23,6 +26,20 @@ import {
   PUT_COMPETENCY_DETAILS_SUCCESS,
   PUT_COMPETENCY_DETAILS_FAIL,
 } from './actionTypes'
+
+// domains
+export const fetchCompetencyDomains = () => ({
+  type: GET_COMPETENCY_DOMAINS,
+})
+
+export const fetchCompetencyDomainsSuccess = competencyDomains => ({
+  type: GET_COMPETENCY_DOMAINS_SUCCESS,
+  payload: competencyDomains,
+})
+export const fetchCompetencyDomainsFail = error => ({
+  type: GET_COMPETENCY_DOMAINS_FAIL,
+  payload: error,
+})
 
 // Core
 export const fetchCoreCompetencies = () => ({
