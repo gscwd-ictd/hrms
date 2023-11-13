@@ -20,6 +20,14 @@ import AddCompetencyModelModal from 'components/Modal/Competency/AddCompetencyMo
 import EditCompetencyModelModal from 'components/Modal/Competency/EditCompetencyModelModal'
 
 const ManagerialModels = () => {
+  const { competencyDomains } = useSelector(state => ({
+    competencyDomains: state.competencyModel.competencyDomains,
+  }))
+
+  const managerialModelComp = competencyDomains.find(
+    competencyType => competencyType.type === 'Leadership/Managerial'
+  )
+
   const dispatch = useDispatch()
 
   const tblColumns = [
@@ -97,6 +105,8 @@ const ManagerialModels = () => {
     handleShowEdt()
   }
 
+  const domainId = managerialModelComp ? managerialModelComp._id : null
+
   return (
     <React.Fragment>
       <Can I="access" this="Competency_models">
@@ -146,6 +156,7 @@ const ManagerialModels = () => {
                         showAdd={showAdd}
                         modalData={modalData}
                         handleCloseAdd={handleCloseAdd}
+                        _id={domainId}
                       />
 
                       <EditCompetencyModelModal

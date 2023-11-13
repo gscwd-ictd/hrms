@@ -20,6 +20,14 @@ import AddCompetencyModelModal from 'components/Modal/Competency/AddCompetencyMo
 import EditCompetencyModelModal from 'components/Modal/Competency/EditCompetencyModelModal'
 
 const CoreModels = () => {
+  const { competencyDomains } = useSelector(state => ({
+    competencyDomains: state.competencyModel.competencyDomains,
+  }))
+
+  const coreModelComp = competencyDomains.find(
+    competencyType => competencyType.type === 'Core'
+  )
+
   const dispatch = useDispatch()
 
   const tblColumns = [
@@ -94,6 +102,8 @@ const CoreModels = () => {
     handleShowEdt()
   }
 
+  const domainId = coreModelComp ? coreModelComp._id : null
+
   return (
     <React.Fragment>
       <Can I="access" this="Competency_models">
@@ -143,6 +153,7 @@ const CoreModels = () => {
                         showAdd={showAdd}
                         modalData={modalData}
                         handleCloseAdd={handleCloseAdd}
+                        _id={domainId}
                       />
 
                       <EditCompetencyModelModal

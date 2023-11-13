@@ -36,22 +36,20 @@ import * as Yup from 'yup'
 import { useFormik } from 'formik'
 
 const AddCompetencyModelModal = props => {
-  const { showAdd, handleCloseAdd, modalData } = props
+  const { competencyDomains, isLoading, error } = useSelector(state => ({
+    competencyDomains: state.competencyModel.competencyDomains,
+    isLoading: state.competencyModel.loading.loadingCompetencyDomains,
+    error: state.competencyModel.error.errorCompetencyDomains,
+  }))
 
   const dispatch = useDispatch()
-
-  const { competencyDomains, isLoading, errorDomains, errorKeyActions } =
-    useSelector(state => ({
-      competencyDomains: state.competencyModel.competencyDomains,
-      isLoading: state.competencyModel.loading.loadingCompetencyDomains,
-      errorDomains: state.competencyModel.error.errorCompetencyDomains,
-      errorKeyActions: state.competencyModel.error.errorProficiencyKeyActions,
-    }))
 
   useEffect(() => {
     // dispatch(resetSalaryGradeResponses())
     dispatch(fetchCompetencyDomains())
   }, [dispatch])
+
+  const { showAdd, handleCloseAdd, modalData, _id } = props
 
   const staticProficiencyKeyActions = [
     {
@@ -72,43 +70,16 @@ const AddCompetencyModelModal = props => {
     },
   ]
 
-  const staticOccupationCode = [
-    'ACB',
-    'BFM',
-    'CPI',
-    'CRE',
-    'CSG',
-    'DIG',
-    'DRW',
-    'ENG',
-    'ESG',
-    'GIS',
-    'HRD',
-    'ISD',
-    'LIA',
-    'LTA',
-    'MSQ',
-    'PIR',
-    'PPD',
-    'TMO',
-    'WMG',
-    'WMW',
-    'WSM',
-    'WUD',
-  ]
-
   const validation = useFormik({
     enableReinitialize: true,
     initialValues: {
       code: '',
-      occupationCode: '',
       name: '',
       desc: '',
       proficiencyKeyActions: staticProficiencyKeyActions || [],
     },
     validationSchema: Yup.object({
       code: Yup.string().required('Please enter a code name'),
-      occupationCode: Yup.string().required('Please select an occupation code'),
       name: Yup.string().required('Please enter a name'),
       desc: Yup.string().required('Please enter a competency description'),
       proficiencyKeyActions: Yup.array().of(
@@ -121,9 +92,11 @@ const AddCompetencyModelModal = props => {
       ),
     }),
     onSubmit: (values, { resetForm }) => {
-      console.log(values)
-      //   dispatch(addCompetencyDetails(values))
-      //   resetForm()
+      const domainId = _id
+      const competencyModelDataSubmit = { ...values, domainId }
+      console.log(competencyModelDataSubmit)
+      // dispatch(addCompetencyDetails(competencyModelDataSubmit))
+      // resetForm()
     },
   })
 
@@ -139,16 +112,26 @@ const AddCompetencyModelModal = props => {
       <Modal isOpen={showAdd} toggle={handleCloseAdd} size="lg" centered>
         <ModalHeader toggle={handleCloseAdd}>Add Competency</ModalHeader>
 
-        {errorKeyActions ? (
-          <ToastrNotification
-            toastType={'error'}
-            notifMessage={errorKeyActions}
-          />
+        {/* {isLoading ? (
+          <Alert
+            color="info"
+            className="alert-dismissible fade show m-3"
+            role="alert"
+          >
+            <i className="mdi mdi-loading mdi-spin me-2 "></i> Sending Request
+          </Alert>
         ) : null}
 
-        {errorDomains ? (
-          <ToastrNotification toastType={'error'} notifMessage={errorDomains} />
+        {error ? (
+          <ToastrNotification toastType={'error'} notifMessage={error} />
         ) : null}
+
+        {!isEmpty(putCompetencyDetails) ? (
+          <ToastrNotification
+            toastType={'success'}
+            notifMessage={'Add Successful'}
+          />
+        ) : null} */}
 
         <ModalBody>
           <Form
@@ -162,22 +145,6 @@ const AddCompetencyModelModal = props => {
             <Row>
               <Col>
                 <FormGroup>
-                  {isLoading ? (
-                    <LoadingIndicator />
-                  ) : (
-                    <div>
-                      {competencyDomains.map(competencyDomain => (
-                        <p
-                          key={competencyDomain._id}
-                          value={competencyDomain._id}
-                        >
-                          {competencyDomain.type}
-                          {' - '}
-                          {/* {competencyDomain.description} */}
-                        </p>
-                      ))}
-                    </div>
-                  )}
                   <Label for="code-Input">Code</Label>
                   <Input
                     name="code"
@@ -340,8 +307,9 @@ const AddCompetencyModelModal = props => {
 
 AddCompetencyModelModal.propTypes = {
   showAdd: PropTypes.bool,
-  handleCloseAdd: PropTypes.func,
   modalData: PropTypes.object,
+  handleCloseAdd: PropTypes.func,
+  _id: PropTypes.string,
 }
 
 export default AddCompetencyModelModal

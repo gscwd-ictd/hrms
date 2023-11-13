@@ -20,6 +20,14 @@ import AddCompetencyModelModal from 'components/Modal/Competency/AddCompetencyMo
 import EditCompetencyModelModal from 'components/Modal/Competency/EditCompetencyModelModal'
 
 const FunctionalModels = () => {
+  const { competencyDomains } = useSelector(state => ({
+    competencyDomains: state.competencyModel.competencyDomains,
+  }))
+
+  const functionalModelComp = competencyDomains.find(
+    competencyType => competencyType.type === 'Functional'
+  )
+
   const dispatch = useDispatch()
 
   const tblColumns = [
@@ -102,6 +110,8 @@ const FunctionalModels = () => {
     handleShowEdt()
   }
 
+  const domainId = functionalModelComp ? functionalModelComp._id : null
+
   return (
     <React.Fragment>
       <Can I="access" this="Competency_models">
@@ -151,6 +161,7 @@ const FunctionalModels = () => {
                         showAdd={showAdd}
                         modalData={modalData}
                         handleCloseAdd={handleCloseAdd}
+                        _id={domainId}
                       />
                       <EditCompetencyModelModal
                         showEdt={showEdt}

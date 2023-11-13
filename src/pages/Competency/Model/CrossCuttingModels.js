@@ -20,6 +20,16 @@ import AddCompetencyModelModal from 'components/Modal/Competency/AddCompetencyMo
 import EditCompetencyModelModal from 'components/Modal/Competency/EditCompetencyModelModal'
 
 const CrossCuttingModels = () => {
+  const { competencyDomains } = useSelector(state => ({
+    competencyDomains: state.competencyModel.competencyDomains,
+  }))
+
+  const crossCuttingModeComp = competencyDomains.find(
+    competencyType => competencyType.type === 'Cross-Cutting Functional'
+  )
+
+  console.log(crossCuttingModeComp)
+
   const dispatch = useDispatch()
 
   const tblColumns = [
@@ -97,6 +107,8 @@ const CrossCuttingModels = () => {
     handleShowEdt()
   }
 
+  const domainId = crossCuttingModeComp ? crossCuttingModeComp._id : null
+
   return (
     <React.Fragment>
       <Can I="access" this="Competency_models">
@@ -146,6 +158,7 @@ const CrossCuttingModels = () => {
                         showAdd={showAdd}
                         modalData={modalData}
                         handleCloseAdd={handleCloseAdd}
+                        _id={domainId}
                       />
                       <EditCompetencyModelModal
                         showEdt={showEdt}
