@@ -18,6 +18,10 @@ import {
 import TextareaAutosize from 'react-textarea-autosize'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+  fetchCoreCompetencies,
+  fetchFunctionalCompetencies,
+  fetchManagerialCompetencies,
+  fetchCrossCuttingCompetencies,
   addCompetencyDetails,
   resetCompetencyResponse,
   fetchCompetencyDomains,
@@ -31,25 +35,29 @@ import ToastrNotification from 'components/Notifications/ToastrNotification'
 // style
 import 'styles/custom_gscwd/components/table.scss'
 
+import { isEmpty } from 'lodash'
+
 // Formik
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 
 const AddCompetencyModelModal = props => {
-  const { competencyDomains, isLoading, error } = useSelector(state => ({
-    competencyDomains: state.competencyModel.competencyDomains,
-    isLoading: state.competencyModel.loading.loadingCompetencyDomains,
-    error: state.competencyModel.error.errorCompetencyDomains,
-  }))
+  const { showAdd, handleCloseAdd, modalData, _id } = props
 
   const dispatch = useDispatch()
 
+  const { competencyDomains, isLoading, error, postCompetencyDetails } =
+    useSelector(state => ({
+      competencyDomains: state.competencyModel.competencyDomains,
+      isLoading: state.competencyModel.loading.loadingCompetencyDomains,
+      error: state.competencyModel.error.errorCompetencyDomains,
+      postCompetencyDetails:
+        state.competencyModel.response.postCompetencyDetails,
+    }))
+
   useEffect(() => {
-    // dispatch(resetSalaryGradeResponses())
     dispatch(fetchCompetencyDomains())
   }, [dispatch])
-
-  const { showAdd, handleCloseAdd, modalData, _id } = props
 
   const staticProficiencyKeyActions = [
     {
@@ -73,18 +81,18 @@ const AddCompetencyModelModal = props => {
   const validation = useFormik({
     enableReinitialize: true,
     initialValues: {
+      domainId: '',
       code: '',
       name: '',
-      desc: '',
+      definition: '',
       proficiencyKeyActions: staticProficiencyKeyActions || [],
     },
     validationSchema: Yup.object({
       code: Yup.string().required('Please enter a code name'),
       name: Yup.string().required('Please enter a name'),
-      desc: Yup.string().required('Please enter a competency description'),
+      definition: Yup.string().required('Please enter a competency definition'),
       proficiencyKeyActions: Yup.array().of(
         Yup.object().shape({
-          // level: Yup.string().required('Proficiency level is required'),
           keyAction: Yup.string().required(
             'Proficiency key action is required'
           ),
@@ -94,9 +102,8 @@ const AddCompetencyModelModal = props => {
     onSubmit: (values, { resetForm }) => {
       const domainId = _id
       const competencyModelDataSubmit = { ...values, domainId }
-      console.log(competencyModelDataSubmit)
-      // dispatch(addCompetencyDetails(competencyModelDataSubmit))
-      // resetForm()
+      dispatch(addCompetencyDetails(competencyModelDataSubmit))
+      resetForm()
     },
   })
 
@@ -107,12 +114,25 @@ const AddCompetencyModelModal = props => {
     }
   }, [showAdd])
 
+  // Execute after successful submission of form
+  useEffect(() => {
+    if (!isEmpty(postCompetencyDetails)) {
+      dispatch(fetchCoreCompetencies())
+      dispatch(fetchFunctionalCompetencies())
+      dispatch(fetchManagerialCompetencies())
+      dispatch(fetchCrossCuttingCompetencies())
+      dispatch(resetCompetencyResponse())
+      handleCloseAdd()
+      validation.resetForm()
+    }
+  }, [postCompetencyDetails])
+
   return (
     <React.Fragment>
       <Modal isOpen={showAdd} toggle={handleCloseAdd} size="lg" centered>
         <ModalHeader toggle={handleCloseAdd}>Add Competency</ModalHeader>
 
-        {/* {isLoading ? (
+        {isLoading ? (
           <Alert
             color="info"
             className="alert-dismissible fade show m-3"
@@ -126,12 +146,12 @@ const AddCompetencyModelModal = props => {
           <ToastrNotification toastType={'error'} notifMessage={error} />
         ) : null}
 
-        {!isEmpty(putCompetencyDetails) ? (
+        {!isEmpty(postCompetencyDetails) ? (
           <ToastrNotification
             toastType={'success'}
             notifMessage={'Add Successful'}
           />
-        ) : null} */}
+        ) : null}
 
         <ModalBody>
           <Form
@@ -191,24 +211,26 @@ const AddCompetencyModelModal = props => {
                 </FormGroup>
 
                 <FormGroup>
-                  <Label for="desc-Input">Description</Label>
+                  <Label for="definition-Input">Definition</Label>
                   <Input
-                    name="desc"
+                    name="definition"
                     type="text"
                     className="form-control"
-                    id="desc-Input"
+                    id="definition-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.desc || ''}
+                    value={validation.values.definition || ''}
                     invalid={
-                      validation.touched.desc && validation.errors.desc
+                      validation.touched.definition &&
+                      validation.errors.definition
                         ? true
                         : false
                     }
                   />
-                  {validation.touched.desc && validation.errors.desc ? (
+                  {validation.touched.definition &&
+                  validation.errors.definition ? (
                     <FormFeedback type="invalid">
-                      {validation.errors.desc}
+                      {validation.errors.definition}
                     </FormFeedback>
                   ) : null}
                 </FormGroup>
