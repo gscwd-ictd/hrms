@@ -18,6 +18,7 @@ import 'styles/custom_gscwd/global.scss'
 // Competency Modals
 import AddCompetencyModelModal from 'components/Modal/Competency/AddCompetencyModelModal'
 import EditCompetencyModelModal from 'components/Modal/Competency/EditCompetencyModelModal'
+import DeleteCompetencyModelModal from 'components/Modal/Competency/DeleteCompetencyModelModal'
 
 const CrossCuttingModels = () => {
   const { competencyDomains } = useSelector(state => ({
@@ -55,7 +56,13 @@ const CrossCuttingModels = () => {
       accessor: '',
       disableGlobalFilter: true,
       Cell: function ActionDropdown(cell) {
-        return <InRowAction cell={cell} editCompetencyModel={editModal} />
+        return (
+          <InRowAction
+            cell={cell}
+            editCompetencyModel={editModal}
+            deleteCompetencyModel={deleteModal}
+          />
+        )
       },
     },
   ]
@@ -105,6 +112,17 @@ const CrossCuttingModels = () => {
   const editModal = rowData => {
     setModalData(rowData)
     handleShowEdt()
+  }
+
+  // Delete Modal
+  const [showDel, setShowDel] = useState(false)
+
+  const handleCloseDel = () => setShowEdt(false)
+  const handleShowDel = () => setShowEdt(true)
+
+  const deleteModal = rowData => {
+    setModalData(rowData)
+    handleShowDel()
   }
 
   const domainId = crossCuttingModeComp ? crossCuttingModeComp._id : null
@@ -164,6 +182,11 @@ const CrossCuttingModels = () => {
                         showEdt={showEdt}
                         modalData={modalData}
                         handleCloseEdt={handleCloseEdt}
+                      />
+                      <DeleteCompetencyModelModal
+                        showDel={showDel}
+                        modalData={modalData}
+                        handleCloseDel={handleCloseDel}
                       />
                     </CardBody>
                   </Card>
