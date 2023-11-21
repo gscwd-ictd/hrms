@@ -25,8 +25,6 @@ const DeleteCompetencyModelModal = props => {
   const { showDel, handleCloseDel, modalData } = props
   const dispatch = useDispatch()
 
-  console.log(modalData)
-
   const submitDelete = () => {
     dispatch(deleteDepartment(modalData._id))
   }
@@ -80,18 +78,36 @@ const DeleteCompetencyModelModal = props => {
         <ModalBody>
           <Row>
             <Col lg={12}>
-              <p>
+              <p
+                style={{
+                  textAlign: 'center',
+                  fontSize: '0.85rem',
+                  marginTop: '1rem',
+                  marginBottom: '1rem',
+                }}
+              >
                 Are you sure you want to delete this entry
                 <strong> {modalData.code}</strong>?
               </p>
             </Col>
           </Row>
         </ModalBody>
-        <ModalFooter>
-          <Button type="submit" color="danger" onClick={submitDelete}>
+        <ModalFooter
+          style={{ display: 'flex', justifyContent: 'space-between' }}
+        >
+          <Button
+            type="submit"
+            color="danger"
+            onClick={submitDelete}
+            style={{ flex: 1 }}
+          >
             Confirm
           </Button>
-          <Button color="outline-light" onClick={handleCloseDel}>
+          <Button
+            color="outline-light"
+            onClick={handleCloseDel}
+            style={{ flex: 1 }}
+          >
             Cancel
           </Button>
         </ModalFooter>
