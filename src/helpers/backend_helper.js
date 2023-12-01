@@ -149,6 +149,10 @@ export const postCompetencyDetails = competencyDetails =>
 export const putCompetencyDetails = competencyDetails =>
   putHris(url.COMPETENCY_MODEL, competencyDetails)
 
+// Delete the competency details
+export const deleteCompetencyDetails = competencyId =>
+delHris(url.COMPETENCY_MODEL + competencyId)
+
 // PRF -----------------------------------------------------------------------------
 export const getPRFList = () => getHris(url.GET_PRFLIST)
 export const getApprovedPRFList = () => getHris(url.GET_APPROVED_PRFLIST)

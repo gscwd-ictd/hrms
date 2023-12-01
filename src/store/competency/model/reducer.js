@@ -25,6 +25,9 @@ import {
   PUT_COMPETENCY_DETAILS,
   PUT_COMPETENCY_DETAILS_FAIL,
   PUT_COMPETENCY_DETAILS_SUCCESS,
+  DELETE_COMPETENCY_DETAILS,
+  DELETE_COMPETENCY_DETAILS_SUCCESS,
+  DELETE_COMPETENCY_DETAILS_FAIL,
 } from './actionTypes'
 import update from 'immutability-helper'
 
@@ -38,7 +41,7 @@ const INIT_STATE = {
   response: {
     postCompetencyDetails: {},
     putCompetencyDetails: {},
-    deleteCompetency: {},
+    deleteCompetencyDetails: {},
   },
   loading: {
     loadingCompetencyDomains: false,
@@ -374,6 +377,47 @@ const competencyModel = (state = INIT_STATE, action) => {
         },
       }
     case PUT_COMPETENCY_DETAILS_FAIL:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingResponse: false,
+        },
+        error: {
+          ...state.error,
+          errorResponse: action.payload,
+        },
+      }
+
+    case DELETE_COMPETENCY_DETAILS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          deleteCompetencyDetails: {},
+        },
+        loading: {
+          ...state.loading,
+          loadingResponse: true,
+        },
+        error: {
+          ...state.error,
+          errorResponse: null,
+        },
+      }
+    case DELETE_COMPETENCY_DETAILS_SUCCESS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          deleteCompetencyDetails: action.payload,
+        },
+        loading: {
+          ...state.loading,
+          loadingResponse: false,
+        },
+      }
+    case DELETE_COMPETENCY_DETAILS_FAIL:
       return {
         ...state,
         loading: {

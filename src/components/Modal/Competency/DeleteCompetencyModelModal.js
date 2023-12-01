@@ -3,9 +3,12 @@ import PropTypes from 'prop-types'
 import { isEmpty } from 'lodash'
 
 import {
-  deleteDepartment,
-  getDepartments,
-  resetDepartment,
+  fetchCoreCompetencies,
+  fetchFunctionalCompetencies,
+  fetchManagerialCompetencies,
+  fetchCrossCuttingCompetencies,
+  resetCompetencyResponse,
+  removeCompetencyDetails,
 } from 'store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -26,11 +29,12 @@ const DeleteCompetencyModelModal = props => {
   const dispatch = useDispatch()
 
   const submitDelete = () => {
-    dispatch(deleteDepartment(modalData._id))
+    dispatch(removeCompetencyDetails(modalData.competencyId))
   }
 
-  const { delDepartmentRes, isLoading, error } = useSelector(state => ({
-    delDepartmentRes: state.departmentList.delDepartmentRes,
+  const { deleteCompetencyDetails, isLoading, error } = useSelector(state => ({
+    deleteCompetencyDetails:
+      state.competencyModel.response.deleteCompetencyDetails,
     isLoading: state.departmentList.isLoading,
     error: state.departmentList.error,
   }))
@@ -38,18 +42,21 @@ const DeleteCompetencyModelModal = props => {
   // Reset response state upon close of modal
   useEffect(() => {
     if (!showDel) {
-      dispatch(resetDepartment())
+      dispatch(resetCompetencyResponse())
     }
   }, [showDel])
 
   // Execute after successful submission of form
   useEffect(() => {
-    if (!isEmpty(delDepartmentRes)) {
+    if (!isEmpty(deleteCompetencyDetails)) {
+      dispatch(fetchCoreCompetencies())
+      dispatch(fetchFunctionalCompetencies())
+      dispatch(fetchManagerialCompetencies())
+      dispatch(fetchCrossCuttingCompetencies())
+      dispatch(resetCompetencyResponse())
       handleCloseDel()
-      dispatch(getDepartments())
-      dispatch(resetDepartment())
     }
-  }, [delDepartmentRes])
+  }, [deleteCompetencyDetails])
 
   return (
     <>
@@ -68,10 +75,10 @@ const DeleteCompetencyModelModal = props => {
           <ToastrNotification toastType={'error'} notifMessage={error} />
         ) : null}
 
-        {!isEmpty(delDepartmentRes) ? (
+        {!isEmpty(deleteCompetencyDetails) ? (
           <ToastrNotification
             toastType={'success'}
-            notifMessage={'Department Deleted'}
+            notifMessage={'Competency Model Deleted'}
           />
         ) : null}
 

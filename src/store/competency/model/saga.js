@@ -9,6 +9,7 @@ import {
   getProficiencyKeyActions,
   putCompetencyDetails,
   postCompetencyDetails,
+  deleteCompetencyDetails,
 } from 'helpers/backend_helper'
 import {
   fetchCompetencyDomainsSuccess,
@@ -27,6 +28,8 @@ import {
   addCompetencyDetailsFail,
   updateCompetencyDetailsSuccess,
   updateCompetencyDetailsFail,
+  removeCompetencyDetailsSuccess,
+  removeCompetencyDetailsFail,
 } from './actions'
 import {
   GET_COMPETENCY_DOMAINS,
@@ -37,6 +40,7 @@ import {
   GET_PROFICIENCY_KEY_ACTIONS,
   POST_COMPETENCY_DETAILS,
   PUT_COMPETENCY_DETAILS,
+  DELETE_COMPETENCY_DETAILS,
 } from './actionTypes'
 
 function* fetchCompetencyDomains() {
@@ -122,6 +126,15 @@ function* updateCompetencyDetails({ payload: competencyDetails }) {
   }
 }
 
+function* delCompetencyDetails({ payload: competencyId }) {
+  try {
+    const response = yield call(deleteCompetencyDetails, competencyId)
+    yield put(removeCompetencyDetailsSuccess(response))
+  } catch (error) {
+    yield put(removeCompetencyDetailsFail(error))
+  }
+}
+
 function* competencyModelSaga() {
   yield takeEvery(GET_COMPETENCY_DOMAINS, fetchCompetencyDomains)
   yield takeEvery(GET_CORE_COMPETENCIES, fetchCoreCompetencies)
@@ -135,6 +148,9 @@ function* competencyModelSaga() {
 
   // put
   yield takeEvery(PUT_COMPETENCY_DETAILS, updateCompetencyDetails)
+
+  // delete
+  yield takeEvery(DELETE_COMPETENCY_DETAILS, delCompetencyDetails)
 }
 
 export default competencyModelSaga
