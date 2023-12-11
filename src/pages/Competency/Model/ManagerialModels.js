@@ -115,8 +115,8 @@ const ManagerialModels = () => {
   // Delete Modal
   const [showDel, setShowDel] = useState(false)
 
-  const handleCloseDel = () => setShowEdt(false)
-  const handleShowDel = () => setShowEdt(true)
+  const handleCloseDel = () => setShowDel(false)
+  const handleShowDel = () => setShowDel(true)
 
   const deleteModal = rowData => {
     setModalData(rowData)
