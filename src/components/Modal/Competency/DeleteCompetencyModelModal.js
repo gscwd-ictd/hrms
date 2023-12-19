@@ -35,8 +35,8 @@ const DeleteCompetencyModelModal = props => {
   const { deleteCompetencyDetails, isLoading, error } = useSelector(state => ({
     deleteCompetencyDetails:
       state.competencyModel.response.deleteCompetencyDetails,
-    isLoading: state.departmentList.isLoading,
-    error: state.departmentList.error,
+    isLoading: state.competencyModel.loading.loadingResponse,
+    error: state.competencyModel.error.errorResponse,
   }))
 
   // Reset response state upon close of modal
@@ -61,7 +61,7 @@ const DeleteCompetencyModelModal = props => {
   return (
     <>
       <Modal isOpen={showDel} toggle={handleCloseDel} size="sm" centered>
-        {isLoading ? (
+        {/* {isLoading ? (
           <Alert
             color="info"
             className="alert-dismissible fade show m-3"
@@ -69,7 +69,7 @@ const DeleteCompetencyModelModal = props => {
           >
             <i className="mdi mdi-loading mdi-spin me-2 "></i> Sending Request
           </Alert>
-        ) : null}
+        ) : null} */}
 
         {error ? (
           <ToastrNotification toastType={'error'} notifMessage={error} />

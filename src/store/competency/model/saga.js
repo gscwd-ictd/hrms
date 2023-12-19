@@ -130,8 +130,32 @@ function* delCompetencyDetails({ payload: competencyId }) {
   try {
     const response = yield call(deleteCompetencyDetails, competencyId)
     yield put(removeCompetencyDetailsSuccess(response))
-  } catch (error) {
-    yield put(removeCompetencyDetailsFail(error))
+  }
+  catch (error) {
+    let errorMessage;
+    if (error.response && error.response.status) {
+      switch (error.response.status) {
+        case 406:
+          errorMessage = 'Competency model is already set';
+          break;
+        case 404:
+          errorMessage = 'Sorry! some resources are missing';
+          break;
+        case 500:
+          errorMessage = 'Sorry! something went wrong';
+          break;
+        case 401:
+          errorMessage = 'Invalid credentials';
+          break;
+        case 408:
+          errorMessage = 'Request timeout. Try again later';
+          break;
+        default:
+          errorMessage = 'Invalid request';
+          break;
+      }
+    }
+    yield put(removeCompetencyDetailsFail(errorMessage));
   }
 }
 
