@@ -1,29 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchSalaryGradeList, resetSalaryGradeResponses } from 'store/actions'
-import { Can } from 'casl/Can'
-import { Navigate } from 'react-router-dom'
+import React from 'react'
+import { useSelector } from 'react-redux'
 
-import {
-  Card,
-  CardBody,
-  Col,
-  Row,
-  Container,
-  Table,
-  TabPane,
-  Nav,
-  NavItem,
-  NavLink,
-  CardTitle,
-  CardText,
-  Button,
-  TabContent,
-} from 'reactstrap'
-import UploadSalaryGradeListModal from 'components/Modal/SalaryGrade/UploadSalaryGradeListModal'
-import Breadcrumbs from 'components/Common/Breadcrumb'
+import { Table } from 'reactstrap'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
-import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // style
 import 'styles/custom_gscwd/components/table.scss'

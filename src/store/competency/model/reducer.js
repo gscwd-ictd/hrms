@@ -441,6 +441,7 @@ const competencyModel = (state = INIT_STATE, action) => {
           errorCrossCuttingModels: null,
           errorManagerialModels: null,
           errorProficiencyKeyActions: null,
+          errorResponse: null,
         },
       }
 
