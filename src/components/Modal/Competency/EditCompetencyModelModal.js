@@ -54,11 +54,6 @@ const EditCompetencyModelModal = props => {
       error: state.competencyModel.error.errorProficiencyKeyActions,
     }))
 
-  // Update redux state value for specific proficiency level
-  // const updateValue = (e, index) => {
-  //   dispatch(updateKeyActionDetails(index, e.target.value))
-  // }
-
   const validation = useFormik({
     enableReinitialize: true,
 
