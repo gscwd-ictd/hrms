@@ -23,33 +23,6 @@ import 'styles/custom_gscwd/components/table.scss'
 import TableSalaryGrade from 'components/Table/TableSalaryGrade'
 
 const SalaryGrade = () => {
-  const dispatch = useDispatch()
-
-  // redux state for salary grade table
-  const { salaryGradeList, error } = useSelector(state => ({
-    salaryGradeList: state.salaryGrade.response.salaryGradeList,
-    error: state.salaryGrade.error.errorSalaryGrade,
-  }))
-
-  useEffect(() => {
-    dispatch(resetSalaryGradeResponses())
-    dispatch(fetchSalaryGradeList())
-  }, [dispatch])
-
-  // Upload salary grade file modal
-  const [showAdd, setShowAdd] = useState(false)
-  const handleCloseAdd = () => setShowAdd(false)
-  const handleShowAdd = () => setShowAdd(true)
-
-  // Set example date
-  // const [today, setToday] = useState(new Date('2025-01-02'))
-  const [today, setToday] = useState(new Date())
-  const [currentTab, setCurrentTab] = useState(1)
-
-  // set to current year
-  // const dynamicYear = 2025
-  const dynamicYear = new Date().getFullYear()
-
   const staticSalaryGrade = [
     [1, 10000, 11000, 12000, 13000, 14000, 15000, 16000, 17000],
     [2, 13305, 13406, 13509, 13613, 13718, 13823, 13929, 14035],
@@ -63,28 +36,59 @@ const SalaryGrade = () => {
     [10, 22190, 22376, 22563, 22752, 22942, 23134, 23327, 23522],
   ]
 
-  const [tabs, setTabs] = useState([
-    {
-      content: staticSalaryGrade,
-      startdate: new Date('2022-01-01'),
-      enddate: new Date('2022-12-31'),
-    },
-    {
-      content: salaryGradeList,
-      startdate: new Date('2023-01-01'),
-      enddate: new Date('2023-12-31'),
-    },
-    {
-      content: staticSalaryGrade,
-      startdate: new Date('2024-01-01'),
-      enddate: new Date('2024-12-31'),
-    },
-    {
-      content: staticSalaryGrade,
-      startdate: new Date('2025-01-01'),
-      enddate: new Date('2025-12-31'),
-    },
-  ])
+  const dispatch = useDispatch()
+
+  // redux state for salary grade table
+  const { salaryGradeList, error } = useSelector(state => ({
+    salaryGradeList: state.salaryGrade.response.salaryGradeList,
+    error: state.salaryGrade.error.errorSalaryGrade,
+  }))
+
+  useEffect(() => {
+    dispatch(resetSalaryGradeResponses())
+    dispatch(fetchSalaryGradeList())
+  }, [dispatch])
+
+  const [tabs, setTabs] = useState([])
+
+  useEffect(() => {
+    setTabs([
+      {
+        content: staticSalaryGrade,
+        startdate: new Date('2022-01-01'),
+        enddate: new Date('2022-12-31'),
+      },
+      {
+        content: salaryGradeList,
+        startdate: new Date('2023-01-01'),
+        enddate: new Date('2023-12-31'),
+      },
+      {
+        content: staticSalaryGrade,
+        startdate: new Date('2024-01-01'),
+        enddate: new Date('2024-12-31'),
+      },
+      {
+        content: salaryGradeList,
+        startdate: new Date('2025-01-01'),
+        enddate: new Date('2025-12-31'),
+      },
+    ])
+  }, [salaryGradeList])
+
+  // Upload salary grade file modal
+  const [showAdd, setShowAdd] = useState(false)
+  const handleCloseAdd = () => setShowAdd(false)
+  const handleShowAdd = () => setShowAdd(true)
+
+  // Set example date
+  const [today, setToday] = useState(new Date('2024-01-02'))
+  // const [today, setToday] = useState(new Date())
+  const [currentTab, setCurrentTab] = useState(1)
+
+  // set to current year
+  const dynamicYear = 2024
+  // const dynamicYear = new Date().getFullYear()
 
   useEffect(() => {
     const newContent = findContentForYear(dynamicYear)

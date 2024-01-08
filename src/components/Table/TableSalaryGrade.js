@@ -15,14 +15,16 @@ const TableSalaryGrade = props => {
     isLoading: state.salaryGrade.loading.loadingSalaryGrade,
   }))
 
+  const content = tabs[currentTab] ? tabs[currentTab].content : []
+
   return (
     <>
       <div>
         {isLoading ? (
           <LoadingIndicator />
-        ) : (
+        ) : content.length > 0 ? (
           <div className="table-responsive pt-3">
-            <Table className="table table-bordered mb-0">
+            <Table className="table table-bordered mb-0" key={content.length}>
               <thead>
                 <tr>
                   <th></th>
@@ -37,7 +39,7 @@ const TableSalaryGrade = props => {
                 </tr>
               </thead>
               <tbody>
-                {tabs[currentTab].content.map((sGRow, index) => {
+                {content.map((sGRow, index) => {
                   return (
                     <tr key={index}>
                       <th scope="row">{sGRow[0]}</th>
@@ -55,6 +57,8 @@ const TableSalaryGrade = props => {
               </tbody>
             </Table>
           </div>
+        ) : (
+          <LoadingIndicator />
         )}
       </div>
     </>
