@@ -99,11 +99,10 @@ const AddCompetencyModelModal = props => {
         })
       ),
     }),
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: values => {
       const domainId = _id
       const competencyModelDataSubmit = { ...values, domainId }
       dispatch(addCompetencyDetails(competencyModelDataSubmit))
-      resetForm()
     },
   })
 

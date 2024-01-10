@@ -57,8 +57,8 @@ const ManagerialModels = () => {
         return (
           <InRowAction
             cell={cell}
-            editCompetencyModel={editModal}
-            deleteCompetencyModel={deleteModal}
+            editModal={editModal}
+            deleteModal={deleteModal}
           />
         )
       },

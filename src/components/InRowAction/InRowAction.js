@@ -11,8 +11,6 @@ const InRowAction = props => {
     editRedirectUrl,
     viewRedirectUrl,
     buttonTitle,
-    editCompetencyModel,
-    deleteCompetencyModel,
   } = props
 
   return (
@@ -60,24 +58,6 @@ const InRowAction = props => {
             </button>
           </Link>
         ) : null}
-
-        {editCompetencyModel ? (
-          <button
-            onClick={() => editCompetencyModel(cell.row.original)}
-            className="btn btn-info waves-effect waves-light"
-          >
-            <i className="fas fa-edit"></i>
-          </button>
-        ) : null}
-
-        {deleteCompetencyModel ? (
-          <button
-            onClick={() => deleteCompetencyModel(cell.row.original)}
-            className="btn btn-danger waves-effect waves-light"
-          >
-            <i className="fas fa-trash"></i>
-          </button>
-        ) : null}
       </div>
     </>
   )
@@ -91,8 +71,6 @@ InRowAction.propTypes = {
   editRedirectUrl: PropTypes.string,
   viewRedirectUrl: PropTypes.string,
   buttonTitle: PropTypes.string,
-  editCompetencyModel: PropTypes.func,
-  deleteCompetencyModel: PropTypes.func,
 }
 
 export default InRowAction

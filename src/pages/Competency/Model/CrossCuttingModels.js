@@ -29,8 +29,6 @@ const CrossCuttingModels = () => {
     competencyType => competencyType.type === 'Cross-Cutting Functional'
   )
 
-  console.log(crossCuttingModeComp)
-
   const dispatch = useDispatch()
 
   const tblColumns = [
@@ -59,8 +57,8 @@ const CrossCuttingModels = () => {
         return (
           <InRowAction
             cell={cell}
-            editCompetencyModel={editModal}
-            deleteCompetencyModel={deleteModal}
+            editModal={editModal}
+            deleteModal={deleteModal}
           />
         )
       },
