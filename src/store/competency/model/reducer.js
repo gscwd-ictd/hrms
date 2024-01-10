@@ -1,4 +1,7 @@
 import {
+  GET_COMPETENCY_DOMAINS,
+  GET_COMPETENCY_DOMAINS_SUCCESS,
+  GET_COMPETENCY_DOMAINS_FAIL,
   GET_CORE_COMPETENCIES,
   GET_CORE_COMPETENCIES_SUCCESS,
   GET_CORE_COMPETENCIES_FAIL,
@@ -22,10 +25,14 @@ import {
   PUT_COMPETENCY_DETAILS,
   PUT_COMPETENCY_DETAILS_FAIL,
   PUT_COMPETENCY_DETAILS_SUCCESS,
+  DELETE_COMPETENCY_DETAILS,
+  DELETE_COMPETENCY_DETAILS_SUCCESS,
+  DELETE_COMPETENCY_DETAILS_FAIL,
 } from './actionTypes'
 import update from 'immutability-helper'
 
 const INIT_STATE = {
+  competencyDomains: [],
   coreModels: [],
   functionalModels: [],
   crossCuttingModels: [],
@@ -34,9 +41,10 @@ const INIT_STATE = {
   response: {
     postCompetencyDetails: {},
     putCompetencyDetails: {},
-    deleteCompetency: {},
+    deleteCompetencyDetails: {},
   },
   loading: {
+    loadingCompetencyDomains: false,
     loadingCoreModels: false,
     loadingFunctionalModels: false,
     loadingCrossCuttingModels: false,
@@ -45,6 +53,7 @@ const INIT_STATE = {
     loadingResponse: false,
   },
   error: {
+    errorCompetencyDomains: null,
     errorCoreModels: null,
     errorFunctionalModels: null,
     errorCrossCuttingModels: null,
@@ -56,6 +65,44 @@ const INIT_STATE = {
 
 const competencyModel = (state = INIT_STATE, action) => {
   switch (action.type) {
+    case GET_COMPETENCY_DOMAINS:
+      return {
+        ...state,
+        competencyDomains: [],
+        loading: {
+          ...state.loading,
+          loadingCompetencyDomains: true,
+        },
+        error: {
+          ...state.error,
+          errorCompetencyDomains: null,
+        },
+      }
+    case GET_COMPETENCY_DOMAINS_SUCCESS:
+      return {
+        ...state,
+        competencyDomains: action.payload,
+        loading: {
+          ...state.loading,
+          loadingCompetencyDomains: false,
+        },
+        error: {
+          ...state.error,
+          errorCompetencyDomains: null,
+        },
+      }
+    case GET_COMPETENCY_DOMAINS_FAIL:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingCompetencyDomains: false,
+        },
+        error: {
+          ...state.error,
+          errorCompetencyDomains: action.payload,
+        },
+      }
     case GET_CORE_COMPETENCIES:
       return {
         ...state,
@@ -342,6 +389,47 @@ const competencyModel = (state = INIT_STATE, action) => {
         },
       }
 
+    case DELETE_COMPETENCY_DETAILS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          deleteCompetencyDetails: {},
+        },
+        loading: {
+          ...state.loading,
+          loadingResponse: true,
+        },
+        error: {
+          ...state.error,
+          errorResponse: null,
+        },
+      }
+    case DELETE_COMPETENCY_DETAILS_SUCCESS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          deleteCompetencyDetails: action.payload,
+        },
+        loading: {
+          ...state.loading,
+          loadingResponse: false,
+        },
+      }
+    case DELETE_COMPETENCY_DETAILS_FAIL:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingResponse: false,
+        },
+        error: {
+          ...state.error,
+          errorResponse: action.payload,
+        },
+      }
+
     case RESET_COMPETENCY_RESPONSES:
       return {
         ...state,
@@ -353,6 +441,7 @@ const competencyModel = (state = INIT_STATE, action) => {
           errorCrossCuttingModels: null,
           errorManagerialModels: null,
           errorProficiencyKeyActions: null,
+          errorResponse: null,
         },
       }
 

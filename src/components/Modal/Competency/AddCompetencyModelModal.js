@@ -17,7 +17,15 @@ import {
 } from 'reactstrap'
 import TextareaAutosize from 'react-textarea-autosize'
 import { useDispatch, useSelector } from 'react-redux'
-import { addCompetencyDetails, resetCompetencyResponse } from 'store/actions'
+import {
+  fetchCoreCompetencies,
+  fetchFunctionalCompetencies,
+  fetchManagerialCompetencies,
+  fetchCrossCuttingCompetencies,
+  addCompetencyDetails,
+  resetCompetencyResponse,
+  fetchCompetencyDomains,
+} from 'store/actions'
 import PropTypes, { string } from 'prop-types'
 
 // extra components
@@ -27,17 +35,29 @@ import ToastrNotification from 'components/Notifications/ToastrNotification'
 // style
 import 'styles/custom_gscwd/components/table.scss'
 
+import { isEmpty } from 'lodash'
+
 // Formik
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 
 const AddCompetencyModelModal = props => {
-  const { showAdd, handleCloseAdd, modalData } = props
+  const { showAdd, handleCloseAdd, modalData, _id } = props
 
   const dispatch = useDispatch()
-  const { error } = useSelector(state => ({
-    error: state.competencyModel.error.errorProficiencyKeyActions,
-  }))
+
+  const { competencyDomains, isLoading, error, postCompetencyDetails } =
+    useSelector(state => ({
+      competencyDomains: state.competencyModel.competencyDomains,
+      isLoading: state.competencyModel.loading.loadingCompetencyDomains,
+      error: state.competencyModel.error.errorCompetencyDomains,
+      postCompetencyDetails:
+        state.competencyModel.response.postCompetencyDetails,
+    }))
+
+  useEffect(() => {
+    dispatch(fetchCompetencyDomains())
+  }, [dispatch])
 
   const staticProficiencyKeyActions = [
     {
@@ -61,28 +81,28 @@ const AddCompetencyModelModal = props => {
   const validation = useFormik({
     enableReinitialize: true,
     initialValues: {
+      domainId: '',
       code: '',
       name: '',
-      desc: '',
+      definition: '',
       proficiencyKeyActions: staticProficiencyKeyActions || [],
     },
     validationSchema: Yup.object({
       code: Yup.string().required('Please enter a code name'),
       name: Yup.string().required('Please enter a name'),
-      desc: Yup.string().required('Please enter a competency description'),
+      definition: Yup.string().required('Please enter a competency definition'),
       proficiencyKeyActions: Yup.array().of(
         Yup.object().shape({
-          // level: Yup.string().required('Proficiency level is required'),
           keyAction: Yup.string().required(
             'Proficiency key action is required'
           ),
         })
       ),
     }),
-    onSubmit: (values, { resetForm }) => {
-      console.log(values)
-      //   dispatch(addCompetencyDetails(values))
-      //   resetForm()
+    onSubmit: values => {
+      const domainId = _id
+      const competencyModelDataSubmit = { ...values, domainId }
+      dispatch(addCompetencyDetails(competencyModelDataSubmit))
     },
   })
 
@@ -93,13 +113,43 @@ const AddCompetencyModelModal = props => {
     }
   }, [showAdd])
 
+  // Execute after successful submission of form
+  useEffect(() => {
+    if (!isEmpty(postCompetencyDetails)) {
+      dispatch(fetchCoreCompetencies())
+      dispatch(fetchFunctionalCompetencies())
+      dispatch(fetchManagerialCompetencies())
+      dispatch(fetchCrossCuttingCompetencies())
+      dispatch(resetCompetencyResponse())
+      handleCloseAdd()
+      validation.resetForm()
+    }
+  }, [postCompetencyDetails])
+
   return (
     <React.Fragment>
       <Modal isOpen={showAdd} toggle={handleCloseAdd} size="lg" centered>
         <ModalHeader toggle={handleCloseAdd}>Add Competency</ModalHeader>
 
+        {isLoading ? (
+          <Alert
+            color="info"
+            className="alert-dismissible fade show m-3"
+            role="alert"
+          >
+            <i className="mdi mdi-loading mdi-spin me-2 "></i> Sending Request
+          </Alert>
+        ) : null}
+
         {error ? (
           <ToastrNotification toastType={'error'} notifMessage={error} />
+        ) : null}
+
+        {!isEmpty(postCompetencyDetails) ? (
+          <ToastrNotification
+            toastType={'success'}
+            notifMessage={'Add Successful'}
+          />
         ) : null}
 
         <ModalBody>
@@ -160,24 +210,26 @@ const AddCompetencyModelModal = props => {
                 </FormGroup>
 
                 <FormGroup>
-                  <Label for="desc-Input">Description</Label>
+                  <Label for="definition-Input">Definition</Label>
                   <Input
-                    name="desc"
+                    name="definition"
                     type="text"
                     className="form-control"
-                    id="desc-Input"
+                    id="definition-Input"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.desc || ''}
+                    value={validation.values.definition || ''}
                     invalid={
-                      validation.touched.desc && validation.errors.desc
+                      validation.touched.definition &&
+                      validation.errors.definition
                         ? true
                         : false
                     }
                   />
-                  {validation.touched.desc && validation.errors.desc ? (
+                  {validation.touched.definition &&
+                  validation.errors.definition ? (
                     <FormFeedback type="invalid">
-                      {validation.errors.desc}
+                      {validation.errors.definition}
                     </FormFeedback>
                   ) : null}
                 </FormGroup>
@@ -276,8 +328,9 @@ const AddCompetencyModelModal = props => {
 
 AddCompetencyModelModal.propTypes = {
   showAdd: PropTypes.bool,
-  handleCloseAdd: PropTypes.func,
   modalData: PropTypes.object,
+  handleCloseAdd: PropTypes.func,
+  _id: PropTypes.string,
 }
 
 export default AddCompetencyModelModal

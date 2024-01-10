@@ -18,8 +18,17 @@ import 'styles/custom_gscwd/global.scss'
 // Competency Modals
 import AddCompetencyModelModal from 'components/Modal/Competency/AddCompetencyModelModal'
 import EditCompetencyModelModal from 'components/Modal/Competency/EditCompetencyModelModal'
+import DeleteCompetencyModelModal from 'components/Modal/Competency/DeleteCompetencyModelModal'
 
 const FunctionalModels = () => {
+  const { competencyDomains } = useSelector(state => ({
+    competencyDomains: state.competencyModel.competencyDomains,
+  }))
+
+  const functionalModelComp = competencyDomains.find(
+    competencyType => competencyType.type === 'Functional'
+  )
+
   const dispatch = useDispatch()
 
   const tblColumns = [
@@ -48,9 +57,16 @@ const FunctionalModels = () => {
     },
     {
       Header: 'Actions',
+      accessor: '',
       disableGlobalFilter: true,
       Cell: function ActionDropdown(cell) {
-        return <InRowAction cell={cell} editCompetencyModel={editModal} />
+        return (
+          <InRowAction
+            cell={cell}
+            editModal={editModal}
+            deleteModal={deleteModal}
+          />
+        )
       },
     },
   ]
@@ -102,6 +118,19 @@ const FunctionalModels = () => {
     handleShowEdt()
   }
 
+  // Delete Modal
+  const [showDel, setShowDel] = useState(false)
+
+  const handleCloseDel = () => setShowDel(false)
+  const handleShowDel = () => setShowDel(true)
+
+  const deleteModal = rowData => {
+    setModalData(rowData)
+    handleShowDel()
+  }
+
+  const domainId = functionalModelComp ? functionalModelComp._id : null
+
   return (
     <React.Fragment>
       <Can I="access" this="Competency_models">
@@ -151,11 +180,17 @@ const FunctionalModels = () => {
                         showAdd={showAdd}
                         modalData={modalData}
                         handleCloseAdd={handleCloseAdd}
+                        _id={domainId}
                       />
                       <EditCompetencyModelModal
                         showEdt={showEdt}
                         modalData={modalData}
                         handleCloseEdt={handleCloseEdt}
+                      />
+                      <DeleteCompetencyModelModal
+                        showDel={showDel}
+                        modalData={modalData}
+                        handleCloseDel={handleCloseDel}
                       />
                     </CardBody>
                   </Card>

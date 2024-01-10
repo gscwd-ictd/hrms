@@ -18,8 +18,17 @@ import 'styles/custom_gscwd/global.scss'
 // Competency Modals
 import AddCompetencyModelModal from 'components/Modal/Competency/AddCompetencyModelModal'
 import EditCompetencyModelModal from 'components/Modal/Competency/EditCompetencyModelModal'
+import DeleteCompetencyModelModal from 'components/Modal/Competency/DeleteCompetencyModelModal'
 
 const CrossCuttingModels = () => {
+  const { competencyDomains } = useSelector(state => ({
+    competencyDomains: state.competencyModel.competencyDomains,
+  }))
+
+  const crossCuttingModeComp = competencyDomains.find(
+    competencyType => competencyType.type === 'Cross-Cutting Functional'
+  )
+
   const dispatch = useDispatch()
 
   const tblColumns = [
@@ -45,7 +54,13 @@ const CrossCuttingModels = () => {
       accessor: '',
       disableGlobalFilter: true,
       Cell: function ActionDropdown(cell) {
-        return <InRowAction cell={cell} editCompetencyModel={editModal} />
+        return (
+          <InRowAction
+            cell={cell}
+            editModal={editModal}
+            deleteModal={deleteModal}
+          />
+        )
       },
     },
   ]
@@ -97,6 +112,19 @@ const CrossCuttingModels = () => {
     handleShowEdt()
   }
 
+  // Delete Modal
+  const [showDel, setShowDel] = useState(false)
+
+  const handleCloseDel = () => setShowDel(false)
+  const handleShowDel = () => setShowDel(true)
+
+  const deleteModal = rowData => {
+    setModalData(rowData)
+    handleShowDel()
+  }
+
+  const domainId = crossCuttingModeComp ? crossCuttingModeComp._id : null
+
   return (
     <React.Fragment>
       <Can I="access" this="Competency_models">
@@ -146,11 +174,17 @@ const CrossCuttingModels = () => {
                         showAdd={showAdd}
                         modalData={modalData}
                         handleCloseAdd={handleCloseAdd}
+                        _id={domainId}
                       />
                       <EditCompetencyModelModal
                         showEdt={showEdt}
                         modalData={modalData}
                         handleCloseEdt={handleCloseEdt}
+                      />
+                      <DeleteCompetencyModelModal
+                        showDel={showDel}
+                        modalData={modalData}
+                        handleCloseDel={handleCloseDel}
                       />
                     </CardBody>
                   </Card>

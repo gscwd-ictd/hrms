@@ -1,6 +1,7 @@
-import { all, call, fork, put, takeEvery } from "redux-saga/effects"
-import * as mockData from "common/data/index"
+import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
+import * as mockData from 'common/data/index'
 import {
+  getCompetencyDomains,
   getCoreModels,
   getFunctionalModels,
   getCrossCuttingModels,
@@ -8,8 +9,11 @@ import {
   getProficiencyKeyActions,
   putCompetencyDetails,
   postCompetencyDetails,
+  deleteCompetencyDetails,
 } from 'helpers/backend_helper'
 import {
+  fetchCompetencyDomainsSuccess,
+  fetchCompetencyDomainsFail,
   fetchCoreCompetenciesSuccess,
   fetchCoreCompetenciesFail,
   fetchFunctionalCompetenciesSuccess,
@@ -24,8 +28,11 @@ import {
   addCompetencyDetailsFail,
   updateCompetencyDetailsSuccess,
   updateCompetencyDetailsFail,
+  removeCompetencyDetailsSuccess,
+  removeCompetencyDetailsFail,
 } from './actions'
 import {
+  GET_COMPETENCY_DOMAINS,
   GET_CORE_COMPETENCIES,
   GET_FUNCTIONAL_COMPETENCIES,
   GET_CROSSCUTTING_COMPETENCIES,
@@ -33,7 +40,17 @@ import {
   GET_PROFICIENCY_KEY_ACTIONS,
   POST_COMPETENCY_DETAILS,
   PUT_COMPETENCY_DETAILS,
+  DELETE_COMPETENCY_DETAILS,
 } from './actionTypes'
+
+function* fetchCompetencyDomains() {
+  try {
+    const response = yield call(getCompetencyDomains)
+    yield put(fetchCompetencyDomainsSuccess(response))
+  } catch (error) {
+    yield put(fetchCompetencyDomainsFail(error))
+  }
+}
 
 function* fetchCoreCompetencies() {
   try {
@@ -109,7 +126,41 @@ function* updateCompetencyDetails({ payload: competencyDetails }) {
   }
 }
 
+function* delCompetencyDetails({ payload: competencyId }) {
+  try {
+    const response = yield call(deleteCompetencyDetails, competencyId)
+    yield put(removeCompetencyDetailsSuccess(response))
+  }
+  catch (error) {
+    let errorMessage;
+    if (error.response && error.response.status) {
+      switch (error.response.status) {
+        case 406:
+          errorMessage = 'Competency model is already set';
+          break;
+        case 404:
+          errorMessage = 'Sorry! some resources are missing';
+          break;
+        case 500:
+          errorMessage = 'Sorry! something went wrong';
+          break;
+        case 401:
+          errorMessage = 'Invalid credentials';
+          break;
+        case 408:
+          errorMessage = 'Request timeout. Try again later';
+          break;
+        default:
+          errorMessage = 'Invalid request';
+          break;
+      }
+    }
+    yield put(removeCompetencyDetailsFail(errorMessage));
+  }
+}
+
 function* competencyModelSaga() {
+  yield takeEvery(GET_COMPETENCY_DOMAINS, fetchCompetencyDomains)
   yield takeEvery(GET_CORE_COMPETENCIES, fetchCoreCompetencies)
   yield takeEvery(GET_FUNCTIONAL_COMPETENCIES, fetchFunctionalCompetencies)
   yield takeEvery(GET_CROSSCUTTING_COMPETENCIES, fetchCrossCuttingCompetencies)
@@ -121,6 +172,9 @@ function* competencyModelSaga() {
 
   // put
   yield takeEvery(PUT_COMPETENCY_DETAILS, updateCompetencyDetails)
+
+  // delete
+  yield takeEvery(DELETE_COMPETENCY_DETAILS, delCompetencyDetails)
 }
 
 export default competencyModelSaga

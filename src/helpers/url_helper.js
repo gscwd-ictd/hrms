@@ -78,6 +78,9 @@ export const POST_EDIT_JWT_PROFILE = 'post-jwt-profile'
 export const POST_EDIT_PROFILE = 'post-fake-profile'
 
 // COMPETENCY
+
+export const GET_COMPETENCY_DOMAIN = 'domains'
+
 export const COMPETENCY_MODEL = 'competency-model/'
 
 export const GET_CORE_COMPETENCIES = 'competency-model/core'
@@ -105,9 +108,6 @@ export const DELETE_UNASSIGN_FUNCTIONAL_COMPETENCIES =
 
 export const PATCH_POSITION_COMPETENCY_PROFICIENCY_LEVELS =
   'competency-proficiency-level/'
-
-
-
 
 // JOB DESCRIPTION
 export const GET_POSITION_JOB_DESCRIPTION = 'plantilla/job-description/single/'

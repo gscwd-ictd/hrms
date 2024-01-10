@@ -93,6 +93,7 @@ const EmployeeList = () => {
           <DropdownItem>
             <Link
               className="dropdown-item"
+              target="_blank"
               to={`${
                 location.pathname +
                 '/pds/' +

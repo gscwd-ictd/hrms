@@ -1,4 +1,7 @@
 import {
+  GET_COMPETENCY_DOMAINS,
+  GET_COMPETENCY_DOMAINS_SUCCESS,
+  GET_COMPETENCY_DOMAINS_FAIL,
   GET_CORE_COMPETENCIES,
   GET_CORE_COMPETENCIES_SUCCESS,
   GET_CORE_COMPETENCIES_FAIL,
@@ -22,7 +25,24 @@ import {
   PUT_COMPETENCY_DETAILS,
   PUT_COMPETENCY_DETAILS_SUCCESS,
   PUT_COMPETENCY_DETAILS_FAIL,
+  DELETE_COMPETENCY_DETAILS,
+  DELETE_COMPETENCY_DETAILS_SUCCESS,
+  DELETE_COMPETENCY_DETAILS_FAIL,
 } from './actionTypes'
+
+// domains
+export const fetchCompetencyDomains = () => ({
+  type: GET_COMPETENCY_DOMAINS,
+})
+
+export const fetchCompetencyDomainsSuccess = competencyDomains => ({
+  type: GET_COMPETENCY_DOMAINS_SUCCESS,
+  payload: competencyDomains,
+})
+export const fetchCompetencyDomainsFail = error => ({
+  type: GET_COMPETENCY_DOMAINS_FAIL,
+  payload: error,
+})
 
 // Core
 export const fetchCoreCompetencies = () => ({
@@ -101,7 +121,7 @@ export const resetCompetencyResponse = () => ({
   type: RESET_COMPETENCY_RESPONSES,
 })
 
-// Add compectency details
+// Add competency details
 export const addCompetencyDetails = competencyDetails => ({
   type: POST_COMPETENCY_DETAILS,
   payload: competencyDetails,
@@ -115,7 +135,7 @@ export const addCompetencyDetailsFail = error => ({
   payload: error,
 })
 
-// Update compectency details
+// Update competency details
 export const updateCompetencyDetails = competencyDetails => ({
   type: PUT_COMPETENCY_DETAILS,
   payload: competencyDetails,
@@ -127,4 +147,20 @@ export const updateCompetencyDetailsSuccess = competencyDetailsResponse => ({
 export const updateCompetencyDetailsFail = error => ({
   type: PUT_COMPETENCY_DETAILS_FAIL,
   payload: error,
+})
+
+// Delete competency details
+export const removeCompetencyDetails = competencyId => ({
+  type: DELETE_COMPETENCY_DETAILS,
+  payload: competencyId,
+})
+
+export const removeCompetencyDetailsSuccess = competencyDetails => ({
+  type: DELETE_COMPETENCY_DETAILS_SUCCESS,
+  payload: competencyDetails,
+})
+
+export const removeCompetencyDetailsFail = competencyDetails => ({
+  type: DELETE_COMPETENCY_DETAILS_FAIL,
+  payload: competencyDetails,
 })

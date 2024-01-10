@@ -11,7 +11,6 @@ const InRowAction = props => {
     editRedirectUrl,
     viewRedirectUrl,
     buttonTitle,
-    editCompetencyModel,
   } = props
 
   return (
@@ -59,15 +58,6 @@ const InRowAction = props => {
             </button>
           </Link>
         ) : null}
-
-        {editCompetencyModel ? (
-          <button
-            onClick={() => editCompetencyModel(cell.row.original)}
-            className="btn btn-info waves-effect waves-light"
-          >
-            <i className="fas fa-edit"></i>
-          </button>
-        ) : null}
       </div>
     </>
   )
@@ -81,7 +71,6 @@ InRowAction.propTypes = {
   editRedirectUrl: PropTypes.string,
   viewRedirectUrl: PropTypes.string,
   buttonTitle: PropTypes.string,
-  editCompetencyModel: PropTypes.func,
 }
 
 export default InRowAction
