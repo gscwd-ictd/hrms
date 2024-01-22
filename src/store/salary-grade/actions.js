@@ -1,6 +1,10 @@
 import {
   GET_SALARY_GRADE_LIST,
   GET_SALARY_GRADE_LIST_SUCCESS,
+  GET_PREVIOUS_SALARY_GRADE_LIST,
+  GET_PREVIOUS_SALARY_GRADE_LIST_SUCCESS,
+  GET_CURRENT_SALARY_GRADE_LIST,
+  GET_CURRENT_SALARY_GRADE_LIST_SUCCESS,
   PUT_SALARY_GRADE_LIST,
   PUT_SALARY_GRADE_LIST_SUCCESS,
   SALARY_GRADE_API_FAIL,
@@ -11,7 +15,7 @@ import {
   GET_SALARY_GRADE_LIST_STEP_INCREMENT_ONE_SUCCESS,
   GET_SALARY_GRADE_LIST_STEP_INCREMENT_ONE_FAIL,
   RESET_SALARY_GRADE_RESPONSES,
-} from "./actionTypes"
+} from './actionTypes'
 
 // Salary grade list
 export const fetchSalaryGradeList = () => ({
@@ -20,6 +24,24 @@ export const fetchSalaryGradeList = () => ({
 export const fetchSalaryGradeListSuccess = salaryGradeList => ({
   type: GET_SALARY_GRADE_LIST_SUCCESS,
   payload: salaryGradeList,
+})
+
+// Previous salary grade list
+export const fetchPreviousSalaryGradeList = () => ({
+  type: GET_PREVIOUS_SALARY_GRADE_LIST,
+})
+export const fetchPreviousSalaryGradeListSuccess = previousSalaryGradeList => ({
+  type: GET_PREVIOUS_SALARY_GRADE_LIST_SUCCESS,
+  payload: previousSalaryGradeList,
+})
+
+// Current salary grade list
+export const fetchCurrentSalaryGradeList = () => ({
+  type: GET_CURRENT_SALARY_GRADE_LIST,
+})
+export const fetchCurrentSalaryGradeListSuccess = currentSalaryGradeList => ({
+  type: GET_CURRENT_SALARY_GRADE_LIST_SUCCESS,
+  payload: currentSalaryGradeList,
 })
 
 // Uploading of salary grade document
