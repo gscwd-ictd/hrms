@@ -260,17 +260,6 @@ const UploadSalaryGradeListModal = props => {
                 {acceptedFileItems}
               </div>
             </FormGroup>
-            <Label for="effectivity-Input">Effectivity Date</Label>
-            <Input
-              name="effectivity"
-              type="date"
-              style={{ width: '35%' }}
-              id="effectivity-Input"
-              onChange={null}
-              onBlur={null}
-              value={undefined}
-              invalid={null}
-            />
             {'' ? <FormFeedback type="invalid">{''}</FormFeedback> : null}
           </Form>
         </ModalBody>
