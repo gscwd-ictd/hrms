@@ -67,6 +67,12 @@ export const postNewPosition = positionData =>
 
 // Get Salary Grade ----------------------------------------------------------------
 export const getSalaryGradeList = () => getHris(url.GET_SALARY_GRADE)
+
+export const getPreviousSalaryGradeList = () =>
+  getHris(url.GET_PREVIOUS_SALARY_GRADE)
+export const getCurrentSalaryGradeList = () =>
+  getHris(url.GET_CURRENT_SALARY_GRADE)
+
 export const putSalaryGradeList = updatedSalaryGradeList =>
   putHris(url.PUT_SALARY_GRADE, updatedSalaryGradeList)
 export const getSalaryGradeWithStepIncrement = () =>
