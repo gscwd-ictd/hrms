@@ -3,7 +3,13 @@ import { isEmpty } from 'lodash'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { addSalaryGradeList, fetchSalaryGradeList } from 'store/actions'
+import {
+  addSalaryGradeList,
+  resetSalaryGradeResponses,
+  fetchSalaryGradeList,
+  fetchPreviousSalaryGradeList,
+  fetchCurrentSalaryGradeList,
+} from 'store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
@@ -186,7 +192,10 @@ const UploadSalaryGradeListModal = props => {
 
   useEffect(() => {
     if (!isEmpty(salaryGradeResponse)) {
+      dispatch(resetSalaryGradeResponses())
       dispatch(fetchSalaryGradeList())
+      dispatch(fetchPreviousSalaryGradeList())
+      dispatch(fetchCurrentSalaryGradeList())
       handleCloseAdd()
     }
   }, [salaryGradeResponse])
