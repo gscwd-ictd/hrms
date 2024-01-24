@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { updateSalaryGradeList, fetchSalaryGradeList } from 'store/actions'
+import { addSalaryGradeList, fetchSalaryGradeList } from 'store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
@@ -36,7 +36,7 @@ const UploadSalaryGradeListModal = props => {
   // redux state for salary grade response
   const { salaryGradeResponse, loadingSalaryGrade, errorSalaryGrade } =
     useSelector(state => ({
-      salaryGradeResponse: state.salaryGrade.response.salaryGrade.put,
+      salaryGradeResponse: state.salaryGrade.response.salaryGrade.post,
       loadingSalaryGrade: state.salaryGrade.loading.loadingSalaryGrade,
       errorSalaryGrade: state.salaryGrade.error.errorSalaryGrade,
     }))
@@ -174,11 +174,11 @@ const UploadSalaryGradeListModal = props => {
 
   useEffect(() => {
     if (sendSGInJSON) {
-      const salaryGradePut = {
+      const salaryGradePost = {
         salaryGradeList: salaryGradeListFromExcel,
       }
 
-      dispatch(updateSalaryGradeList(salaryGradePut))
+      dispatch(addSalaryGradeList(salaryGradePost))
     } else {
       setSendSGInJSON(false)
     }
@@ -230,7 +230,7 @@ const UploadSalaryGradeListModal = props => {
         {!isEmpty(salaryGradeResponse) ? (
           <ToastrNotification
             toastType={'success'}
-            notifMessage={'Salary Grade List Updated!'}
+            notifMessage={'Salary Grade List Added!'}
           />
         ) : null}
 

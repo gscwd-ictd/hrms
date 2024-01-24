@@ -80,6 +80,9 @@ export const getSalaryGradeWithStepIncrement = () =>
 export const getSalaryGradeWithStepIncrementOne = () =>
   getHris(url.GET_SALARY_GRADE_STEP_INCREMENT_ONE)
 
+export const postSalaryGradeList = addedSalaryGradeList =>
+  postHris(url.POST_SALARY_GRADE, addedSalaryGradeList)
+
 // Competency ----------------------------------------------------------------------
 export const getCompetencyDomains = () => getHris(url.GET_COMPETENCY_DOMAIN)
 export const getCoreModels = () => getHris(url.GET_CORE_COMPETENCIES)

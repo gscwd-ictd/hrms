@@ -36,11 +36,15 @@ const SalaryGrade = () => {
     previousSalaryGradeList,
     currentSalaryGradeList,
     error,
+    errorPreviousSalaryGrade,
+    errorCurrentSalaryGrade,
   } = useSelector(state => ({
     salaryGradeList: state.salaryGrade.response.salaryGradeList,
     previousSalaryGradeList: state.salaryGrade.response.previousSalaryGradeList,
     currentSalaryGradeList: state.salaryGrade.response.currentSalaryGradeList,
     error: state.salaryGrade.error.errorSalaryGrade,
+    errorPreviousSalaryGrade: state.salaryGrade.error.errorPreviousSalaryGrade,
+    errorCurrentSalaryGrade: state.salaryGrade.error.errorCurrentSalaryGrade,
   }))
 
   useEffect(() => {
@@ -82,6 +86,20 @@ const SalaryGrade = () => {
 
             {error ? (
               <ToastrNotification toastType={'error'} notifMessage={error} />
+            ) : null}
+
+            {errorPreviousSalaryGrade ? (
+              <ToastrNotification
+                toastType={'error'}
+                notifMessage={errorPreviousSalaryGrade}
+              />
+            ) : null}
+
+            {errorCurrentSalaryGrade ? (
+              <ToastrNotification
+                toastType={'error'}
+                notifMessage={errorCurrentSalaryGrade}
+              />
             ) : null}
 
             <div
