@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 
 import {
   addSalaryGradeList,
+  salaryGradeApiFail,
   resetSalaryGradeResponses,
   fetchSalaryGradeList,
   fetchPreviousSalaryGradeList,
@@ -67,6 +68,12 @@ const UploadSalaryGradeListModal = props => {
     // e.stopPropagation()
     e.preventDefault()
     setLoadingExcelToJSON(true)
+
+    if (acceptedFiles.length === 0) {
+      dispatch(salaryGradeApiFail('No file uploaded'))
+      setLoadingExcelToJSON(false)
+      return
+    }
 
     var XLSX = require('xlsx')
 

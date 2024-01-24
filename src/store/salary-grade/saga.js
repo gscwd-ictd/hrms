@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from "redux-saga/effects"
+import { call, put, takeEvery } from 'redux-saga/effects'
 import {
   getSalaryGradeList,
   getPreviousSalaryGradeList,
@@ -113,7 +113,27 @@ function* addSalaryGradeList({ payload: addedSalaryGradeList }) {
     const response = yield call(postSalaryGradeList, addedSalaryGradeList)
     yield put(addSalaryGradeListSuccess(response))
   } catch (error) {
-    yield put(salaryGradeApiFail(error))
+    let errorMessage
+    if (error.response && error.response.status) {
+      switch (error.response.status) {
+        case 404:
+          errorMessage = 'Sorry! some resources are missing'
+          break
+        case 500:
+          errorMessage = 'Sorry! something went wrong'
+          break
+        case 408:
+          errorMessage = 'Request timeout. Try again later'
+          break
+        case 409:
+          errorMessage = 'Duplicate entry found'
+          break
+        default:
+          errorMessage = 'Invalid request'
+          break
+      }
+    }
+    yield put(salaryGradeApiFail(errorMessage))
   }
 }
 
