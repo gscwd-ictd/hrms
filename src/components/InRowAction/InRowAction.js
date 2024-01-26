@@ -1,6 +1,6 @@
-import React from "react"
-import { Link } from "react-router-dom"
-import PropTypes from "prop-types"
+import React from 'react'
+import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 const InRowAction = props => {
   const {
@@ -44,7 +44,7 @@ const InRowAction = props => {
         ) : null}
 
         {editRedirectUrl ? (
-          <Link to={`${editRedirectUrl}`}>
+          <Link to={`${editRedirectUrl}`} target="_blank">
             <button className="btn btn-info waves-effect waves-light">
               {buttonTitle ? buttonTitle : null} <i className="fas fa-edit"></i>
             </button>
@@ -52,7 +52,7 @@ const InRowAction = props => {
         ) : null}
 
         {viewRedirectUrl ? (
-          <Link to={`${viewRedirectUrl}`}>
+          <Link to={`${viewRedirectUrl}`} target="_blank">
             <button className="btn btn-info waves-effect waves-light">
               {buttonTitle ? buttonTitle : null} <i className="fas fa-eye"></i>
             </button>
