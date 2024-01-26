@@ -1,12 +1,12 @@
-import React, { useEffect, useMemo } from "react"
-import PropTypes from "prop-types"
-import { Can } from "casl/Can"
-import { Link, Navigate, useLocation } from "react-router-dom"
+import React, { useEffect, useMemo } from 'react'
+import PropTypes from 'prop-types'
+import { Can } from 'casl/Can'
+import { Link, Navigate, useLocation } from 'react-router-dom'
 
-import { useDispatch, useSelector } from "react-redux"
-import { getApprovedPRFList } from "store/actions"
+import { useDispatch, useSelector } from 'react-redux'
+import { getApprovedPRFList } from 'store/actions'
 
-import TablePrfList from "components/Table/TablePrfList"
+import TablePrfList from 'components/Table/TablePrfList'
 
 import {
   Container,
@@ -17,16 +17,16 @@ import {
   CardTitle,
   Button,
   Badge,
-} from "reactstrap"
-import InterviewScheduleCalendar from "./InterviewScheduleCalendar"
-import ApplicationChart from "./ApplicationChart"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import Breadcrumb from "components/Common/Breadcrumb"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import { SelectColumnFilter } from "components/Filters/SelectColumnFilter"
+} from 'reactstrap'
+import InterviewScheduleCalendar from './InterviewScheduleCalendar'
+import ApplicationChart from './ApplicationChart'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import Breadcrumb from 'components/Common/Breadcrumb'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
+import { SelectColumnFilter } from 'components/Filters/SelectColumnFilter'
 
 // style
-import "styles/custom_gscwd/components/table.scss"
+import 'styles/custom_gscwd/components/table.scss'
 
 const PersonnelSelection = () => {
   const dispatch = useDispatch()
@@ -34,28 +34,28 @@ const PersonnelSelection = () => {
 
   const prfListColumns = [
     {
-      Header: "ID",
-      accessor: "_id",
+      Header: 'ID',
+      accessor: '_id',
       disableGlobalFilter: true,
     },
     {
-      Header: "PRF No",
-      accessor: "prfNo",
+      Header: 'PRF No',
+      accessor: 'prfNo',
     },
     {
-      Header: "Requested by",
-      accessor: "from",
+      Header: 'Requested by',
+      accessor: 'from',
       Filter: SelectColumnFilter,
     },
     {
-      Header: "Positions",
-      accessor: "positionTitles",
+      Header: 'Positions',
+      accessor: 'positionTitles',
       Cell: cell => renderPositions(cell),
     },
     {
-      Header: "Actions",
-      accessor: "",
-      align: "center",
+      Header: 'Actions',
+      accessor: '',
+      align: 'center',
       disableGlobalFilter: true,
       Cell: cell => rowActions(cell),
     },
@@ -65,8 +65,8 @@ const PersonnelSelection = () => {
   const renderPositions = cell => {
     const positionTitles = cell.row.values.positionTitles
 
-    if (typeof positionTitles === "string") {
-      const positionTitlesArr = positionTitles.split(",")
+    if (typeof positionTitles === 'string') {
+      const positionTitlesArr = positionTitles.split(',')
 
       return positionTitlesArr.map((positionTitle, index) => (
         <Badge className="me-2 bg-success font-size-12" key={index}>
@@ -80,7 +80,8 @@ const PersonnelSelection = () => {
     return (
       <Link
         className="dropdown-item"
-        to={location.pathname + "/publication-positions/" + cell.row.values._id}
+        to={location.pathname + '/publication-positions/' + cell.row.values._id}
+        target="_blank"
       >
         <Button className="btn btn-info waves-effect waves-light">
           Requested Positions
@@ -115,7 +116,7 @@ const PersonnelSelection = () => {
             />
 
             {errorPrf ? (
-              <ToastrNotification toastType={"error"} notifMessage={errorPrf} />
+              <ToastrNotification toastType={'error'} notifMessage={errorPrf} />
             ) : null}
             <Row>
               <Col lg={12}>
