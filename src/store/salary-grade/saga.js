@@ -15,8 +15,10 @@ import {
   updateSalaryGradeListSuccess,
   addSalaryGradeListSuccess,
   salaryGradeApiFail,
-  previousSalaryGradeApiFail,
-  currentSalaryGradeApiFail,
+  fetchPreviousSalaryGradeListFail,
+  fetchCurrentSalaryGradeListFail,
+  updateSalaryGradeListFail,
+  addSalaryGradeListFail,
   fetchSGListStepIncreOneSuccess,
   fetchSGListStepIncreOneFail,
   fetchSGListStepIncrementSuccess,
@@ -66,7 +68,7 @@ function* fetchPreviousSalaryGradeList() {
           break
       }
     }
-    yield put(previousSalaryGradeApiFail(errorMessage))
+    yield put(fetchPreviousSalaryGradeListFail(errorMessage))
   }
 }
 
@@ -95,7 +97,7 @@ function* fetchCurrentSalaryGradeList() {
           break
       }
     }
-    yield put(currentSalaryGradeApiFail(errorMessage))
+    yield put(fetchCurrentSalaryGradeListFail(errorMessage))
   }
 }
 
@@ -104,7 +106,7 @@ function* updateSalaryGradeList({ payload: updatedSalaryGradeList }) {
     const response = yield call(putSalaryGradeList, updatedSalaryGradeList)
     yield put(updateSalaryGradeListSuccess(response))
   } catch (error) {
-    yield put(salaryGradeApiFail(error))
+    yield put(updateSalaryGradeListFail(error))
   }
 }
 
@@ -133,7 +135,7 @@ function* addSalaryGradeList({ payload: addedSalaryGradeList }) {
           break
       }
     }
-    yield put(salaryGradeApiFail(errorMessage))
+    yield put(addSalaryGradeListFail(errorMessage))
   }
 }
 
