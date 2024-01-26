@@ -18,15 +18,15 @@ import {
 import TextareaAutosize from 'react-textarea-autosize'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  fetchProficiencyKeyActions,
   fetchCoreCompetencies,
   fetchFunctionalCompetencies,
   fetchManagerialCompetencies,
   fetchCrossCuttingCompetencies,
+  addCompetencyDetails,
   resetCompetencyResponse,
-  updateCompetencyDetails,
+  fetchCompetencyDomains,
 } from 'store/actions'
-import PropTypes from 'prop-types'
+import PropTypes, { string } from 'prop-types'
 
 // extra components
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
@@ -41,28 +41,51 @@ import { isEmpty } from 'lodash'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 
-const EditCompetencyModelModal = props => {
-  const { showEdt, handleCloseEdt, modalData } = props
+const AddCompetencyModelModal = props => {
+  const { showAdd, handleCloseAdd, modalData, _id } = props
 
   const dispatch = useDispatch()
 
-  const { proficiencyKeyActions, putCompetencyDetails, isLoading, error } =
+  const { competencyDomains, isLoading, error, postCompetencyDetails } =
     useSelector(state => ({
-      proficiencyKeyActions: state.competencyModel.proficiencyKeyActions,
-      putCompetencyDetails: state.competencyModel.response.putCompetencyDetails,
-      isLoading: state.competencyModel.loading.loadingProficiencyKeyActions,
-      error: state.competencyModel.error.errorProficiencyKeyActions,
+      competencyDomains: state.competencyModel.competencyDomains,
+      isLoading: state.competencyModel.loading.loadingCompetencyDomains,
+      error: state.competencyModel.error.errorCompetencyDomains,
+      postCompetencyDetails:
+        state.competencyModel.response.postCompetencyDetails,
     }))
+
+  useEffect(() => {
+    dispatch(fetchCompetencyDomains())
+  }, [dispatch])
+
+  const staticProficiencyKeyActions = [
+    {
+      level: 'BASIC',
+      keyAction: '',
+    },
+    {
+      level: 'INTERMEDIATE',
+      keyAction: '',
+    },
+    {
+      level: 'ADVANCED',
+      keyAction: '',
+    },
+    {
+      level: 'SUPERIOR',
+      keyAction: '',
+    },
+  ]
 
   const validation = useFormik({
     enableReinitialize: true,
-
     initialValues: {
-      competencyId: modalData.competencyId,
-      code: modalData.code || '',
-      name: modalData.name || '',
-      definition: modalData.desc || '',
-      proficiencyKeyActions: proficiencyKeyActions,
+      domainId: '',
+      code: '',
+      name: '',
+      definition: '',
+      proficiencyKeyActions: staticProficiencyKeyActions || [],
     },
     validationSchema: Yup.object({
       code: Yup.string().required('Please enter a code name'),
@@ -70,51 +93,43 @@ const EditCompetencyModelModal = props => {
       definition: Yup.string().required('Please enter a competency definition'),
       proficiencyKeyActions: Yup.array().of(
         Yup.object().shape({
-          keyActions: Yup.string().required(
+          keyAction: Yup.string().required(
             'Proficiency key action is required'
           ),
         })
       ),
     }),
-    onSubmit: (values, { resetForm }) => {
-      dispatch(updateCompetencyDetails(values))
-      resetForm()
+    onSubmit: values => {
+      const domainId = _id
+      const competencyModelDataSubmit = { ...values, domainId }
+      dispatch(addCompetencyDetails(competencyModelDataSubmit))
     },
   })
 
   // Reset response state upon close of modal
   useEffect(() => {
-    if (!showEdt) {
+    if (!showAdd) {
       dispatch(resetCompetencyResponse())
     }
-  }, [showEdt])
+  }, [showAdd])
 
   // Execute after successful submission of form
   useEffect(() => {
-    if (!isEmpty(putCompetencyDetails)) {
+    if (!isEmpty(postCompetencyDetails)) {
       dispatch(fetchCoreCompetencies())
       dispatch(fetchFunctionalCompetencies())
       dispatch(fetchManagerialCompetencies())
       dispatch(fetchCrossCuttingCompetencies())
       dispatch(resetCompetencyResponse())
-      handleCloseEdt()
+      handleCloseAdd()
       validation.resetForm()
     }
-  }, [putCompetencyDetails])
-
-  // Initial dispatch request upon opening of modal
-  useEffect(() => {
-    if (showEdt) {
-      dispatch(fetchProficiencyKeyActions(modalData.competencyId))
-    } else {
-      dispatch(resetCompetencyResponse())
-    }
-  }, [showEdt])
+  }, [postCompetencyDetails])
 
   return (
     <React.Fragment>
-      <Modal isOpen={showEdt} toggle={handleCloseEdt} size="lg" centered>
-        <ModalHeader toggle={handleCloseEdt}>Edit</ModalHeader>
+      <Modal isOpen={showAdd} toggle={handleCloseAdd} size="lg" centered>
+        <ModalHeader toggle={handleCloseAdd}>Add Competency</ModalHeader>
 
         {isLoading ? (
           <Alert
@@ -130,16 +145,16 @@ const EditCompetencyModelModal = props => {
           <ToastrNotification toastType={'error'} notifMessage={error} />
         ) : null}
 
-        {!isEmpty(putCompetencyDetails) ? (
+        {!isEmpty(postCompetencyDetails) ? (
           <ToastrNotification
             toastType={'success'}
-            notifMessage={'Update Successful'}
+            notifMessage={'Add Successful'}
           />
         ) : null}
 
         <ModalBody>
           <Form
-            id="editCompetencyForm"
+            id="addCompetencyForm"
             onSubmit={e => {
               e.preventDefault()
               validation.handleSubmit()
@@ -222,87 +237,87 @@ const EditCompetencyModelModal = props => {
             </Row>
             <Row>
               <Col lg={12}>
-                {isLoading ? (
-                  <LoadingIndicator />
-                ) : proficiencyKeyActions ? (
-                  <div className="table-responsive">
-                    <Table className="table mb-0 tbl-key-actions">
-                      <thead className="thead-light">
-                        <tr>
-                          <th className="thead-pl">Proficiency Level</th>
-                          <th className="thead-ka">Key Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {proficiencyKeyActions &&
-                        proficiencyKeyActions.length > 0 ? (
-                          proficiencyKeyActions.map((proficiency, index) => {
-                            return (
-                              <tr key={proficiency._id}>
-                                <td>{proficiency.level}</td>
-                                <td className="textarea-container">
-                                  <TextareaAutosize
-                                    id={index}
-                                    minRows={3}
-                                    name={`proficiencyKeyActions[${index}].keyActions`}
-                                    defaultValue={
-                                      validation.values.proficiencyKeyActions
-                                        .keyActions || proficiency.keyActions
-                                    }
-                                    onChange={validation.handleChange}
-                                    onBlur={validation.handleBlur}
-                                    style={{
-                                      border:
-                                        validation.errors
-                                          .proficiencyKeyActions &&
-                                        validation.errors.proficiencyKeyActions[
-                                          index
-                                        ] &&
-                                        validation.errors.proficiencyKeyActions[
-                                          index
-                                        ].keyActions
-                                          ? '1px solid red'
-                                          : '',
-                                      padding: '8px',
-                                    }}
-                                  />
-                                  {validation.errors.proficiencyKeyActions &&
+                <div className="table-responsive">
+                  <Table className="table mb-0 tbl-key-actions">
+                    <thead className="thead-light">
+                      <tr>
+                        <th className="thead-pl">Proficiency Level</th>
+                        <th className="thead-ka">Key Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {validation.values.proficiencyKeyActions.map(
+                        (proficiency, index) => (
+                          <tr key={index}>
+                            <td>{proficiency.level}</td>
+                            <td className="textarea-container">
+                              <TextareaAutosize
+                                id={index}
+                                minRows={3}
+                                name={`proficiencyKeyActions[${index}].keyAction`}
+                                defaultValue={
+                                  validation.values.proficiencyKeyActions
+                                    .keyAction || ''
+                                }
+                                onChange={event => {
+                                  validation.handleChange(event)
+                                  validation.setFieldTouched(
+                                    `proficiencyKeyActions[${index}].keyAction`,
+                                    true
+                                  )
+                                }}
+                                onBlur={validation.handleBlur}
+                                style={{
+                                  border:
+                                    validation.touched.proficiencyKeyActions &&
+                                    validation.touched.proficiencyKeyActions[
+                                      index
+                                    ]?.keyAction &&
+                                    validation.errors.proficiencyKeyActions &&
                                     validation.errors.proficiencyKeyActions[
                                       index
-                                    ]?.keyActions && (
-                                      <p style={{ color: 'red' }}>
-                                        {
-                                          validation.errors
-                                            .proficiencyKeyActions[index]
-                                            .keyActions
-                                        }
-                                      </p>
-                                    )}
-                                </td>
-                              </tr>
-                            )
-                          })
-                        ) : (
-                          <tr>
-                            <td colSpan="2" className="ta-center">
-                              No Records Available
+                                    ]?.keyAction
+                                      ? '1px solid red'
+                                      : '',
+                                  padding: '8px',
+                                }}
+                              />
+                              {validation.touched.proficiencyKeyActions &&
+                                validation.touched.proficiencyKeyActions[index]
+                                  ?.keyAction &&
+                                validation.errors.proficiencyKeyActions &&
+                                validation.errors.proficiencyKeyActions[index]
+                                  ?.keyAction && (
+                                  <p
+                                    style={{
+                                      color: '#f46a6a',
+                                      fontSize: `80%`,
+                                    }}
+                                  >
+                                    {
+                                      validation.errors.proficiencyKeyActions[
+                                        index
+                                      ].keyAction
+                                    }
+                                  </p>
+                                )}
                             </td>
                           </tr>
-                        )}
-                      </tbody>
-                    </Table>
-                  </div>
-                ) : null}
+                        )
+                      )}
+                    </tbody>
+                  </Table>
+                </div>
               </Col>
             </Row>
           </Form>
         </ModalBody>
 
         <ModalFooter>
-          <Button type="submit" form="editCompetencyForm" color="info">
-            Update
+          <Button type="submit" form="addCompetencyForm" color="info">
+            Add
           </Button>
-          <Button color="danger" onClick={handleCloseEdt}>
+          <Button color="danger" onClick={handleCloseAdd}>
             Cancel
           </Button>
         </ModalFooter>
@@ -311,10 +326,11 @@ const EditCompetencyModelModal = props => {
   )
 }
 
-EditCompetencyModelModal.propTypes = {
-  showEdt: PropTypes.bool,
-  handleCloseEdt: PropTypes.func,
+AddCompetencyModelModal.propTypes = {
+  showAdd: PropTypes.bool,
   modalData: PropTypes.object,
+  handleCloseAdd: PropTypes.func,
+  _id: PropTypes.string,
 }
 
-export default EditCompetencyModelModal
+export default AddCompetencyModelModal

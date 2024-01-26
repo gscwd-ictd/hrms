@@ -1,54 +1,54 @@
-import React, { useEffect, useMemo, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { getOffices, getDepartments } from "store/actions"
-import { Can } from "casl/Can"
-import { Navigate } from "react-router-dom"
+import React, { useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getOffices, getDepartments } from 'store/actions'
+import { Can } from 'casl/Can'
+import { Navigate } from 'react-router-dom'
 
-import { Card, CardBody, Col, Row } from "reactstrap"
-import InRowAction from "components/InRowAction/InRowAction"
-import EditDepartmentModal from "components/Modal/Department/EditDepartmentModal"
-import DeleteDepartmentModal from "components/Modal/Department/DeleteDepartmentModal"
-import AddDepartmentModal from "components/Modal/Department/AddDepartmentModal"
-import TableOrgStruct from "components/Table/TableOrgStruct"
-import { SelectColumnFilter } from "components/Filters/SelectColumnFilter"
-import Breadcrumbs from "components/Common/Breadcrumb"
-import LoadingIndicator from "../../components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import { Card, CardBody, Col, Row } from 'reactstrap'
+import InRowAction from 'components/InRowAction/InRowAction'
+import EditDepartmentModal from 'components/Modal/Department/EditDepartmentModal'
+import DeleteDepartmentModal from 'components/Modal/Department/DeleteDepartmentModal'
+import AddDepartmentModal from 'components/Modal/Department/AddDepartmentModal'
+import TableOrgStruct from 'components/Table/TableOrgStruct'
+import { SelectColumnFilter } from 'components/Filters/SelectColumnFilter'
+import Breadcrumbs from 'components/Common/Breadcrumb'
+import LoadingIndicator from '../../components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // style
-import "styles/custom_gscwd/components/table.scss"
+import 'styles/custom_gscwd/components/table.scss'
 
 const Department = () => {
   const dispatch = useDispatch()
 
   const tblColumns = [
     {
-      Header: "ID",
-      accessor: "_id",
+      Header: 'ID',
+      accessor: '_id',
       disableGlobalFilter: true,
     },
     {
-      Header: "Department Name",
-      accessor: "name",
+      Header: 'Department Name',
+      accessor: 'name',
     },
     {
-      Header: "Code",
-      accessor: "code",
+      Header: 'Code',
+      accessor: 'code',
     },
     {
-      Header: "Office",
-      accessor: "officeCode",
+      Header: 'Office',
+      accessor: 'officeCode',
       Filter: SelectColumnFilter,
     },
     {
-      Header: "Description",
-      accessor: "description",
+      Header: 'Description',
+      accessor: 'description',
       disableGlobalFilter: true,
     },
     {
-      Header: "Actions",
-      accessor: "",
-      align: "center",
+      Header: 'Actions',
+      accessor: '',
+      align: 'center',
       disableGlobalFilter: true,
       disableSortBy: true,
       Cell: function ActionDropdown(cell) {
@@ -122,7 +122,7 @@ const Department = () => {
             />
 
             {error ? (
-              <ToastrNotification toastType={"error"} notifMessage={error} />
+              <ToastrNotification toastType={'error'} notifMessage={error} />
             ) : null}
 
             <Row>

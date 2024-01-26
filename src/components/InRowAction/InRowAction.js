@@ -1,6 +1,6 @@
-import React from "react"
-import { Link } from "react-router-dom"
-import PropTypes from "prop-types"
+import React from 'react'
+import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 const InRowAction = props => {
   const {
@@ -11,7 +11,6 @@ const InRowAction = props => {
     editRedirectUrl,
     viewRedirectUrl,
     buttonTitle,
-    editCompetencyModel,
   } = props
 
   return (
@@ -45,7 +44,7 @@ const InRowAction = props => {
         ) : null}
 
         {editRedirectUrl ? (
-          <Link to={`${editRedirectUrl}`}>
+          <Link to={`${editRedirectUrl}`} target="_blank">
             <button className="btn btn-info waves-effect waves-light">
               {buttonTitle ? buttonTitle : null} <i className="fas fa-edit"></i>
             </button>
@@ -53,20 +52,11 @@ const InRowAction = props => {
         ) : null}
 
         {viewRedirectUrl ? (
-          <Link to={`${viewRedirectUrl}`}>
+          <Link to={`${viewRedirectUrl}`} target="_blank">
             <button className="btn btn-info waves-effect waves-light">
               {buttonTitle ? buttonTitle : null} <i className="fas fa-eye"></i>
             </button>
           </Link>
-        ) : null}
-
-        {editCompetencyModel ? (
-          <button
-            onClick={() => editCompetencyModel(cell.row.original)}
-            className="btn btn-info waves-effect waves-light"
-          >
-            <i className="fas fa-edit"></i>
-          </button>
         ) : null}
       </div>
     </>
@@ -81,7 +71,6 @@ InRowAction.propTypes = {
   editRedirectUrl: PropTypes.string,
   viewRedirectUrl: PropTypes.string,
   buttonTitle: PropTypes.string,
-  editCompetencyModel: PropTypes.func,
 }
 
 export default InRowAction

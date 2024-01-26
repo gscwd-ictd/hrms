@@ -15,7 +15,11 @@ export const SelectColumnFilter = props => {
     preFilteredRows.forEach(row => {
       options.add(row.values[id])
     })
-    return [...options.values()]
+
+    const sortedStringsArray = [...options].sort()
+    const sortedStringsSet = new Set(sortedStringsArray)
+
+    return [...sortedStringsSet.values()]
   }, [id, preFilteredRows])
 
   return (

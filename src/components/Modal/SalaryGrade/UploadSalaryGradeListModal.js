@@ -10,6 +10,10 @@ import {
   Col,
   Row,
   Form,
+  FormGroup,
+  FormFeedback,
+  Label,
+  Input,
   Card,
   Alert,
   Button,
@@ -232,28 +236,42 @@ const UploadSalaryGradeListModal = props => {
 
         <ModalBody>
           <Form onSubmit={e => handleSubmit(e)} id="uploadSalaryGradeForm">
-            <div {...getRootProps({ className: 'dropzone' })}>
-              <div className="dz-message needsclick mt-2" {...getRootProps()}>
-                <input {...getInputProps()} />
-                {isDragAccept && <h5>File will be accepted</h5>}
+            <FormGroup>
+              <div {...getRootProps({ className: 'dropzone' })}>
+                <div className="dz-message needsclick mt-2" {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  {isDragAccept && <h5>File will be accepted</h5>}
 
-                {isDragReject && <h5>File will be rejected</h5>}
+                  {isDragReject && <h5>File will be rejected</h5>}
 
-                {!isDragActive && (
-                  <>
-                    <div className="mb-3">
-                      <i className="display-4 text-muted bx bxs-cloud-upload" />
-                    </div>
-                    <h4>Drop a file here or click to upload.</h4>
-                    <h6>(Only .xls & .xlsx files can be accepted)</h6>
-                  </>
-                )}
+                  {!isDragActive && (
+                    <>
+                      <div className="mb-3">
+                        <i className="display-4 text-muted bx bxs-cloud-upload" />
+                      </div>
+                      <h4>Drop a file here or click to upload.</h4>
+                      <h6>(Only .xls & .xlsx files can be accepted)</h6>
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
 
-            <div className="dropzone-previews mt-3" id="file-previews">
-              {acceptedFileItems}
-            </div>
+              <div className="dropzone-previews mt-3" id="file-previews">
+                {acceptedFileItems}
+              </div>
+            </FormGroup>
+            <Label for="effectivity-Input">Effectivity Date</Label>
+            <Input
+              name="effectivity"
+              type="date"
+              style={{ width: '35%' }}
+              id="effectivity-Input"
+              onChange={null}
+              onBlur={null}
+              value={undefined}
+              invalid={null}
+            />
+            {'' ? <FormFeedback type="invalid">{''}</FormFeedback> : null}
           </Form>
         </ModalBody>
 

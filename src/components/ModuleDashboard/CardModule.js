@@ -1,22 +1,24 @@
-import PropTypes from "prop-types"
-import React from "react"
-import { Link } from "react-router-dom"
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Link } from 'react-router-dom'
 
-import { Col, Card, CardBody } from "reactstrap"
+import { Col, Card, CardBody } from 'reactstrap'
 
 const CardModule = props => {
   return (
     <React.Fragment>
       <Col md="3">
-        <Link
+        {/* <Link
           to={{ pathname: props.moduleUrl }}
           target="_parent"
           className="card-module-box"
-        >
+        > */}
+        <a href={props.moduleUrl} target="_parent" className="card-module-box">
           <Card className="mt-4">
             <CardBody>{props.children}</CardBody>
           </Card>
-        </Link>
+        </a>
+        {/* </Link> */}
       </Col>
     </React.Fragment>
   )

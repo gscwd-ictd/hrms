@@ -1,9 +1,9 @@
-import { call, put, takeEvery } from "redux-saga/effects"
+import { call, put, takeEvery } from 'redux-saga/effects'
 import {
   postEmployeeAssignment,
   getEmployees,
   getEmployeePds,
-} from "helpers/backend_helper"
+} from 'helpers/backend_helper'
 import {
   submitEmpAssgnFailed,
   submitEmpAssgnSuccess,
@@ -11,12 +11,12 @@ import {
   fetchEmployeeListFailed,
   fetchEmployeePdsSuccess,
   fetchEmployeePdsFailed,
-} from "./actions"
+} from './actions'
 import {
   SUBMIT_EMPLOYEE_ASSIGN,
   GET_EMPLOYEE_LIST,
   GET_EMPLOYEE_PDS,
-} from "./actionTypes"
+} from './actionTypes'
 
 function* submitEmpAssignmentData({ payload: empassgndata }) {
   try {
@@ -48,7 +48,7 @@ function* fetchEmployeePds({ payload: employeeId }) {
     if (error.response && error.response.status) {
       message = `Status Code: ${error.response.status}`
     } else {
-      message = "Network error. Unable to connect to server"
+      message = 'Network error. Unable to connect to server'
     }
 
     yield put(fetchEmployeePdsFailed(message))

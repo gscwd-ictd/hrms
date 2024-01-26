@@ -1,15 +1,15 @@
-import React, { useEffect, useMemo, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { fetchOccupations, resetOGCompetencies } from "store/actions"
-import { Can } from "casl/Can"
-import { Navigate, useLocation } from "react-router-dom"
+import React, { useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchOccupations, resetOGCompetencies } from 'store/actions'
+import { Can } from 'casl/Can'
+import { Navigate, useLocation } from 'react-router-dom'
 
-import { Card, CardBody, Col, Row } from "reactstrap"
-import InRowAction from "components/InRowAction/InRowAction"
-import TableOccupations from "components/Table/TableOccupations"
-import Breadcrumbs from "components/Common/Breadcrumb"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import { Card, CardBody, Col, Row } from 'reactstrap'
+import InRowAction from 'components/InRowAction/InRowAction'
+import TableOccupations from 'components/Table/TableOccupations'
+import Breadcrumbs from 'components/Common/Breadcrumb'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const Competency = () => {
   const dispatch = useDispatch()
@@ -17,32 +17,32 @@ const Competency = () => {
 
   const occupationColumns = [
     {
-      Header: "ID",
-      accessor: "_id",
+      Header: 'ID',
+      accessor: '_id',
       disableGlobalFilter: true,
     },
     {
-      Header: "Occupation Name",
-      accessor: "occupationName",
+      Header: 'Occupation Name',
+      accessor: 'occupationName',
     },
     {
-      Header: "Actions",
-      accessor: "",
-      align: "center",
+      Header: 'Actions',
+      accessor: '',
+      align: 'center',
       disableGlobalFilter: true,
       Cell: function ActionDropdown(cell) {
         return (
           <div className="d-flex">
             <InRowAction
-              buttonTitle={"Competencies"}
+              buttonTitle={'Competencies'}
               editRedirectUrl={
-                location.pathname + "/" + cell.row.values._id + "/competencies"
+                location.pathname + '/' + cell.row.values._id + '/competencies'
               }
-            />{" "}
+            />{' '}
             <InRowAction
-              buttonTitle={"Positions"}
+              buttonTitle={'Positions'}
               viewRedirectUrl={
-                location.pathname + "/" + cell.row.values._id + "/positions"
+                location.pathname + '/' + cell.row.values._id + '/positions'
               }
             />
           </div>
@@ -73,7 +73,7 @@ const Competency = () => {
             <Breadcrumbs breadcrumbItem="Competencies" />
 
             {error ? (
-              <ToastrNotification toastType={"error"} notifMessage={error} />
+              <ToastrNotification toastType={'error'} notifMessage={error} />
             ) : null}
 
             <Row>

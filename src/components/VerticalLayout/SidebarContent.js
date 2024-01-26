@@ -348,42 +348,32 @@ const SidebarContent = props => {
               </li>
             </Can>
 
-            <li className="menu-title"></li>
+            <li className="menu-title">Settings</li>
             <Can I="access" this="Settings">
               <li>
-                <Link to="/#" className="has-arrow waves-effect">
-                  <i className="bx bx-cog"></i>
-                  <span>{'Settings'}</span>
+                <Link to="/settings/users" className="waves-effect">
+                  <i className="bx bxs-user-account"></i>
+                  <span>{'Users'}</span>
                 </Link>
-                <ul className="sub-menu" aria-expanded="false">
-                  <li>
-                    <Link to="/settings/users" className="waves-effect">
-                      <i className="bx bxs-user-account"></i>
-                      <span>{'Users'}</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/settings/officer-in-charge"
-                      className="waves-effect"
-                    >
-                      <i className="bx bxs-user-badge"></i>
-                      <span>{'Officer In Charge'}</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/settings/modules" className="waves-effect">
-                      <i className="bx bx-package"></i>
-                      <span>{'Modules'}</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/settings/system-logs" className="waves-effect">
-                      <i className="bx bx-detail"></i>
-                      <span>{'System Logs'}</span>
-                    </Link>
-                  </li>
-                </ul>
+              </li>
+
+              <li>
+                <Link to="/settings/officer-in-charge" className="waves-effect">
+                  <i className="bx bxs-user-badge"></i>
+                  <span>{'Officer In Charge'}</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/settings/modules" className="waves-effect">
+                  <i className="bx bx-package"></i>
+                  <span>{'Modules'}</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/settings/system-logs" className="waves-effect">
+                  <i className="bx bx-detail"></i>
+                  <span>{'System Logs'}</span>
+                </Link>
               </li>
             </Can>
           </ul>

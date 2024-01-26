@@ -1,17 +1,17 @@
-import React from "react"
-import { Table, Button } from "reactstrap"
+import React from 'react'
+import { Table, Button } from 'reactstrap'
 import {
   useFilters,
   useGlobalFilter,
   usePagination,
   useTable,
   useSortBy,
-} from "react-table"
-import { GlobalFilter } from "components/Filters/GlobalFilter"
-import PropTypes from "prop-types"
+} from 'react-table'
+import { GlobalFilter } from 'components/Filters/GlobalFilter'
+import PropTypes from 'prop-types'
 
 // style
-import "../../styles/custom_gscwd/components/table.scss"
+import '../../styles/custom_gscwd/components/table.scss'
 
 const TablePrfList = props => {
   const { columns, data } = props
@@ -22,7 +22,7 @@ const TablePrfList = props => {
       data,
       initialState: {
         pageIndex: 0,
-        hiddenColumns: ["_id", "for"],
+        hiddenColumns: ['_id', 'for'],
         pageSize: 10,
       },
     },
@@ -73,7 +73,7 @@ const TablePrfList = props => {
             headerGroup.headers.map(column =>
               column.Filter ? (
                 <div className="mt-1 filter-item" key={column.id}>
-                  {column.render("Filter")}
+                  {column.render('Filter')}
                 </div>
               ) : null
             )
@@ -102,11 +102,10 @@ const TablePrfList = props => {
                 <th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                   key={hi}
-                  className={"th_" + column.getHeaderProps("Header").key}
-                  style={{ textAlign: column.align ? "center" : "left" }}
-
+                  className={'th_' + column.getHeaderProps('Header').key}
+                  style={{ textAlign: column.align ? 'center' : 'left' }}
                 >
-                  {column.render("Header")}
+                  {column.render('Header')}
                   {/* Sort */}
                   <span>
                     {column.isSorted ? (
@@ -116,7 +115,7 @@ const TablePrfList = props => {
                         <i className="bx bx-down-arrow pl-1"></i>
                       )
                     ) : (
-                      ""
+                      ''
                     )}
                   </span>
                 </th>
@@ -136,13 +135,13 @@ const TablePrfList = props => {
                         style={
                           cell.column.align
                             ? {
-                              width: "fit-content",
-                              margin: "auto",
-                            }
+                                width: 'fit-content',
+                                margin: 'auto',
+                              }
                             : {}
                         }
                       >
-                        {cell.render("Cell")}
+                        {cell.render('Cell')}
                       </div>
                     </td>
                   )
@@ -163,23 +162,23 @@ const TablePrfList = props => {
               onClick={() => previousPage()}
               disabled={!canPreviousPage}
             >
-              {"Previous"}
-            </button>{" "}
+              {'Previous'}
+            </button>{' '}
             <button
               className="page-link"
               onClick={() => nextPage()}
               disabled={!canNextPage}
             >
-              {"Next"}
-            </button>{" "}
+              {'Next'}
+            </button>{' '}
           </div>
 
           {/* Page number */}
           <div className="pagenumber-container">
-            Page{" "}
+            Page{' '}
             <strong>
               {pageIndex + 1} of {pageOptions.length}
-            </strong>{" "}
+            </strong>{' '}
           </div>
 
           {/* Dropdown page size */}

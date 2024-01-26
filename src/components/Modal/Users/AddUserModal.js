@@ -138,13 +138,7 @@ const AddUserModal = props => {
   }, [modulesList])
 
   return (
-    <Modal
-      isOpen={showAdd}
-      toggle={handleCloseAdd}
-      size="lg"
-      animation={false}
-      centered
-    >
+    <Modal isOpen={showAdd} toggle={handleCloseAdd} size="lg" centered>
       <ModalHeader toggle={handleCloseAdd}>Assign HRMS User</ModalHeader>
 
       {/* Notifications */}

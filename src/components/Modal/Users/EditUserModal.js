@@ -140,7 +140,6 @@ const EditUserModal = props => {
                             name={`userRoles[${index}].hasAccess`}
                             id={role.slug + '-checkbox'}
                             type="checkbox"
-                            // onChange={formik.handleChange}
                             onChange={isChecked => {
                               // formik.handleChange(`userRoles[${index}].hasAccess`)(formik)
 

@@ -1,16 +1,21 @@
-import axios from "axios"
-import accessToken from "./jwt-token-access/accessToken"
+import axios from 'axios'
+import accessToken from './jwt-token-access/accessToken'
 
 //pass new generated access token here
 const token = accessToken
 
-const API_URL = process.env.REACT_APP_EMPDOMAIN
+const API_URL = process.env.REACT_APP_EMP_DOMAIN
 
 const axiosApi = axios.create({
   baseURL: API_URL,
 })
 
-axiosApi.defaults.headers.common["Authorization"] = "Bearer " + token
+axiosApi.defaults.headers.common['Authorization'] = 'Bearer ' + token
+
+axiosApi.interceptors.request.use(
+  response => response,
+  error => Promise.reject(error)
+)
 
 axiosApi.interceptors.response.use(
   response => response,

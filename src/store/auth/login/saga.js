@@ -10,7 +10,7 @@ import { postLogin, postLogout } from 'helpers/auth_helper'
 
 import Cookies from 'universal-cookie'
 
-const domainUrl = process.env.REACT_APP_HRISDOMAIN
+const domainUrl = process.env.REACT_APP_HRMS_DOMAIN
 const cookies = new Cookies()
 
 function* loginUser({ payload: { user, history } }) {

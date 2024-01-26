@@ -82,7 +82,7 @@ const DeleteUserModal = props => {
             <p>
               Are you sure you want remove{' '}
               <span style={{ fontWeight: 'bold' }}>{modalData.fullName}</span>{' '}
-              as HRMS User?
+              as RSP User?
             </p>
           </Col>
         </Row>

@@ -1,9 +1,9 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import { Container, Row, Col } from "reactstrap"
-import CardModule from "components/ModuleDashboard/CardModule"
-import "styles/custom_gscwd/components/cardmodule.scss"
+import { Container, Row, Col } from 'reactstrap'
+import CardModule from 'components/ModuleDashboard/CardModule'
+import 'styles/custom_gscwd/components/cardmodule.scss'
 
 const ModuleDashboard = props => {
   return (
@@ -29,7 +29,7 @@ const ModuleDashboard = props => {
                     </h5>
                   </CardModule>
 
-                  <CardModule moduleUrl="/module-dashboard">
+                  <CardModule moduleUrl={process.env.REACT_APP_FE_EMS}>
                     <i className="fas fa-user-clock mb-4 card-icon text-primary" />
                     <h5 className="font-size-15 text-uppercase">
                       Employee Monitoring

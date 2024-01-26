@@ -4,7 +4,7 @@ import {
   postHris,
   putHris,
   patchHris,
-} from './hris_api_helper'
+} from './hrms_api_helper'
 import { getEmp } from './employee_api_helper'
 import { getEmpMon } from './employee_monitoring_api_helper'
 import * as url from './url_helper'
@@ -75,6 +75,7 @@ export const getSalaryGradeWithStepIncrementOne = () =>
   getHris(url.GET_SALARY_GRADE_STEP_INCREMENT_ONE)
 
 // Competency ----------------------------------------------------------------------
+export const getCompetencyDomains = () => getHris(url.GET_COMPETENCY_DOMAIN)
 export const getCoreModels = () => getHris(url.GET_CORE_COMPETENCIES)
 export const getFunctionalModels = () =>
   getHris(url.GET_FUNCTIONAL_COMPETENCIES)
@@ -139,6 +140,18 @@ export const delFunctionalCompetenciesOfPosition =
       url.DELETE_UNASSIGN_FUNCTIONAL_COMPETENCIES,
       selectedFunctionalCompetencies
     )
+
+// Add (post) the competency details
+export const postCompetencyDetails = competencyDetails =>
+  postHris(url.COMPETENCY_MODEL, competencyDetails)
+
+// Update (put) the competency details
+export const putCompetencyDetails = competencyDetails =>
+  putHris(url.COMPETENCY_MODEL, competencyDetails)
+
+// Delete the competency details
+export const deleteCompetencyDetails = competencyId =>
+delHris(url.COMPETENCY_MODEL + competencyId)
 
 // PRF -----------------------------------------------------------------------------
 export const getPRFList = () => getHris(url.GET_PRFLIST)

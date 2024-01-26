@@ -78,6 +78,11 @@ export const POST_EDIT_JWT_PROFILE = 'post-jwt-profile'
 export const POST_EDIT_PROFILE = 'post-fake-profile'
 
 // COMPETENCY
+
+export const GET_COMPETENCY_DOMAIN = 'domains'
+
+export const COMPETENCY_MODEL = 'competency-model/'
+
 export const GET_CORE_COMPETENCIES = 'competency-model/core'
 export const GET_FUNCTIONAL_COMPETENCIES = 'competency-model/functions/'
 export const GET_CROSSCUTTING_COMPETENCIES = 'competency-model/cross-cutting'
