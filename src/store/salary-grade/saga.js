@@ -1,25 +1,38 @@
-import { call, put, takeEvery } from "redux-saga/effects"
+import { call, put, takeEvery } from 'redux-saga/effects'
 import {
   getSalaryGradeList,
+  getPreviousSalaryGradeList,
+  getCurrentSalaryGradeList,
   putSalaryGradeList,
+  postSalaryGradeList,
   getSalaryGradeWithStepIncrement,
   getSalaryGradeWithStepIncrementOne,
-} from "helpers/backend_helper"
+} from 'helpers/backend_helper'
 import {
   fetchSalaryGradeListSuccess,
+  fetchPreviousSalaryGradeListSuccess,
+  fetchCurrentSalaryGradeListSuccess,
   updateSalaryGradeListSuccess,
+  addSalaryGradeListSuccess,
   salaryGradeApiFail,
+  fetchPreviousSalaryGradeListFail,
+  fetchCurrentSalaryGradeListFail,
+  updateSalaryGradeListFail,
+  addSalaryGradeListFail,
   fetchSGListStepIncreOneSuccess,
   fetchSGListStepIncreOneFail,
   fetchSGListStepIncrementSuccess,
   fetchSGListStepIncrementFail,
-} from "./actions"
+} from './actions'
 import {
   GET_SALARY_GRADE_LIST,
+  GET_PREVIOUS_SALARY_GRADE_LIST,
+  GET_CURRENT_SALARY_GRADE_LIST,
   PUT_SALARY_GRADE_LIST,
+  POST_SALARY_GRADE_LIST,
   GET_SALARY_GRADE_LIST_STEP_INCREMENT,
   GET_SALARY_GRADE_LIST_STEP_INCREMENT_ONE,
-} from "./actionTypes"
+} from './actionTypes'
 
 function* fetchSalaryGradeList() {
   try {
@@ -30,12 +43,99 @@ function* fetchSalaryGradeList() {
   }
 }
 
+// previous salary grade list
+function* fetchPreviousSalaryGradeList() {
+  try {
+    const response = yield call(getPreviousSalaryGradeList)
+    yield put(fetchPreviousSalaryGradeListSuccess(response))
+  } catch (error) {
+    let errorMessage
+    if (error.response && error.response.status) {
+      switch (error.response.status) {
+        case 404:
+          errorMessage =
+            'Sorry! some resources are missing for previous salary grade'
+          break
+        case 500:
+          errorMessage = 'Sorry! something went wrong for previous salary grade'
+          break
+        case 408:
+          errorMessage =
+            'Request timeout for previous salary grade. Try again later'
+          break
+        default:
+          errorMessage = 'Invalid request for previous salary grade'
+          break
+      }
+    }
+    yield put(fetchPreviousSalaryGradeListFail(errorMessage))
+  }
+}
+
+// current salary grade list
+function* fetchCurrentSalaryGradeList() {
+  try {
+    const response = yield call(getCurrentSalaryGradeList)
+    yield put(fetchCurrentSalaryGradeListSuccess(response))
+  } catch (error) {
+    let errorMessage
+    if (error.response && error.response.status) {
+      switch (error.response.status) {
+        case 404:
+          errorMessage =
+            'Sorry! some resources are missing for current salary grade'
+          break
+        case 500:
+          errorMessage = 'Sorry! something went wrong for current salary grade'
+          break
+        case 408:
+          errorMessage =
+            'Request timeout for current salary grade. Try again later'
+          break
+        default:
+          errorMessage = 'Invalid request for current salary grade'
+          break
+      }
+    }
+    yield put(fetchCurrentSalaryGradeListFail(errorMessage))
+  }
+}
+
 function* updateSalaryGradeList({ payload: updatedSalaryGradeList }) {
   try {
     const response = yield call(putSalaryGradeList, updatedSalaryGradeList)
     yield put(updateSalaryGradeListSuccess(response))
   } catch (error) {
-    yield put(salaryGradeApiFail(error))
+    yield put(updateSalaryGradeListFail(error))
+  }
+}
+
+function* addSalaryGradeList({ payload: addedSalaryGradeList }) {
+  try {
+    const response = yield call(postSalaryGradeList, addedSalaryGradeList)
+    yield put(addSalaryGradeListSuccess(response))
+  } catch (error) {
+    let errorMessage
+    if (error.response && error.response.status) {
+      switch (error.response.status) {
+        case 404:
+          errorMessage = 'Sorry! some resources are missing'
+          break
+        case 500:
+          errorMessage = 'Sorry! something went wrong'
+          break
+        case 408:
+          errorMessage = 'Request timeout. Try again later'
+          break
+        case 409:
+          errorMessage = 'Duplicate entry found'
+          break
+        default:
+          errorMessage = 'Invalid request'
+          break
+      }
+    }
+    yield put(addSalaryGradeListFail(errorMessage))
   }
 }
 
@@ -59,7 +159,11 @@ function* fetchSGListStepIncreOne() {
 
 function* salaryGradeSaga() {
   yield takeEvery(GET_SALARY_GRADE_LIST, fetchSalaryGradeList)
+  yield takeEvery(GET_PREVIOUS_SALARY_GRADE_LIST, fetchPreviousSalaryGradeList)
+  yield takeEvery(GET_CURRENT_SALARY_GRADE_LIST, fetchCurrentSalaryGradeList)
+
   yield takeEvery(PUT_SALARY_GRADE_LIST, updateSalaryGradeList)
+  yield takeEvery(POST_SALARY_GRADE_LIST, addSalaryGradeList)
   yield takeEvery(
     GET_SALARY_GRADE_LIST_STEP_INCREMENT,
     fetchSGListStepIncrement
