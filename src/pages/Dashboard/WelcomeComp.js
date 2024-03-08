@@ -47,7 +47,7 @@ const WelcomeComp = () => {
         </div>
         <CardBody className="pt-0">
           <Row>
-            <Col sm="7">
+            <Col sm="12">
               <div className="avatar-md profile-user-wid mb-4">
                 {photoBadge ? (
                   <img
@@ -67,7 +67,7 @@ const WelcomeComp = () => {
               <p className="text-muted mb-0 text-truncate">{email}</p>
             </Col>
 
-            <Col sm="5">
+            {/* <Col sm="5">
               <div className="pt-4">
                 <div className="mt-4">
                   <Link
@@ -78,7 +78,7 @@ const WelcomeComp = () => {
                   </Link>
                 </div>
               </div>
-            </Col>
+            </Col> */}
           </Row>
         </CardBody>
       </Card>

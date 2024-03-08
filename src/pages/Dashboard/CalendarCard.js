@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react"
-import PropTypes from "prop-types"
-import { Card, CardBody, Modal, ModalHeader, ModalBody } from "reactstrap"
-import { useDispatch, useSelector } from "react-redux"
-import { getEvents } from "store/actions"
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import { Card, CardBody, Modal, ModalHeader, ModalBody } from 'reactstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import { getEvents } from 'store/actions'
 
 // Calendar
-import FullCalendar from "@fullcalendar/react"
-import dayGridPlugin from "@fullcalendar/daygrid"
-import interactionPlugin from "@fullcalendar/interaction"
-import BootstrapTheme from "@fullcalendar/bootstrap"
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import interactionPlugin from '@fullcalendar/interaction'
+import BootstrapTheme from '@fullcalendar/bootstrap'
 
 // style
-import "@fullcalendar/bootstrap/main.css"
+import '@fullcalendar/bootstrap/main.css'
 
 const CalendarCard = props => {
   const dispatch = useDispatch()
@@ -63,9 +63,9 @@ const CalendarCard = props => {
             handleWindowResize={true}
             themeSystem="bootstrap"
             headerToolbar={{
-              left: "prev,next today",
-              center: "title",
-              right: "",
+              left: 'prev,next today',
+              center: 'title',
+              right: '',
             }}
             events={events}
             eventClick={handleEventClick}
@@ -74,7 +74,7 @@ const CalendarCard = props => {
           {/* View Event */}
           <Modal isOpen={modal}>
             <ModalHeader toggle={toggle} tag="h4">
-              {modal ? event.title : ""}
+              {modal ? event.title : ''}
             </ModalHeader>
             <ModalBody>{JSON.stringify(event)}</ModalBody>
           </Modal>
