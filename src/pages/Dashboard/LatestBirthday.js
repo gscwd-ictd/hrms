@@ -1,42 +1,56 @@
-import React from "react"
-import { Card, CardBody, CardTitle, Col, Row } from "reactstrap"
-import { Link } from "react-router-dom"
-import avatar1 from "../../assets/images/users/avatar-1.jpg"
-import avatar2 from "../../assets/images/users/avatar-2.jpg"
-import avatar3 from "../../assets/images/users/avatar-3.jpg"
+import React from 'react'
+import { Button, Card, CardBody, CardTitle, Col, Row } from 'reactstrap'
+import avatar1 from '../../assets/images/users/avatar-1.jpg'
+import avatar2 from '../../assets/images/users/avatar-2.jpg'
+import avatar3 from '../../assets/images/users/avatar-3.jpg'
 
 const LatestBirthday = () => {
   const employees = [
     {
-      id: "1",
-      name: "Employee 1",
-      position: "Position Title",
+      id: '1',
+      name: 'Employee 1',
+      birthday: 'January 01, 1999',
       picture: avatar1,
     },
     {
-      id: "2",
-      name: "Employee 2",
-      position: "Position Title",
+      id: '2',
+      name: 'Employee 2',
+      birthday: 'January 02, 1999',
       picture: avatar2,
     },
-    // {
-    //   id: "3",
-    //   name: "Employee 3",
-    //   position: "Community Relations Officer B",
-    //   picture : avatar3,
-    // },
+    {
+      id: '3',
+      name: 'Employee 3',
+      birthday: 'January 03, 1999',
+      picture: avatar3,
+    },
+    {
+      id: '4',
+      name: 'Employee 4',
+      birthday: 'January 02, 1999',
+      picture: avatar2,
+    },
+    {
+      id: '5',
+      name: 'Employee 5',
+      birthday: 'January 03, 1999',
+      picture: avatar3,
+    },
   ]
 
   return (
     <React.Fragment>
       <Card>
         <CardBody>
-          <CardTitle className="mb-4">Birthdays</CardTitle>
+          <CardTitle className="mb-4">
+            {new Date().toLocaleString('default', { month: 'long' })} Birthday
+            Celebrants{' '}
+          </CardTitle>
 
           {employees.map((employee, key) => (
-            <Row key={"_li_" + key} className="mb-2">
-              <Col sm="4" className="my-auto">
-                <div className="avatar-md">
+            <Row key={'_li_' + key} className="mb-1">
+              <Col sm="2" className="my-auto">
+                <div className="avatar-sm">
                   <img
                     src={employee.picture}
                     alt=""
@@ -44,20 +58,22 @@ const LatestBirthday = () => {
                   />
                 </div>
               </Col>
-              <Col sm="8" className="my-auto">
-                <h5 className="font-size-15">{employee.name}</h5>
-                <p className="text-muted mb-0">{employee.position}</p>
+              <Col sm="10" className="my-auto">
+                <h5 className="font-size-12 mb-0">{employee.name}</h5>
+                <p className="font-size-11 text-muted mb-0">
+                  {employee.birthday}
+                </p>
               </Col>
             </Row>
           ))}
 
           <div className="text-right mt-4">
-            <Link
+            <Button
               to=""
               className="btn btn-info waves-effect waves-light btn-sm"
             >
               View More <i className="mdi mdi-arrow-right ml-1" />
-            </Link>
+            </Button>
           </div>
         </CardBody>
       </Card>

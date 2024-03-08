@@ -1,50 +1,53 @@
-import React, { useEffect, useMemo, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { fetchSystemLogs } from "store/actions"
-import dayjs from "dayjs"
-import { isEmpty } from "lodash"
+import React, { useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchSystemLogs } from 'store/actions'
+import dayjs from 'dayjs'
+import { isEmpty } from 'lodash'
 
-import { Card, CardBody, Col, Row } from "reactstrap"
-import TableSystemLogs from "components/Table/TableSystemLogs"
-import InRowAction from "components/InRowAction/InRowAction"
-import Breadcrumbs from "components/Common/Breadcrumb"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ViewSystemLogModal from "components/Modal/SystemLogs/ViewSystemLogModal"
-import { SelectColumnFilter } from "components/Filters/SelectColumnFilter"
-import { DateRangeColumnFilter, dateBetweenFilterFn } from "components/Filters/DateRangeColumnFilter"
+import { Card, CardBody, Col, Row } from 'reactstrap'
+import TableSystemLogs from 'components/Table/TableSystemLogs'
+import InRowAction from 'components/InRowAction/InRowAction'
+import Breadcrumbs from 'components/Common/Breadcrumb'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ViewSystemLogModal from 'components/Modal/SystemLogs/ViewSystemLogModal'
+import { SelectColumnFilter } from 'components/Filters/SelectColumnFilter'
+import {
+  DateRangeColumnFilter,
+  dateBetweenFilterFn,
+} from 'components/Filters/DateRangeColumnFilter'
 
 // style
-import "styles/custom_gscwd/components/table.scss"
+import 'styles/custom_gscwd/components/table.scss'
 
 const SystemLogs = () => {
   const dispatch = useDispatch()
 
   const tableColumns = [
     {
-      Header: "ID",
-      accessor: "_id",
+      Header: 'ID',
+      accessor: '_id',
       disableGlobalFilter: true,
     },
     {
-      Header: "Date Logged",
-      accessor: "dateLogged",
-      FilterName: "Date",
+      Header: 'Date Logged',
+      accessor: 'dateLogged',
+      FilterName: 'Date',
       Filter: DateRangeColumnFilter,
       filter: dateBetweenFilterFn,
-      Cell: function formateDate(cell) {
-        return <>{formatDate(cell.value)}</>
+      Cell: function formatDate(cell) {
+        return <>{formatDateWithTime(cell.value)}</>
       },
     },
     {
-      Header: "Username",
-      accessor: "userFullName",
+      Header: 'Username',
+      accessor: 'userFullName',
       Filter: SelectColumnFilter,
     },
     {
-      Header: "Actions",
-      accessor: "",
-      align: "center",
+      Header: 'Actions',
+      accessor: '',
+      align: 'center',
       disableGlobalFilter: true,
       Cell: function ActionDropdown(cell) {
         return <InRowAction cell={cell} viewModal={viewModal} />
@@ -78,12 +81,12 @@ const SystemLogs = () => {
   }
 
   // change date format
-  const formatDate = assignedDate => {
+  const formatDateWithTime = assignedDate => {
     if (!isEmpty(assignedDate)) {
       const date = new Date(assignedDate)
-      return dayjs(date).format("MM-DD-YYYY hh:mm:ss A")
+      return dayjs(date).format('MM-DD-YYYY hh:mm:ss A')
     } else {
-      return ""
+      return ''
     }
   }
 
@@ -103,7 +106,7 @@ const SystemLogs = () => {
 
           {/* Notifications */}
           {errorList ? (
-            <ToastrNotification toastType={"error"} notifMessage={errorList} />
+            <ToastrNotification toastType={'error'} notifMessage={errorList} />
           ) : null}
 
           <Row>

@@ -64,7 +64,7 @@ const ProfileMenu = props => {
           {email ? (
             <span className="d-none d-xl-inline-block ms-2 me-1">{email}</span>
           ) : (
-            <span className="placeholder col-7"></span>
+            <span className="placeholder col-7">----</span>
           )}
 
           <i className="mdi mdi-chevron-down d-none d-xl-inline-block" />

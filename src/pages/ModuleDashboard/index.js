@@ -36,17 +36,17 @@ const ModuleDashboard = props => {
                     </h5>
                   </CardModule>
 
-                  <CardModule moduleUrl="/module-dashboard">
-                    <i className="fas fa-star-half-alt mb-4 card-icon text-primary" />
+                  <CardModule moduleUrl={process.env.REACT_APP_FE_LD}>
+                    <i className="fas fa-user-graduate mb-4 card-icon text-primary" />
                     <h5 className="font-size-15 text-uppercase">
-                      Strategic Performance Management System
+                      Learning and Development
                     </h5>
                   </CardModule>
 
                   <CardModule moduleUrl="/module-dashboard">
-                    <i className="fas fa-user-graduate mb-4 card-icon text-primary" />
+                    <i className="fas fa-star-half-alt mb-4 card-icon text-primary" />
                     <h5 className="font-size-15 text-uppercase">
-                      Training and Development
+                      Strategic Performance Management System
                     </h5>
                   </CardModule>
 
