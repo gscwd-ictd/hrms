@@ -64,16 +64,22 @@ const ProfileMenu = props => {
           {email ? (
             <span className="d-none d-xl-inline-block ms-2 me-1">{email}</span>
           ) : (
-            <span className="placeholder col-7"></span>
+            <span className="placeholder col-7">----</span>
           )}
 
           <i className="mdi mdi-chevron-down d-none d-xl-inline-block" />
         </DropdownToggle>
         <DropdownMenu className="dropdown-menu-end">
-          <DropdownItem tag="a" href="/profile">
+          {/* <DropdownItem tag="a" href="/profile">
             {' '}
             <i className="bx bx-user font-size-16 align-middle me-1" />
             {props.t('Profile')}{' '}
+          </DropdownItem> */}
+
+          <DropdownItem tag="a" href="/module-dashboard">
+            {' '}
+            <i className="bx bx-home font-size-16 align-middle me-1 text-success" />
+            {props.t('HRMS Modules')}{' '}
           </DropdownItem>
 
           <Link to="/logout" className="dropdown-item">

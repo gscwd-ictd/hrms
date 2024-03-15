@@ -3,7 +3,15 @@ import { isEmpty } from 'lodash'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { updateSalaryGradeList, fetchSalaryGradeList } from 'store/actions'
+import {
+  addSalaryGradeList,
+  salaryGradeApiFail,
+  addSalaryGradeListFail,
+  resetSalaryGradeResponses,
+  fetchSalaryGradeList,
+  fetchPreviousSalaryGradeList,
+  fetchCurrentSalaryGradeList,
+} from 'store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
@@ -36,7 +44,7 @@ const UploadSalaryGradeListModal = props => {
   // redux state for salary grade response
   const { salaryGradeResponse, loadingSalaryGrade, errorSalaryGrade } =
     useSelector(state => ({
-      salaryGradeResponse: state.salaryGrade.response.salaryGrade.put,
+      salaryGradeResponse: state.salaryGrade.response.salaryGrade.post,
       loadingSalaryGrade: state.salaryGrade.loading.loadingSalaryGrade,
       errorSalaryGrade: state.salaryGrade.error.errorSalaryGrade,
     }))
@@ -61,6 +69,12 @@ const UploadSalaryGradeListModal = props => {
     // e.stopPropagation()
     e.preventDefault()
     setLoadingExcelToJSON(true)
+
+    if (acceptedFiles.length === 0) {
+      dispatch(addSalaryGradeListFail('No file uploaded'))
+      setLoadingExcelToJSON(false)
+      return
+    }
 
     var XLSX = require('xlsx')
 
@@ -174,11 +188,11 @@ const UploadSalaryGradeListModal = props => {
 
   useEffect(() => {
     if (sendSGInJSON) {
-      const salaryGradePut = {
+      const salaryGradePost = {
         salaryGradeList: salaryGradeListFromExcel,
       }
 
-      dispatch(updateSalaryGradeList(salaryGradePut))
+      dispatch(addSalaryGradeList(salaryGradePost))
     } else {
       setSendSGInJSON(false)
     }
@@ -186,7 +200,10 @@ const UploadSalaryGradeListModal = props => {
 
   useEffect(() => {
     if (!isEmpty(salaryGradeResponse)) {
+      dispatch(resetSalaryGradeResponses())
       dispatch(fetchSalaryGradeList())
+      dispatch(fetchPreviousSalaryGradeList())
+      dispatch(fetchCurrentSalaryGradeList())
       handleCloseAdd()
     }
   }, [salaryGradeResponse])
@@ -230,7 +247,7 @@ const UploadSalaryGradeListModal = props => {
         {!isEmpty(salaryGradeResponse) ? (
           <ToastrNotification
             toastType={'success'}
-            notifMessage={'Salary Grade List Updated!'}
+            notifMessage={'Salary Grade List Added!'}
           />
         ) : null}
 
@@ -260,17 +277,6 @@ const UploadSalaryGradeListModal = props => {
                 {acceptedFileItems}
               </div>
             </FormGroup>
-            <Label for="effectivity-Input">Effectivity Date</Label>
-            <Input
-              name="effectivity"
-              type="date"
-              style={{ width: '35%' }}
-              id="effectivity-Input"
-              onChange={null}
-              onBlur={null}
-              value={undefined}
-              invalid={null}
-            />
             {'' ? <FormFeedback type="invalid">{''}</FormFeedback> : null}
           </Form>
         </ModalBody>

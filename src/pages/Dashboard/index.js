@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from 'react'
 import {
   Container,
   Row,
@@ -7,27 +7,35 @@ import {
   CardBody,
   CardTitle,
   Media,
-} from "reactstrap"
-import Cookies from "universal-cookie"
+} from 'reactstrap'
 
 // Pages Components
-import WelcomeComp from "./WelcomeComp"
-import LatestBirthday from "./LatestBirthday"
-import PersonnelDistributionChart from "./PersonnelDistributionChart"
-import AgeBracketChart from "./AgeBracketChart"
-import CalendarCard from "./CalendarCard"
+import WelcomeComp from './WelcomeComp'
+import LatestBirthday from './LatestBirthday'
+import PersonnelDistributionChart from './PersonnelDistributionChart'
+import AgeBracketChart from './AgeBracketChart'
+import CalendarCard from './CalendarCard'
+import NatureOfAppointmentChart from './NatureOfAppointmentChart'
 
 // extra components
-import Breadcrumbs from "components/Common/Breadcrumb"
+import Breadcrumbs from 'components/Common/Breadcrumb'
 
 // style
-import "styles/custom_gscwd/pages/dashboard.scss"
+import 'styles/custom_gscwd/pages/dashboard.scss'
 
-const Dashboard = props => {
+const Dashboard = () => {
   const reports = [
-    { title: "Total Employees", iconClass: "bx-group", description: "513" },
-    { title: "Leave Applications", iconClass: "bx-detail", description: "18" },
-    { title: "Absenteeism Rate", iconClass: "bx-user-x", description: "1.5%" },
+    { title: 'Total Employees', iconClass: 'bx-group', description: '330' },
+    {
+      title: 'Approved PRF Request',
+      iconClass: 'bx-user-pin',
+      description: '8',
+    },
+    {
+      title: 'Applicants',
+      iconClass: 'bx-user-plus',
+      description: '15',
+    },
   ]
 
   return (
@@ -42,13 +50,23 @@ const Dashboard = props => {
               <WelcomeComp />
 
               <LatestBirthday />
+
+              <Card>
+                <CardBody>
+                  <CardTitle className="mb-4 float-sm-left">
+                    Nature of Appointment Distribution
+                  </CardTitle>
+
+                  <NatureOfAppointmentChart />
+                </CardBody>
+              </Card>
             </Col>
 
             <Col xl="8">
               <Row>
                 {/* Reports Render */}
                 {reports.map((report, key) => (
-                  <Col md="4" key={"_col_" + key}>
+                  <Col md="4" key={'_col_' + key}>
                     <Card className="mini-stats-wid">
                       <CardBody>
                         <Media>
@@ -62,7 +80,7 @@ const Dashboard = props => {
                             <span className="avatar-title">
                               <i
                                 className={
-                                  "bx " + report.iconClass + " font-size-24"
+                                  'bx ' + report.iconClass + ' font-size-24'
                                 }
                               ></i>
                             </span>
@@ -74,19 +92,39 @@ const Dashboard = props => {
                 ))}
               </Row>
 
-              <Card>
-                <CardBody>
-                  <CardTitle className="mb-4 float-sm-left">
-                    Personnel Distribution
-                  </CardTitle>
+              <Row>
+                <Col md="12">
+                  <Card>
+                    <CardBody>
+                      <CardTitle className="mb-4 float-sm-left">
+                        Personnel Distribution
+                      </CardTitle>
 
-                  <PersonnelDistributionChart />
-                </CardBody>
-              </Card>
+                      <PersonnelDistributionChart />
+                    </CardBody>
+                  </Card>
+                </Col>
+
+                <Col md="12">
+                  <Card>
+                    <CardBody>
+                      <CardTitle className="mb-4 float-sm-left">
+                        Age Distribution
+                      </CardTitle>
+
+                      <AgeBracketChart />
+                    </CardBody>
+                  </Card>
+                </Col>
+
+                {/* <Col md="6">
+                  <CalendarCard />
+                </Col> */}
+              </Row>
             </Col>
           </Row>
 
-          <Row>
+          {/* <Row>
             <Col xl="6">
               <Card>
                 <CardBody>
@@ -101,7 +139,7 @@ const Dashboard = props => {
             <Col xl="6">
               <CalendarCard />
             </Col>
-          </Row>
+          </Row> */}
         </Container>
       </div>
     </React.Fragment>

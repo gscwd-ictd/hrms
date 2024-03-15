@@ -61,6 +61,12 @@ export const DELETE_POSITIONS_TO_OCCUPATION = 'occupational-group/'
 
 // SALARY GRADE
 export const GET_SALARY_GRADE = 'salary-grade'
+
+export const GET_PREVIOUS_SALARY_GRADE = 'salary-grade/previous'
+export const GET_CURRENT_SALARY_GRADE = 'salary-grade/current'
+
+export const POST_SALARY_GRADE = 'salary-grade/'
+
 export const PUT_SALARY_GRADE = 'salary-grade/'
 export const GET_SALARY_GRADE_STEP_INCREMENT = 'salary-grade/step-increment'
 export const GET_SALARY_GRADE_STEP_INCREMENT_ONE =

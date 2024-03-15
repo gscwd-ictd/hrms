@@ -1,8 +1,18 @@
 import {
   GET_SALARY_GRADE_LIST,
   GET_SALARY_GRADE_LIST_SUCCESS,
+  GET_PREVIOUS_SALARY_GRADE_LIST,
+  GET_PREVIOUS_SALARY_GRADE_LIST_SUCCESS,
+  GET_PREVIOUS_SALARY_GRADE_LIST_FAIL,
+  GET_CURRENT_SALARY_GRADE_LIST,
+  GET_CURRENT_SALARY_GRADE_LIST_SUCCESS,
+  GET_CURRENT_SALARY_GRADE_LIST_FAIL,
+  POST_SALARY_GRADE_LIST,
+  POST_SALARY_GRADE_LIST_SUCCESS,
+  POST_SALARY_GRADE_LIST_FAIL,
   PUT_SALARY_GRADE_LIST,
   PUT_SALARY_GRADE_LIST_SUCCESS,
+  PUT_SALARY_GRADE_LIST_FAIL,
   SALARY_GRADE_API_FAIL,
   GET_SALARY_GRADE_LIST_STEP_INCREMENT,
   GET_SALARY_GRADE_LIST_STEP_INCREMENT_SUCCESS,
@@ -11,25 +21,32 @@ import {
   GET_SALARY_GRADE_LIST_STEP_INCREMENT_ONE_SUCCESS,
   GET_SALARY_GRADE_LIST_STEP_INCREMENT_ONE_FAIL,
   RESET_SALARY_GRADE_RESPONSES,
-} from "./actionTypes"
+} from './actionTypes'
 
 const INIT_STATE = {
   response: {
     salaryGradeList: [],
+    previousSalaryGradeList: [],
+    currentSalaryGradeList: [],
     salaryGradeStepIncrement: [],
     salaryGradeStepIncrementOne: [],
     salaryGrade: {
+      post: {},
       put: {},
     },
   },
   loading: {
     loadingSalaryGradeStepIncrementOne: false,
     loadingSalaryGrade: false,
+    loadingPreviousSalaryGrade: false,
+    loadingCurrentSalaryGrade: false,
     loadingSalaryGradeStepIncrement: false,
   },
   error: {
     errorSalaryGradeStepIncrementOne: null,
     errorSalaryGrade: null,
+    errorPreviousSalaryGrade: null,
+    errorCurrentSalaryGrade: null,
     errorSalaryGradeStepIncrement: null,
   },
 }
@@ -65,6 +82,90 @@ const salaryGrade = (state = INIT_STATE, action) => {
         },
       }
 
+    // previous salary grade
+    case GET_PREVIOUS_SALARY_GRADE_LIST:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          previousSalaryGradeList: [],
+        },
+        loading: {
+          ...state.loading,
+          loadingPreviousSalaryGrade: true,
+        },
+        error: {
+          ...state.error,
+          errorPreviousSalaryGrade: null,
+        },
+      }
+    case GET_PREVIOUS_SALARY_GRADE_LIST_SUCCESS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          previousSalaryGradeList: action.payload,
+        },
+        loading: {
+          ...state.loading,
+          loadingPreviousSalaryGrade: false,
+        },
+      }
+    case GET_PREVIOUS_SALARY_GRADE_LIST_FAIL:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingPreviousSalaryGrade: false,
+        },
+        error: {
+          ...state.error,
+          errorPreviousSalaryGrade: action.payload,
+        },
+      }
+
+    // current salary grade
+    case GET_CURRENT_SALARY_GRADE_LIST:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          currentSalaryGradeList: [],
+        },
+        loading: {
+          ...state.loading,
+          loadingCurrentSalaryGrade: true,
+        },
+        error: {
+          ...state.error,
+          errorCurrentSalaryGrade: null,
+        },
+      }
+    case GET_CURRENT_SALARY_GRADE_LIST_SUCCESS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          currentSalaryGradeList: action.payload,
+        },
+        loading: {
+          ...state.loading,
+          loadingCurrentSalaryGrade: false,
+        },
+      }
+    case GET_CURRENT_SALARY_GRADE_LIST_FAIL:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingCurrentSalaryGrade: false,
+        },
+        error: {
+          ...state.error,
+          errorCurrentSalaryGrade: action.payload,
+        },
+      }
+
     case PUT_SALARY_GRADE_LIST:
       return {
         ...state,
@@ -97,6 +198,68 @@ const salaryGrade = (state = INIT_STATE, action) => {
         loading: {
           ...state.loading,
           loadingSalaryGrade: false,
+        },
+      }
+    case PUT_SALARY_GRADE_LIST_FAIL:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingPreviousSalaryGrade: false,
+          loadingCurrentSalaryGrade: false,
+        },
+        error: {
+          ...state.error,
+          errorSalaryGrade: action.payload,
+        },
+      }
+
+    case POST_SALARY_GRADE_LIST:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          salaryGrade: {
+            ...state.response.salaryGrade,
+            post: {},
+          },
+        },
+        loading: {
+          ...state.loading,
+          loadingSalaryGrade: true,
+        },
+        error: {
+          ...state.error,
+          errorSalaryGrade: null,
+        },
+      }
+
+    case POST_SALARY_GRADE_LIST_SUCCESS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          salaryGrade: {
+            ...state.response.salaryGrade,
+            post: action.payload,
+          },
+        },
+        loading: {
+          ...state.loading,
+          loadingSalaryGrade: false,
+        },
+      }
+    case POST_SALARY_GRADE_LIST_FAIL:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingPreviousSalaryGrade: false,
+          loadingCurrentSalaryGrade: false,
+        },
+        error: {
+          ...state.error,
+          errorSalaryGrade: action.payload,
         },
       }
 
@@ -209,6 +372,8 @@ const salaryGrade = (state = INIT_STATE, action) => {
           ...state.error,
           errorSalaryGradeStepIncrementOne: null,
           errorSalaryGrade: null,
+          errorPreviousSalaryGrade: null,
+          errorCurrentSalaryGrade: null,
           errorSalaryGradeStepIncrement: null,
         },
       }
