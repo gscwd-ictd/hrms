@@ -1,26 +1,26 @@
-import React, { useEffect, useMemo, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { Card, CardBody, Col, Row, Container } from "reactstrap"
-import { fetchPlantilla } from "store/actions"
-import PropTypes from "prop-types"
-import { Can } from "casl/Can"
-import { Navigate, useLocation } from "react-router-dom"
+import React, { useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Card, CardBody, Col, Row, Container } from 'reactstrap'
+import { fetchPlantilla } from 'store/actions'
+import PropTypes from 'prop-types'
+import { Can } from 'casl/Can'
+import { Navigate, useLocation } from 'react-router-dom'
 
 // modal components
-import InRowAction from "components/InRowAction/InRowAction"
-import AddPositionModal from "components/Modal/Plantilla/AddPositionModal"
+import InRowAction from 'components/InRowAction/InRowAction'
+import AddPositionModal from 'components/Modal/Plantilla/AddPositionModal'
 
 // table components
-import TablePlantilla from "components/Table/TablePlantilla"
-import { SelectColumnFilter } from "components/Filters/SelectColumnFilter"
+import TablePlantilla from 'components/Table/TablePlantilla'
+import { SelectColumnFilter } from 'components/Filters/SelectColumnFilter'
 
 // extra components
-import Breadcrumbs from "components/Common/Breadcrumb"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import Breadcrumbs from 'components/Common/Breadcrumb'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // style
-import "styles/custom_gscwd/components/table.scss"
+import 'styles/custom_gscwd/components/table.scss'
 
 const PlantillaTable = () => {
   const dispatch = useDispatch()
@@ -29,39 +29,39 @@ const PlantillaTable = () => {
   // table columns
   const plantillaColumns = [
     {
-      Header: "ID",
-      accessor: "positionId",
+      Header: 'ID',
+      accessor: 'positionId',
       disableGlobalFilter: true,
     },
     {
-      Header: "Item No.",
-      accessor: "itemNumber",
-      sortType: "basic",
+      Header: 'Item No.',
+      accessor: 'itemNumber',
+      sortType: 'basic',
     },
     {
-      Header: "Position Title",
-      accessor: "positionTitle",
+      Header: 'Position Title',
+      accessor: 'positionTitle',
     },
     {
-      Header: "Assigned To",
-      accessor: "assignedTo",
+      Header: 'Assigned To',
+      accessor: 'assignedTo',
       Filter: SelectColumnFilter,
     },
     {
-      Header: "Occupation",
-      accessor: "occupationName",
+      Header: 'Occupation',
+      accessor: 'occupationName',
       Filter: SelectColumnFilter,
     },
     {
-      Header: "Actions",
-      accessor: "",
+      Header: 'Actions',
+      accessor: '',
       disableGlobalFilter: true,
       disableSortBy: true,
       Cell: function ActionDropdown({ cell }) {
         return (
           <InRowAction
             viewRedirectUrl={
-              location.pathname + "/" + cell.row.values.positionId
+              location.pathname + '/' + cell.row.values.positionId
             }
           />
         )
@@ -101,7 +101,7 @@ const PlantillaTable = () => {
             />
 
             {error ? (
-              <ToastrNotification toastType={"error"} notifMessage={error} />
+              <ToastrNotification toastType={'error'} notifMessage={error} />
             ) : null}
 
             <Row>
