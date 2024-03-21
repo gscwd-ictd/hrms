@@ -11,6 +11,11 @@ export const POST_FORGET_PASSWORD = 'auth/forget-password'
 export const POST_PROFILE_UPDATE = 'auth/post-jwt-profile'
 export const POST_SU_LOGIN = 'users/super-login'
 
+// DASHBOARD
+export const GET_EMPLOYEES_COUNT = 'stats/count/employees'
+export const GET_APPLICANTS_COUNT = 'stats/count/applicants'
+export const GET_APPROVED_PRF_COUNT = 'stats/count/prf'
+
 //ORGANIZATION STRUCTURE
 export const GET_OFFICES = 'office'
 export const POST_OFFICE = 'office'
