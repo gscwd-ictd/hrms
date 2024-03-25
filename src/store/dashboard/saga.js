@@ -1,4 +1,4 @@
-import { call, put, takeEvery, all, fork } from "redux-saga/effects";
+import { call, put, takeEvery, all, fork } from 'redux-saga/effects'
 
 // Crypto Redux States
 import {
@@ -60,7 +60,30 @@ function* fetchEmployeesCount() {
     const response = yield call(getEmployeesCount)
     yield put(getEmployeesCountSuccess(response))
   } catch (error) {
-    yield put(getEmployeesCountFail(error))
+    let errorMessage
+    if (error.response && error.response.status) {
+      switch (error.response.status) {
+        case 400:
+          errorMessage = 'Error: Bad request. Try again later'
+          break
+        case 401:
+          errorMessage = 'Error: Invalid credentials'
+          break
+        case 404:
+          errorMessage = 'Error: Employee count not found'
+          break
+        case 408:
+          errorMessage = 'Error: Request timeout. Try again later'
+          break
+        case 500:
+          errorMessage = 'Error: Sorry! something went wrong'
+          break
+        default:
+          errorMessage = 'Error: Invalid request'
+          break
+      }
+    }
+    yield put(getEmployeesCountFail(errorMessage))
   }
 }
 
@@ -69,7 +92,30 @@ function* fetchApplicantsCount() {
     const response = yield call(getApplicantsCount)
     yield put(getApplicantsCountSuccess(response))
   } catch (error) {
-    yield put(getApplicantsCountFail(error))
+    let errorMessage
+    if (error.response && error.response.status) {
+      switch (error.response.status) {
+        case 400:
+          errorMessage = 'Error: Bad request. Try again later'
+          break
+        case 401:
+          errorMessage = 'Error: Invalid credentials'
+          break
+        case 404:
+          errorMessage = 'Error: Applicant count not found'
+          break
+        case 408:
+          errorMessage = 'Error: Request timeout. Try again later'
+          break
+        case 500:
+          errorMessage = 'Error: Sorry! something went wrong'
+          break
+        default:
+          errorMessage = 'Error: Invalid request'
+          break
+      }
+    }
+    yield put(getApplicantsCountFail(errorMessage))
   }
 }
 
@@ -78,7 +124,30 @@ function* fetchApprovedPrfCount() {
     const response = yield call(getApprovedPrfCount)
     yield put(getApprovedPrfCountSuccess(response))
   } catch (error) {
-    yield put(getApprovedPrfCountFail(error))
+    let errorMessage
+    if (error.response && error.response.status) {
+      switch (error.response.status) {
+        case 400:
+          errorMessage = 'Error: Bad request. Try again later'
+          break
+        case 401:
+          errorMessage = 'Error: Invalid credentials'
+          break
+        case 404:
+          errorMessage = 'Error: Approved PRF count not found'
+          break
+        case 408:
+          errorMessage = 'Error: Request timeout. Try again later'
+          break
+        case 500:
+          errorMessage = 'Error: Sorry! something went wrong'
+          break
+        default:
+          errorMessage = 'Error: Invalid request'
+          break
+      }
+    }
+    yield put(getApprovedPrfCountFail(errorMessage))
   }
 }
 
@@ -89,4 +158,4 @@ function* dashboardSaga() {
   yield takeEvery(GET_APPROVED_PRF_COUNT, fetchApprovedPrfCount)
 }
 
-export default dashboardSaga;
+export default dashboardSaga
