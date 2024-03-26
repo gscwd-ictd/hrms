@@ -79,7 +79,7 @@ const Dashboard = () => {
         : '--',
     },
     {
-      title: 'Approved PRF Request',
+      title: 'Approved PRF',
       iconClass: 'bx-user-pin',
       value: errorApprovedPrfCount
         ? '--'
