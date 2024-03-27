@@ -6,6 +6,7 @@ import {
   GET_EMPLOYEES_COUNT,
   GET_APPLICANTS_COUNT,
   GET_APPROVED_PRF_COUNT,
+  GET_BIRTHDAY_CELEBRANTS,
 } from './actionTypes'
 import {
   apiSuccess,
@@ -16,21 +17,16 @@ import {
   getApplicantsCountFail,
   getApprovedPrfCountSuccess,
   getApprovedPrfCountFail,
+  fetchBirthdayCelebrantsSuccess,
+  fetchBirthdayCelebrantsFail,
 } from './actions'
 
 import {
   getEmployeesCount,
   getApplicantsCount,
   getApprovedPrfCount,
+  getBirthdayCelebrants,
 } from 'helpers/backend_helper'
-
-//Include Both Helper File with needed methods
-// import {
-//     getWeeklyData,
-//     getYearlyData,
-//     getMonthlyData
-// }
-//     from "../../helpers/fakebackend_helper";
 
 function* getChartsData({ payload: periodType }) {
   try {
@@ -151,11 +147,21 @@ function* fetchApprovedPrfCount() {
   }
 }
 
+function* fetchBirthdayCelebrants() {
+  try {
+    const response = yield call(getBirthdayCelebrants)
+    yield put(fetchBirthdayCelebrantsSuccess(response))
+  } catch (error) {
+    yield put(fetchBirthdayCelebrantsFail(error))
+  }
+}
+
 function* dashboardSaga() {
   yield all([fork(watchGetChartsData)])
   yield takeEvery(GET_EMPLOYEES_COUNT, fetchEmployeesCount)
   yield takeEvery(GET_APPLICANTS_COUNT, fetchApplicantsCount)
   yield takeEvery(GET_APPROVED_PRF_COUNT, fetchApprovedPrfCount)
+  yield takeEvery(GET_BIRTHDAY_CELEBRANTS, fetchBirthdayCelebrants)
 }
 
 export default dashboardSaga
