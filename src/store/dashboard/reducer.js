@@ -11,6 +11,9 @@ import {
   GET_APPROVED_PRF_COUNT,
   GET_APPROVED_PRF_COUNT_SUCCESS,
   GET_APPROVED_PRF_COUNT_FAIL,
+  GET_BIRTHDAY_CELEBRANTS,
+  GET_BIRTHDAY_CELEBRANTS_SUCCESS,
+  GET_BIRTHDAY_CELEBRANTS_FAIL,
 } from './actionTypes'
 
 const INIT_STATE = {
@@ -18,15 +21,18 @@ const INIT_STATE = {
   employeesCount: [],
   applicantsCount: [],
   approvedPrfCount: [],
+  birthdayCelebrants: [],
   loading: {
     loadingEmployeesCount: false,
     loadingApplicantsCount: false,
     loadingApprovedPrfCount: false,
+    loadingBirthdayCelebrants: false,
   },
   error: {
     errorEmployeesCount: null,
     errorApplicantsCount: null,
     errorApprovedPrfCount: null,
+    errorBirthdayCelebrants: null,
   },
 }
 
@@ -173,6 +179,43 @@ const Dashboard = (state = INIT_STATE, action) => {
           errorApprovedPrfCount: action.payload,
         },
       }
+
+    // get birthday celebrants
+    case GET_BIRTHDAY_CELEBRANTS:
+      return {
+        ...state,
+        birthdayCelebrants: [],
+        loading: {
+          ...state.loading,
+          loadingBirthdayCelebrants: true,
+        },
+        error: {
+          ...state.error,
+          errorBirthdayCelebrants: null,
+        },
+      }
+    case GET_BIRTHDAY_CELEBRANTS_SUCCESS:
+      return {
+        ...state,
+        birthdayCelebrants: action.payload,
+        loading: {
+          ...state.loading,
+          loadingBirthdayCelebrants: false,
+        },
+      }
+    case GET_BIRTHDAY_CELEBRANTS_FAIL:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingBirthdayCelebrants: false,
+        },
+        error: {
+          ...state.error,
+          errorBirthdayCelebrants: action.payload,
+        },
+      }
+
     default:
       return state
   }

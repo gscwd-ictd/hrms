@@ -11,6 +11,9 @@ import {
   GET_APPROVED_PRF_COUNT,
   GET_APPROVED_PRF_COUNT_SUCCESS,
   GET_APPROVED_PRF_COUNT_FAIL,
+  GET_BIRTHDAY_CELEBRANTS,
+  GET_BIRTHDAY_CELEBRANTS_SUCCESS,
+  GET_BIRTHDAY_CELEBRANTS_FAIL,
 } from './actionTypes'
 
 export const apiSuccess = (actionType, data) => ({
@@ -71,5 +74,20 @@ export const getApprovedPrfCountSuccess = approvedPrfCount => ({
 
 export const getApprovedPrfCountFail = error => ({
   type: GET_APPROVED_PRF_COUNT_FAIL,
+  payload: error,
+})
+
+// birthday celebrants
+export const fetchBirthdayCelebrants = () => ({
+  type: GET_BIRTHDAY_CELEBRANTS,
+})
+
+export const fetchBirthdayCelebrantsSuccess = birthdayCelebrants => ({
+  type: GET_BIRTHDAY_CELEBRANTS_SUCCESS,
+  payload: birthdayCelebrants,
+})
+
+export const fetchBirthdayCelebrantsFail = error => ({
+  type: GET_BIRTHDAY_CELEBRANTS_FAIL,
   payload: error,
 })

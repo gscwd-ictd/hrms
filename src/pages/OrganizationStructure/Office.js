@@ -1,48 +1,48 @@
-import React, { useEffect, useMemo, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { getOffices } from "store/actions"
-import { Can } from "casl/Can"
-import { Navigate } from "react-router-dom"
+import React, { useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getOffices } from 'store/actions'
+import { Can } from 'casl/Can'
+import { Navigate } from 'react-router-dom'
 
-import { Card, CardBody, Col, Row } from "reactstrap"
-import InRowAction from "components/InRowAction/InRowAction"
-import EditOfficeModal from "components/Modal/Office/EditOfficeModal"
-import DeleteOfficeModal from "components/Modal/Office/DeleteOfficeModal"
-import AddOfficeModal from "components/Modal/Office/AddOfficeModal"
-import TableOrgStruct from "components/Table/TableOrgStruct"
-import Breadcrumbs from "../../components/Common/Breadcrumb"
-import LoadingIndicator from "../../components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import { Card, CardBody, Col, Row } from 'reactstrap'
+import InRowAction from 'components/InRowAction/InRowAction'
+import EditOfficeModal from 'components/Modal/Office/EditOfficeModal'
+import DeleteOfficeModal from 'components/Modal/Office/DeleteOfficeModal'
+import AddOfficeModal from 'components/Modal/Office/AddOfficeModal'
+import TableOrgStruct from 'components/Table/TableOrgStruct'
+import Breadcrumbs from '../../components/Common/Breadcrumb'
+import LoadingIndicator from '../../components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // style
-import "styles/custom_gscwd/components/table.scss"
+import 'styles/custom_gscwd/components/table.scss'
 
 const Office = () => {
   const dispatch = useDispatch()
 
   const tblColumns = [
     {
-      Header: "ID",
-      accessor: "_id",
+      Header: 'ID',
+      accessor: '_id',
       disableGlobalFilter: true,
     },
     {
-      Header: "Office Name",
-      accessor: "name",
+      Header: 'Office Name',
+      accessor: 'name',
     },
     {
-      Header: "Code",
-      accessor: "code",
+      Header: 'Code',
+      accessor: 'code',
     },
     {
-      Header: "Description",
-      accessor: "description",
+      Header: 'Description',
+      accessor: 'description',
       disableGlobalFilter: true,
     },
     {
-      Header: "Actions",
-      accessor: "",
-      align: "center",
+      Header: 'Actions',
+      accessor: '',
+      align: 'center',
       disableGlobalFilter: true,
       disableSortBy: true,
       Cell: function ActionDropdown(cell) {
@@ -117,7 +117,7 @@ const Office = () => {
                   <CardBody className="card-table">
                     {error ? (
                       <ToastrNotification
-                        toastType={"error"}
+                        toastType={'error'}
                         notifMessage={error}
                       />
                     ) : null}
