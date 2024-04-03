@@ -9,6 +9,12 @@ import { getEmp } from './employee_api_helper'
 import { getEmpMon } from './employee_monitoring_api_helper'
 import * as url from './url_helper'
 
+// Dashboard -------------------------------------------------------------------------
+export const getEmployeesCount = () => getHris(url.GET_EMPLOYEES_COUNT)
+export const getApplicantsCount = () => getHris(url.GET_APPLICANTS_COUNT)
+export const getApprovedPrfCount = () => getHris(url.GET_APPROVED_PRF_COUNT)
+export const getBirthdayCelebrants = () => getHris(url.GET_BIRTHDAY_CELEBRANTS)
+
 // Office ----------------------------------------------------------------------------
 export const getOfficeList = () => getHris(url.GET_OFFICES)
 export const postOffice = officeData => postHris(url.POST_OFFICE, officeData)
