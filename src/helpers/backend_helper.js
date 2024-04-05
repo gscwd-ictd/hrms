@@ -14,6 +14,7 @@ export const getEmployeesCount = () => getHris(url.GET_EMPLOYEES_COUNT)
 export const getApplicantsCount = () => getHris(url.GET_APPLICANTS_COUNT)
 export const getApprovedPrfCount = () => getHris(url.GET_APPROVED_PRF_COUNT)
 export const getBirthdayCelebrants = () => getHris(url.GET_BIRTHDAY_CELEBRANTS)
+export const getNoaDistribution = () => getHris(url.GET_NOA_DISTRIBUTION)
 
 // Office ----------------------------------------------------------------------------
 export const getOfficeList = () => getHris(url.GET_OFFICES)

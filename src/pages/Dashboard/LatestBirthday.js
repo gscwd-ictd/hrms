@@ -25,7 +25,7 @@ const LatestBirthday = () => {
 
   useEffect(() => {
     dispatch(fetchBirthdayCelebrants())
-  }, [dispatch])
+  }, [])
 
   return (
     <>
