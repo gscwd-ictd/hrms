@@ -14,6 +14,9 @@ import {
   GET_BIRTHDAY_CELEBRANTS,
   GET_BIRTHDAY_CELEBRANTS_SUCCESS,
   GET_BIRTHDAY_CELEBRANTS_FAIL,
+  GET_NOA_DISTRIBUTION,
+  GET_NOA_DISTRIBUTION_SUCCESS,
+  GET_NOA_DISTRIBUTION_FAIL,
 } from './actionTypes'
 
 export const apiSuccess = (actionType, data) => ({
@@ -89,5 +92,20 @@ export const fetchBirthdayCelebrantsSuccess = birthdayCelebrants => ({
 
 export const fetchBirthdayCelebrantsFail = error => ({
   type: GET_BIRTHDAY_CELEBRANTS_FAIL,
+  payload: error,
+})
+
+// nature of appointment distribution
+export const fetchNoaDistribution = () => ({
+  type: GET_NOA_DISTRIBUTION,
+})
+
+export const fetchNoaDistributionSuccess = noaDistribution => ({
+  type: GET_NOA_DISTRIBUTION_SUCCESS,
+  payload: noaDistribution,
+})
+
+export const fetchNoaDistributionFail = error => ({
+  type: GET_NOA_DISTRIBUTION_FAIL,
   payload: error,
 })

@@ -7,6 +7,7 @@ import {
   GET_APPLICANTS_COUNT,
   GET_APPROVED_PRF_COUNT,
   GET_BIRTHDAY_CELEBRANTS,
+  GET_NOA_DISTRIBUTION,
 } from './actionTypes'
 import {
   apiSuccess,
@@ -19,6 +20,8 @@ import {
   getApprovedPrfCountFail,
   fetchBirthdayCelebrantsSuccess,
   fetchBirthdayCelebrantsFail,
+  fetchNoaDistributionSuccess,
+  fetchNoaDistributionFail,
 } from './actions'
 
 import {
@@ -26,6 +29,7 @@ import {
   getApplicantsCount,
   getApprovedPrfCount,
   getBirthdayCelebrants,
+  getNoaDistribution,
 } from 'helpers/backend_helper'
 
 function* getChartsData({ payload: periodType }) {
@@ -156,12 +160,22 @@ function* fetchBirthdayCelebrants() {
   }
 }
 
+function* fetchNoaDistribution() {
+  try {
+    const response = yield call(getNoaDistribution)
+    yield put(fetchNoaDistributionSuccess(response))
+  } catch (error) {
+    yield put(fetchNoaDistributionFail(error))
+  }
+}
+
 function* dashboardSaga() {
   yield all([fork(watchGetChartsData)])
   yield takeEvery(GET_EMPLOYEES_COUNT, fetchEmployeesCount)
   yield takeEvery(GET_APPLICANTS_COUNT, fetchApplicantsCount)
   yield takeEvery(GET_APPROVED_PRF_COUNT, fetchApprovedPrfCount)
   yield takeEvery(GET_BIRTHDAY_CELEBRANTS, fetchBirthdayCelebrants)
+  yield takeEvery(GET_NOA_DISTRIBUTION, fetchNoaDistribution)
 }
 
 export default dashboardSaga
