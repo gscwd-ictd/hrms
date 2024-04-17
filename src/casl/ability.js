@@ -9,11 +9,17 @@ export default defineAbility(can => {
     can("access", "all")
   } else {
     if (
-      localStorage.getItem("userAccess") &&
-      localStorage.getItem("userAccess") !== "undefined"
+      localStorage.getItem('userAccess') &&
+      localStorage.getItem('userAccess') !== 'undefined' &&
+      localStorage.getItem('appAccess') &&
+      localStorage.getItem('appAccess') !== 'undefined'
     ) {
-      const userAccess = JSON.parse(localStorage.getItem("userAccess"))
+      const userAccess = JSON.parse(localStorage.getItem('userAccess'))
       userAccess.map(permission => {
+        can(permission.I, permission.this)
+      })
+      const appAccess = JSON.parse(localStorage.getItem('appAccess'))
+      appAccess.map(permission => {
         can(permission.I, permission.this)
       })
     }

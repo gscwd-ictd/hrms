@@ -13,6 +13,9 @@ import Cookies from 'universal-cookie'
 const domainUrl = process.env.REACT_APP_HRMS_DOMAIN
 const cookies = new Cookies()
 
+// mockData here
+const sampleAppAccess = [{"I":"access","this":"rspModule"},{"I":"access","this":"empModule"},{"I":"access","this":"lndModule"}]
+
 function* loginUser({ payload: { user, history } }) {
   const loginDetails = {
     ...user,
@@ -45,6 +48,9 @@ function* loginUser({ payload: { user, history } }) {
 
     const userAccess = response.userDetails.userAccess
     localStorage.setItem('userAccess', JSON.stringify(userAccess))
+
+    const appAccess = sampleAppAccess
+    localStorage.setItem('appAccess', JSON.stringify(appAccess))
 
     const employeeId = response.userDetails._id
     const suId = response.userDetails.userId
