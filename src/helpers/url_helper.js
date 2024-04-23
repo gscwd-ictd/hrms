@@ -16,6 +16,7 @@ export const GET_EMPLOYEES_COUNT = 'stats/count/employees'
 export const GET_APPLICANTS_COUNT = 'stats/count/applicants'
 export const GET_APPROVED_PRF_COUNT = 'stats/count/prf'
 export const GET_BIRTHDAY_CELEBRANTS = 'stats/current/birthdays'
+export const GET_NOA_DISTRIBUTION = 'stats/count/appointment'
 
 //ORGANIZATION STRUCTURE
 export const GET_OFFICES = 'office'

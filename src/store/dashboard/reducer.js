@@ -14,6 +14,9 @@ import {
   GET_BIRTHDAY_CELEBRANTS,
   GET_BIRTHDAY_CELEBRANTS_SUCCESS,
   GET_BIRTHDAY_CELEBRANTS_FAIL,
+  GET_NOA_DISTRIBUTION,
+  GET_NOA_DISTRIBUTION_SUCCESS,
+  GET_NOA_DISTRIBUTION_FAIL,
 } from './actionTypes'
 
 const INIT_STATE = {
@@ -22,17 +25,20 @@ const INIT_STATE = {
   applicantsCount: [],
   approvedPrfCount: [],
   birthdayCelebrants: [],
+  natureOfAppointmentDistribution: {},
   loading: {
     loadingEmployeesCount: false,
     loadingApplicantsCount: false,
     loadingApprovedPrfCount: false,
     loadingBirthdayCelebrants: false,
+    loadingNatureOfAppointmentDistribution: false,
   },
   error: {
     errorEmployeesCount: null,
     errorApplicantsCount: null,
     errorApprovedPrfCount: null,
     errorBirthdayCelebrants: null,
+    errorNatureOfAppointmentDistribution: null,
   },
 }
 
@@ -213,6 +219,36 @@ const Dashboard = (state = INIT_STATE, action) => {
         error: {
           ...state.error,
           errorBirthdayCelebrants: action.payload,
+        },
+      }
+
+    case GET_NOA_DISTRIBUTION:
+      return {
+        ...state,
+        natureOfAppointmentDistribution: {},
+        loading: {
+          loadingNatureOfAppointmentDistribution: true,
+        },
+        error: {
+          errorNatureOfAppointmentDistribution: null,
+        },
+      }
+    case GET_NOA_DISTRIBUTION_SUCCESS:
+      return {
+        ...state,
+        natureOfAppointmentDistribution: action.payload,
+        loading: {
+          loadingNatureOfAppointmentDistribution: false,
+        },
+      }
+    case GET_NOA_DISTRIBUTION_FAIL:
+      return {
+        ...state,
+        loading: {
+          loadingNatureOfAppointmentDistribution: false,
+        },
+        error: {
+          errorNatureOfAppointmentDistribution: action.payload,
         },
       }
 

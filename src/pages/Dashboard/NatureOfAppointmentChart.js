@@ -1,15 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchNoaDistribution } from 'store/actions'
+import { isEmpty } from 'lodash'
+
 import { Doughnut } from 'react-chartjs-2'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 import { Chart, registerables } from 'chart.js'
+
 Chart.register(...registerables)
 
 const NatureOfAppointmentChart = () => {
+  const dispatch = useDispatch()
+
+  const { noaDistribution, isLoading, error } = useSelector(state => ({
+    noaDistribution: state.Dashboard.natureOfAppointmentDistribution,
+    isLoading: state.Dashboard.loading.loadingNatureOfAppointmentDistribution,
+    error: state.Dashboard.error.errorNatureOfAppointmentDistribution,
+  }))
+
   const data = {
-    labels: ['Contract of Service', 'Job Order', 'Casual', 'Permanent'],
+    labels: noaDistribution.labels || [],
     datasets: [
       {
         label: '# of Employees',
-        data: [50, 18, 21, 249],
+        data: noaDistribution.data || [],
 
         backgroundColor: [
           'rgba(255, 99, 132, 0.8)',
@@ -54,7 +69,23 @@ const NatureOfAppointmentChart = () => {
     },
   }
 
-  return <Doughnut width={400} height={305} data={data} options={option} />
+  useEffect(() => {
+    dispatch(fetchNoaDistribution())
+  }, [])
+
+  return (
+    <>
+      {error ? (
+        <ToastrNotification toastType={'error'} notifMessage={error} />
+      ) : null}
+
+      {isLoading ? (
+        <LoadingIndicator />
+      ) : (
+        <Doughnut width={400} height={305} data={data} options={option} />
+      )}
+    </>
+  )
 }
 
 export default NatureOfAppointmentChart
