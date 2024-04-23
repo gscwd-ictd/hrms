@@ -62,19 +62,19 @@ const AddCompetencyModelModal = props => {
   const staticProficiencyKeyActions = [
     {
       level: 'BASIC',
-      keyAction: '',
+      keyActions: '',
     },
     {
       level: 'INTERMEDIATE',
-      keyAction: '',
+      keyActions: '',
     },
     {
       level: 'ADVANCED',
-      keyAction: '',
+      keyActions: '',
     },
     {
       level: 'SUPERIOR',
-      keyAction: '',
+      keyActions: '',
     },
   ]
 
@@ -93,7 +93,7 @@ const AddCompetencyModelModal = props => {
       definition: Yup.string().required('Please enter a competency definition'),
       proficiencyKeyActions: Yup.array().of(
         Yup.object().shape({
-          keyAction: Yup.string().required(
+          keyActions: Yup.string().required(
             'Proficiency key action is required'
           ),
         })
@@ -254,15 +254,15 @@ const AddCompetencyModelModal = props => {
                               <TextareaAutosize
                                 id={index}
                                 minRows={3}
-                                name={`proficiencyKeyActions[${index}].keyAction`}
+                                name={`proficiencyKeyActions[${index}].keyActions`}
                                 defaultValue={
                                   validation.values.proficiencyKeyActions
-                                    .keyAction || ''
+                                    .keyActions || ''
                                 }
                                 onChange={event => {
                                   validation.handleChange(event)
                                   validation.setFieldTouched(
-                                    `proficiencyKeyActions[${index}].keyAction`,
+                                    `proficiencyKeyActions[${index}].keyActions`,
                                     true
                                   )
                                 }}
@@ -272,11 +272,11 @@ const AddCompetencyModelModal = props => {
                                     validation.touched.proficiencyKeyActions &&
                                     validation.touched.proficiencyKeyActions[
                                       index
-                                    ]?.keyAction &&
+                                    ]?.keyActions &&
                                     validation.errors.proficiencyKeyActions &&
                                     validation.errors.proficiencyKeyActions[
                                       index
-                                    ]?.keyAction
+                                    ]?.keyActions
                                       ? '1px solid red'
                                       : '',
                                   padding: '8px',
@@ -284,10 +284,10 @@ const AddCompetencyModelModal = props => {
                               />
                               {validation.touched.proficiencyKeyActions &&
                                 validation.touched.proficiencyKeyActions[index]
-                                  ?.keyAction &&
+                                  ?.keyActions &&
                                 validation.errors.proficiencyKeyActions &&
                                 validation.errors.proficiencyKeyActions[index]
-                                  ?.keyAction && (
+                                  ?.keyActions && (
                                   <p
                                     style={{
                                       color: '#f46a6a',
@@ -297,7 +297,7 @@ const AddCompetencyModelModal = props => {
                                     {
                                       validation.errors.proficiencyKeyActions[
                                         index
-                                      ].keyAction
+                                      ].keyActions
                                     }
                                   </p>
                                 )}
