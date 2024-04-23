@@ -207,7 +207,7 @@ const SidebarContent = props => {
             </Can>
 
             <li className="menu-title">Base Data</li>
-            <Can I="access" this="Qualification_standards">
+            <Can I="access" this="Organization_structure">
               <li>
                 <Link to="/#" className="has-arrow waves-effect">
                   <i className="bx bx-sitemap"></i>
