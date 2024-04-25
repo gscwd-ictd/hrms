@@ -43,6 +43,7 @@ const AddModuleModal = props => {
     enableReinitialize: true,
 
     initialValues: {
+      app: 'rsp',
       module: '',
       slug: '',
       url: '/',
