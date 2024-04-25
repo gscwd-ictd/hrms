@@ -136,24 +136,40 @@ const PositionJobDescription = () => {
     return string.charAt(0).toUpperCase() + string.slice(1)
   }
 
-  // for filtering the salary grade list and update authorized salary field
+  // TODO - fix error where changing salary grade does not update the authorized salary field
   const filterSG = value => {
     const sgCurrentStepIncrement = salaryGradeStepIncrement.filter(
       sg => sg.salaryGrade == value
     )
 
     setFilteredStepIncrements(sgCurrentStepIncrement)
-    document.getElementById('formrow-stepincrement').value = 0
-    document.getElementById('authsalary-input').value = 0
+    document.getElementById('formrow-stepincrement').value =
+      document.getElementById('authsalary-input').value = 0
+
+    if (sgCurrentStepIncrement.length > 0) {
+      const parsedValue = sgCurrentStepIncrement[0]
+      document.getElementById('authsalary-input').value = parsedValue.amount
+      setfilteredSG(parsedValue)
+    } else {
+      document.getElementById('authsalary-input').value = 0
+      setfilteredSG({})
+    }
   }
 
   // for filtering the salary grade list and update authorized salary field
+  // TODO - fix SyntaxError: JSON.parse: unexpected end of data at line 1 column 1 of the JSON data
   const filterSI = value => {
-    const parsedValue = JSON.parse(value)
+    if (value) {
+      const parsedValue = JSON.parse(value)
 
-    // Set "Authorized Salary" value to sudo-input
-    document.getElementById('authsalary-input').value = parsedValue.amount
-    setfilteredSG(parsedValue)
+      // Set "Authorized Salary" value to sudo-input
+      document.getElementById('authsalary-input').value = parsedValue.amount
+      setfilteredSG(parsedValue)
+    } else {
+      // Handle the case where value is an empty string
+      document.getElementById('authsalary-input').value = 0
+      setfilteredSG({})
+    }
   }
 
   // Submit updated job description
@@ -240,6 +256,7 @@ const PositionJobDescription = () => {
     }
   }, [responseUpdateJobDescription])
 
+  // TODO - set jobDescription.salary as a dependency
   useEffect(() => {
     // Set initial state for "Step Increment" select input
     if (jobDescription.salary.id && salaryGradeStepIncrement) {
@@ -253,7 +270,7 @@ const PositionJobDescription = () => {
         amount: jobDescription.salary.amount,
       })
     }
-  }, [salaryGradeStepIncrement])
+  }, [salaryGradeStepIncrement, jobDescription.salary])
 
   return (
     <React.Fragment>
@@ -567,7 +584,7 @@ const PositionJobDescription = () => {
                                           amount: jobDescription.salary.amount,
                                         })}
                                       >
-                                        <option value="">0</option>
+                                        {/* <option value="">0</option> */}
                                         {filteredStepIncrements.map(sg => {
                                           let optionVal = {
                                             _id: sg._id,
