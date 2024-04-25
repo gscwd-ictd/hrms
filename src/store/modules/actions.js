@@ -9,7 +9,7 @@ import {
   PATCH_HRMS_MODULE_SUCCESS,
   HRMS_MODULE_API_FAIL,
   RESET_HRMS_MODULE_RESPONSE,
-} from "./actionTypes"
+} from './actionTypes'
 
 // Get all HRMS modules
 export const fetchHrmsModules = () => {

@@ -112,17 +112,20 @@ const PlantillaTable = () => {
                       <LoadingIndicator />
                     ) : (
                       <>
-                        <div className="top-right-actions">
-                          <div className="form-group add-btn">
-                            <button
-                              onClick={handleShowAdd}
-                              className="btn btn-info waves-effect waves-light"
-                            >
-                              <i className="fas fa-plus-square"></i> Add New
-                              Position
-                            </button>
+                        <Can I="access" this="Plantilla_add">
+                          <div className="top-right-actions">
+                            <div className="form-group add-btn">
+                              <button
+                                onClick={handleShowAdd}
+                                className="btn btn-info waves-effect waves-light"
+                              >
+                                <i className="fas fa-plus-square"></i> Add New
+                                Position
+                              </button>
+                            </div>
                           </div>
-                        </div>
+                        </Can>
+
                         <TablePlantilla columns={columns} data={data} />
                       </>
                     )}

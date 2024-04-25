@@ -241,6 +241,9 @@ const PositionJobDescription = () => {
   }, [responseUpdateJobDescription])
 
   useEffect(() => {
+    // console.log('salaryGradeStepIncrement:', salaryGradeStepIncrement)
+    // console.log('jobDescription:', jobDescription)
+
     // Set initial state for "Step Increment" select input
     if (jobDescription.salary.id && salaryGradeStepIncrement) {
       const sgCurrentStepIncrement = salaryGradeStepIncrement.filter(
@@ -252,6 +255,11 @@ const PositionJobDescription = () => {
         _id: jobDescription.salary.id,
         amount: jobDescription.salary.amount,
       })
+
+      console.log('salaryGradeStepIncrement:', salaryGradeStepIncrement)
+      console.log('jobDescription:', jobDescription)
+    } else {
+      console.error('Invalid jobDescription.salary:', jobDescription.salary)
     }
   }, [salaryGradeStepIncrement])
 
