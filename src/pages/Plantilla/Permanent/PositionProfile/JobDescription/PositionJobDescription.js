@@ -136,7 +136,7 @@ const PositionJobDescription = () => {
     return string.charAt(0).toUpperCase() + string.slice(1)
   }
 
-  // TODO - fix error where changing salary grade does not update the authorized salary field
+  // for filtering the salary grade list and update authorized salary field
   const filterSG = value => {
     const sgCurrentStepIncrement = salaryGradeStepIncrement.filter(
       sg => sg.salaryGrade == value
@@ -156,8 +156,7 @@ const PositionJobDescription = () => {
     }
   }
 
-  // for filtering the salary grade list and update authorized salary field
-  // TODO - fix SyntaxError: JSON.parse: unexpected end of data at line 1 column 1 of the JSON data
+  // for filtering the salary increment and update authorized salary field
   const filterSI = value => {
     if (value) {
       const parsedValue = JSON.parse(value)
@@ -256,11 +255,7 @@ const PositionJobDescription = () => {
     }
   }, [responseUpdateJobDescription])
 
-  // TODO - set jobDescription.salary as a dependency
   useEffect(() => {
-    // console.log('salaryGradeStepIncrement:', salaryGradeStepIncrement)
-    // console.log('jobDescription:', jobDescription)
-
     // Set initial state for "Step Increment" select input
     if (jobDescription.salary.id && salaryGradeStepIncrement) {
       const sgCurrentStepIncrement = salaryGradeStepIncrement.filter(
@@ -272,11 +267,6 @@ const PositionJobDescription = () => {
         _id: jobDescription.salary.id,
         amount: jobDescription.salary.amount,
       })
-
-      console.log('salaryGradeStepIncrement:', salaryGradeStepIncrement)
-      console.log('jobDescription:', jobDescription)
-    } else {
-      console.error('Invalid jobDescription.salary:', jobDescription.salary)
     }
   }, [salaryGradeStepIncrement, jobDescription.salary])
 
@@ -592,7 +582,6 @@ const PositionJobDescription = () => {
                                           amount: jobDescription.salary.amount,
                                         })}
                                       >
-                                        {/* <option value="">0</option> */}
                                         {filteredStepIncrements.map(sg => {
                                           let optionVal = {
                                             _id: sg._id,
