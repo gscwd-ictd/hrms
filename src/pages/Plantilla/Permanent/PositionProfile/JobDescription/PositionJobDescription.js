@@ -143,17 +143,32 @@ const PositionJobDescription = () => {
     )
 
     setFilteredStepIncrements(sgCurrentStepIncrement)
-    document.getElementById('formrow-stepincrement').value = 0
-    document.getElementById('authsalary-input').value = 0
+    document.getElementById('formrow-stepincrement').value =
+      document.getElementById('authsalary-input').value = 0
+
+    if (sgCurrentStepIncrement.length > 0) {
+      const parsedValue = sgCurrentStepIncrement[0]
+      document.getElementById('authsalary-input').value = parsedValue.amount
+      setfilteredSG(parsedValue)
+    } else {
+      document.getElementById('authsalary-input').value = 0
+      setfilteredSG({})
+    }
   }
 
-  // for filtering the salary grade list and update authorized salary field
+  // for filtering the salary increment and update authorized salary field
   const filterSI = value => {
-    const parsedValue = JSON.parse(value)
+    if (value) {
+      const parsedValue = JSON.parse(value)
 
-    // Set "Authorized Salary" value to sudo-input
-    document.getElementById('authsalary-input').value = parsedValue.amount
-    setfilteredSG(parsedValue)
+      // Set "Authorized Salary" value to sudo-input
+      document.getElementById('authsalary-input').value = parsedValue.amount
+      setfilteredSG(parsedValue)
+    } else {
+      // Handle the case where value is an empty string
+      document.getElementById('authsalary-input').value = 0
+      setfilteredSG({})
+    }
   }
 
   // Submit updated job description
@@ -241,9 +256,6 @@ const PositionJobDescription = () => {
   }, [responseUpdateJobDescription])
 
   useEffect(() => {
-    // console.log('salaryGradeStepIncrement:', salaryGradeStepIncrement)
-    // console.log('jobDescription:', jobDescription)
-
     // Set initial state for "Step Increment" select input
     if (jobDescription.salary.id && salaryGradeStepIncrement) {
       const sgCurrentStepIncrement = salaryGradeStepIncrement.filter(
@@ -255,13 +267,8 @@ const PositionJobDescription = () => {
         _id: jobDescription.salary.id,
         amount: jobDescription.salary.amount,
       })
-
-      console.log('salaryGradeStepIncrement:', salaryGradeStepIncrement)
-      console.log('jobDescription:', jobDescription)
-    } else {
-      console.error('Invalid jobDescription.salary:', jobDescription.salary)
     }
-  }, [salaryGradeStepIncrement])
+  }, [salaryGradeStepIncrement, jobDescription.salary])
 
   return (
     <React.Fragment>
@@ -575,7 +582,6 @@ const PositionJobDescription = () => {
                                           amount: jobDescription.salary.amount,
                                         })}
                                       >
-                                        <option value="">0</option>
                                         {filteredStepIncrements.map(sg => {
                                           let optionVal = {
                                             _id: sg._id,
