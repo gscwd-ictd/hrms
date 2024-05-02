@@ -15,6 +15,7 @@ import Header from 'components/PdfDocuments/PositionDescription/Header'
 // Fonts
 import CalibriRegular from 'assets/fonts/uploads/calibri-regular.ttf'
 import CalibriRegularBold from 'assets/fonts/uploads/calibri-regular-bold.ttf'
+import { isEmpty } from 'lodash'
 
 const styles = StyleSheet.create({
   page: {
@@ -247,7 +248,7 @@ const PdDocument = props => {
   const renderReviewedBy = () => {
     var content = (
       <>
-        {prfDetails.from.name === prfTrail.department.name ||
+        {prfDetails?.from.name === prfTrail.department.name ||
         prfTrail.department.status === 'N/A' ? (
           <Text
             style={[
@@ -281,7 +282,7 @@ const PdDocument = props => {
   const renderRecommendedBy = () => {
     var content = (
       <>
-        {prfDetails.from.name === prfTrail.agm.name ||
+        {prfDetails?.from.name === prfTrail.agm.name ||
         prfTrail.agm.status === 'N/A' ? (
           <Text
             style={[
@@ -748,77 +749,81 @@ const PdDocument = props => {
             </View>
 
             {/* SIGNATORIES */}
-            <View style={[{ marginTop: 35 }]}>
-              {/* Row 1  */}
-              <View style={[styles.rowContainer]} wrap={false}>
-                {/* REQUESTED BY */}
-                <View style={[styles.w33_33]}>
-                  <Text>Requested by:</Text>
-                  <View style={[styles.horizontalCenter]}>
-                    <Image
-                      source={`${prfDetails.from.fromSignatureUrl}`}
-                      style={[styles.signature]}
-                    />
-                    <Text style={[styles.signatoryName]}>
-                      {prfDetails.from.name}
-                    </Text>
-                    <Text>{prfDetails.from.position}</Text>
-                  </View>
-                </View>
+            {!isEmpty(prfDetails) ? (
+              <>
+                <View style={[{ marginTop: 35 }]}>
+                  {/* Row 1  */}
+                  <View style={[styles.rowContainer]} wrap={false}>
+                    {/* REQUESTED BY */}
+                    <View style={[styles.w33_33]}>
+                      <Text>Requested by:</Text>
+                      <View style={[styles.horizontalCenter]}>
+                        <Image
+                          source={`${prfDetails?.from.fromSignatureUrl}`}
+                          style={[styles.signature]}
+                        />
+                        <Text style={[styles.signatoryName]}>
+                          {prfDetails?.from.name}
+                        </Text>
+                        <Text>{prfDetails?.from.position}</Text>
+                      </View>
+                    </View>
 
-                {/* REVIEWED BY */}
-                <View style={[styles.w33_33]}>
-                  <Text>Reviewed by:</Text>
-                  <View style={[styles.horizontalCenter]}>
-                    {renderReviewedBy()}
-                  </View>
-                </View>
+                    {/* REVIEWED BY */}
+                    <View style={[styles.w33_33]}>
+                      <Text>Reviewed by:</Text>
+                      <View style={[styles.horizontalCenter]}>
+                        {renderReviewedBy()}
+                      </View>
+                    </View>
 
-                {/* RECOMMENDED BY */}
-                <View style={[styles.w33_33]}>
-                  <Text>Recommended by:</Text>
-                  <View style={[styles.horizontalCenter]}>
-                    {renderRecommendedBy()}
+                    {/* RECOMMENDED BY */}
+                    <View style={[styles.w33_33]}>
+                      <Text>Recommended by:</Text>
+                      <View style={[styles.horizontalCenter]}>
+                        {renderRecommendedBy()}
+                      </View>
+                    </View>
                   </View>
-                </View>
-              </View>
 
-              {/* Row 2  */}
-              <View
-                style={[styles.rowContainer, { marginTop: 20 }]}
-                wrap={false}
-              >
-                {/* CERTIFIED CORRECT BY */}
-                <View style={[styles.w50]}>
-                  <Text>Certified correct by:</Text>
-                  <View style={[styles.horizontalCenter]}>
-                    <Image
-                      source={`${prfTrail.admin.signatureUrl}`}
-                      style={[styles.signature]}
-                    />
-                    <Text style={[styles.signatoryName]}>
-                      {prfTrail.admin.name}
-                    </Text>
-                    <Text>{prfTrail.admin.position}</Text>
-                  </View>
-                </View>
+                  {/* Row 2  */}
+                  <View
+                    style={[styles.rowContainer, { marginTop: 20 }]}
+                    wrap={false}
+                  >
+                    {/* CERTIFIED CORRECT BY */}
+                    <View style={[styles.w50]}>
+                      <Text>Certified correct by:</Text>
+                      <View style={[styles.horizontalCenter]}>
+                        <Image
+                          source={`${prfTrail.admin.signatureUrl}`}
+                          style={[styles.signature]}
+                        />
+                        <Text style={[styles.signatoryName]}>
+                          {prfTrail.admin.name}
+                        </Text>
+                        <Text>{prfTrail.admin.position}</Text>
+                      </View>
+                    </View>
 
-                {/* APPROVED BY */}
-                <View style={[styles.w50]}>
-                  <Text>Approved by:</Text>
-                  <View style={[styles.horizontalCenter]}>
-                    <Image
-                      source={`${prfDetails.for.forSignatureUrl}`}
-                      style={[styles.signature]}
-                    />
-                    <Text style={[styles.signatoryName]}>
-                      {prfDetails.for.name}
-                    </Text>
-                    <Text>{prfDetails.for.position}</Text>
+                    {/* APPROVED BY */}
+                    <View style={[styles.w50]}>
+                      <Text>Approved by:</Text>
+                      <View style={[styles.horizontalCenter]}>
+                        <Image
+                          source={`${prfDetails?.for.forSignatureUrl}`}
+                          style={[styles.signature]}
+                        />
+                        <Text style={[styles.signatoryName]}>
+                          {prfDetails?.for.name}
+                        </Text>
+                        <Text>{prfDetails?.for.position}</Text>
+                      </View>
+                    </View>
                   </View>
                 </View>
-              </View>
-            </View>
+              </>
+            ) : null}
           </View>
         </View>
       </Page>
@@ -831,7 +836,7 @@ PdDocument.propTypes = {
   positionDutyResponsibilities: PropTypes.object.isRequired,
   positionQualificationStandards: PropTypes.object.isRequired,
   proficiencyLevel: PropTypes.object.isRequired,
-  prfTrail: PropTypes.object.isRequired,
-  prfDetails: PropTypes.object.isRequired,
+  prfTrail: PropTypes.object,
+  prfDetails: PropTypes.object,
 }
 export default PdDocument

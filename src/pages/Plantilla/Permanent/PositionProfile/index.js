@@ -1,13 +1,13 @@
-import "flatpickr/dist/themes/material_blue.css"
-import React, { useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { Link } from "react-router-dom"
+import 'flatpickr/dist/themes/material_blue.css'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import {
   fetchPlantillaPosition,
   resetJobDescriptionResponse,
-} from "store/actions"
-import { Can } from "casl/Can"
-import { Navigate, useLocation, useParams } from "react-router-dom"
+} from 'store/actions'
+import { Can } from 'casl/Can'
+import { Navigate, useLocation, useParams } from 'react-router-dom'
 
 import {
   Card,
@@ -17,15 +17,16 @@ import {
   Col,
   Container,
   Row,
-} from "reactstrap"
+} from 'reactstrap'
 
 // extra components
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import Breadcrumbs from "components/Common/Breadcrumb"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import Breadcrumbs from 'components/Common/Breadcrumb'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
+import ViewPDModal from 'components/Modal/Plantilla/ViewPDModal'
 
 // styles
-import "styles/custom_gscwd/pages/positionprofile.scss"
+import 'styles/custom_gscwd/pages/positionprofile.scss'
 
 const PositionProfile = () => {
   const dispatch = useDispatch()
@@ -37,6 +38,11 @@ const PositionProfile = () => {
     isLoading: state.plantilla.isLoading,
     error: state.plantilla.error,
   }))
+
+  // View Position Description Document Modal
+  const [showPDFPreview, setShowPDFPreview] = useState(false)
+  const handleCloseModal = () => setShowPDFPreview(false)
+  const handleShowModal = () => setShowPDFPreview(true)
 
   useEffect(() => {
     dispatch(fetchPlantillaPosition(plantillaId))
@@ -61,7 +67,7 @@ const PositionProfile = () => {
 
                 {error ? (
                   <ToastrNotification
-                    toastType={"error"}
+                    toastType={'error'}
                     notifMessage={error}
                   />
                 ) : null}
@@ -84,8 +90,8 @@ const PositionProfile = () => {
                               Job Description
                             </CardTitle>
                             <CardText>
-                              Some quick example text to build on the card title
-                              and make up the bulk of the card&quot;s content.
+                              Initial details of a plantilla position including
+                              salary grade, step increment and summary.
                             </CardText>
                           </CardBody>
                         </Card>
@@ -108,8 +114,8 @@ const PositionProfile = () => {
                               Duties and Responsibilities
                             </CardTitle>
                             <CardText>
-                              Some quick example text to build on the card title
-                              and make up the bulk of the card&quot;s content.
+                              Core and Support duties of a position. Assigned by
+                              the manager with percentage per duty.
                             </CardText>
                           </CardBody>
                         </Card>
@@ -132,8 +138,9 @@ const PositionProfile = () => {
                               Qualification Standards
                             </CardTitle>
                             <CardText>
-                              Some quick example text to build on the card title
-                              and make up the bulk of the card&quot;s content.
+                              The minimum requirements necessary to perform work
+                              of a particular occupation successfully and
+                              safely.
                             </CardText>
                           </CardBody>
                         </Card>
@@ -154,8 +161,27 @@ const PositionProfile = () => {
                           <CardBody>
                             <CardTitle className="mb-2">Competencies</CardTitle>
                             <CardText>
-                              Some quick example text to build on the card title
-                              and make up the bulk of the card&quot;s content.
+                              The measurable or observable knowledge, skills,
+                              abilities, and behaviors critical to successful
+                              job performance.
+                            </CardText>
+                          </CardBody>
+                        </Card>
+                      </Link>
+                    </Col>
+
+                    {/* PDF Modal */}
+                    <Col lg={6}>
+                      <Link onClick={handleShowModal}>
+                        <Card className="d-flex flex-row text-dark">
+                          <div className="ps-3 m-auto">
+                            <i className="bx bxs-file-pdf pp-grid-icon" />
+                          </div>
+                          <CardBody>
+                            <CardTitle className="mb-2">PDF Preview</CardTitle>
+                            <CardText>
+                              Document preview of HRD-014-4 or Position
+                              Description. (Signatory not included)
                             </CardText>
                           </CardBody>
                         </Card>
@@ -163,6 +189,12 @@ const PositionProfile = () => {
                     </Col>
                   </Row>
                 </Container>
+
+                <ViewPDModal
+                  showPDFPreview={showPDFPreview}
+                  plantillaId={plantillaId}
+                  handleCloseModal={handleCloseModal}
+                />
               </>
             )}
           </div>

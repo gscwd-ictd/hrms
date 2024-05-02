@@ -2,9 +2,10 @@ import { call, put, takeEvery } from 'redux-saga/effects'
 import {
   getPositionCompetencyProficiencyLevels,
   getPositionFunctionalCompetenciesProficiencyLevels,
+  getPositionManagerialCompetenciesProficiencyLevels,
   getPositionCompetencyPool,
-  postFunctionalCompetenciesOfPosition,
-  delFunctionalCompetenciesOfPosition,
+  postCompetenciesOfPosition,
+  delCompetenciesOfPosition,
   patchPositionCompetencyProficiencyLevels,
 } from 'helpers/backend_helper'
 import {
@@ -12,21 +13,24 @@ import {
   fetchCompetencyProficiencyLevelsFail,
   fetchPositionFunctionalCompetenciesSuccess,
   fetchPositionFunctionalCompetenciesFail,
+  fetchPositionManagerialCompetenciesSuccess,
+  fetchPositionManagerialCompetenciesFail,
   fetchAvailableFunctionalCompetenciesSuccess,
   fetchAvailableFunctionalCompetenciesFail,
-  updateFunctionalCompetenciesOfPositionSuccess,
-  updateFunctionalCompetenciesOfPositionFail,
-  removeFunctionalCompetenciesOfPositionSuccess,
-  removeFunctionalCompetenciesOfPositionFail,
+  updateCompetenciesOfPositionSuccess,
+  updateCompetenciesOfPositionFail,
+  removeCompetenciesOfPositionSuccess,
+  removeCompetenciesOfPositionFail,
   updatePositionCompetencyProficiencyLevelsSuccess,
   updatePositionCompetencyProficiencyLevelsFail,
 } from './actions'
 import {
   GET_COMPETENCY_PROFICIENCY_LEVELS,
   GET_POSITION_FUNCTIONAL_COMPETENCIES,
+  GET_POSITION_MANAGERIAL_COMPETENCIES,
   GET_POSITION_AVAILABLE_FUNCTIONAL_COMPETENCIES,
-  ASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION,
-  UNASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION,
+  ASSIGN_COMPETENCIES_OF_POSITION,
+  UNASSIGN_COMPETENCIES_OF_POSITION,
   UPDATE_POSITION_PROFICIENCY_LEVELS,
 } from './actionTypes'
 
@@ -71,6 +75,19 @@ function* fetchPositionFunctionalCompetencies({ payload: positionId }) {
   }
 }
 
+function* fetchPositionManagerialCompetencies({ payload: positionId }) {
+  try {
+    const response = yield call(
+      getPositionManagerialCompetenciesProficiencyLevels,
+      positionId
+    )
+
+    yield put(fetchPositionManagerialCompetenciesSuccess(response))
+  } catch (error) {
+    yield put(fetchPositionManagerialCompetenciesFail)
+  }
+}
+
 function* fetchAvailableFunctionalCompetencies({ payload: positionId }) {
   try {
     const response = yield call(getPositionCompetencyPool, positionId)
@@ -81,32 +98,30 @@ function* fetchAvailableFunctionalCompetencies({ payload: positionId }) {
   }
 }
 
-function* updateFunctionalCompetenciesOfPosition({
-  payload: { positionId, selectedFunctionalCompetencies },
+function* updateCompetenciesOfPosition({
+  payload: { positionId, selectedCompetencies },
 }) {
   try {
     const response = yield call(
-      postFunctionalCompetenciesOfPosition,
+      postCompetenciesOfPosition,
       positionId,
-      selectedFunctionalCompetencies
+      selectedCompetencies
     )
 
-    yield put(updateFunctionalCompetenciesOfPositionSuccess(response))
+    yield put(updateCompetenciesOfPositionSuccess(response))
   } catch (error) {
-    yield put(updateFunctionalCompetenciesOfPositionFail(error))
+    yield put(updateCompetenciesOfPositionFail(error))
   }
 }
-function* removeFunctionalCompetenciesOfPosition({
-  payload: selectedFunctionalCompetencies,
-}) {
+function* removeCompetenciesOfPosition({ payload: selectedCompetencies }) {
   try {
-    const response = yield call(delFunctionalCompetenciesOfPosition, {
-      data: selectedFunctionalCompetencies,
+    const response = yield call(delCompetenciesOfPosition, {
+      data: selectedCompetencies,
     })
 
-    yield put(removeFunctionalCompetenciesOfPositionSuccess(response))
+    yield put(removeCompetenciesOfPositionSuccess(response))
   } catch (error) {
-    yield put(removeFunctionalCompetenciesOfPositionFail(error))
+    yield put(removeCompetenciesOfPositionFail(error))
   }
 }
 
@@ -125,16 +140,17 @@ function* positionCompetencySaga() {
     fetchPositionFunctionalCompetencies
   )
   yield takeEvery(
+    GET_POSITION_MANAGERIAL_COMPETENCIES,
+    fetchPositionManagerialCompetencies
+  )
+  yield takeEvery(
     GET_POSITION_AVAILABLE_FUNCTIONAL_COMPETENCIES,
     fetchAvailableFunctionalCompetencies
   )
+  yield takeEvery(ASSIGN_COMPETENCIES_OF_POSITION, updateCompetenciesOfPosition)
   yield takeEvery(
-    ASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION,
-    updateFunctionalCompetenciesOfPosition
-  )
-  yield takeEvery(
-    UNASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION,
-    removeFunctionalCompetenciesOfPosition
+    UNASSIGN_COMPETENCIES_OF_POSITION,
+    removeCompetenciesOfPosition
   )
 }
 
