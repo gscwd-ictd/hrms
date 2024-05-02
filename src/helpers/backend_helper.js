@@ -131,6 +131,10 @@ export const getPositionFunctionalCompetenciesProficiencyLevels = positionId =>
   getHris(
     url.GET_POSITION_FUNCTIONAL_COMPETENCY_PROFICIENCY_LEVELS + positionId
   )
+export const getPositionManagerialCompetenciesProficiencyLevels = positionId =>
+  getHris(
+    url.GET_POSITION_MANAGERIAL_COMPETENCY_PROFICIENCY_LEVELS + positionId
+  )
 
 //  Update(patch) the proficiency levels
 export const patchPositionCompetencyProficiencyLevels = proficiencyLevels =>
@@ -142,20 +146,10 @@ export const getPositionCompetencyPool = positionId =>
     url.GET_AVAILABLE_FUNCTIONAL_COMPETENCY_POOL_FOR_POSITION + positionId
   )
 
-export const postFunctionalCompetenciesOfPosition = (
-  positionId,
-  selectedFunctionalCompetencies
-) =>
-  postHris(
-    url.POST_ASSIGN_FUNCTIONAL_COMPETENCIES + positionId,
-    selectedFunctionalCompetencies
-  )
-export const delFunctionalCompetenciesOfPosition =
-  selectedFunctionalCompetencies =>
-    delHris(
-      url.DELETE_UNASSIGN_FUNCTIONAL_COMPETENCIES,
-      selectedFunctionalCompetencies
-    )
+export const postCompetenciesOfPosition = (positionId, selectedCompetencies) =>
+  postHris(url.POST_ASSIGN_COMPETENCIES + positionId, selectedCompetencies)
+export const delCompetenciesOfPosition = selectedCompetencies =>
+  delHris(url.DELETE_UNASSIGN_COMPETENCIES, selectedCompetencies)
 
 // Add (post) the competency details
 export const postCompetencyDetails = competencyDetails =>

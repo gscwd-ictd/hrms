@@ -2,9 +2,10 @@ import React, { useEffect, useState, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchPositionFunctionalCompetencies,
+  fetchPositionManagerialCompetencies,
   fetchAvailableFunctionalCompetencies,
-  updateFunctionalCompetenciesOfPosition,
-  removeFunctionalCompetenciesOfPosition,
+  updateCompetenciesOfPosition,
+  removeCompetenciesOfPosition,
   resetPositionCompetencyResponses,
   selectFunctionalCompetencyCheckBox,
   unselectFunctionalCompetencyCheckBox,
@@ -43,25 +44,33 @@ const EditPositionFunctionalCompetenciesModal = props => {
   const [disableDeleteBtn, setDisableDeleteBtn] = useState(true)
   const [competencyCount, setCompetencyCount] = useState(0)
 
+  const [competencyLimit, setCompetencyLimit] = useState(0)
+
   // count on selected options in the multi-select component
   const [countSelectedOptions, setCountSelectedOptions] = useState(0)
 
   // Redux state for current functional competencies set in a position
   const {
     functionalCompetencies,
-    loadingPositionFunctionalCompetencies,
-    errorPositionFunctionalCompetencies,
+    managerialCompetencies,
+
+    loadingPositionCompetencies,
+    errorPositionCompetencies,
   } = useSelector(state => ({
     functionalCompetencies:
       state.positionCompetencySet.response.positionFunctionalCompetencies
         .functional,
-    loadingPositionFunctionalCompetencies:
-      state.positionCompetencySet.loading.loadingPositionFunctionalCompetencies,
-    errorPositionFunctionalCompetencies:
-      state.positionCompetencySet.error.errorPositionFunctionalCompetencies,
+    managerialCompetencies:
+      state.positionCompetencySet.response.positionManagerialCompetencies
+        .managerial,
+
+    loadingPositionCompetencies:
+      state.positionCompetencySet.loading.loadingPositionCompetencies,
+    errorPositionCompetencies:
+      state.positionCompetencySet.error.errorPositionCompetencies,
   }))
 
-  // Redux state for available functional/crosscutting competencies set in a position
+  // Redux state for available competencies set in a position
   const {
     availableFunctionalCompetencies,
     loadingAvailableFunctionalCompetencies,
@@ -76,14 +85,15 @@ const EditPositionFunctionalCompetenciesModal = props => {
       state.positionCompetencySet.error.errorAvailableFunctionalCompetencies,
   }))
 
-  // Redux state for assigning and unassigning functional competencies to position
-  const { assignedFunctionalCompetencies, unassignedFunctionalCompetencies } =
-    useSelector(state => ({
-      assignedFunctionalCompetencies:
-        state.positionCompetencySet.response.assignedFunctionalCompetencies,
-      unassignedFunctionalCompetencies:
-        state.positionCompetencySet.response.unassignedFunctionalCompetencies,
-    }))
+  // Redux state for assigning and unassigning competencies to position
+  const { assignedCompetencies, unassignedCompetencies } = useSelector(
+    state => ({
+      assignedCompetencies:
+        state.positionCompetencySet.response.assignedCompetencies,
+      unassignedCompetencies:
+        state.positionCompetencySet.response.unassignedCompetencies,
+    })
+  )
 
   // Reducer state for checked rows
   const { selectedRows } = useSelector(state => ({
@@ -124,7 +134,17 @@ const EditPositionFunctionalCompetenciesModal = props => {
   ]
 
   const columns = useMemo(() => tblColumns, [])
-  const data = useMemo(() => functionalCompetencies, [functionalCompetencies])
+  const data = useMemo(
+    () =>
+      !isEmpty(functionalCompetencies)
+        ? functionalCompetencies
+        : managerialCompetencies,
+    [
+      !isEmpty(functionalCompetencies)
+        ? functionalCompetencies
+        : managerialCompetencies,
+    ]
+  )
 
   // Multi-select dropdown
   const handleMultiSelect = selectedMulti => {
@@ -154,12 +174,7 @@ const EditPositionFunctionalCompetenciesModal = props => {
       proficiencyIds: selectedFunctionalCompetencies,
     }
 
-    dispatch(
-      updateFunctionalCompetenciesOfPosition(
-        modalData.positionId,
-        proficiencyIds
-      )
-    )
+    dispatch(updateCompetenciesOfPosition(modalData.positionId, proficiencyIds))
     setCountSelectedOptions(0)
   }
 
@@ -170,26 +185,42 @@ const EditPositionFunctionalCompetenciesModal = props => {
         pcplIds: selectedRows,
       }
 
-      dispatch(removeFunctionalCompetenciesOfPosition(pcplIds))
+      dispatch(removeCompetenciesOfPosition(pcplIds))
       setDisableDeleteBtn(true)
     }
+  }
+
+  const handleCompetencyLimit = positionSg => {
+    if (positionSg >= 21)
+      setCompetencyLimit(5) // set 5 for managerial competencies
+    else setCompetencyLimit(4) // set 4 for function/cross-cutting competencies
   }
 
   // Get available competency pool from occupation and list of assigned competency for the position
   useEffect(() => {
     if (showEdt) {
-      dispatch(fetchPositionFunctionalCompetencies(modalData.positionId))
+      if (modalData.salaryGrade >= 21) {
+        dispatch(fetchPositionManagerialCompetencies(modalData.positionId))
+      } else {
+        dispatch(fetchPositionFunctionalCompetencies(modalData.positionId))
+      }
+
       dispatch(fetchAvailableFunctionalCompetencies(modalData.positionId))
+      handleCompetencyLimit(modalData.salaryGrade)
+    } else {
+      setCountSelectedOptions(0)
     }
   }, [showEdt])
 
   // Trigger when assigning position is success
   useEffect(() => {
-    if (
-      !isEmpty(assignedFunctionalCompetencies) ||
-      !isEmpty(unassignedFunctionalCompetencies)
-    ) {
-      dispatch(fetchPositionFunctionalCompetencies(modalData.positionId))
+    if (!isEmpty(assignedCompetencies) || !isEmpty(unassignedCompetencies)) {
+      if (modalData.salaryGrade >= 21) {
+        dispatch(fetchPositionManagerialCompetencies(modalData.positionId))
+      } else {
+        dispatch(fetchPositionFunctionalCompetencies(modalData.positionId))
+      }
+
       dispatch(fetchAvailableFunctionalCompetencies(modalData.positionId))
       dispatch(resetPositionCompetencyResponses())
       dispatch(resetFunctionalCompetencyCheckBoxes())
@@ -197,7 +228,7 @@ const EditPositionFunctionalCompetenciesModal = props => {
     } else {
       setCountSelectedOptions(0)
     }
-  }, [assignedFunctionalCompetencies, unassignedFunctionalCompetencies])
+  }, [assignedCompetencies, unassignedCompetencies])
 
   // Enable or disable delete button if there is a row checked
   useEffect(() => {
@@ -212,16 +243,19 @@ const EditPositionFunctionalCompetenciesModal = props => {
   useEffect(() => {
     if (!isEmpty(functionalCompetencies)) {
       setCompetencyCount(functionalCompetencies.length)
+    } else if (!isEmpty(managerialCompetencies)) {
+      setCompetencyCount(managerialCompetencies.length)
     } else {
       setCompetencyCount(0)
     }
-  }, [functionalCompetencies])
+  }, [functionalCompetencies, managerialCompetencies])
 
   return (
     <>
       <Modal isOpen={showEdt} toggle={handleCloseEdt} size="xl" centered>
         <ModalHeader toggle={handleCloseEdt}>
-          Functional Competency Assignment
+          {modalData.salaryGrade >= 21 ? 'Managerial' : 'Functional'} Competency
+          Assignment
         </ModalHeader>
 
         <ModalBody>
@@ -232,15 +266,17 @@ const EditPositionFunctionalCompetenciesModal = props => {
                   <CardTitle className="mb-3">
                     {modalData.itemNumber} | {modalData.positionTitle}
                   </CardTitle>
+
                   <CardSubtitle>
-                    Assigned {competencyCount} out of 4 functional competencies
+                    Assigned {competencyCount} out of {competencyLimit}{' '}
+                    functional competencies
                   </CardSubtitle>
 
                   {/* Error Notif */}
-                  {errorPositionFunctionalCompetencies ? (
+                  {errorPositionCompetencies ? (
                     <ToastrNotification
                       toastType={'error'}
-                      notifMessage={errorPositionFunctionalCompetencies}
+                      notifMessage={errorPositionCompetencies}
                     />
                   ) : null}
                   {errorAvailableFunctionalCompetencies ? (
@@ -251,26 +287,22 @@ const EditPositionFunctionalCompetenciesModal = props => {
                   ) : null}
 
                   {/* Success Notif */}
-                  {!isEmpty(assignedFunctionalCompetencies) ? (
+                  {!isEmpty(assignedCompetencies) ? (
                     <ToastrNotification
                       toastType={'success'}
-                      notifMessage={
-                        'Functional competencies successfully assigned'
-                      }
+                      notifMessage={'Competencies successfully assigned'}
                     />
                   ) : null}
-                  {!isEmpty(unassignedFunctionalCompetencies) ? (
+                  {!isEmpty(unassignedCompetencies) ? (
                     <ToastrNotification
                       toastType={'success'}
-                      notifMessage={
-                        'Functional competencies successfully unassigned'
-                      }
+                      notifMessage={'Competencies successfully unassigned'}
                     />
                   ) : null}
 
                   <Row className="mt-4">
                     <Col lg={12} className="card-table">
-                      {loadingPositionFunctionalCompetencies ? (
+                      {loadingPositionCompetencies ? (
                         <LoadingIndicator />
                       ) : (
                         <>
@@ -288,9 +320,9 @@ const EditPositionFunctionalCompetenciesModal = props => {
                                   }}
                                   name="select-functional-competencies"
                                   options={availableFunctionalCompetencies}
-                                  // isDisabled={competencyCount >= 4}
                                   isOptionDisabled={() =>
-                                    competencyCount + countSelectedOptions >= 4
+                                    competencyCount + countSelectedOptions >=
+                                    competencyLimit
                                   }
                                 />
                               </Col>
@@ -302,7 +334,7 @@ const EditPositionFunctionalCompetenciesModal = props => {
                                   }
                                   disabled={
                                     isEmpty(availableFunctionalCompetencies) ||
-                                    competencyCount >= 4
+                                    competencyCount >= competencyLimit
                                   }
                                 >
                                   Assign

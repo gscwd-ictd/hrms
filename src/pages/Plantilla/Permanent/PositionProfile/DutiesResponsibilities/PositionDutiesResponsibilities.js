@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react"
-import { isEmpty } from "lodash"
-import { Can } from "casl/Can"
-import { Navigate, useParams } from "react-router-dom"
+import React, { useEffect, useState } from 'react'
+import { isEmpty } from 'lodash'
+import { Can } from 'casl/Can'
+import { Navigate, useParams } from 'react-router-dom'
 
-import { useDispatch, useSelector } from "react-redux"
-import { fetchPositionDuties, fetchPlantillaPosition } from "store/actions"
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchPositionDuties, fetchPlantillaPosition } from 'store/actions'
 
 import {
   Card,
@@ -15,13 +15,13 @@ import {
   Container,
   Row,
   Table,
-} from "reactstrap"
-import Breadcrumbs from "components/Common/Breadcrumb"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+} from 'reactstrap'
+import Breadcrumbs from 'components/Common/Breadcrumb'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // style
-import "styles/custom_gscwd/components/table.scss"
+import 'styles/custom_gscwd/components/table.scss'
 
 const PositionDutiesResponsibilities = () => {
   const dispatch = useDispatch()
@@ -81,12 +81,12 @@ const PositionDutiesResponsibilities = () => {
             {/* Notifications */}
             {errorPositionDuties ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorPositionDuties}
               />
             ) : null}
             {pdError ? (
-              <ToastrNotification toastType={"error"} notifMessage={pdError} />
+              <ToastrNotification toastType={'error'} notifMessage={pdError} />
             ) : null}
 
             {loadingPositionDuties && pdIsLoading ? (
@@ -127,7 +127,9 @@ const PositionDutiesResponsibilities = () => {
                                       return (
                                         <tr key={i}>
                                           <td>{duty.percentage}%</td>
-                                          <td>{duty.description}</td>
+                                          <td className="whitespace-pre-line">
+                                            {duty.description}
+                                          </td>
                                         </tr>
                                       )
                                     }

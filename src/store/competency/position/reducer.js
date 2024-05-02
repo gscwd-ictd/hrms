@@ -9,32 +9,41 @@ import {
   GET_POSITION_FUNCTIONAL_COMPETENCIES,
   GET_POSITION_FUNCTIONAL_COMPETENCIES_SUCCESS,
   GET_POSITION_FUNCTIONAL_COMPETENCIES_FAIL,
+  GET_POSITION_MANAGERIAL_COMPETENCIES,
+  GET_POSITION_MANAGERIAL_COMPETENCIES_SUCCESS,
+  GET_POSITION_MANAGERIAL_COMPETENCIES_FAIL,
   GET_POSITION_AVAILABLE_FUNCTIONAL_COMPETENCIES,
   GET_POSITION_AVAILABLE_FUNCTIONAL_COMPETENCIES_SUCCESS,
   GET_POSITION_AVAILABLE_FUNCTIONAL_COMPETENCIES_FAIL,
-  ASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION,
-  ASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION_SUCCESS,
-  ASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION_FAIL,
-  UNASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION,
-  UNASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION_SUCCESS,
-  UNASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION_FAIL,
+  ASSIGN_COMPETENCIES_OF_POSITION,
+  ASSIGN_COMPETENCIES_OF_POSITION_SUCCESS,
+  ASSIGN_COMPETENCIES_OF_POSITION_FAIL,
+  UNASSIGN_COMPETENCIES_OF_POSITION,
+  UNASSIGN_COMPETENCIES_OF_POSITION_SUCCESS,
+  UNASSIGN_COMPETENCIES_OF_POSITION_FAIL,
   RESET_POSITION_COMPETENCIES,
   SELECT_POSITION_FUNCTIONAL_COMPETENCY_ROW,
   UNSELECT_POSITION_FUNCTIONAL_COMPETENCY_ROW,
   RESET_POSITION_SELECTED_FUNCTIONAL_COMPETENCY_ROWS,
-} from "./actionTypes"
-import update from "immutability-helper"
+} from './actionTypes'
+import update from 'immutability-helper'
 
 const INIT_STATE = {
   response: {
     positionFunctionalCompetencies: {
-      positionId: "",
-      positionName: "",
+      positionId: '',
+      positionName: '',
       salaryGrade: 0,
       functional: [],
     },
-    assignedFunctionalCompetencies: [],
-    unassignedFunctionalCompetencies: [],
+    positionManagerialCompetencies: {
+      positionId: '',
+      positionName: '',
+      salaryGrade: 0,
+      managerial: [],
+    },
+    assignedCompetencies: [],
+    unassignedCompetencies: [],
     proficiencyLevel: {
       core: [],
       functional: [],
@@ -46,12 +55,12 @@ const INIT_STATE = {
   selectedRows: [],
   loading: {
     loadingProficiencyLevel: false,
-    loadingPositionFunctionalCompetencies: false,
+    loadingPositionCompetencies: false,
     loadingAvailableFunctionalCompetencies: false,
   },
   error: {
     errorProficiencyLevel: null,
-    errorPositionFunctionalCompetencies: null,
+    errorPositionCompetencies: null,
     errorAvailableFunctionalCompetencies: null,
   },
 }
@@ -183,21 +192,21 @@ const positionCompetencySet = (state = INIT_STATE, action) => {
         ...state,
         loading: {
           ...state.loading,
-          loadingPositionFunctionalCompetencies: true,
+          loadingPositionCompetencies: true,
         },
         response: {
           ...state.response,
           positionFunctionalCompetencies: {
             ...state.response.positionFunctionalCompetencies,
-            positionId: "",
-            positionName: "",
+            positionId: '',
+            positionName: '',
             salaryGrade: 0,
             functional: [],
           },
         },
         error: {
           ...state.error,
-          errorPositionFunctionalCompetencies: null,
+          errorPositionCompetencies: null,
         },
       }
     case GET_POSITION_FUNCTIONAL_COMPETENCIES_SUCCESS:
@@ -205,7 +214,7 @@ const positionCompetencySet = (state = INIT_STATE, action) => {
         ...state,
         loading: {
           ...state.loading,
-          loadingPositionFunctionalCompetencies: false,
+          loadingPositionCompetencies: false,
         },
         response: {
           ...state.response,
@@ -223,11 +232,64 @@ const positionCompetencySet = (state = INIT_STATE, action) => {
         ...state,
         loading: {
           ...state.loading,
-          loadingPositionFunctionalCompetencies: false,
+          loadingPositionCompetencies: false,
         },
         error: {
           ...state.error,
-          errorPositionFunctionalCompetencies: action.payload,
+          errorPositionCompetencies: action.payload,
+        },
+      }
+
+    case GET_POSITION_MANAGERIAL_COMPETENCIES:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingPositionCompetencies: true,
+        },
+        response: {
+          ...state.response,
+          positionManagerialCompetencies: {
+            ...state.response.positionManagerialCompetencies,
+            positionId: '',
+            positionName: '',
+            salaryGrade: 0,
+            managerial: [],
+          },
+        },
+        error: {
+          ...state.error,
+          errorPositionCompetencies: null,
+        },
+      }
+    case GET_POSITION_MANAGERIAL_COMPETENCIES_SUCCESS:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingPositionCompetencies: false,
+        },
+        response: {
+          ...state.response,
+          positionManagerialCompetencies: {
+            ...state.response.positionManagerialCompetencies,
+            positionId: action.payload.positionId,
+            positionName: action.payload.positionName,
+            salaryGrade: action.payload.salaryGrade,
+            managerial: action.payload.managerial,
+          },
+        },
+      }
+    case GET_POSITION_MANAGERIAL_COMPETENCIES_FAIL:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingPositionCompetencies: false,
+        },
+        error: {
+          ...state.error,
+          errorPositionCompetencies: action.payload,
         },
       }
 
@@ -266,85 +328,85 @@ const positionCompetencySet = (state = INIT_STATE, action) => {
         },
       }
 
-    case ASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION:
+    case ASSIGN_COMPETENCIES_OF_POSITION:
       return {
         ...state,
         loading: {
           ...state.loading,
-          loadingPositionFunctionalCompetencies: true,
+          loadingPositionCompetencies: true,
         },
         error: {
           ...state.error,
-          errorPositionFunctionalCompetencies: null,
+          errorPositionCompetencies: null,
         },
         response: {
           ...state.response,
-          assignedFunctionalCompetencies: [],
+          assignedCompetencies: [],
         },
       }
-    case ASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION_SUCCESS:
+    case ASSIGN_COMPETENCIES_OF_POSITION_SUCCESS:
       return {
         ...state,
         loading: {
           ...state.loading,
-          loadingPositionFunctionalCompetencies: false,
+          loadingPositionCompetencies: false,
         },
         response: {
           ...state.response,
-          assignedFunctionalCompetencies: action.payload,
+          assignedCompetencies: action.payload,
         },
       }
-    case ASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION_FAIL:
+    case ASSIGN_COMPETENCIES_OF_POSITION_FAIL:
       return {
         ...state,
         loading: {
           ...state.loading,
-          loadingPositionFunctionalCompetencies: false,
+          loadingPositionCompetencies: false,
         },
         error: {
           ...state.error,
-          errorPositionFunctionalCompetencies: action.payload,
+          errorPositionCompetencies: action.payload,
         },
       }
 
-    case UNASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION:
+    case UNASSIGN_COMPETENCIES_OF_POSITION:
       return {
         ...state,
         loading: {
           ...state.loading,
-          loadingPositionFunctionalCompetencies: true,
+          loadingPositionCompetencies: true,
         },
         error: {
           ...state.error,
-          errorPositionFunctionalCompetencies: null,
+          errorPositionCompetencies: null,
         },
         response: {
           ...state.response,
-          unassignedFunctionalCompetencies: [],
+          unassignedCompetencies: [],
         },
       }
-    case UNASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION_SUCCESS:
+    case UNASSIGN_COMPETENCIES_OF_POSITION_SUCCESS:
       return {
         ...state,
         loading: {
           ...state.loading,
-          loadingPositionFunctionalCompetencies: false,
+          loadingPositionCompetencies: false,
         },
         response: {
           ...state.response,
-          unassignedFunctionalCompetencies: action.payload,
+          unassignedCompetencies: action.payload,
         },
       }
-    case UNASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION_FAIL:
+    case UNASSIGN_COMPETENCIES_OF_POSITION_FAIL:
       return {
         ...state,
         loading: {
           ...state.loading,
-          loadingPositionFunctionalCompetencies: false,
+          loadingPositionCompetencies: false,
         },
         error: {
           ...state.error,
-          errorPositionFunctionalCompetencies: action.payload,
+          errorPositionCompetencies: action.payload,
         },
       }
 
@@ -355,13 +417,13 @@ const positionCompetencySet = (state = INIT_STATE, action) => {
           ...state.response,
           positionFunctionalCompetencies: {
             ...state.response.positionFunctionalCompetencies,
-            positionId: "",
-            positionName: "",
+            positionId: '',
+            positionName: '',
             salaryGrade: 0,
             functional: [],
           },
-          assignedFunctionalCompetencies: [],
-          unassignedFunctionalCompetencies: [],
+          assignedCompetencies: [],
+          unassignedCompetencies: [],
           proficiencyLevel: {
             ...state.response.proficiencyLevel,
             core: [],
@@ -375,13 +437,13 @@ const positionCompetencySet = (state = INIT_STATE, action) => {
         loading: {
           ...state.loading,
           loadingProficiencyLevel: false,
-          loadingPositionFunctionalCompetencies: false,
+          loadingPositionCompetencies: false,
           loadingAvailableFunctionalCompetencies: false,
         },
         error: {
           ...state.error,
           errorProficiencyLevel: null,
-          errorPositionFunctionalCompetencies: null,
+          errorPositionCompetencies: null,
           errorAvailableFunctionalCompetencies: null,
         },
       }

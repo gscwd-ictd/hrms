@@ -111,13 +111,13 @@ export const GET_POSITION_COMPETENCY_PROFICIENCY_LEVELS =
   'competency-proficiency-level/single/'
 export const GET_POSITION_FUNCTIONAL_COMPETENCY_PROFICIENCY_LEVELS =
   'competency-proficiency-level/single/functional/'
+export const GET_POSITION_MANAGERIAL_COMPETENCY_PROFICIENCY_LEVELS =
+  'competency-proficiency-level/single/managerial/'
 export const GET_AVAILABLE_FUNCTIONAL_COMPETENCY_POOL_FOR_POSITION =
   'competency-proficiency-level/position/'
 
-export const POST_ASSIGN_FUNCTIONAL_COMPETENCIES =
-  'competency-proficiency-level/'
-export const DELETE_UNASSIGN_FUNCTIONAL_COMPETENCIES =
-  'competency-proficiency-level/'
+export const POST_ASSIGN_COMPETENCIES = 'competency-proficiency-level/'
+export const DELETE_UNASSIGN_COMPETENCIES = 'competency-proficiency-level/'
 
 export const PATCH_POSITION_COMPETENCY_PROFICIENCY_LEVELS =
   'competency-proficiency-level/'
