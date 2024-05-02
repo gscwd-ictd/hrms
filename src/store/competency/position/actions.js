@@ -9,20 +9,23 @@ import {
   GET_POSITION_FUNCTIONAL_COMPETENCIES,
   GET_POSITION_FUNCTIONAL_COMPETENCIES_SUCCESS,
   GET_POSITION_FUNCTIONAL_COMPETENCIES_FAIL,
+  GET_POSITION_MANAGERIAL_COMPETENCIES,
+  GET_POSITION_MANAGERIAL_COMPETENCIES_SUCCESS,
+  GET_POSITION_MANAGERIAL_COMPETENCIES_FAIL,
   GET_POSITION_AVAILABLE_FUNCTIONAL_COMPETENCIES,
   GET_POSITION_AVAILABLE_FUNCTIONAL_COMPETENCIES_SUCCESS,
   GET_POSITION_AVAILABLE_FUNCTIONAL_COMPETENCIES_FAIL,
-  ASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION,
-  ASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION_SUCCESS,
-  ASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION_FAIL,
-  UNASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION,
-  UNASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION_SUCCESS,
-  UNASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION_FAIL,
+  ASSIGN_COMPETENCIES_OF_POSITION,
+  ASSIGN_COMPETENCIES_OF_POSITION_SUCCESS,
+  ASSIGN_COMPETENCIES_OF_POSITION_FAIL,
+  UNASSIGN_COMPETENCIES_OF_POSITION,
+  UNASSIGN_COMPETENCIES_OF_POSITION_SUCCESS,
+  UNASSIGN_COMPETENCIES_OF_POSITION_FAIL,
   RESET_POSITION_COMPETENCIES,
   SELECT_POSITION_FUNCTIONAL_COMPETENCY_ROW,
   UNSELECT_POSITION_FUNCTIONAL_COMPETENCY_ROW,
   RESET_POSITION_SELECTED_FUNCTIONAL_COMPETENCY_ROWS,
-} from "./actionTypes"
+} from './actionTypes'
 
 // Get Position Competency Proficiency Levels
 export const fetchCompetencyProficiencyLevels = positionId => ({
@@ -75,6 +78,21 @@ export const fetchPositionFunctionalCompetenciesFail = error => ({
   payload: error,
 })
 
+// Get Managerial Competency of a position
+export const fetchPositionManagerialCompetencies = positionId => ({
+  type: GET_POSITION_MANAGERIAL_COMPETENCIES,
+  payload: positionId,
+})
+export const fetchPositionManagerialCompetenciesSuccess =
+  positionManagerialCompetencies => ({
+    type: GET_POSITION_MANAGERIAL_COMPETENCIES_SUCCESS,
+    payload: positionManagerialCompetencies,
+  })
+export const fetchPositionManagerialCompetenciesFail = error => ({
+  type: GET_POSITION_MANAGERIAL_COMPETENCIES_FAIL,
+  payload: error,
+})
+
 // Get pool for available functional competencies that can be assigned
 export const fetchAvailableFunctionalCompetencies = positionId => ({
   type: GET_POSITION_AVAILABLE_FUNCTIONAL_COMPETENCIES,
@@ -91,36 +109,33 @@ export const fetchAvailableFunctionalCompetenciesFail = error => ({
 })
 
 // Assign functional competencies to position
-export const updateFunctionalCompetenciesOfPosition = (
+export const updateCompetenciesOfPosition = (
   positionId,
-  selectedFunctionalCompetencies
+  selectedCompetencies
 ) => ({
-  type: ASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION,
-  payload: { positionId, selectedFunctionalCompetencies },
+  type: ASSIGN_COMPETENCIES_OF_POSITION,
+  payload: { positionId, selectedCompetencies },
 })
-export const updateFunctionalCompetenciesOfPositionSuccess =
-  assignedFunctionalCompetencies => ({
-    type: ASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION_SUCCESS,
-    payload: assignedFunctionalCompetencies,
-  })
-export const updateFunctionalCompetenciesOfPositionFail = error => ({
-  type: ASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION_FAIL,
+export const updateCompetenciesOfPositionSuccess = assignedCompetencies => ({
+  type: ASSIGN_COMPETENCIES_OF_POSITION_SUCCESS,
+  payload: assignedCompetencies,
+})
+export const updateCompetenciesOfPositionFail = error => ({
+  type: ASSIGN_COMPETENCIES_OF_POSITION_FAIL,
   payload: error,
 })
 
 // Remove functional competencies to position
-export const removeFunctionalCompetenciesOfPosition =
-  selectedFunctionalCompetencies => ({
-    type: UNASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION,
-    payload: selectedFunctionalCompetencies,
-  })
-export const removeFunctionalCompetenciesOfPositionSuccess =
-  assignedFunctionalCompetencies => ({
-    type: UNASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION_SUCCESS,
-    payload: assignedFunctionalCompetencies,
-  })
-export const removeFunctionalCompetenciesOfPositionFail = error => ({
-  type: UNASSIGN_FUNCTIONAL_COMPETENCIES_OF_POSITION_FAIL,
+export const removeCompetenciesOfPosition = selectedCompetencies => ({
+  type: UNASSIGN_COMPETENCIES_OF_POSITION,
+  payload: selectedCompetencies,
+})
+export const removeCompetenciesOfPositionSuccess = assignedCompetencies => ({
+  type: UNASSIGN_COMPETENCIES_OF_POSITION_SUCCESS,
+  payload: assignedCompetencies,
+})
+export const removeCompetenciesOfPositionFail = error => ({
+  type: UNASSIGN_COMPETENCIES_OF_POSITION_FAIL,
   payload: error,
 })
 

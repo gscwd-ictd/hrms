@@ -17,7 +17,7 @@
 
 #layout-wrapper .main-content::before {
   z-index: -1;
-  content: "";
+  content: '';
   background-image: url(../../assets/images/main_logo_bg.png);
   background-size: 50%;
   position: absolute;
@@ -31,4 +31,8 @@
   background-position: 110vh 29vh;
   background-origin: border-box;
   background-attachment: fixed;
+}
+
+.whitespace-pre-line {
+  white-space: pre-line;
 }

@@ -1,8 +1,8 @@
-import React, { useEffect } from "react"
-import { Can } from "casl/Can"
-import { Navigate, useParams } from "react-router-dom"
+import React, { useEffect } from 'react'
+import { Can } from 'casl/Can'
+import { Navigate, useParams } from 'react-router-dom'
 
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchJobDescription,
   fetchPositionDuties,
@@ -10,15 +10,15 @@ import {
   fetchCompetencyProficiencyLevels,
   fetchPRFTrail,
   getSinglePRF,
-} from "store/actions"
+} from 'store/actions'
 
-import { Container } from "reactstrap"
-import { PDFViewer } from "@react-pdf/renderer"
-import PdDocument from "./PdDocument"
+import { Container } from 'reactstrap'
+import { PDFViewer } from '@react-pdf/renderer'
+import PdDocument from './PdDocument'
 
 // Extra components
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const PositionDescriptionPdf = () => {
   const dispatch = useDispatch()
@@ -100,41 +100,41 @@ const PositionDescriptionPdf = () => {
             {/* Notifications */}
             {errorJobDescription ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorJobDescription}
               />
             ) : null}
 
             {errorPositionDuties ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorPositionDuties}
               />
             ) : null}
 
             {errorPositionQualificationStandards ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorPositionQualificationStandards}
               />
             ) : null}
 
             {errorProficiencyLevel ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorProficiencyLevel}
               />
             ) : null}
 
             {errorPrfTrail ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorPrfTrail}
               />
             ) : null}
 
             {errorPrf ? (
-              <ToastrNotification toastType={"error"} notifMessage={errorPrf} />
+              <ToastrNotification toastType={'error'} notifMessage={errorPrf} />
             ) : null}
 
             {loadingJobDescription ||
@@ -145,7 +145,7 @@ const PositionDescriptionPdf = () => {
             loadingPrf ? (
               <LoadingIndicator />
             ) : (
-              <PDFViewer width={"100%"} height={700} showToolbar>
+              <PDFViewer width={'100%'} height={700} showToolbar>
                 <PdDocument
                   jobDescription={jobDescription}
                   positionDutyResponsibilities={positionDutyResponsibilities}
