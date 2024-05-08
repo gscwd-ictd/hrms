@@ -28,6 +28,7 @@ import { SelectColumnFilter } from 'components/Filters/SelectColumnFilter'
 import Breadcrumb from 'components/Common/Breadcrumb'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
+import EmployeeIcon from 'components/Common/EmployeeIcon'
 
 const EmployeeList = () => {
   const dispatch = useDispatch()
@@ -38,6 +39,20 @@ const EmployeeList = () => {
       Header: '',
       accessor: 'employmentDetails.employeeId',
       disableGlobalFilter: true,
+    },
+    {
+      Header: '',
+      accessor: 'personalDetails',
+      Cell: cell => {
+        return (
+          <EmployeeIcon
+            avatarUrl={cell.value.avatarUrl}
+            name={cell.value.fullName}
+            width={60}
+            height={60}
+          />
+        )
+      },
     },
     {
       Header: 'Company ID',
