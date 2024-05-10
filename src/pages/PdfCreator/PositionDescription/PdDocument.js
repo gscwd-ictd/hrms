@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   tData: {
-    padding: '4 0 0 4',
+    padding: '4 4 0 4',
   },
 
   // Border Styles
@@ -180,8 +180,9 @@ const PdDocument = props => {
           <Text>
             <Text style={{ fontFamily: 'CalibriRegularBold' }}>
               {competency.name}
-            </Text>{' '}
-            - {competency.description}
+            </Text>
+            {' - '}
+            <Text>{competency.keyActions}</Text>
           </Text>
         </View>
         <View style={[styles.w40, styles.tData]}>
@@ -206,8 +207,9 @@ const PdDocument = props => {
           <Text>
             <Text style={{ fontFamily: 'CalibriRegularBold' }}>
               {competency.name}
-            </Text>{' '}
-            - {competency.description}
+            </Text>
+            {' - '}
+            <Text>{competency.keyActions}</Text>
           </Text>
         </View>
         <View style={[styles.w40, styles.tData]}>
@@ -232,8 +234,9 @@ const PdDocument = props => {
           <Text>
             <Text style={{ fontFamily: 'CalibriRegularBold' }}>
               {competency.name}
-            </Text>{' '}
-            - {competency.description}
+            </Text>
+            {' - '}
+            <Text>{competency.keyActions}</Text>
           </Text>
         </View>
         <View style={[styles.w40, styles.tData]}>
@@ -719,7 +722,7 @@ const PdDocument = props => {
             </View>
 
             {/* COMPETENCIES */}
-            <View>
+            <View wrap={false}>
               <View>
                 <Text style={[styles.headerText]}>Competencies</Text>
               </View>
