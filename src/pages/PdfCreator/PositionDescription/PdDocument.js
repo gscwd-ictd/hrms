@@ -335,7 +335,7 @@ const PdDocument = props => {
 
           <View style={[styles.bodyText]}>
             {/* JOB DESCRIPTION */}
-            <View>
+            <View wrap={false}>
               {/* Item Number */}
               <View style={[styles.rowContainer]}>
                 <View style={[styles.w30]}>
@@ -643,7 +643,15 @@ const PdDocument = props => {
                 </View> */}
               </View>
             </View>
+          </View>
+        </View>
+      </Page>
 
+      <Page size="A4" style={styles.page}>
+        <Header />
+
+        <View style={[styles.bodyBorder]}>
+          <View style={[styles.bodyText]}>
             {/* QUALIFICATION STANDARDS */}
             <View wrap={false}>
               <View>
@@ -722,7 +730,7 @@ const PdDocument = props => {
             </View>
 
             {/* COMPETENCIES */}
-            <View wrap={false}>
+            <View>
               <View>
                 <Text style={[styles.headerText]}>Competencies</Text>
               </View>
@@ -754,7 +762,7 @@ const PdDocument = props => {
             {/* SIGNATORIES */}
             {!isEmpty(prfDetails) ? (
               <>
-                <View style={[{ marginTop: 35 }]}>
+                <View style={[{ marginTop: 35 }]} wrap={false}>
                   {/* Row 1  */}
                   <View style={[styles.rowContainer]} wrap={false}>
                     {/* REQUESTED BY */}
