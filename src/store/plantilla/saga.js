@@ -4,20 +4,23 @@ import {
   postNewPosition,
   getPositions,
   getPosition,
-} from "helpers/backend_helper"
+  getEmployeeDetailsByPlantilla,
+} from 'helpers/backend_helper'
 import {
   fetchPlantillaSuccess,
   fetchPlantillaPositionSuccess,
   fetchPlantillaPositionsSelectSuccess,
   submitPositionSuccess,
+  fetchEmployeeDetailsByPlantillaSuccess,
   plantillaApiFail,
-} from "./actions"
+} from './actions'
 import {
   GET_PLANTILLA,
   SUBMIT_POSITION,
   GET_PLANTILLA_POSITION,
   GET_PLANTILLA_POSITIONS,
-} from "./actionTypes"
+  GET_EMPLOYEE_DETAILS_BY_PLANTILLA,
+} from './actionTypes'
 
 function* fetchPlantilla() {
   try {
@@ -55,11 +58,21 @@ function* fetchPlantillaPositions() {
   }
 }
 
+function* fetchEmployeeDetailsByPlantilla({ payload: plantillaId }) {
+  try {
+    const response = yield call(getEmployeeDetailsByPlantilla, plantillaId)
+    yield put(fetchEmployeeDetailsByPlantillaSuccess(response))
+  } catch (error) {
+    yield put(plantillaApiFail(error))
+  }
+}
+
 function* plantillaSaga() {
   yield takeEvery(GET_PLANTILLA, fetchPlantilla)
   yield takeEvery(SUBMIT_POSITION, submitPosition)
   yield takeEvery(GET_PLANTILLA_POSITION, fetchPlantillaPosition)
   yield takeEvery(GET_PLANTILLA_POSITIONS, fetchPlantillaPositions)
+  yield takeEvery(GET_EMPLOYEE_DETAILS_BY_PLANTILLA, fetchEmployeeDetailsByPlantilla)
 }
 
 export default plantillaSaga

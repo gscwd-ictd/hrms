@@ -42,12 +42,13 @@ const EmployeeList = () => {
     },
     {
       Header: '',
-      accessor: 'personalDetails',
+      accessor: 'employmentDetails',
       Cell: cell => {
+        const { employmentDetails, personalDetails } = cell.row.original
         return (
           <EmployeeIcon
-            avatarUrl={cell.value.avatarUrl}
-            name={cell.value.fullName}
+            avatarUrl={employmentDetails.avatarUrl}
+            name={personalDetails.fullName}
             width={60}
             height={60}
           />

@@ -36,7 +36,6 @@ EmployeeIcon.propTypes = {
   name: PropTypes.string,
   width: PropTypes.number,
   height: PropTypes.number,
-  state: PropTypes.object,
 }
 
 export default EmployeeIcon
