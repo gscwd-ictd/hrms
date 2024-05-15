@@ -86,17 +86,17 @@ const ViewPDModal = props => {
         state.positionCompetencySet.error.errorProficiencyLevel,
     }))
 
-  useEffect(() => {
-    console.log(jobDescription)
-    console.log(positionDutyResponsibilities)
-    console.log(positionQualificationStandards)
-    console.log(proficiencyLevel)
-  }, [
-    jobDescription,
-    positionDutyResponsibilities,
-    positionQualificationStandards,
-    proficiencyLevel,
-  ])
+  // useEffect(() => {
+  //   console.log(jobDescription)
+  //   console.log(positionDutyResponsibilities)
+  //   console.log(positionQualificationStandards)
+  //   console.log(proficiencyLevel)
+  // }, [
+  //   jobDescription,
+  //   positionDutyResponsibilities,
+  //   positionQualificationStandards,
+  //   proficiencyLevel,
+  // ])
 
   // Initial dispatch of values needed for adding a new position
   useEffect(() => {

@@ -242,7 +242,7 @@ const SinglePositionRequest = props => {
                                 <div>
                                   <p className="text-muted mb-1">
                                     {' '}
-                                    With examination :
+                                    Disapproval Remarks :
                                   </p>
                                   <h5 className="font-size-16 ps-3">
                                     {prfDetails.disapprovedRemarks}

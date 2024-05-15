@@ -68,6 +68,9 @@ export const getPosition = positionId =>
   getHris(url.GET_PLANTILLA_POSITION + positionId)
 export const getPositions = () => getHris(url.GET_PLANTILLA_POSITIONS)
 
+export const getEmployeeDetailsByPlantilla = plantillaId =>
+  getHris(url.GET_EMPLOYEE_DETAILS_BY_PLANTILLA + plantillaId)
+
 // Submit new Position in Plantilla
 export const postNewPosition = positionData =>
   postHris(url.POST_POSITION, positionData)

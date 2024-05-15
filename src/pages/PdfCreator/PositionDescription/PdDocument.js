@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   tData: {
-    padding: '4 0 0 4',
+    padding: '4 4 0 4',
   },
 
   // Border Styles
@@ -180,8 +180,9 @@ const PdDocument = props => {
           <Text>
             <Text style={{ fontFamily: 'CalibriRegularBold' }}>
               {competency.name}
-            </Text>{' '}
-            - {competency.description}
+            </Text>
+            {' - '}
+            <Text>{competency.keyActions}</Text>
           </Text>
         </View>
         <View style={[styles.w40, styles.tData]}>
@@ -206,8 +207,9 @@ const PdDocument = props => {
           <Text>
             <Text style={{ fontFamily: 'CalibriRegularBold' }}>
               {competency.name}
-            </Text>{' '}
-            - {competency.description}
+            </Text>
+            {' - '}
+            <Text>{competency.keyActions}</Text>
           </Text>
         </View>
         <View style={[styles.w40, styles.tData]}>
@@ -232,8 +234,9 @@ const PdDocument = props => {
           <Text>
             <Text style={{ fontFamily: 'CalibriRegularBold' }}>
               {competency.name}
-            </Text>{' '}
-            - {competency.description}
+            </Text>
+            {' - '}
+            <Text>{competency.keyActions}</Text>
           </Text>
         </View>
         <View style={[styles.w40, styles.tData]}>
@@ -332,7 +335,7 @@ const PdDocument = props => {
 
           <View style={[styles.bodyText]}>
             {/* JOB DESCRIPTION */}
-            <View>
+            <View wrap={false}>
               {/* Item Number */}
               <View style={[styles.rowContainer]}>
                 <View style={[styles.w30]}>
@@ -640,7 +643,15 @@ const PdDocument = props => {
                 </View> */}
               </View>
             </View>
+          </View>
+        </View>
+      </Page>
 
+      <Page size="A4" style={styles.page}>
+        <Header />
+
+        <View style={[styles.bodyBorder]}>
+          <View style={[styles.bodyText]}>
             {/* QUALIFICATION STANDARDS */}
             <View wrap={false}>
               <View>
@@ -751,7 +762,7 @@ const PdDocument = props => {
             {/* SIGNATORIES */}
             {!isEmpty(prfDetails) ? (
               <>
-                <View style={[{ marginTop: 35 }]}>
+                <View style={[{ marginTop: 35 }]} wrap={false}>
                   {/* Row 1  */}
                   <View style={[styles.rowContainer]} wrap={false}>
                     {/* REQUESTED BY */}
