@@ -10,7 +10,9 @@ import {
   SUBMIT_POSITION,
   SUBMIT_POSITION_SUCCESS,
   PLANTILLA_API_ERROR,
-} from "./actionTypes"
+  GET_EMPLOYEE_DETAILS_BY_PLANTILLA,
+  GET_EMPLOYEE_DETAILS_BY_PLANTILLA_SUCCESS,
+} from './actionTypes'
 
 const INIT_STATE = {
   list: [],
@@ -19,6 +21,7 @@ const INIT_STATE = {
   plantillaPositions: [], // data for multi-select dropdown
   isLoading: false,
   error: null,
+  employeeDetails: {},
 }
 
 const plantilla = (state = INIT_STATE, action) => {
@@ -98,6 +101,22 @@ const plantilla = (state = INIT_STATE, action) => {
         ...state,
         plantillaPositions: [],
         error: null,
+      }
+      break
+
+    case GET_EMPLOYEE_DETAILS_BY_PLANTILLA:
+      state = {
+        ...state,
+        employeeDetails: {},
+        isLoading: true,
+        error: null,
+      }
+      break
+    case GET_EMPLOYEE_DETAILS_BY_PLANTILLA_SUCCESS:
+      state = {
+        ...state,
+        employeeDetails: action.payload,
+        isLoading: false,
       }
       break
 

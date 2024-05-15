@@ -47,6 +47,8 @@ export const GET_PLANTILLA_POSITION = 'plantilla/'
 export const GET_PLANTILLA_POSITIONS = 'plantilla-positions'
 export const POST_POSITION = 'plantilla-positions'
 
+export const GET_EMPLOYEE_DETAILS_BY_PLANTILLA = 'employees/plantilla/'
+
 // EMPLOYEE
 export const POST_EMPLOYEE_ASSIGNMENT = 'employees'
 export const GET_EMPLOYEES = 'employees'

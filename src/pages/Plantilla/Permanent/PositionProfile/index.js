@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import {
   fetchPlantillaPosition,
   resetJobDescriptionResponse,
+  fetchEmployeeDetailsByPlantilla,
 } from 'store/actions'
 import { Can } from 'casl/Can'
 import { Navigate, useLocation, useParams } from 'react-router-dom'
@@ -25,6 +26,8 @@ import Breadcrumbs from 'components/Common/Breadcrumb'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 import ViewPDModal from 'components/Modal/Plantilla/ViewPDModal'
 
+import EmployeeCard from 'components/Common/EmployeeCard'
+
 // styles
 import 'styles/custom_gscwd/pages/positionprofile.scss'
 
@@ -33,11 +36,14 @@ const PositionProfile = () => {
   const location = useLocation()
   const { plantillaId } = useParams()
 
-  const { positionDetails, isLoading, error } = useSelector(state => ({
-    positionDetails: state.plantilla.plantillaPosition,
-    isLoading: state.plantilla.isLoading,
-    error: state.plantilla.error,
-  }))
+  const { positionDetails, employeeDetails, isLoading, error } = useSelector(
+    state => ({
+      positionDetails: state.plantilla.plantillaPosition,
+      employeeDetails: state.plantilla.employeeDetails,
+      isLoading: state.plantilla.isLoading,
+      error: state.plantilla.error,
+    })
+  )
 
   // View Position Description Document Modal
   const [showPDFPreview, setShowPDFPreview] = useState(false)
@@ -46,6 +52,7 @@ const PositionProfile = () => {
 
   useEffect(() => {
     dispatch(fetchPlantillaPosition(plantillaId))
+    dispatch(fetchEmployeeDetailsByPlantilla(plantillaId))
     dispatch(resetJobDescriptionResponse())
   }, [])
 
@@ -73,6 +80,14 @@ const PositionProfile = () => {
                 ) : null}
 
                 <Container fluid={true}>
+                  <EmployeeCard
+                    avatarUrl={employeeDetails.photoUrl}
+                    name={employeeDetails.name}
+                    width={100}
+                    height={100}
+                    positionId={plantillaId}
+                    employeeDetails={employeeDetails}
+                  />
                   <Row>
                     {/* Job Description */}
                     <Col lg={6}>

@@ -10,7 +10,10 @@ import {
   SUBMIT_POSITION,
   SUBMIT_POSITION_SUCCESS,
   PLANTILLA_API_ERROR,
-} from "./actionTypes"
+  GET_EMPLOYEE_DETAILS_BY_PLANTILLA,
+  GET_EMPLOYEE_DETAILS_BY_PLANTILLA_SUCCESS,
+  GET_EMPLOYEE_DETAILS_BY_PLANTILLA_FAIL,
+} from './actionTypes'
 
 // Get list of all plantilla position
 export const fetchPlantilla = () => {
@@ -73,6 +76,28 @@ export const fetchPlantillaPositionsSelectSuccess = plantillaPositions => {
 export const resetPlantillaPositions = () => {
   return {
     type: RESET_PLANTILLA_POSITIONS,
+  }
+}
+
+// Get employee details by plantilla id
+export const fetchEmployeeDetailsByPlantilla = plantillaId => {
+  return {
+    type: GET_EMPLOYEE_DETAILS_BY_PLANTILLA,
+    payload: plantillaId,
+  }
+}
+
+export const fetchEmployeeDetailsByPlantillaSuccess = employeeDetails => {
+  return {
+    type: GET_EMPLOYEE_DETAILS_BY_PLANTILLA_SUCCESS,
+    payload: employeeDetails,
+  }
+}
+
+export const fetchEmployeeDetailsByPlantillaFail = error => {
+  return {
+    type: GET_EMPLOYEE_DETAILS_BY_PLANTILLA_FAIL,
+    payload: error,
   }
 }
 
