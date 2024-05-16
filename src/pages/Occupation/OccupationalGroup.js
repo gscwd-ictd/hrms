@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react"
-import PropTypes from "prop-types"
-import { useDispatch, useSelector } from "react-redux"
+import React, { useEffect, useMemo, useState } from 'react'
+import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from 'react-redux'
 import {
+  fetchOccupations,
   fetchOGPositions,
   fetchPositionsWithoutOccupation,
   updatePositionsToOccupation,
@@ -10,12 +11,12 @@ import {
   selectPositionCheckBox,
   unselectPositionCheckBox,
   resetPositionCheckBoxes,
-} from "store/actions"
-import { Can } from "casl/Can"
-import { Navigate, useParams } from "react-router-dom"
-import { isEmpty } from "lodash"
+} from 'store/actions'
+import { Can } from 'casl/Can'
+import { Navigate, useParams } from 'react-router-dom'
+import { isEmpty } from 'lodash'
 
-import Select from "react-select"
+import Select from 'react-select'
 import {
   Card,
   CardBody,
@@ -25,15 +26,15 @@ import {
   Button,
   Input,
   Spinner,
-} from "reactstrap"
-import TableOccupationalGroup from "components/Table/TableOccupationalGroup"
-import { SelectColumnFilter } from "components/Filters/SelectColumnFilter"
-import Breadcrumbs from "components/Common/Breadcrumb"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+} from 'reactstrap'
+import TableOccupationalGroup from 'components/Table/TableOccupationalGroup'
+import { SelectColumnFilter } from 'components/Filters/SelectColumnFilter'
+import Breadcrumbs from 'components/Common/Breadcrumb'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // style
-import "styles/custom_gscwd/global.scss"
+import 'styles/custom_gscwd/global.scss'
 
 const OccupationalGroup = () => {
   const dispatch = useDispatch()
@@ -42,6 +43,13 @@ const OccupationalGroup = () => {
   const [selectedPositions, setSelectedPositions] = useState([])
   const [disableDeleteBtn, setDisableDeleteBtn] = useState(true)
   const [hideDeleteBtn, setHideDeleteBtn] = useState(false)
+
+  // specific occupation details
+  const { occupation } = useSelector(state => ({
+    occupation: state.Occupation.response.occupations.find(
+      occupation => occupation._id === occupationId
+    ),
+  }))
 
   // Redux state for current positions under the occupation
   const { positions, loadingOGPositions, errorOGPositions } = useSelector(
@@ -85,7 +93,7 @@ const OccupationalGroup = () => {
 
   const tblColumns = [
     {
-      id: "selection",
+      id: 'selection',
       disableGlobalFilter: true,
       Cell: function RowCheckBox({ cell }) {
         return (
@@ -98,25 +106,25 @@ const OccupationalGroup = () => {
       },
     },
     {
-      Header: "ID",
-      accessor: "positionId",
+      Header: 'ID',
+      accessor: 'positionId',
       disableGlobalFilter: true,
     },
     {
-      Header: "Item No.",
-      accessor: "itemNumber",
+      Header: 'Item No.',
+      accessor: 'itemNumber',
     },
     {
-      Header: "Position Title",
-      accessor: "positionTitle",
+      Header: 'Position Title',
+      accessor: 'positionTitle',
     },
     {
-      Header: "Salary Grade",
-      accessor: "salaryGrade",
+      Header: 'Salary Grade',
+      accessor: 'salaryGrade',
     },
     {
-      Header: "Assigned To",
-      accessor: "assignedTo",
+      Header: 'Assigned To',
+      accessor: 'assignedTo',
       Filter: SelectColumnFilter,
     },
   ]
@@ -163,6 +171,12 @@ const OccupationalGroup = () => {
     }
   }
 
+  // get specific occupation details
+  useEffect(() => {
+    dispatch(fetchOccupations(occupationId))
+    dispatch(resetOccupationResponses())
+  }, [occupationId])
+
   // Get occupational group and list of positions without occupation assigned
   useEffect(() => {
     dispatch(fetchOGPositions(occupationId))
@@ -194,27 +208,29 @@ const OccupationalGroup = () => {
         <div className="page-content">
           <Container fluid={true}>
             <Breadcrumbs
-              title="Occupations"
+              title={'Occupations'}
               titleUrl="/occupations"
-              breadcrumbItem="Occupational Group"
+              breadcrumbItem={
+                occupation ? occupation.occupationName : 'Occupational Group'
+              }
             />
 
             {/* Error Notif */}
             {errorOGPositions ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorOGPositions}
               />
             ) : null}
             {positionsWithoutOccupationError ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={positionsWithoutOccupationError}
               />
             ) : null}
             {assignPositionsError ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={assignPositionsError}
               />
             ) : null}
@@ -222,14 +238,14 @@ const OccupationalGroup = () => {
             {/* Success Notif */}
             {!isEmpty(assignedPositions) ? (
               <ToastrNotification
-                toastType={"success"}
-                notifMessage={"Positions successfully assigned"}
+                toastType={'success'}
+                notifMessage={'Positions successfully assigned'}
               />
             ) : null}
             {!isEmpty(unassignedPositions) ? (
               <ToastrNotification
-                toastType={"success"}
-                notifMessage={"Positions successfully unassigned"}
+                toastType={'success'}
+                notifMessage={'Positions successfully unassigned'}
               />
             ) : null}
 

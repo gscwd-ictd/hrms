@@ -1,21 +1,23 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import {
+  fetchOccupations,
   fetchOccupationDuties,
   fetchAvailableDuties,
   addAssignOccupationDuties,
   removeUnassignOccupationDuties,
+  resetOccupationResponses,
   resetDutiesResponse,
   selectDutyCheckBox,
   unselectDutyCheckBox,
   resetDutyCheckBoxes,
-} from "store/actions"
-import PropTypes from "prop-types"
-import { Can } from "casl/Can"
-import { Navigate, useParams } from "react-router-dom"
-import { isEmpty } from "lodash"
+} from 'store/actions'
+import PropTypes from 'prop-types'
+import { Can } from 'casl/Can'
+import { Navigate, useParams } from 'react-router-dom'
+import { isEmpty } from 'lodash'
 
-import Select from "react-select"
+import Select from 'react-select'
 import {
   Card,
   CardBody,
@@ -25,14 +27,14 @@ import {
   Button,
   Input,
   Spinner,
-} from "reactstrap"
-import TableOccupationDuties from "components/Table/TableOccupationDuties"
-import Breadcrumbs from "components/Common/Breadcrumb"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+} from 'reactstrap'
+import TableOccupationDuties from 'components/Table/TableOccupationDuties'
+import Breadcrumbs from 'components/Common/Breadcrumb'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // style
-import "styles/custom_gscwd/global.scss"
+import 'styles/custom_gscwd/global.scss'
 
 const OccupationDuties = props => {
   const dispatch = useDispatch()
@@ -42,6 +44,13 @@ const OccupationDuties = props => {
   const [disableDeleteBtn, setDisableDeleteBtn] = useState(true)
   const [hideDeleteBtn, setHideDeleteBtn] = useState(false)
   const [disableAssignBtn, setDisableAssignBtn] = useState(true)
+
+  // specific occupation details
+  const { occupation } = useSelector(state => ({
+    occupation: state.Occupation.response.occupations.find(
+      occupation => occupation._id === occupationId
+    ),
+  }))
 
   // Redux state for current positions under the occupation
   const {
@@ -88,7 +97,7 @@ const OccupationDuties = props => {
 
   const tblColumns = [
     {
-      id: "selection",
+      id: 'selection',
       disableGlobalFilter: true,
       Cell: function RowCheckBox({ cell }) {
         return (
@@ -101,13 +110,13 @@ const OccupationDuties = props => {
       },
     },
     {
-      Header: "ID",
-      accessor: "odrId",
+      Header: 'ID',
+      accessor: 'odrId',
       disableGlobalFilter: true,
     },
     {
-      Header: "Description",
-      accessor: "description",
+      Header: 'Description',
+      accessor: 'description',
     },
   ]
 
@@ -155,6 +164,12 @@ const OccupationDuties = props => {
       setDisableDeleteBtn(true)
     }
   }
+
+  // get specific occupation details
+  useEffect(() => {
+    dispatch(fetchOccupations(occupationId))
+    dispatch(resetOccupationResponses())
+  }, [occupationId])
 
   // Get duties & responsibilities assigned to the occupation
   useEffect(() => {
@@ -205,24 +220,26 @@ const OccupationDuties = props => {
             <Breadcrumbs
               title="Occupations"
               titleUrl="/occupations"
-              breadcrumbItem="Occupation Duties"
+              breadcrumbItem={
+                occupation ? occupation.occupationName : 'Occupation Duties'
+              }
             />
 
             {/* Error Notif */}
             {errorOccupationDutyResponsibilities ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={
                   errorOccupationDutyResponsibilities.message ===
-                  "Request failed with status code 403"
-                    ? "Duty/ies is already assigned to a position."
+                  'Request failed with status code 403'
+                    ? 'Duty/ies is already assigned to a position.'
                     : errorOccupationDutyResponsibilities
                 }
               />
             ) : null}
             {errorAvailableDutyResponsibilities ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorAvailableDutyResponsibilities}
               />
             ) : null}
@@ -230,14 +247,14 @@ const OccupationDuties = props => {
             {/* Success Notif */}
             {!isEmpty(assignedDutyResponsibilities) ? (
               <ToastrNotification
-                toastType={"success"}
-                notifMessage={"Duties successfully assigned"}
+                toastType={'success'}
+                notifMessage={'Duties successfully assigned'}
               />
             ) : null}
             {!isEmpty(unassignedDutyResponsibilities) ? (
               <ToastrNotification
-                toastType={"success"}
-                notifMessage={"Duties successfully unassigned"}
+                toastType={'success'}
+                notifMessage={'Duties successfully unassigned'}
               />
             ) : null}
 
@@ -251,7 +268,7 @@ const OccupationDuties = props => {
                       <>
                         <div
                           className="multi-select-top-right-actions"
-                          style={{ maxWidth: "100%", padding: "15px 0" }}
+                          style={{ maxWidth: '100%', padding: '15px 0' }}
                         >
                           <Row className="justify-content-end">
                             <Col md={10}>
