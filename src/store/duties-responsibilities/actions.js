@@ -27,7 +27,10 @@ import {
   GET_POSITION_DUTIES,
   GET_POSITION_DUTIES_SUCCESS,
   GET_POSITION_DUTIES_FAIL,
-} from "./actionTypes"
+  POST_OCCUPATIONAL_DUTY_RESPONSIBILITY,
+  POST_OCCUPATIONAL_DUTY_RESPONSIBILITY_SUCCESS,
+  POST_OCCUPATIONAL_DUTY_RESPONSIBILITY_FAIL,
+} from './actionTypes'
 
 // Duty & Responsibility
 // Add new duty & responsibility
@@ -189,5 +192,32 @@ export const fetchPositionSuccess = positionDuties => ({
 
 export const fetchPositionFail = error => ({
   type: GET_POSITION_DUTIES_FAIL,
+  payload: error,
+})
+
+// rework
+// export const addOccupationalDutyResponsibility =
+//   occupationalDutyResponsibility => ({
+//     type: POST_OCCUPATIONAL_DUTY_RESPONSIBILITY,
+//     payload: occupationalDutyResponsibility,
+//   })
+export const addOccupationalDutyResponsibility = (
+  occupationId,
+  dutyResponsibilityData
+) => {
+  return {
+    type: POST_OCCUPATIONAL_DUTY_RESPONSIBILITY,
+    payload: { occupationId, dutyResponsibilityData },
+  }
+}
+
+export const addOccupationalDutyResponsibilitySuccess =
+  addedDutyResponsibilityData => ({
+    type: POST_OCCUPATIONAL_DUTY_RESPONSIBILITY_SUCCESS,
+    payload: addedDutyResponsibilityData,
+  })
+
+export const addOccupationalDutyResponsibilityFail = error => ({
+  type: POST_OCCUPATIONAL_DUTY_RESPONSIBILITY_FAIL,
   payload: error,
 })

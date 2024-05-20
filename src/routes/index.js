@@ -82,7 +82,7 @@ import OccupationalGroup from "pages/Occupation/OccupationalGroup"
 import OccupationDuties from "pages/Occupation/OccupationDuties"
 
 // Duties and Responsibilities
-import Duties from "pages/Duties"
+// import Duties from "pages/Duties"
 
 // Salary Grade
 import SalaryGrade from "pages/SalaryGrade"
@@ -201,10 +201,10 @@ const authProtectedRoutes = [
   },
 
   // Duties & Responsibilities
-  {
-    path: "/duties-responsibilities",
-    component: <Duties />,
-  },
+  // {
+  //   path: "/duties-responsibilities",
+  //   component: <Duties />,
+  // },
 
   // Salary Grade
   {

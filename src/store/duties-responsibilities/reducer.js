@@ -27,7 +27,10 @@ import {
   GET_POSITION_DUTIES,
   GET_POSITION_DUTIES_SUCCESS,
   GET_POSITION_DUTIES_FAIL,
-} from "./actionTypes"
+  POST_OCCUPATIONAL_DUTY_RESPONSIBILITY,
+  POST_OCCUPATIONAL_DUTY_RESPONSIBILITY_SUCCESS,
+  POST_OCCUPATIONAL_DUTY_RESPONSIBILITY_FAIL,
+} from './actionTypes'
 
 const INIT_STATE = {
   response: {
@@ -38,14 +41,21 @@ const INIT_STATE = {
     },
     dutyResponsibilities: [], // all duty and responsibilities
 
+    // rework
+    occupationalDutyResponsibility: {
+      post: {},
+      put: {},
+      delete: {},
+    },
+
     occupationDutyResponsibilities: [], // assigned duty and responsibilities of a occupation
     assignedDutyResponsibilities: [], // response after assigning duties
     unassignedDutyResponsibilities: [], // response after unassigning duties
     availableDutyResponsibilities: [], // dropdown data for  duty and responsibilities that can be assigned
 
     positionDutyResponsibilities: {
-      positionId: "",
-      summary: "",
+      positionId: '',
+      summary: '',
       duties: {
         core: [],
         support: [],
@@ -428,8 +438,8 @@ const dutiesResponsibilities = (state = INIT_STATE, action) => {
           ...state.response,
           positionDutyResponsibilities: {
             ...state.response.positionDutyResponsibilities,
-            positionId: "",
-            summary: "",
+            positionId: '',
+            summary: '',
             duties: {
               ...state.response.positionDutyResponsibilities.duties,
               core: [],
@@ -479,6 +489,56 @@ const dutiesResponsibilities = (state = INIT_STATE, action) => {
           errorPositionDuties: action.payload,
         },
       }
+
+    case POST_OCCUPATIONAL_DUTY_RESPONSIBILITY:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          occupationalDutyResponsibility: {
+            ...state.response.occupationalDutyResponsibility,
+            post: {},
+          },
+        },
+        loading: {
+          ...state.loading,
+          loadingOccupationDutyResponsibilities: true,
+        },
+        error: {
+          ...state.error,
+          errorOccupationDutyResponsibilities: null,
+        },
+      }
+
+    case POST_OCCUPATIONAL_DUTY_RESPONSIBILITY_SUCCESS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          occupationalDutyResponsibility: {
+            ...state.response.occupationalDutyResponsibility,
+            post: action.payload,
+          },
+        },
+        loading: {
+          ...state.loading,
+          loadingOccupationDutyResponsibilities: false,
+        },
+      }
+
+    case POST_OCCUPATIONAL_DUTY_RESPONSIBILITY_FAIL:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingOccupationDutyResponsibilities: false,
+        },
+        error: {
+          ...state.error,
+          errorOccupationDutyResponsibilities: action.payload,
+        },
+      }
+
     default:
       return state
   }

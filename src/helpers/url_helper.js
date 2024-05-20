@@ -150,6 +150,9 @@ export const DELETE_UNASSIGN_OCCUPATION_DUTIES_RESPONSIBILITIES =
 export const GET_AVAILABLE_DUTIES_RESPONSIBILITIES =
   'occupation-duties-responsibilities/' // for drop-down selection
 
+// rework
+export const POST_OCCUPATIONAL_DUTY_RESPONSIBILITY = 'occupation-duties-responsibilities/occupation/'
+
 //CALENDER
 export const GET_EVENTS = 'events/'
 

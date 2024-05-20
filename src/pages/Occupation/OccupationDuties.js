@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import {
-  fetchOccupations,
+  fetchOccupation,
   fetchOccupationDuties,
   fetchAvailableDuties,
   addAssignOccupationDuties,
@@ -33,6 +33,13 @@ import Breadcrumbs from 'components/Common/Breadcrumb'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 
+// reworked duties and responsibilities
+import AddDutyModal from 'components/Modal/Duties/AddDutyModal'
+import EditDutyModal from 'components/Modal/Duties/EditDutyModal'
+import DeleteDutyModal from 'components/Modal/Duties/DeleteDutyModal'
+import TableDutiesResponsibilities from 'components/Table/TableDutiesResponsibilities'
+import InRowAction from 'components/InRowAction/InRowAction'
+
 // style
 import 'styles/custom_gscwd/global.scss'
 
@@ -45,11 +52,9 @@ const OccupationDuties = props => {
   const [hideDeleteBtn, setHideDeleteBtn] = useState(false)
   const [disableAssignBtn, setDisableAssignBtn] = useState(true)
 
-  // specific occupation details
+  // Redux state for specific occupation details
   const { occupation } = useSelector(state => ({
-    occupation: state.Occupation.response.occupations.find(
-      occupation => occupation._id === occupationId
-    ),
+    occupation: state.Occupation.response.occupation.get,
   }))
 
   // Redux state for current positions under the occupation
@@ -97,26 +102,23 @@ const OccupationDuties = props => {
 
   const tblColumns = [
     {
-      id: 'selection',
+      Header: 'Description',
+      accessor: 'description',
+    },
+    {
+      Header: 'Actions',
+      accessor: '',
+      align: 'center',
       disableGlobalFilter: true,
-      Cell: function RowCheckBox({ cell }) {
+      Cell: function ActionDropdown(cell) {
         return (
-          <Input
-            type="checkbox"
-            name="input-checkbox"
-            onChange={event => handleCheckBox(cell.row, event.target.checked)}
+          <InRowAction
+            cell={cell}
+            editModal={editModal}
+            deleteModal={deleteModal}
           />
         )
       },
-    },
-    {
-      Header: 'ID',
-      accessor: 'odrId',
-      disableGlobalFilter: true,
-    },
-    {
-      Header: 'Description',
-      accessor: 'description',
     },
   ]
 
@@ -167,7 +169,7 @@ const OccupationDuties = props => {
 
   // get specific occupation details
   useEffect(() => {
-    dispatch(fetchOccupations(occupationId))
+    dispatch(fetchOccupation(occupationId))
     dispatch(resetOccupationResponses())
   }, [occupationId])
 
@@ -212,6 +214,36 @@ const OccupationDuties = props => {
     }
   }, [selectedRows])
 
+  /**
+   * Modal
+   */
+  const [modalData, setModalData] = useState({})
+
+  // Add Modal
+  const [showAdd, setShowAdd] = useState(false)
+  const handleCloseAdd = () => setShowAdd(false)
+  const handleShowAdd = () => setShowAdd(true)
+
+  // Edit Modal
+  const [showEdt, setShowEdt] = useState(false)
+  const handleCloseEdt = () => setShowEdt(false)
+  const handleShowEdt = () => setShowEdt(true)
+
+  const editModal = rowData => {
+    setModalData(rowData)
+    handleShowEdt()
+  }
+
+  // Delete Modal
+  const [showDel, setShowDel] = useState(false)
+  const handleCloseDel = () => setShowDel(false)
+  const handleShowDel = () => setShowDel(true)
+
+  const deleteModal = rowData => {
+    setModalData(rowData)
+    handleShowDel()
+  }
+
   return (
     <React.Fragment>
       <Can I="access" this="Occupations">
@@ -225,39 +257,6 @@ const OccupationDuties = props => {
               }
             />
 
-            {/* Error Notif */}
-            {errorOccupationDutyResponsibilities ? (
-              <ToastrNotification
-                toastType={'error'}
-                notifMessage={
-                  errorOccupationDutyResponsibilities.message ===
-                  'Request failed with status code 403'
-                    ? 'Duty/ies is already assigned to a position.'
-                    : errorOccupationDutyResponsibilities
-                }
-              />
-            ) : null}
-            {errorAvailableDutyResponsibilities ? (
-              <ToastrNotification
-                toastType={'error'}
-                notifMessage={errorAvailableDutyResponsibilities}
-              />
-            ) : null}
-
-            {/* Success Notif */}
-            {!isEmpty(assignedDutyResponsibilities) ? (
-              <ToastrNotification
-                toastType={'success'}
-                notifMessage={'Duties successfully assigned'}
-              />
-            ) : null}
-            {!isEmpty(unassignedDutyResponsibilities) ? (
-              <ToastrNotification
-                toastType={'success'}
-                notifMessage={'Duties successfully unassigned'}
-              />
-            ) : null}
-
             <Row>
               <Col lg={12}>
                 <Card>
@@ -266,49 +265,39 @@ const OccupationDuties = props => {
                       <LoadingIndicator />
                     ) : (
                       <>
-                        <div
-                          className="multi-select-top-right-actions"
-                          style={{ maxWidth: '100%', padding: '15px 0' }}
-                        >
-                          <Row className="justify-content-end">
-                            <Col md={10}>
-                              <Select
-                                isMulti={true}
-                                onChange={e => {
-                                  handleMultiSelect(e)
-                                }}
-                                name="select-employees"
-                                options={availableDutyResponsibilities}
-                                minMenuHeight={100}
-                                maxMenuHeight={300}
-                                isLoading={
-                                  loadingAvailableDutyResponsibilities
-                                    ? true
-                                    : false
-                                }
-                              />
-                            </Col>
-                            <Col md={2}>
-                              <Button
-                                className="btn btn-info w-100"
-                                onClick={() => handleAssignPositions()}
-                                disabled={disableAssignBtn}
-                              >
-                                Assign
-                              </Button>
-                            </Col>
-                          </Row>
+                        <div className="top-right-actions">
+                          <div className="form-group add-btn">
+                            <button
+                              onClick={handleShowAdd}
+                              className="btn btn-info waves-effect waves-light"
+                            >
+                              <i className="fas fa-plus-square"></i> Add Duty &
+                              Responsibility
+                            </button>
+                          </div>
                         </div>
-
-                        <TableOccupationDuties
+                        <TableDutiesResponsibilities
                           columns={columns}
                           data={data}
-                          handleDeleteRows={handleDeleteRows}
-                          disableDeleteBtn={disableDeleteBtn}
-                          hideDeleteBtn={hideDeleteBtn}
                         />
                       </>
                     )}
+                    <AddDutyModal
+                      showAdd={showAdd}
+                      handleCloseAdd={handleCloseAdd}
+                      occupationId={occupationId}
+                    />
+                    <EditDutyModal
+                      showEdt={showEdt}
+                      modalData={modalData}
+                      handleCloseEdt={handleCloseEdt}
+                    />
+                    <DeleteDutyModal
+                      showDel={showDel}
+                      modalData={modalData}
+                      handleCloseDel={handleCloseDel}
+                      occupationId={occupationId}
+                    />
                   </CardBody>
                 </Card>
               </Col>

@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  fetchOccupations,
+  fetchOccupation,
   fetchOGPositions,
   fetchPositionsWithoutOccupation,
   updatePositionsToOccupation,
@@ -44,11 +44,9 @@ const OccupationalGroup = () => {
   const [disableDeleteBtn, setDisableDeleteBtn] = useState(true)
   const [hideDeleteBtn, setHideDeleteBtn] = useState(false)
 
-  // specific occupation details
+  // Redux state for specific occupation details
   const { occupation } = useSelector(state => ({
-    occupation: state.Occupation.response.occupations.find(
-      occupation => occupation._id === occupationId
-    ),
+    occupation: state.Occupation.response.occupation.get,
   }))
 
   // Redux state for current positions under the occupation
@@ -173,7 +171,7 @@ const OccupationalGroup = () => {
 
   // get specific occupation details
   useEffect(() => {
-    dispatch(fetchOccupations(occupationId))
+    dispatch(fetchOccupation(occupationId))
     dispatch(resetOccupationResponses())
   }, [occupationId])
 

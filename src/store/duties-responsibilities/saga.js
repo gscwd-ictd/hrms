@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from "redux-saga/effects"
+import { call, put, takeEvery } from 'redux-saga/effects'
 import {
   getDutyResponsibilities,
   postDutyResponsibility,
@@ -9,7 +9,8 @@ import {
   postOccupationDuties,
   deleteOccupationDuties,
   getAvailableDutiesForOccupation,
-} from "helpers/backend_helper"
+  postOccupationalDutyResponsibility,
+} from 'helpers/backend_helper'
 import {
   addDutyResponsibilitySuccess,
   updateDutyResponsibilitySuccess,
@@ -26,7 +27,9 @@ import {
   fetchAvailableDutiesFail,
   fetchPositionSuccess,
   fetchPositionFail,
-} from "./actions"
+  addOccupationalDutyResponsibilitySuccess,
+  addOccupationalDutyResponsibilityFail,
+} from './actions'
 import {
   POST_DUTY,
   PUT_DUTY,
@@ -37,7 +40,8 @@ import {
   UNASSIGN_OCCUPATION_DUTIES,
   GET_AVAILABLE_DUTIES,
   GET_POSITION_DUTIES,
-} from "./actionTypes"
+  POST_OCCUPATIONAL_DUTY_RESPONSIBILITY,
+} from './actionTypes'
 
 function* addDutyResponsibility({ payload: dutyResponsibilityData }) {
   try {
@@ -137,6 +141,21 @@ function* fetchPositionDuties({ payload: positionId }) {
   }
 }
 
+function* addOccupationalDuty({
+  payload: { occupationId, dutyResponsibilityData },
+}) {
+  try {
+    const response = yield call(
+      postOccupationalDutyResponsibility,
+      occupationId,
+      dutyResponsibilityData
+    )
+    yield put(addOccupationalDutyResponsibilitySuccess(response))
+  } catch (error) {
+    yield put(addOccupationalDutyResponsibilityFail(error))
+  }
+}
+
 function* dutiesResponsibilitiesSaga() {
   yield takeEvery(POST_DUTY, addDutyResponsibility)
   yield takeEvery(PUT_DUTY, updateDutyResponsibility)
@@ -149,6 +168,8 @@ function* dutiesResponsibilitiesSaga() {
   yield takeEvery(GET_AVAILABLE_DUTIES, fetchAvailableDuties)
 
   yield takeEvery(GET_POSITION_DUTIES, fetchPositionDuties)
+
+  yield takeEvery(POST_OCCUPATIONAL_DUTY_RESPONSIBILITY, addOccupationalDuty)
 }
 
 export default dutiesResponsibilitiesSaga

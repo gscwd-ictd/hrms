@@ -22,7 +22,7 @@ import {
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const DeleteDutyModal = props => {
-  const { showDel, handleCloseDel, modalData } = props
+  const { showDel, handleCloseDel, modalData, occupationId } = props
   const dispatch = useDispatch()
 
   const submitDelete = () => {
@@ -114,6 +114,7 @@ const DeleteDutyModal = props => {
 DeleteDutyModal.propTypes = {
   showDel: PropTypes.bool,
   handleCloseDel: PropTypes.func,
+  occupationId: PropTypes.string,
   modalData: PropTypes.object,
 }
 

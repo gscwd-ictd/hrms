@@ -247,6 +247,17 @@ export const getAvailableDutiesForOccupation = occupationId =>
     url.GET_AVAILABLE_DUTIES_RESPONSIBILITIES + occupationId + url.AVAILABLE
   )
 
+// rework
+export const postOccupationalDutyResponsibility = (
+  occupationId,
+  occupationalDutyResponsibility
+) => {
+  return postHris(
+    url.POST_OCCUPATIONAL_DUTY_RESPONSIBILITY + occupationId,
+    occupationalDutyResponsibility
+  );
+}
+
 // Events --------------------------------------------------------------------------
 export const getEvents = () => getHris(url.GET_EVENTS)
 
