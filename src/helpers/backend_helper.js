@@ -1,5 +1,6 @@
 import {
   delHris,
+  delWithBodyHris,
   getHris,
   postHris,
   putHris,
@@ -472,3 +473,28 @@ export const getSystemLog = logId => getHris(url.SYSTEM_LOGS + logId)
 
 // Schedules-----------------------------------------------------------------------
 export const getSchedules = () => getEmpMon(url.SCHEDULES)
+
+// Occupational duty and responsibility rework ------------------------------------
+export const postOccupationalDutyResponsibility = (
+  occupationId,
+  occupationalDutyResponsibility
+) => {
+  return postHris(
+    url.POST_OCCUPATIONAL_DUTY_RESPONSIBILITY + occupationId,
+    occupationalDutyResponsibility
+  )
+}
+
+export const deleteOccupationalDutyResponsibility = (
+  occupationId,
+  odrId,
+  drId
+) => {
+  return delWithBodyHris(
+    url.DELETE_OCCUPATIONAL_DUTY_RESPONSIBILITY + occupationId,
+    {
+      odrId,
+      drId,
+    }
+  )
+}

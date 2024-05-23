@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { isEmpty } from 'lodash'
 
 import {
-  addDutyResponsibility,
-  fetchDutyResponsibilities,
+  fetchOccupationDuties,
   resetDutiesResponse,
+  addOccupationalDutyResponsibility,
 } from 'store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -30,20 +30,20 @@ import * as Yup from 'yup'
 import { useFormik } from 'formik'
 
 const AddDutyModal = props => {
-  const { showAdd, handleCloseAdd } = props
+  const { showAdd, handleCloseAdd, occupationId } = props
   const dispatch = useDispatch()
 
   const {
-    postDutiesRes,
     loadingDutyResponsibilities,
     errorDutyResponsibilities,
+    postOccupationalDutyResponsibility,
   } = useSelector(state => ({
-    postDutiesRes:
-      state.dutiesResponsibilities.response.dutyResponsibility.post,
     loadingDutyResponsibilities:
       state.dutiesResponsibilities.loading.loadingDutyResponsibilities,
     errorDutyResponsibilities:
       state.dutiesResponsibilities.error.errorDutyResponsibilities,
+    postOccupationalDutyResponsibility:
+      state.dutiesResponsibilities.response.occupationalDutyResponsibility.post,
   }))
 
   const validation = useFormik({
@@ -58,7 +58,7 @@ const AddDutyModal = props => {
       ),
     }),
     onSubmit: (values, { resetForm }) => {
-      dispatch(addDutyResponsibility(values))
+      dispatch(addOccupationalDutyResponsibility(occupationId, values))
       resetForm()
     },
   })
@@ -72,12 +72,12 @@ const AddDutyModal = props => {
 
   // Execute after successful submission of form
   useEffect(() => {
-    if (!isEmpty(postDutiesRes)) {
-      dispatch(fetchDutyResponsibilities())
+    if (!isEmpty(postOccupationalDutyResponsibility)) {
+      dispatch(fetchOccupationDuties(occupationId))
       dispatch(resetDutiesResponse())
       handleCloseAdd()
     }
-  }, [postDutiesRes])
+  }, [postOccupationalDutyResponsibility])
 
   return (
     <>
@@ -103,7 +103,7 @@ const AddDutyModal = props => {
           />
         ) : null}
 
-        {!isEmpty(postDutiesRes) ? (
+        {!isEmpty(postOccupationalDutyResponsibility) ? (
           <ToastrNotification
             toastType={'success'}
             notifMessage={'New duty & responsibility created'}
@@ -129,6 +129,7 @@ const AddDutyModal = props => {
                         type="textarea"
                         className="form-control"
                         id="desc-Input"
+                        rows="10"
                         onChange={validation.handleChange}
                         onBlur={validation.handleBlur}
                         value={validation.values.description || ''}
@@ -166,6 +167,7 @@ const AddDutyModal = props => {
 AddDutyModal.propTypes = {
   showAdd: PropTypes.bool,
   handleCloseAdd: PropTypes.func,
+  occupationId: PropTypes.string,
   history: PropTypes.object,
 }
 

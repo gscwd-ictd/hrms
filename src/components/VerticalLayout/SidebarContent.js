@@ -259,14 +259,14 @@ const SidebarContent = props => {
                 </Link>
               </li>
             </Can>
-            <Can I="access" this="Duties_responsibilities">
+            {/* <Can I="access" this="Duties_responsibilities">
               <li>
                 <Link to="/duties-responsibilities" className="waves-effect">
                   <i className="bx bx-list-ol"></i>
                   <span>{'Duties & Responsibilities'}</span>
                 </Link>
               </li>
-            </Can>
+            </Can> */}
             <Can I="access" this="Committees">
               <li>
                 <Link to="/committees" className="waves-effect">
