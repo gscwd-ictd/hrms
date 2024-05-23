@@ -172,9 +172,34 @@ function* removeOccupationalDutyResponsibility({
     )
     yield put(removeOccupationalDutyResponsibilitySuccess(response))
   } catch (error) {
-    yield put(removeOccupationalDutyResponsibilityFail(error))
+    let errorMessage
+    if (error.response && error.response.status) {
+      switch (error.response.status) {
+        case 400:
+          errorMessage =
+            'Bad request. Try again later'
+          break
+        case 409:
+          errorMessage =
+            'Duty is already assigned in position. Please unassign it first.'
+          break
+        case 500:
+          errorMessage = 'Sorry! something went wrong'
+          break
+        case 408:
+          errorMessage =
+            'Request timeout. Try again later.'
+          break
+        default:
+          errorMessage = 'Invalid request.'
+          break
+      }
+    }
+    yield put(removeOccupationalDutyResponsibilityFail(errorMessage))
   }
 }
+
+
 
 function* dutiesResponsibilitiesSaga() {
   yield takeEvery(POST_DUTY, addDutyResponsibility)
