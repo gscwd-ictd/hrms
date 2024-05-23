@@ -30,6 +30,9 @@ import {
   POST_OCCUPATIONAL_DUTY_RESPONSIBILITY,
   POST_OCCUPATIONAL_DUTY_RESPONSIBILITY_SUCCESS,
   POST_OCCUPATIONAL_DUTY_RESPONSIBILITY_FAIL,
+  DELETE_OCCUPATIONAL_DUTY_RESPONSIBILITY,
+  DELETE_OCCUPATIONAL_DUTY_RESPONSIBILITY_SUCCESS,
+  DELETE_OCCUPATIONAL_DUTY_RESPONSIBILITY_FAIL,
 } from './actionTypes'
 
 // Duty & Responsibility
@@ -195,12 +198,7 @@ export const fetchPositionFail = error => ({
   payload: error,
 })
 
-// rework
-// export const addOccupationalDutyResponsibility =
-//   occupationalDutyResponsibility => ({
-//     type: POST_OCCUPATIONAL_DUTY_RESPONSIBILITY,
-//     payload: occupationalDutyResponsibility,
-//   })
+// Occupational duty and responsibility rework
 export const addOccupationalDutyResponsibility = (
   occupationId,
   dutyResponsibilityData
@@ -219,5 +217,27 @@ export const addOccupationalDutyResponsibilitySuccess =
 
 export const addOccupationalDutyResponsibilityFail = error => ({
   type: POST_OCCUPATIONAL_DUTY_RESPONSIBILITY_FAIL,
+  payload: error,
+})
+
+export const removeOccupationalDutyResponsibility = (
+  occupationId,
+  drId,
+  odrId
+) => {
+  return {
+    type: DELETE_OCCUPATIONAL_DUTY_RESPONSIBILITY,
+    payload: { occupationId, drId, odrId },
+  }
+}
+
+export const removeOccupationalDutyResponsibilitySuccess =
+  deletedDutyResponsibilityData => ({
+    type: DELETE_OCCUPATIONAL_DUTY_RESPONSIBILITY_SUCCESS,
+    payload: deletedDutyResponsibilityData,
+  })
+
+export const removeOccupationalDutyResponsibilityFail = error => ({
+  type: DELETE_OCCUPATIONAL_DUTY_RESPONSIBILITY_FAIL,
   payload: error,
 })

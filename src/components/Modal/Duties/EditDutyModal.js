@@ -4,7 +4,7 @@ import { isEmpty } from 'lodash'
 
 import {
   updateDutyResponsibility,
-  fetchDutyResponsibilities,
+  fetchOccupationDuties,
   resetDutiesResponse,
 } from 'store/actions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -31,7 +31,7 @@ import * as Yup from 'yup'
 import { useFormik } from 'formik'
 
 const EditDutyModal = props => {
-  const { showEdt, handleCloseEdt, modalData } = props
+  const { showEdt, handleCloseEdt, modalData, occupationId } = props
   const dispatch = useDispatch()
 
   const {
@@ -58,7 +58,7 @@ const EditDutyModal = props => {
       ),
     }),
     onSubmit: (values, { resetForm }) => {
-      dispatch(updateDutyResponsibility(modalData._id, values))
+      dispatch(updateDutyResponsibility(modalData.drId, values))
       resetForm()
     },
   })
@@ -73,9 +73,9 @@ const EditDutyModal = props => {
   // Execute after successful submission of form
   useEffect(() => {
     if (!isEmpty(putDutiesRes)) {
-      handleCloseEdt()
-      dispatch(fetchDutyResponsibilities())
+      dispatch(fetchOccupationDuties(occupationId))
       dispatch(resetDutiesResponse())
+      handleCloseEdt()
     }
   }, [putDutiesRes])
 
@@ -104,7 +104,7 @@ const EditDutyModal = props => {
         {!isEmpty(putDutiesRes) ? (
           <ToastrNotification
             toastType={'success'}
-            notifMessage={'Update Successful'}
+            notifMessage={'Update occupational duty successful'}
           />
         ) : null}
 
@@ -126,6 +126,7 @@ const EditDutyModal = props => {
                     type="textarea"
                     className="form-control"
                     id="desc-Input"
+                    rows="10"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
                     value={validation.values.description || ''}
@@ -165,6 +166,7 @@ EditDutyModal.propTypes = {
   showEdt: PropTypes.bool,
   handleCloseEdt: PropTypes.func,
   modalData: PropTypes.object,
+  occupationId: PropTypes.string,
 }
 
 export default EditDutyModal

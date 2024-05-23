@@ -30,6 +30,9 @@ import {
   POST_OCCUPATIONAL_DUTY_RESPONSIBILITY,
   POST_OCCUPATIONAL_DUTY_RESPONSIBILITY_SUCCESS,
   POST_OCCUPATIONAL_DUTY_RESPONSIBILITY_FAIL,
+  DELETE_OCCUPATIONAL_DUTY_RESPONSIBILITY,
+  DELETE_OCCUPATIONAL_DUTY_RESPONSIBILITY_SUCCESS,
+  DELETE_OCCUPATIONAL_DUTY_RESPONSIBILITY_FAIL,
 } from './actionTypes'
 
 const INIT_STATE = {
@@ -41,10 +44,9 @@ const INIT_STATE = {
     },
     dutyResponsibilities: [], // all duty and responsibilities
 
-    // rework
+    // Occupational duty and responsibility rework
     occupationalDutyResponsibility: {
       post: {},
-      put: {},
       delete: {},
     },
 
@@ -401,6 +403,11 @@ const dutiesResponsibilities = (state = INIT_STATE, action) => {
             put: {},
             delete: {},
           },
+          occupationalDutyResponsibility: {
+            ...state.response.occupationalDutyResponsibility,
+            post: {},
+            delete: {},
+          },
           assignedDutyResponsibilities: [],
           unassignedDutyResponsibilities: [],
         },
@@ -527,6 +534,55 @@ const dutiesResponsibilities = (state = INIT_STATE, action) => {
       }
 
     case POST_OCCUPATIONAL_DUTY_RESPONSIBILITY_FAIL:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingOccupationDutyResponsibilities: false,
+        },
+        error: {
+          ...state.error,
+          errorOccupationDutyResponsibilities: action.payload,
+        },
+      }
+
+    case DELETE_OCCUPATIONAL_DUTY_RESPONSIBILITY:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          occupationalDutyResponsibility: {
+            ...state.response.occupationalDutyResponsibility,
+            delete: {},
+          },
+        },
+        loading: {
+          ...state.loading,
+          loadingOccupationDutyResponsibilities: true,
+        },
+        error: {
+          ...state.error,
+          errorOccupationDutyResponsibilities: null,
+        },
+      }
+
+    case DELETE_OCCUPATIONAL_DUTY_RESPONSIBILITY_SUCCESS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          occupationalDutyResponsibility: {
+            ...state.response.occupationalDutyResponsibility,
+            delete: action.payload,
+          },
+        },
+        loading: {
+          ...state.loading,
+          loadingOccupationDutyResponsibilities: false,
+        },
+      }
+
+    case DELETE_OCCUPATIONAL_DUTY_RESPONSIBILITY_FAIL:
       return {
         ...state,
         loading: {

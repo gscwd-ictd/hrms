@@ -1,34 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import {
-  fetchOccupation,
-  fetchOccupationDuties,
-  fetchAvailableDuties,
-  addAssignOccupationDuties,
-  removeUnassignOccupationDuties,
-  resetOccupationResponses,
-  resetDutiesResponse,
-  selectDutyCheckBox,
-  unselectDutyCheckBox,
-  resetDutyCheckBoxes,
-} from 'store/actions'
+import React, { useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchOccupation, fetchOccupationDuties } from 'store/actions'
 import PropTypes from 'prop-types'
 import { Can } from 'casl/Can'
 import { Navigate, useParams } from 'react-router-dom'
-import { isEmpty } from 'lodash'
-
-import Select from 'react-select'
-import {
-  Card,
-  CardBody,
-  Col,
-  Container,
-  Row,
-  Button,
-  Input,
-  Spinner,
-} from 'reactstrap'
-import TableOccupationDuties from 'components/Table/TableOccupationDuties'
+import { Card, CardBody, Col, Container, Row } from 'reactstrap'
 import Breadcrumbs from 'components/Common/Breadcrumb'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
@@ -43,62 +19,9 @@ import InRowAction from 'components/InRowAction/InRowAction'
 // style
 import 'styles/custom_gscwd/global.scss'
 
-const OccupationDuties = props => {
+const OccupationDuties = () => {
   const dispatch = useDispatch()
   const { occupationId } = useParams()
-
-  const [selectedDuties, setSelectedDuties] = useState([])
-  const [disableDeleteBtn, setDisableDeleteBtn] = useState(true)
-  const [hideDeleteBtn, setHideDeleteBtn] = useState(false)
-  const [disableAssignBtn, setDisableAssignBtn] = useState(true)
-
-  // Redux state for specific occupation details
-  const { occupation } = useSelector(state => ({
-    occupation: state.Occupation.response.occupation.get,
-  }))
-
-  // Redux state for current positions under the occupation
-  const {
-    occupationDutyResponsibilities,
-    loadingOccupationDutyResponsibilities,
-    errorOccupationDutyResponsibilities,
-  } = useSelector(state => ({
-    occupationDutyResponsibilities:
-      state.dutiesResponsibilities.response.occupationDutyResponsibilities,
-    loadingOccupationDutyResponsibilities:
-      state.dutiesResponsibilities.loading
-        .loadingOccupationDutyResponsibilities,
-    errorOccupationDutyResponsibilities:
-      state.dutiesResponsibilities.error.errorOccupationDutyResponsibilities,
-  }))
-
-  //  Redux state for Multi-Select. Duties without occupation assignment
-  const {
-    availableDutyResponsibilities,
-    loadingAvailableDutyResponsibilities,
-    errorAvailableDutyResponsibilities,
-  } = useSelector(state => ({
-    availableDutyResponsibilities:
-      state.dutiesResponsibilities.response.availableDutyResponsibilities,
-    loadingAvailableDutyResponsibilities:
-      state.dutiesResponsibilities.loading.loadingAvailableDutyResponsibilities,
-    errorAvailableDutyResponsibilities:
-      state.dutiesResponsibilities.error.errorAvailableDutyResponsibilities,
-  }))
-
-  // Redux state for assigning and unassigning positions to occupations
-  const { assignedDutyResponsibilities, unassignedDutyResponsibilities } =
-    useSelector(state => ({
-      assignedDutyResponsibilities:
-        state.dutiesResponsibilities.response.assignedDutyResponsibilities,
-      unassignedDutyResponsibilities:
-        state.dutiesResponsibilities.response.unassignedDutyResponsibilities,
-    }))
-
-  // Reducer state for checked rows
-  const { selectedRows } = useSelector(state => ({
-    selectedRows: state.dutiesResponsibilities.selectedRows,
-  }))
 
   const tblColumns = [
     {
@@ -122,97 +45,31 @@ const OccupationDuties = props => {
     },
   ]
 
+  // Redux state for specific occupation details
+  const { occupation } = useSelector(state => ({
+    occupation: state.Occupation.response.occupation.get,
+  }))
+
+  // Redux state for current duties under the occupation
+  const {
+    occupationDutyResponsibilities,
+    loadingOccupationDutyResponsibilities,
+    errorOccupationDutyResponsibilities,
+  } = useSelector(state => ({
+    occupationDutyResponsibilities:
+      state.dutiesResponsibilities.response.occupationDutyResponsibilities,
+    loadingOccupationDutyResponsibilities:
+      state.dutiesResponsibilities.loading
+        .loadingOccupationDutyResponsibilities,
+    errorOccupationDutyResponsibilities:
+      state.dutiesResponsibilities.error.errorOccupationDutyResponsibilities,
+  }))
+
   const columns = useMemo(() => tblColumns, [])
   const data = useMemo(
     () => occupationDutyResponsibilities,
     [occupationDutyResponsibilities]
   )
-
-  // Multi-select dropdown
-  const handleMultiSelect = selectedMulti => {
-    let array = []
-    selectedMulti.map(option => {
-      const dutyResponsibilityId = option.value.dutyResponsibilityId
-      array.push(dutyResponsibilityId)
-    })
-    setSelectedDuties(array)
-  }
-
-  // Checkbox action
-  const handleCheckBox = (cellRowValues, isChecked) => {
-    if (isChecked) {
-      dispatch(selectDutyCheckBox(cellRowValues.values.odrId))
-    } else {
-      dispatch(unselectDutyCheckBox(cellRowValues.values.odrId))
-    }
-  }
-
-  // Assigning of duties to occupation
-  const handleAssignPositions = () => {
-    const dutyResponsibilityIds = {
-      dutyResponsibilityIds: selectedDuties,
-    }
-    dispatch(addAssignOccupationDuties(occupationId, dutyResponsibilityIds))
-  }
-
-  // Unassigning of duties from occupation
-  const handleDeleteRows = () => {
-    if (!isEmpty(selectedRows)) {
-      const odrIds = {
-        odrIds: selectedRows,
-      }
-
-      dispatch(removeUnassignOccupationDuties(odrIds))
-      setDisableDeleteBtn(true)
-    }
-  }
-
-  // get specific occupation details
-  useEffect(() => {
-    dispatch(fetchOccupation(occupationId))
-    dispatch(resetOccupationResponses())
-  }, [occupationId])
-
-  // Get duties & responsibilities assigned to the occupation
-  useEffect(() => {
-    if (occupationId) {
-      dispatch(fetchOccupationDuties(occupationId))
-      dispatch(fetchAvailableDuties(occupationId))
-    }
-  }, [dispatch])
-
-  // Trigger when assigning position is success
-  useEffect(() => {
-    if (
-      !isEmpty(assignedDutyResponsibilities) ||
-      !isEmpty(unassignedDutyResponsibilities)
-    ) {
-      dispatch(fetchOccupationDuties(occupationId))
-      dispatch(fetchAvailableDuties(occupationId))
-
-      dispatch(resetDutiesResponse())
-      dispatch(resetDutyCheckBoxes())
-      setSelectedDuties([])
-    }
-  }, [assignedDutyResponsibilities, unassignedDutyResponsibilities])
-
-  // Enable/Disable assign button if there is a option selected
-  useEffect(() => {
-    if (!isEmpty(selectedDuties)) {
-      setDisableAssignBtn(false)
-    } else {
-      setDisableAssignBtn(true)
-    }
-  }, [selectedDuties])
-
-  // Enable/Disable delete button if there is a row checked
-  useEffect(() => {
-    if (!isEmpty(selectedRows)) {
-      setDisableDeleteBtn(false)
-    } else {
-      setDisableDeleteBtn(true)
-    }
-  }, [selectedRows])
 
   /**
    * Modal
@@ -244,6 +101,12 @@ const OccupationDuties = props => {
     handleShowDel()
   }
 
+  // get specific occupation details
+  useEffect(() => {
+    dispatch(fetchOccupation(occupationId))
+    dispatch(fetchOccupationDuties(occupationId))
+  }, [occupationId, dispatch])
+
   return (
     <React.Fragment>
       <Can I="access" this="Occupations">
@@ -256,6 +119,14 @@ const OccupationDuties = props => {
                 occupation ? occupation.occupationName : 'Occupation Duties'
               }
             />
+
+            {/* Notifications */}
+            {errorOccupationDutyResponsibilities ? (
+              <ToastrNotification
+                toastType={'error'}
+                notifMessage={errorOccupationDutyResponsibilities}
+              />
+            ) : null}
 
             <Row>
               <Col lg={12}>
@@ -291,11 +162,12 @@ const OccupationDuties = props => {
                       showEdt={showEdt}
                       modalData={modalData}
                       handleCloseEdt={handleCloseEdt}
+                      occupationId={occupationId}
                     />
                     <DeleteDutyModal
                       showDel={showDel}
-                      modalData={modalData}
                       handleCloseDel={handleCloseDel}
+                      modalData={modalData}
                       occupationId={occupationId}
                     />
                   </CardBody>

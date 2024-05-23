@@ -10,6 +10,7 @@ import {
   deleteOccupationDuties,
   getAvailableDutiesForOccupation,
   postOccupationalDutyResponsibility,
+  deleteOccupationalDutyResponsibility,
 } from 'helpers/backend_helper'
 import {
   addDutyResponsibilitySuccess,
@@ -29,6 +30,8 @@ import {
   fetchPositionFail,
   addOccupationalDutyResponsibilitySuccess,
   addOccupationalDutyResponsibilityFail,
+  removeOccupationalDutyResponsibilitySuccess,
+  removeOccupationalDutyResponsibilityFail,
 } from './actions'
 import {
   POST_DUTY,
@@ -41,6 +44,7 @@ import {
   GET_AVAILABLE_DUTIES,
   GET_POSITION_DUTIES,
   POST_OCCUPATIONAL_DUTY_RESPONSIBILITY,
+  DELETE_OCCUPATIONAL_DUTY_RESPONSIBILITY,
 } from './actionTypes'
 
 function* addDutyResponsibility({ payload: dutyResponsibilityData }) {
@@ -141,7 +145,7 @@ function* fetchPositionDuties({ payload: positionId }) {
   }
 }
 
-function* addOccupationalDuty({
+function* addOccupationalDutyResponsibility({
   payload: { occupationId, dutyResponsibilityData },
 }) {
   try {
@@ -153,6 +157,22 @@ function* addOccupationalDuty({
     yield put(addOccupationalDutyResponsibilitySuccess(response))
   } catch (error) {
     yield put(addOccupationalDutyResponsibilityFail(error))
+  }
+}
+
+function* removeOccupationalDutyResponsibility({
+  payload: { occupationId, drId, odrId },
+}) {
+  try {
+    const response = yield call(
+      deleteOccupationalDutyResponsibility,
+      occupationId,
+      drId,
+      odrId
+    )
+    yield put(removeOccupationalDutyResponsibilitySuccess(response))
+  } catch (error) {
+    yield put(removeOccupationalDutyResponsibilityFail(error))
   }
 }
 
@@ -169,7 +189,14 @@ function* dutiesResponsibilitiesSaga() {
 
   yield takeEvery(GET_POSITION_DUTIES, fetchPositionDuties)
 
-  yield takeEvery(POST_OCCUPATIONAL_DUTY_RESPONSIBILITY, addOccupationalDuty)
+  yield takeEvery(
+    POST_OCCUPATIONAL_DUTY_RESPONSIBILITY,
+    addOccupationalDutyResponsibility
+  )
+  yield takeEvery(
+    DELETE_OCCUPATIONAL_DUTY_RESPONSIBILITY,
+    removeOccupationalDutyResponsibility
+  )
 }
 
 export default dutiesResponsibilitiesSaga
