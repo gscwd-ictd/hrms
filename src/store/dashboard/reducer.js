@@ -1,7 +1,4 @@
 import {
-  API_SUCCESS,
-  API_FAIL,
-  GET_CHARTS_DATA,
   GET_EMPLOYEES_COUNT,
   GET_EMPLOYEES_COUNT_SUCCESS,
   GET_EMPLOYEES_COUNT_FAIL,
@@ -17,21 +14,31 @@ import {
   GET_NOA_DISTRIBUTION,
   GET_NOA_DISTRIBUTION_SUCCESS,
   GET_NOA_DISTRIBUTION_FAIL,
+  GET_PERSONNEL_DISTRIBUTION,
+  GET_PERSONNEL_DISTRIBUTION_SUCCESS,
+  GET_PERSONNEL_DISTRIBUTION_FAIL,
+  GET_AGE_DISTRIBUTION,
+  GET_AGE_DISTRIBUTION_SUCCESS,
+  GET_AGE_DISTRIBUTION_FAIL,
 } from './actionTypes'
 
 const INIT_STATE = {
-  chartsData: [],
+  // chartsData: [],
   employeesCount: [],
   applicantsCount: [],
   approvedPrfCount: [],
   birthdayCelebrants: [],
   natureOfAppointmentDistribution: {},
+  personnelDistributaion: {},
+  ageBracketDistribution: {},
   loading: {
     loadingEmployeesCount: false,
     loadingApplicantsCount: false,
     loadingApprovedPrfCount: false,
     loadingBirthdayCelebrants: false,
     loadingNatureOfAppointmentDistribution: false,
+    loadingPersonnelDistributaion: false,
+    loadingAgeBracketDistribution: false,
   },
   error: {
     errorEmployeesCount: null,
@@ -39,32 +46,34 @@ const INIT_STATE = {
     errorApprovedPrfCount: null,
     errorBirthdayCelebrants: null,
     errorNatureOfAppointmentDistribution: null,
+    errorPersonnelDistributaion: null,
+    errorAgeBracketDistribution: null,
   },
 }
 
 const Dashboard = (state = INIT_STATE, action) => {
   switch (action.type) {
-    case API_SUCCESS:
-      switch (action.payload.actionType) {
-        case GET_CHARTS_DATA:
-          return {
-            ...state,
-            chartsData: action.payload.data,
-          }
-        default:
-          return state
-      }
-    case API_FAIL:
-      switch (action.payload.actionType) {
-        case GET_CHARTS_DATA:
-          return {
-            ...state,
-            chartsDataError: action.payload.error,
-          }
+    // case API_SUCCESS:
+    //   switch (action.payload.actionType) {
+    //     case GET_CHARTS_DATA:
+    //       return {
+    //         ...state,
+    //         chartsData: action.payload.data,
+    //       }
+    //     default:
+    //       return state
+    //   }
+    // case API_FAIL:
+    //   switch (action.payload.actionType) {
+    //     case GET_CHARTS_DATA:
+    //       return {
+    //         ...state,
+    //         chartsDataError: action.payload.error,
+    //       }
 
-        default:
-          return state
-      }
+    //     default:
+    //       return state
+    //   }
 
     // get employees count
     case GET_EMPLOYEES_COUNT:
@@ -222,6 +231,7 @@ const Dashboard = (state = INIT_STATE, action) => {
         },
       }
 
+    // nature of appointment
     case GET_NOA_DISTRIBUTION:
       return {
         ...state,
@@ -249,6 +259,68 @@ const Dashboard = (state = INIT_STATE, action) => {
         },
         error: {
           errorNatureOfAppointmentDistribution: action.payload,
+        },
+      }
+
+    // personnel distribution
+    case GET_PERSONNEL_DISTRIBUTION:
+      return {
+        ...state,
+        personnelDistributaion: {},
+        loading: {
+          loadingPersonnelDistributaion: true,
+        },
+        error: {
+          errorPersonnelDistributaion: null,
+        },
+      }
+    case GET_PERSONNEL_DISTRIBUTION_SUCCESS:
+      return {
+        ...state,
+        personnelDistributaion: action.payload,
+        loading: {
+          loadingPersonnelDistributaion: false,
+        },
+      }
+    case GET_PERSONNEL_DISTRIBUTION_FAIL:
+      return {
+        ...state,
+        loading: {
+          loadingPersonnelDistributaion: false,
+        },
+        error: {
+          errorPersonnelDistributaion: action.payload,
+        },
+      }
+
+    // age bracket distribution
+    case GET_AGE_DISTRIBUTION:
+      return {
+        ...state,
+        ageBracketDistribution: {},
+        loading: {
+          loadingAgeBracketDistribution: true,
+        },
+        error: {
+          errorAgeBracketDistribution: null,
+        },
+      }
+    case GET_AGE_DISTRIBUTION_SUCCESS:
+      return {
+        ...state,
+        ageBracketDistribution: action.payload,
+        loading: {
+          loadingAgeBracketDistribution: false,
+        },
+      }
+    case GET_AGE_DISTRIBUTION_FAIL:
+      return {
+        ...state,
+        loading: {
+          loadingAgeBracketDistribution: false,
+        },
+        error: {
+          errorAgeBracketDistribution: action.payload,
         },
       }
 
