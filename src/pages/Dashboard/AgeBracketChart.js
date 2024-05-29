@@ -40,7 +40,7 @@ const AgeBracketChart = () => {
 
   // chart data
   const data = {
-    labels: ageBracketDistribution.label || [],
+    labels: ageBracketDistribution.labels || [],
     datasets: [
       {
         label: 'Male',
