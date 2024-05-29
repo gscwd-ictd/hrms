@@ -40,7 +40,7 @@ const AgeBracketChart = () => {
 
   // chart data
   const data = {
-    labels: ageBracketDistribution.labels || [],
+    labels: ageBracketDistribution.label || [],
     datasets: [
       {
         label: 'Male',
@@ -98,8 +98,6 @@ const AgeBracketChart = () => {
 
   useEffect(() => {
     if (!isEmpty(ageBracketDistribution)) {
-      console.log(ageBracketDistribution)
-
       setGenderDataset(ageBracketDistribution.datasets, 'Male')
       setGenderDataset(ageBracketDistribution.datasets, 'Female')
     }
