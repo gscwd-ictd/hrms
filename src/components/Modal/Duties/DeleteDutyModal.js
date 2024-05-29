@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { isEmpty } from 'lodash'
 
 import {
-  removeDutyResponsibility,
-  fetchDutyResponsibilities,
   resetDutiesResponse,
+  removeOccupationalDutyResponsibility,
+  fetchOccupationDuties,
 } from 'store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -22,20 +22,29 @@ import {
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const DeleteDutyModal = props => {
-  const { showDel, handleCloseDel, modalData } = props
+  const { showDel, handleCloseDel, modalData, occupationId } = props
   const dispatch = useDispatch()
 
+  // Submit delete occupational duty and responsibility
   const submitDelete = () => {
-    dispatch(removeDutyResponsibility(modalData._id))
+    dispatch(
+      removeOccupationalDutyResponsibility(
+        occupationId,
+        modalData.odrId,
+        modalData.drId
+      )
+    )
   }
 
+  // redux state for delete occupational duty and responsibility
   const {
-    delDutiesRes,
+    deleteOccupationalDutyResponsibility,
     loadingDutyResponsibilities,
     errorDutyResponsibilities,
   } = useSelector(state => ({
-    delDutiesRes:
-      state.dutiesResponsibilities.response.dutyResponsibility.delete,
+    deleteOccupationalDutyResponsibility:
+      state.dutiesResponsibilities.response.occupationalDutyResponsibility
+        .delete,
     loadingDutyResponsibilities:
       state.dutiesResponsibilities.loading.loadingDutyResponsibilities,
     errorDutyResponsibilities:
@@ -51,12 +60,12 @@ const DeleteDutyModal = props => {
 
   // Execute after successful submission of form
   useEffect(() => {
-    if (!isEmpty(delDutiesRes)) {
-      dispatch(fetchDutyResponsibilities())
+    if (!isEmpty(deleteOccupationalDutyResponsibility)) {
+      dispatch(fetchOccupationDuties(occupationId))
       dispatch(resetDutiesResponse())
       handleCloseDel()
     }
-  }, [delDutiesRes])
+  }, [deleteOccupationalDutyResponsibility])
 
   return (
     <>
@@ -80,10 +89,10 @@ const DeleteDutyModal = props => {
           />
         ) : null}
 
-        {!isEmpty(delDutiesRes) ? (
+        {!isEmpty(deleteOccupationalDutyResponsibility) ? (
           <ToastrNotification
             toastType={'success'}
-            notifMessage={'Duty and responsibility deleted'}
+            notifMessage={'Occupational duty and responsibility deleted'}
           />
         ) : null}
 
@@ -91,8 +100,8 @@ const DeleteDutyModal = props => {
           <Row>
             <Col lg={12}>
               <p>
-                Are you sure you want to permanently delete this duty and
-                responsibility?
+                Are you sure you want to permanently delete this occupational
+                duty and responsibility?
               </p>
             </Col>
           </Row>
@@ -115,6 +124,7 @@ DeleteDutyModal.propTypes = {
   showDel: PropTypes.bool,
   handleCloseDel: PropTypes.func,
   modalData: PropTypes.object,
+  occupationId: PropTypes.string,
 }
 
 export default DeleteDutyModal

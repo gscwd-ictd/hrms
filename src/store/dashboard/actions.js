@@ -1,7 +1,4 @@
 import {
-  API_SUCCESS,
-  API_FAIL,
-  GET_CHARTS_DATA,
   GET_EMPLOYEES_COUNT,
   GET_EMPLOYEES_COUNT_SUCCESS,
   GET_EMPLOYEES_COUNT_FAIL,
@@ -17,23 +14,29 @@ import {
   GET_NOA_DISTRIBUTION,
   GET_NOA_DISTRIBUTION_SUCCESS,
   GET_NOA_DISTRIBUTION_FAIL,
+  GET_PERSONNEL_DISTRIBUTION,
+  GET_PERSONNEL_DISTRIBUTION_SUCCESS,
+  GET_PERSONNEL_DISTRIBUTION_FAIL,
+  GET_AGE_DISTRIBUTION,
+  GET_AGE_DISTRIBUTION_SUCCESS,
+  GET_AGE_DISTRIBUTION_FAIL,
 } from './actionTypes'
 
-export const apiSuccess = (actionType, data) => ({
-  type: API_SUCCESS,
-  payload: { actionType, data },
-})
+// export const apiSuccess = (actionType, data) => ({
+//   type: API_SUCCESS,
+//   payload: { actionType, data },
+// })
 
-export const apiFail = (actionType, error) => ({
-  type: API_FAIL,
-  payload: { actionType, error },
-})
+// export const apiFail = (actionType, error) => ({
+//   type: API_FAIL,
+//   payload: { actionType, error },
+// })
 
-// charts data
-export const getChartsData = periodType => ({
-  type: GET_CHARTS_DATA,
-  payload: periodType,
-})
+// // charts data
+// export const getChartsData = periodType => ({
+//   type: GET_CHARTS_DATA,
+//   payload: periodType,
+// })
 
 // employees count
 export const getEmployeesCount = () => ({
@@ -107,5 +110,35 @@ export const fetchNoaDistributionSuccess = noaDistribution => ({
 
 export const fetchNoaDistributionFail = error => ({
   type: GET_NOA_DISTRIBUTION_FAIL,
+  payload: error,
+})
+
+//  personnel distribution
+export const fetchPersonnelDistribution = () => ({
+  type: GET_PERSONNEL_DISTRIBUTION,
+})
+
+export const fetchPersonnelDistributionSuccess = personnelDistribution => ({
+  type: GET_PERSONNEL_DISTRIBUTION_SUCCESS,
+  payload: personnelDistribution,
+})
+
+export const fetchPersonnelDistributionFail = error => ({
+  type: GET_PERSONNEL_DISTRIBUTION_FAIL,
+  payload: error,
+})
+
+// age bracket distribution
+export const fetchAgeBracketDistribution = () => ({
+  type: GET_AGE_DISTRIBUTION,
+})
+
+export const fetchAgeBracketDistributionSuccess = ageBracketDistribution => ({
+  type: GET_AGE_DISTRIBUTION_SUCCESS,
+  payload: ageBracketDistribution,
+})
+
+export const fetchAgeBracketDistributionFail = error => ({
+  type: GET_AGE_DISTRIBUTION_FAIL,
   payload: error,
 })

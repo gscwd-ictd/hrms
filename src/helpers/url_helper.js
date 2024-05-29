@@ -17,6 +17,8 @@ export const GET_APPLICANTS_COUNT = 'stats/count/applicants'
 export const GET_APPROVED_PRF_COUNT = 'stats/count/prf'
 export const GET_BIRTHDAY_CELEBRANTS = 'stats/current/birthdays'
 export const GET_NOA_DISTRIBUTION = 'stats/count/appointment'
+export const GET_PERSONNEL_DISTRIBUTION = 'stats/count/department'
+export const GET_AGE_BRACKET_DISTRIBUTION = 'stats/count/age'
 
 //ORGANIZATION STRUCTURE
 export const GET_OFFICES = 'office'
@@ -149,6 +151,12 @@ export const DELETE_UNASSIGN_OCCUPATION_DUTIES_RESPONSIBILITIES =
   'occupation-duties-responsibilities/' // without param. config.data(array of specified Occupation D&R ids)
 export const GET_AVAILABLE_DUTIES_RESPONSIBILITIES =
   'occupation-duties-responsibilities/' // for drop-down selection
+
+// Occupational duty and responsibility rework
+export const POST_OCCUPATIONAL_DUTY_RESPONSIBILITY =
+  'occupation-duties-responsibilities/occupation/' // with param of occupational group id
+export const DELETE_OCCUPATIONAL_DUTY_RESPONSIBILITY =
+  'occupation-duties-responsibilities/occupation/' // with param of occupational group id and body (occupational duty responsibility id and duty responsibility id)
 
 //CALENDER
 export const GET_EVENTS = 'events/'

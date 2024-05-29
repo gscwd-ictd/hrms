@@ -1,5 +1,6 @@
 import {
   delHris,
+  delWithBodyHris,
   getHris,
   postHris,
   putHris,
@@ -15,6 +16,10 @@ export const getApplicantsCount = () => getHris(url.GET_APPLICANTS_COUNT)
 export const getApprovedPrfCount = () => getHris(url.GET_APPROVED_PRF_COUNT)
 export const getBirthdayCelebrants = () => getHris(url.GET_BIRTHDAY_CELEBRANTS)
 export const getNoaDistribution = () => getHris(url.GET_NOA_DISTRIBUTION)
+export const getPersonnelDistribution = () =>
+  getHris(url.GET_PERSONNEL_DISTRIBUTION)
+export const getAgeBracketDistribution = () =>
+  getHris(url.GET_AGE_BRACKET_DISTRIBUTION)
 
 // Office ----------------------------------------------------------------------------
 export const getOfficeList = () => getHris(url.GET_OFFICES)
@@ -472,3 +477,28 @@ export const getSystemLog = logId => getHris(url.SYSTEM_LOGS + logId)
 
 // Schedules-----------------------------------------------------------------------
 export const getSchedules = () => getEmpMon(url.SCHEDULES)
+
+// Occupational duty and responsibility rework ------------------------------------
+export const postOccupationalDutyResponsibility = (
+  occupationId,
+  occupationalDutyResponsibility
+) => {
+  return postHris(
+    url.POST_OCCUPATIONAL_DUTY_RESPONSIBILITY + occupationId,
+    occupationalDutyResponsibility
+  )
+}
+
+export const deleteOccupationalDutyResponsibility = (
+  occupationId,
+  odrId,
+  drId
+) => {
+  return delWithBodyHris(
+    url.DELETE_OCCUPATIONAL_DUTY_RESPONSIBILITY + occupationId,
+    {
+      odrId,
+      drId,
+    }
+  )
+}

@@ -39,3 +39,10 @@ export async function delHris(url, config = {}) {
     .delete(url, { ...config })
     .then(response => response.data)
 }
+
+// delete request with body (used in deleting occupational duty and responsibility)
+export async function delWithBodyHris(url, data, config = {}) {
+  return await axiosApi
+    .delete(url, { data: { ...data }, ...config })
+    .then(response => response.data)
+}

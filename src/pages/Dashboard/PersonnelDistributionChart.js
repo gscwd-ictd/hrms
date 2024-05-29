@@ -1,21 +1,46 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchPersonnelDistribution } from 'store/actions'
+
 import { Bar } from 'react-chartjs-2'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 import { Chart, registerables } from 'chart.js'
+import { isEmpty } from 'lodash'
+
 Chart.register(...registerables)
 
 const PersonnelDistributionChart = () => {
+  const dispatch = useDispatch()
+
+  const [maleDataset, setMaleDataset] = useState([])
+  const [femaleDataset, setFemaleDataset] = useState([])
+
+  const { personnelDistributaion, isLoading, error } = useSelector(state => ({
+    personnelDistributaion: state.Dashboard.personnelDistributaion,
+    isLoading: state.Dashboard.loading.loadingPersonnelDistributaion,
+    error: state.Dashboard.error.errorPersonnelDistributaion,
+  }))
+
+  // set data set for right gender
+  const setGenderDataset = (datsets, gender) => {
+    if (!isEmpty(datsets)) {
+      datsets.find(dataset => {
+        if (dataset.label === gender) {
+          // return dataset
+          if (gender === 'Male') {
+            setMaleDataset(dataset.data)
+          } else {
+            setFemaleDataset(dataset.data)
+          }
+        }
+      })
+    }
+  }
+
+  // chart data
   const data = {
-    labels: [
-      'OGM',
-      'HRD',
-      'GSPMMD',
-      'ICTD',
-      'AFMD',
-      'CSD',
-      'PSD',
-      'PAMD',
-      'ECD',
-    ],
+    labels: personnelDistributaion.labels || [],
     datasets: [
       {
         label: 'Male',
@@ -24,7 +49,7 @@ const PersonnelDistributionChart = () => {
         borderWidth: 1,
         hoverBackgroundColor: 'rgba(57, 157, 253, 0.9)',
         hoverBorderColor: 'rgba(57, 157, 253, 0.9)',
-        data: [9, 8, 10, 16, 13, 10, 25, 20, 15],
+        data: maleDataset,
       },
       {
         label: 'Female',
@@ -33,7 +58,7 @@ const PersonnelDistributionChart = () => {
         borderWidth: 1,
         hoverBackgroundColor: 'rgba(245, 59, 102, 0.9)',
         hoverBorderColor: 'rgba(245, 59, 102, 0.9)',
-        data: [2, 8, 7, 3, 28, 25, 15, 5, 9],
+        data: femaleDataset,
       },
     ],
   }
@@ -68,10 +93,29 @@ const PersonnelDistributionChart = () => {
     },
   }
 
+  useEffect(() => {
+    dispatch(fetchPersonnelDistribution())
+  }, [])
+
+  useEffect(() => {
+    if (!isEmpty(personnelDistributaion)) {
+      setGenderDataset(personnelDistributaion.datasets, 'Male')
+      setGenderDataset(personnelDistributaion.datasets, 'Female')
+    }
+  }, [personnelDistributaion])
+
   return (
-    <React.Fragment>
-      <Bar width={474} height={210} data={data} options={option} />
-    </React.Fragment>
+    <>
+      {error ? (
+        <ToastrNotification toastType={'error'} notifMessage={error} />
+      ) : null}
+
+      {isLoading ? (
+        <LoadingIndicator />
+      ) : (
+        <Bar width={474} height={210} data={data} options={option} />
+      )}
+    </>
   )
 }
 

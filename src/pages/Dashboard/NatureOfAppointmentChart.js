@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchNoaDistribution } from 'store/actions'
-import { isEmpty } from 'lodash'
 
 import { Doughnut } from 'react-chartjs-2'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
