@@ -2,16 +2,15 @@ import { call, put, takeEvery, all, fork } from 'redux-saga/effects'
 
 // Crypto Redux States
 import {
-  GET_CHARTS_DATA,
   GET_EMPLOYEES_COUNT,
   GET_APPLICANTS_COUNT,
   GET_APPROVED_PRF_COUNT,
   GET_BIRTHDAY_CELEBRANTS,
   GET_NOA_DISTRIBUTION,
+  GET_PERSONNEL_DISTRIBUTION,
+  GET_AGE_DISTRIBUTION,
 } from './actionTypes'
 import {
-  apiSuccess,
-  apiFail,
   getEmployeesCountSuccess,
   getEmployeesCountFail,
   getApplicantsCountSuccess,
@@ -22,6 +21,10 @@ import {
   fetchBirthdayCelebrantsFail,
   fetchNoaDistributionSuccess,
   fetchNoaDistributionFail,
+  fetchPersonnelDistributionSuccess,
+  fetchPersonnelDistributionFail,
+  fetchAgeBracketDistributionSuccess,
+  fetchAgeBracketDistributionFail,
 } from './actions'
 
 import {
@@ -30,30 +33,32 @@ import {
   getApprovedPrfCount,
   getBirthdayCelebrants,
   getNoaDistribution,
+  getPersonnelDistribution,
+  getAgeBracketDistribution,
 } from 'helpers/backend_helper'
 
-function* getChartsData({ payload: periodType }) {
-  try {
-    var response
-    if (periodType == 'monthly') {
-      response = yield call(getWeeklyData, periodType)
-    }
-    if (periodType == 'yearly') {
-      response = yield call(getYearlyData, periodType)
-    }
-    if (periodType == 'weekly') {
-      response = yield call(getMonthlyData, periodType)
-    }
+// function* getChartsData({ payload: periodType }) {
+//   try {
+//     var response
+//     if (periodType == 'monthly') {
+//       response = yield call(getWeeklyData, periodType)
+//     }
+//     if (periodType == 'yearly') {
+//       response = yield call(getYearlyData, periodType)
+//     }
+//     if (periodType == 'weekly') {
+//       response = yield call(getMonthlyData, periodType)
+//     }
 
-    yield put(apiSuccess(GET_CHARTS_DATA, response))
-  } catch (error) {
-    yield put(apiFail(GET_CHARTS_DATA, error))
-  }
-}
+//     yield put(apiSuccess(GET_CHARTS_DATA, response))
+//   } catch (error) {
+//     yield put(apiFail(GET_CHARTS_DATA, error))
+//   }
+// }
 
-export function* watchGetChartsData() {
-  yield takeEvery(GET_CHARTS_DATA, getChartsData)
-}
+// export function* watchGetChartsData() {
+//   yield takeEvery(GET_CHARTS_DATA, getChartsData)
+// }
 
 function* fetchEmployeesCount() {
   try {
@@ -163,19 +168,42 @@ function* fetchBirthdayCelebrants() {
 function* fetchNoaDistribution() {
   try {
     const response = yield call(getNoaDistribution)
+
     yield put(fetchNoaDistributionSuccess(response))
   } catch (error) {
     yield put(fetchNoaDistributionFail(error))
   }
 }
 
+function* fetchPersonnelDistribution() {
+  try {
+    const response = yield call(getPersonnelDistribution)
+
+    yield put(fetchPersonnelDistributionSuccess(response))
+  } catch (error) {
+    yield put(fetchPersonnelDistributionFail(error))
+  }
+}
+
+function* fetchAgeBracketDistribution() {
+  try {
+    const response = yield call(getAgeBracketDistribution)
+
+    yield put(fetchAgeBracketDistributionSuccess(response))
+  } catch (error) {
+    yield put(fetchAgeBracketDistributionFail(error))
+  }
+}
+
 function* dashboardSaga() {
-  yield all([fork(watchGetChartsData)])
+  // yield all([fork(watchGetChartsData)])
   yield takeEvery(GET_EMPLOYEES_COUNT, fetchEmployeesCount)
   yield takeEvery(GET_APPLICANTS_COUNT, fetchApplicantsCount)
   yield takeEvery(GET_APPROVED_PRF_COUNT, fetchApprovedPrfCount)
   yield takeEvery(GET_BIRTHDAY_CELEBRANTS, fetchBirthdayCelebrants)
   yield takeEvery(GET_NOA_DISTRIBUTION, fetchNoaDistribution)
+  yield takeEvery(GET_PERSONNEL_DISTRIBUTION, fetchPersonnelDistribution)
+  yield takeEvery(GET_AGE_DISTRIBUTION, fetchAgeBracketDistribution)
 }
 
 export default dashboardSaga
