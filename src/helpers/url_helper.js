@@ -18,7 +18,7 @@ export const GET_APPROVED_PRF_COUNT = 'stats/count/prf'
 export const GET_BIRTHDAY_CELEBRANTS = 'stats/current/birthdays'
 export const GET_NOA_DISTRIBUTION = 'stats/count/appointment'
 export const GET_PERSONNEL_DISTRIBUTION = 'stats/count/department'
-export const GET_AGE_BRACKET_DISTRIBUTION = 'stats/bracket/age'
+export const GET_AGE_BRACKET_DISTRIBUTION = 'stats/count/age'
 
 //ORGANIZATION STRUCTURE
 export const GET_OFFICES = 'office'

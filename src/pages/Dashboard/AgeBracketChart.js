@@ -1,11 +1,46 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchAgeBracketDistribution } from 'store/actions'
+
 import { Bar } from 'react-chartjs-2'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 import { Chart, registerables } from 'chart.js'
+import { isEmpty } from 'lodash'
+
 Chart.register(...registerables)
 
 const AgeBracketChart = () => {
+  const dispatch = useDispatch()
+
+  const [maleDataset, setMaleDataset] = useState([])
+  const [femaleDataset, setFemaleDataset] = useState([])
+
+  const { ageBracketDistribution, isLoading, error } = useSelector(state => ({
+    ageBracketDistribution: state.Dashboard.ageBracketDistribution,
+    isLoading: state.Dashboard.loading.loadingAgeBracketDistribution,
+    error: state.Dashboard.error.errorAgeBracketDistribution,
+  }))
+
+  // set data set for right gender
+  const setGenderDataset = (datsets, gender) => {
+    if (!isEmpty(datsets)) {
+      datsets.find(dataset => {
+        if (dataset.label === gender) {
+          // return dataset
+          if (gender === 'Male') {
+            setMaleDataset(dataset.data)
+          } else {
+            setFemaleDataset(dataset.data)
+          }
+        }
+      })
+    }
+  }
+
+  // chart data
   const data = {
-    labels: ['20-29', '30-39', '40-49', '50-59', '60-up'],
+    labels: ageBracketDistribution.labels || [],
     datasets: [
       {
         label: 'Male',
@@ -14,7 +49,7 @@ const AgeBracketChart = () => {
         borderWidth: 1,
         hoverBackgroundColor: 'rgba(57, 157, 253, 0.9)',
         hoverBorderColor: 'rgba(57, 157, 253, 0.9)',
-        data: [30, 17, 24, 16, 5],
+        data: maleDataset,
       },
       {
         label: 'Female',
@@ -23,11 +58,12 @@ const AgeBracketChart = () => {
         borderWidth: 1,
         hoverBackgroundColor: 'rgba(245, 59, 102, 0.9)',
         hoverBorderColor: 'rgba(245, 59, 102, 0.9)',
-        data: [23, 20, 34, 38, 3],
+        data: femaleDataset,
       },
     ],
   }
 
+  // config
   const option = {
     responsive: true,
     indexAxis: 'y',
@@ -56,7 +92,32 @@ const AgeBracketChart = () => {
     },
   }
 
-  return <Bar width={400} height={230} data={data} options={option} />
+  useEffect(() => {
+    dispatch(fetchAgeBracketDistribution())
+  }, [])
+
+  useEffect(() => {
+    if (!isEmpty(ageBracketDistribution)) {
+      console.log(ageBracketDistribution)
+
+      setGenderDataset(ageBracketDistribution.datasets, 'Male')
+      setGenderDataset(ageBracketDistribution.datasets, 'Female')
+    }
+  }, [ageBracketDistribution])
+
+  return (
+    <>
+      {error ? (
+        <ToastrNotification toastType={'error'} notifMessage={error} />
+      ) : null}
+
+      {isLoading ? (
+        <LoadingIndicator />
+      ) : (
+        <Bar width={400} height={230} data={data} options={option} />
+      )}
+    </>
+  )
 }
 
 export default AgeBracketChart

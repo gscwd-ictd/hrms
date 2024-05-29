@@ -12,6 +12,7 @@ Chart.register(...registerables)
 
 const PersonnelDistributionChart = () => {
   const dispatch = useDispatch()
+
   const [maleDataset, setMaleDataset] = useState([])
   const [femaleDataset, setFemaleDataset] = useState([])
 
@@ -21,7 +22,7 @@ const PersonnelDistributionChart = () => {
     error: state.Dashboard.error.errorPersonnelDistributaion,
   }))
 
-  //
+  // set data set for right gender
   const setGenderDataset = (datsets, gender) => {
     if (!isEmpty(datsets)) {
       datsets.find(dataset => {
@@ -98,17 +99,10 @@ const PersonnelDistributionChart = () => {
 
   useEffect(() => {
     if (!isEmpty(personnelDistributaion)) {
-      console.log(personnelDistributaion.datasets[0])
-      console.log(personnelDistributaion.datasets[1])
-
       setGenderDataset(personnelDistributaion.datasets, 'Male')
       setGenderDataset(personnelDistributaion.datasets, 'Female')
     }
   }, [personnelDistributaion])
-
-  useEffect(() => {
-    if (!isEmpty(maleDataset)) console.log(maleDataset)
-  }, [maleDataset])
 
   return (
     <>
