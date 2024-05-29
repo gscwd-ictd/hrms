@@ -110,6 +110,8 @@ const AddOfficerInChargeModal = props => {
   useEffect(() => {
     if (!isEmpty(postAssignOIC)) {
       formik.resetForm()
+      setSelectedEmployee(null)
+      setSelectedPosition(null)
       dispatch(fetchOICList())
       dispatch(resetOICResponse())
       handleCloseAdd()
