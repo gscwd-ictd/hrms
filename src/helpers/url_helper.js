@@ -36,6 +36,8 @@ export const POST_DIVISION = 'divisions'
 export const DELETE_DIVISION = 'divisions/'
 export const UPDATE_DIVISION = 'divisions/'
 
+export const GET_ALL_ORGANIZATIONS = 'organization'
+
 // POSITION REQUEST
 export const POST_PRF = 'prf'
 export const GET_PRFLIST = 'prf'
@@ -245,3 +247,31 @@ export const VERSION_2 = '/v2'
 
 // SCHEDULES
 export const SCHEDULES = 'schedules/dropdown/'
+
+// TEMPORARY ASSIGNMENT
+export const TEMPORARY_ASSIGNMENT = 'temporary-assignment/'
+export const ASSIGNABLE_EMPLOYEE_FOR_TEMPORARY_ASSIGNMENT =
+  'temporary-assignment/assignable/employee'
+
+// REPORTS
+export const EMPLOYEE_DETAILS_REPORT = 'employees/reports/detailed'
+
+/* with params of the following:
+ philhealth: boolean
+ secondary_education: boolean
+ pagibig: boolean
+ company_id: boolean
+ nature_of_appointment: boolean
+ personal_details: boolean
+ gsis: boolean
+ vocational_education: true
+ college_education: true
+ sss: true
+ tin: true
+ vocational_course: true
+ graduate_studies: true
+ primary_education: true
+ eligibility: true
+ residential_address: true
+ permanent_address: true
+ */

@@ -21,6 +21,9 @@ export const getPersonnelDistribution = () =>
 export const getAgeBracketDistribution = () =>
   getHris(url.GET_AGE_BRACKET_DISTRIBUTION)
 
+// Organizations ------------------------------------------------------------------------
+export const getAllOrganizations = () => getHris(url.GET_ALL_ORGANIZATIONS)
+
 // Office ----------------------------------------------------------------------------
 export const getOfficeList = () => getHris(url.GET_OFFICES)
 export const postOffice = officeData => postHris(url.POST_OFFICE, officeData)
@@ -500,5 +503,43 @@ export const deleteOccupationalDutyResponsibility = (
       odrId,
       drId,
     }
+  )
+}
+
+// Temporary Assignment
+export const getTemporaryAssignmentList = () =>
+  getHris(url.TEMPORARY_ASSIGNMENT)
+export const getAssignableEmployees = () =>
+  getHris(url.ASSIGNABLE_EMPLOYEE_FOR_TEMPORARY_ASSIGNMENT)
+export const getTemporaryAssignmentDetails = assignmentId =>
+  getHris(url.TEMPORARY_ASSIGNMENT + assignmentId)
+export const postTemporaryAssignment = assignmentDetails =>
+  postHris(url.TEMPORARY_ASSIGNMENT, assignmentDetails)
+export const patchTemporaryAssignment = (assignmentId, assignmentDetails) =>
+  putHris(url.TEMPORARY_ASSIGNMENT + assignmentId, assignmentDetails)
+export const delTemporaryAssignment = assignmentId =>
+  delHris(url.TEMPORARY_ASSIGNMENT + assignmentId)
+
+// Reports
+export const getEmployeeDetailsReport = (
+  company_id,
+  nature_of_appointment,
+  personal_details,
+  gsis,
+  pagibig,
+  philhealth,
+  sss,
+  tin,
+  residential_address,
+  permanent_address,
+  primary_education,
+  secondary_education,
+  vocational_course,
+  college_education,
+  graduate_studies,
+  eligibility
+) => {
+  return getHris(
+    `${url.EMPLOYEE_DETAILS_REPORT}?company_id=${company_id}&nature_of_appointment=${nature_of_appointment}&personal_details=${personal_details}&gsis=${gsis}&pagibig=${pagibig}&philhealth=${philhealth}&sss=${sss}&tin=${tin}&residential_address=${residential_address}&permanent_address=${permanent_address}&primary_education=${primary_education}&secondary_education=${secondary_education}&vocational_course=${vocational_course}&college_education=${college_education}&graduate_studies=${graduate_studies}&eligibility=${eligibility}`
   )
 }

@@ -84,6 +84,9 @@ import systemLogSaga from './system-logs/saga'
 // Schedules
 import scheduleSaga from './schedules/saga'
 
+// Temporary Assignment
+import temporaryAssignmentSaga from './temporary-assignment/saga'
+
 // TEST
 // import otpServiceSaga from "./test/otp/saga"
 
@@ -123,6 +126,7 @@ export default function* rootSaga() {
     fork(moduleSaga),
     fork(systemLogSaga),
     fork(scheduleSaga),
+    fork(temporaryAssignmentSaga)
     // fork(otpServiceSaga),
   ])
 }

@@ -97,106 +97,113 @@ import Page404 from "pages/Utility/pages-404"
 import OfficerInCharge from "pages/Settings/OfficerInCharge"
 import Users from "pages/Settings/Users"
 import Modules from "pages/Settings/Modules"
+import TemporaryAssignment from 'pages/Settings/TemporaryAssignment'
 
 // System Logs
-import SystemLogs from "pages/SystemLogs"
+import SystemLogs from 'pages/SystemLogs'
+
+// Reports
+import Reports from 'pages/Reports'
 
 const authProtectedRoutes = [
-  { path: "/dashboard", component: <Dashboard /> },
+  { path: '/dashboard', component: <Dashboard /> },
 
   //profile
-  { path: "/profile", component: <UserProfile /> },
+  { path: '/profile', component: <UserProfile /> },
+
+  // reports
+  { path: '/reports', component: <Reports /> },
 
   // Position Request
-  { path: "/prf-list", component: <PrfList /> },
-  { path: "/prf-list/:prfId", component: <PrfDetails /> },
+  { path: '/prf-list', component: <PrfList /> },
+  { path: '/prf-list/:prfId', component: <PrfDetails /> },
 
   //Organization Structure
-  { path: "/office", component: <Office /> },
-  { path: "/department", component: <Department /> },
-  { path: "/division", component: <Division /> },
+  { path: '/office', component: <Office /> },
+  { path: '/department', component: <Department /> },
+  { path: '/division', component: <Division /> },
 
   // Personnel
   {
-    path: "/employee-registration",
+    path: '/employee-registration',
     component: <EmployeeRegistration />,
   },
-  { path: "/employees", component: <EmployeeList /> },
-  { path: "/employees/pds/:employeeId", component: <EmployeePds /> },
+  { path: '/employees', component: <EmployeeList /> },
+  { path: '/employees/pds/:employeeId', component: <EmployeePds /> },
 
   // Permanent Plantilla
-  { path: "/plantilla/permanent", component: <PermanentPlantillaTable /> },
+  { path: '/plantilla/permanent', component: <PermanentPlantillaTable /> },
   {
-    path: "/plantilla/permanent/:plantillaId",
+    path: '/plantilla/permanent/:plantillaId',
     component: <PermanentPositionProfile />,
   },
   {
-    path: "/plantilla/permanent/:plantillaId/job-description",
+    path: '/plantilla/permanent/:plantillaId/job-description',
     component: <PermanentPositionJobDescription />,
   },
   {
-    path: "/plantilla/permanent/:plantillaId/duties-and-responsibilities",
+    path: '/plantilla/permanent/:plantillaId/duties-and-responsibilities',
     component: <PermanentPositionDutiesResponsibilities />,
   },
   {
-    path: "/plantilla/permanent/:plantillaId/qualification-standards",
+    path: '/plantilla/permanent/:plantillaId/qualification-standards',
     component: <PermanentPositionQualificationStandards />,
   },
   {
-    path: "/plantilla/permanent/:plantillaId/competencies",
+    path: '/plantilla/permanent/:plantillaId/competencies',
     component: <PermanentPositionCompetencies />,
   },
 
   // Qualification Standards
   {
-    path: "/qualification-standards",
+    path: '/qualification-standards',
     component: <QualificationStandards />,
   },
 
   // Competency
-  { path: "/competency", component: <Competency /> },
+  { path: '/competency', component: <Competency /> },
   {
-    path: "/competency/:occupationId/competencies",
+    path: '/competency/:occupationId/competencies',
     component: <CompetenciesInOccupation />,
   },
   {
-    path: "/competency/:occupationId/positions",
+    path: '/competency/:occupationId/positions',
     component: <PositionsInOccupation />,
   },
-  { path: "/core-models", component: <CoreModels /> },
-  { path: "/functional-models", component: <FunctionalModels /> },
-  { path: "/cross-cutting-models", component: <CrossCuttingModels /> },
-  { path: "/managerial-models", component: <ManagerialModels /> },
+  { path: '/core-models', component: <CoreModels /> },
+  { path: '/functional-models', component: <FunctionalModels /> },
+  { path: '/cross-cutting-models', component: <CrossCuttingModels /> },
+  { path: '/managerial-models', component: <ManagerialModels /> },
 
   // Committee
-  { path: "/committees", component: <Committees /> },
-  { path: "/committees/:committeesId", component: <CommitteeMembers /> },
+  { path: '/committees', component: <Committees /> },
+  { path: '/committees/:committeesId', component: <CommitteeMembers /> },
 
   // PersonnelSelection
-  { path: "/personnel-selection", component: <PersonnelSelection /> },
+  { path: '/personnel-selection', component: <PersonnelSelection /> },
   {
-    path: "/personnel-selection/publication-positions/:prfId",
+    path: '/personnel-selection/publication-positions/:prfId',
     component: <PublicationPositions />,
   },
 
   // Applicants
   {
-    path: "/personnel-selection/publication-positions/:prfId/publications/:publicationId/applicants",
+    path: '/personnel-selection/publication-positions/:prfId/publications/:publicationId/applicants',
     component: <Applicants />,
   },
   {
-    path: "/personnel-selection/publication-positions/:prfId/publications/:publicationId/applicants/:applicantId/:isInternal",
+    path: '/personnel-selection/publication-positions/:prfId/publications/:publicationId/applicants/:applicantId/:isInternal',
     component: <ApplicantDetails />,
   },
 
   // Occupations
-  { path: "/occupations", component: <Occupation /> },
+  { path: '/occupations', component: <Occupation /> },
   {
-    path: "/occupational-group/:occupationId",
+    path: '/occupational-group/:occupationId',
     component: <OccupationalGroup />,
   },
   {
-    path: "/occupation-duties/:occupationId",
+    path: '/occupation-duties/:occupationId',
     component: <OccupationDuties />,
   },
 
@@ -208,7 +215,7 @@ const authProtectedRoutes = [
 
   // Salary Grade
   {
-    path: "/salary-grade",
+    path: '/salary-grade',
     component: <SalaryGrade />,
   },
 
@@ -218,59 +225,63 @@ const authProtectedRoutes = [
   //   component: ApplicantPersonalDataSheetPdf,
   // },
   {
-    path: "/employee-pds-pdf/:employeeId",
+    path: '/employee-pds-pdf/:employeeId',
     component: <EmployeePersonalDataSheetPdf />,
   },
-  { path: "/prf-pdf/:prfId", component: <PositionRequestFormPdf /> },
+  { path: '/prf-pdf/:prfId', component: <PositionRequestFormPdf /> },
   {
-    path: "/position-description-pdf/:prfId/:positionId",
+    path: '/position-description-pdf/:prfId/:positionId',
     component: <PositionDescriptionPdf />,
   },
-  { path: "/publication-pdf/:prfId", component: <PublicationPdf /> },
+  { path: '/publication-pdf/:prfId', component: <PublicationPdf /> },
   {
-    path: "/summary-ranking-of-applicants-pdf/:vppId",
+    path: '/summary-ranking-of-applicants-pdf/:vppId',
     component: <SummaryRankingOfApplicantsPdf />,
   },
   {
-    path: "/competency-based-interview-report-pdf/:vppId",
+    path: '/competency-based-interview-report-pdf/:vppId',
     component: <CompetencyBasedInterviewReportPdf />,
   },
   {
-    path: "/results-of-hiring-pdf/:appointmentEffectivityDate",
+    path: '/results-of-hiring-pdf/:appointmentEffectivityDate',
     component: <ResultsOfHiringPdf />,
   },
   {
-    path: "/position-description-dbm-csc-form-no-1/:postingApplicantId",
+    path: '/position-description-dbm-csc-form-no-1/:postingApplicantId',
     component: <PositionDescriptionDbmCscPdf />,
   },
   {
-    path: "/report-on-appointments-issued-pdf/:yearMonth",
+    path: '/report-on-appointments-issued-pdf/:yearMonth',
     component: <ReportOnAppointmentsIssuedPdf />,
   },
   {
-    path: "/cs-form-no-4/:postingApplicantId",
+    path: '/cs-form-no-4/:postingApplicantId',
     component: <CertificationOfAssumptionToDutyPdf />,
   },
   {
-    path: "/cs-form-no-33-b/:postingApplicantId",
+    path: '/cs-form-no-33-b/:postingApplicantId',
     component: <CertificateOfAppointmentPdf />,
   },
 
   // Hiring results
-  { path: "/hiring-results", component: <HiringResults /> },
+  { path: '/hiring-results', component: <HiringResults /> },
 
   // Settings
-  { path: "/settings/officer-in-charge", component: <OfficerInCharge /> },
-  { path: "/settings/users", component: <Users /> },
-  { path: "/settings/modules", component: <Modules /> },
+  { path: '/settings/officer-in-charge', component: <OfficerInCharge /> },
+  {
+    path: '/settings/temporary-assignment',
+    component: <TemporaryAssignment />,
+  },
+  { path: '/settings/users', component: <Users /> },
+  { path: '/settings/modules', component: <Modules /> },
 
   // System Logs
-  { path: "/settings/system-logs", component: <SystemLogs /> },
+  { path: '/settings/system-logs', component: <SystemLogs /> },
 
   // this route should be at the end of all other routes
   // eslint-disable-next-line react/display-name
   {
-    path: "/",
+    path: '/',
     exact: true,
     component: <Navigate to="/dashboard" />,
   },

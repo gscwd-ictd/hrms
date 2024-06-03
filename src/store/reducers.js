@@ -83,6 +83,9 @@ import systemLogs from './system-logs/reducer'
 // Schedules
 import schedules from './schedules/reducer'
 
+// Temporary Assignment
+import temporaryAssignment from './temporary-assignment/reducer'
+
 // TEST
 // import otpService from "./test/otp/reducer"
 
@@ -121,6 +124,7 @@ const rootReducer = combineReducers({
   modules,
   systemLogs,
   schedules,
+  temporaryAssignment,
   // otpService,
 })
 
