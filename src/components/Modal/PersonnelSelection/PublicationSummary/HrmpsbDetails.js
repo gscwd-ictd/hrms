@@ -95,7 +95,9 @@ const HrmpsbDetails = props => {
                                   modalData.postingStatus ===
                                     publicationStatus.HIRINGDONE ||
                                   modalData.postingStatus ===
-                                    publicationStatus.DOESET ? null : (
+                                    publicationStatus.DOESET ||
+                                  member.psbMemberStatus ===
+                                    'Declined' ? null : (
                                     <td>
                                       <Button
                                         type="button"
