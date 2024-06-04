@@ -72,6 +72,36 @@ const listOfRestDays = [
   { label: 'Saturday', value: 6 },
 ]
 
+const reports = [
+  {
+    label: 'Report on Employee Information',
+    value: 'report on employee information',
+  },
+  {
+    label: 'Sample Report',
+    value: 'sample report',
+  },
+]
+
+const natureOfAppointment = [
+  {
+    label: 'Contract of Service',
+    value: 'contractOfService',
+  },
+  {
+    label: 'Job Order',
+    value: 'jobOrder',
+  },
+  {
+    label: 'Casual',
+    value: 'casual',
+  },
+  {
+    label: 'Permanent',
+    value: 'permanent',
+  },
+]
+
 export {
   sexes,
   civilStatuses,
@@ -90,4 +120,6 @@ export {
   frequencies,
   months,
   listOfRestDays,
+  reports,
+  natureOfAppointment,
 }

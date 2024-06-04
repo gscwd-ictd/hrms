@@ -80,5 +80,8 @@ export * from './system-logs/actions'
 // Schedules
 export * from './schedules/actions'
 
+// Temporary Assignment
+export * from './temporary-assignment/actions'
+
 // TEST
 // export * from "./test/otp/actions"

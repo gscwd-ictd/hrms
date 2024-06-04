@@ -10,7 +10,10 @@ import {
   GET_EMPLOYEE_PDS_FAILED,
   RESET_EMPLOYEE_ASSIGN,
   RESET_EMPLOYEE_ERROR_LOG,
-} from "./actionTypes"
+  GET_EMPLOYEE_DETAILS_REPORT,
+  GET_EMPLOYEE_DETAILS_REPORT_SUCCESS,
+  GET_EMPLOYEE_DETAILS_REPORT_FAIL,
+} from './actionTypes'
 
 const INIT_STATE = {
   empAssignmentRes: [],
@@ -45,6 +48,7 @@ const INIT_STATE = {
     references: [],
     governmentIssuedId: {},
   },
+  employeeDetails: [],
   isLoading: false,
   error: null,
 }
@@ -182,6 +186,31 @@ const employee = (state = INIT_STATE, action) => {
       }
       break
     case GET_EMPLOYEE_PDS_FAILED:
+      state = {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      }
+      break
+
+    // employee details report
+    case GET_EMPLOYEE_DETAILS_REPORT:
+      state = {
+        ...state,
+        isLoading: true,
+        employeeDetails: [],
+      }
+      break
+
+    case GET_EMPLOYEE_DETAILS_REPORT_SUCCESS:
+      state = {
+        ...state,
+        isLoading: false,
+        employeeDetails: action.payload,
+      }
+      break
+
+    case GET_EMPLOYEE_DETAILS_REPORT_FAIL:
       state = {
         ...state,
         isLoading: false,

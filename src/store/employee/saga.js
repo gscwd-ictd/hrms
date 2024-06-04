@@ -3,6 +3,7 @@ import {
   postEmployeeAssignment,
   getEmployees,
   getEmployeePds,
+  getEmployeeDetailsReport,
 } from 'helpers/backend_helper'
 import {
   submitEmpAssgnFailed,
@@ -11,11 +12,14 @@ import {
   fetchEmployeeListFailed,
   fetchEmployeePdsSuccess,
   fetchEmployeePdsFailed,
+  fetchEmployeeDetailsReportFail,
+  fetchEmployeeDetailsReportSuccess,
 } from './actions'
 import {
   SUBMIT_EMPLOYEE_ASSIGN,
   GET_EMPLOYEE_LIST,
   GET_EMPLOYEE_PDS,
+  GET_EMPLOYEE_DETAILS_REPORT,
 } from './actionTypes'
 
 function* submitEmpAssignmentData({ payload: empassgndata }) {
@@ -55,10 +59,62 @@ function* fetchEmployeePds({ payload: employeeId }) {
   }
 }
 
+function* fetchEmployeeDetailsReport({ payload }) {
+  const {
+    company_id,
+    nature_of_appointment,
+    personal_details,
+    gsis,
+    pagibig,
+    philhealth,
+    sss,
+    tin,
+    residential_address,
+    permanent_address,
+    primary_education,
+    secondary_education,
+    vocational_course,
+    college_education,
+    graduate_studies,
+    eligibility,
+  } = payload
+  try {
+    const response = yield call(
+      getEmployeeDetailsReport,
+      company_id,
+      nature_of_appointment,
+      personal_details,
+      gsis,
+      pagibig,
+      philhealth,
+      sss,
+      tin,
+      residential_address,
+      permanent_address,
+      primary_education,
+      secondary_education,
+      vocational_course,
+      college_education,
+      graduate_studies,
+      eligibility
+    )
+    yield put(fetchEmployeeDetailsReportSuccess(response))
+  } catch (error) {
+    let message
+    if (error.response && error.response.status) {
+      message = `Status Code: ${error.response.status}`
+    } else {
+      message = 'Network error. Unable to connect to server'
+    }
+    yield put(fetchEmployeeDetailsReportFail(message))
+  }
+}
+
 function* employeeSaga() {
   yield takeEvery(SUBMIT_EMPLOYEE_ASSIGN, submitEmpAssignmentData)
   yield takeEvery(GET_EMPLOYEE_LIST, fetchEmployeeList)
   yield takeEvery(GET_EMPLOYEE_PDS, fetchEmployeePds)
+  yield takeEvery(GET_EMPLOYEE_DETAILS_REPORT, fetchEmployeeDetailsReport)
 }
 
 export default employeeSaga
