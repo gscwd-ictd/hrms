@@ -206,6 +206,15 @@ const SidebarContent = props => {
               </li>
             </Can>
 
+            <Can I="access" this="Reports">
+              <li>
+                <Link to="/reports" className=" waves-effect">
+                  <i className="bx bxs-report"></i>
+                  <span>{'Reports'}</span>
+                </Link>
+              </li>
+            </Can>
+
             <li className="menu-title">Base Data</li>
             <Can I="access" this="Organization_structure">
               <li>
@@ -356,7 +365,15 @@ const SidebarContent = props => {
                   <span>{'Users'}</span>
                 </Link>
               </li>
-
+              <li>
+                <Link
+                  to="/settings/temporary-assignment"
+                  className="waves-effect"
+                >
+                  <i className="bx bxs-user-plus"></i>
+                  <span>{'Temporary Assignment'}</span>
+                </Link>
+              </li>
               <li>
                 <Link to="/settings/officer-in-charge" className="waves-effect">
                   <i className="bx bxs-user-badge"></i>

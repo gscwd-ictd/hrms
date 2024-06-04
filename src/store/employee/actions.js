@@ -13,7 +13,10 @@ import {
   GET_EMPLOYEE_201_FAILED,
   RESET_EMPLOYEE_ASSIGN,
   RESET_EMPLOYEE_ERROR_LOG,
-} from "./actionTypes"
+  GET_EMPLOYEE_DETAILS_REPORT,
+  GET_EMPLOYEE_DETAILS_REPORT_SUCCESS,
+  GET_EMPLOYEE_DETAILS_REPORT_FAIL,
+} from './actionTypes'
 
 // Assign employee to position and enroll to portal
 export const submitEmpAssgn = empassgndata => {
@@ -97,6 +100,29 @@ export const fetchEmployee201Success = response => {
 export const fetchEmployee201Failed = error => {
   return {
     type: GET_EMPLOYEE_201_FAILED,
+    payload: error,
+  }
+}
+
+// get employee details report
+
+export const fetchEmployeeDetailsReport = payload => {
+  return {
+    type: GET_EMPLOYEE_DETAILS_REPORT,
+    payload: payload,
+  }
+}
+
+export const fetchEmployeeDetailsReportSuccess = response => {
+  return {
+    type: GET_EMPLOYEE_DETAILS_REPORT_SUCCESS,
+    payload: response,
+  }
+}
+
+export const fetchEmployeeDetailsReportFail = error => {
+  return {
+    type: GET_EMPLOYEE_DETAILS_REPORT_FAIL,
     payload: error,
   }
 }

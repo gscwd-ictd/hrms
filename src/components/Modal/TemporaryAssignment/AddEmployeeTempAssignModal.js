@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import { isEmpty } from 'lodash'
 import PropTypes from 'prop-types'
 
@@ -406,7 +406,6 @@ const AddEmployeeTempAssignModal = props => {
 AddEmployeeTempAssignModal.propTypes = {
   showAdd: PropTypes.bool,
   handleCloseAdd: PropTypes.func,
-  // history: PropTypes.object,
 }
 
 export default AddEmployeeTempAssignModal

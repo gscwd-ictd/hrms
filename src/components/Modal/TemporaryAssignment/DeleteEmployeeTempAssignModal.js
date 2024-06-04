@@ -3,9 +3,6 @@ import PropTypes from 'prop-types'
 import { isEmpty } from 'lodash'
 
 import {
-  //   resetDutiesResponse,
-  //   removeOccupationalDutyResponsibility,
-  //   fetchOccupationDuties,
   removeEmployeeForTemporaryAssignment,
   fetchEmployeeTemporaryAssignmentList,
   resetEmployeeTemporaryAssignmentResponse,

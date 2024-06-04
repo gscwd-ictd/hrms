@@ -26,7 +26,6 @@ const TemporaryAssignment = () => {
     {
       Header: 'Employee Name',
       accessor: 'fullName',
-      // disableSortBy: true,
     },
     {
       Header: 'Date From',
@@ -51,14 +50,7 @@ const TemporaryAssignment = () => {
       align: 'center',
       disableGlobalFilter: true,
       Cell: function ActionDropdown(cell) {
-        return (
-          <InRowAction
-            cell={cell}
-            // viewModal={viewModal}
-            // editModal={editModal}
-            deleteModal={deleteModal}
-          />
-        )
+        return <InRowAction cell={cell} deleteModal={deleteModal} />
       },
     },
   ]
@@ -101,26 +93,6 @@ const TemporaryAssignment = () => {
   const deleteModal = rowData => {
     setModalData(rowData)
     handleShowDel()
-  }
-
-  // Edit temporary assignment modal
-  const [showEdt, setShowEdt] = useState(false)
-  const handleCloseEdt = () => setShowEdt(false)
-  const handleShowEdt = () => setShowEdt(true)
-
-  const editModal = rowData => {
-    setModalData(rowData)
-    handleShowEdt()
-  }
-
-  // View temporary assignment modal
-  const [showView, setShowView] = useState(false)
-  const handleCloseView = () => setShowView(false)
-  const handleShowView = () => setShowView(true)
-
-  const viewModal = rowData => {
-    setModalData(rowData)
-    handleShowView()
   }
 
   // Initial request for employees with temporary assignment list

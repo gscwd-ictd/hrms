@@ -264,14 +264,14 @@ export const EMPLOYEE_DETAILS_REPORT = 'employees/reports/detailed'
  nature_of_appointment: boolean
  personal_details: boolean
  gsis: boolean
- vocational_education: true
- college_education: true
- sss: true
- tin: true
- vocational_course: true
- graduate_studies: true
- primary_education: true
- eligibility: true
- residential_address: true
- permanent_address: true
+ vocational_education: boolean
+ college_education: boolean
+ sss: boolean
+ tin: boolean
+ vocational_course: boolean
+ graduate_studies: boolean
+ primary_education: boolean
+ eligibility: boolean
+ residential_address: boolean
+ permanent_address: boolean
  */
