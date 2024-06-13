@@ -147,6 +147,16 @@ Font.register({
 const EmployeeDetailsDocument = ({ employeeDetails }) => {
   if (isEmpty(employeeDetails)) return null
 
+  const chunkSubstr = word => {
+    const middle = Math.floor(word.length / 2)
+    const parts =
+      word.length === 1
+        ? [word]
+        : [word.substring(0, middle), word.substring(middle)]
+
+    return parts
+  }
+
   const companyId = employeeDetails.find(
     employee => employee.companyId
   )?.companyId
@@ -175,6 +185,22 @@ const EmployeeDetailsDocument = ({ employeeDetails }) => {
     civilStatus: employeeDetails.find(employee => employee.civilStatus)
       ?.civilStatus,
   }
+
+  const dateHired = employeeDetails.find(
+    employee => employee.dateHired
+  )?.dateHired
+  const positionTitle = employeeDetails.find(
+    employee => employee.positionTitle
+  )?.positionTitle
+
+  const assignment = employeeDetails.find(
+    employee => employee.assignment
+  )?.assignment
+  const office = employeeDetails.find(employee => employee.office)?.office
+  const department = employeeDetails.find(
+    employee => employee.department
+  )?.department
+  const division = employeeDetails.find(employee => employee.division)?.division
 
   const gsis = employeeDetails.find(employee => employee.gsis)?.gsis
   const pagibig = employeeDetails.find(employee => employee.pagibig)?.pagibig
@@ -216,6 +242,14 @@ const EmployeeDetailsDocument = ({ employeeDetails }) => {
     employee => employee.eligibility
   )?.eligibility
 
+  const salaryGrade = employeeDetails.find(
+    employee => employee.salaryGrade
+  )?.salaryGrade
+
+  const stepIncrement = employeeDetails.find(
+    employee => employee.stepIncrement
+  )?.stepIncrement
+
   const renderHeader = () => (
     <View style={styles.documentTitle}>
       <Text>Employee Details Report</Text>
@@ -227,13 +261,14 @@ const EmployeeDetailsDocument = ({ employeeDetails }) => {
       <>
         <View style={[styles.rowContainerTable, styles.borderAll]}>
           {/* header for index */}
-          <View style={[styles.w3, styles.borderRight]}>
+          <View style={[styles.w5, styles.borderRight]}>
             <Text
               style={[styles.horizontalCenter, styles.verticalCenter]}
             ></Text>
           </View>
+          {/* Company ID */}
           {companyId ? (
-            <View style={[styles.w14, styles.borderRight]}>
+            <View style={[styles.w12, styles.borderRight]}>
               <Text
                 style={[
                   styles.horizontalCenter,
@@ -278,6 +313,96 @@ const EmployeeDetailsDocument = ({ employeeDetails }) => {
               </View>
             ) : null
           )}
+
+          {/* Date Hired */}
+          {dateHired ? (
+            <View style={[styles.w10, styles.borderRight]}>
+              <Text
+                style={[
+                  styles.horizontalCenter,
+                  styles.verticalCenter,
+                  styles.tHeadFirstLevel,
+                ]}
+              >
+                Date Hired
+              </Text>
+            </View>
+          ) : null}
+
+          {/* Position Title */}
+          {positionTitle ? (
+            <View style={[styles.w15, styles.borderRight]}>
+              <Text
+                style={[
+                  styles.horizontalCenter,
+                  styles.verticalCenter,
+                  styles.tHeadFirstLevel,
+                ]}
+              >
+                Position Title
+              </Text>
+            </View>
+          ) : null}
+
+          {/* Assignment */}
+          {assignment ? (
+            <View style={[styles.w20, styles.borderRight]}>
+              <Text
+                style={[
+                  styles.horizontalCenter,
+                  styles.verticalCenter,
+                  styles.tHeadFirstLevel,
+                ]}
+              >
+                Assignment
+              </Text>
+            </View>
+          ) : null}
+
+          {/* Office */}
+          {office ? (
+            <View style={[styles.w20, styles.borderRight]}>
+              <Text
+                style={[
+                  styles.horizontalCenter,
+                  styles.verticalCenter,
+                  styles.tHeadFirstLevel,
+                ]}
+              >
+                Office
+              </Text>
+            </View>
+          ) : null}
+
+          {/* Department */}
+          {department ? (
+            <View style={[styles.w20, styles.borderRight]}>
+              <Text
+                style={[
+                  styles.horizontalCenter,
+                  styles.verticalCenter,
+                  styles.tHeadFirstLevel,
+                ]}
+              >
+                Department
+              </Text>
+            </View>
+          ) : null}
+
+          {/* Division */}
+          {division ? (
+            <View style={[styles.w20, styles.borderRight]}>
+              <Text
+                style={[
+                  styles.horizontalCenter,
+                  styles.verticalCenter,
+                  styles.tHeadFirstLevel,
+                ]}
+              >
+                Division
+              </Text>
+            </View>
+          ) : null}
 
           {/* personalDetails */}
           {[
@@ -333,6 +458,21 @@ const EmployeeDetailsDocument = ({ employeeDetails }) => {
               </View>
             ) : null
           )}
+
+          {/* Date hired */}
+          {companyId ? (
+            <View style={[styles.w12, styles.borderRight]}>
+              <Text
+                style={[
+                  styles.horizontalCenter,
+                  styles.verticalCenter,
+                  styles.tHeadFirstLevel,
+                ]}
+              >
+                Company ID
+              </Text>
+            </View>
+          ) : null}
 
           {/* govt headers */}
           {gsis ? (
@@ -495,6 +635,8 @@ const EmployeeDetailsDocument = ({ employeeDetails }) => {
               </Text>
             </View>
           ) : null}
+
+          {/* Eligibility */}
           {eligibility ? (
             <View style={[styles.w14, styles.borderRight]}>
               <Text
@@ -505,6 +647,35 @@ const EmployeeDetailsDocument = ({ employeeDetails }) => {
                 ]}
               >
                 Eligibility
+              </Text>
+            </View>
+          ) : null}
+
+          {/* Salary Grade */}
+          {salaryGrade ? (
+            <View style={[styles.w10, styles.borderRight]}>
+              <Text
+                style={[
+                  styles.horizontalCenter,
+                  styles.verticalCenter,
+                  styles.tHeadFirstLevel,
+                ]}
+              >
+                Salary Grade
+              </Text>
+            </View>
+          ) : null}
+          {/* Step Increment */}
+          {stepIncrement ? (
+            <View style={[styles.w10, styles.borderRight]}>
+              <Text
+                style={[
+                  styles.horizontalCenter,
+                  styles.verticalCenter,
+                  styles.tHeadFirstLevel,
+                ]}
+              >
+                Salary Grade
               </Text>
             </View>
           ) : null}
@@ -523,7 +694,7 @@ const EmployeeDetailsDocument = ({ employeeDetails }) => {
           wrap={false}
         >
           {/* number */}
-          <View style={[styles.w3, styles.tData, styles.borderRight]}>
+          <View style={[styles.w5, styles.tData, styles.borderRight]}>
             <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
               {index + 1}
             </Text>
@@ -531,7 +702,7 @@ const EmployeeDetailsDocument = ({ employeeDetails }) => {
 
           {/* company id */}
           {companyId ? (
-            <View style={[styles.w14, styles.tData, styles.borderRight]}>
+            <View style={[styles.w12, styles.tData, styles.borderRight]}>
               <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
                 {employee.companyId || 'N/A'}
               </Text>
@@ -556,8 +727,65 @@ const EmployeeDetailsDocument = ({ employeeDetails }) => {
           ) : null}
           {defaultDetails.email ? (
             <View style={[styles.w26, styles.tData, styles.borderRight]}>
-              <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
+              <Text
+                style={[styles.horizontalCenter, styles.verticalCenter]}
+                hyphenationCallback={e => chunkSubstr(e)}
+              >
                 {employee.email || 'N/A'}
+              </Text>
+            </View>
+          ) : null}
+
+          {/* dateHired */}
+          {dateHired ? (
+            <View style={[styles.w10, styles.tData, styles.borderRight]}>
+              <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
+                {employee.dateHired || 'N/A'}
+              </Text>
+            </View>
+          ) : null}
+
+          {/* positionTitle */}
+          {positionTitle ? (
+            <View style={[styles.w15, styles.tData, styles.borderRight]}>
+              <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
+                {employee.positionTitle || 'N/A'}
+              </Text>
+            </View>
+          ) : null}
+
+          {/* assignment */}
+          {assignment ? (
+            <View style={[styles.w20, styles.tData, styles.borderRight]}>
+              <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
+                {employee.assignment || 'N/A'}
+              </Text>
+            </View>
+          ) : null}
+
+          {/* office */}
+          {office ? (
+            <View style={[styles.w20, styles.tData, styles.borderRight]}>
+              <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
+                {employee.office || 'N/A'}
+              </Text>
+            </View>
+          ) : null}
+
+          {/* department */}
+          {department ? (
+            <View style={[styles.w20, styles.tData, styles.borderRight]}>
+              <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
+                {employee.department || 'N/A'}
+              </Text>
+            </View>
+          ) : null}
+
+          {/* division */}
+          {division ? (
+            <View style={[styles.w20, styles.tData, styles.borderRight]}>
+              <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
+                {employee.division || 'N/A'}
               </Text>
             </View>
           ) : null}
@@ -702,10 +930,30 @@ const EmployeeDetailsDocument = ({ employeeDetails }) => {
               </Text>
             </View>
           ) : null}
+
+          {/* eligibility */}
           {eligibility ? (
             <View style={[styles.w14, styles.tData, styles.borderRight]}>
               <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
                 {employee.eligibility || 'N/A'}
+              </Text>
+            </View>
+          ) : null}
+
+          {/* salaryGrade */}
+          {salaryGrade ? (
+            <View style={[styles.w10, styles.tData, styles.borderRight]}>
+              <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
+                {employee.salaryGrade || 'N/A'}
+              </Text>
+            </View>
+          ) : null}
+
+          {/* stepIncrement */}
+          {stepIncrement ? (
+            <View style={[styles.w10, styles.tData, styles.borderRight]}>
+              <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
+                {employee.stepIncrement || 'N/A'}
               </Text>
             </View>
           ) : null}
@@ -723,7 +971,7 @@ const EmployeeDetailsDocument = ({ employeeDetails }) => {
     >
       <Page size={[612.3, 935.4]} orientation="landscape" style={styles.page}>
         <Header />
-        <View style={{ padding: 20 }}>
+        <View style={{ paddingVertical: 5, paddingHorizontal: 20 }}>
           {renderHeader()}
           {renderTableHeader()}
           {renderEmployeeDetails()}

@@ -64,6 +64,12 @@ function* fetchEmployeeDetailsReport({ payload }) {
     company_id,
     nature_of_appointment,
     personal_details,
+    date_hired,
+    position_title,
+    assignment,
+    office,
+    department,
+    division,
     gsis,
     pagibig,
     philhealth,
@@ -77,6 +83,8 @@ function* fetchEmployeeDetailsReport({ payload }) {
     college_education,
     graduate_studies,
     eligibility,
+    salary_grade,
+    step_increment,
   } = payload
   try {
     const response = yield call(
@@ -84,6 +92,12 @@ function* fetchEmployeeDetailsReport({ payload }) {
       company_id,
       nature_of_appointment,
       personal_details,
+      date_hired,
+      position_title,
+      assignment,
+      office,
+      department,
+      division,
       gsis,
       pagibig,
       philhealth,
@@ -96,7 +110,9 @@ function* fetchEmployeeDetailsReport({ payload }) {
       vocational_course,
       college_education,
       graduate_studies,
-      eligibility
+      eligibility,
+      salary_grade,
+      step_increment
     )
     yield put(fetchEmployeeDetailsReportSuccess(response))
   } catch (error) {

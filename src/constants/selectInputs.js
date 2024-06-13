@@ -77,20 +77,16 @@ const reports = [
     label: 'Report on Employee Information',
     value: 'report on employee information',
   },
-  {
-    label: 'Sample Report',
-    value: 'sample report',
-  },
 ]
 
 const natureOfAppointment = [
   {
     label: 'Contract of Service',
-    value: 'contractOfService',
+    value: 'contract of service',
   },
   {
     label: 'Job Order',
-    value: 'jobOrder',
+    value: 'job order',
   },
   {
     label: 'Casual',

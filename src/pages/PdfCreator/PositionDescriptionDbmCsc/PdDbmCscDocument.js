@@ -209,9 +209,7 @@ const PdDbmCscDocument = props => {
           <Text style={[styles.bodyText, { textTransform: 'uppercase' }]}>
             {competency.competencyName}
           </Text>
-          <Text style={[styles.bodyText, styles.horizontalCenter]}>
-            {competency.description}
-          </Text>
+          <Text style={[styles.bodyText]}>{competency.description}</Text>
         </View>
         <View style={[styles.w25]}>
           <Text
@@ -249,13 +247,7 @@ const PdDbmCscDocument = props => {
           </Text>
         </View>
         <View style={[styles.w50, styles.borderRight]}>
-          <Text
-            style={[
-              styles.bodyText,
-              styles.verticalCenter,
-              styles.horizontalCenter,
-            ]}
-          >
+          <Text style={[styles.bodyText, styles.verticalCenter]}>
             {duty.dutyResponsibility}
           </Text>
         </View>
@@ -267,7 +259,7 @@ const PdDbmCscDocument = props => {
               styles.verticalCenter,
             ]}
           >
-            {duty.competencyLevel}
+            {duty.competencyName} {duty.competencyLevel}
           </Text>
         </View>
       </View>
@@ -658,10 +650,11 @@ const PdDbmCscDocument = props => {
                       styles.tDataVerticalCenter,
                     ]}
                   >
-                    {
+                    {/* {
                       applicantDbmCsc.positionDescriptionFormBasic
                         .presentAppropriationAct
-                    }
+                    } */}
+                    NBC#591
                   </Text>
                 </View>
 
@@ -684,10 +677,11 @@ const PdDbmCscDocument = props => {
                       styles.tDataVerticalCenter,
                     ]}
                   >
-                    {
+                    {/* {
                       applicantDbmCsc.positionDescriptionFormBasic
                         .previousAppropriationAct
-                    }
+                    } */}
+                    NBC#588
                   </Text>
                 </View>
               </View>
@@ -1437,7 +1431,7 @@ const PdDbmCscDocument = props => {
           </View>
 
           {/* ROW 17 */}
-          <View>
+          <View wrap={false}>
             <View style={[styles.rowContainer, styles.borderAll]}>
               <View style={[styles.w75, styles.borderRight]}>
                 <Text style={[styles.bodyTextBold, styles.tDataColored]}>
