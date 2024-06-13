@@ -116,11 +116,22 @@ const styles = StyleSheet.create({
     color: 'grey',
   },
 
+  // Unordered List
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  bullet: {
+    marginTop: '-3px',
+    height: '100%',
+  },
+
   verticalCenter: { margin: 'auto 0' },
   horizontalCenter: { textAlign: 'center' },
 
   // Width Styles
   w100: { width: '100%' },
+  w90: { width: '90%' },
   w75: { width: '75%' },
   w70: { width: '70%' },
   w60: { width: '60%' },
@@ -228,6 +239,21 @@ const PdDbmCscDocument = props => {
     return content
   }
 
+  const listItem = children => {
+    var myArray = children.split('\n\n')
+
+    var content = myArray.map((perDuty, index) => (
+      <View style={[styles.row, styles.w90]} key={index}>
+        <View style={styles.bullet}>
+          <Text>{'\u2022' + ' '}</Text>
+        </View>
+        <Text style={[styles.bodyText, { flexWrap: 'wrap' }]}>{perDuty}</Text>
+      </View>
+    ))
+
+    return content
+  }
+
   const renderDuties = dutiesCoreArray => {
     var content = dutiesCoreArray.map((duty, index) => (
       <View
@@ -247,9 +273,10 @@ const PdDbmCscDocument = props => {
           </Text>
         </View>
         <View style={[styles.w50, styles.borderRight]}>
-          <Text style={[styles.bodyText, styles.verticalCenter]}>
+          {/* <Text style={[styles.bodyText, styles.verticalCenter]}>
             {duty.dutyResponsibility}
-          </Text>
+          </Text> */}
+          {listItem(duty.dutyResponsibility)}
         </View>
         <View style={[styles.w25]}>
           <Text
@@ -259,7 +286,7 @@ const PdDbmCscDocument = props => {
               styles.verticalCenter,
             ]}
           >
-            {duty.competencyName} {duty.competencyLevel}
+            {duty.competencyName}/{duty.competencyLevel}
           </Text>
         </View>
       </View>

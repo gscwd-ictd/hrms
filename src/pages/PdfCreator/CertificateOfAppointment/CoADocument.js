@@ -370,30 +370,26 @@ const CoADocument = props => {
 
                 {/* ROW 3 */}
                 <View style={[styles.rowContainer]}>
-                  <View style={[styles.w25, styles.letterTextWrapper]}>
-                    <Text>with a composition rate of</Text>
-                  </View>
-
-                  {/* SALARY GRADE AMOUNT */}
-                  <View style={[styles.w75, styles.letterTextWrapper]}>
-                    <View style={[styles.borderBottom]}>
-                      <Text style={[styles.upperCase, styles.valueMainText]}>
-                        {certificateOfAppointment.data.amountInWords}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-
-                {/* ROW 4 */}
-                <View
-                  style={[
-                    styles.rowContainer,
-                    { justifyContent: 'flex-start' },
-                  ]}
-                >
-                  <View style={[styles.w25, styles.letterTextWrapper]}>
-                    <Text>pesos per month.</Text>
-                  </View>
+                  <Text
+                    style={[
+                      styles.w100,
+                      styles.letterTextWrapper,
+                      { textAlign: 'left', lineHeight: 2.1 },
+                    ]}
+                  >
+                    with a composition rate of{' '}
+                    <Text
+                      style={[
+                        styles.upperCase,
+                        { textDecoration: 'underline' },
+                      ]}
+                    >
+                      {'  '}
+                      {certificateOfAppointment.data.amountInWords}{' '}
+                    </Text>
+                    {'  '}
+                    pesos per month.
+                  </Text>
                 </View>
               </View>
 
