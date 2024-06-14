@@ -33,8 +33,11 @@ import {
   GET_AVAILABLE_ITEM_NUMBERS,
   GET_AVAILABLE_ITEM_NUMBERS_SUCCESS,
   GET_AVAILABLE_ITEM_NUMBERS_FAIL,
+  GET_SELECTION_FOR_COA_CERTIFIED_BY,
+  GET_SELECTION_FOR_COA_CERTIFIED_BY_SUCCESS,
+  GET_SELECTION_FOR_COA_CERTIFIED_BY_FAIL,
   RESET_PUBLICATION_RESPONSES,
-} from "./actionTypes"
+} from './actionTypes'
 
 // Publication List
 export const getPublications = prfId => ({
@@ -206,6 +209,25 @@ export const fetchAvailableItemNumbersSuccess = response => {
 export const fetchAvailableItemNumbersFailed = error => {
   return {
     type: GET_AVAILABLE_ITEM_NUMBERS_FAIL,
+    payload: error,
+  }
+}
+
+// Get list of selection whom can certify the positing for Certifcate of Appointment
+export const fetchSelectionForCoaCertification = vppId => {
+  return {
+    type: GET_SELECTION_FOR_COA_CERTIFIED_BY,
+  }
+}
+export const fetchSelectionForCoaCertificationSuccess = response => {
+  return {
+    type: GET_SELECTION_FOR_COA_CERTIFIED_BY_SUCCESS,
+    payload: response,
+  }
+}
+export const fetchSelectionForCoaCertificationFailed = error => {
+  return {
+    type: GET_SELECTION_FOR_COA_CERTIFIED_BY_FAIL,
     payload: error,
   }
 }

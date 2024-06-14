@@ -355,6 +355,8 @@ export const getPublicationsWithHiredApplicants = () =>
 export const getPublicationItemNumbers = vppId =>
   getHris(url.PUBLICATIONS + url.ITEM_NUMBERS_IN_PUBLICATION + vppId)
 
+export const getSelectionForCoaCertification = () =>
+  getHris(url.CERTIFICATE_OF_APPOINTMENT + url.SELECTION_FOR_COA_CERTIFIED_BY)
 // Applicants-----------------------------------------------------------------------
 export const getApplicants = publicationId =>
   getHris(url.GET_APPLICANTS + publicationId)

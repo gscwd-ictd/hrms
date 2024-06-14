@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from "redux-saga/effects"
+import { call, put, takeEvery } from 'redux-saga/effects'
 import {
   getPublications,
   getPublicationCalendarEvents,
@@ -11,7 +11,8 @@ import {
   patchAppointmentEffectivity,
   getPublicationsWithHiredApplicants,
   getPublicationItemNumbers,
-} from "helpers/backend_helper"
+  getSelectionForCoaCertification,
+} from 'helpers/backend_helper'
 import {
   getPublicationsSuccess,
   getPublicationsFail,
@@ -35,7 +36,9 @@ import {
   fetchPublicationsWithHiredApplicantsFailed,
   fetchAvailableItemNumbersSuccess,
   fetchAvailableItemNumbersFailed,
-} from "./actions"
+  fetchSelectionForCoaCertificationSuccess,
+  fetchSelectionForCoaCertificationFailed,
+} from './actions'
 import {
   GET_PUBLICATIONS,
   GET_CALENDAR_INTERVIEW_SCHEDULES,
@@ -48,7 +51,8 @@ import {
   PATCH_SET_APPOINTMENT_EFFECTIVITY,
   GET_PUBLICATIONS_WITH_HIRED_APPLICANTS,
   GET_AVAILABLE_ITEM_NUMBERS,
-} from "./actionTypes"
+  GET_SELECTION_FOR_COA_CERTIFIED_BY,
+} from './actionTypes'
 
 function* fetchPublications({ payload: prfId }) {
   try {
@@ -171,6 +175,15 @@ function* fetchAvailableItemNumbers({ payload: vppId }) {
   }
 }
 
+function* fetchSelectionForCoaCertification() {
+  try {
+    const response = yield call(getSelectionForCoaCertification)
+    yield put(fetchSelectionForCoaCertificationSuccess(response))
+  } catch (error) {
+    yield put(fetchSelectionForCoaCertificationFailed(error))
+  }
+}
+
 function* publicationsSaga() {
   yield takeEvery(GET_PUBLICATIONS, fetchPublications)
   yield takeEvery(
@@ -198,6 +211,10 @@ function* publicationsSaga() {
     fetchPublicationsWithHiredApplicants
   )
   yield takeEvery(GET_AVAILABLE_ITEM_NUMBERS, fetchAvailableItemNumbers)
+  yield takeEvery(
+    GET_SELECTION_FOR_COA_CERTIFIED_BY,
+    fetchSelectionForCoaCertification
+  )
 }
 
 export default publicationsSaga
