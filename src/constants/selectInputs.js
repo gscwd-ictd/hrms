@@ -77,20 +77,16 @@ const reports = [
     label: 'Report on Employee Information',
     value: 'report on employee information',
   },
-  {
-    label: 'Sample Report',
-    value: 'sample report',
-  },
 ]
 
 const natureOfAppointment = [
   {
     label: 'Contract of Service',
-    value: 'contractOfService',
+    value: 'contract of service',
   },
   {
     label: 'Job Order',
-    value: 'jobOrder',
+    value: 'job order',
   },
   {
     label: 'Casual',
@@ -100,6 +96,37 @@ const natureOfAppointment = [
     label: 'Permanent',
     value: 'permanent',
   },
+]
+
+const natureOfAppointment2 = [
+  {
+    label: 'Temporary',
+    value: 'temporary',
+  },
+  {
+    label: 'Permanent',
+    value: 'permanent',
+  },
+]
+
+const viceTypes = [
+  {
+    label: 'Transferred',
+    value: 'transferred',
+  },
+  {
+    label: 'Retired',
+    value: 'retired',
+  },
+  {
+    label: 'Resigned',
+    value: 'resigned',
+  },
+  {
+    label: 'Deceased',
+    value: 'deceased',
+  },
+
 ]
 
 export {
@@ -122,4 +149,6 @@ export {
   listOfRestDays,
   reports,
   natureOfAppointment,
+  natureOfAppointment2,
+  viceTypes
 }

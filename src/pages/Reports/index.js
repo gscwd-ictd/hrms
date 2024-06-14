@@ -14,6 +14,7 @@ import {
 import Breadcrumbs from 'components/Common/Breadcrumb'
 
 import { reports, natureOfAppointment } from 'constants/selectInputs'
+import { reportNames } from 'constants/reports'
 
 import { useDispatch } from 'react-redux'
 import { fetchEmployeeDetailsReport } from 'store/actions'
@@ -34,19 +35,27 @@ const Reports = () => {
     company_id: false,
     nature_of_appointment: '',
     personal_details: false,
+    date_hired: false,
+    position_title: false,
+    assignment: false,
+    office: false,
+    department: false,
+    division: false,
+    residential_address: false,
+    permanent_address: false,
     gsis: false,
     pagibig: false,
     philhealth: false,
     sss: false,
     tin: false,
-    residential_address: false,
-    permanent_address: false,
     primary_education: false,
     secondary_education: false,
     vocational_course: false,
     college_education: false,
     graduate_studies: false,
     eligibility: false,
+    salary_grade: false,
+    step_increment: false,
   }
 
   const validation = useFormik({
@@ -56,11 +65,11 @@ const Reports = () => {
       reportType: Yup.string().required('Please select a report type'),
     }),
     onSubmit: (values, { resetForm }) => {
-      if (values.reportType === 'report on employee information') {
+      if (values.reportType === reportNames.REPORT_ON_EMPLOYEE_INFORMATION) {
         setIsSubmitted(true)
         setGeneratedReportType(values.reportType)
         dispatch(fetchEmployeeDetailsReport(values))
-        resetForm({ values: initialValues })
+        // resetForm({ values: initialValues })
       }
     },
   })
@@ -129,6 +138,7 @@ const Reports = () => {
                             ) : null}
                           </FormGroup>
                         </Col>
+
                         <Col>
                           <FormGroup>
                             <Label for="nature_of_appointment">
@@ -152,10 +162,14 @@ const Reports = () => {
                           </FormGroup>
                         </Col>
                       </Row>
-                      {reportType === 'report on employee information' ? (
+
+                      {/* Filter to REPORT ON EMPLOYEE INFORMATION */}
+                      {reportType ===
+                      reportNames.REPORT_ON_EMPLOYEE_INFORMATION ? (
                         <Row
                           style={{ paddingLeft: '1rem', paddingRight: '1rem' }}
                         >
+                          {/* Column 1 */}
                           <Col>
                             <Row>
                               <FormGroup check>
@@ -172,6 +186,7 @@ const Reports = () => {
                                 </Label>
                               </FormGroup>
                             </Row>
+
                             <Row>
                               <FormGroup check>
                                 <Label check>
@@ -188,6 +203,141 @@ const Reports = () => {
                                 </Label>
                               </FormGroup>
                             </Row>
+
+                            <Row>
+                              <FormGroup check>
+                                <Label check>
+                                  <Input
+                                    type="checkbox"
+                                    name="date_hired"
+                                    checked={
+                                      validation.values.date_hired || false
+                                    }
+                                    onChange={validation.handleChange}
+                                  />
+                                  Date Hired
+                                </Label>
+                              </FormGroup>
+                            </Row>
+
+                            <Row>
+                              <FormGroup check>
+                                <Label check>
+                                  <Input
+                                    type="checkbox"
+                                    name="position_title"
+                                    checked={
+                                      validation.values.position_title || false
+                                    }
+                                    onChange={validation.handleChange}
+                                  />
+                                  Position
+                                </Label>
+                              </FormGroup>
+                            </Row>
+
+                            <Row>
+                              <FormGroup check>
+                                <Label check>
+                                  <Input
+                                    type="checkbox"
+                                    name="assignment"
+                                    checked={
+                                      validation.values.assignment || false
+                                    }
+                                    onChange={validation.handleChange}
+                                  />
+                                  Direct Assignment
+                                </Label>
+                              </FormGroup>
+                            </Row>
+                          </Col>
+
+                          {/* Column 2 */}
+                          <Col>
+                            <Row>
+                              <FormGroup check>
+                                <Label check>
+                                  <Input
+                                    type="checkbox"
+                                    name="office"
+                                    checked={validation.values.office || false}
+                                    onChange={validation.handleChange}
+                                  />
+                                  Office
+                                </Label>
+                              </FormGroup>
+                            </Row>
+
+                            <Row>
+                              <FormGroup check>
+                                <Label check>
+                                  <Input
+                                    type="checkbox"
+                                    name="department"
+                                    checked={
+                                      validation.values.department || false
+                                    }
+                                    onChange={validation.handleChange}
+                                  />
+                                  Department
+                                </Label>
+                              </FormGroup>
+                            </Row>
+
+                            <Row>
+                              <FormGroup check>
+                                <Label check>
+                                  <Input
+                                    type="checkbox"
+                                    name="division"
+                                    checked={
+                                      validation.values.division || false
+                                    }
+                                    onChange={validation.handleChange}
+                                  />
+                                  Division
+                                </Label>
+                              </FormGroup>
+                            </Row>
+
+                            <Row>
+                              <FormGroup check>
+                                <Label check>
+                                  <Input
+                                    type="checkbox"
+                                    name="residential_address"
+                                    checked={
+                                      validation.values.residential_address ||
+                                      false
+                                    }
+                                    onChange={validation.handleChange}
+                                  />
+                                  Residential Address
+                                </Label>
+                              </FormGroup>
+                            </Row>
+
+                            <Row>
+                              <FormGroup check>
+                                <Label check>
+                                  <Input
+                                    type="checkbox"
+                                    name="permanent_address"
+                                    checked={
+                                      validation.values.permanent_address ||
+                                      false
+                                    }
+                                    onChange={validation.handleChange}
+                                  />
+                                  Permanent Address
+                                </Label>
+                              </FormGroup>
+                            </Row>
+                          </Col>
+
+                          {/* Column 3 */}
+                          <Col>
                             <Row>
                               <FormGroup check>
                                 <Label check>
@@ -201,8 +351,6 @@ const Reports = () => {
                                 </Label>
                               </FormGroup>
                             </Row>
-                          </Col>
-                          <Col>
                             <Row>
                               <FormGroup check>
                                 <Label check>
@@ -244,8 +392,6 @@ const Reports = () => {
                                 </Label>
                               </FormGroup>
                             </Row>
-                          </Col>
-                          <Col>
                             <Row>
                               <FormGroup check>
                                 <Label check>
@@ -259,39 +405,9 @@ const Reports = () => {
                                 </Label>
                               </FormGroup>
                             </Row>
-                            <Row>
-                              <FormGroup check>
-                                <Label check>
-                                  <Input
-                                    type="checkbox"
-                                    name="residential_address"
-                                    checked={
-                                      validation.values.residential_address ||
-                                      false
-                                    }
-                                    onChange={validation.handleChange}
-                                  />
-                                  Residential Address
-                                </Label>
-                              </FormGroup>
-                            </Row>
-                            <Row>
-                              <FormGroup check>
-                                <Label check>
-                                  <Input
-                                    type="checkbox"
-                                    name="permanent_address"
-                                    checked={
-                                      validation.values.permanent_address ||
-                                      false
-                                    }
-                                    onChange={validation.handleChange}
-                                  />
-                                  Permanent Address
-                                </Label>
-                              </FormGroup>
-                            </Row>
                           </Col>
+
+                          {/* Column 4 */}
                           <Col>
                             <Row>
                               <FormGroup check>
@@ -341,8 +457,6 @@ const Reports = () => {
                                 </Label>
                               </FormGroup>
                             </Row>
-                          </Col>
-                          <Col>
                             <Row>
                               <FormGroup check>
                                 <Label check>
@@ -375,6 +489,10 @@ const Reports = () => {
                                 </Label>
                               </FormGroup>
                             </Row>
+                          </Col>
+
+                          {/* Column 5 */}
+                          <Col>
                             <Row>
                               <FormGroup check>
                                 <Label check>
@@ -390,9 +508,40 @@ const Reports = () => {
                                 </Label>
                               </FormGroup>
                             </Row>
+                            <Row>
+                              <FormGroup check>
+                                <Label check>
+                                  <Input
+                                    type="checkbox"
+                                    name="salary_grade"
+                                    checked={
+                                      validation.values.salary_grade || false
+                                    }
+                                    onChange={validation.handleChange}
+                                  />
+                                  Salary Grade
+                                </Label>
+                              </FormGroup>
+                            </Row>
+                            <Row>
+                              <FormGroup check>
+                                <Label check>
+                                  <Input
+                                    type="checkbox"
+                                    name="step_increment"
+                                    checked={
+                                      validation.values.step_increment || false
+                                    }
+                                    onChange={validation.handleChange}
+                                  />
+                                  Step Increment
+                                </Label>
+                              </FormGroup>
+                            </Row>
                           </Col>
                         </Row>
                       ) : null}
+
                       <Row style={{ justifyContent: 'flex-end' }}>
                         <Button
                           color="primary"
@@ -404,9 +553,11 @@ const Reports = () => {
                         </Button>
                       </Row>
                     </Form>
+
+                    {/* PDF REPORT */}
                     {isSubmitted &&
                       generatedReportType ===
-                        'report on employee information' && (
+                        reportNames.REPORT_ON_EMPLOYEE_INFORMATION && (
                         <EmployeeDetailsPdf />
                       )}
                   </Row>

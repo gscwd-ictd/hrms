@@ -1,5 +1,5 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 
 import {
   Page,
@@ -8,24 +8,24 @@ import {
   Document,
   StyleSheet,
   Font,
-} from "@react-pdf/renderer"
-import Header from "components/PdfDocuments/CertificationOfAssumptionToDuty/Header"
+} from '@react-pdf/renderer'
+import Header from 'components/PdfDocuments/CertificationOfAssumptionToDuty/Header'
 
 // Fonts
-import CalibriRegular from "assets/fonts/uploads/calibri-regular.ttf"
-import CalibriRegularBold from "assets/fonts/uploads/calibri-regular-bold.ttf"
-import ArialRegular from "assets/fonts/uploads/arial-regular.ttf"
-import ArialSemiBold from "assets/fonts/uploads/arial.ttf"
-import ArialBoldItalic from "assets/fonts/uploads/arial-bold-italic.ttf"
+import CalibriRegular from 'assets/fonts/uploads/calibri-regular.ttf'
+import CalibriRegularBold from 'assets/fonts/uploads/calibri-regular-bold.ttf'
+import ArialRegular from 'assets/fonts/uploads/arial-regular.ttf'
+import ArialSemiBold from 'assets/fonts/uploads/arial.ttf'
+import ArialBoldItalic from 'assets/fonts/uploads/arial-bold-italic.ttf'
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
     paddingVertical: 40,
   },
   rowContainer: {
-    flexDirection: "row",
-    alignItems: "stretch",
+    flexDirection: 'row',
+    alignItems: 'stretch',
     paddingTop: 6,
   },
   bodyBorder: {
@@ -34,78 +34,78 @@ const styles = StyleSheet.create({
 
   // Border Styles
   borderBottom: {
-    borderBottom: "1px solid #000000",
+    borderBottom: '1px solid #000000',
   },
 
   // Field Styles
   documentCodeText: {
-    fontFamily: "ArialBoldItalic",
+    fontFamily: 'ArialBoldItalic',
     fontSize: 12,
     paddingTop: 20,
   },
   documentTitle: {
-    fontFamily: "ArialSemiBold",
+    fontFamily: 'ArialSemiBold',
     fontSize: 18,
     paddingTop: 35,
   },
   certificationBodyText: {
-    fontFamily: "ArialRegular",
+    fontFamily: 'ArialRegular',
     fontSize: 12,
     paddingTop: 34,
   },
   textBold: {
-    fontFamily: "ArialSemiBold",
+    fontFamily: 'ArialSemiBold',
   },
   alignBottom: {
-    marginTop: "auto",
+    marginTop: 'auto',
   },
   upperCase: {
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
   },
   signatoryName: {
-    fontFamily: "CalibriRegularBold",
-    textTransform: "uppercase",
-    padding: "4 0 0 2",
+    fontFamily: 'CalibriRegularBold',
+    textTransform: 'uppercase',
+    padding: '4 0 0 2',
   },
 
-  verticalCenter: { margin: "auto 0" },
-  horizontalCenter: { textAlign: "center" },
+  verticalCenter: { margin: 'auto 0' },
+  horizontalCenter: { textAlign: 'center' },
 
   // Width Styles
-  w100: { width: "100%" },
-  w73: { width: "73%" },
-  w67: { width: "67%" },
-  w55: { width: "55%" },
-  w50: { width: "50%" },
-  w49: { width: "49%" },
-  w44_5: { width: "w44.5%" },
-  w44: { width: "44%" },
-  w33: { width: "33%" },
-  w24: { width: "24%" },
-  w10: { width: "10%" },
-  w6_5: { width: "6.5%" },
-  w3: { width: "3%" },
+  w100: { width: '100%' },
+  w73: { width: '73%' },
+  w67: { width: '67%' },
+  w55: { width: '55%' },
+  w50: { width: '50%' },
+  w49: { width: '49%' },
+  w44_5: { width: 'w44.5%' },
+  w44: { width: '44%' },
+  w33: { width: '33%' },
+  w24: { width: '24%' },
+  w10: { width: '10%' },
+  w6_5: { width: '6.5%' },
+  w3: { width: '3%' },
 })
 
 // FONTS
 Font.register({
-  family: "CalibriRegular",
+  family: 'CalibriRegular',
   src: CalibriRegular,
 })
 Font.register({
-  family: "CalibriRegularBold",
+  family: 'CalibriRegularBold',
   src: CalibriRegularBold,
 })
 Font.register({
-  family: "ArialRegular",
+  family: 'ArialRegular',
   src: ArialRegular,
 })
 Font.register({
-  family: "ArialSemiBold",
+  family: 'ArialSemiBold',
   src: ArialSemiBold,
 })
 Font.register({
-  family: "ArialBoldItalic",
+  family: 'ArialBoldItalic',
   src: ArialBoldItalic,
 })
 
@@ -116,8 +116,8 @@ const CoAtDDocument = props => {
     var content = certificationOfAssumptionToDuty.signatories
       .filter(
         signee =>
-          signee.position === "General Manager A" ||
-          signee.position === "OIC-General Manager"
+          signee.position === 'General Manager A' ||
+          signee.position === 'OIC-General Manager'
       )
       .map((filtered, index) => (
         <View key={index}>
@@ -125,7 +125,11 @@ const CoAtDDocument = props => {
             <Text style={[styles.upperCase, styles.textBold]}>
               {filtered.fullName}
             </Text>
-            <Text style={[{ paddingTop: 4 }]}>{filtered.position}</Text>
+            {filtered.position === 'OIC-General Manager' ? (
+              <Text style={[{ paddingTop: 4 }]}>Acting General Manager A</Text>
+            ) : (
+              <Text style={[{ paddingTop: 4 }]}>{filtered.position}</Text>
+            )}
           </View>
         </View>
       ))
@@ -137,8 +141,8 @@ const CoAtDDocument = props => {
     var content = certificationOfAssumptionToDuty.signatories
       .filter(
         signee =>
-          signee.position === "Department Manager A" ||
-          signee.position === "OIC-Department Manager"
+          signee.position === 'Department Manager A' ||
+          signee.position === 'OIC-Department Manager'
       )
       .map((filtered, index) => (
         <View key={index} style={[{ paddingTop: 50 }]}>
@@ -327,11 +331,11 @@ const CoAtDDocument = props => {
             <View style={[{ paddingTop: 25 }]}>
               <View style={[styles.w100, styles.alignBottom]}>
                 <Text style={[styles.horizontalCenter]}>
-                  Done this{" "}
+                  Done this{' '}
                   {
                     certificationOfAssumptionToDuty.data.effectivityDate
                       .dayMonthYear
-                  }{" "}
+                  }{' '}
                   in the City of General Santos.
                 </Text>
               </View>

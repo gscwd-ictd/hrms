@@ -116,11 +116,22 @@ const styles = StyleSheet.create({
     color: 'grey',
   },
 
+  // Unordered List
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  bullet: {
+    marginTop: '-3px',
+    height: '100%',
+  },
+
   verticalCenter: { margin: 'auto 0' },
   horizontalCenter: { textAlign: 'center' },
 
   // Width Styles
   w100: { width: '100%' },
+  w90: { width: '90%' },
   w75: { width: '75%' },
   w70: { width: '70%' },
   w60: { width: '60%' },
@@ -209,9 +220,7 @@ const PdDbmCscDocument = props => {
           <Text style={[styles.bodyText, { textTransform: 'uppercase' }]}>
             {competency.competencyName}
           </Text>
-          <Text style={[styles.bodyText, styles.horizontalCenter]}>
-            {competency.description}
-          </Text>
+          <Text style={[styles.bodyText]}>{competency.description}</Text>
         </View>
         <View style={[styles.w25]}>
           <Text
@@ -224,6 +233,21 @@ const PdDbmCscDocument = props => {
             {competency.level}
           </Text>
         </View>
+      </View>
+    ))
+
+    return content
+  }
+
+  const listItem = children => {
+    var myArray = children.split('\n\n')
+
+    var content = myArray.map((perDuty, index) => (
+      <View style={[styles.row, styles.w90]} key={index}>
+        <View style={styles.bullet}>
+          <Text>{'\u2022' + ' '}</Text>
+        </View>
+        <Text style={[styles.bodyText, { flexWrap: 'wrap' }]}>{perDuty}</Text>
       </View>
     ))
 
@@ -249,15 +273,10 @@ const PdDbmCscDocument = props => {
           </Text>
         </View>
         <View style={[styles.w50, styles.borderRight]}>
-          <Text
-            style={[
-              styles.bodyText,
-              styles.verticalCenter,
-              styles.horizontalCenter,
-            ]}
-          >
+          {/* <Text style={[styles.bodyText, styles.verticalCenter]}>
             {duty.dutyResponsibility}
-          </Text>
+          </Text> */}
+          {listItem(duty.dutyResponsibility)}
         </View>
         <View style={[styles.w25]}>
           <Text
@@ -267,7 +286,7 @@ const PdDbmCscDocument = props => {
               styles.verticalCenter,
             ]}
           >
-            {duty.competencyLevel}
+            {duty.competencyName}/{duty.competencyLevel}
           </Text>
         </View>
       </View>
@@ -658,10 +677,11 @@ const PdDbmCscDocument = props => {
                       styles.tDataVerticalCenter,
                     ]}
                   >
-                    {
+                    {/* {
                       applicantDbmCsc.positionDescriptionFormBasic
                         .presentAppropriationAct
-                    }
+                    } */}
+                    NBC#591
                   </Text>
                 </View>
 
@@ -684,10 +704,11 @@ const PdDbmCscDocument = props => {
                       styles.tDataVerticalCenter,
                     ]}
                   >
-                    {
+                    {/* {
                       applicantDbmCsc.positionDescriptionFormBasic
                         .previousAppropriationAct
-                    }
+                    } */}
+                    NBC#588
                   </Text>
                 </View>
               </View>
@@ -1437,7 +1458,7 @@ const PdDbmCscDocument = props => {
           </View>
 
           {/* ROW 17 */}
-          <View>
+          <View wrap={false}>
             <View style={[styles.rowContainer, styles.borderAll]}>
               <View style={[styles.w75, styles.borderRight]}>
                 <Text style={[styles.bodyTextBold, styles.tDataColored]}>
