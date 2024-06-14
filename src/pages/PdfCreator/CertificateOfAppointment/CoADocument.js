@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
   w70: { width: '70%' },
   w68: { width: '68%' },
   w63: { width: '63%' },
+  w60: { width: '60%' },
   w58: { width: '58%' },
   w50: { width: '50%' },
   w42: { width: 'w42%' },
@@ -193,6 +194,7 @@ const CoADocument = props => {
 
   const renderHRMOSignatory = () => {
     var content = certificateOfAppointment.signatories
+      // PSB #3 CHANGE TO CERTIFIEDBY
       .filter(signee => signee.role === 'PSB# 3')
       .map((filtered, index) => (
         <View key={index}>
@@ -370,30 +372,26 @@ const CoADocument = props => {
 
                 {/* ROW 3 */}
                 <View style={[styles.rowContainer]}>
-                  <View style={[styles.w25, styles.letterTextWrapper]}>
-                    <Text>with a composition rate of</Text>
-                  </View>
-
-                  {/* SALARY GRADE AMOUNT */}
-                  <View style={[styles.w75, styles.letterTextWrapper]}>
-                    <View style={[styles.borderBottom]}>
-                      <Text style={[styles.upperCase, styles.valueMainText]}>
-                        {certificateOfAppointment.data.amountInWords}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-
-                {/* ROW 4 */}
-                <View
-                  style={[
-                    styles.rowContainer,
-                    { justifyContent: 'flex-start' },
-                  ]}
-                >
-                  <View style={[styles.w25, styles.letterTextWrapper]}>
-                    <Text>pesos per month.</Text>
-                  </View>
+                  <Text
+                    style={[
+                      styles.w100,
+                      styles.letterTextWrapper,
+                      { textAlign: 'left', lineHeight: 2.1 },
+                    ]}
+                  >
+                    with a composition rate of{' '}
+                    <Text
+                      style={[
+                        styles.upperCase,
+                        { textDecoration: 'underline' },
+                      ]}
+                    >
+                      {'  '}
+                      {certificateOfAppointment.data.amountInWords}{' '}
+                    </Text>
+                    {'  '}
+                    pesos per month.
+                  </Text>
                 </View>
               </View>
 
@@ -427,10 +425,10 @@ const CoADocument = props => {
                   </View>
 
                   {/* VICE */}
-                  <View style={[styles.w42, styles.letterTextWrapper]}>
+                  <View style={[styles.w60, styles.letterTextWrapper]}>
                     <View style={[styles.borderBottom]}>
                       <Text style={[styles.upperCase, styles.valueMainText]}>
-                        {' '}
+                        {certificateOfAppointment.data.vice || ' '}
                       </Text>
                     </View>
                   </View>
@@ -440,10 +438,10 @@ const CoADocument = props => {
                   </View>
 
                   {/* WHO */}
-                  <View style={[styles.w42, styles.letterTextWrapper]}>
+                  <View style={[styles.w24, styles.letterTextWrapper]}>
                     <View style={[styles.borderBottom]}>
                       <Text style={[styles.upperCase, styles.valueMainText]}>
-                        {' '}
+                        {certificateOfAppointment.data.viceType || ' '}
                       </Text>
                     </View>
                     <Text style={[styles.documentText, styles.valueSubText]}>
@@ -481,29 +479,22 @@ const CoADocument = props => {
                   </View>
 
                   {/* PAGE */}
-                  <View style={[styles.w25, styles.letterTextWrapper]}>
-                    <View style={[{ flexDirection: 'row' }]}>
+                  <View style={[styles.w20, styles.letterTextWrapper]}>
+                    <View style={[styles.borderBottom]}>
                       <Text
                         style={[
                           styles.upperCase,
                           styles.valueMainText,
-                          { textDecoration: 'underline' },
+                          styles.horizontalCenter,
                         ]}
                       >
-                        {'                                       '}
+                        {certificateOfAppointment.data.page || ' '}
                       </Text>
-                      <Text>.</Text>
                     </View>
-                    {/* <View
-                      style={[styles.borderBottom, { flexDirection: "row" }]}
-                    >
-                      <Text style={[styles.upperCase, styles.valueMainText]}>
-                        {
-                          "                                                                                                 "
-                        }
-                      </Text>
-                      <Text>.</Text>
-                    </View> */}
+                  </View>
+
+                  <View style={[styles.w5, styles.letterTextWrapper]}>
+                    <Text>.</Text>
                   </View>
                 </View>
               </View>
@@ -1147,6 +1138,9 @@ CoADocument.propTypes = {
       scheduleDate: PropTypes.string,
       salaryGradeLevel: PropTypes.number,
       effectivityDate: PropTypes.string,
+      vice: PropTypes.string,
+      viceType: PropTypes.string,
+      page: PropTypes.string,
     }),
     signatories: PropTypes.arrayOf(
       PropTypes.shape({

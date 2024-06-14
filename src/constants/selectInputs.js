@@ -72,6 +72,63 @@ const listOfRestDays = [
   { label: 'Saturday', value: 6 },
 ]
 
+const reports = [
+  {
+    label: 'Report on Employee Information',
+    value: 'report on employee information',
+  },
+]
+
+const natureOfAppointment = [
+  {
+    label: 'Contract of Service',
+    value: 'contract of service',
+  },
+  {
+    label: 'Job Order',
+    value: 'job order',
+  },
+  {
+    label: 'Casual',
+    value: 'casual',
+  },
+  {
+    label: 'Permanent',
+    value: 'permanent',
+  },
+]
+
+const natureOfAppointment2 = [
+  {
+    label: 'Temporary',
+    value: 'temporary',
+  },
+  {
+    label: 'Permanent',
+    value: 'permanent',
+  },
+]
+
+const viceTypes = [
+  {
+    label: 'Transferred',
+    value: 'transferred',
+  },
+  {
+    label: 'Retired',
+    value: 'retired',
+  },
+  {
+    label: 'Resigned',
+    value: 'resigned',
+  },
+  {
+    label: 'Deceased',
+    value: 'deceased',
+  },
+
+]
+
 export {
   sexes,
   civilStatuses,
@@ -90,4 +147,8 @@ export {
   frequencies,
   months,
   listOfRestDays,
+  reports,
+  natureOfAppointment,
+  natureOfAppointment2,
+  viceTypes
 }

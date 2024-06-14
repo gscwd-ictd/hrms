@@ -7,6 +7,8 @@ import {
   appointmentTypes,
   publicationModes,
   frequencies,
+  natureOfAppointment2,
+  viceTypes,
 } from 'constants/selectInputs'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -15,6 +17,7 @@ import {
   fetchAvailableItemNumbers,
   resetApplicantsResponses,
   fetchSelectedByAppointingAuth,
+  fetchSelectionForCoaCertification,
 } from 'store/actions'
 
 import {
@@ -71,6 +74,20 @@ const DbmCscAdditionalInfo = props => {
       publicationsError: state.publications.error.publicationsError,
     }))
 
+  // redux store state for selection on certified by
+  const {
+    selectionForCoaCertification,
+    loadingSelectionForCoaCertification,
+    errorSelectionForCoaCertification,
+  } = useSelector(state => ({
+    selectionForCoaCertification:
+      state.publications.selectionForCoaCertification,
+    loadingSelectionForCoaCertification:
+      state.publications.loading.loadingSelectionForCoaCertification,
+    errorSelectionForCoaCertification:
+      state.publications.error.errorSelectionForCoaCertification,
+  }))
+
   const validation = useFormik({
     enableReinitialize: true,
 
@@ -85,8 +102,8 @@ const DbmCscAdditionalInfo = props => {
         publicationMode: '',
         directlySupervised: '',
         directlySupervisedItemNumbers: '',
-        presentAppropriationAct: '',
-        previousAppropriationAct: '',
+        // presentAppropriationAct: '',
+        // previousAppropriationAct: '',
       },
       contacts: {
         internal: {
@@ -105,6 +122,13 @@ const DbmCscAdditionalInfo = props => {
         isOfficeWork: false,
         isFieldWork: false,
         others: '',
+      },
+      certificateOfAppointment: {
+        natureOfAppointment: '',
+        vice: '',
+        viceType: '',
+        page: '',
+        certifiedBy: '',
       },
     },
 
@@ -129,12 +153,12 @@ const DbmCscAdditionalInfo = props => {
         publicationMode: Yup.string().required(
           'Please select a mode of publication'
         ),
-        presentAppropriationAct: Yup.string().required(
-          'This field is required'
-        ),
-        previousAppropriationAct: Yup.string().required(
-          'This field is required'
-        ),
+        // presentAppropriationAct: Yup.string().required(
+        //   'This field is required'
+        // ),
+        // previousAppropriationAct: Yup.string().required(
+        //   'This field is required'
+        // ),
       }),
       contacts: Yup.object().shape({
         internal: Yup.object().shape({
@@ -159,6 +183,15 @@ const DbmCscAdditionalInfo = props => {
       workingCondition: Yup.object().shape({
         isOfficeWork: Yup.bool().required('Please select an option'),
         isFieldWork: Yup.bool().required('Please select an option'),
+      }),
+      certificateOfAppointment: Yup.object().shape({
+        natureOfAppointment: Yup.string().required(
+          'Please select a nature of appointment'
+        ),
+        page: Yup.string().required('Please input the page no.'),
+        certifiedBy: Yup.string().required(
+          'Please select a employee that will certify'
+        ),
       }),
     }),
 
@@ -191,6 +224,7 @@ const DbmCscAdditionalInfo = props => {
   useEffect(() => {
     if (showDbmCscAdditionalInfo) {
       dispatch(fetchAvailableItemNumbers(vppId))
+      dispatch(fetchSelectionForCoaCertification())
     } else {
       dispatch(resetApplicantsResponses())
     }
@@ -237,6 +271,13 @@ const DbmCscAdditionalInfo = props => {
           <ToastrNotification
             toastType={'success'}
             notifMessage={'Succesfully added DBM-CSC additional details'}
+          />
+        ) : null}
+
+        {errorSelectionForCoaCertification ? (
+          <ToastrNotification
+            toastType={'error'}
+            notifMessage={errorSelectionForCoaCertification}
           />
         ) : null}
 
@@ -333,7 +374,7 @@ const DbmCscAdditionalInfo = props => {
                   </Col>
 
                   {/* Present Approp Act */}
-                  <Col lg={4}>
+                  {/* <Col lg={4}>
                     <FormGroup>
                       <Label for="present-approp-act-input">
                         Present Approp Act
@@ -377,10 +418,10 @@ const DbmCscAdditionalInfo = props => {
                         </FormFeedback>
                       ) : null}
                     </FormGroup>
-                  </Col>
+                  </Col> */}
 
                   {/* Previous Approp Act */}
-                  <Col lg={4}>
+                  {/* <Col lg={4}>
                     <FormGroup>
                       <Label for="previous-approp-act-input">
                         Previous Approp Act
@@ -424,7 +465,7 @@ const DbmCscAdditionalInfo = props => {
                         </FormFeedback>
                       ) : null}
                     </FormGroup>
-                  </Col>
+                  </Col> */}
 
                   {/* Position Title of Immediate Supervisor */}
                   <Col lg={4}>
@@ -1177,6 +1218,225 @@ const DbmCscAdditionalInfo = props => {
                         onBlur={validation.handleBlur}
                         value={validation.values.workingCondition.others || ''}
                       />
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <hr className="my-4"></hr>
+
+                {/* certificateOfAppointment: {
+        vice: '',
+        viceType: '',
+        page: '',
+        certifiedBy: '',
+      }, */}
+
+                {/* CERTIFICATE OF APPOINTMENT */}
+                <h5>Certificate of Appointment</h5>
+                <Row className="mt-2">
+                  {/* Nature of Appointment */}
+                  <Col lg={4}>
+                    <FormGroup>
+                      <Label for="nature-of-appointment-select">
+                        Nature of Appointment
+                      </Label>
+                      <Input
+                        name="certificateOfAppointment.natureOfAppointment"
+                        type="select"
+                        className="form-control"
+                        id="nature-of-appointment-select"
+                        onChange={validation.handleChange}
+                        onBlur={validation.handleBlur}
+                        value={
+                          validation.values.certificateOfAppointment
+                            .natureOfAppointment || ''
+                        }
+                        invalid={
+                          getIn(
+                            validation.touched,
+                            'certificateOfAppointment.natureOfAppointment'
+                          ) &&
+                          getIn(
+                            validation.errors,
+                            'certificateOfAppointment.natureOfAppointment'
+                          )
+                            ? true
+                            : false
+                        }
+                      >
+                        <option value="" disabled>
+                          Choose...
+                        </option>
+                        {natureOfAppointment2.map((appointment, index) => (
+                          <option key={index} value={appointment.value}>
+                            {appointment.label}
+                          </option>
+                        ))}
+                      </Input>
+                      {getIn(
+                        validation.touched,
+                        'certificateOfAppointment.natureOfAppointment'
+                      ) &&
+                      getIn(
+                        validation.errors,
+                        'certificateOfAppointment.natureOfAppointment'
+                      ) ? (
+                        <FormFeedback type="invalid">
+                          {getIn(
+                            validation.errors,
+                            'certificateOfAppointment.natureOfAppointment'
+                          )}
+                        </FormFeedback>
+                      ) : null}
+                    </FormGroup>
+                  </Col>
+
+                  {/* Vice (Employee Name) */}
+                  <Col lg={4}>
+                    <FormGroup>
+                      <Label for="vice-input">Position Title</Label>
+                      <Input
+                        name="certificateOfAppointment.vice"
+                        type="text"
+                        className="form-control"
+                        id="vice-input"
+                        onChange={validation.handleChange}
+                        onBlur={validation.handleBlur}
+                        value={
+                          validation.values.certificateOfAppointment.vice || ''
+                        }
+                      />
+                    </FormGroup>
+                  </Col>
+
+                  {/* Vice Type */}
+                  <Col lg={4}>
+                    <FormGroup>
+                      <Label for="vice-type-select">Vice Type</Label>
+                      <Input
+                        name="certificateOfAppointment.viceType"
+                        type="select"
+                        className="form-control"
+                        id="vice-type-select"
+                        onChange={validation.handleChange}
+                        onBlur={validation.handleBlur}
+                        value={
+                          validation.values.certificateOfAppointment.viceType ||
+                          ''
+                        }
+                        invalid={
+                          getIn(
+                            validation.touched,
+                            'certificateOfAppointment.viceType'
+                          ) &&
+                          getIn(
+                            validation.errors,
+                            'certificateOfAppointment.viceType'
+                          )
+                            ? true
+                            : false
+                        }
+                      >
+                        <option value="" disabled>
+                          Choose...
+                        </option>
+                        {viceTypes.map((viceType, index) => (
+                          <option key={index} value={viceType.value}>
+                            {viceType.label}
+                          </option>
+                        ))}
+                      </Input>
+                      {getIn(
+                        validation.touched,
+                        'certificateOfAppointment.viceType'
+                      ) &&
+                      getIn(
+                        validation.errors,
+                        'certificateOfAppointment.viceType'
+                      ) ? (
+                        <FormFeedback type="invalid">
+                          {getIn(
+                            validation.errors,
+                            'certificateOfAppointment.viceType'
+                          )}
+                        </FormFeedback>
+                      ) : null}
+                    </FormGroup>
+                  </Col>
+
+                  {/* Page */}
+                  <Col lg={4}>
+                    <FormGroup>
+                      <Label for="page-input">Page No.</Label>
+                      <Input
+                        name="certificateOfAppointment.page"
+                        type="text"
+                        className="form-control"
+                        id="page-input"
+                        onChange={validation.handleChange}
+                        onBlur={validation.handleBlur}
+                        value={
+                          validation.values.certificateOfAppointment.page || ''
+                        }
+                      />
+                    </FormGroup>
+                  </Col>
+
+                  {/* Certified By */}
+                  <Col lg={4}>
+                    <FormGroup>
+                      <Label for="certified-by-select">Certified By</Label>
+                      <Input
+                        name="certificateOfAppointment.certifiedBy"
+                        type="select"
+                        className="form-control"
+                        id="certified-by-select"
+                        onChange={validation.handleChange}
+                        onBlur={validation.handleBlur}
+                        value={
+                          validation.values.certificateOfAppointment
+                            .certifiedBy || ''
+                        }
+                        invalid={
+                          getIn(
+                            validation.touched,
+                            'certificateOfAppointment.certifiedBy'
+                          ) &&
+                          getIn(
+                            validation.errors,
+                            'certificateOfAppointment.certifiedBy'
+                          )
+                            ? true
+                            : false
+                        }
+                      >
+                        <option value="" disabled>
+                          Choose...
+                        </option>
+                        {selectionForCoaCertification.map(employee => (
+                          <option
+                            key={employee.value.employee_id}
+                            value={employee.value.employee_id}
+                          >
+                            {employee.label} | {employee.value.positionTitle}
+                          </option>
+                        ))}
+                      </Input>
+                      {getIn(
+                        validation.touched,
+                        'certificateOfAppointment.certifiedBy'
+                      ) &&
+                      getIn(
+                        validation.errors,
+                        'certificateOfAppointment.certifiedBy'
+                      ) ? (
+                        <FormFeedback type="invalid">
+                          {getIn(
+                            validation.errors,
+                            'certificateOfAppointment.certifiedBy'
+                          )}
+                        </FormFeedback>
+                      ) : null}
                     </FormGroup>
                   </Col>
                 </Row>

@@ -126,7 +126,7 @@ const EditDutyModal = props => {
                     type="textarea"
                     className="form-control"
                     id="desc-Input"
-                    rows="10"
+                    rows={10}
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
                     value={validation.values.description || ''}

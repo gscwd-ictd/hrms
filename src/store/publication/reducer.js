@@ -33,8 +33,11 @@ import {
   GET_AVAILABLE_ITEM_NUMBERS,
   GET_AVAILABLE_ITEM_NUMBERS_SUCCESS,
   GET_AVAILABLE_ITEM_NUMBERS_FAIL,
+  GET_SELECTION_FOR_COA_CERTIFIED_BY,
+  GET_SELECTION_FOR_COA_CERTIFIED_BY_SUCCESS,
+  GET_SELECTION_FOR_COA_CERTIFIED_BY_FAIL,
   RESET_PUBLICATION_RESPONSES,
-} from "./actionTypes"
+} from './actionTypes'
 
 const INIT_STATE = {
   publications: [],
@@ -52,6 +55,7 @@ const INIT_STATE = {
   },
   publicationsWithHiredApplicants: [],
   availableItemNumbers: [],
+  selectionForCoaCertification: [],
   loading: {
     publicationsLoading: false,
     interviewSchedulesLoading: false,
@@ -61,6 +65,7 @@ const INIT_STATE = {
     loadingPublicationExamInterviewSchedule: false,
     loadingAppointmentEffectivity: false,
     loadingPublicationsWithHiredApplicants: false,
+    loadingSelectionForCoaCertification: false,
   },
   error: {
     publicationsError: null,
@@ -71,6 +76,7 @@ const INIT_STATE = {
     errorPublicationExamInterviewSchedule: null,
     errorAppointmentEffectivity: null,
     errorPublicationsWithHiredApplicants: null,
+    errorSelectionForCoaCertification: null,
   },
 }
 
@@ -520,6 +526,41 @@ const publications = (state = INIT_STATE, action) => {
         error: {
           ...state.error,
           publicationsError: action.payload,
+        },
+      }
+
+    case GET_SELECTION_FOR_COA_CERTIFIED_BY:
+      return {
+        ...state,
+        selectionForCoaCertification: [],
+        loading: {
+          ...state.loading,
+          loadingSelectionForCoaCertification: true,
+        },
+        error: {
+          ...state.error,
+          errorSelectionForCoaCertification: null,
+        },
+      }
+    case GET_SELECTION_FOR_COA_CERTIFIED_BY_SUCCESS:
+      return {
+        ...state,
+        selectionForCoaCertification: action.payload,
+        loading: {
+          ...state.loading,
+          loadingSelectionForCoaCertification: false,
+        },
+      }
+    case GET_SELECTION_FOR_COA_CERTIFIED_BY_FAIL:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingSelectionForCoaCertification: false,
+        },
+        error: {
+          ...state.error,
+          errorSelectionForCoaCertification: action.payload,
         },
       }
 

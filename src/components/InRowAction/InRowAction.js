@@ -16,6 +16,15 @@ const InRowAction = props => {
   return (
     <>
       <div className="row-actions d-flex">
+        {viewModal ? (
+          <button
+            onClick={() => viewModal(cell.row.original)}
+            className="btn btn-info waves-effect waves-light"
+          >
+            <i className="fas fa-eye"></i>
+          </button>
+        ) : null}
+
         {editModal ? (
           <button
             onClick={() => editModal(cell.row.original)}
@@ -31,15 +40,6 @@ const InRowAction = props => {
             className="btn btn-danger waves-effect waves-light"
           >
             <i className="fas fa-trash"></i>
-          </button>
-        ) : null}
-
-        {viewModal ? (
-          <button
-            onClick={() => viewModal(cell.row.original)}
-            className="btn btn-info waves-effect waves-light"
-          >
-            <i className="fas fa-eye"></i>
           </button>
         ) : null}
 
