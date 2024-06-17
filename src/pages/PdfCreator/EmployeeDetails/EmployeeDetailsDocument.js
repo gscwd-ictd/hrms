@@ -459,21 +459,6 @@ const EmployeeDetailsDocument = ({ employeeDetails }) => {
             ) : null
           )}
 
-          {/* Date hired */}
-          {companyId ? (
-            <View style={[styles.w12, styles.borderRight]}>
-              <Text
-                style={[
-                  styles.horizontalCenter,
-                  styles.verticalCenter,
-                  styles.tHeadFirstLevel,
-                ]}
-              >
-                Company ID
-              </Text>
-            </View>
-          ) : null}
-
           {/* govt headers */}
           {gsis ? (
             <View style={[styles.w14, styles.borderRight]}>
