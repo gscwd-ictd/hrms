@@ -25,6 +25,7 @@ import ToastrNotification from 'components/Notifications/ToastrNotification'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import SendApplicantHiredStatus from '../Confirmation/SendApplicantHiredStatus'
 import DbmCscAdditionalInfo from './DbmCscAdditionalInfo'
+import UpdateDbmCscAdditionalInfo from './UpdateDbmCscAdditionalInfo'
 
 const HiredApplicants = props => {
   const { showHiredApplicants, handleCloseHiredApplicantsModal, modalData } =
@@ -99,54 +100,64 @@ const HiredApplicants = props => {
     if (applicant.applicantStatus === 'Accepted') {
       if (applicant.hasDbmCsc) {
         return (
-          <UncontrolledDropdown>
-            <DropdownToggle
-              className="font-size-18"
-              color="white"
-              type="button"
-              style={{ boxShadow: 'none' }}
+          <>
+            {/* <Button
+              onClick={() => openUpdateDbmCscModal(applicant)}
+              className="btn btn-sm btn-info waves-effect waves-light"
+              style={{ margin: 'auto 0' }}
             >
-              <div className="btn btn-sm btn-info">
-                <i className="fas fa-print"></i> Printable Docs
-              </div>
-            </DropdownToggle>
-            <DropdownMenu direction="right">
-              <DropdownItem>
-                <Link
-                  style={{ pointerEvents: 'inherit' }}
-                  to={
-                    '/position-description-dbm-csc-form-no-1/' +
-                    applicant.postingApplicantId
-                  }
-                  target="_blank"
-                >
-                  DBM-CSC Form No. 1
-                </Link>
-              </DropdownItem>
-              <DropdownItem>
-                <Link
-                  style={{
-                    pointerEvents: 'inherit',
-                  }}
-                  to={'/cs-form-no-4/' + applicant.postingApplicantId}
-                  target="_blank"
-                >
-                  CS Form No. 4
-                </Link>
-              </DropdownItem>
-              <DropdownItem>
-                <Link
-                  style={{
-                    pointerEvents: 'inherit',
-                  }}
-                  to={'/cs-form-no-33-b/' + applicant.postingApplicantId}
-                  target="_blank"
-                >
-                  CS Form No. 33-B
-                </Link>
-              </DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
+              <i className="fas fa-file-alt"></i> Update DBM-CSC Details
+            </Button> */}
+
+            <UncontrolledDropdown>
+              <DropdownToggle
+                className="font-size-18"
+                color="white"
+                type="button"
+                style={{ boxShadow: 'none' }}
+              >
+                <div className="btn btn-sm btn-info">
+                  <i className="fas fa-print"></i> Printable Docs
+                </div>
+              </DropdownToggle>
+              <DropdownMenu direction="right">
+                <DropdownItem>
+                  <Link
+                    style={{ pointerEvents: 'inherit' }}
+                    to={
+                      '/position-description-dbm-csc-form-no-1/' +
+                      applicant.postingApplicantId
+                    }
+                    target="_blank"
+                  >
+                    DBM-CSC Form No. 1
+                  </Link>
+                </DropdownItem>
+                <DropdownItem>
+                  <Link
+                    style={{
+                      pointerEvents: 'inherit',
+                    }}
+                    to={'/cs-form-no-4/' + applicant.postingApplicantId}
+                    target="_blank"
+                  >
+                    CS Form No. 4
+                  </Link>
+                </DropdownItem>
+                <DropdownItem>
+                  <Link
+                    style={{
+                      pointerEvents: 'inherit',
+                    }}
+                    to={'/cs-form-no-33-b/' + applicant.postingApplicantId}
+                    target="_blank"
+                  >
+                    CS Form No. 33-B
+                  </Link>
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </>
         )
       } else {
         // Printing of Position Description Form DBM-CSC Form No. 1
@@ -156,7 +167,7 @@ const HiredApplicants = props => {
             className="btn btn-sm btn-info waves-effect waves-light"
             style={{ margin: 'auto 0' }}
           >
-            <i className="fas fa-file-alt"></i> Fill DBM-CSC Form
+            <i className="fas fa-file-alt"></i> Add DBM-CSC Details
           </Button>
         )
       }
@@ -168,7 +179,7 @@ const HiredApplicants = props => {
    */
   const [applicantData, setApplicantData] = useState({})
 
-  // Open modal for hired applicants
+  // Open modal for adding additional details of PD-DBM
   const [showDbmCscAdditionalInfo, setShowDbmCscAdditionalInfo] =
     useState(false)
 
@@ -180,6 +191,20 @@ const HiredApplicants = props => {
   const openDbmCscModal = rowData => {
     setApplicantData(rowData)
     handleShowDbmCscAdditionalInfoModal()
+  }
+
+  // Open modal for updating additional details of PD-DBM
+  const [showUpdateDbmCscAdditionalInfo, setShowUpdateDbmCscAdditionalInfo] =
+    useState(false)
+
+  const handleCloseUpdateDbmCscAdditionalInfoModal = () =>
+    setShowUpdateDbmCscAdditionalInfo(false)
+  const handleShowUpdateDbmCscAdditionalInfoModal = () =>
+    setShowUpdateDbmCscAdditionalInfo(true)
+
+  const openUpdateDbmCscModal = rowData => {
+    setApplicantData(rowData)
+    handleShowUpdateDbmCscAdditionalInfoModal()
   }
 
   // Change applicant status modal
@@ -238,7 +263,6 @@ const HiredApplicants = props => {
                   <Table className="table mb-0">
                     <thead className="thead-light">
                       <tr>
-                        {/* <th>ID</th> */}
                         <th>Name</th>
                         <th style={{ textAlign: 'center' }}>Status</th>
                         <th style={{ textAlign: 'center' }}>Action</th>
@@ -250,7 +274,6 @@ const HiredApplicants = props => {
                         selectedApplicantsByAppAuth.map(applicant => {
                           return (
                             <tr key={applicant.postingApplicantId}>
-                              {/* <td>{applicant.postingApplicantId}</td> */}
                               <td
                                 style={{
                                   verticalAlign: 'middle',
@@ -305,6 +328,15 @@ const HiredApplicants = props => {
                 }
                 vppId={modalData.vppId}
               />
+
+              {/* <UpdateDbmCscAdditionalInfo
+                applicantData={applicantData}
+                showUpdateDbmCscAdditionalInfo={showUpdateDbmCscAdditionalInfo}
+                handleCloseUpdateDbmCscAdditionalInfoModal={
+                  handleCloseUpdateDbmCscAdditionalInfoModal
+                }
+                vppId={modalData.vppId}
+              /> */}
 
               <SendApplicantHiredStatus
                 applicantData={applicantData}

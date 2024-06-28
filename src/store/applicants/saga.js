@@ -190,15 +190,9 @@ function* fetchDocumentCertificateOfAppointment({
   }
 }
 
-function* addDbmCscAdditionalData({
-  payload: { postingApplicantId, dbmCscAdditionalData },
-}) {
+function* addDbmCscAdditionalData({ payload: dbmCscAdditionalData }) {
   try {
-    const response = yield call(
-      postDbmCscAdditionalData,
-      postingApplicantId,
-      dbmCscAdditionalData
-    )
+    const response = yield call(postDbmCscAdditionalData, dbmCscAdditionalData)
     yield put(addDbmCscAdditionalDataSuccess(response))
   } catch (error) {
     yield put(addDbmCscAdditionalDataFailed(error))
