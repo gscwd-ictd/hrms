@@ -272,13 +272,10 @@ export const fetchDocumentCertificateOfAppointmentFail = error => {
 }
 
 // Post data for additional data on dbm-csc form no. 1
-export const addDbmCscAdditionalData = (
-  postingApplicantId,
-  dbmCscAdditionalData
-) => {
+export const addDbmCscAdditionalData = dbmCscAdditionalData => {
   return {
     type: POST_DBMCSC_DETAILS,
-    payload: { postingApplicantId, dbmCscAdditionalData },
+    payload: dbmCscAdditionalData,
   }
 }
 export const addDbmCscAdditionalDataSuccess = response => {

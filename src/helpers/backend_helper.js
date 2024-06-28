@@ -356,7 +356,11 @@ export const getPublicationItemNumbers = vppId =>
   getHris(url.PUBLICATIONS + url.ITEM_NUMBERS_IN_PUBLICATION + vppId)
 
 export const getSelectionForCoaCertification = () =>
-  getHris(url.CERTIFICATE_OF_APPOINTMENT + url.SELECTION_FOR_COA_CERTIFIED_BY)
+  getHris(
+    url.POSITION_DESCRIPTION_DBM_CSC_FORM_1 +
+      url.CERTIFICATE_OF_APPOINTMENT +
+      url.SELECTION_FOR_COA_CERTIFIED_BY
+  )
 // Applicants-----------------------------------------------------------------------
 export const getApplicants = publicationId =>
   getHris(url.GET_APPLICANTS + publicationId)
@@ -392,14 +396,8 @@ export const patchApplicantApplicationStatus = (
 export const patchApplicantsExamScores = examScores =>
   patchHris(url.PATCH_APPLICANTS_EXAM_SCORES, examScores)
 
-export const postDbmCscAdditionalData = (
-  postingApplicantId,
-  dbmCscAdditionalData
-) =>
-  postHris(
-    url.POSITION_DESCRIPTION_DBM_CSC_FORM_1 + postingApplicantId,
-    dbmCscAdditionalData
-  )
+export const postDbmCscAdditionalData = dbmCscAdditionalData =>
+  postHris(url.POSITION_DESCRIPTION_DBM_CSC_FORM_1, dbmCscAdditionalData)
 
 // Officer-In-Charge---------------------------------------------------------------
 export const getOfficerInChargeList = () => getHris(url.OFFICER_IN_CHARGE)
