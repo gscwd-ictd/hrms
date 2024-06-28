@@ -43,15 +43,16 @@ import ToastrNotification from 'components/Notifications/ToastrNotification'
 import * as Yup from 'yup'
 import { useFormik, getIn } from 'formik'
 
-const DbmCscAdditionalInfo = props => {
+const UpdateDbmCscAdditionalInfo = props => {
   const {
-    showDbmCscAdditionalInfo,
-    handleCloseDbmCscAdditionalInfoModal,
+    showUpdateDbmCscAdditionalInfo,
+    handleCloseUpdateDbmCscAdditionalInfoModal,
     applicantData,
     vppId,
   } = props
   const dispatch = useDispatch()
 
+  // CONTINUE HERE--------------------------------------------------------------------> CREATE PATCH STORE
   // redux store state after sending dbm additional details
   const {
     postDbmCscAdditionalDetails,
@@ -213,30 +214,30 @@ const DbmCscAdditionalInfo = props => {
   useEffect(() => {
     if (!isEmpty(postDbmCscAdditionalDetails)) {
       validation.resetForm()
-      handleCloseDbmCscAdditionalInfoModal()
+      handleCloseUpdateDbmCscAdditionalInfoModal()
       dispatch(fetchSelectedByAppointingAuth(vppId))
     }
   }, [postDbmCscAdditionalDetails])
 
   // Retrieve list of item numbers to be assigned to the hired applicant. ELSE reset the response in redux if there is existing post data.
   useEffect(() => {
-    if (showDbmCscAdditionalInfo) {
+    if (showUpdateDbmCscAdditionalInfo) {
       dispatch(fetchAvailableItemNumbers(vppId))
       dispatch(fetchSelectionForCoaCertification())
     } else {
       dispatch(resetApplicantsResponses())
     }
-  }, [showDbmCscAdditionalInfo])
+  }, [showUpdateDbmCscAdditionalInfo])
 
   return (
     <>
       <Modal
-        isOpen={showDbmCscAdditionalInfo}
-        toggle={handleCloseDbmCscAdditionalInfoModal}
+        isOpen={showUpdateDbmCscAdditionalInfo}
+        toggle={handleCloseUpdateDbmCscAdditionalInfoModal}
         size="xl"
         centered
       >
-        <ModalHeader toggle={handleCloseDbmCscAdditionalInfoModal}>
+        <ModalHeader toggle={handleCloseUpdateDbmCscAdditionalInfoModal}>
           DBM-CSC Form | {applicantData.applicantName}
         </ModalHeader>
 
@@ -1453,9 +1454,9 @@ const DbmCscAdditionalInfo = props => {
   )
 }
 
-DbmCscAdditionalInfo.propTypes = {
-  showDbmCscAdditionalInfo: PropTypes.bool,
-  handleCloseDbmCscAdditionalInfoModal: PropTypes.func,
+UpdateDbmCscAdditionalInfo.propTypes = {
+  showUpdateDbmCscAdditionalInfo: PropTypes.bool,
+  handleCloseUpdateDbmCscAdditionalInfoModal: PropTypes.func,
   applicantData: PropTypes.shape({
     applicantEndorsementId: PropTypes.string,
     postingApplicantId: PropTypes.string,
@@ -1464,4 +1465,4 @@ DbmCscAdditionalInfo.propTypes = {
   vppId: PropTypes.string,
 }
 
-export default DbmCscAdditionalInfo
+export default UpdateDbmCscAdditionalInfo

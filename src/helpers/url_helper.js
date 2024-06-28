@@ -235,7 +235,7 @@ export const POSITION_DESCRIPTION_DBM_CSC_FORM_1 = 'position-description-form/'
 export const REPORT_ON_APPOINTMENTS = 'csc-form-2/'
 export const CERTIFICATION_OF_ASSUMPTION_TO_DUTY = 'csc-form-4/'
 export const CERTIFICATE_OF_APPOINTMENT = 'csc-form-33-b/'
-export const SELECTION_FOR_COA_CERTIFIED_BY = 'list/'
+export const SELECTION_FOR_COA_CERTIFIED_BY = 'certified/list/'
 
 // MODULES
 export const HRMS_MODULES = 'modules/'

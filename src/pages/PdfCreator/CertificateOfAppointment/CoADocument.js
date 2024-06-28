@@ -70,17 +70,17 @@ const styles = StyleSheet.create({
     borderRight: '1px solid #000000',
   },
   borderBottom: {
-    borderBottom: '1px solid #000000',
+    borderBottom: '0.5px solid #000000',
   },
 
   // Field Styles
   documentText: {
     fontFamily: 'TimesNewRomanRegular',
-    fontSize: 12,
+    fontSize: 11,
   },
   letterBodyText: {
     fontFamily: 'TimesNewRomanBold',
-    fontSize: 12,
+    fontSize: 11,
   },
   textBold: {
     fontFamily: 'TimesNewRomanBold',
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   },
   accreditedText: {
     fontFamily: 'TimesNewRomanBoldItalic',
-    fontSize: 12,
+    fontSize: 11,
   },
   alignBottom: {
     marginTop: 'auto',
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
   w70: { width: '70%' },
   w68: { width: '68%' },
   w63: { width: '63%' },
+  w62: { width: '62%' },
   w60: { width: '60%' },
   w58: { width: '58%' },
   w50: { width: '50%' },
@@ -131,11 +132,13 @@ const styles = StyleSheet.create({
   w37: { width: '37%' },
   w35: { width: '35%' },
   w32: { width: '32%' },
+  w30: { width: '30%' },
   w25: { width: '25%' },
   w24: { width: '24%' },
+  w22: { width: '22%' },
   w20: { width: '20%' },
   w18: { width: '18%' },
-  w12: { width: '12%' },
+  w11: { width: '11%' },
   w6: { width: '6%' },
   w5: { width: '5%' },
 })
@@ -195,43 +198,82 @@ const CoADocument = props => {
   const renderHRMOSignatory = () => {
     var content = certificateOfAppointment.signatories
       // PSB #3 CHANGE TO CERTIFIEDBY
-      .filter(signee => signee.role === 'PSB# 3')
-      .map((filtered, index) => (
-        <View key={index}>
-          <Text
-            style={[
-              styles.upperCase,
-              styles.valueMainText,
-              styles.textBold,
-              styles.borderBottom,
-            ]}
-          >
-            {filtered.fullName}
-          </Text>
+      .filter(signee => signee.role === null)
+      .map((filtered, index) =>
+        filtered.position === 'Department Manager A' ||
+        filtered.position === 'OIC-Department Manager' ? (
+          <View key={index}>
+            <Text
+              style={[
+                styles.upperCase,
+                styles.valueMainText,
+                styles.textBold,
+                styles.borderBottom,
+              ]}
+            >
+              {filtered.fullName}
+            </Text>
 
-          <Text
-            style={[
-              styles.documentText,
-              styles.valueSubText,
-              styles.textBold,
-              { fontSize: 12 },
-            ]}
-          >
-            {filtered.position}
-          </Text>
+            <Text
+              style={[
+                styles.documentText,
+                styles.valueSubText,
+                styles.textBold,
+                { fontSize: 12, paddingBottom: 3 },
+              ]}
+            >
+              Human Resource {filtered.position}
+            </Text>
 
-          <Text
-            style={[
-              styles.documentText,
-              styles.valueSubText,
-              styles.textBold,
-              { fontSize: 12 },
-            ]}
-          >
-            HRMO
-          </Text>
-        </View>
-      ))
+            <Text
+              style={[
+                styles.documentText,
+                styles.valueSubText,
+                styles.textBold,
+                { fontSize: 12 },
+              ]}
+            >
+              HRMO
+            </Text>
+          </View>
+        ) : filtered.position === 'Division Manager A' ||
+          filtered.position === 'OIC-Division Manager' ? (
+          <View key={index}>
+            <Text
+              style={[
+                styles.upperCase,
+                styles.valueMainText,
+                styles.textBold,
+                styles.borderBottom,
+              ]}
+            >
+              {filtered.fullName}
+            </Text>
+
+            {/* <Text
+              style={[
+                styles.documentText,
+                styles.valueSubText,
+                styles.textBold,
+                { fontSize: 12 },
+              ]}
+            >
+              {filtered.position}
+            </Text> */}
+
+            <Text
+              style={[
+                styles.documentText,
+                styles.valueSubText,
+                styles.textBold,
+                { fontSize: 12 },
+              ]}
+            >
+              HRMO
+            </Text>
+          </View>
+        ) : null
+      )
 
     return content
   }
@@ -312,14 +354,14 @@ const CoADocument = props => {
               <View style={[{ paddingTop: 25 }]}>
                 {/* ROW 1 */}
                 <View style={[styles.rowContainer]}>
-                  <View style={[styles.w32, styles.letterTextWrapper]}>
+                  <View style={[styles.w30, styles.letterTextWrapper]}>
                     <Text style={[{ textIndent: 25 }]}>
                       You are hereby appointed as
                     </Text>
                   </View>
 
                   {/* TITLE AND SALARY GRADE */}
-                  <View style={[styles.w68, styles.letterTextWrapper]}>
+                  <View style={[styles.w70, styles.letterTextWrapper]}>
                     <View style={[styles.borderBottom]}>
                       <Text style={[styles.upperCase, styles.valueMainText]}>
                         {certificateOfAppointment.data.positionTitle}
@@ -335,12 +377,12 @@ const CoADocument = props => {
 
                 {/* ROW 2 */}
                 <View style={[styles.rowContainer]}>
-                  <View style={[styles.w6, styles.letterTextWrapper]}>
+                  <View style={[styles.w5, styles.letterTextWrapper]}>
                     <Text>under</Text>
                   </View>
 
                   {/* NATURE OF APPOINTMENT */}
-                  <View style={[styles.w24, styles.letterTextWrapper]}>
+                  <View style={[styles.w22, styles.letterTextWrapper]}>
                     <View style={[styles.borderBottom]}>
                       <Text style={[styles.upperCase, styles.valueMainText]}>
                         {certificateOfAppointment.data.natureOfAppointment}
@@ -352,12 +394,12 @@ const CoADocument = props => {
                     </Text>
                   </View>
 
-                  <View style={[styles.w12, styles.letterTextWrapper]}>
+                  <View style={[styles.w11, styles.letterTextWrapper]}>
                     <Text>status at the</Text>
                   </View>
 
                   {/* PLACE OF ASSIGNMENT */}
-                  <View style={[styles.w58, styles.letterTextWrapper]}>
+                  <View style={[styles.w62, styles.letterTextWrapper]}>
                     <View style={[styles.borderBottom]}>
                       <Text style={[styles.upperCase, styles.valueMainText]}>
                         {certificateOfAppointment.data.placeOfAssignment}
@@ -383,8 +425,11 @@ const CoADocument = props => {
                     <Text
                       style={[
                         styles.upperCase,
-                        { textDecoration: 'underline' },
+                        {
+                          textDecoration: 'underline',
+                        },
                       ]}
+                      debug
                     >
                       {'  '}
                       {certificateOfAppointment.data.amountInWords}{' '}
@@ -441,7 +486,7 @@ const CoADocument = props => {
                   <View style={[styles.w24, styles.letterTextWrapper]}>
                     <View style={[styles.borderBottom]}>
                       <Text style={[styles.upperCase, styles.valueMainText]}>
-                        {certificateOfAppointment.data.viceType || ' '}
+                        {certificateOfAppointment.data.viceStatus || ' '}
                       </Text>
                     </View>
                     <Text style={[styles.documentText, styles.valueSubText]}>
@@ -1139,7 +1184,7 @@ CoADocument.propTypes = {
       salaryGradeLevel: PropTypes.number,
       effectivityDate: PropTypes.string,
       vice: PropTypes.string,
-      viceType: PropTypes.string,
+      viceStatus: PropTypes.string,
       page: PropTypes.string,
     }),
     signatories: PropTypes.arrayOf(
