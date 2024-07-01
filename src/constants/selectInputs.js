@@ -111,6 +111,10 @@ const natureOfAppointment2 = [
 
 const viceTypes = [
   {
+    label: 'Vacant',
+    value: 'vacant',
+  },
+  {
     label: 'Transferred',
     value: 'transferred',
   },
@@ -126,7 +130,6 @@ const viceTypes = [
     label: 'Deceased',
     value: 'deceased',
   },
-
 ]
 
 export {
@@ -150,5 +153,5 @@ export {
   reports,
   natureOfAppointment,
   natureOfAppointment2,
-  viceTypes
+  viceTypes,
 }
