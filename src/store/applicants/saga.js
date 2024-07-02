@@ -14,6 +14,8 @@ import {
   getDocumentCertificateOfAppointment,
   getDocumentPositionDescriptionDBMCSC,
   postDbmCscAdditionalData,
+  getDbmCscForm33BData,
+  putDbmCscAdditionalData,
   getHiredExternalConfirmedApplicants,
 } from 'helpers/backend_helper'
 import {
@@ -43,6 +45,10 @@ import {
   addDbmCscAdditionalDataFailed,
   fetchHiredApplicantDbmCscFormSuccess,
   fetchHiredApplicantDbmCscFormFailed,
+  fetchDbmCscForm33BDataSuccess,
+  fetchDbmCscForm33BDataFailed,
+  updateDbmCscAdditionalDataSuccess,
+  updateDbmCscAdditionalDataFailed,
   fetchHiredExternalConfirmedApplicantsSuccess,
   fetchHiredExternalConfirmedApplicantsFailed,
 } from './actions'
@@ -60,6 +66,8 @@ import {
   GET_DOCUMENT_CERTIFICATE_OF_APPOINTMENT,
   POST_DBMCSC_DETAILS,
   GET_APPLICANT_DBMCSC_DETAILS,
+  GET_DBMCSC_FORM33B_DETAILS,
+  PATCH_DBMCSC_DETAILS,
   GET_HIRED_EXTERNAL_APPLICANTS,
 } from './actionTypes'
 
@@ -211,6 +219,24 @@ function* fetchHiredApplicantDbmCscForm({ payload: postingApplicantId }) {
   }
 }
 
+function* fetchDbmCscForm33BData({ payload: postingApplicantId }) {
+  try {
+    const response = yield call(getDbmCscForm33BData, postingApplicantId)
+    yield put(fetchDbmCscForm33BDataSuccess(response))
+  } catch (error) {
+    yield put(fetchDbmCscForm33BDataFailed(error))
+  }
+}
+
+function* updateDbmCscAdditionalData({ payload: dbmCscAdditionalData }) {
+  try {
+    const response = yield call(putDbmCscAdditionalData, dbmCscAdditionalData)
+    yield put(updateDbmCscAdditionalDataSuccess(response))
+  } catch (error) {
+    yield put(updateDbmCscAdditionalDataFailed(error))
+  }
+}
+
 function* fetchHiredExternalConfirmedApplicants() {
   try {
     const response = yield call(getHiredExternalConfirmedApplicants)
@@ -249,6 +275,8 @@ function* applicantsSaga() {
   )
   yield takeEvery(POST_DBMCSC_DETAILS, addDbmCscAdditionalData)
   yield takeEvery(GET_APPLICANT_DBMCSC_DETAILS, fetchHiredApplicantDbmCscForm)
+  yield takeEvery(GET_DBMCSC_FORM33B_DETAILS, fetchDbmCscForm33BData)
+  yield takeEvery(PATCH_DBMCSC_DETAILS, updateDbmCscAdditionalData)
   yield takeEvery(
     GET_HIRED_EXTERNAL_APPLICANTS,
     fetchHiredExternalConfirmedApplicants

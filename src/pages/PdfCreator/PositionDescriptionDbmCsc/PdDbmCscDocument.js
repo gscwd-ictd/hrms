@@ -273,9 +273,6 @@ const PdDbmCscDocument = props => {
           </Text>
         </View>
         <View style={[styles.w50, styles.borderRight]}>
-          {/* <Text style={[styles.bodyText, styles.verticalCenter]}>
-            {duty.dutyResponsibility}
-          </Text> */}
           {listItem(duty.dutyResponsibility)}
         </View>
         <View style={[styles.w25]}>

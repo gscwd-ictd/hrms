@@ -39,6 +39,12 @@ import {
   GET_APPLICANT_DBMCSC_DETAILS,
   GET_APPLICANT_DBMCSC_DETAILS_SUCCESS,
   GET_APPLICANT_DBMCSC_DETAILS_FAIL,
+  GET_DBMCSC_FORM33B_DETAILS,
+  GET_DBMCSC_FORM33B_DETAILS_SUCCESS,
+  GET_DBMCSC_FORM33B_DETAILS_FAIL,
+  PATCH_DBMCSC_DETAILS,
+  PATCH_DBMCSC_DETAILS_SUCCESS,
+  PATCH_DBMCSC_DETAILS_FAIL,
   GET_HIRED_EXTERNAL_APPLICANTS,
   GET_HIRED_EXTERNAL_APPLICANTS_SUCCESS,
   GET_HIRED_EXTERNAL_APPLICANTS_FAIL,
@@ -307,6 +313,46 @@ export const fetchHiredApplicantDbmCscFormSuccess = response => {
 export const fetchHiredApplicantDbmCscFormFailed = error => {
   return {
     type: GET_APPLICANT_DBMCSC_DETAILS_FAIL,
+    payload: error,
+  }
+}
+
+// Get DBM CSC and Form 33-B details
+export const fetchDbmCscForm33BData = dbmCscForm33BAdditionalData => {
+  return {
+    type: GET_DBMCSC_FORM33B_DETAILS,
+    payload: dbmCscForm33BAdditionalData,
+  }
+}
+export const fetchDbmCscForm33BDataSuccess = response => {
+  return {
+    type: GET_DBMCSC_FORM33B_DETAILS_SUCCESS,
+    payload: response,
+  }
+}
+export const fetchDbmCscForm33BDataFailed = error => {
+  return {
+    type: GET_DBMCSC_FORM33B_DETAILS_FAIL,
+    payload: error,
+  }
+}
+
+// Update data for additional data on dbm-csc form no. 1
+export const updateDbmCscAdditionalData = dbmCscAdditionalData => {
+  return {
+    type: PATCH_DBMCSC_DETAILS,
+    payload: dbmCscAdditionalData,
+  }
+}
+export const updateDbmCscAdditionalDataSuccess = response => {
+  return {
+    type: PATCH_DBMCSC_DETAILS_SUCCESS,
+    payload: response,
+  }
+}
+export const updateDbmCscAdditionalDataFailed = error => {
+  return {
+    type: PATCH_DBMCSC_DETAILS_FAIL,
     payload: error,
   }
 }
