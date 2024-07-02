@@ -344,8 +344,12 @@ const CoADocument = props => {
               <Text style={[styles.textBold, styles.upperCase]}>
                 {certificateOfAppointment.data.applicantName}
               </Text>
-              <Text>{certificateOfAppointment.data.addressLine1}</Text>
-              <Text>{certificateOfAppointment.data.addressLine2}</Text>
+              <Text style={[{ textTransform: 'uppercase' }]}>
+                {certificateOfAppointment.data.addressLine1}
+              </Text>
+              <Text style={[{ textTransform: 'uppercase' }]}>
+                {certificateOfAppointment.data.addressLine2}
+              </Text>
             </View>
 
             {/* BODY */}
@@ -645,8 +649,8 @@ const CoADocument = props => {
               ]}
             >
               This is to certify that all requirements and supporting papers
-              pursuant to CSC MC No. 24, s. 2017 have been complied with,
-              reviewed and found to be un order.
+              pursuant to CSC MC No. 24, s. 2017, as amended, have been complied
+              with, reviewed and found to be in order.
             </Text>
 
             {/* PARAGRAPH 2 */}
