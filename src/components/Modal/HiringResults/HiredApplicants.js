@@ -101,13 +101,13 @@ const HiredApplicants = props => {
       if (applicant.hasDbmCsc) {
         return (
           <>
-            {/* <Button
+            <Button
               onClick={() => openUpdateDbmCscModal(applicant)}
               className="btn btn-sm btn-info waves-effect waves-light"
               style={{ margin: 'auto 0' }}
             >
               <i className="fas fa-file-alt"></i> Update DBM-CSC Details
-            </Button> */}
+            </Button>
 
             <UncontrolledDropdown>
               <DropdownToggle
@@ -329,14 +329,14 @@ const HiredApplicants = props => {
                 vppId={modalData.vppId}
               />
 
-              {/* <UpdateDbmCscAdditionalInfo
+              <UpdateDbmCscAdditionalInfo
                 applicantData={applicantData}
                 showUpdateDbmCscAdditionalInfo={showUpdateDbmCscAdditionalInfo}
                 handleCloseUpdateDbmCscAdditionalInfoModal={
                   handleCloseUpdateDbmCscAdditionalInfoModal
                 }
                 vppId={modalData.vppId}
-              /> */}
+              />
 
               <SendApplicantHiredStatus
                 applicantData={applicantData}

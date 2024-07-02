@@ -13,11 +13,11 @@ import {
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  addDbmCscAdditionalData,
-  fetchAvailableItemNumbers,
+  updateDbmCscAdditionalData,
   resetApplicantsResponses,
   fetchSelectedByAppointingAuth,
   fetchSelectionForCoaCertification,
+  fetchDbmCscForm33BData,
 } from 'store/actions'
 
 import {
@@ -38,6 +38,7 @@ import {
   ModalFooter,
 } from 'reactstrap'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 
 // Formik validation
 import * as Yup from 'yup'
@@ -52,28 +53,19 @@ const UpdateDbmCscAdditionalInfo = props => {
   } = props
   const dispatch = useDispatch()
 
-  // CONTINUE HERE--------------------------------------------------------------------> CREATE PATCH STORE
-  // redux store state after sending dbm additional details
+  // redux store state after updating dbm additional details
   const {
-    postDbmCscAdditionalDetails,
-    loadingPostDbmCscAdditionalDetails,
-    errorPostDbmCscAdditionalDetails,
+    patchDbmCscAdditionalDetails,
+    loadingPatchDbmCscAdditionalDetails,
+    errorPatchDbmCscAdditionalDetails,
   } = useSelector(state => ({
-    postDbmCscAdditionalDetails:
-      state.applicants.response.postDbmCscAdditionalDetails,
-    loadingPostDbmCscAdditionalDetails:
-      state.applicants.loading.loadingPostDbmCscAdditionalDetails,
-    errorPostDbmCscAdditionalDetails:
-      state.applicants.error.errorPostDbmCscAdditionalDetails,
+    patchDbmCscAdditionalDetails:
+      state.applicants.response.patchDbmCscAdditionalDetails,
+    loadingPatchDbmCscAdditionalDetails:
+      state.applicants.loading.loadingPatchDbmCscAdditionalDetails,
+    errorPatchDbmCscAdditionalDetails:
+      state.applicants.error.errorPatchDbmCscAdditionalDetails,
   }))
-
-  // redux store state for available item numbers
-  const { availableItemNumbers, publicationsLoading, publicationsError } =
-    useSelector(state => ({
-      availableItemNumbers: state.publications.availableItemNumbers,
-      publicationsLoading: state.publications.loading.publicationsLoading,
-      publicationsError: state.publications.error.publicationsError,
-    }))
 
   // redux store state for selection on certified by
   const {
@@ -89,54 +81,75 @@ const UpdateDbmCscAdditionalInfo = props => {
       state.publications.error.errorSelectionForCoaCertification,
   }))
 
+  // redux state for applicants position description dbm-csc and form 33-b data
+  const {
+    pdDbmForm33BData,
+    loadingDbmCscForm33BAdditionalData,
+    errorDbmCscForm33BAdditionalData,
+  } = useSelector(state => ({
+    pdDbmForm33BData: state.applicants.dbmCscForm33BAdditionalData,
+    loadingDbmCscForm33BAdditionalData:
+      state.applicants.loading.loadingDbmCscForm33BAdditionalData,
+    errorDbmCscForm33BAdditionalData:
+      state.applicants.error.errorDbmCscForm33BAdditionalData,
+  }))
+
   const validation = useFormik({
     enableReinitialize: true,
 
     initialValues: {
       basic: {
         postingApplicantId: applicantData.postingApplicantId,
-        itemNumber: '',
-        immediateSupervisor: '',
-        supervisorNextHigher: '',
-        toolsUsed: '',
-        workStation: '',
-        appointmentType: '',
-        publicationMode: '',
-        directlySupervised: '',
-        directlySupervisedItemNumbers: '',
+        immediateSupervisor: pdDbmForm33BData.basic.immediateSupervisor || '',
+        supervisorNextHigher: pdDbmForm33BData.basic.supervisorNextHigher || '',
+        toolsUsed: pdDbmForm33BData.basic.toolsUsed || '',
+        workStation: pdDbmForm33BData.basic.workStation || '',
+        appointmentType: pdDbmForm33BData.basic.appointmentType || '',
+        publicationMode: pdDbmForm33BData.basic.publicationMode || '',
+        directlySupervised: pdDbmForm33BData.basic.directlySupervised || '',
+        directlySupervisedItemNumbers:
+          pdDbmForm33BData.basic.directlySupervisedItemNumbers || '',
       },
       contacts: {
         internal: {
-          executiveIsOccasional: false,
-          supervisorIsOccasional: false,
-          nonSupervisorIsOccasional: false,
-          staffIsOccasional: false,
+          executiveIsOccasional:
+            pdDbmForm33BData.contacts.internal.executiveIsOccasional || false,
+          supervisorIsOccasional:
+            pdDbmForm33BData.contacts.internal.supervisorIsOccasional || false,
+          nonSupervisorIsOccasional:
+            pdDbmForm33BData.contacts.internal.nonSupervisorIsOccasional ||
+            false,
+          staffIsOccasional:
+            pdDbmForm33BData.contacts.internal.staffIsOccasional || false,
         },
         external: {
-          generalPublicIsOccasional: false,
-          otherAgenciesIsOccasional: false,
-          others: '',
+          generalPublicIsOccasional:
+            pdDbmForm33BData.contacts.external.generalPublicIsOccasional ||
+            false,
+          otherAgenciesIsOccasional:
+            pdDbmForm33BData.contacts.external.otherAgenciesIsOccasional ||
+            false,
+          others: pdDbmForm33BData.contacts.external.others || '',
         },
       },
       workingCondition: {
-        isOfficeWork: false,
-        isFieldWork: false,
-        others: '',
+        isOfficeWork: pdDbmForm33BData.workingCondition.isOfficeWork || false,
+        isFieldWork: pdDbmForm33BData.workingCondition.isFieldWork || false,
+        others: pdDbmForm33BData.workingCondition.others || '',
       },
       certificateOfAppointment: {
-        natureOfAppointment: '',
-        vice: '',
-        viceType: null,
-        fieldPage: '',
-        certifiedBy: '',
+        natureOfAppointment:
+          pdDbmForm33BData.certificateOfAppointment.natureOfAppointment || '',
+        vice: pdDbmForm33BData.certificateOfAppointment.vice || '',
+        viceType: pdDbmForm33BData.certificateOfAppointment.viceType || null,
+        fieldPage: pdDbmForm33BData.certificateOfAppointment.fieldPage || '',
+        certifiedBy:
+          pdDbmForm33BData.certificateOfAppointment.certifiedBy || '',
       },
     },
 
     validationSchema: Yup.object().shape({
       basic: Yup.object().shape({
-        itemNumber: Yup.string().required(
-          'Please select an available item number'
-        ),
         immediateSupervisor: Yup.string().required(
           'Please input the immediate supervisor'
         ),
@@ -153,12 +166,6 @@ const UpdateDbmCscAdditionalInfo = props => {
         publicationMode: Yup.string().required(
           'Please select a mode of publication'
         ),
-        // presentAppropriationAct: Yup.string().required(
-        //   'This field is required'
-        // ),
-        // previousAppropriationAct: Yup.string().required(
-        //   'This field is required'
-        // ),
       }),
       contacts: Yup.object().shape({
         internal: Yup.object().shape({
@@ -196,8 +203,7 @@ const UpdateDbmCscAdditionalInfo = props => {
     }),
 
     onSubmit: values => {
-      dispatch(addDbmCscAdditionalData(values))
-      // console.log(values)
+      dispatch(updateDbmCscAdditionalData(values))
     },
   })
 
@@ -212,18 +218,18 @@ const UpdateDbmCscAdditionalInfo = props => {
 
   // Close modal form, reset the fields, re-load the applicant list
   useEffect(() => {
-    if (!isEmpty(postDbmCscAdditionalDetails)) {
+    if (!isEmpty(patchDbmCscAdditionalDetails)) {
       validation.resetForm()
       handleCloseUpdateDbmCscAdditionalInfoModal()
       dispatch(fetchSelectedByAppointingAuth(vppId))
     }
-  }, [postDbmCscAdditionalDetails])
+  }, [patchDbmCscAdditionalDetails])
 
-  // Retrieve list of item numbers to be assigned to the hired applicant. ELSE reset the response in redux if there is existing post data.
+  // Retrieve list of selection employee for COA cert & initial data ELSE reset the response in redux if there is existing post data.
   useEffect(() => {
     if (showUpdateDbmCscAdditionalInfo) {
-      dispatch(fetchAvailableItemNumbers(vppId))
       dispatch(fetchSelectionForCoaCertification())
+      dispatch(fetchDbmCscForm33BData(applicantData.postingApplicantId))
     } else {
       dispatch(resetApplicantsResponses())
     }
@@ -238,11 +244,12 @@ const UpdateDbmCscAdditionalInfo = props => {
         centered
       >
         <ModalHeader toggle={handleCloseUpdateDbmCscAdditionalInfoModal}>
-          DBM-CSC Form | {applicantData.applicantName}
+          Update DBM-CSC Form | {applicantData.applicantName} |{' '}
+          {pdDbmForm33BData.basic.itemNumber}
         </ModalHeader>
 
         {/* Notifications */}
-        {loadingPostDbmCscAdditionalDetails ? (
+        {loadingPatchDbmCscAdditionalDetails ? (
           <Alert
             color="info"
             className="alert-dismissible fade show m-3"
@@ -252,24 +259,17 @@ const UpdateDbmCscAdditionalInfo = props => {
           </Alert>
         ) : null}
 
-        {errorPostDbmCscAdditionalDetails ? (
+        {errorPatchDbmCscAdditionalDetails ? (
           <ToastrNotification
             toastType={'error'}
-            notifMessage={errorPostDbmCscAdditionalDetails}
+            notifMessage={errorPatchDbmCscAdditionalDetails}
           />
         ) : null}
 
-        {publicationsError ? (
-          <ToastrNotification
-            toastType={'error'}
-            notifMessage={publicationsError}
-          />
-        ) : null}
-
-        {!isEmpty(postDbmCscAdditionalDetails) ? (
+        {!isEmpty(patchDbmCscAdditionalDetails) ? (
           <ToastrNotification
             toastType={'success'}
-            notifMessage={'Succesfully added DBM-CSC additional details'}
+            notifMessage={'Succesfully updated DBM-CSC additional details'}
           />
         ) : null}
 
@@ -280,1162 +280,1078 @@ const UpdateDbmCscAdditionalInfo = props => {
           />
         ) : null}
 
+        {errorDbmCscForm33BAdditionalData ? (
+          <ToastrNotification
+            toastType={'error'}
+            notifMessage={errorDbmCscForm33BAdditionalData}
+          />
+        ) : null}
+
         <Card>
           <CardBody>
             <ModalBody>
-              <Form
-                id="dbmCscAdditionalInfoForm"
-                onSubmit={e => {
-                  e.preventDefault()
-                  validation.handleSubmit()
-                  return false
-                }}
-              >
-                {/* BASIC */}
-                <Row>
-                  {/* Item Number */}
-                  <Col lg={4}>
-                    <FormGroup>
-                      <Label for="item-number-select">Item Number</Label>
-                      <Input
-                        name="basic.itemNumber"
-                        type="select"
-                        className="form-control"
-                        id="item-number-select"
-                        onChange={validation.handleChange}
-                        onBlur={validation.handleBlur}
-                        value={validation.values.basic.itemNumber || ''}
-                        invalid={
-                          getIn(validation.touched, 'basic.itemNumber') &&
-                          getIn(validation.errors, 'basic.itemNumber')
-                            ? true
-                            : false
-                        }
-                      >
-                        <option value="" disabled>
-                          Choose...
-                        </option>
-                        {availableItemNumbers.map(itemNumber => (
-                          <option
-                            key={itemNumber.positionId}
-                            value={itemNumber.itemNumber}
-                          >
-                            {itemNumber.itemNumber}
+              {loadingDbmCscForm33BAdditionalData ? (
+                <LoadingIndicator />
+              ) : (
+                <Form
+                  id="dbmCscAdditionalInfoForm"
+                  onSubmit={e => {
+                    e.preventDefault()
+                    validation.handleSubmit()
+                    return false
+                  }}
+                >
+                  {/* BASIC */}
+                  <Row>
+                    {/* Workstation/Place of Work */}
+                    <Col lg={4}>
+                      <FormGroup>
+                        <Label for="workstation-select">
+                          Workstation/Place of Work
+                        </Label>
+                        <Input
+                          name="basic.workStation"
+                          type="select"
+                          className="form-control"
+                          id="workstation-select"
+                          onChange={validation.handleChange}
+                          onBlur={validation.handleBlur}
+                          value={validation.values.basic.workStation || ''}
+                          invalid={
+                            getIn(validation.touched, 'basic.workStation') &&
+                            getIn(validation.errors, 'basic.workStation')
+                              ? true
+                              : false
+                          }
+                        >
+                          <option value="" disabled>
+                            Choose...
                           </option>
-                        ))}
-                      </Input>
-                      {getIn(validation.touched, 'basic.itemNumber') &&
-                      getIn(validation.errors, 'basic.itemNumber') ? (
-                        <FormFeedback type="invalid">
-                          {getIn(validation.errors, 'basic.itemNumber')}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
+                          {workstations.map((workstation, index) => (
+                            <option key={index} value={workstation}>
+                              {workstation}
+                            </option>
+                          ))}
+                        </Input>
+                        {getIn(validation.touched, 'basic.workStation') &&
+                        getIn(validation.errors, 'basic.workStation') ? (
+                          <FormFeedback type="invalid">
+                            {getIn(validation.errors, 'basic.workStation')}
+                          </FormFeedback>
+                        ) : null}
+                      </FormGroup>
+                    </Col>
 
-                  {/* Workstation/Place of Work */}
-                  <Col lg={4}>
-                    <FormGroup>
-                      <Label for="workstation-select">
-                        Workstation/Place of Work
-                      </Label>
-                      <Input
-                        name="basic.workStation"
-                        type="select"
-                        className="form-control"
-                        id="workstation-select"
-                        onChange={validation.handleChange}
-                        onBlur={validation.handleBlur}
-                        value={validation.values.basic.workStation || ''}
-                        invalid={
-                          getIn(validation.touched, 'basic.workStation') &&
-                          getIn(validation.errors, 'basic.workStation')
-                            ? true
-                            : false
-                        }
-                      >
-                        <option value="" disabled>
-                          Choose...
-                        </option>
-                        {workstations.map((workstation, index) => (
-                          <option key={index} value={workstation}>
-                            {workstation}
+                    {/* Position Title of Immediate Supervisor */}
+                    <Col lg={4}>
+                      <FormGroup>
+                        <Label for="immediate-supervisor-select">
+                          Position Title of Immediate Supervisor
+                        </Label>
+                        <Input
+                          name="basic.immediateSupervisor"
+                          type="select"
+                          className="form-control"
+                          id="immediate-supervisor-select"
+                          onChange={validation.handleChange}
+                          onBlur={validation.handleBlur}
+                          value={
+                            validation.values.basic.immediateSupervisor || ''
+                          }
+                          invalid={
+                            getIn(
+                              validation.touched,
+                              'basic.immediateSupervisor'
+                            ) &&
+                            getIn(
+                              validation.errors,
+                              'basic.immediateSupervisor'
+                            )
+                              ? true
+                              : false
+                          }
+                        >
+                          <option value="" disabled>
+                            Choose...
                           </option>
-                        ))}
-                      </Input>
-                      {getIn(validation.touched, 'basic.workStation') &&
-                      getIn(validation.errors, 'basic.workStation') ? (
-                        <FormFeedback type="invalid">
-                          {getIn(validation.errors, 'basic.workStation')}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
-
-                  {/* Present Approp Act */}
-                  {/* <Col lg={4}>
-                    <FormGroup>
-                      <Label for="present-approp-act-input">
-                        Present Approp Act
-                      </Label>
-                      <Input
-                        name="basic.presentAppropriationAct"
-                        type="text"
-                        className="form-control"
-                        id="present-approp-act-input"
-                        onChange={validation.handleChange}
-                        onBlur={validation.handleBlur}
-                        value={
-                          validation.values.basic.presentAppropriationAct || ''
-                        }
-                        invalid={
-                          getIn(
-                            validation.touched,
-                            'basic.presentAppropriationAct'
-                          ) &&
-                          getIn(
-                            validation.errors,
-                            'basic.presentAppropriationAct'
-                          )
-                            ? true
-                            : false
-                        }
-                      />
-                      {getIn(
-                        validation.touched,
-                        'basic.presentAppropriationAct'
-                      ) &&
-                      getIn(
-                        validation.errors,
-                        'basic.presentAppropriationAct'
-                      ) ? (
-                        <FormFeedback type="invalid">
-                          {getIn(
-                            validation.errors,
-                            'basic.presentAppropriationAct'
+                          {supervisorManagers.map(
+                            (supervisorManager, index) => (
+                              <option key={index} value={supervisorManager}>
+                                {supervisorManager}
+                              </option>
+                            )
                           )}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col> */}
+                        </Input>
+                        {getIn(
+                          validation.touched,
+                          'basic.immediateSupervisor'
+                        ) &&
+                        getIn(
+                          validation.errors,
+                          'basic.immediateSupervisor'
+                        ) ? (
+                          <FormFeedback type="invalid">
+                            {getIn(
+                              validation.errors,
+                              'basic.immediateSupervisor'
+                            )}
+                          </FormFeedback>
+                        ) : null}
+                      </FormGroup>
+                    </Col>
 
-                  {/* Previous Approp Act */}
-                  {/* <Col lg={4}>
-                    <FormGroup>
-                      <Label for="previous-approp-act-input">
-                        Previous Approp Act
-                      </Label>
-                      <Input
-                        name="basic.previousAppropriationAct"
-                        type="text"
-                        className="form-control"
-                        id="present-approp-act-input"
-                        onChange={validation.handleChange}
-                        onBlur={validation.handleBlur}
-                        value={
-                          validation.values.basic.previousAppropriationAct || ''
-                        }
-                        invalid={
-                          getIn(
-                            validation.touched,
-                            'basic.previousAppropriationAct'
-                          ) &&
-                          getIn(
-                            validation.errors,
-                            'basic.previousAppropriationAct'
-                          )
-                            ? true
-                            : false
-                        }
-                      />
-                      {getIn(
-                        validation.touched,
-                        'basic.previousAppropriationAct'
-                      ) &&
-                      getIn(
-                        validation.errors,
-                        'basic.previousAppropriationAct'
-                      ) ? (
-                        <FormFeedback type="invalid">
-                          {getIn(
-                            validation.errors,
-                            'basic.previousAppropriationAct'
+                    {/* Position Title of Next Higher */}
+                    <Col lg={4}>
+                      <FormGroup>
+                        <Label for="supervisor-next-higher-select">
+                          Position Title of Next Higher
+                        </Label>
+                        <Input
+                          name="basic.supervisorNextHigher"
+                          type="select"
+                          className="form-control"
+                          id="supervisor-next-higher-select"
+                          onChange={validation.handleChange}
+                          onBlur={validation.handleBlur}
+                          value={
+                            validation.values.basic.supervisorNextHigher || ''
+                          }
+                          invalid={
+                            getIn(
+                              validation.touched,
+                              'basic.supervisorNextHigher'
+                            ) &&
+                            getIn(
+                              validation.errors,
+                              'basic.supervisorNextHigher'
+                            )
+                              ? true
+                              : false
+                          }
+                        >
+                          <option value="" disabled>
+                            Choose...
+                          </option>
+                          {supervisorManagers.map(
+                            (supervisorManager, index) => (
+                              <option key={index} value={supervisorManager}>
+                                {supervisorManager}
+                              </option>
+                            )
                           )}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col> */}
+                        </Input>
+                        {getIn(
+                          validation.touched,
+                          'basic.supervisorNextHigher'
+                        ) &&
+                        getIn(
+                          validation.errors,
+                          'basic.supervisorNextHigher'
+                        ) ? (
+                          <FormFeedback type="invalid">
+                            {getIn(
+                              validation.errors,
+                              'basic.supervisorNextHigher'
+                            )}
+                          </FormFeedback>
+                        ) : null}
+                      </FormGroup>
+                    </Col>
 
-                  {/* Position Title of Immediate Supervisor */}
-                  <Col lg={4}>
-                    <FormGroup>
-                      <Label for="immediate-supervisor-select">
-                        Position Title of Immediate Supervisor
-                      </Label>
-                      <Input
-                        name="basic.immediateSupervisor"
-                        type="select"
-                        className="form-control"
-                        id="immediate-supervisor-select"
-                        onChange={validation.handleChange}
-                        onBlur={validation.handleBlur}
-                        value={
-                          validation.values.basic.immediateSupervisor || ''
-                        }
-                        invalid={
-                          getIn(
-                            validation.touched,
-                            'basic.immediateSupervisor'
-                          ) &&
-                          getIn(validation.errors, 'basic.immediateSupervisor')
-                            ? true
-                            : false
-                        }
-                      >
-                        <option value="" disabled>
-                          Choose...
-                        </option>
-                        {supervisorManagers.map((supervisorManager, index) => (
-                          <option key={index} value={supervisorManager}>
-                            {supervisorManager}
+                    {/* Appointment Type */}
+                    <Col lg={4}>
+                      <FormGroup>
+                        <Label for="appointment-type-select">
+                          Appointment Type
+                        </Label>
+                        <Input
+                          name="basic.appointmentType"
+                          type="select"
+                          className="form-control"
+                          id="appointment-type-select"
+                          onChange={validation.handleChange}
+                          onBlur={validation.handleBlur}
+                          value={validation.values.basic.appointmentType || ''}
+                          invalid={
+                            getIn(
+                              validation.touched,
+                              'basic.appointmentType'
+                            ) &&
+                            getIn(validation.errors, 'basic.appointmentType')
+                              ? true
+                              : false
+                          }
+                        >
+                          <option value="" disabled>
+                            Choose...
                           </option>
-                        ))}
-                      </Input>
-                      {getIn(validation.touched, 'basic.immediateSupervisor') &&
-                      getIn(validation.errors, 'basic.immediateSupervisor') ? (
-                        <FormFeedback type="invalid">
-                          {getIn(
-                            validation.errors,
-                            'basic.immediateSupervisor'
-                          )}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
+                          {appointmentTypes.map((appointmentType, index) => (
+                            <option key={index} value={appointmentType}>
+                              {appointmentType}
+                            </option>
+                          ))}
+                        </Input>
+                        {getIn(validation.touched, 'basic.appointmentType') &&
+                        getIn(validation.errors, 'basic.appointmentType') ? (
+                          <FormFeedback type="invalid">
+                            {getIn(validation.errors, 'basic.appointmentType')}
+                          </FormFeedback>
+                        ) : null}
+                      </FormGroup>
+                    </Col>
 
-                  {/* Position Title of Next Higher */}
-                  <Col lg={4}>
-                    <FormGroup>
-                      <Label for="supervisor-next-higher-select">
-                        Position Title of Next Higher
-                      </Label>
-                      <Input
-                        name="basic.supervisorNextHigher"
-                        type="select"
-                        className="form-control"
-                        id="supervisor-next-higher-select"
-                        onChange={validation.handleChange}
-                        onBlur={validation.handleBlur}
-                        value={
-                          validation.values.basic.supervisorNextHigher || ''
-                        }
-                        invalid={
-                          getIn(
-                            validation.touched,
-                            'basic.supervisorNextHigher'
-                          ) &&
-                          getIn(validation.errors, 'basic.supervisorNextHigher')
-                            ? true
-                            : false
-                        }
-                      >
-                        <option value="" disabled>
-                          Choose...
-                        </option>
-                        {supervisorManagers.map((supervisorManager, index) => (
-                          <option key={index} value={supervisorManager}>
-                            {supervisorManager}
+                    {/* Publication Mode */}
+                    <Col lg={4}>
+                      <FormGroup>
+                        <Label for="publication-mode-select">
+                          Publication Mode
+                        </Label>
+                        <Input
+                          name="basic.publicationMode"
+                          type="select"
+                          className="form-control"
+                          id="publication-mode-select"
+                          onChange={validation.handleChange}
+                          onBlur={validation.handleBlur}
+                          value={validation.values.basic.publicationMode || ''}
+                          invalid={
+                            getIn(
+                              validation.touched,
+                              'basic.publicationMode'
+                            ) &&
+                            getIn(validation.errors, 'basic.publicationMode')
+                              ? true
+                              : false
+                          }
+                        >
+                          <option value="" disabled>
+                            Choose...
                           </option>
-                        ))}
-                      </Input>
-                      {getIn(
-                        validation.touched,
-                        'basic.supervisorNextHigher'
-                      ) &&
-                      getIn(validation.errors, 'basic.supervisorNextHigher') ? (
-                        <FormFeedback type="invalid">
-                          {getIn(
-                            validation.errors,
-                            'basic.supervisorNextHigher'
-                          )}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
+                          {publicationModes.map((publicationMode, index) => (
+                            <option key={index} value={publicationMode}>
+                              {publicationMode}
+                            </option>
+                          ))}
+                        </Input>
+                        {getIn(validation.touched, 'basic.publicationMode') &&
+                        getIn(validation.errors, 'basic.publicationMode') ? (
+                          <FormFeedback type="invalid">
+                            {getIn(validation.errors, 'basic.publicationMode')}
+                          </FormFeedback>
+                        ) : null}
+                      </FormGroup>
+                    </Col>
 
-                  {/* Appointment Type */}
-                  <Col lg={4}>
-                    <FormGroup>
-                      <Label for="appointment-type-select">
-                        Appointment Type
-                      </Label>
-                      <Input
-                        name="basic.appointmentType"
-                        type="select"
-                        className="form-control"
-                        id="appointment-type-select"
-                        onChange={validation.handleChange}
-                        onBlur={validation.handleBlur}
-                        value={validation.values.basic.appointmentType || ''}
-                        invalid={
-                          getIn(validation.touched, 'basic.appointmentType') &&
-                          getIn(validation.errors, 'basic.appointmentType')
-                            ? true
-                            : false
-                        }
-                      >
-                        <option value="" disabled>
-                          Choose...
-                        </option>
-                        {appointmentTypes.map((appointmentType, index) => (
-                          <option key={index} value={appointmentType}>
-                            {appointmentType}
+                    {/* Machine, Equipment, & Tools Used Regularly in Performance of Work */}
+                    <Col lg={6}>
+                      <FormGroup>
+                        <Label for="tools-used-input">
+                          Machine, Equipment, & Tools Used Regularly in
+                          Performance of Work
+                        </Label>
+                        <Input
+                          name="basic.toolsUsed"
+                          type="text"
+                          className="form-control"
+                          id="tools-used-input"
+                          onChange={validation.handleChange}
+                          onBlur={validation.handleBlur}
+                          value={validation.values.basic.toolsUsed || ''}
+                          invalid={
+                            getIn(validation.touched, 'basic.toolsUsed') &&
+                            getIn(validation.errors, 'basic.toolsUsed')
+                              ? true
+                              : false
+                          }
+                        />
+                        {getIn(validation.touched, 'basic.toolsUsed') &&
+                        getIn(validation.errors, 'basic.toolsUsed') ? (
+                          <FormFeedback type="invalid">
+                            {getIn(validation.errors, 'basic.toolsUsed')}
+                          </FormFeedback>
+                        ) : null}
+                      </FormGroup>
+                    </Col>
+                  </Row>
+
+                  <hr className="my-4"></hr>
+
+                  {/* DIRECTLY SUPERVISED */}
+                  <h5>Position Title, and Item of those Directly Supervised</h5>
+                  <Row>
+                    {/* Directly Supervised Position Title */}
+                    <Col lg={6}>
+                      <FormGroup>
+                        <Label for="directly-supervised-input">
+                          Position Title
+                        </Label>
+                        <Input
+                          name="basic.directlySupervised"
+                          type="text"
+                          className="form-control"
+                          id="directly-supervised-input"
+                          onChange={validation.handleChange}
+                          onBlur={validation.handleBlur}
+                          value={
+                            validation.values.basic.directlySupervised || ''
+                          }
+                        />
+                      </FormGroup>
+                    </Col>
+
+                    {/* Directly Supervised Plantilla Number */}
+                    <Col lg={6}>
+                      <FormGroup>
+                        <Label for="directly-supervised-item-numbers-input">
+                          Item Number
+                        </Label>
+                        <Input
+                          name="basic.directlySupervisedItemNumbers"
+                          type="text"
+                          className="form-control"
+                          id="directly-supervised-item-numbers-input"
+                          onChange={validation.handleChange}
+                          onBlur={validation.handleBlur}
+                          value={
+                            validation.values.basic
+                              .directlySupervisedItemNumbers || ''
+                          }
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+
+                  <hr className="my-4"></hr>
+
+                  {/* CONTACTS / CLIENTS / STAKEHOLDER */}
+                  <h5>Contacts / Clients / Stakeholders</h5>
+                  <h6>Internal</h6>
+                  <Row className="mt-2">
+                    {/* Executive / Managerial */}
+                    <Col lg={4}>
+                      <FormGroup>
+                        <Label for="executive-select">
+                          Executive / Managerial
+                        </Label>
+                        <Input
+                          name="contacts.internal.executiveIsOccasional"
+                          type="select"
+                          className="form-control"
+                          id="executive-select"
+                          onChange={selectedValue => {
+                            validation.setFieldValue(
+                              'contacts.internal.executiveIsOccasional',
+                              stringToBool(selectedValue.target.value)
+                            )
+                          }}
+                          onBlur={validation.handleBlur}
+                          value={
+                            validation.values.contacts.internal
+                              .executiveIsOccasional
+                          }
+                          invalid={
+                            getIn(
+                              validation.touched,
+                              'contacts.internal.executiveIsOccasional'
+                            ) &&
+                            getIn(
+                              validation.errors,
+                              'contacts.internal.executiveIsOccasional'
+                            )
+                              ? true
+                              : false
+                          }
+                        >
+                          {frequencies.map((frequency, index) => (
+                            <option key={index} value={frequency.value}>
+                              {frequency.name}
+                            </option>
+                          ))}
+                        </Input>
+                        {getIn(
+                          validation.touched,
+                          'contacts.internal.executiveIsOccasional'
+                        ) &&
+                        getIn(
+                          validation.errors,
+                          'contacts.internal.executiveIsOccasional'
+                        ) ? (
+                          <FormFeedback type="invalid">
+                            {getIn(
+                              validation.errors,
+                              'contacts.internal.executiveIsOccasional'
+                            )}
+                          </FormFeedback>
+                        ) : null}
+                      </FormGroup>
+                    </Col>
+
+                    {/* Supervisors */}
+                    <Col lg={4}>
+                      <FormGroup>
+                        <Label for="supervisors-select">Supervisors</Label>
+                        <Input
+                          name="contacts.internal.supervisorIsOccasional"
+                          type="select"
+                          className="form-control"
+                          id="supervisors-select"
+                          onChange={selectedValue => {
+                            validation.setFieldValue(
+                              'contacts.internal.supervisorIsOccasional',
+                              stringToBool(selectedValue.target.value)
+                            )
+                          }}
+                          onBlur={validation.handleBlur}
+                          value={
+                            validation.values.contacts.internal
+                              .supervisorIsOccasional
+                          }
+                          invalid={
+                            getIn(
+                              validation.touched,
+                              'contacts.internal.supervisorIsOccasional'
+                            ) &&
+                            getIn(
+                              validation.errors,
+                              'contacts.internal.supervisorIsOccasional'
+                            )
+                              ? true
+                              : false
+                          }
+                        >
+                          {frequencies.map((frequency, index) => (
+                            <option key={index} value={frequency.value}>
+                              {frequency.name}
+                            </option>
+                          ))}
+                        </Input>
+                        {getIn(
+                          validation.touched,
+                          'contacts.internal.supervisorIsOccasional'
+                        ) &&
+                        getIn(
+                          validation.errors,
+                          'contacts.internal.supervisorIsOccasional'
+                        ) ? (
+                          <FormFeedback type="invalid">
+                            {getIn(
+                              validation.errors,
+                              'contacts.internal.supervisorIsOccasional'
+                            )}
+                          </FormFeedback>
+                        ) : null}
+                      </FormGroup>
+                    </Col>
+
+                    {/* Non-Supervisors */}
+                    <Col lg={4}>
+                      <FormGroup>
+                        <Label for="non-supervisors-select">
+                          Non-Supervisors
+                        </Label>
+                        <Input
+                          name="contacts.internal.nonSupervisorIsOccasional"
+                          type="select"
+                          className="form-control"
+                          id="non-supervisors-select"
+                          onChange={selectedValue => {
+                            validation.setFieldValue(
+                              'contacts.internal.nonSupervisorIsOccasional',
+                              stringToBool(selectedValue.target.value)
+                            )
+                          }}
+                          onBlur={validation.handleBlur}
+                          value={
+                            validation.values.contacts.internal
+                              .nonSupervisorIsOccasional
+                          }
+                          invalid={
+                            getIn(
+                              validation.touched,
+                              'contacts.internal.nonSupervisorIsOccasional'
+                            ) &&
+                            getIn(
+                              validation.errors,
+                              'contacts.internal.nonSupervisorIsOccasional'
+                            )
+                              ? true
+                              : false
+                          }
+                        >
+                          {frequencies.map((frequency, index) => (
+                            <option key={index} value={frequency.value}>
+                              {frequency.name}
+                            </option>
+                          ))}
+                        </Input>
+                        {getIn(
+                          validation.touched,
+                          'contacts.internal.nonSupervisorIsOccasional'
+                        ) &&
+                        getIn(
+                          validation.errors,
+                          'contacts.internal.nonSupervisorIsOccasional'
+                        ) ? (
+                          <FormFeedback type="invalid">
+                            {getIn(
+                              validation.errors,
+                              'contacts.internal.nonSupervisorIsOccasional'
+                            )}
+                          </FormFeedback>
+                        ) : null}
+                      </FormGroup>
+                    </Col>
+
+                    {/* Staff */}
+                    <Col lg={4}>
+                      <FormGroup>
+                        <Label for="staff-select">Staff</Label>
+                        <Input
+                          name="contacts.internal.staffIsOccasional"
+                          type="select"
+                          className="form-control"
+                          id="staff-select"
+                          onChange={selectedValue => {
+                            validation.setFieldValue(
+                              'contacts.internal.staffIsOccasional',
+                              stringToBool(selectedValue.target.value)
+                            )
+                          }}
+                          onBlur={validation.handleBlur}
+                          value={
+                            validation.values.contacts.internal
+                              .staffIsOccasional
+                          }
+                          invalid={
+                            getIn(
+                              validation.touched,
+                              'contacts.internal.staffIsOccasional'
+                            ) &&
+                            getIn(
+                              validation.errors,
+                              'contacts.internal.staffIsOccasional'
+                            )
+                              ? true
+                              : false
+                          }
+                        >
+                          {frequencies.map((frequency, index) => (
+                            <option key={index} value={frequency.value}>
+                              {frequency.name}
+                            </option>
+                          ))}
+                        </Input>
+                        {getIn(
+                          validation.touched,
+                          'contacts.internal.staffIsOccasional'
+                        ) &&
+                        getIn(
+                          validation.errors,
+                          'contacts.internal.staffIsOccasional'
+                        ) ? (
+                          <FormFeedback type="invalid">
+                            {getIn(
+                              validation.errors,
+                              'contacts.internal.staffIsOccasional'
+                            )}
+                          </FormFeedback>
+                        ) : null}
+                      </FormGroup>
+                    </Col>
+                  </Row>
+
+                  <h6>External</h6>
+                  <Row className="mt-2">
+                    {/* General Public */}
+                    <Col lg={4}>
+                      <FormGroup>
+                        <Label for="general-public-select">
+                          General Public
+                        </Label>
+                        <Input
+                          name="contacts.external.generalPublicIsOccasional"
+                          type="select"
+                          className="form-control"
+                          id="general-public-select"
+                          onChange={selectedValue => {
+                            validation.setFieldValue(
+                              'contacts.external.generalPublicIsOccasional',
+                              stringToBool(selectedValue.target.value)
+                            )
+                          }}
+                          onBlur={validation.handleBlur}
+                          value={
+                            validation.values.contacts.external
+                              .generalPublicIsOccasional
+                          }
+                          invalid={
+                            getIn(
+                              validation.touched,
+                              'contacts.external.generalPublicIsOccasional'
+                            ) &&
+                            getIn(
+                              validation.errors,
+                              'contacts.external.generalPublicIsOccasional'
+                            )
+                              ? true
+                              : false
+                          }
+                        >
+                          {frequencies.map((frequency, index) => (
+                            <option key={index} value={frequency.value}>
+                              {frequency.name}
+                            </option>
+                          ))}
+                        </Input>
+                        {getIn(
+                          validation.touched,
+                          'contacts.external.generalPublicIsOccasional'
+                        ) &&
+                        getIn(
+                          validation.errors,
+                          'contacts.external.generalPublicIsOccasional'
+                        ) ? (
+                          <FormFeedback type="invalid">
+                            {getIn(
+                              validation.errors,
+                              'contacts.external.generalPublicIsOccasional'
+                            )}
+                          </FormFeedback>
+                        ) : null}
+                      </FormGroup>
+                    </Col>
+
+                    {/* Other Agencies */}
+                    <Col lg={4}>
+                      <FormGroup>
+                        <Label for="other-agencies-select">
+                          Other Agencies
+                        </Label>
+                        <Input
+                          name="contacts.external.otherAgenciesIsOccasional"
+                          type="select"
+                          className="form-control"
+                          id="other-agencies-select"
+                          onChange={selectedValue => {
+                            validation.setFieldValue(
+                              'contacts.external.otherAgenciesIsOccasional',
+                              stringToBool(selectedValue.target.value)
+                            )
+                          }}
+                          onBlur={validation.handleBlur}
+                          value={
+                            validation.values.contacts.external
+                              .otherAgenciesIsOccasional
+                          }
+                          invalid={
+                            getIn(
+                              validation.touched,
+                              'contacts.external.otherAgenciesIsOccasional'
+                            ) &&
+                            getIn(
+                              validation.errors,
+                              'contacts.external.otherAgenciesIsOccasional'
+                            )
+                              ? true
+                              : false
+                          }
+                        >
+                          {frequencies.map((frequency, index) => (
+                            <option key={index} value={frequency.value}>
+                              {frequency.name}
+                            </option>
+                          ))}
+                        </Input>
+                        {getIn(
+                          validation.touched,
+                          'contacts.external.otherAgenciesIsOccasional'
+                        ) &&
+                        getIn(
+                          validation.errors,
+                          'contacts.external.otherAgenciesIsOccasional'
+                        ) ? (
+                          <FormFeedback type="invalid">
+                            {getIn(
+                              validation.errors,
+                              'contacts.external.otherAgenciesIsOccasional'
+                            )}
+                          </FormFeedback>
+                        ) : null}
+                      </FormGroup>
+                    </Col>
+
+                    {/* Others */}
+                    <Col lg={4}>
+                      <FormGroup>
+                        <Label for="others-external-input">
+                          Others (please Specify):
+                        </Label>
+                        <Input
+                          name="contacts.external.others"
+                          type="text"
+                          className="form-control"
+                          id="others-external-input"
+                          onChange={validation.handleChange}
+                          onBlur={validation.handleBlur}
+                          value={
+                            validation.values.contacts.external.others || ''
+                          }
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+
+                  <hr className="my-4"></hr>
+
+                  {/* WORKING CONDITION */}
+                  <h5>Working Condition</h5>
+                  <Row className="mt-2">
+                    {/* Office Work */}
+                    <Col lg={4}>
+                      <FormGroup>
+                        <Label for="office-work-select">Office Work</Label>
+                        <Input
+                          name="workingCondition.isOfficeWork"
+                          type="select"
+                          className="form-control"
+                          id="office-work-select"
+                          onChange={selectedValue => {
+                            validation.setFieldValue(
+                              'workingCondition.isOfficeWork',
+                              stringToBool(selectedValue.target.value)
+                            )
+                          }}
+                          onBlur={validation.handleBlur}
+                          value={
+                            validation.values.workingCondition.isOfficeWork
+                          }
+                          invalid={
+                            getIn(
+                              validation.touched,
+                              'workingCondition.isOfficeWork'
+                            ) &&
+                            getIn(
+                              validation.errors,
+                              'workingCondition.isOfficeWork'
+                            )
+                              ? true
+                              : false
+                          }
+                        >
+                          {frequencies.map((frequency, index) => (
+                            <option key={index} value={frequency.value}>
+                              {frequency.name}
+                            </option>
+                          ))}
+                        </Input>
+                        {getIn(
+                          validation.touched,
+                          'workingCondition.isOfficeWork'
+                        ) &&
+                        getIn(
+                          validation.errors,
+                          'workingCondition.isOfficeWork'
+                        ) ? (
+                          <FormFeedback type="invalid">
+                            {getIn(
+                              validation.errors,
+                              'workingCondition.isOfficeWork'
+                            )}
+                          </FormFeedback>
+                        ) : null}
+                      </FormGroup>
+                    </Col>
+
+                    {/* Field Work */}
+                    <Col lg={4}>
+                      <FormGroup>
+                        <Label for="field-work-select">Field Work</Label>
+                        <Input
+                          name="workingCondition.isFieldWork"
+                          type="select"
+                          className="form-control"
+                          id="field-work-select"
+                          onChange={selectedValue => {
+                            validation.setFieldValue(
+                              'workingCondition.isFieldWork',
+                              stringToBool(selectedValue.target.value)
+                            )
+                          }}
+                          onBlur={validation.handleBlur}
+                          value={validation.values.workingCondition.isFieldWork}
+                          invalid={
+                            getIn(
+                              validation.touched,
+                              'workingCondition.isFieldWork'
+                            ) &&
+                            getIn(
+                              validation.errors,
+                              'workingCondition.isFieldWork'
+                            )
+                              ? true
+                              : false
+                          }
+                        >
+                          {frequencies.map((frequency, index) => (
+                            <option key={index} value={frequency.value}>
+                              {frequency.name}
+                            </option>
+                          ))}
+                        </Input>
+                        {getIn(
+                          validation.touched,
+                          'workingCondition.isFieldWork'
+                        ) &&
+                        getIn(
+                          validation.errors,
+                          'workingCondition.isFieldWork'
+                        ) ? (
+                          <FormFeedback type="invalid">
+                            {getIn(
+                              validation.errors,
+                              'workingCondition.isFieldWork'
+                            )}
+                          </FormFeedback>
+                        ) : null}
+                      </FormGroup>
+                    </Col>
+
+                    {/* Others */}
+                    <Col lg={4}>
+                      <FormGroup>
+                        <Label for="others-working-condition-input">
+                          Others (please Specify):
+                        </Label>
+                        <Input
+                          name="workingCondition.others"
+                          type="text"
+                          className="form-control"
+                          id="others-working-condition-input"
+                          onChange={validation.handleChange}
+                          onBlur={validation.handleBlur}
+                          value={
+                            validation.values.workingCondition.others || ''
+                          }
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+
+                  <hr className="my-4"></hr>
+
+                  {/* CERTIFICATE OF APPOINTMENT */}
+                  <h5>Certificate of Appointment Additional Details</h5>
+                  <Row className="mt-2">
+                    {/* Nature of Appointment */}
+                    <Col lg={4}>
+                      <FormGroup>
+                        <Label for="nature-of-appointment-select">
+                          Nature of Appointment
+                        </Label>
+                        <Input
+                          name="certificateOfAppointment.natureOfAppointment"
+                          type="select"
+                          className="form-control"
+                          id="nature-of-appointment-select"
+                          onChange={validation.handleChange}
+                          onBlur={validation.handleBlur}
+                          value={
+                            validation.values.certificateOfAppointment
+                              .natureOfAppointment || ''
+                          }
+                          invalid={
+                            getIn(
+                              validation.touched,
+                              'certificateOfAppointment.natureOfAppointment'
+                            ) &&
+                            getIn(
+                              validation.errors,
+                              'certificateOfAppointment.natureOfAppointment'
+                            )
+                              ? true
+                              : false
+                          }
+                        >
+                          <option value="" disabled>
+                            Choose...
                           </option>
-                        ))}
-                      </Input>
-                      {getIn(validation.touched, 'basic.appointmentType') &&
-                      getIn(validation.errors, 'basic.appointmentType') ? (
-                        <FormFeedback type="invalid">
-                          {getIn(validation.errors, 'basic.appointmentType')}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
+                          {natureOfAppointment2.map((appointment, index) => (
+                            <option key={index} value={appointment.value}>
+                              {appointment.label}
+                            </option>
+                          ))}
+                        </Input>
+                        {getIn(
+                          validation.touched,
+                          'certificateOfAppointment.natureOfAppointment'
+                        ) &&
+                        getIn(
+                          validation.errors,
+                          'certificateOfAppointment.natureOfAppointment'
+                        ) ? (
+                          <FormFeedback type="invalid">
+                            {getIn(
+                              validation.errors,
+                              'certificateOfAppointment.natureOfAppointment'
+                            )}
+                          </FormFeedback>
+                        ) : null}
+                      </FormGroup>
+                    </Col>
 
-                  {/* Publication Mode */}
-                  <Col lg={4}>
-                    <FormGroup>
-                      <Label for="publication-mode-select">
-                        Publication Mode
-                      </Label>
-                      <Input
-                        name="basic.publicationMode"
-                        type="select"
-                        className="form-control"
-                        id="publication-mode-select"
-                        onChange={validation.handleChange}
-                        onBlur={validation.handleBlur}
-                        value={validation.values.basic.publicationMode || ''}
-                        invalid={
-                          getIn(validation.touched, 'basic.publicationMode') &&
-                          getIn(validation.errors, 'basic.publicationMode')
-                            ? true
-                            : false
-                        }
-                      >
-                        <option value="" disabled>
-                          Choose...
-                        </option>
-                        {publicationModes.map((publicationMode, index) => (
-                          <option key={index} value={publicationMode}>
-                            {publicationMode}
+                    {/* Vice (Employee Name) */}
+                    <Col lg={4}>
+                      <FormGroup>
+                        <Label for="vice-input">Vice Name</Label>
+                        <Input
+                          name="certificateOfAppointment.vice"
+                          type="text"
+                          className="form-control"
+                          id="vice-input"
+                          onChange={validation.handleChange}
+                          onBlur={validation.handleBlur}
+                          value={
+                            validation.values.certificateOfAppointment.vice ||
+                            ''
+                          }
+                        />
+                      </FormGroup>
+                    </Col>
+
+                    {/* Vice Type */}
+                    <Col lg={4}>
+                      <FormGroup>
+                        <Label for="vice-type-select">Vice Type</Label>
+                        <Input
+                          name="certificateOfAppointment.viceType"
+                          type="select"
+                          className="form-control"
+                          id="vice-type-select"
+                          onChange={validation.handleChange}
+                          onBlur={validation.handleBlur}
+                          value={
+                            validation.values.certificateOfAppointment
+                              .viceType || ''
+                          }
+                          invalid={
+                            getIn(
+                              validation.touched,
+                              'certificateOfAppointment.viceType'
+                            ) &&
+                            getIn(
+                              validation.errors,
+                              'certificateOfAppointment.viceType'
+                            )
+                              ? true
+                              : false
+                          }
+                        >
+                          <option value="" disabled>
+                            Choose...
                           </option>
-                        ))}
-                      </Input>
-                      {getIn(validation.touched, 'basic.publicationMode') &&
-                      getIn(validation.errors, 'basic.publicationMode') ? (
-                        <FormFeedback type="invalid">
-                          {getIn(validation.errors, 'basic.publicationMode')}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
+                          {viceTypes.map((viceType, index) => (
+                            <option key={index} value={viceType.value}>
+                              {viceType.label}
+                            </option>
+                          ))}
+                        </Input>
+                        {getIn(
+                          validation.touched,
+                          'certificateOfAppointment.viceType'
+                        ) &&
+                        getIn(
+                          validation.errors,
+                          'certificateOfAppointment.viceType'
+                        ) ? (
+                          <FormFeedback type="invalid">
+                            {getIn(
+                              validation.errors,
+                              'certificateOfAppointment.viceType'
+                            )}
+                          </FormFeedback>
+                        ) : null}
+                      </FormGroup>
+                    </Col>
 
-                  {/* Machine, Equipment, & Tools Used Regularly in Performance of Work */}
-                  <Col lg={6}>
-                    <FormGroup>
-                      <Label for="tools-used-input">
-                        Machine, Equipment, & Tools Used Regularly in
-                        Performance of Work
-                      </Label>
-                      <Input
-                        name="basic.toolsUsed"
-                        type="text"
-                        className="form-control"
-                        id="tools-used-input"
-                        onChange={validation.handleChange}
-                        onBlur={validation.handleBlur}
-                        value={validation.values.basic.toolsUsed || ''}
-                        invalid={
-                          getIn(validation.touched, 'basic.toolsUsed') &&
-                          getIn(validation.errors, 'basic.toolsUsed')
-                            ? true
-                            : false
-                        }
-                      />
-                      {getIn(validation.touched, 'basic.toolsUsed') &&
-                      getIn(validation.errors, 'basic.toolsUsed') ? (
-                        <FormFeedback type="invalid">
-                          {getIn(validation.errors, 'basic.toolsUsed')}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
-                </Row>
+                    {/* Page */}
+                    <Col lg={4}>
+                      <FormGroup>
+                        <Label for="page-input">Page No.</Label>
+                        <Input
+                          name="certificateOfAppointment.fieldPage"
+                          type="text"
+                          className="form-control"
+                          id="field-page-input"
+                          onChange={validation.handleChange}
+                          onBlur={validation.handleBlur}
+                          value={
+                            validation.values.certificateOfAppointment
+                              .fieldPage || ''
+                          }
+                        />
+                      </FormGroup>
+                    </Col>
 
-                <hr className="my-4"></hr>
-
-                {/* DIRECTLY SUPERVISED */}
-                <h5>Position Title, and Item of those Directly Supervised</h5>
-                <Row>
-                  {/* Directly Supervised Position Title */}
-                  <Col lg={6}>
-                    <FormGroup>
-                      <Label for="directly-supervised-input">
-                        Position Title
-                      </Label>
-                      <Input
-                        name="basic.directlySupervised"
-                        type="text"
-                        className="form-control"
-                        id="directly-supervised-input"
-                        onChange={validation.handleChange}
-                        onBlur={validation.handleBlur}
-                        value={validation.values.basic.directlySupervised || ''}
-                      />
-                    </FormGroup>
-                  </Col>
-
-                  {/* Directly Supervised Plantilla Number */}
-                  <Col lg={6}>
-                    <FormGroup>
-                      <Label for="directly-supervised-item-numbers-input">
-                        Item Number
-                      </Label>
-                      <Input
-                        name="basic.directlySupervisedItemNumbers"
-                        type="text"
-                        className="form-control"
-                        id="directly-supervised-item-numbers-input"
-                        onChange={validation.handleChange}
-                        onBlur={validation.handleBlur}
-                        value={
-                          validation.values.basic
-                            .directlySupervisedItemNumbers || ''
-                        }
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
-
-                <hr className="my-4"></hr>
-
-                {/* CONTACTS / CLIENTS / STAKEHOLDER */}
-                <h5>Contacts / Clients / Stakeholders</h5>
-                <h6>Internal</h6>
-                <Row className="mt-2">
-                  {/* Executive / Managerial */}
-                  <Col lg={4}>
-                    <FormGroup>
-                      <Label for="executive-select">
-                        Executive / Managerial
-                      </Label>
-                      <Input
-                        name="contacts.internal.executiveIsOccasional"
-                        type="select"
-                        className="form-control"
-                        id="executive-select"
-                        onChange={selectedValue => {
-                          validation.setFieldValue(
-                            'contacts.internal.executiveIsOccasional',
-                            stringToBool(selectedValue.target.value)
-                          )
-                        }}
-                        onBlur={validation.handleBlur}
-                        value={
-                          validation.values.contacts.internal
-                            .executiveIsOccasional
-                        }
-                        invalid={
-                          getIn(
-                            validation.touched,
-                            'contacts.internal.executiveIsOccasional'
-                          ) &&
-                          getIn(
-                            validation.errors,
-                            'contacts.internal.executiveIsOccasional'
-                          )
-                            ? true
-                            : false
-                        }
-                      >
-                        {frequencies.map((frequency, index) => (
-                          <option key={index} value={frequency.value}>
-                            {frequency.name}
+                    {/* Certified By */}
+                    <Col lg={4}>
+                      <FormGroup>
+                        <Label for="certified-by-select">Certified By</Label>
+                        <Input
+                          name="certificateOfAppointment.certifiedBy"
+                          type="select"
+                          className="form-control"
+                          id="certified-by-select"
+                          onChange={validation.handleChange}
+                          onBlur={validation.handleBlur}
+                          value={
+                            validation.values.certificateOfAppointment
+                              .certifiedBy || ''
+                          }
+                          invalid={
+                            getIn(
+                              validation.touched,
+                              'certificateOfAppointment.certifiedBy'
+                            ) &&
+                            getIn(
+                              validation.errors,
+                              'certificateOfAppointment.certifiedBy'
+                            )
+                              ? true
+                              : false
+                          }
+                        >
+                          <option value="" disabled>
+                            Choose...
                           </option>
-                        ))}
-                      </Input>
-                      {getIn(
-                        validation.touched,
-                        'contacts.internal.executiveIsOccasional'
-                      ) &&
-                      getIn(
-                        validation.errors,
-                        'contacts.internal.executiveIsOccasional'
-                      ) ? (
-                        <FormFeedback type="invalid">
-                          {getIn(
-                            validation.errors,
-                            'contacts.internal.executiveIsOccasional'
-                          )}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
-
-                  {/* Supervisors */}
-                  <Col lg={4}>
-                    <FormGroup>
-                      <Label for="supervisors-select">Supervisors</Label>
-                      <Input
-                        name="contacts.internal.supervisorIsOccasional"
-                        type="select"
-                        className="form-control"
-                        id="supervisors-select"
-                        onChange={selectedValue => {
-                          validation.setFieldValue(
-                            'contacts.internal.supervisorIsOccasional',
-                            stringToBool(selectedValue.target.value)
-                          )
-                        }}
-                        onBlur={validation.handleBlur}
-                        value={
-                          validation.values.contacts.internal
-                            .supervisorIsOccasional
-                        }
-                        invalid={
-                          getIn(
-                            validation.touched,
-                            'contacts.internal.supervisorIsOccasional'
-                          ) &&
-                          getIn(
-                            validation.errors,
-                            'contacts.internal.supervisorIsOccasional'
-                          )
-                            ? true
-                            : false
-                        }
-                      >
-                        {frequencies.map((frequency, index) => (
-                          <option key={index} value={frequency.value}>
-                            {frequency.name}
-                          </option>
-                        ))}
-                      </Input>
-                      {getIn(
-                        validation.touched,
-                        'contacts.internal.supervisorIsOccasional'
-                      ) &&
-                      getIn(
-                        validation.errors,
-                        'contacts.internal.supervisorIsOccasional'
-                      ) ? (
-                        <FormFeedback type="invalid">
-                          {getIn(
-                            validation.errors,
-                            'contacts.internal.supervisorIsOccasional'
-                          )}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
-
-                  {/* Non-Supervisors */}
-                  <Col lg={4}>
-                    <FormGroup>
-                      <Label for="non-supervisors-select">
-                        Non-Supervisors
-                      </Label>
-                      <Input
-                        name="contacts.internal.nonSupervisorIsOccasional"
-                        type="select"
-                        className="form-control"
-                        id="non-supervisors-select"
-                        onChange={selectedValue => {
-                          validation.setFieldValue(
-                            'contacts.internal.nonSupervisorIsOccasional',
-                            stringToBool(selectedValue.target.value)
-                          )
-                        }}
-                        onBlur={validation.handleBlur}
-                        value={
-                          validation.values.contacts.internal
-                            .nonSupervisorIsOccasional
-                        }
-                        invalid={
-                          getIn(
-                            validation.touched,
-                            'contacts.internal.nonSupervisorIsOccasional'
-                          ) &&
-                          getIn(
-                            validation.errors,
-                            'contacts.internal.nonSupervisorIsOccasional'
-                          )
-                            ? true
-                            : false
-                        }
-                      >
-                        {frequencies.map((frequency, index) => (
-                          <option key={index} value={frequency.value}>
-                            {frequency.name}
-                          </option>
-                        ))}
-                      </Input>
-                      {getIn(
-                        validation.touched,
-                        'contacts.internal.nonSupervisorIsOccasional'
-                      ) &&
-                      getIn(
-                        validation.errors,
-                        'contacts.internal.nonSupervisorIsOccasional'
-                      ) ? (
-                        <FormFeedback type="invalid">
-                          {getIn(
-                            validation.errors,
-                            'contacts.internal.nonSupervisorIsOccasional'
-                          )}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
-
-                  {/* Staff */}
-                  <Col lg={4}>
-                    <FormGroup>
-                      <Label for="staff-select">Staff</Label>
-                      <Input
-                        name="contacts.internal.staffIsOccasional"
-                        type="select"
-                        className="form-control"
-                        id="staff-select"
-                        onChange={selectedValue => {
-                          validation.setFieldValue(
-                            'contacts.internal.staffIsOccasional',
-                            stringToBool(selectedValue.target.value)
-                          )
-                        }}
-                        onBlur={validation.handleBlur}
-                        value={
-                          validation.values.contacts.internal.staffIsOccasional
-                        }
-                        invalid={
-                          getIn(
-                            validation.touched,
-                            'contacts.internal.staffIsOccasional'
-                          ) &&
-                          getIn(
-                            validation.errors,
-                            'contacts.internal.staffIsOccasional'
-                          )
-                            ? true
-                            : false
-                        }
-                      >
-                        {frequencies.map((frequency, index) => (
-                          <option key={index} value={frequency.value}>
-                            {frequency.name}
-                          </option>
-                        ))}
-                      </Input>
-                      {getIn(
-                        validation.touched,
-                        'contacts.internal.staffIsOccasional'
-                      ) &&
-                      getIn(
-                        validation.errors,
-                        'contacts.internal.staffIsOccasional'
-                      ) ? (
-                        <FormFeedback type="invalid">
-                          {getIn(
-                            validation.errors,
-                            'contacts.internal.staffIsOccasional'
-                          )}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
-                </Row>
-
-                <h6>External</h6>
-                <Row className="mt-2">
-                  {/* General Public */}
-                  <Col lg={4}>
-                    <FormGroup>
-                      <Label for="general-public-select">General Public</Label>
-                      <Input
-                        name="contacts.external.generalPublicIsOccasional"
-                        type="select"
-                        className="form-control"
-                        id="general-public-select"
-                        onChange={selectedValue => {
-                          validation.setFieldValue(
-                            'contacts.external.generalPublicIsOccasional',
-                            stringToBool(selectedValue.target.value)
-                          )
-                        }}
-                        onBlur={validation.handleBlur}
-                        value={
-                          validation.values.contacts.external
-                            .generalPublicIsOccasional
-                        }
-                        invalid={
-                          getIn(
-                            validation.touched,
-                            'contacts.external.generalPublicIsOccasional'
-                          ) &&
-                          getIn(
-                            validation.errors,
-                            'contacts.external.generalPublicIsOccasional'
-                          )
-                            ? true
-                            : false
-                        }
-                      >
-                        {frequencies.map((frequency, index) => (
-                          <option key={index} value={frequency.value}>
-                            {frequency.name}
-                          </option>
-                        ))}
-                      </Input>
-                      {getIn(
-                        validation.touched,
-                        'contacts.external.generalPublicIsOccasional'
-                      ) &&
-                      getIn(
-                        validation.errors,
-                        'contacts.external.generalPublicIsOccasional'
-                      ) ? (
-                        <FormFeedback type="invalid">
-                          {getIn(
-                            validation.errors,
-                            'contacts.external.generalPublicIsOccasional'
-                          )}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
-
-                  {/* Other Agencies */}
-                  <Col lg={4}>
-                    <FormGroup>
-                      <Label for="other-agencies-select">Other Agencies</Label>
-                      <Input
-                        name="contacts.external.otherAgenciesIsOccasional"
-                        type="select"
-                        className="form-control"
-                        id="other-agencies-select"
-                        onChange={selectedValue => {
-                          validation.setFieldValue(
-                            'contacts.external.otherAgenciesIsOccasional',
-                            stringToBool(selectedValue.target.value)
-                          )
-                        }}
-                        onBlur={validation.handleBlur}
-                        value={
-                          validation.values.contacts.external
-                            .otherAgenciesIsOccasional
-                        }
-                        invalid={
-                          getIn(
-                            validation.touched,
-                            'contacts.external.otherAgenciesIsOccasional'
-                          ) &&
-                          getIn(
-                            validation.errors,
-                            'contacts.external.otherAgenciesIsOccasional'
-                          )
-                            ? true
-                            : false
-                        }
-                      >
-                        {frequencies.map((frequency, index) => (
-                          <option key={index} value={frequency.value}>
-                            {frequency.name}
-                          </option>
-                        ))}
-                      </Input>
-                      {getIn(
-                        validation.touched,
-                        'contacts.external.otherAgenciesIsOccasional'
-                      ) &&
-                      getIn(
-                        validation.errors,
-                        'contacts.external.otherAgenciesIsOccasional'
-                      ) ? (
-                        <FormFeedback type="invalid">
-                          {getIn(
-                            validation.errors,
-                            'contacts.external.otherAgenciesIsOccasional'
-                          )}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
-
-                  {/* Others */}
-                  <Col lg={4}>
-                    <FormGroup>
-                      <Label for="others-external-input">
-                        Others (please Specify):
-                      </Label>
-                      <Input
-                        name="contacts.external.others"
-                        type="text"
-                        className="form-control"
-                        id="others-external-input"
-                        onChange={validation.handleChange}
-                        onBlur={validation.handleBlur}
-                        value={validation.values.contacts.external.others || ''}
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
-
-                <hr className="my-4"></hr>
-
-                {/* WORKING CONDITION */}
-                <h5>Working Condition</h5>
-                <Row className="mt-2">
-                  {/* Office Work */}
-                  <Col lg={4}>
-                    <FormGroup>
-                      <Label for="office-work-select">Office Work</Label>
-                      <Input
-                        name="workingCondition.isOfficeWork"
-                        type="select"
-                        className="form-control"
-                        id="office-work-select"
-                        onChange={selectedValue => {
-                          validation.setFieldValue(
-                            'workingCondition.isOfficeWork',
-                            stringToBool(selectedValue.target.value)
-                          )
-                        }}
-                        onBlur={validation.handleBlur}
-                        value={validation.values.workingCondition.isOfficeWork}
-                        invalid={
-                          getIn(
-                            validation.touched,
-                            'workingCondition.isOfficeWork'
-                          ) &&
-                          getIn(
-                            validation.errors,
-                            'workingCondition.isOfficeWork'
-                          )
-                            ? true
-                            : false
-                        }
-                      >
-                        {frequencies.map((frequency, index) => (
-                          <option key={index} value={frequency.value}>
-                            {frequency.name}
-                          </option>
-                        ))}
-                      </Input>
-                      {getIn(
-                        validation.touched,
-                        'workingCondition.isOfficeWork'
-                      ) &&
-                      getIn(
-                        validation.errors,
-                        'workingCondition.isOfficeWork'
-                      ) ? (
-                        <FormFeedback type="invalid">
-                          {getIn(
-                            validation.errors,
-                            'workingCondition.isOfficeWork'
-                          )}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
-
-                  {/* Field Work */}
-                  <Col lg={4}>
-                    <FormGroup>
-                      <Label for="field-work-select">Field Work</Label>
-                      <Input
-                        name="workingCondition.isFieldWork"
-                        type="select"
-                        className="form-control"
-                        id="field-work-select"
-                        onChange={selectedValue => {
-                          validation.setFieldValue(
-                            'workingCondition.isFieldWork',
-                            stringToBool(selectedValue.target.value)
-                          )
-                        }}
-                        onBlur={validation.handleBlur}
-                        value={validation.values.workingCondition.isFieldWork}
-                        invalid={
-                          getIn(
-                            validation.touched,
-                            'workingCondition.isFieldWork'
-                          ) &&
-                          getIn(
-                            validation.errors,
-                            'workingCondition.isFieldWork'
-                          )
-                            ? true
-                            : false
-                        }
-                      >
-                        {frequencies.map((frequency, index) => (
-                          <option key={index} value={frequency.value}>
-                            {frequency.name}
-                          </option>
-                        ))}
-                      </Input>
-                      {getIn(
-                        validation.touched,
-                        'workingCondition.isFieldWork'
-                      ) &&
-                      getIn(
-                        validation.errors,
-                        'workingCondition.isFieldWork'
-                      ) ? (
-                        <FormFeedback type="invalid">
-                          {getIn(
-                            validation.errors,
-                            'workingCondition.isFieldWork'
-                          )}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
-
-                  {/* Others */}
-                  <Col lg={4}>
-                    <FormGroup>
-                      <Label for="others-working-condition-input">
-                        Others (please Specify):
-                      </Label>
-                      <Input
-                        name="workingCondition.others"
-                        type="text"
-                        className="form-control"
-                        id="others-working-condition-input"
-                        onChange={validation.handleChange}
-                        onBlur={validation.handleBlur}
-                        value={validation.values.workingCondition.others || ''}
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
-
-                <hr className="my-4"></hr>
-
-                {/* CERTIFICATE OF APPOINTMENT */}
-                <h5>Certificate of Appointment Additional Details</h5>
-                <Row className="mt-2">
-                  {/* Nature of Appointment */}
-                  <Col lg={4}>
-                    <FormGroup>
-                      <Label for="nature-of-appointment-select">
-                        Nature of Appointment
-                      </Label>
-                      <Input
-                        name="certificateOfAppointment.natureOfAppointment"
-                        type="select"
-                        className="form-control"
-                        id="nature-of-appointment-select"
-                        onChange={validation.handleChange}
-                        onBlur={validation.handleBlur}
-                        value={
-                          validation.values.certificateOfAppointment
-                            .natureOfAppointment || ''
-                        }
-                        invalid={
-                          getIn(
-                            validation.touched,
-                            'certificateOfAppointment.natureOfAppointment'
-                          ) &&
-                          getIn(
-                            validation.errors,
-                            'certificateOfAppointment.natureOfAppointment'
-                          )
-                            ? true
-                            : false
-                        }
-                      >
-                        <option value="" disabled>
-                          Choose...
-                        </option>
-                        {natureOfAppointment2.map((appointment, index) => (
-                          <option key={index} value={appointment.value}>
-                            {appointment.label}
-                          </option>
-                        ))}
-                      </Input>
-                      {getIn(
-                        validation.touched,
-                        'certificateOfAppointment.natureOfAppointment'
-                      ) &&
-                      getIn(
-                        validation.errors,
-                        'certificateOfAppointment.natureOfAppointment'
-                      ) ? (
-                        <FormFeedback type="invalid">
-                          {getIn(
-                            validation.errors,
-                            'certificateOfAppointment.natureOfAppointment'
-                          )}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
-
-                  {/* Vice (Employee Name) */}
-                  <Col lg={4}>
-                    <FormGroup>
-                      <Label for="vice-input">Vice Name</Label>
-                      <Input
-                        name="certificateOfAppointment.vice"
-                        type="text"
-                        className="form-control"
-                        id="vice-input"
-                        onChange={validation.handleChange}
-                        onBlur={validation.handleBlur}
-                        value={
-                          validation.values.certificateOfAppointment.vice || ''
-                        }
-                      />
-                    </FormGroup>
-                  </Col>
-
-                  {/* Vice Type */}
-                  <Col lg={4}>
-                    <FormGroup>
-                      <Label for="vice-type-select">Vice Type</Label>
-                      <Input
-                        name="certificateOfAppointment.viceType"
-                        type="select"
-                        className="form-control"
-                        id="vice-type-select"
-                        onChange={validation.handleChange}
-                        onBlur={validation.handleBlur}
-                        value={
-                          validation.values.certificateOfAppointment.viceType ||
-                          ''
-                        }
-                        invalid={
-                          getIn(
-                            validation.touched,
-                            'certificateOfAppointment.viceType'
-                          ) &&
-                          getIn(
-                            validation.errors,
-                            'certificateOfAppointment.viceType'
-                          )
-                            ? true
-                            : false
-                        }
-                      >
-                        <option value="" disabled>
-                          Choose...
-                        </option>
-                        {viceTypes.map((viceType, index) => (
-                          <option key={index} value={viceType.value}>
-                            {viceType.label}
-                          </option>
-                        ))}
-                      </Input>
-                      {getIn(
-                        validation.touched,
-                        'certificateOfAppointment.viceType'
-                      ) &&
-                      getIn(
-                        validation.errors,
-                        'certificateOfAppointment.viceType'
-                      ) ? (
-                        <FormFeedback type="invalid">
-                          {getIn(
-                            validation.errors,
-                            'certificateOfAppointment.viceType'
-                          )}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
-
-                  {/* Page */}
-                  <Col lg={4}>
-                    <FormGroup>
-                      <Label for="page-input">Page No.</Label>
-                      <Input
-                        name="certificateOfAppointment.fieldPage"
-                        type="text"
-                        className="form-control"
-                        id="field-page-input"
-                        onChange={validation.handleChange}
-                        onBlur={validation.handleBlur}
-                        value={
-                          validation.values.certificateOfAppointment
-                            .fieldPage || ''
-                        }
-                      />
-                    </FormGroup>
-                  </Col>
-
-                  {/* Certified By */}
-                  <Col lg={4}>
-                    <FormGroup>
-                      <Label for="certified-by-select">Certified By</Label>
-                      <Input
-                        name="certificateOfAppointment.certifiedBy"
-                        type="select"
-                        className="form-control"
-                        id="certified-by-select"
-                        onChange={validation.handleChange}
-                        onBlur={validation.handleBlur}
-                        value={
-                          validation.values.certificateOfAppointment
-                            .certifiedBy || ''
-                        }
-                        invalid={
-                          getIn(
-                            validation.touched,
-                            'certificateOfAppointment.certifiedBy'
-                          ) &&
-                          getIn(
-                            validation.errors,
-                            'certificateOfAppointment.certifiedBy'
-                          )
-                            ? true
-                            : false
-                        }
-                      >
-                        <option value="" disabled>
-                          Choose...
-                        </option>
-                        {selectionForCoaCertification.map(employee => (
-                          <option
-                            key={employee.value.employeeId}
-                            value={employee.value.employeeId}
-                          >
-                            {employee.label} | {employee.value.positionTitle}
-                          </option>
-                        ))}
-                      </Input>
-                      {getIn(
-                        validation.touched,
-                        'certificateOfAppointment.certifiedBy'
-                      ) &&
-                      getIn(
-                        validation.errors,
-                        'certificateOfAppointment.certifiedBy'
-                      ) ? (
-                        <FormFeedback type="invalid">
-                          {getIn(
-                            validation.errors,
-                            'certificateOfAppointment.certifiedBy'
-                          )}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
-                </Row>
-              </Form>
+                          {selectionForCoaCertification.map(employee => (
+                            <option
+                              key={employee.value.employeeId}
+                              value={employee.value.employeeId}
+                            >
+                              {employee.label} | {employee.value.positionTitle}
+                            </option>
+                          ))}
+                        </Input>
+                        {getIn(
+                          validation.touched,
+                          'certificateOfAppointment.certifiedBy'
+                        ) &&
+                        getIn(
+                          validation.errors,
+                          'certificateOfAppointment.certifiedBy'
+                        ) ? (
+                          <FormFeedback type="invalid">
+                            {getIn(
+                              validation.errors,
+                              'certificateOfAppointment.certifiedBy'
+                            )}
+                          </FormFeedback>
+                        ) : null}
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                </Form>
+              )}
             </ModalBody>
 
             <ModalFooter>
@@ -1443,6 +1359,7 @@ const UpdateDbmCscAdditionalInfo = props => {
                 type="submit"
                 form="dbmCscAdditionalInfoForm"
                 color="info"
+                disabled={loadingDbmCscForm33BAdditionalData}
               >
                 Submit
               </Button>
@@ -1461,6 +1378,45 @@ UpdateDbmCscAdditionalInfo.propTypes = {
     applicantEndorsementId: PropTypes.string,
     postingApplicantId: PropTypes.string,
     applicantName: PropTypes.string,
+  }),
+  pdDbmForm33BData: PropTypes.shape({
+    basic: PropTypes.shape({
+      itemNumber: PropTypes.string,
+      immediateSupervisor: PropTypes.string,
+      supervisorNextHigher: PropTypes.string,
+      toolsUsed: PropTypes.string,
+      workStation: PropTypes.string,
+      appointmentType: PropTypes.string,
+      publicationMode: PropTypes.string,
+      directlySupervised: PropTypes.string,
+      directlySupervisedItemNumbers: PropTypes.string,
+      natureOfAppointment: PropTypes.string,
+    }),
+    contacts: PropTypes.shape({
+      internal: PropTypes.shape({
+        executiveIsOccasional: PropTypes.bool,
+        supervisorIsOccasional: PropTypes.bool,
+        nonSupervisorIsOccasional: PropTypes.bool,
+        staffIsOccasional: PropTypes.bool,
+      }),
+      external: PropTypes.shape({
+        generalPublicIsOccasional: PropTypes.bool,
+        otherAgenciesIsOccasional: PropTypes.bool,
+        others: PropTypes.string,
+      }),
+    }),
+    workingCondition: PropTypes.shape({
+      isOfficeWork: PropTypes.bool,
+      isFieldWork: PropTypes.bool,
+      others: PropTypes.string,
+    }),
+    certificateOfAppointment: PropTypes.shape({
+      natureOfAppointment: PropTypes.string,
+      vice: PropTypes.string,
+      viceType: PropTypes.string,
+      fieldPage: PropTypes.string,
+      certifiedBy: PropTypes.string,
+    }),
   }),
   vppId: PropTypes.string,
 }

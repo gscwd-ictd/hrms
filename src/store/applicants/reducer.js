@@ -39,6 +39,12 @@ import {
   GET_APPLICANT_DBMCSC_DETAILS,
   GET_APPLICANT_DBMCSC_DETAILS_SUCCESS,
   GET_APPLICANT_DBMCSC_DETAILS_FAIL,
+  GET_DBMCSC_FORM33B_DETAILS,
+  GET_DBMCSC_FORM33B_DETAILS_SUCCESS,
+  GET_DBMCSC_FORM33B_DETAILS_FAIL,
+  PATCH_DBMCSC_DETAILS,
+  PATCH_DBMCSC_DETAILS_SUCCESS,
+  PATCH_DBMCSC_DETAILS_FAIL,
   GET_HIRED_EXTERNAL_APPLICANTS,
   GET_HIRED_EXTERNAL_APPLICANTS_SUCCESS,
   GET_HIRED_EXTERNAL_APPLICANTS_FAIL,
@@ -139,10 +145,49 @@ const INIT_STATE = {
     },
   },
   hiredExternalConfirmedApplicants: [],
+  dbmCscForm33BAdditionalData: {
+    basic: {
+      itemNumber: '',
+      immediateSupervisor: '',
+      supervisorNextHigher: '',
+      toolsUsed: '',
+      workStation: '',
+      appointmentType: '',
+      publicationMode: '',
+      directlySupervised: '',
+      directlySupervisedItemNumbers: '',
+    },
+    contacts: {
+      internal: {
+        executiveIsOccasional: false,
+        supervisorIsOccasional: false,
+        nonSupervisorIsOccasional: false,
+        staffIsOccasional: false,
+      },
+      external: {
+        generalPublicIsOccasional: false,
+        otherAgenciesIsOccasional: false,
+        others: '',
+      },
+    },
+    workingCondition: {
+      isOfficeWork: false,
+      isFieldWork: false,
+      others: '',
+    },
+    certificateOfAppointment: {
+      natureOfAppointment: '',
+      vice: '',
+      viceType: null,
+      fieldPage: '',
+      certifiedBy: '',
+    },
+  },
   response: {
     patchApplicantsScores: [],
     patchApplicantApplicationStatus: {},
     postDbmCscAdditionalDetails: {},
+    patchDbmCscAdditionalDetails: {},
   },
   loading: {
     loadingApplicants: false,
@@ -153,6 +198,8 @@ const INIT_STATE = {
     loadingEndorsedApplicants: false,
     loadingShortlistedApplicants: false,
     loadingPostDbmCscAdditionalDetails: false,
+    loadingDbmCscForm33BAdditionalData: false,
+    loadingPatchDbmCscAdditionalDetails: false,
     loadingDbmCscPositionDescriptionForm: false,
     loadingRoHDocument: false,
     loadingRAIDocument: false,
@@ -169,6 +216,8 @@ const INIT_STATE = {
     errorEndorsedApplicants: null,
     errorShortlistedApplicants: null,
     errorPostDbmCscAdditionalDetails: null,
+    errorDbmCscForm33BAdditionalData: null,
+    errorPatchDbmCscAdditionalDetails: null,
     errorDbmCscPositionDescriptionForm: null,
     errorRoHDocument: null,
     errorRAIDocument: null,
@@ -864,6 +913,178 @@ const applicants = (state = INIT_STATE, action) => {
         },
       }
 
+    case GET_DBMCSC_FORM33B_DETAILS:
+      return {
+        ...state,
+        dbmCscForm33BAdditionalData: {
+          ...state.dbmCscForm33BAdditionalData,
+          basic: {
+            ...state.dbmCscForm33BAdditionalData.basic,
+            itemNumber: '',
+            immediateSupervisor: '',
+            supervisorNextHigher: '',
+            toolsUsed: '',
+            workStation: '',
+            appointmentType: '',
+            publicationMode: '',
+            directlySupervised: '',
+            directlySupervisedItemNumbers: '',
+          },
+          contacts: {
+            ...state.dbmCscForm33BAdditionalData.contacts,
+            internal: {
+              ...state.dbmCscForm33BAdditionalData.contacts.internal,
+              executiveIsOccasional: false,
+              supervisorIsOccasional: false,
+              nonSupervisorIsOccasional: false,
+              staffIsOccasional: false,
+            },
+            external: {
+              ...state.dbmCscForm33BAdditionalData.contacts.external,
+              generalPublicIsOccasional: false,
+              otherAgenciesIsOccasional: false,
+              others: '',
+            },
+          },
+          workingCondition: {
+            ...state.dbmCscForm33BAdditionalData.workingCondition,
+            isOfficeWork: false,
+            isFieldWork: false,
+            others: '',
+          },
+          certificateOfAppointment: {
+            ...state.dbmCscForm33BAdditionalData.certificateOfAppointment,
+            natureOfAppointment: '',
+            vice: '',
+            viceType: null,
+            fieldPage: '',
+            certifiedBy: '',
+          },
+        },
+        loading: {
+          ...state.loading,
+          loadingDbmCscForm33BAdditionalData: true,
+        },
+        error: {
+          ...state.error,
+          errorDbmCscForm33BAdditionalData: null,
+        },
+      }
+    case GET_DBMCSC_FORM33B_DETAILS_SUCCESS:
+      return {
+        ...state,
+        dbmCscForm33BAdditionalData: {
+          ...state.dbmCscForm33BAdditionalData,
+          basic: {
+            ...state.dbmCscForm33BAdditionalData.basic,
+            itemNumber: action.payload.basic.itemNumber,
+            immediateSupervisor: action.payload.basic.immediateSupervisor,
+            supervisorNextHigher: action.payload.basic.supervisorNextHigher,
+            toolsUsed: action.payload.basic.toolsUsed,
+            workStation: action.payload.basic.workStation,
+            appointmentType: action.payload.basic.appointmentType,
+            publicationMode: action.payload.basic.publicationMode,
+            directlySupervised: action.payload.basic.directlySupervised,
+            directlySupervisedItemNumbers:
+              action.payload.basic.directlySupervisedItemNumbers,
+          },
+          contacts: {
+            ...state.dbmCscForm33BAdditionalData.contacts,
+            internal: {
+              ...state.dbmCscForm33BAdditionalData.contacts.internal,
+              executiveIsOccasional:
+                action.payload.contacts.internal.executiveIsOccasional,
+              supervisorIsOccasional:
+                action.payload.contacts.internal.supervisorIsOccasional,
+              nonSupervisorIsOccasional:
+                action.payload.contacts.internal.nonSupervisorIsOccasional,
+              staffIsOccasional:
+                action.payload.contacts.internal.staffIsOccasional,
+            },
+            external: {
+              ...state.dbmCscForm33BAdditionalData.contacts.external,
+              generalPublicIsOccasional:
+                action.payload.contacts.external.generalPublicIsOccasional,
+              otherAgenciesIsOccasional:
+                action.payload.contacts.external.otherAgenciesIsOccasional,
+              others: action.payload.contacts.external.others,
+            },
+          },
+          workingCondition: {
+            ...state.dbmCscForm33BAdditionalData.workingCondition,
+            isOfficeWork: action.payload.workingCondition.isOfficeWork,
+            isFieldWork: action.payload.workingCondition.isFieldWork,
+            others: action.payload.workingCondition.others,
+          },
+          certificateOfAppointment: {
+            ...state.dbmCscForm33BAdditionalData.certificateOfAppointment,
+            natureOfAppointment:
+              action.payload.certificateOfAppointment.natureOfAppointment,
+            vice: action.payload.certificateOfAppointment.vice,
+            viceType: action.payload.certificateOfAppointment.viceType,
+            fieldPage: action.payload.certificateOfAppointment.fieldPage,
+            certifiedBy: action.payload.certificateOfAppointment.certifiedBy,
+          },
+        },
+        loading: {
+          ...state.loading,
+          loadingDbmCscForm33BAdditionalData: false,
+        },
+      }
+    case GET_DBMCSC_FORM33B_DETAILS_FAIL:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingDbmCscForm33BAdditionalData: false,
+        },
+        error: {
+          ...state.error,
+          errorDbmCscForm33BAdditionalData: action.payload,
+        },
+      }
+
+    case PATCH_DBMCSC_DETAILS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          patchDbmCscAdditionalDetails: {},
+        },
+        loading: {
+          ...state.loading,
+          loadingPatchDbmCscAdditionalDetails: true,
+        },
+        error: {
+          ...state.error,
+          errorPatchDbmCscAdditionalDetails: null,
+        },
+      }
+    case PATCH_DBMCSC_DETAILS_SUCCESS:
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          patchDbmCscAdditionalDetails: action.payload,
+        },
+        loading: {
+          ...state.loading,
+          loadingPatchDbmCscAdditionalDetails: false,
+        },
+      }
+    case PATCH_DBMCSC_DETAILS_FAIL:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingPatchDbmCscAdditionalDetails: false,
+        },
+        error: {
+          ...state.error,
+          errorPatchDbmCscAdditionalDetails: action.payload,
+        },
+      }
+
     case GET_HIRED_EXTERNAL_APPLICANTS:
       return {
         ...state,
@@ -907,6 +1128,7 @@ const applicants = (state = INIT_STATE, action) => {
           patchApplicantsScores: [],
           patchApplicantApplicationStatus: {},
           postDbmCscAdditionalDetails: {},
+          patchDbmCscAdditionalDetails: {},
         },
         error: {
           errorApplicants: null,
@@ -917,6 +1139,8 @@ const applicants = (state = INIT_STATE, action) => {
           errorEndorsedApplicants: null,
           errorShortlistedApplicants: null,
           errorPostDbmCscAdditionalDetails: null,
+          errorDbmCscForm33BAdditionalData: null,
+          errorPatchDbmCscAdditionalDetails: null,
           errorDbmCscPositionDescriptionForm: null,
         },
       }

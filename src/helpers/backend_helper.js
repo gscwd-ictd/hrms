@@ -398,6 +398,14 @@ export const patchApplicantsExamScores = examScores =>
 
 export const postDbmCscAdditionalData = dbmCscAdditionalData =>
   postHris(url.POSITION_DESCRIPTION_DBM_CSC_FORM_1, dbmCscAdditionalData)
+export const getDbmCscForm33BData = postingApplicantId =>
+  getHris(
+    url.POSITION_DESCRIPTION_DBM_CSC_FORM_1 +
+      url.QUALIFIED_APPLICANTS +
+      postingApplicantId
+  )
+export const putDbmCscAdditionalData = dbmCscAdditionalData =>
+  putHris(url.POSITION_DESCRIPTION_DBM_CSC_FORM_1, dbmCscAdditionalData)
 
 // Officer-In-Charge---------------------------------------------------------------
 export const getOfficerInChargeList = () => getHris(url.OFFICER_IN_CHARGE)
