@@ -431,9 +431,13 @@ const PdDbmCscDocument = props => {
                   <View style={[styles.rowContainer]}>
                     <Svg viewBox="0 0 24 24" width={10} height={10}>
                       <Path
-                        d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
+                        d="M22 2v20h-20v-20h20zm2-2h-24v24h24v-24z"
                         stroke="black"
                       />
+                      {/* <Path
+                        d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
+                        stroke="black"
+                      /> */}
                     </Svg>
                     <Text style={[styles.textWithCheckbox]}>&nbsp; City</Text>
                   </View>
