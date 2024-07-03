@@ -686,7 +686,7 @@ const CoADocument = props => {
               in consonance with RA No. 7041. The assessment by the Human
               Resource Merit Promotion and Selection Board (HRMPSB) started on{' '}
               <Text style={[styles.textBold, styles.upperCase]}>
-                {certificateOfAppointment.data.scheduleDate}
+                {certificateOfAppointment.data.psbDurationStartDate}
               </Text>
               .
             </Text>
@@ -1192,6 +1192,7 @@ CoADocument.propTypes = {
       vice: PropTypes.string,
       viceStatus: PropTypes.string,
       page: PropTypes.string,
+      psbDurationStartDate: PropTypes.string,
     }),
     signatories: PropTypes.arrayOf(
       PropTypes.shape({

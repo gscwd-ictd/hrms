@@ -181,6 +181,7 @@ const INIT_STATE = {
       viceType: null,
       fieldPage: '',
       certifiedBy: '',
+      psbDurationStartDate: '',
     },
   },
   response: {
@@ -959,6 +960,7 @@ const applicants = (state = INIT_STATE, action) => {
             viceType: null,
             fieldPage: '',
             certifiedBy: '',
+            psbDurationStartDate: '',
           },
         },
         loading: {
@@ -1024,6 +1026,8 @@ const applicants = (state = INIT_STATE, action) => {
             viceType: action.payload.certificateOfAppointment.viceType,
             fieldPage: action.payload.certificateOfAppointment.fieldPage,
             certifiedBy: action.payload.certificateOfAppointment.certifiedBy,
+            psbDurationStartDate:
+              action.payload.certificateOfAppointment.psbDurationStartDate,
           },
         },
         loading: {
