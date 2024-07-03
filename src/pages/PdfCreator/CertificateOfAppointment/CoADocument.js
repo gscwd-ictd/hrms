@@ -302,7 +302,9 @@ const CoADocument = props => {
               { fontSize: 12 },
             ]}
           >
-            {filtered.position}
+            {filtered.position === 'Assistant General Manager'
+              ? filtered.position + ' for Administration'
+              : filtered.position}
           </Text>
 
           <Text
