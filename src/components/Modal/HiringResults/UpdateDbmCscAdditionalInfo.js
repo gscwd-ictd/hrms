@@ -145,6 +145,8 @@ const UpdateDbmCscAdditionalInfo = props => {
         fieldPage: pdDbmForm33BData.certificateOfAppointment.fieldPage || '',
         certifiedBy:
           pdDbmForm33BData.certificateOfAppointment.certifiedBy || '',
+        psbDurationStartDate:
+          pdDbmForm33BData.certificateOfAppointment.psbDurationStartDate || '',
       },
     },
 
@@ -198,6 +200,9 @@ const UpdateDbmCscAdditionalInfo = props => {
         fieldPage: Yup.string().required('Please input the page no.'),
         certifiedBy: Yup.string().required(
           'Please select a employee that will certify'
+        ),
+        psbDurationStartDate: Yup.string().required(
+          'Please select enter a date'
         ),
       }),
     }),
@@ -1292,6 +1297,27 @@ const UpdateDbmCscAdditionalInfo = props => {
                       </FormGroup>
                     </Col>
 
+                    {/* PSB Duration Start Date */}
+                    <Col lg={4}>
+                      <FormGroup>
+                        <Label for="psb-start-date-input">
+                          PSB Duration Start Date
+                        </Label>
+                        <Input
+                          name="certificateOfAppointment.psbDurationStartDate"
+                          type="date"
+                          className="form-control"
+                          id="field-psb-start-date-input"
+                          onChange={validation.handleChange}
+                          onBlur={validation.handleBlur}
+                          value={
+                            validation.values.certificateOfAppointment
+                              .psbDurationStartDate || ''
+                          }
+                        />
+                      </FormGroup>
+                    </Col>
+
                     {/* Certified By */}
                     <Col lg={4}>
                       <FormGroup>
@@ -1416,6 +1442,7 @@ UpdateDbmCscAdditionalInfo.propTypes = {
       viceType: PropTypes.string,
       fieldPage: PropTypes.string,
       certifiedBy: PropTypes.string,
+      psbDurationStartDate: PropTypes.string,
     }),
   }),
   vppId: PropTypes.string,

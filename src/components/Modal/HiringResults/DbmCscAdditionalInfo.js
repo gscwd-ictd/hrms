@@ -128,6 +128,7 @@ const DbmCscAdditionalInfo = props => {
         viceType: null,
         fieldPage: '',
         certifiedBy: '',
+        psbDurationStartDate: '',
       },
     },
 
@@ -191,12 +192,14 @@ const DbmCscAdditionalInfo = props => {
         certifiedBy: Yup.string().required(
           'Please select a employee that will certify'
         ),
+        psbDurationStartDate: Yup.string().required(
+          'Please select enter a date'
+        ),
       }),
     }),
 
     onSubmit: values => {
       dispatch(addDbmCscAdditionalData(values))
-      // console.log(values)
     },
   })
 
@@ -1371,6 +1374,27 @@ const DbmCscAdditionalInfo = props => {
                         value={
                           validation.values.certificateOfAppointment
                             .fieldPage || ''
+                        }
+                      />
+                    </FormGroup>
+                  </Col>
+
+                  {/* PSB Duration Start Date */}
+                  <Col lg={4}>
+                    <FormGroup>
+                      <Label for="psb-start-date-input">
+                        PSB Duration Start Date
+                      </Label>
+                      <Input
+                        name="certificateOfAppointment.psbDurationStartDate"
+                        type="date"
+                        className="form-control"
+                        id="field-psb-start-date-input"
+                        onChange={validation.handleChange}
+                        onBlur={validation.handleBlur}
+                        value={
+                          validation.values.certificateOfAppointment
+                            .psbDurationStartDate || ''
                         }
                       />
                     </FormGroup>
