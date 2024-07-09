@@ -1057,7 +1057,9 @@ const CoADocument = props => {
                       styles.textBold,
                       { margin: 5 },
                     ]}
-                  ></Text>
+                  >
+                    NONE
+                  </Text>
                 </View>
                 <View style={[styles.w20, styles.borderRight]}>
                   <Text
@@ -1102,7 +1104,56 @@ const CoADocument = props => {
                       styles.textBold,
                       { margin: 5 },
                     ]}
+                  >
+                    NONE
+                  </Text>
+                </View>
+                <View style={[styles.w20, styles.borderRight]}>
+                  <Text
+                    style={[
+                      styles.horizontalCenter,
+                      styles.textBold,
+                      { margin: 5 },
+                    ]}
                   ></Text>
+                </View>
+                <View style={[styles.w20]}>
+                  <Text
+                    style={[
+                      styles.horizontalCenter,
+                      styles.textBold,
+                      { margin: 5 },
+                    ]}
+                  ></Text>
+                </View>
+              </View>
+
+              {/* ROW 9 */}
+              <View style={[styles.tableRowContainer, styles.borderTop]}>
+                <View style={[styles.w40, styles.borderRight]}>
+                  <View style={[styles.tableRowContainer, { margin: 5 }]}>
+                    <View style={{ margin: '1 3 0 3' }}>
+                      <Svg viewBox="0 0 24 24" width={10} height={10}>
+                        <Path
+                          d="M22 2v20h-20v-20h20zm2-2h-24v24h24v-24z"
+                          stroke="black"
+                        />
+                      </Svg>
+                    </View>
+
+                    <Text style={[styles.textBold]}>Supreme Court</Text>
+                  </View>
+                </View>
+                <View style={[styles.w20, styles.borderRight]}>
+                  <Text
+                    style={[
+                      styles.horizontalCenter,
+                      styles.textBold,
+                      { margin: 5 },
+                    ]}
+                  >
+                    NONE
+                  </Text>
                 </View>
                 <View style={[styles.w20, styles.borderRight]}>
                   <Text
