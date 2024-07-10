@@ -109,11 +109,13 @@ const styles = StyleSheet.create({
   pageNumber: {
     position: 'absolute',
     fontSize: 9,
+    fontFamily: 'Arial',
+    fontStyle: 'italic',
     bottom: 13,
     left: 0,
-    right: 0,
-    textAlign: 'center',
-    color: 'grey',
+    right: 65,
+    textAlign: 'right',
+    color: 'black',
   },
 
   // Unordered List
@@ -1630,13 +1632,13 @@ const PdDbmCscDocument = props => {
             </View>
           </View>
         </View>
-        {/* <Text
+        <Text
           style={styles.pageNumber}
           render={({ pageNumber, totalPages }) =>
-            `${pageNumber} / ${totalPages}`
+            `Page ${pageNumber} of ${totalPages}`
           }
           fixed
-        /> */}
+        />
       </Page>
     </Document>
   )
