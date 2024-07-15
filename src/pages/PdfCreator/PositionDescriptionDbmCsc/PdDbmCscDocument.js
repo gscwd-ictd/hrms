@@ -107,15 +107,15 @@ const styles = StyleSheet.create({
     paddingTop: 1,
   },
   pageNumber: {
+    fontFamily: 'CalibriRegularItalic',
+    // fontStyle: 'italic',
     position: 'absolute',
     fontSize: 9,
-    fontFamily: 'Arial',
-    fontStyle: 'italic',
     bottom: 13,
     left: 0,
-    right: 65,
+    right: 25,
     textAlign: 'right',
-    color: 'black',
+    color: 'grey',
   },
 
   // Unordered List
