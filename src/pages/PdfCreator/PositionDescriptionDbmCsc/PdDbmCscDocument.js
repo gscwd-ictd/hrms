@@ -107,12 +107,14 @@ const styles = StyleSheet.create({
     paddingTop: 1,
   },
   pageNumber: {
+    fontFamily: 'CalibriRegularItalic',
+    // fontStyle: 'italic',
     position: 'absolute',
     fontSize: 9,
     bottom: 13,
     left: 0,
-    right: 0,
-    textAlign: 'center',
+    right: 25,
+    textAlign: 'right',
     color: 'grey',
   },
 
@@ -1630,13 +1632,13 @@ const PdDbmCscDocument = props => {
             </View>
           </View>
         </View>
-        {/* <Text
+        <Text
           style={styles.pageNumber}
           render={({ pageNumber, totalPages }) =>
-            `${pageNumber} / ${totalPages}`
+            `Page ${pageNumber} of ${totalPages}`
           }
           fixed
-        /> */}
+        />
       </Page>
     </Document>
   )
