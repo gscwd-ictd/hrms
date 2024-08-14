@@ -119,7 +119,20 @@ const INIT_STATE = {
   },
   dbmCscPositionDescriptionForm: {
     positionDetails: {},
-    positionDescriptionFormBasic: {},
+    positionDescriptionFormBasic: {
+      appointmentType: '',
+      directlySupervised: [],
+      employmentPeriodFrom: '',
+      employmentPeriodTo: '',
+      immediateSupervisor: '',
+      itemNumber: '',
+      natureOfAppointment: '',
+      psbDurationStartDate: '',
+      publicationMode: '',
+      supervisorNextHigher: '',
+      toolsUsed: '',
+      workStation: '',
+    },
     contacts: {
       internal: {},
       external: {},
@@ -815,7 +828,21 @@ const applicants = (state = INIT_STATE, action) => {
         dbmCscPositionDescriptionForm: {
           ...state.dbmCscPositionDescriptionForm,
           positionDetails: {},
-          positionDescriptionFormBasic: {},
+          positionDescriptionFormBasic: {
+            ...state.dbmCscPositionDescriptionForm.positionDescriptionFormBasic,
+            appointmentType: '',
+            directlySupervised: [],
+            employmentPeriodFrom: '',
+            employmentPeriodTo: '',
+            immediateSupervisor: '',
+            itemNumber: '',
+            natureOfAppointment: '',
+            psbDurationStartDate: '',
+            publicationMode: '',
+            supervisorNextHigher: '',
+            toolsUsed: '',
+            workStation: '',
+          },
           contacts: {
             ...state.dbmCscPositionDescriptionForm.contacts,
             internal: {},
@@ -861,8 +888,33 @@ const applicants = (state = INIT_STATE, action) => {
         dbmCscPositionDescriptionForm: {
           ...state.dbmCscPositionDescriptionForm,
           positionDetails: action.payload.positionDetails,
-          positionDescriptionFormBasic:
-            action.payload.positionDescriptionFormBasic,
+          positionDescriptionFormBasic: {
+            ...state.dbmCscPositionDescriptionForm.positionDescriptionFormBasic,
+            directlySupervised:
+              action.payload.positionDescriptionFormBasic.directlySupervised,
+            appointmentType:
+              action.payload.positionDescriptionFormBasic.appointmentType,
+
+            employmentPeriodFrom:
+              action.payload.positionDescriptionFormBasic.employmentPeriodFrom,
+            employmentPeriodTo:
+              action.payload.positionDescriptionFormBasic.employmentPeriodTo,
+            immediateSupervisor:
+              action.payload.positionDescriptionFormBasic.immediateSupervisor,
+            itemNumber: action.payload.positionDescriptionFormBasic.itemNumber,
+            natureOfAppointment:
+              action.payload.positionDescriptionFormBasic.natureOfAppointment,
+            psbDurationStartDate:
+              action.payload.positionDescriptionFormBasic.psbDurationStartDate,
+            publicationMode:
+              action.payload.positionDescriptionFormBasic.publicationMode,
+            supervisorNextHigher:
+              action.payload.positionDescriptionFormBasic.supervisorNextHigher,
+            toolsUsed: action.payload.positionDescriptionFormBasic.toolsUsed,
+            workStation:
+              action.payload.positionDescriptionFormBasic.workStation,
+          },
+
           contacts: {
             ...state.dbmCscPositionDescriptionForm.contacts,
             internal: action.payload.contacts.internal,

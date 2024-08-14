@@ -805,7 +805,6 @@ const PublicationPdf = () => {
     // Reminder text
     worksheet['H34'].s = {
       font: {
-        color: { rgb: 'ff0000' },
         bold: true,
       },
       alignment: {
@@ -848,40 +847,53 @@ const PublicationPdf = () => {
         // change object to array
         const objectToArray = Object.values(publicationDocumentDetails[index])
 
+        // swap natureOfAppointment to plantillaTitle
+        const temp1 = objectToArray[6]
+        objectToArray[6] = objectToArray[5]
+        objectToArray[5] = temp1
+
         // swap experience and eligibility
-        const temp1 = objectToArray[12]
-        objectToArray[12] = objectToArray[11]
-        objectToArray[11] = temp1
+        const temp2 = objectToArray[13]
+        objectToArray[13] = objectToArray[12]
+        objectToArray[12] = temp2
 
-        // swap place of assignment to prf no.
-        const temp2 = objectToArray[14]
-        objectToArray[14] = objectToArray[13]
-        objectToArray[13] = temp2
+        // swap place of assignment to occupationalGroup
+        const temp3 = objectToArray[14]
+        objectToArray[14] = objectToArray[15]
+        objectToArray[15] = temp3
 
-        // swap competencies to prf no.
-        const temp3 = objectToArray[18]
-        objectToArray[18] = objectToArray[13]
-        objectToArray[13] = temp3
+        // swap place of occupationalGroup to competencies
+        const temp4 = objectToArray[19]
+        objectToArray[19] = objectToArray[14]
+        objectToArray[14] = temp4
 
-        // Remove first 6 elements from array and 10th - 13th elements
-        objectToArray.splice(0, 5)
-        objectToArray.splice(10, 13)
+        // Remove 1st to 6th elements and 10th to 14th elements
+        objectToArray.splice(0, 6)
+        objectToArray.splice(10, 14)
 
         // Add index element to start of array
         objectToArray.unshift(index + 1)
 
         // Assign temp value to functional competency only
-        const temp4 = objectToArray[9].functional
-        const functionalCompetencyString = arrayToString(temp4)
+        const temp5 = objectToArray[9].functional
+        const temp6 = objectToArray[9].managerial
+        const functionalCompetencyString =
+          arrayToString(temp5) + arrayToString(temp6)
 
         // replace element value at 9 with string competency
         objectToArray.splice(9, 1, functionalCompetencyString)
 
         array.push(objectToArray)
       })
+
       setFilteredPublicationData(array)
     }
   }, [publicationDocumentDetails])
+
+  // useEffect(() => {
+  //   if (!isEmpty(publicationDocumentDetails))
+  //     console.log(publicationDocumentDetails)
+  // }, [publicationDocumentDetails])
 
   // Fetch data of document
   useEffect(() => {

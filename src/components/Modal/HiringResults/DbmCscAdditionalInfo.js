@@ -41,7 +41,7 @@ import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // Formik validation
 import * as Yup from 'yup'
-import { useFormik, getIn } from 'formik'
+import { useFormik, FormikProvider, getIn, FieldArray } from 'formik'
 
 const DbmCscAdditionalInfo = props => {
   const {
@@ -101,8 +101,12 @@ const DbmCscAdditionalInfo = props => {
         workStation: '',
         appointmentType: '',
         publicationMode: '',
-        directlySupervised: '',
-        directlySupervisedItemNumbers: '',
+        directlySupervised: [
+          {
+            title: '',
+            itemNumber: '',
+          },
+        ],
       },
       contacts: {
         internal: {
@@ -152,6 +156,16 @@ const DbmCscAdditionalInfo = props => {
         ),
         publicationMode: Yup.string().required(
           'Please select a mode of publication'
+        ),
+        directlySupervised: Yup.array().of(
+          Yup.object().shape({
+            title: Yup.string().required(
+              'Title is required. Indicate NONE if Not applicable'
+            ),
+            itemNumber: Yup.string().required(
+              'Title is required. Indicate NONE if Not applicable'
+            ),
+          })
         ),
         // presentAppropriationAct: Yup.string().required(
         //   'This field is required'
@@ -679,46 +693,152 @@ const DbmCscAdditionalInfo = props => {
 
                 {/* DIRECTLY SUPERVISED */}
                 <h5>Position Title, and Item of those Directly Supervised</h5>
-                <Row>
-                  {/* Directly Supervised Position Title */}
-                  <Col lg={6}>
-                    <FormGroup>
-                      <Label for="directly-supervised-input">
-                        Position Title
-                      </Label>
-                      <Input
-                        name="basic.directlySupervised"
-                        type="text"
-                        className="form-control"
-                        id="directly-supervised-input"
-                        onChange={validation.handleChange}
-                        onBlur={validation.handleBlur}
-                        value={validation.values.basic.directlySupervised || ''}
-                      />
-                    </FormGroup>
-                  </Col>
 
-                  {/* Directly Supervised Plantilla Number */}
-                  <Col lg={6}>
-                    <FormGroup>
-                      <Label for="directly-supervised-item-numbers-input">
-                        Item Number
-                      </Label>
-                      <Input
-                        name="basic.directlySupervisedItemNumbers"
-                        type="text"
-                        className="form-control"
-                        id="directly-supervised-item-numbers-input"
-                        onChange={validation.handleChange}
-                        onBlur={validation.handleBlur}
-                        value={
-                          validation.values.basic
-                            .directlySupervisedItemNumbers || ''
-                        }
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
+                <FormikProvider value={validation}>
+                  <FieldArray
+                    name="basic.directlySupervised"
+                    render={arrayHelpers => (
+                      <div>
+                        {validation.values.basic.directlySupervised?.length >
+                          0 &&
+                          validation.values.basic.directlySupervised?.map(
+                            (position, index) => (
+                              <Row
+                                key={index}
+                                style={{ alignItems: 'flex-end' }}
+                              >
+                                {/* Directly Supervised Position Title */}
+                                <Col lg={6}>
+                                  <FormGroup>
+                                    <Label for={`position-${index}-title`}>
+                                      Position Title
+                                    </Label>
+                                    <Input
+                                      name={`basic.directlySupervised.${index}.title`}
+                                      type="text"
+                                      className="form-control"
+                                      id={`position-${index}-title`}
+                                      onChange={validation.handleChange}
+                                      onBlur={validation.handleBlur}
+                                      value={
+                                        validation.values.basic
+                                          .directlySupervised?.[index].title ||
+                                        ''
+                                      }
+                                      invalid={
+                                        getIn(
+                                          validation.touched,
+                                          `basic.directlySupervised.${index}.title`
+                                        ) &&
+                                        getIn(
+                                          validation.errors,
+                                          `basic.directlySupervised.${index}.title`
+                                        )
+                                          ? true
+                                          : false
+                                      }
+                                    />
+                                    {getIn(
+                                      validation.touched,
+                                      `basic.directlySupervised.${index}.title`
+                                    ) &&
+                                    getIn(
+                                      validation.errors,
+                                      `basic.directlySupervised.${index}.title`
+                                    ) ? (
+                                      <FormFeedback type="invalid">
+                                        {getIn(
+                                          validation.errors,
+                                          `basic.directlySupervised.${index}.title`
+                                        )}
+                                      </FormFeedback>
+                                    ) : null}
+                                  </FormGroup>
+                                </Col>
+
+                                {/* Directly Supervised Plantilla Number */}
+                                <Col lg={5}>
+                                  <FormGroup>
+                                    <Label for={`position-${index}-itemNumber`}>
+                                      Item Number
+                                    </Label>
+                                    <Input
+                                      name={`basic.directlySupervised.${index}.itemNumber`}
+                                      type="text"
+                                      className="form-control"
+                                      id={`position-${index}-itemNumber`}
+                                      onChange={validation.handleChange}
+                                      onBlur={validation.handleBlur}
+                                      value={
+                                        validation.values.basic
+                                          .directlySupervised?.[index]
+                                          .itemNumber || ''
+                                      }
+                                      invalid={
+                                        getIn(
+                                          validation.touched,
+                                          `basic.directlySupervised.${index}.itemNumber`
+                                        ) &&
+                                        getIn(
+                                          validation.errors,
+                                          `basic.directlySupervised.${index}.itemNumber`
+                                        )
+                                          ? true
+                                          : false
+                                      }
+                                    />
+                                    {getIn(
+                                      validation.touched,
+                                      `basic.directlySupervised.${index}.itemNumber`
+                                    ) &&
+                                    getIn(
+                                      validation.errors,
+                                      `basic.directlySupervised.${index}.itemNumber`
+                                    ) ? (
+                                      <FormFeedback type="invalid">
+                                        {getIn(
+                                          validation.errors,
+                                          `basic.directlySupervised.${index}.itemNumber`
+                                        )}
+                                      </FormFeedback>
+                                    ) : null}
+                                  </FormGroup>
+                                </Col>
+
+                                {/** Show add button to first entry only. Remove button to index 1 and up */}
+                                {index == 0 ? (
+                                  <Col lg={1}>
+                                    <Button
+                                      type="button"
+                                      onClick={() =>
+                                        arrayHelpers.push({
+                                          title: '',
+                                          itemNumber: '',
+                                        })
+                                      }
+                                      className="mb-3 btn-success"
+                                    >
+                                      +
+                                    </Button>
+                                  </Col>
+                                ) : (
+                                  <Col lg={1}>
+                                    <Button
+                                      type="button"
+                                      onClick={() => arrayHelpers.remove(index)}
+                                      className="mb-3 btn-danger"
+                                    >
+                                      -
+                                    </Button>
+                                  </Col>
+                                )}
+                              </Row>
+                            )
+                          )}
+                      </div>
+                    )}
+                  />
+                </FormikProvider>
 
                 <hr className="my-4"></hr>
 

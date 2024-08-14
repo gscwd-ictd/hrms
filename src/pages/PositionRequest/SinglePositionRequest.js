@@ -105,10 +105,6 @@ const SinglePositionRequest = props => {
     dispatch(fetchPRFTrail(prfId))
   }, [dispatch])
 
-  useEffect(() => {
-    console.log(prfDetails)
-  }, [prfDetails])
-
   return (
     <React.Fragment>
       <Can I="access" this="Prf_list">

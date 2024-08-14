@@ -141,7 +141,6 @@ const styles = StyleSheet.create({
   reminderText: {
     fontFamily: 'CalibriRegularBold',
     fontSize: 12,
-    color: '#ff0000',
     paddingTop: 5,
   },
   upperCase: {
