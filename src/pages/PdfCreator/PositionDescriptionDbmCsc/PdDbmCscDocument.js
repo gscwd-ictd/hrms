@@ -184,6 +184,46 @@ export const remarksHyphenationCallback = word => {
 const PdDbmCscDocument = props => {
   const { applicantDbmCsc } = props
 
+  const renderDirectlySupervised = positions => {
+    // .slice(0, 7) use if positions will be limited to 7 entries only
+
+    var content = positions.map((position, index) => (
+      <View style={[styles.rowContainer, styles.borderBottom]} key={index}>
+        <View style={[styles.w50, styles.borderRight]}>
+          <View>
+            <Text
+              style={[
+                styles.bodyTextBold,
+                styles.horizontalCenter,
+                styles.verticalCenter,
+                { paddingTop: 9, paddingBottom: 5 },
+              ]}
+            >
+              {position.title}
+            </Text>
+          </View>
+        </View>
+
+        <View style={[styles.w50]}>
+          <View>
+            <Text
+              style={[
+                styles.bodyTextBold,
+                styles.horizontalCenter,
+                styles.verticalCenter,
+                { paddingTop: 9, paddingBottom: 6 },
+              ]}
+            >
+              {position.itemNumber}
+            </Text>
+          </View>
+        </View>
+      </View>
+    ))
+
+    return content
+  }
+
   const renderIsOccasionalCheckBox = isOccasional => {
     if (isOccasional === 'Occasional') {
       return (
@@ -870,21 +910,6 @@ const PdDbmCscDocument = props => {
                       POSITION TITLE
                     </Text>
                   </View>
-                  <View>
-                    <Text
-                      style={[
-                        styles.bodyTextBold,
-                        styles.horizontalCenter,
-                        styles.verticalCenter,
-                        styles.tDataVerticalCenter,
-                      ]}
-                    >
-                      {
-                        applicantDbmCsc.positionDescriptionFormBasic
-                          .directlySupervised
-                      }
-                    </Text>
-                  </View>
                 </View>
 
                 <View style={[styles.w50]}>
@@ -895,29 +920,18 @@ const PdDbmCscDocument = props => {
                       ITEM NUMBER
                     </Text>
                   </View>
-
-                  <View>
-                    <Text
-                      style={[
-                        styles.bodyTextBold,
-                        styles.horizontalCenter,
-                        styles.verticalCenter,
-                        styles.tDataVerticalCenter,
-                      ]}
-                    >
-                      {
-                        applicantDbmCsc.positionDescriptionFormBasic
-                          .directlySupervisedItemNumbers
-                      }
-                    </Text>
-                  </View>
                 </View>
               </View>
+
+              {/* Render rows for each poisition */}
+              {renderDirectlySupervised(
+                applicantDbmCsc.positionDescriptionFormBasic.directlySupervised
+              )}
             </View>
           </View>
 
           {/* ROW 9 */}
-          <View style={[styles.borderAll]}>
+          <View style={[styles.borderAll, { borderTop: 'none' }]} wrap={false}>
             <View>
               <Text
                 style={[
@@ -944,7 +958,7 @@ const PdDbmCscDocument = props => {
           </View>
 
           {/* ROW 10 */}
-          <View style={[styles.borderAll]}>
+          <View style={[styles.borderAll]} wrap={false}>
             <View>
               <Text
                 style={[

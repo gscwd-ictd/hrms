@@ -213,6 +213,7 @@ function* fetchHiredApplicantDbmCscForm({ payload: postingApplicantId }) {
       getDocumentPositionDescriptionDBMCSC,
       postingApplicantId
     )
+
     yield put(fetchHiredApplicantDbmCscFormSuccess(response))
   } catch (error) {
     yield put(fetchHiredApplicantDbmCscFormFailed(error))
