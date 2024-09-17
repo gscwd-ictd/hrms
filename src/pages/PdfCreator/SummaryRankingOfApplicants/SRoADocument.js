@@ -425,7 +425,7 @@ const SRoADocument = props => {
                     return (
                       <View key={index}>
                         <Image
-                          src={signatory.signatureUrl}
+                          src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${signatory.signatureUrl}`}
                           style={[styles.signature]}
                         />
 
@@ -448,7 +448,7 @@ const SRoADocument = props => {
                     return (
                       <View key={index}>
                         <Image
-                          src={signatory.signatureUrl}
+                          src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${signatory.signatureUrl}`}
                           style={[styles.signature]}
                         />
 
@@ -473,7 +473,7 @@ const SRoADocument = props => {
                   return (
                     <View style={[styles.w50]} key={index}>
                       <Image
-                        src={signatory.signatureUrl}
+                        src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${signatory.signatureUrl}`}
                         style={[styles.signature]}
                       />
 
@@ -543,7 +543,7 @@ const SRoADocument = props => {
                     return (
                       <View key={index}>
                         <Image
-                          src={signatory.signatureUrl}
+                          src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${signatory.signatureUrl}`}
                           style={[styles.signature]}
                         />
 

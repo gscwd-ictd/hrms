@@ -50,7 +50,7 @@ const ProfileMenu = props => {
           {photoBadge ? (
             <img
               className="rounded-circle header-profile-user"
-              src={photoBadge}
+              src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${photoBadge}`}
               alt="Header Avatar"
             />
           ) : (

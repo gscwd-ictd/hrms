@@ -518,10 +518,7 @@ const CBIRDocument = props => {
                               ]}
                             >
                               <Image
-                                src={
-                                  psb.competencyBasedInterviewReport
-                                    .psbMemberDetails.signatureUrl
-                                }
+                                src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${psb.competencyBasedInterviewReport.psbMemberDetails.signatureUrl}`}
                                 style={[styles.signature]}
                               />
                               <View style={[styles.borderBottom]}>
@@ -1556,10 +1553,7 @@ const CBIRDocument = props => {
                           >
                             {/* signature image */}
                             <Image
-                              src={
-                                psb.competencyBasedInterviewReport
-                                  .psbMemberDetails.signatureUrl
-                              }
+                              src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${psb.competencyBasedInterviewReport.psbMemberDetails.signatureUrl}`}
                               style={[styles.signature]}
                             />
                             {/* psb member name */}

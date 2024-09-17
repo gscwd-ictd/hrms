@@ -10,7 +10,7 @@ const EmployeeIcon = props => {
     <>
       {avatarUrl ? (
         <img
-          src={avatarUrl}
+          src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${avatarUrl}`}
           alt={name}
           className="img-thumbnail rounded-circle"
           width={width}

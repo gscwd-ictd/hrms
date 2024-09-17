@@ -1,5 +1,5 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 
 import {
   Page,
@@ -9,12 +9,12 @@ import {
   StyleSheet,
   Font,
   Image,
-} from "@react-pdf/renderer"
-import Header from "components/PdfDocuments/ResultsOfHiring/Header"
+} from '@react-pdf/renderer'
+import Header from 'components/PdfDocuments/ResultsOfHiring/Header'
 
 // Fonts
-import CalibriRegular from "assets/fonts/uploads/calibri-regular.ttf"
-import CalibriRegularBold from "assets/fonts/uploads/calibri-regular-bold.ttf"
+import CalibriRegular from 'assets/fonts/uploads/calibri-regular.ttf'
+import CalibriRegularBold from 'assets/fonts/uploads/calibri-regular-bold.ttf'
 
 Font.registerHyphenationCallback(word => {
   screen
@@ -29,14 +29,14 @@ Font.registerHyphenationCallback(word => {
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
   },
   rowContainer: {
-    flexDirection: "row",
-    alignItems: "stretch",
+    flexDirection: 'row',
+    alignItems: 'stretch',
   },
   bodyBorder: {
-    border: "2px solid #000000",
+    border: '2px solid #000000',
   },
   signature: {
     width: 100,
@@ -45,94 +45,94 @@ const styles = StyleSheet.create({
 
   // Border Styles
   borderTop: {
-    borderTop: "1px solid #000000",
+    borderTop: '1px solid #000000',
   },
   borderRight: {
-    borderRight: "1px solid #000000",
+    borderRight: '1px solid #000000',
   },
   borderBottom: {
-    borderBottom: "1px solid #000000",
+    borderBottom: '1px solid #000000',
   },
 
   // Field Styles
   documentTitle: {
-    fontFamily: "CalibriRegularBold",
+    fontFamily: 'CalibriRegularBold',
     fontSize: 20,
     marginVertical: 10,
-    textAlign: "center",
+    textAlign: 'center',
   },
   bodyText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 11,
     paddingTop: 1,
   },
   tHeadText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 10,
-    marginVertical: "auto",
+    marginVertical: 'auto',
     padding: 3,
-    textAlign: "center",
+    textAlign: 'center',
   },
   tBodyText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 11,
-    marginVertical: "auto",
+    marginVertical: 'auto',
     paddingHorizontal: 2,
     paddingVertical: 8,
-    textAlign: "center",
+    textAlign: 'center',
   },
   tFooterText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 11,
-    marginVertical: "auto",
+    marginVertical: 'auto',
     padding: 2,
   },
   signatureText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 11,
-    textAlign: "left",
+    textAlign: 'left',
   },
   upperCase: {
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
   },
   signatoryName: {
-    fontFamily: "CalibriRegularBold",
-    textTransform: "uppercase",
-    padding: "4 0 0 2",
+    fontFamily: 'CalibriRegularBold',
+    textTransform: 'uppercase',
+    padding: '4 0 0 2',
   },
 
-  verticalCenter: { margin: "auto 0" },
-  horizontalCenter: { textAlign: "center" },
+  verticalCenter: { margin: 'auto 0' },
+  horizontalCenter: { textAlign: 'center' },
 
   // Width Styles
-  w100: { width: "100%" },
-  w65: { width: "65%" },
-  w58: { width: "58%" },
-  w50: { width: "50%" },
-  w45: { width: "45%" },
-  w40: { width: "40%" },
-  w35: { width: "35%" },
-  w33_33: { width: "33.33%" },
-  w30: { width: "30%" },
-  w28: { width: "28%" },
-  w26: { width: "26%" },
-  w25: { width: "25%" },
-  w20: { width: "20%" },
-  w15: { width: "15%" },
-  w14: { width: "14%" },
-  w10: { width: "10%" },
-  w8: { width: "8%" },
-  w6: { width: "6%" },
-  w2: { width: "2%" },
+  w100: { width: '100%' },
+  w65: { width: '65%' },
+  w58: { width: '58%' },
+  w50: { width: '50%' },
+  w45: { width: '45%' },
+  w40: { width: '40%' },
+  w35: { width: '35%' },
+  w33_33: { width: '33.33%' },
+  w30: { width: '30%' },
+  w28: { width: '28%' },
+  w26: { width: '26%' },
+  w25: { width: '25%' },
+  w20: { width: '20%' },
+  w15: { width: '15%' },
+  w14: { width: '14%' },
+  w10: { width: '10%' },
+  w8: { width: '8%' },
+  w6: { width: '6%' },
+  w2: { width: '2%' },
 })
 
 Font.register({
-  family: "CalibriRegular",
+  family: 'CalibriRegular',
   src: CalibriRegular,
 })
 
 Font.register({
-  family: "CalibriRegularBold",
+  family: 'CalibriRegularBold',
   src: CalibriRegularBold,
 })
 
@@ -193,37 +193,37 @@ const RoHDocument = props => {
               >
                 <View style={[styles.w20, styles.borderRight]}>
                   <Text style={[styles.tBodyText]}>
-                    {hiredApplicant.positionTitle || ""}
+                    {hiredApplicant.positionTitle || ''}
                   </Text>
                 </View>
 
                 <View style={[styles.w26, styles.borderRight]}>
                   <Text style={[styles.tBodyText]}>
-                    {hiredApplicant.assignedTo || ""}
+                    {hiredApplicant.assignedTo || ''}
                   </Text>
                 </View>
 
                 <View style={[styles.w6, styles.borderRight]}>
                   <Text style={[styles.tBodyText]}>
-                    {hiredApplicant.salaryGradeLevel || ""}
+                    {hiredApplicant.salaryGradeLevel || ''}
                   </Text>
                 </View>
 
                 <View style={[styles.w6, styles.borderRight]}>
                   <Text style={[styles.tBodyText]}>
-                    {hiredApplicant.level || ""}
+                    {hiredApplicant.level || ''}
                   </Text>
                 </View>
 
                 <View style={[styles.w14, styles.borderRight]}>
                   <Text style={[styles.tBodyText]}>
-                    {hiredApplicant.plantillaNumber || ""}
+                    {hiredApplicant.plantillaNumber || ''}
                   </Text>
                 </View>
 
                 <View style={[styles.w28]}>
                   <Text style={[styles.tBodyText]}>
-                    {hiredApplicant.selected || ""}
+                    {hiredApplicant.selected || ''}
                   </Text>
                 </View>
               </View>
@@ -264,14 +264,11 @@ const RoHDocument = props => {
           <View style={[styles.rowContainer, { paddingTop: 20 }]}>
             {/* CERTIFIED CORRECT BY */}
             <View style={[styles.w50, styles.signatureText]}>
-              <Text style={[{ padding: "4 0 0 2" }]}>
+              <Text style={[{ padding: '4 0 0 2' }]}>
                 Certified Correct by:
               </Text>
               <Image
-                src={
-                  resultsOfHiringDocument.signatories.certifiedCorrectBy
-                    .signatureUrl
-                }
+                src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${resultsOfHiringDocument.signatories.certifiedCorrectBy.signatureUrl}`}
                 style={[styles.signature]}
               />
               <Text style={[styles.signatoryName]}>
@@ -280,7 +277,7 @@ const RoHDocument = props => {
                     .fullName
                 }
               </Text>
-              <Text style={[{ padding: "5 0 0 2" }]}>
+              <Text style={[{ padding: '5 0 0 2' }]}>
                 {
                   resultsOfHiringDocument.signatories.certifiedCorrectBy
                     .position
@@ -290,17 +287,15 @@ const RoHDocument = props => {
 
             {/* REVIEWED BY */}
             <View style={[styles.w50, styles.signatureText]}>
-              <Text style={[{ padding: "4 0 0 2" }]}>Approved by:</Text>
+              <Text style={[{ padding: '4 0 0 2' }]}>Approved by:</Text>
               <Image
-                src={
-                  resultsOfHiringDocument.signatories.approvedBy.signatureUrl
-                }
+                src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${resultsOfHiringDocument.signatories.approvedBy.signatureUrl}`}
                 style={[styles.signature]}
               />
               <Text style={[styles.signatoryName]}>
                 {resultsOfHiringDocument.signatories.approvedBy.fullName}
               </Text>
-              <Text style={[{ padding: "5 0 0 2" }]}>
+              <Text style={[{ padding: '5 0 0 2' }]}>
                 {resultsOfHiringDocument.signatories.approvedBy.position}
               </Text>
             </View>
