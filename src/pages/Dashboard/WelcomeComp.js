@@ -51,7 +51,7 @@ const WelcomeComp = () => {
               <div className="avatar-md profile-user-wid mb-4">
                 {photoBadge ? (
                   <img
-                    src={photoBadge}
+                    src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${photoBadge}`}
                     alt=""
                     className="img-thumbnail rounded-circle"
                   />

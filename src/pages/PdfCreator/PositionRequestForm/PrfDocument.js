@@ -1,5 +1,5 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 
 import {
   Page,
@@ -9,142 +9,142 @@ import {
   StyleSheet,
   Font,
   Image,
-} from "@react-pdf/renderer"
-import Header from "components/PdfDocuments/PositionRequestForm/Header"
+} from '@react-pdf/renderer'
+import Header from 'components/PdfDocuments/PositionRequestForm/Header'
 
 // Fonts
-import CalibriRegular from "assets/fonts/uploads/calibri-regular.ttf"
-import CalibriRegularBold from "assets/fonts/uploads/calibri-regular-bold.ttf"
+import CalibriRegular from 'assets/fonts/uploads/calibri-regular.ttf'
+import CalibriRegularBold from 'assets/fonts/uploads/calibri-regular-bold.ttf'
 
 // Sample e-signature
-import SampleSignature from "assets/images/sample-signature.png"
+import SampleSignature from 'assets/images/sample-signature.png'
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
   },
   rowContainer: {
-    flexDirection: "row",
-    alignItems: "stretch",
+    flexDirection: 'row',
+    alignItems: 'stretch',
   },
   bodyBorder: {
     margin: 10,
-    border: "2px solid #000000",
+    border: '2px solid #000000',
   },
   signature: {
     width: 100,
-    marginHorizontal: "auto",
+    marginHorizontal: 'auto',
   },
   signatureApproving: {
     width: 88,
-    marginHorizontal: "auto",
+    marginHorizontal: 'auto',
   },
   signatureCertified: {
     width: 132,
-    marginHorizontal: "auto",
+    marginHorizontal: 'auto',
   },
 
   // Border Styles
   borderTop: {
-    borderTop: "1px solid #000000",
+    borderTop: '1px solid #000000',
   },
   borderRight: {
-    borderRight: "1px solid #000000",
+    borderRight: '1px solid #000000',
   },
   borderBottom: {
-    borderBottom: "1px solid #000000",
+    borderBottom: '1px solid #000000',
   },
 
   // Field Styles
   documentTitle: {
-    fontFamily: "CalibriRegularBold",
+    fontFamily: 'CalibriRegularBold',
     fontSize: 22,
     marginVertical: 10,
-    textAlign: "center",
+    textAlign: 'center',
   },
   keyText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 14,
     paddingLeft: 3,
   },
   valueText: {
-    fontFamily: "CalibriRegularBold",
+    fontFamily: 'CalibriRegularBold',
     fontSize: 14,
   },
   positionText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 13,
     paddingTop: 1,
   },
   respectText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 12,
     paddingLeft: 3,
   },
   thText: {
-    fontFamily: "CalibriRegularBold",
+    fontFamily: 'CalibriRegularBold',
     fontSize: 11,
-    textAlign: "center",
-    padding: "5 2 2 2",
+    textAlign: 'center',
+    padding: '5 2 2 2',
   },
   tdText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 11,
-    textAlign: "center",
-    padding: "8 4 4 4",
+    textAlign: 'center',
+    padding: '8 4 4 4',
   },
   dateNeededText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 11,
   },
   examinationText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 11,
   },
   signatureText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 11,
-    textAlign: "center",
+    textAlign: 'center',
   },
   prfNoText: {
-    fontFamily: "CalibriRegular",
+    fontFamily: 'CalibriRegular',
     fontSize: 11,
-    padding: "4 0 0 2",
+    padding: '4 0 0 2',
   },
   upperCase: {
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
   },
   signatoryName: {
-    fontFamily: "CalibriRegularBold",
-    textTransform: "uppercase",
-    padding: "4 0 0 2",
+    fontFamily: 'CalibriRegularBold',
+    textTransform: 'uppercase',
+    padding: '4 0 0 2',
   },
 
-  verticalCenter: { margin: "auto 0" },
-  horizontalCenter: { textAlign: "center" },
+  verticalCenter: { margin: 'auto 0' },
+  horizontalCenter: { textAlign: 'center' },
 
   // Width Styles
-  w100: { width: "100%" },
-  w65: { width: "65%" },
-  w50: { width: "50%" },
-  w40: { width: "40%" },
-  w35: { width: "35%" },
-  w33_33: { width: "33.33%" },
-  w30: { width: "30%" },
-  w25: { width: "25%" },
-  w20: { width: "20%" },
-  w15: { width: "15%" },
-  w8: { width: "8%" },
-  w5: { width: "5%" },
+  w100: { width: '100%' },
+  w65: { width: '65%' },
+  w50: { width: '50%' },
+  w40: { width: '40%' },
+  w35: { width: '35%' },
+  w33_33: { width: '33.33%' },
+  w30: { width: '30%' },
+  w25: { width: '25%' },
+  w20: { width: '20%' },
+  w15: { width: '15%' },
+  w8: { width: '8%' },
+  w5: { width: '5%' },
 })
 
 Font.register({
-  family: "CalibriRegular",
+  family: 'CalibriRegular',
   src: CalibriRegular,
 })
 
 Font.register({
-  family: "CalibriRegularBold",
+  family: 'CalibriRegularBold',
   src: CalibriRegularBold,
 })
 
@@ -189,31 +189,31 @@ const PrfDocument = props => {
     var content = (
       <>
         {prfDetails.from.name === prfTrail.department.name ||
-          prfTrail.department.status === "N/A" ? (
+        prfTrail.department.status === 'N/A' ? (
           <>
             <Text
               style={[
                 {
-                  fontFamily: "CalibriRegularBold",
-                  textTransform: "uppercase",
-                  padding: "72 0 0 2",
+                  fontFamily: 'CalibriRegularBold',
+                  textTransform: 'uppercase',
+                  padding: '72 0 0 2',
                 },
               ]}
             >
               N/A
             </Text>
-            <Text style={[styles.borderTop, { padding: "5 0 0 2" }]}>N/A</Text>
+            <Text style={[styles.borderTop, { padding: '5 0 0 2' }]}>N/A</Text>
           </>
         ) : (
           <>
             <Image
-              src={`${prfTrail.department.signatureUrl}`}
+              src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${prfTrail.department.signatureUrl}`}
               style={[styles.signature]}
             />
             <Text style={[styles.signatoryName]}>
               {prfTrail.department.name}
             </Text>
-            <Text style={[styles.borderTop, { padding: "5 0 0 2" }]}>
+            <Text style={[styles.borderTop, { padding: '5 0 0 2' }]}>
               {prfTrail.department.position}
             </Text>
           </>
@@ -229,29 +229,29 @@ const PrfDocument = props => {
     var content = (
       <>
         {prfDetails.from.name === prfTrail.agm.name ||
-          prfTrail.agm.status === "N/A" ? (
+        prfTrail.agm.status === 'N/A' ? (
           <>
             <Text
               style={[
                 {
-                  fontFamily: "CalibriRegularBold",
-                  textTransform: "uppercase",
-                  padding: "72 0 0 2",
+                  fontFamily: 'CalibriRegularBold',
+                  textTransform: 'uppercase',
+                  padding: '72 0 0 2',
                 },
               ]}
             >
               N/A
             </Text>
-            <Text style={[styles.borderTop, { padding: "5 0 0 2" }]}>N/A</Text>
+            <Text style={[styles.borderTop, { padding: '5 0 0 2' }]}>N/A</Text>
           </>
         ) : (
           <>
             <Image
-              src={`${prfTrail.agm.signatureUrl}`}
+              src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${prfTrail.agm.signatureUrl}`}
               style={[styles.signature]}
             />
             <Text style={[styles.signatoryName]}>{prfTrail.agm.name}</Text>
-            <Text style={[styles.borderTop, { padding: "5 0 0 2" }]}>
+            <Text style={[styles.borderTop, { padding: '5 0 0 2' }]}>
               {prfTrail.agm.position}
             </Text>
           </>
@@ -348,7 +348,7 @@ const PrfDocument = props => {
 
           {/* Section 2 */}
           <View style={[styles.borderTop, { paddingVertical: 10 }]}>
-            <Text style={[styles.respectText, { marginVertical: "auto" }]}>
+            <Text style={[styles.respectText, { marginVertical: 'auto' }]}>
               Respectfully requesting from your end for additional personnel as
               follows:
             </Text>
@@ -384,7 +384,7 @@ const PrfDocument = props => {
                 style={[
                   styles.verticalCenter,
                   styles.rowContainer,
-                  { marginHorizontal: "auto" },
+                  { marginHorizontal: 'auto' },
                 ]}
               >
                 {/* <Text>Date needed: </Text>
@@ -409,7 +409,7 @@ const PrfDocument = props => {
               ]}
             >
               <View
-                style={[styles.verticalCenter, { marginHorizontal: "auto" }]}
+                style={[styles.verticalCenter, { marginHorizontal: 'auto' }]}
               >
                 <View style={[styles.rowContainer]}>
                   <View
@@ -419,7 +419,7 @@ const PrfDocument = props => {
                       { paddingLeft: 7 },
                     ]}
                   >
-                    <Text>{prfDetails.withExam ? "X" : " "}</Text>
+                    <Text>{prfDetails.withExam ? 'X' : ' '}</Text>
                   </View>
                   <Text>with examination</Text>
                 </View>
@@ -432,7 +432,7 @@ const PrfDocument = props => {
                       { paddingLeft: 7 },
                     ]}
                   >
-                    <Text>{!prfDetails.withExam ? "X" : " "}</Text>
+                    <Text>{!prfDetails.withExam ? 'X' : ' '}</Text>
                   </View>
                   <Text>without examination</Text>
                 </View>
@@ -450,13 +450,13 @@ const PrfDocument = props => {
             <View
               style={[styles.w33_33, styles.signatureText, styles.borderRight]}
             >
-              <Text style={[{ padding: "4 0 0 2" }]}>Requested by:</Text>
+              <Text style={[{ padding: '4 0 0 2' }]}>Requested by:</Text>
               <Image
-                source={`${prfDetails.from.fromSignatureUrl}`}
+                source={`${process.env.REACT_APP_IMAGE_SERVER_URL}${prfDetails.from.fromSignatureUrl}`}
                 style={[styles.signature]}
               />
               <Text style={[styles.signatoryName]}>{prfDetails.from.name}</Text>
-              <Text style={[styles.borderTop, { padding: "5 0 0 2" }]}>
+              <Text style={[styles.borderTop, { padding: '5 0 0 2' }]}>
                 {prfDetails.from.position}
               </Text>
             </View>
@@ -465,13 +465,13 @@ const PrfDocument = props => {
             <View
               style={[styles.w33_33, styles.signatureText, styles.borderRight]}
             >
-              <Text style={[{ padding: "4 0 0 2" }]}>Reviewed by:</Text>
+              <Text style={[{ padding: '4 0 0 2' }]}>Reviewed by:</Text>
               {renderReviewedBy()}
             </View>
 
             {/* RECOMMENDED BY */}
             <View style={[styles.w33_33, styles.signatureText]}>
-              <Text style={[{ padding: "4 0 0 2" }]}>Recommended by:</Text>
+              <Text style={[{ padding: '4 0 0 2' }]}>Recommended by:</Text>
               {renderRecommendedBy()}
             </View>
           </View>
@@ -483,19 +483,19 @@ const PrfDocument = props => {
             <View
               style={[styles.w50, styles.signatureText, styles.borderRight]}
             >
-              <Text style={[{ padding: "4 0 0 2" }]}>
+              <Text style={[{ padding: '4 0 0 2' }]}>
                 Certified correct by:
               </Text>
 
               {/* Update Signature */}
               <Image
-                source={`${prfTrail.admin.signatureUrl}`}
+                source={`${process.env.REACT_APP_IMAGE_SERVER_URL}${prfTrail.admin.signatureUrl}`}
                 style={[styles.signatureCertified]}
               />
 
               <Text style={[styles.signatoryName]}>{prfTrail.admin.name}</Text>
               {/* FIXED */}
-              <Text style={[styles.borderTop, { padding: "5 0 0 2" }]}>
+              <Text style={[styles.borderTop, { padding: '5 0 0 2' }]}>
                 {prfTrail.admin.position}
               </Text>
             </View>
@@ -504,18 +504,18 @@ const PrfDocument = props => {
             <View style={[styles.w50, styles.signatureText]}>
               <Text
                 style={[
-                  { padding: "4 0 0 2", fontFamily: "CalibriRegularBold" },
+                  { padding: '4 0 0 2', fontFamily: 'CalibriRegularBold' },
                 ]}
               >
                 Action Taken:
               </Text>
 
-              <View style={[{ margin: "0 2" }]}>
+              <View style={[{ margin: '0 2' }]}>
                 <View style={[styles.rowContainer]}>
                   <View
                     style={[styles.borderBottom, styles.w8, { paddingLeft: 2 }]}
                   >
-                    <Text>{prfDetails.status === "Approved" ? "X" : " "}</Text>
+                    <Text>{prfDetails.status === 'Approved' ? 'X' : ' '}</Text>
                   </View>
                   <Text>Approved for Publication</Text>
                 </View>
@@ -523,14 +523,14 @@ const PrfDocument = props => {
                 <View
                   style={[
                     styles.rowContainer,
-                    { paddingTop: 5, alignItems: "flex-start" },
+                    { paddingTop: 5, alignItems: 'flex-start' },
                   ]}
                 >
                   <View
                     style={[styles.borderBottom, styles.w8, { paddingLeft: 2 }]}
                   >
                     <Text>
-                      {prfDetails.status === "Disapproved" ? "X" : " "}
+                      {prfDetails.status === 'Disapproved' ? 'X' : ' '}
                     </Text>
                   </View>
                   <Text>Disapproved due to:</Text>
@@ -542,7 +542,7 @@ const PrfDocument = props => {
                       { paddingLeft: 3 },
                     ]}
                   >
-                    <Text>{prfDetails.disapprovedRemarks || " "}</Text>
+                    <Text>{prfDetails.disapprovedRemarks || ' '}</Text>
                   </View>
                 </View>
               </View>
@@ -550,7 +550,7 @@ const PrfDocument = props => {
               {/* FINAL APPROVING BODY */}
               <View style={[styles.w65]}>
                 <Image
-                  source={`${prfDetails.for.forSignatureUrl}`}
+                  source={`${process.env.REACT_APP_IMAGE_SERVER_URL}${prfDetails.for.forSignatureUrl}`}
                   style={[styles.signatureApproving]}
                 />
               </View>
@@ -561,8 +561,8 @@ const PrfDocument = props => {
                     styles.w65,
                     styles.horizontalCenter,
                     {
-                      fontFamily: "CalibriRegularBold",
-                      textTransform: "uppercase",
+                      fontFamily: 'CalibriRegularBold',
+                      textTransform: 'uppercase',
                     },
                   ]}
                 >
@@ -575,7 +575,7 @@ const PrfDocument = props => {
                 </Text>
               </View>
 
-              <View style={[styles.borderTop, { padding: "5 0 0 2" }]}>
+              <View style={[styles.borderTop, { padding: '5 0 0 2' }]}>
                 <View style={[styles.rowContainer]}>
                   <Text style={[styles.w65, styles.horizontalCenter]}>
                     {prfDetails.for.position}

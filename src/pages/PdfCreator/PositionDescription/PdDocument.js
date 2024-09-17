@@ -267,7 +267,7 @@ const PdDocument = props => {
         ) : (
           <>
             <Image
-              src={`${prfTrail.department.signatureUrl}`}
+              src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${prfTrail.department.signatureUrl}`}
               style={[styles.signature]}
             />
             <Text style={[styles.signatoryName]}>
@@ -301,7 +301,7 @@ const PdDocument = props => {
         ) : (
           <>
             <Image
-              src={`${prfTrail.agm.signatureUrl}`}
+              src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${prfTrail.agm.signatureUrl}`}
               style={[styles.signature]}
             />
             <Text style={[styles.signatoryName]}>{prfTrail.agm.name}</Text>
@@ -770,7 +770,7 @@ const PdDocument = props => {
                       <Text>Requested by:</Text>
                       <View style={[styles.horizontalCenter]}>
                         <Image
-                          source={`${prfDetails?.from.fromSignatureUrl}`}
+                          source={`${process.env.REACT_APP_IMAGE_SERVER_URL}${prfDetails?.from.fromSignatureUrl}`}
                           style={[styles.signature]}
                         />
                         <Text style={[styles.signatoryName]}>
@@ -807,7 +807,7 @@ const PdDocument = props => {
                       <Text>Certified correct by:</Text>
                       <View style={[styles.horizontalCenter]}>
                         <Image
-                          source={`${prfTrail.admin.signatureUrl}`}
+                          source={`${process.env.REACT_APP_IMAGE_SERVER_URL}${prfTrail.admin.signatureUrl}`}
                           style={[styles.signature]}
                         />
                         <Text style={[styles.signatoryName]}>
@@ -822,7 +822,7 @@ const PdDocument = props => {
                       <Text>Approved by:</Text>
                       <View style={[styles.horizontalCenter]}>
                         <Image
-                          source={`${prfDetails?.for.forSignatureUrl}`}
+                          source={`${process.env.REACT_APP_IMAGE_SERVER_URL}${prfDetails?.for.forSignatureUrl}`}
                           style={[styles.signature]}
                         />
                         <Text style={[styles.signatoryName]}>
