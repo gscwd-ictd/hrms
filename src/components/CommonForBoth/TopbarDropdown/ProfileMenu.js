@@ -6,6 +6,8 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap'
+import { isEmpty } from 'lodash'
+
 //i18n
 import { withTranslation } from 'react-i18next'
 // Redux
@@ -47,7 +49,7 @@ const ProfileMenu = props => {
           id="page-header-user-dropdown"
           tag="button"
         >
-          {photoBadge ? (
+          {!isEmpty(photoBadge) ? (
             <img
               className="rounded-circle header-profile-user"
               src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${photoBadge}`}
@@ -61,7 +63,7 @@ const ProfileMenu = props => {
             />
           )}
 
-          {email ? (
+          {!isEmpty(email) ? (
             <span className="d-none d-xl-inline-block ms-2 me-1">{email}</span>
           ) : (
             <span className="placeholder col-7">----</span>
