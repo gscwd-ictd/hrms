@@ -6,8 +6,10 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap'
+
 //i18n
 import { withTranslation } from 'react-i18next'
+
 // Redux
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -29,7 +31,11 @@ const ProfileMenu = props => {
     }
 
     if (localStorage.getItem('photoUrl') !== 'undefined') {
-      setPhotoBadge(localStorage.getItem('photoUrl'))
+      setPhotoBadge(
+        `${process.env.REACT_APP_IMAGE_SERVER_URL}${localStorage.getItem(
+          'photoUrl'
+        )}`
+      )
     } else {
       setPhotoBadge(userDefaultAvatar)
     }
@@ -47,26 +53,17 @@ const ProfileMenu = props => {
           id="page-header-user-dropdown"
           tag="button"
         >
-          {photoBadge ? (
-            <img
-              className="rounded-circle header-profile-user"
-              src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${photoBadge}`}
-              alt="Header Avatar"
-            />
-          ) : (
-            <img
-              className="rounded-circle header-profile-user"
-              src={userDefaultAvatar}
-              alt="DefaultHeader Avatar"
-            />
-          )}
+          <img
+            className="rounded-circle header-profile-user"
+            src={photoBadge}
+            alt="Header Avatar"
+          />
 
           {email ? (
             <span className="d-none d-xl-inline-block ms-2 me-1">{email}</span>
           ) : (
             <span className="placeholder col-7">----</span>
           )}
-
           <i className="mdi mdi-chevron-down d-none d-xl-inline-block" />
         </DropdownToggle>
         <DropdownMenu className="dropdown-menu-end">
