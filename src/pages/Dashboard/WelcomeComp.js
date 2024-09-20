@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 import { Row, Col, Card, CardBody } from 'reactstrap'
-import { Link } from 'react-router-dom'
+import { isEmpty } from 'lodash'
 
 import userDefaultAvatar from 'assets/images/users/avatar.png'
 import profileBg from 'assets/images/profile-img.png'
@@ -49,7 +49,7 @@ const WelcomeComp = () => {
           <Row>
             <Col sm="12">
               <div className="avatar-md profile-user-wid mb-4">
-                {photoBadge ? (
+                {!isEmpty(photoBadge) ? (
                   <img
                     src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${photoBadge}`}
                     alt=""
