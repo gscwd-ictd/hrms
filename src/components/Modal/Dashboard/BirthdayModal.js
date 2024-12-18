@@ -46,7 +46,7 @@ const BirthdayModal = props => {
                     <Col sm="2" className="my-auto">
                       <div className="avatar-sm">
                         <img
-                          src={employee.picture}
+                          src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${employee.picture}`}
                           alt=""
                           className="img-thumbnail rounded-circle"
                         />
