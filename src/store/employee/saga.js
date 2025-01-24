@@ -84,7 +84,7 @@ function* fetchEmployeeDetailsReport({ payload }) {
     graduate_studies,
     eligibility,
     salary_grade,
-    step_increment,
+    amount,
   } = payload
   try {
     const response = yield call(
@@ -112,7 +112,7 @@ function* fetchEmployeeDetailsReport({ payload }) {
       graduate_studies,
       eligibility,
       salary_grade,
-      step_increment
+      amount
     )
     yield put(fetchEmployeeDetailsReportSuccess(response))
   } catch (error) {

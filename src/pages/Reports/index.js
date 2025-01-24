@@ -12,24 +12,14 @@ import {
   Input,
 } from 'reactstrap'
 import Breadcrumbs from 'components/Common/Breadcrumb'
-
 import { reports, natureOfAppointment } from 'constants/selectInputs'
 import { reportNames } from 'constants/reports'
-
-import { useDispatch } from 'react-redux'
-import { fetchEmployeeDetailsReport } from 'store/actions'
-
-import EmployeeDetailsPdf from 'pages/PdfCreator/EmployeeDetails'
+import { natureOfAppointments } from 'constants/natureOfAppointments'
 import { useFormik } from 'formik'
-
 import * as Yup from 'yup'
 
 const Reports = () => {
-  const [isSubmitted, setIsSubmitted] = useState(false)
   const [reportType, setReportType] = useState('')
-  const [generatedReportType, setGeneratedReportType] = useState('')
-
-  const dispatch = useDispatch()
 
   const initialValues = {
     company_id: false,
@@ -55,7 +45,7 @@ const Reports = () => {
     graduate_studies: false,
     eligibility: false,
     salary_grade: false,
-    step_increment: false,
+    amount: false,
   }
 
   const validation = useFormik({
@@ -66,13 +56,24 @@ const Reports = () => {
     }),
     onSubmit: (values, { resetForm }) => {
       if (values.reportType === reportNames.REPORT_ON_EMPLOYEE_INFORMATION) {
-        setIsSubmitted(true)
-        setGeneratedReportType(values.reportType)
-        dispatch(fetchEmployeeDetailsReport(values))
         // resetForm({ values: initialValues })
+        const url = `${window.location}/${replaceSpaceToDash(
+          values.reportType
+        )}`
+
+        const paramEmpInfo = `/${values.company_id}/${values.nature_of_appointment}/${values.personal_details}/${values.date_hired}/${values.position_title}/${values.assignment}/${values.office}/${values.department}/${values.division}/${values.residential_address}/${values.permanent_address}/${values.gsis}/${values.pagibig}/${values.philhealth}/${values.sss}/${values.tin}/${values.primary_education}/${values.secondary_education}/${values.vocational_course}/${values.college_education}/${values.graduate_studies}/${values.eligibility}/${values.salary_grade}/${values.amount}`
+
+        window.open(url + paramEmpInfo, '_blank')
       }
     },
   })
+
+  // Replace space with dash for URL on redirect
+  const replaceSpaceToDash = reportName => {
+    if (reportName != null && reportName.length > 0) {
+      return reportName.replace(/ /g, '-')
+    }
+  }
 
   return (
     <React.Fragment>
@@ -151,6 +152,7 @@ const Reports = () => {
                                 validation.values.nature_of_appointment || ''
                               }
                               onChange={validation.handleChange}
+                              required
                             >
                               <option value="">Select...</option>
                               {natureOfAppointment.map((appointment, index) => (
@@ -508,33 +510,39 @@ const Reports = () => {
                                 </Label>
                               </FormGroup>
                             </Row>
+
+                            {/* Allow option if value chosen are casual or permanent */}
+                            {validation.values.nature_of_appointment ===
+                              natureOfAppointments.CASUAL ||
+                            validation.values.nature_of_appointment ===
+                              natureOfAppointments.PERMANENT ? (
+                              <Row>
+                                <FormGroup check>
+                                  <Label check>
+                                    <Input
+                                      type="checkbox"
+                                      name="salary_grade"
+                                      checked={
+                                        validation.values.salary_grade || false
+                                      }
+                                      onChange={validation.handleChange}
+                                    />
+                                    Salary Grade
+                                  </Label>
+                                </FormGroup>
+                              </Row>
+                            ) : null}
+
                             <Row>
                               <FormGroup check>
                                 <Label check>
                                   <Input
                                     type="checkbox"
-                                    name="salary_grade"
-                                    checked={
-                                      validation.values.salary_grade || false
-                                    }
+                                    name="amount"
+                                    checked={validation.values.amount || false}
                                     onChange={validation.handleChange}
                                   />
-                                  Salary Grade
-                                </Label>
-                              </FormGroup>
-                            </Row>
-                            <Row>
-                              <FormGroup check>
-                                <Label check>
-                                  <Input
-                                    type="checkbox"
-                                    name="step_increment"
-                                    checked={
-                                      validation.values.step_increment || false
-                                    }
-                                    onChange={validation.handleChange}
-                                  />
-                                  Step Increment
+                                  Amount
                                 </Label>
                               </FormGroup>
                             </Row>
@@ -553,13 +561,6 @@ const Reports = () => {
                         </Button>
                       </Row>
                     </Form>
-
-                    {/* PDF REPORT */}
-                    {isSubmitted &&
-                      generatedReportType ===
-                        reportNames.REPORT_ON_EMPLOYEE_INFORMATION && (
-                        <EmployeeDetailsPdf />
-                      )}
                   </Row>
                 </CardBody>
               </Card>
