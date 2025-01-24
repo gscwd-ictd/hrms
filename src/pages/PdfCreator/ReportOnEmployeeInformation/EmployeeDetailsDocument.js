@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import {
   Page,
   Text,
@@ -19,7 +18,7 @@ import { isEmpty } from 'lodash'
 const styles = StyleSheet.create({
   page: {
     backgroundColor: '#ffffff',
-    paddingTop: 20,
+    paddingTop: 10,
     paddingBottom: 25,
   },
   rowContainer: {
@@ -42,17 +41,17 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
   },
   tHeadFirstLevel: {
-    padding: '4 0 0 4',
-    fontSize: 11,
+    padding: '2 0 2 4',
+    fontSize: 8.5,
   },
   tHeadSecondLevel: {
     fontFamily: 'CalibriRegularBold',
-    padding: '4 0 0 4',
+    padding: '2 0 2 4',
     textAlign: 'center',
   },
   tData: {
-    padding: '4 4 0 4',
-    fontSize: 9,
+    padding: '2 4 2 4',
+    fontSize: 8,
   },
 
   // Border Styles
@@ -75,24 +74,24 @@ const styles = StyleSheet.create({
   // Field Styles
   documentTitle: {
     fontFamily: 'CalibriRegularBold',
-    fontSize: 20,
+    fontSize: 18,
     marginBottom: 10,
     textAlign: 'center',
   },
   headerText: {
     fontFamily: 'CalibriRegularBold',
     textDecoration: 'underline',
-    fontSize: 13,
+    fontSize: 11,
     marginTop: 15,
     marginBottom: 4,
   },
   bodyText: {
     fontFamily: 'CalibriRegular',
-    fontSize: 12,
+    fontSize: 10,
   },
   bodyTextBold: {
     fontFamily: 'CalibriRegularBold',
-    fontSize: 12,
+    fontSize: 10,
   },
   upperCase: {
     textTransform: 'uppercase',
@@ -144,7 +143,7 @@ Font.register({
   src: CalibriRegularBold,
 })
 
-const EmployeeDetailsDocument = ({ employeeDetails }) => {
+const ReportOnEmployeeInfoPdf = ({ employeeDetails }) => {
   if (isEmpty(employeeDetails)) return null
 
   const chunkSubstr = word => {
@@ -246,9 +245,9 @@ const EmployeeDetailsDocument = ({ employeeDetails }) => {
     employee => employee.salaryGrade
   )?.salaryGrade
 
-  const stepIncrement = employeeDetails.find(
-    employee => employee.stepIncrement
-  )?.stepIncrement
+  const amount = employeeDetails.find(
+    employee => employee.salaryGradeAmount
+  )?.salaryGradeAmount
 
   const renderHeader = () => (
     <View style={styles.documentTitle}>
@@ -650,8 +649,8 @@ const EmployeeDetailsDocument = ({ employeeDetails }) => {
               </Text>
             </View>
           ) : null}
-          {/* Step Increment */}
-          {stepIncrement ? (
+          {/* Amount */}
+          {amount ? (
             <View style={[styles.w10, styles.borderRight]}>
               <Text
                 style={[
@@ -660,7 +659,7 @@ const EmployeeDetailsDocument = ({ employeeDetails }) => {
                   styles.tHeadFirstLevel,
                 ]}
               >
-                Salary Grade
+                Amount
               </Text>
             </View>
           ) : null}
@@ -934,11 +933,11 @@ const EmployeeDetailsDocument = ({ employeeDetails }) => {
             </View>
           ) : null}
 
-          {/* stepIncrement */}
-          {stepIncrement ? (
+          {/* amount */}
+          {amount ? (
             <View style={[styles.w10, styles.tData, styles.borderRight]}>
               <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
-                {employee.stepIncrement || 'N/A'}
+                {employee.salaryGradeAmount || 'N/A'}
               </Text>
             </View>
           ) : null}
@@ -954,7 +953,12 @@ const EmployeeDetailsDocument = ({ employeeDetails }) => {
       subject="Employee Details Report"
       title={'Employee Details Report'}
     >
-      <Page size={[612.3, 935.4]} orientation="landscape" style={styles.page}>
+      {/* size={[612.3, 935.4]} */}
+      <Page
+        size={{ width: 8.5 * 72, height: 11 * 72 }}
+        orientation="landscape"
+        style={styles.page}
+      >
         <Header />
         <View style={{ paddingVertical: 5, paddingHorizontal: 20 }}>
           {renderHeader()}
@@ -966,7 +970,7 @@ const EmployeeDetailsDocument = ({ employeeDetails }) => {
   )
 }
 
-EmployeeDetailsDocument.propTypes = {
+ReportOnEmployeeInfoPdf.propTypes = {
   employeeDetails: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
-export default EmployeeDetailsDocument
+export default ReportOnEmployeeInfoPdf

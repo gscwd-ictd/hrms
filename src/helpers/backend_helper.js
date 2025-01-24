@@ -553,9 +553,9 @@ export const getEmployeeDetailsReport = (
   graduate_studies,
   eligibility,
   salary_grade,
-  step_increment
+  amount
 ) => {
   return getHris(
-    `${url.EMPLOYEE_DETAILS_REPORT}?company_id=${company_id}&nature_of_appointment=${nature_of_appointment}&personal_details=${personal_details}&date_hired=${date_hired}&position_title=${position_title}&assignment=${assignment}&office=${office}&department=${department}&division=${division}&gsis=${gsis}&pagibig=${pagibig}&philhealth=${philhealth}&sss=${sss}&tin=${tin}&residential_address=${residential_address}&permanent_address=${permanent_address}&primary_education=${primary_education}&secondary_education=${secondary_education}&vocational_course=${vocational_course}&college_education=${college_education}&graduate_studies=${graduate_studies}&eligibility=${eligibility}&salary_grade=${salary_grade}&step_increment=${step_increment}`
+    `${url.EMPLOYEE_DETAILS_REPORT}?company_id=${company_id}&nature_of_appointment=${nature_of_appointment}&personal_details=${personal_details}&date_hired=${date_hired}&position_title=${position_title}&assignment=${assignment}&office=${office}&department=${department}&division=${division}&gsis=${gsis}&pagibig=${pagibig}&philhealth=${philhealth}&sss=${sss}&tin=${tin}&residential_address=${residential_address}&permanent_address=${permanent_address}&primary_education=${primary_education}&secondary_education=${secondary_education}&vocational_course=${vocational_course}&college_education=${college_education}&graduate_studies=${graduate_studies}&eligibility=${eligibility}&salary_grade=${salary_grade}&amount=${amount}`
   )
 }
