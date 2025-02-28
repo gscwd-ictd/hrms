@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { isEmpty } from 'lodash'
 import PropTypes from 'prop-types'
 import { sexes, civilStatuses } from 'constants/selectInputs'
@@ -6,6 +6,7 @@ import { natureOfAppointments } from 'constants/natureOfAppointments'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
+  fetchEmployeeList,
   fetchEmpBasicInfo,
   updateEmpBasicInfo,
   resetEmployeeErrorLog,
@@ -28,7 +29,6 @@ import {
   ModalFooter,
   FormText,
 } from 'reactstrap'
-import Select from 'react-select'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 import * as Yup from 'yup'
@@ -52,7 +52,6 @@ const EditEmployeeInformationModal = props => {
     loadingResponseUpdateEmpBasicInfo,
     errorResponseUpdateEmpBasicInfo,
   } = useSelector(state => ({
-    // redux state for employee assignment
     employeeBasicInformation: state.employee.employeeBasicInformation,
     loadingEmpBasicInfo: state.employee.isLoading,
     errorEmpBasicInfo: state.employee.error,
@@ -113,7 +112,6 @@ const EditEmployeeInformationModal = props => {
     }),
     onSubmit: values => {
       dispatch(updateEmpBasicInfo(values))
-      // console.log(values)
     },
   })
 
@@ -121,14 +119,6 @@ const EditEmployeeInformationModal = props => {
   useEffect(() => {
     if (showEdt) {
       dispatch(fetchEmpBasicInfo(modalData.employmentDetails?.employeeId))
-      // formik.setFieldValue(
-      //   'employeeId',
-      //   modalData.employmentDetails?.employeeId
-      // )
-      // formik.setFieldValue(
-      //   'natureOfAppointment',
-      //   modalData.employmentDetails?.natureOfAppointment
-      // )
     } else {
       dispatch(resetEmpBasicInfoResponse())
       dispatch(resetEmployeeErrorLog())
@@ -139,11 +129,11 @@ const EditEmployeeInformationModal = props => {
   // Execute after successful submission of form
   useEffect(() => {
     if (!isEmpty(responseUpdateEmpBasicInformation)) {
-      // dispatch(fetchEmployeeList())
       formik.resetForm()
 
       dispatch(resetEmpBasicInfoResponse())
       handleCloseEdt()
+      dispatch(fetchEmployeeList())
     }
   }, [responseUpdateEmpBasicInformation])
 
