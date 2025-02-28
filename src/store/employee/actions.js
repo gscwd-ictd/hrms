@@ -16,6 +16,13 @@ import {
   GET_EMPLOYEE_DETAILS_REPORT,
   GET_EMPLOYEE_DETAILS_REPORT_SUCCESS,
   GET_EMPLOYEE_DETAILS_REPORT_FAIL,
+  GET_EMPLOYEE_BASIC_INFO,
+  GET_EMPLOYEE_BASIC_INFO_SUCCESS,
+  GET_EMPLOYEE_BASIC_INFO_FAIL,
+  UPDATE_EMPLOYEE_BASIC_INFO,
+  UPDATE_EMPLOYEE_BASIC_INFO_SUCCESS,
+  UPDATE_EMPLOYEE_BASIC_INFO_FAIL,
+  RESET_RESPONSE_ON_UPDATE_BASIC_INFO,
 } from './actionTypes'
 
 // Assign employee to position and enroll to portal
@@ -105,21 +112,18 @@ export const fetchEmployee201Failed = error => {
 }
 
 // get employee details report
-
 export const fetchEmployeeDetailsReport = payload => {
   return {
     type: GET_EMPLOYEE_DETAILS_REPORT,
     payload: payload,
   }
 }
-
 export const fetchEmployeeDetailsReportSuccess = response => {
   return {
     type: GET_EMPLOYEE_DETAILS_REPORT_SUCCESS,
     payload: response,
   }
 }
-
 export const fetchEmployeeDetailsReportFail = error => {
   return {
     type: GET_EMPLOYEE_DETAILS_REPORT_FAIL,
@@ -127,8 +131,56 @@ export const fetchEmployeeDetailsReportFail = error => {
   }
 }
 
+// get employee basic information
+export const fetchEmpBasicInfo = payload => {
+  return {
+    type: GET_EMPLOYEE_BASIC_INFO,
+    payload: payload,
+  }
+}
+export const fetchEmpBasicInfoSuccess = response => {
+  return {
+    type: GET_EMPLOYEE_BASIC_INFO_SUCCESS,
+    payload: response,
+  }
+}
+export const fetchEmpBasicInfoFail = error => {
+  return {
+    type: GET_EMPLOYEE_BASIC_INFO_FAIL,
+    payload: error,
+  }
+}
+
+// reset employee response on fecth request
 export const resetEmployeeErrorLog = () => {
   return {
     type: RESET_EMPLOYEE_ERROR_LOG,
+  }
+}
+
+// update employee basic information
+export const updateEmpBasicInfo = payload => {
+  return {
+    type: UPDATE_EMPLOYEE_BASIC_INFO,
+    payload: payload,
+  }
+}
+export const updateEmpBasicInfoSuccess = response => {
+  return {
+    type: UPDATE_EMPLOYEE_BASIC_INFO_SUCCESS,
+    payload: response,
+  }
+}
+export const updateEmpBasicInfoFail = error => {
+  return {
+    type: UPDATE_EMPLOYEE_BASIC_INFO_FAIL,
+    payload: error,
+  }
+}
+
+// Reset employee update basic info
+export const resetEmpBasicInfoResponse = () => {
+  return {
+    type: RESET_RESPONSE_ON_UPDATE_BASIC_INFO,
   }
 }

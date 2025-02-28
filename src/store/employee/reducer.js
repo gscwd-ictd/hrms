@@ -13,6 +13,13 @@ import {
   GET_EMPLOYEE_DETAILS_REPORT,
   GET_EMPLOYEE_DETAILS_REPORT_SUCCESS,
   GET_EMPLOYEE_DETAILS_REPORT_FAIL,
+  GET_EMPLOYEE_BASIC_INFO,
+  GET_EMPLOYEE_BASIC_INFO_SUCCESS,
+  GET_EMPLOYEE_BASIC_INFO_FAIL,
+  UPDATE_EMPLOYEE_BASIC_INFO,
+  UPDATE_EMPLOYEE_BASIC_INFO_SUCCESS,
+  UPDATE_EMPLOYEE_BASIC_INFO_FAIL,
+  RESET_RESPONSE_ON_UPDATE_BASIC_INFO,
 } from './actionTypes'
 
 const INIT_STATE = {
@@ -49,8 +56,28 @@ const INIT_STATE = {
     governmentIssuedId: {},
   },
   employeeDetails: [],
+  employeeBasicInformation: {
+    employeeId: '',
+    firstName: '',
+    middleName: '',
+    lastName: '',
+    nameExtension: '',
+    titlePrefix: '',
+    titleSuffix: '',
+    sex: '',
+    civilStatus: '',
+    phoneNumber: '',
+    email: '',
+    birthday: '',
+    dailyRate: '',
+  },
   isLoading: false,
   error: null,
+  response: {
+    updateEmpBasicInfo: {},
+    isLoading: false,
+    error: null,
+  },
 }
 
 const employee = (state = INIT_STATE, action) => {
@@ -193,15 +220,14 @@ const employee = (state = INIT_STATE, action) => {
       }
       break
 
-    // employee details report
     case GET_EMPLOYEE_DETAILS_REPORT:
       state = {
         ...state,
         isLoading: true,
+        error: null,
         employeeDetails: [],
       }
       break
-
     case GET_EMPLOYEE_DETAILS_REPORT_SUCCESS:
       state = {
         ...state,
@@ -209,8 +235,60 @@ const employee = (state = INIT_STATE, action) => {
         employeeDetails: action.payload,
       }
       break
-
     case GET_EMPLOYEE_DETAILS_REPORT_FAIL:
+      state = {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      }
+      break
+
+    case GET_EMPLOYEE_BASIC_INFO:
+      state = {
+        ...state,
+        isLoading: true,
+        error: null,
+        employeeBasicInformation: {
+          ...state.employeeBasicInformation,
+          employeeId: '',
+          firstName: '',
+          middleName: '',
+          lastName: '',
+          nameExtension: '',
+          titlePrefix: '',
+          titleSuffix: '',
+          sex: '',
+          civilStatus: '',
+          phoneNumber: '',
+          email: '',
+          birthday: '',
+          dailyRate: '',
+        },
+      }
+      break
+    case GET_EMPLOYEE_BASIC_INFO_SUCCESS:
+      state = {
+        ...state,
+        isLoading: false,
+        employeeBasicInformation: {
+          ...state.employeeBasicInformation,
+          employeeId: action.payload.employeeId,
+          firstName: action.payload.firstName,
+          middleName: action.payload.middleName,
+          lastName: action.payload.lastName,
+          nameExtension: action.payload.nameExtension,
+          titlePrefix: action.payload.titlePrefix,
+          titleSuffix: action.payload.titleSuffix,
+          sex: action.payload.sex,
+          civilStatus: action.payload.civilStatus,
+          phoneNumber: action.payload.phoneNumber,
+          email: action.payload.email,
+          birthday: action.payload.birthday,
+          dailyRate: action.payload.dailyRate,
+        },
+      }
+      break
+    case GET_EMPLOYEE_BASIC_INFO_FAIL:
       state = {
         ...state,
         isLoading: false,
@@ -222,6 +300,48 @@ const employee = (state = INIT_STATE, action) => {
       state = {
         ...state,
         error: null,
+      }
+      break
+
+    case UPDATE_EMPLOYEE_BASIC_INFO:
+      state = {
+        ...state,
+        response: {
+          ...state.response,
+          updateEmpBasicInfo: {},
+          isLoading: true,
+          error: null,
+        },
+      }
+      break
+    case UPDATE_EMPLOYEE_BASIC_INFO_SUCCESS:
+      state = {
+        ...state,
+        response: {
+          ...state.response,
+          updateEmpBasicInfo: action.payload,
+          isLoading: false,
+        },
+      }
+      break
+    case UPDATE_EMPLOYEE_BASIC_INFO_FAIL:
+      state = {
+        ...state,
+        response: {
+          ...state.response,
+          isLoading: false,
+          error: action.payload,
+        },
+      }
+      break
+    case RESET_RESPONSE_ON_UPDATE_BASIC_INFO:
+      state = {
+        ...state,
+        response: {
+          ...state.response,
+          updateEmpBasicInfo: {},
+          error: null,
+        },
       }
       break
 

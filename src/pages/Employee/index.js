@@ -29,6 +29,7 @@ import Breadcrumb from 'components/Common/Breadcrumb'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 import EmployeeIcon from 'components/Common/EmployeeIcon'
+import EditEmployeeInformationModal from 'components/Modal/Employee/EditEmployeeInformationModal'
 
 const EmployeeList = () => {
   const dispatch = useDispatch()
@@ -106,22 +107,27 @@ const EmployeeList = () => {
           <i className="mdi mdi-dots-horizontal"></i>
         </DropdownToggle>
         <DropdownMenu direction="right">
-          <DropdownItem>
-            <Link
-              className="dropdown-item"
-              target="_blank"
-              to={`${
-                location.pathname +
-                '/pds/' +
-                cell.row.values['employmentDetails.employeeId']
-              }`}
-              style={{ paddingRight: 5 }}
-            >
-              PDS
-            </Link>
-          </DropdownItem>
+          {cell.row.values[`employmentDetails.natureOfAppointment`] ===
+            'permanent' ||
+          cell.row.values[`employmentDetails.natureOfAppointment`] ===
+            'casual' ? (
+            <DropdownItem>
+              <Link
+                className="dropdown-item"
+                target="_blank"
+                to={`${
+                  location.pathname +
+                  '/pds/' +
+                  cell.row.values['employmentDetails.employeeId']
+                }`}
+                style={{ paddingRight: 5 }}
+              >
+                PDS
+              </Link>
+            </DropdownItem>
+          ) : null}
 
-          <DropdownItem>
+          {/* <DropdownItem>
             <Link
               className="dropdown-item"
               to={`${
@@ -133,7 +139,7 @@ const EmployeeList = () => {
             >
               201
             </Link>
-          </DropdownItem>
+          </DropdownItem> */}
 
           <DropdownItem>
             <Link
@@ -150,6 +156,15 @@ const EmployeeList = () => {
               Position Description
             </Link>
           </DropdownItem>
+
+          <DropdownItem>
+            <div
+              onClick={() => editModal(cell.row.original)}
+              className="dropdown-item"
+            >
+              Update Emp. Info
+            </div>
+          </DropdownItem>
         </DropdownMenu>
       </UncontrolledDropdown>
     )
@@ -158,10 +173,22 @@ const EmployeeList = () => {
   /**
    * Modal
    */
+  const [modalData, setModalData] = useState({})
+
   // Register Employee to Portal
   const [showAdd, setShowAdd] = useState(false)
   const handleCloseAdd = () => setShowAdd(false)
   const handleShowAdd = () => setShowAdd(true)
+
+  // Edit Modal
+  const [showEdt, setShowEdt] = useState(false)
+  const handleCloseEdt = () => setShowEdt(false)
+  const handleShowEdt = () => setShowEdt(true)
+
+  const editModal = rowData => {
+    setModalData(rowData)
+    handleShowEdt()
+  }
 
   //  function to convert string
   const convertToUrlString = str => {
@@ -224,6 +251,12 @@ const EmployeeList = () => {
                     <PortalRegistrationModal
                       showAdd={showAdd}
                       handleCloseAdd={handleCloseAdd}
+                    />
+
+                    <EditEmployeeInformationModal
+                      showEdt={showEdt}
+                      modalData={modalData}
+                      handleCloseEdt={handleCloseEdt}
                     />
                   </CardBody>
                 </Card>

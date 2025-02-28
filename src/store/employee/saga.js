@@ -4,6 +4,8 @@ import {
   getEmployees,
   getEmployeePds,
   getEmployeeDetailsReport,
+  getEmployeeBasicInformation,
+  putEmployeeBasicInformation,
 } from 'helpers/backend_helper'
 import {
   submitEmpAssgnFailed,
@@ -14,12 +16,18 @@ import {
   fetchEmployeePdsFailed,
   fetchEmployeeDetailsReportFail,
   fetchEmployeeDetailsReportSuccess,
+  fetchEmpBasicInfoSuccess,
+  fetchEmpBasicInfoFail,
+  updateEmpBasicInfoSuccess,
+  updateEmpBasicInfoFail,
 } from './actions'
 import {
   SUBMIT_EMPLOYEE_ASSIGN,
   GET_EMPLOYEE_LIST,
   GET_EMPLOYEE_PDS,
   GET_EMPLOYEE_DETAILS_REPORT,
+  GET_EMPLOYEE_BASIC_INFO,
+  UPDATE_EMPLOYEE_BASIC_INFO,
 } from './actionTypes'
 
 function* submitEmpAssignmentData({ payload: empassgndata }) {
@@ -126,11 +134,47 @@ function* fetchEmployeeDetailsReport({ payload }) {
   }
 }
 
+function* fetchEmpBasicInfo({ payload: employeeId }) {
+  try {
+    const response = yield call(getEmployeeBasicInformation, employeeId)
+
+    yield put(fetchEmpBasicInfoSuccess(response))
+  } catch (error) {
+    let message
+    if (error.response && error.response.status) {
+      message = `Status Code: ${error.response.status}`
+    } else {
+      message = 'Network error. Unable to connect to server'
+    }
+
+    yield put(fetchEmpBasicInfoFail(message))
+  }
+}
+
+function* updateEmpBasicInfo({ payload: employeeBasicInfo }) {
+  try {
+    const response = yield call(putEmployeeBasicInformation, employeeBasicInfo)
+
+    yield put(updateEmpBasicInfoSuccess(response))
+  } catch (error) {
+    let message
+    if (error.response && error.response.status) {
+      message = `Status Code: ${error.response.status}`
+    } else {
+      message = 'Network error. Unable to connect to server'
+    }
+
+    yield put(updateEmpBasicInfoFail(message))
+  }
+}
+
 function* employeeSaga() {
   yield takeEvery(SUBMIT_EMPLOYEE_ASSIGN, submitEmpAssignmentData)
   yield takeEvery(GET_EMPLOYEE_LIST, fetchEmployeeList)
   yield takeEvery(GET_EMPLOYEE_PDS, fetchEmployeePds)
   yield takeEvery(GET_EMPLOYEE_DETAILS_REPORT, fetchEmployeeDetailsReport)
+  yield takeEvery(GET_EMPLOYEE_BASIC_INFO, fetchEmpBasicInfo)
+  yield takeEvery(UPDATE_EMPLOYEE_BASIC_INFO, updateEmpBasicInfo)
 }
 
 export default employeeSaga
