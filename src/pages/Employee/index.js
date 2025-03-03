@@ -12,6 +12,7 @@ import {
   Card,
   CardBody,
   UncontrolledDropdown,
+  Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
@@ -30,6 +31,7 @@ import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 import EmployeeIcon from 'components/Common/EmployeeIcon'
 import EditEmployeeInformationModal from 'components/Modal/Employee/EditEmployeeInformationModal'
+import AddCosEmployeeModal from 'components/Modal/Employee/AddCosEmployeeModal'
 
 const EmployeeList = () => {
   const dispatch = useDispatch()
@@ -111,59 +113,69 @@ const EmployeeList = () => {
             'permanent' ||
           cell.row.values[`employmentDetails.natureOfAppointment`] ===
             'casual' ? (
-            <DropdownItem>
-              <Link
-                className="dropdown-item"
-                target="_blank"
-                to={`${
+            <>
+              <DropdownItem
+                href={`${
                   location.pathname +
                   '/pds/' +
                   cell.row.values['employmentDetails.employeeId']
                 }`}
-                style={{ paddingRight: 5 }}
+                target="_blank"
+                className="dropdown-item"
               >
-                PDS
-              </Link>
-            </DropdownItem>
+                Employee Information (PDS)
+              </DropdownItem>
+
+              <DropdownItem
+                href={`${
+                  '/plantilla/' +
+                  `${convertToUrlString(
+                    cell.row.values['employmentDetails.natureOfAppointment']
+                  )}` +
+                  `${cell.row.values['employmentDetails.positionId']}`
+                }`}
+                target="_blank"
+                className="dropdown-item"
+              >
+                Position Description
+              </DropdownItem>
+
+              {/* <DropdownItem
+                href={`${
+                  location.pathname +
+                  '/201/' +
+                  cell.row.values['employmentDetails.employeeId']
+                }`}
+                target="_blank"
+                className="dropdown-item"
+              >
+                201
+              </DropdownItem> */}
+            </>
           ) : null}
 
-          {/* <DropdownItem>
-            <Link
-              className="dropdown-item"
-              to={`${
+          {cell.row.values[`employmentDetails.natureOfAppointment`] ===
+            'job order' ||
+          cell.row.values[`employmentDetails.natureOfAppointment`] ===
+            'contract of service' ? (
+            <DropdownItem
+              href={`${
                 location.pathname +
                 '/201/' +
                 cell.row.values['employmentDetails.employeeId']
               }`}
-              style={{ paddingRight: 5 }}
-            >
-              201
-            </Link>
-          </DropdownItem> */}
-
-          <DropdownItem>
-            <Link
-              className="dropdown-item"
-              to={`${
-                '/plantilla/' +
-                `${convertToUrlString(
-                  cell.row.values['employmentDetails.natureOfAppointment']
-                )}` +
-                `${cell.row.values['employmentDetails.positionId']}`
-              }`}
-              style={{ paddingRight: 5 }}
-            >
-              Position Description
-            </Link>
-          </DropdownItem>
-
-          <DropdownItem>
-            <div
-              onClick={() => editModal(cell.row.original)}
+              target="_blank"
               className="dropdown-item"
             >
-              Update Emp. Info
-            </div>
+              Employee Information (Basic)
+            </DropdownItem>
+          ) : null}
+
+          <DropdownItem
+            onClick={() => editModal(cell.row.original)}
+            className="dropdown-item"
+          >
+            Update Basic Information
           </DropdownItem>
         </DropdownMenu>
       </UncontrolledDropdown>
@@ -176,9 +188,19 @@ const EmployeeList = () => {
   const [modalData, setModalData] = useState({})
 
   // Register Employee to Portal
-  const [showAdd, setShowAdd] = useState(false)
-  const handleCloseAdd = () => setShowAdd(false)
-  const handleShowAdd = () => setShowAdd(true)
+  const [registerDropdown, setRegisterDropdown] = useState(false)
+
+  const [showAddPerm, setShowAddPerm] = useState(false)
+  const handleCloseAddPerm = () => setShowAddPerm(false)
+  const handleShowAddPerm = () => setShowAddPerm(true)
+
+  const [showAddJo, setShowAddJo] = useState(false)
+  const handleCloseAddJo = () => setShowAddJo(false)
+  const handleShowAddJo = () => setShowAddJo(true)
+
+  const [showAddCos, setShowAddCos] = useState(false)
+  const handleCloseAddCos = () => setShowAddCos(false)
+  const handleShowAddCos = () => setShowAddCos(true)
 
   // Edit Modal
   const [showEdt, setShowEdt] = useState(false)
@@ -208,7 +230,7 @@ const EmployeeList = () => {
 
   useEffect(() => {
     dispatch(fetchEmployeeList())
-  }, [])
+  }, [dispatch])
 
   return (
     <React.Fragment>
@@ -235,28 +257,67 @@ const EmployeeList = () => {
                       <>
                         <div className="top-right-actions">
                           <div className="form-group add-btn">
-                            <button
-                              onClick={handleShowAdd}
-                              className="btn btn-info waves-effect waves-light"
-                            >
-                              <i className="fas fa-plus-square"></i>&nbsp;
-                              Employee Registration
-                            </button>
+                            <div className="btn-group">
+                              <Dropdown
+                                isOpen={registerDropdown}
+                                toggle={() => {
+                                  setRegisterDropdown(!registerDropdown)
+                                }}
+                              >
+                                <DropdownToggle
+                                  tag="button"
+                                  className="btn btn-info"
+                                >
+                                  <i className="fas fa-plus-square"></i>&nbsp;
+                                  Employee Registration
+                                </DropdownToggle>
+
+                                <DropdownMenu className="dropdown-menu-end">
+                                  <DropdownItem
+                                    onClick={() => handleShowAddPerm()}
+                                  >
+                                    Permanent
+                                  </DropdownItem>
+                                  <DropdownItem
+                                  // onClick={() => handleShowAddCas()}
+                                  >
+                                    Casual
+                                  </DropdownItem>
+                                  <DropdownItem
+                                  // onClick={handleShowAddJo}
+                                  >
+                                    Job Order
+                                  </DropdownItem>
+                                  <DropdownItem
+                                  // onClick={handleShowAddCos}
+                                  >
+                                    Contract of Service
+                                  </DropdownItem>
+                                </DropdownMenu>
+                              </Dropdown>
+                            </div>
                           </div>
                         </div>
                         <TableEmployeeList columns={columns} data={data} />
                       </>
                     )}
 
-                    <PortalRegistrationModal
-                      showAdd={showAdd}
-                      handleCloseAdd={handleCloseAdd}
-                    />
-
+                    {/* Modals for Actions */}
                     <EditEmployeeInformationModal
                       showEdt={showEdt}
                       modalData={modalData}
                       handleCloseEdt={handleCloseEdt}
+                    />
+
+                    <PortalRegistrationModal
+                      showAddPerm={showAddPerm}
+                      handleCloseAddPerm={handleCloseAddPerm}
+                    />
+
+                    <AddCosEmployeeModal
+                      showAddCos={showAddCos}
+                      modalData={modalData}
+                      handleCloseAddCos={handleCloseAddCos}
                     />
                   </CardBody>
                 </Card>

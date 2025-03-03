@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Card, CardBody, Col, Row, Container } from 'reactstrap'
+import { Card, CardBody, Col, Row, Container, Badge } from 'reactstrap'
 import { fetchPlantilla } from 'store/actions'
 import PropTypes from 'prop-types'
 import { Can } from 'casl/Can'
@@ -44,12 +44,34 @@ const PlantillaTable = () => {
     },
     {
       Header: 'Assigned To',
-      accessor: 'assignedTo',
+      accessor: 'orgName',
       Filter: SelectColumnFilter,
     },
     {
       Header: 'Occupation',
       accessor: 'occupationName',
+      Filter: SelectColumnFilter,
+    },
+    {
+      Header: 'Is Filled',
+      accessor: 'isFilled',
+      Cell: function Status(cell) {
+        if (cell.row.original.isFilled === true) {
+          return (
+            <Badge className="me-2 bg-success font-size-12 text-capitalize">
+              {`${cell.row.original.isFilled}`}
+            </Badge>
+          )
+        } else {
+          return (
+            <Badge className="me-2 font-size-12 text-capitalize">
+              {`${cell.row.original.isFilled}`}
+            </Badge>
+          )
+        }
+      },
+      disableSortBy: true,
+      disableGlobalFilter: true,
       Filter: SelectColumnFilter,
     },
     {

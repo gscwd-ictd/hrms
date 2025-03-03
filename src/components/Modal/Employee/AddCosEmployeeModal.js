@@ -37,17 +37,13 @@ import { useFormik } from 'formik'
 // import scss
 import 'styles/custom_gscwd/pages/employeeassignment.scss'
 
-const EditEmployeeInformationModal = props => {
-  const { showEdt, modalData, handleCloseEdt } = props
+const AddCosEmployeeModal = props => {
+  const { showAddCos, modalData, handleCloseAddCos } = props
   const dispatch = useDispatch()
 
   const {} = useSelector(state => ({}))
 
   const {
-    employeeBasicInformation,
-    loadingEmpBasicInfo,
-    errorEmpBasicInfo,
-
     responseUpdateEmpBasicInformation,
     loadingResponseUpdateEmpBasicInfo,
     errorResponseUpdateEmpBasicInfo,
@@ -70,33 +66,27 @@ const EditEmployeeInformationModal = props => {
     enableReinitialize: true,
 
     initialValues: {
-      employeeId: modalData.employmentDetails?.employeeId || '',
-      natureOfAppointment:
-        modalData.employmentDetails?.natureOfAppointment || '',
-      firstName: employeeBasicInformation.firstName || '',
-      middleName: employeeBasicInformation.middleName || '',
-      lastName: employeeBasicInformation.lastName || '',
-      nameExtension: employeeBasicInformation.nameExtension || '',
-      titlePrefix: employeeBasicInformation.titlePrefix || '',
-      titleSuffix: employeeBasicInformation.titleSuffix || '',
-      birthday: employeeBasicInformation.birthday || '',
-      sex: employeeBasicInformation.sex || '',
-      civilStatus: employeeBasicInformation.civilStatus || '',
-      phoneNumber: employeeBasicInformation.phoneNumber || '',
-      email: employeeBasicInformation.email || '',
-      dailyRate: parseFloat(employeeBasicInformation.dailyRate) || '',
+      natureOfAppointment: natureOfAppointments.CONTRACT_OF_SERVICE || '',
+      firstName: '',
+      middleName: '',
+      lastName: '',
+      nameExtension: '',
+      titlePrefix: '',
+      titleSuffix: '',
+      birthday: '',
+      sex: '',
+      civilStatus: '',
+      phoneNumber: '',
+      email: '',
+      dailyRate: '',
+      isPerPieceRate: false,
     },
     validationSchema: Yup.object().shape({
-      employeeId: Yup.string().required(),
-      natureOfAppointment: Yup.string().required(),
       firstName: Yup.string().required(),
       lastName: Yup.string().required(),
       birthday: Yup.string().required(),
       sex: Yup.string().required('Select a sex'),
-      civilStatus: Yup.string().when('natureOfAppointment', {
-        is: val => (val === 'permanent' || val === 'casual' ? true : false),
-        then: Yup.string().required('Select a civil status'),
-      }),
+      civilStatus: Yup.string().required('Select a civilStatus'),
       phoneNumber: Yup.string()
         .required('required')
         .matches(phoneRegExp, 'Phone number is not valid')
@@ -107,11 +97,8 @@ const EditEmployeeInformationModal = props => {
         .matches(/@[^.]*\./)
         .required('Please use the official GSCWD email'),
       dailyRate: Yup.number().when('natureOfAppointment', {
-        is: val =>
-          val === 'job order' || val === 'contract of service' ? true : false,
-        then: Yup.number().required(
-          'Daily rate is required for Job Order/Contract of Service employees'
-        ),
+        is: val => (val === 'job order' ? true : false),
+        then: Yup.number().required('Daily rate is required'),
       }),
     }),
     onSubmit: values => {
@@ -121,14 +108,14 @@ const EditEmployeeInformationModal = props => {
 
   // Reset response state upon close of modal
   useEffect(() => {
-    if (showEdt) {
+    if (showAddCos) {
       dispatch(fetchEmpBasicInfo(modalData.employmentDetails?.employeeId))
     } else {
       dispatch(resetEmpBasicInfoResponse())
       dispatch(resetEmployeeErrorLog())
       formik.resetForm()
     }
-  }, [showEdt])
+  }, [showAddCos])
 
   // Execute after successful submission of form
   useEffect(() => {
@@ -136,15 +123,15 @@ const EditEmployeeInformationModal = props => {
       formik.resetForm()
 
       dispatch(resetEmpBasicInfoResponse())
-      handleCloseEdt()
+      handleCloseAddCos()
       dispatch(fetchEmployeeList())
     }
   }, [responseUpdateEmpBasicInformation])
 
   return (
     <>
-      <Modal isOpen={showEdt} toggle={handleCloseEdt} size="lg" centered>
-        <ModalHeader toggle={handleCloseEdt}>
+      <Modal isOpen={showAddCos} toggle={handleCloseAddCos} size="lg" centered>
+        <ModalHeader toggle={handleCloseAddCos}>
           Update Employee Information
         </ModalHeader>
 
@@ -379,44 +366,37 @@ const EditEmployeeInformationModal = props => {
                 </Col>
 
                 {/* civil status select field */}
-                {modalData.employmentDetails?.natureOfAppointment ===
-                  natureOfAppointments.PERMANENT ||
-                modalData.employmentDetails?.natureOfAppointment ===
-                  natureOfAppointments.CASUAL ? (
-                  <Col sm={4}>
-                    <FormGroup>
-                      <Label for="civilStatus">Civil Status</Label>
-                      <Input
-                        name="civilStatus"
-                        type="select"
-                        className="form-control"
-                        id="civilStatus-select"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.civilStatus || ''}
-                        invalid={
-                          formik.touched.civilStatus &&
-                          formik.errors.civilStatus
-                            ? true
-                            : false
-                        }
-                      >
-                        <option value="">Choose...</option>
-                        {civilStatuses.map((civilStatus, idx) => (
-                          <option key={idx} value={civilStatus}>
-                            {civilStatus}
-                          </option>
-                        ))}
-                      </Input>
-                      {formik.touched.civilStatus &&
-                      formik.errors.civilStatus ? (
-                        <FormFeedback type="invalid">
-                          {formik.errors.sex}
-                        </FormFeedback>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
-                ) : null}
+                <Col sm={4}>
+                  <FormGroup>
+                    <Label for="civilStatus">Civil Status</Label>
+                    <Input
+                      name="civilStatus"
+                      type="select"
+                      className="form-control"
+                      id="civilStatus-select"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.civilStatus || ''}
+                      invalid={
+                        formik.touched.civilStatus && formik.errors.civilStatus
+                          ? true
+                          : false
+                      }
+                    >
+                      <option value="">Choose...</option>
+                      {civilStatuses.map((civilStatus, idx) => (
+                        <option key={idx} value={civilStatus}>
+                          {civilStatus}
+                        </option>
+                      ))}
+                    </Input>
+                    {formik.touched.civilStatus && formik.errors.civilStatus ? (
+                      <FormFeedback type="invalid">
+                        {formik.errors.sex}
+                      </FormFeedback>
+                    ) : null}
+                  </FormGroup>
+                </Col>
 
                 {/* phone number input field */}
                 <Col sm={4}>
@@ -472,9 +452,7 @@ const EditEmployeeInformationModal = props => {
 
                 {/* daily rate input field */}
                 {modalData.employmentDetails?.natureOfAppointment ===
-                  natureOfAppointments.JOB_ORDER ||
-                modalData.employmentDetails?.natureOfAppointment ===
-                  natureOfAppointments.CONTRACT_OF_SERVICE ? (
+                natureOfAppointments.JOB_ORDER ? (
                   <Col sm={4}>
                     <FormGroup>
                       <Label for="dailyRate">Daily Rate</Label>
@@ -517,10 +495,10 @@ const EditEmployeeInformationModal = props => {
   )
 }
 
-EditEmployeeInformationModal.propTypes = {
-  showEdt: PropTypes.bool,
+AddCosEmployeeModal.propTypes = {
+  showAddCos: PropTypes.bool,
   modalData: PropTypes.object,
-  handleCloseEdt: PropTypes.func,
+  handleCloseAddCos: PropTypes.func,
 }
 
-export default EditEmployeeInformationModal
+export default AddCosEmployeeModal

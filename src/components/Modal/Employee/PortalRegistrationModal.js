@@ -37,7 +37,7 @@ import { useFormik } from 'formik'
 import 'styles/custom_gscwd/pages/employeeassignment.scss'
 
 const PortalRegistrationModal = props => {
-  const { showAdd, handleCloseAdd } = props
+  const { showAddPerm, handleCloseAddPerm } = props
   const dispatch = useDispatch()
   const [selectedApplicant, setSelectedApplicant] = useState(null)
   const [selectedSchedule, setSelectedSchedule] = useState(null)
@@ -133,13 +133,13 @@ const PortalRegistrationModal = props => {
 
   // Reset response state upon close of modal
   useEffect(() => {
-    if (showAdd) {
+    if (showAddPerm) {
       dispatch(fetchHiredExternalConfirmedApplicants())
       dispatch(fetchSchedules())
     } else {
       dispatch(resetEmpAssgnResponse())
     }
-  }, [showAdd])
+  }, [showAddPerm])
 
   // Execute after successful submission of form
   useEffect(() => {
@@ -152,14 +152,21 @@ const PortalRegistrationModal = props => {
       setSelectedSchedule(null)
       setSelectedRestDays([])
 
-      handleCloseAdd()
+      handleCloseAddPerm()
     }
   }, [employeeAssignmentResponse])
 
   return (
     <>
-      <Modal isOpen={showAdd} toggle={handleCloseAdd} size="lg" centered>
-        <ModalHeader toggle={handleCloseAdd}>Portal Registration</ModalHeader>
+      <Modal
+        isOpen={showAddPerm}
+        toggle={handleCloseAddPerm}
+        size="lg"
+        centered
+      >
+        <ModalHeader toggle={handleCloseAddPerm}>
+          Portal Registration
+        </ModalHeader>
 
         {/* Info Alert with Spinner */}
         {loadingEmployeeAssignmentResponse ? (
@@ -438,8 +445,8 @@ const PortalRegistrationModal = props => {
 }
 
 PortalRegistrationModal.propTypes = {
-  showAdd: PropTypes.bool,
-  handleCloseAdd: PropTypes.func,
+  showAddPerm: PropTypes.bool,
+  handleCloseAddPerm: PropTypes.func,
 }
 
 export default PortalRegistrationModal
