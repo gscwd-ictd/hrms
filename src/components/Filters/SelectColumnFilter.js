@@ -37,7 +37,15 @@ export const SelectColumnFilter = props => {
       >
         <option value="">All</option>
         {options.map((option, i) =>
-          option !== undefined ? (
+          typeof option == 'boolean' ? ( // if options are type boolean
+            <option
+              key={i}
+              value={option}
+              style={{ textTransform: 'capitalize' }}
+            >
+              {option ? 'True' : 'False'}
+            </option>
+          ) : option !== undefined ? (
             <option
               key={i}
               value={option}

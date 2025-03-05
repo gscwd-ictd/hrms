@@ -5,9 +5,9 @@ import { listOfRestDays } from 'constants/selectInputs'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  submitEmpAssgn,
+  addPermanentEmployee,
   fetchSchedules,
-  resetEmpAssgnResponse,
+  resetEmpResponseAndError,
   fetchEmployeeList,
   fetchHiredExternalConfirmedApplicants,
 } from 'store/actions'
@@ -36,19 +36,17 @@ import { useFormik } from 'formik'
 // import scss
 import 'styles/custom_gscwd/pages/employeeassignment.scss'
 
-const PortalRegistrationModal = props => {
-  const { showAdd, handleCloseAdd } = props
+const PermanentPortalRegistrationModal = props => {
+  const { showAddPerm, handleCloseAddPerm } = props
   const dispatch = useDispatch()
   const [selectedApplicant, setSelectedApplicant] = useState(null)
   const [selectedSchedule, setSelectedSchedule] = useState(null)
   const [selectedRestDays, setSelectedRestDays] = useState([])
 
-  const {} = useSelector(state => ({}))
-
   const {
-    employeeAssignmentResponse,
-    loadingEmployeeAssignmentResponse,
-    errorEmployeeAssignmentResponse,
+    responseRegisterPermanentEmployee,
+    loadingRegisterPermanentEmployee,
+    errorRegisterPermanentEmployee,
 
     hiredExternalConfirmedApplicants,
     loadinghiredExternalConfirmedApplicants,
@@ -59,9 +57,9 @@ const PortalRegistrationModal = props => {
     errorSchedules,
   } = useSelector(state => ({
     // redux state for employee assignment
-    employeeAssignmentResponse: state.employee.empAssignmentRes,
-    isLoading: state.employee.isLoading,
-    error: state.employee.error,
+    responseRegisterPermanentEmployee: state.employee.response.addPermEmployee,
+    loadingRegisterPermanentEmployee: state.employee.response.isLoading,
+    errorRegisterPermanentEmployee: state.employee.response.error,
 
     // redux state for list of external, hired, and confirmed applicants
     hiredExternalConfirmedApplicants:
@@ -99,7 +97,7 @@ const PortalRegistrationModal = props => {
       email: Yup.string().required('Please use the official GSCWD email'),
     }),
     onSubmit: values => {
-      dispatch(submitEmpAssgn(values))
+      dispatch(addPermanentEmployee(values))
     },
   })
 
@@ -133,36 +131,43 @@ const PortalRegistrationModal = props => {
 
   // Reset response state upon close of modal
   useEffect(() => {
-    if (showAdd) {
+    if (showAddPerm) {
       dispatch(fetchHiredExternalConfirmedApplicants())
       dispatch(fetchSchedules())
     } else {
-      dispatch(resetEmpAssgnResponse())
+      dispatch(resetEmpResponseAndError())
     }
-  }, [showAdd])
+  }, [showAddPerm])
 
   // Execute after successful submission of form
   useEffect(() => {
-    if (!isEmpty(employeeAssignmentResponse)) {
+    if (!isEmpty(responseRegisterPermanentEmployee)) {
       dispatch(fetchEmployeeList())
       formik.resetForm()
 
-      dispatch(resetEmpAssgnResponse())
+      dispatch(resetEmpResponseAndError())
       setSelectedApplicant(null)
       setSelectedSchedule(null)
       setSelectedRestDays([])
 
-      handleCloseAdd()
+      handleCloseAddPerm()
     }
-  }, [employeeAssignmentResponse])
+  }, [responseRegisterPermanentEmployee])
 
   return (
     <>
-      <Modal isOpen={showAdd} toggle={handleCloseAdd} size="lg" centered>
-        <ModalHeader toggle={handleCloseAdd}>Portal Registration</ModalHeader>
+      <Modal
+        isOpen={showAddPerm}
+        toggle={handleCloseAddPerm}
+        size="lg"
+        centered
+      >
+        <ModalHeader toggle={handleCloseAddPerm}>
+          Portal Registration
+        </ModalHeader>
 
         {/* Info Alert with Spinner */}
-        {loadingEmployeeAssignmentResponse ? (
+        {loadingRegisterPermanentEmployee ? (
           <Alert
             color="info"
             className="alert-dismissible fade show"
@@ -173,10 +178,10 @@ const PortalRegistrationModal = props => {
         ) : null}
 
         {/* Error Alert */}
-        {errorEmployeeAssignmentResponse ? (
+        {errorRegisterPermanentEmployee ? (
           <ToastrNotification
             toastType={'error'}
-            notifMessage={errorEmployeeAssignmentResponse}
+            notifMessage={errorRegisterPermanentEmployee}
           />
         ) : null}
         {errorhiredExternalConfirmedApplicants ? (
@@ -193,7 +198,7 @@ const PortalRegistrationModal = props => {
         ) : null}
 
         {/* Success Alert */}
-        {!isEmpty(employeeAssignmentResponse) ? (
+        {!isEmpty(responseRegisterPermanentEmployee) ? (
           <ToastrNotification
             toastType={'success'}
             notifMessage={'Employee successfully registered'}
@@ -437,9 +442,9 @@ const PortalRegistrationModal = props => {
   )
 }
 
-PortalRegistrationModal.propTypes = {
-  showAdd: PropTypes.bool,
-  handleCloseAdd: PropTypes.func,
+PermanentPortalRegistrationModal.propTypes = {
+  showAddPerm: PropTypes.bool,
+  handleCloseAddPerm: PropTypes.func,
 }
 
-export default PortalRegistrationModal
+export default PermanentPortalRegistrationModal
