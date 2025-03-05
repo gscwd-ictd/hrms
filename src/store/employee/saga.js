@@ -1,15 +1,20 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 import {
-  postEmployeeAssignment,
+  postRegisterPermanentEmployee,
+  postRegisterCasJoCosEmployee,
+  putEmployeeBasicInformation,
   getEmployees,
   getEmployeePds,
   getEmployeeDetailsReport,
   getEmployeeBasicInformation,
-  putEmployeeBasicInformation,
 } from 'helpers/backend_helper'
 import {
-  submitEmpAssgnFailed,
-  submitEmpAssgnSuccess,
+  addPermanentEmployeeSuccess,
+  addPermanentEmployeeFailed,
+  addCasJoCosEmployeeSuccess,
+  addCasJoCosEmployeeFailed,
+  updateEmpBasicInfoSuccess,
+  updateEmpBasicInfoFail,
   fetchEmployeeListSuccess,
   fetchEmployeeListFailed,
   fetchEmployeePdsSuccess,
@@ -18,25 +23,51 @@ import {
   fetchEmployeeDetailsReportSuccess,
   fetchEmpBasicInfoSuccess,
   fetchEmpBasicInfoFail,
-  updateEmpBasicInfoSuccess,
-  updateEmpBasicInfoFail,
 } from './actions'
 import {
-  SUBMIT_EMPLOYEE_ASSIGN,
+  REGISTER_PERMANENT_EMPLOYEE,
+  REGISTER_CAS_JO_COS_EMPLOYEE,
+  UPDATE_EMPLOYEE_BASIC_INFO,
   GET_EMPLOYEE_LIST,
   GET_EMPLOYEE_PDS,
   GET_EMPLOYEE_DETAILS_REPORT,
   GET_EMPLOYEE_BASIC_INFO,
-  UPDATE_EMPLOYEE_BASIC_INFO,
 } from './actionTypes'
 
-function* submitEmpAssignmentData({ payload: empassgndata }) {
+function* addPermanentEmployee({ payload: employeeData }) {
   try {
-    const response = yield call(postEmployeeAssignment, empassgndata)
+    const response = yield call(postRegisterPermanentEmployee, employeeData)
 
-    yield put(submitEmpAssgnSuccess(response))
+    yield put(addPermanentEmployeeSuccess(response))
   } catch (error) {
-    yield put(submitEmpAssgnFailed(error))
+    yield put(addPermanentEmployeeFailed(error))
+  }
+}
+
+function* addCasJoCosEmployee({ payload: employeeData }) {
+  try {
+    const response = yield call(postRegisterCasJoCosEmployee, employeeData)
+
+    yield put(addCasJoCosEmployeeSuccess(response))
+  } catch (error) {
+    yield put(addCasJoCosEmployeeFailed(error))
+  }
+}
+
+function* updateEmpBasicInfo({ payload: employeeBasicInfo }) {
+  try {
+    const response = yield call(putEmployeeBasicInformation, employeeBasicInfo)
+
+    yield put(updateEmpBasicInfoSuccess(response))
+  } catch (error) {
+    let message
+    if (error.response && error.response.status) {
+      message = `Status Code: ${error.response.status}`
+    } else {
+      message = 'Network error. Unable to connect to server'
+    }
+
+    yield put(updateEmpBasicInfoFail(message))
   }
 }
 
@@ -151,30 +182,14 @@ function* fetchEmpBasicInfo({ payload: employeeId }) {
   }
 }
 
-function* updateEmpBasicInfo({ payload: employeeBasicInfo }) {
-  try {
-    const response = yield call(putEmployeeBasicInformation, employeeBasicInfo)
-
-    yield put(updateEmpBasicInfoSuccess(response))
-  } catch (error) {
-    let message
-    if (error.response && error.response.status) {
-      message = `Status Code: ${error.response.status}`
-    } else {
-      message = 'Network error. Unable to connect to server'
-    }
-
-    yield put(updateEmpBasicInfoFail(message))
-  }
-}
-
 function* employeeSaga() {
-  yield takeEvery(SUBMIT_EMPLOYEE_ASSIGN, submitEmpAssignmentData)
+  yield takeEvery(REGISTER_PERMANENT_EMPLOYEE, addPermanentEmployee)
+  yield takeEvery(REGISTER_CAS_JO_COS_EMPLOYEE, addCasJoCosEmployee)
+  yield takeEvery(UPDATE_EMPLOYEE_BASIC_INFO, updateEmpBasicInfo)
   yield takeEvery(GET_EMPLOYEE_LIST, fetchEmployeeList)
   yield takeEvery(GET_EMPLOYEE_PDS, fetchEmployeePds)
   yield takeEvery(GET_EMPLOYEE_DETAILS_REPORT, fetchEmployeeDetailsReport)
   yield takeEvery(GET_EMPLOYEE_BASIC_INFO, fetchEmpBasicInfo)
-  yield takeEvery(UPDATE_EMPLOYEE_BASIC_INFO, updateEmpBasicInfo)
 }
 
 export default employeeSaga

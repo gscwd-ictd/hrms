@@ -1,14 +1,14 @@
-import "flatpickr/dist/themes/material_blue.css"
-import React, { useEffect, useState } from "react"
-import { isEmpty } from "lodash"
+import 'flatpickr/dist/themes/material_blue.css'
+import React, { useEffect, useState } from 'react'
+import { isEmpty } from 'lodash'
 import {
-  submitEmpAssgn,
+  addPermanentEmployee,
   fetchPlantillaPositionsSelect,
-  resetEmpAssgnResponse,
-} from "store/actions"
-import { useDispatch, useSelector } from "react-redux"
-import { Can } from "casl/Can"
-import { Navigate } from "react-router-dom"
+  resetEmpResponseAndError,
+} from 'store/actions'
+import { useDispatch, useSelector } from 'react-redux'
+import { Can } from 'casl/Can'
+import { Navigate } from 'react-router-dom'
 
 import {
   Button,
@@ -25,58 +25,66 @@ import {
   Input,
   FormText,
   FormFeedback,
-} from "reactstrap"
-import Select from "react-select"
+} from 'reactstrap'
+import Select from 'react-select'
 
 // Extra components
-import Breadcrumbs from "components/Common/Breadcrumb"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import Breadcrumbs from 'components/Common/Breadcrumb'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // import scss
-import "styles/custom_gscwd/pages/employeeassignment.scss"
+import 'styles/custom_gscwd/pages/employeeassignment.scss'
 
 // Formik
-import * as Yup from "yup"
-import { useFormik } from "formik"
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 const EmployeeRegistration = () => {
   const dispatch = useDispatch()
   const [selectedPosition, setSelectedPosition] = useState(null)
 
-  // form subimission to submitEmpAssgn()
-  const { empAssignmentRes, isLoading, error } = useSelector(state => ({
-    isLoading: state.employee.isLoading,
-    error: state.employee.error,
-    empAssignmentRes: state.employee.empAssignmentRes,
-  }))
+  // form subimission to addPermanentEmployee()
+  const {
+    responseRegisterPermanentEmployee,
+    loadingRegisterPermanentEmployee,
+    errorRegisterPermanentEmployee,
 
-  const { positionsOptions, positionsLoading, positionsError } = useSelector(
-    state => ({
-      positionsOptions: state.plantilla.plantillaPositions,
-      positionsLoading: state.plantilla.isLoading,
-      positionsError: state.plantilla.error,
-    })
-  )
+    positionsOptions,
+    positionsLoading,
+    positionsError,
+  } = useSelector(state => ({
+    // redux state for employee assignment
+    responseRegisterPermanentEmployee: state.employee.response.addPermEmployee,
+    loadingRegisterPermanentEmployee:
+      state.employee.response.loadingRegisterPermanentEmployee,
+    errorRegisterPermanentEmployee:
+      state.employee.response.errorRegisterPermanentEmployee,
+
+    // redux state for plantilla positions
+    positionsOptions: state.plantilla.plantillaPositions,
+    positionsLoading: state.plantilla.loadingRegisterPermanentEmployee,
+    positionsError: state.plantilla.errorRegisterPermanentEmployee,
+  }))
 
   const formik = useFormik({
     enableReinitialize: true,
 
     initialValues: {
-      firstName: "",
-      lastName: "",
-      middleName: "",
-      nameExtension: "",
-      positionId: "",
-      email: "",
+      firstName: '',
+      lastName: '',
+      middleName: '',
+      nameExtension: '',
+      positionId: '',
+      email: '',
     },
     validationSchema: Yup.object().shape({
-      firstName: Yup.string().required("Please Enter First Name"),
-      lastName: Yup.string().required("Please Enter Last Name"),
-      positionId: Yup.string().required("Please Select A Position"),
-      email: Yup.string().required("Please Enter An Email"),
+      firstName: Yup.string().required('Please Enter First Name'),
+      lastName: Yup.string().required('Please Enter Last Name'),
+      positionId: Yup.string().required('Please Select A Position'),
+      email: Yup.string().required('Please Enter An Email'),
     }),
     onSubmit: values => {
-      dispatch(submitEmpAssgn(values))
+      dispatch(addPermanentEmployee(values))
     },
   })
 
@@ -85,14 +93,14 @@ const EmployeeRegistration = () => {
   }
 
   useEffect(() => {
-    if (!isEmpty(empAssignmentRes)) {
+    if (!isEmpty(responseRegisterPermanentEmployee)) {
       dispatch(fetchPlantillaPositionsSelect())
-      dispatch(resetEmpAssgnResponse())
+      dispatch(resetEmpResponseAndError())
 
       formik.resetForm()
       setSelectedPosition(null)
     }
-  }, [empAssignmentRes])
+  }, [responseRegisterPermanentEmployee])
 
   useEffect(() => {
     dispatch(fetchPlantillaPositionsSelect())
@@ -116,38 +124,38 @@ const EmployeeRegistration = () => {
                     <CardTitle className="mb-4"></CardTitle>
 
                     {/* Info Alert with Spinner */}
-                    {isLoading ? (
+                    {loadingRegisterPermanentEmployee ? (
                       <Alert
                         color="info"
                         className="alert-dismissible fade show"
                         role="alert"
                       >
-                        <i className="mdi mdi-loading mdi-spin me-2"></i>{" "}
+                        <i className="mdi mdi-loading mdi-spin me-2"></i>{' '}
                         Sending Request
                       </Alert>
                     ) : null}
 
-                    {/* Error Alert */}
-                    {error ? (
+                    {/* errorRegisterPermanentEmployee Alert */}
+                    {errorRegisterPermanentEmployee ? (
                       <ToastrNotification
-                        toastType={"error"}
-                        notifMessage={error}
+                        toastType={'errorRegisterPermanentEmployee'}
+                        notifMessage={errorRegisterPermanentEmployee}
                       />
                     ) : null}
                     {positionsError ? (
                       <ToastrNotification
-                        toastType={"error"}
+                        toastType={'errorRegisterPermanentEmployee'}
                         notifMessage={
-                          "Error: Failed to retrieve plantilla positions"
+                          'errorRegisterPermanentEmployee: Failed to retrieve plantilla positions'
                         }
                       />
                     ) : null}
 
                     {/* Success Alert */}
-                    {!isEmpty(empAssignmentRes) ? (
+                    {!isEmpty(responseRegisterPermanentEmployee) ? (
                       <ToastrNotification
-                        toastType={"success"}
-                        notifMessage={"Employee Successfully Assigned"}
+                        toastType={'success'}
+                        notifMessage={'Employee Successfully Assigned'}
                       />
                     ) : null}
 
@@ -173,7 +181,7 @@ const EmployeeRegistration = () => {
                                   id="formrow-fName-Input"
                                   onChange={formik.handleChange}
                                   onBlur={formik.handleBlur}
-                                  value={formik.values.firstName || ""}
+                                  value={formik.values.firstName || ''}
                                   invalid={
                                     formik.touched.firstName &&
                                     formik.errors.firstName
@@ -202,7 +210,7 @@ const EmployeeRegistration = () => {
                                   id="formrow-lName-Input"
                                   onChange={formik.handleChange}
                                   onBlur={formik.handleBlur}
-                                  value={formik.values.lastName || ""}
+                                  value={formik.values.lastName || ''}
                                   invalid={
                                     formik.touched.lastName &&
                                     formik.errors.lastName
@@ -231,7 +239,7 @@ const EmployeeRegistration = () => {
                                   id="formrow-mName-Input"
                                   onChange={formik.handleChange}
                                   onBlur={formik.handleBlur}
-                                  value={formik.values.middleName || ""}
+                                  value={formik.values.middleName || ''}
                                 />
                               </FormGroup>
                             </Col>
@@ -250,7 +258,7 @@ const EmployeeRegistration = () => {
                                   id="formrow-nameExtension-Input"
                                   onChange={formik.handleChange}
                                   onBlur={formik.handleBlur}
-                                  value={formik.values.nameExtension || ""}
+                                  value={formik.values.nameExtension || ''}
                                 />
                                 <FormText color="muted">(Jr, Sr, II)</FormText>
                               </FormGroup>
@@ -269,14 +277,14 @@ const EmployeeRegistration = () => {
                                   name="positionId"
                                   id="position-selection"
                                   onChange={selectedOption => {
-                                    formik.handleChange("positionId")(
+                                    formik.handleChange('positionId')(
                                       selectedOption.value.positionId
                                     )
                                     handleChangeSelect(selectedOption)
                                   }}
                                   onBlur={formik.handleBlur}
                                   // defaultValue={selectedPosition}
-                                  value={selectedPosition || ""}
+                                  value={selectedPosition || ''}
                                   options={positionsOptions}
                                   styles={{
                                     control: styles => ({
@@ -284,14 +292,14 @@ const EmployeeRegistration = () => {
                                       borderColor:
                                         formik.errors.positionId &&
                                         formik.touched.positionId
-                                          ? "red"
+                                          ? 'red'
                                           : styles.borderColor,
-                                      "&:hover": {
+                                      '&:hover': {
                                         borderColor:
                                           formik.errors.positionId &&
                                           formik.touched.positionId
-                                            ? "red"
-                                            : styles["&:hover"].borderColor,
+                                            ? 'red'
+                                            : styles['&:hover'].borderColor,
                                       },
                                     }),
                                   }}
@@ -303,8 +311,8 @@ const EmployeeRegistration = () => {
                                     display:
                                       formik.errors.positionId &&
                                       formik.touched.positionId
-                                        ? "block"
-                                        : "none",
+                                        ? 'block'
+                                        : 'none',
                                   }}
                                 >
                                   {formik.errors.positionId}
@@ -322,7 +330,7 @@ const EmployeeRegistration = () => {
                                   id="formrow-email-Input"
                                   onChange={formik.handleChange}
                                   onBlur={formik.handleBlur}
-                                  value={formik.values.email || ""}
+                                  value={formik.values.email || ''}
                                   invalid={
                                     formik.touched.email && formik.errors.email
                                       ? true

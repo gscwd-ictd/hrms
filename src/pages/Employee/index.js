@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchEmployeeList } from 'store/actions'
 import PropTypes from 'prop-types'
 import { Can } from 'casl/Can'
-import { Navigate, Link, useLocation } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router-dom'
 
 import {
   Container,
@@ -17,9 +17,9 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap'
-
-// modal components
-import PortalRegistrationModal from 'components/Modal/Employee/PortalRegistrationModal'
+import PermanentPortalRegistrationModal from 'components/Modal/Employee/PermanentPortalRegistrationModal'
+import CasJoCosPortalRegistrationModal from 'components/Modal/Employee/CasJoCosPortalRegistrationModal'
+import EditEmployeeInformationModal from 'components/Modal/Employee/EditEmployeeInformationModal'
 
 // table components
 import TableEmployeeList from 'components/Table/TableEmployeeList'
@@ -30,8 +30,8 @@ import Breadcrumb from 'components/Common/Breadcrumb'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 import EmployeeIcon from 'components/Common/EmployeeIcon'
-import EditEmployeeInformationModal from 'components/Modal/Employee/EditEmployeeInformationModal'
-import AddCosEmployeeModal from 'components/Modal/Employee/AddCosEmployeeModal'
+
+import { natureOfAppointments } from 'constants/natureOfAppointments'
 
 const EmployeeList = () => {
   const dispatch = useDispatch()
@@ -85,7 +85,7 @@ const EmployeeList = () => {
       accessor: 'employmentDetails.natureOfAppointment',
       Cell: cell => {
         return (
-          <p style={{ textTransform: 'capitalize' }}>
+          <p className=" text-capitalize">
             {cell.row.values[`employmentDetails.natureOfAppointment`]}
           </p>
         )
@@ -189,18 +189,15 @@ const EmployeeList = () => {
 
   // Register Employee to Portal
   const [registerDropdown, setRegisterDropdown] = useState(false)
+  const [modalNatureOfAppointment, setModalNatureOfAppointment] = useState('')
 
   const [showAddPerm, setShowAddPerm] = useState(false)
   const handleCloseAddPerm = () => setShowAddPerm(false)
   const handleShowAddPerm = () => setShowAddPerm(true)
 
-  const [showAddJo, setShowAddJo] = useState(false)
-  const handleCloseAddJo = () => setShowAddJo(false)
-  const handleShowAddJo = () => setShowAddJo(true)
-
-  const [showAddCos, setShowAddCos] = useState(false)
-  const handleCloseAddCos = () => setShowAddCos(false)
-  const handleShowAddCos = () => setShowAddCos(true)
+  const [showAddCasJoCos, setShowAddCasJoCos] = useState(false)
+  const handleCloseAddCasJoCos = () => setShowAddCasJoCos(false)
+  const handleShowAddCasJoCos = () => setShowAddCasJoCos(true)
 
   // Edit Modal
   const [showEdt, setShowEdt] = useState(false)
@@ -279,17 +276,32 @@ const EmployeeList = () => {
                                     Permanent
                                   </DropdownItem>
                                   <DropdownItem
-                                  // onClick={() => handleShowAddCas()}
+                                    onClick={() => {
+                                      handleShowAddCasJoCos()
+                                      setModalNatureOfAppointment(
+                                        natureOfAppointments.CASUAL
+                                      )
+                                    }}
                                   >
                                     Casual
                                   </DropdownItem>
                                   <DropdownItem
-                                  // onClick={handleShowAddJo}
+                                    onClick={() => {
+                                      handleShowAddCasJoCos()
+                                      setModalNatureOfAppointment(
+                                        natureOfAppointments.JOB_ORDER
+                                      )
+                                    }}
                                   >
                                     Job Order
                                   </DropdownItem>
                                   <DropdownItem
-                                  // onClick={handleShowAddCos}
+                                    onClick={() => {
+                                      handleShowAddCasJoCos()
+                                      setModalNatureOfAppointment(
+                                        natureOfAppointments.CONTRACT_OF_SERVICE
+                                      )
+                                    }}
                                   >
                                     Contract of Service
                                   </DropdownItem>
@@ -309,15 +321,15 @@ const EmployeeList = () => {
                       handleCloseEdt={handleCloseEdt}
                     />
 
-                    <PortalRegistrationModal
+                    <PermanentPortalRegistrationModal
                       showAddPerm={showAddPerm}
                       handleCloseAddPerm={handleCloseAddPerm}
                     />
 
-                    <AddCosEmployeeModal
-                      showAddCos={showAddCos}
-                      modalData={modalData}
-                      handleCloseAddCos={handleCloseAddCos}
+                    <CasJoCosPortalRegistrationModal
+                      showAddCasJoCos={showAddCasJoCos}
+                      modalNatureOfAppointment={modalNatureOfAppointment}
+                      handleCloseAddCasJoCos={handleCloseAddCasJoCos}
                     />
                   </CardBody>
                 </Card>

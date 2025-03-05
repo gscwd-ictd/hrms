@@ -267,8 +267,10 @@ export const getEmployeeBasicInformation = employeeId =>
 export const putEmployeeBasicInformation = employeeBasicInfo =>
   putHris(url.GET_EMPLOYEE_BASIC_INFORMATION, employeeBasicInfo)
 
-export const postEmployeeAssignment = empassgndata =>
-  postHris(url.POST_EMPLOYEE_ASSIGNMENT, empassgndata)
+export const postRegisterPermanentEmployee = employeeData =>
+  postHris(url.POST_EMPLOYEE_ASSIGNMENT, employeeData)
+export const postRegisterCasJoCosEmployee = employeeData =>
+  postHris(url.POST_EMPLOYEE_ASSIGNMENT, employeeData)
 
 // Committee -----------------------------------------------------------------------
 export const getCommittees = () => getHris(url.GET_COMMITTEES)

@@ -1,29 +1,30 @@
 import {
-  SUBMIT_EMPLOYEE_ASSIGN,
-  SUBMIT_EMPLOYEE_ASSIGN_SUCCESS,
-  SUBMIT_EMPLOYEE_ASSIGN_FAILED,
+  REGISTER_PERMANENT_EMPLOYEE,
+  REGISTER_PERMANENT_EMPLOYEE_SUCCESS,
+  REGISTER_PERMANENT_EMPLOYEE_FAILED,
+  REGISTER_CAS_JO_COS_EMPLOYEE,
+  REGISTER_CAS_JO_COS_EMPLOYEE_SUCCESS,
+  REGISTER_CAS_JO_COS_EMPLOYEE_FAILED,
+  UPDATE_EMPLOYEE_BASIC_INFO,
+  UPDATE_EMPLOYEE_BASIC_INFO_SUCCESS,
+  UPDATE_EMPLOYEE_BASIC_INFO_FAIL,
+  RESET_EMPLOYEE_RESPONSE_AND_ERROR,
   GET_EMPLOYEE_LIST,
   GET_EMPLOYEE_LIST_SUCCESS,
   GET_EMPLOYEE_LIST_FAILED,
   GET_EMPLOYEE_PDS,
   GET_EMPLOYEE_PDS_SUCCESS,
   GET_EMPLOYEE_PDS_FAILED,
-  RESET_EMPLOYEE_ASSIGN,
-  RESET_EMPLOYEE_ERROR_LOG,
   GET_EMPLOYEE_DETAILS_REPORT,
   GET_EMPLOYEE_DETAILS_REPORT_SUCCESS,
   GET_EMPLOYEE_DETAILS_REPORT_FAIL,
   GET_EMPLOYEE_BASIC_INFO,
   GET_EMPLOYEE_BASIC_INFO_SUCCESS,
   GET_EMPLOYEE_BASIC_INFO_FAIL,
-  UPDATE_EMPLOYEE_BASIC_INFO,
-  UPDATE_EMPLOYEE_BASIC_INFO_SUCCESS,
-  UPDATE_EMPLOYEE_BASIC_INFO_FAIL,
-  RESET_RESPONSE_ON_UPDATE_BASIC_INFO,
+  RESET_EMPLOYEE_ERROR_LOG,
 } from './actionTypes'
 
 const INIT_STATE = {
-  empAssignmentRes: [],
   employeeListRes: [],
   pds: {
     personalInfo: {},
@@ -75,6 +76,8 @@ const INIT_STATE = {
   error: null,
   response: {
     updateEmpBasicInfo: {},
+    addPermEmployee: {},
+    addCasJoCosEmployee: {},
     isLoading: false,
     error: null,
   },
@@ -82,34 +85,112 @@ const INIT_STATE = {
 
 const employee = (state = INIT_STATE, action) => {
   switch (action.type) {
-    case SUBMIT_EMPLOYEE_ASSIGN:
+    case REGISTER_PERMANENT_EMPLOYEE:
       state = {
         ...state,
-        isLoading: true,
-        error: null,
+        response: {
+          ...state.response,
+          addPermEmployee: {},
+          isLoading: true,
+          error: null,
+        },
       }
       break
-    case SUBMIT_EMPLOYEE_ASSIGN_SUCCESS:
+    case REGISTER_PERMANENT_EMPLOYEE_SUCCESS:
       state = {
         ...state,
-        isLoading: false,
-        empAssignmentRes: action.payload,
-        error: null,
+        response: {
+          ...state.response,
+          addPermEmployee: action.payload,
+          isLoading: false,
+        },
       }
       break
-    case SUBMIT_EMPLOYEE_ASSIGN_FAILED:
+    case REGISTER_PERMANENT_EMPLOYEE_FAILED:
       state = {
         ...state,
-        empAssignmentRes: [],
-        isLoading: false,
-        error: action.payload,
+        response: {
+          ...state.response,
+          isLoading: false,
+          error: action.payload,
+        },
       }
       break
-    case RESET_EMPLOYEE_ASSIGN:
+
+    case REGISTER_CAS_JO_COS_EMPLOYEE:
       state = {
         ...state,
-        empAssignmentRes: [],
-        error: null,
+        response: {
+          ...state.response,
+          addCasJoCosEmployee: {},
+          isLoading: true,
+          error: null,
+        },
+      }
+      break
+    case REGISTER_CAS_JO_COS_EMPLOYEE_SUCCESS:
+      state = {
+        ...state,
+        response: {
+          ...state.response,
+          addCasJoCosEmployee: action.payload,
+          isLoading: false,
+        },
+      }
+      break
+    case REGISTER_CAS_JO_COS_EMPLOYEE_FAILED:
+      state = {
+        ...state,
+        response: {
+          ...state.response,
+          isLoading: false,
+          error: action.payload,
+        },
+      }
+      break
+
+    case UPDATE_EMPLOYEE_BASIC_INFO:
+      state = {
+        ...state,
+        response: {
+          ...state.response,
+          updateEmpBasicInfo: {},
+          isLoading: true,
+          error: null,
+        },
+      }
+      break
+    case UPDATE_EMPLOYEE_BASIC_INFO_SUCCESS:
+      state = {
+        ...state,
+        response: {
+          ...state.response,
+          updateEmpBasicInfo: action.payload,
+          isLoading: false,
+        },
+      }
+      break
+    case UPDATE_EMPLOYEE_BASIC_INFO_FAIL:
+      state = {
+        ...state,
+        response: {
+          ...state.response,
+          isLoading: false,
+          error: action.payload,
+        },
+      }
+      break
+
+    case RESET_EMPLOYEE_RESPONSE_AND_ERROR:
+      state = {
+        ...state,
+        response: {
+          ...state.response,
+          updateEmpBasicInfo: {},
+          addPermEmployee: {},
+          addCasJoCosEmployee: {},
+          error: null,
+        },
       }
       break
 
@@ -300,48 +381,6 @@ const employee = (state = INIT_STATE, action) => {
       state = {
         ...state,
         error: null,
-      }
-      break
-
-    case UPDATE_EMPLOYEE_BASIC_INFO:
-      state = {
-        ...state,
-        response: {
-          ...state.response,
-          updateEmpBasicInfo: {},
-          isLoading: true,
-          error: null,
-        },
-      }
-      break
-    case UPDATE_EMPLOYEE_BASIC_INFO_SUCCESS:
-      state = {
-        ...state,
-        response: {
-          ...state.response,
-          updateEmpBasicInfo: action.payload,
-          isLoading: false,
-        },
-      }
-      break
-    case UPDATE_EMPLOYEE_BASIC_INFO_FAIL:
-      state = {
-        ...state,
-        response: {
-          ...state.response,
-          isLoading: false,
-          error: action.payload,
-        },
-      }
-      break
-    case RESET_RESPONSE_ON_UPDATE_BASIC_INFO:
-      state = {
-        ...state,
-        response: {
-          ...state.response,
-          updateEmpBasicInfo: {},
-          error: null,
-        },
       }
       break
 

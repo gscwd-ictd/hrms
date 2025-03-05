@@ -10,7 +10,7 @@ import {
   fetchEmpBasicInfo,
   updateEmpBasicInfo,
   resetEmployeeErrorLog,
-  resetEmpBasicInfoResponse,
+  resetEmpResponseAndError,
 } from 'store/actions'
 
 import {
@@ -85,23 +85,24 @@ const EditEmployeeInformationModal = props => {
       phoneNumber: employeeBasicInformation.phoneNumber || '',
       email: employeeBasicInformation.email || '',
       dailyRate: parseFloat(employeeBasicInformation.dailyRate) || '',
+      isPerPieceRate: employeeBasicInformation.isPerPieceRate ? true : false,
     },
     validationSchema: Yup.object().shape({
       employeeId: Yup.string().required(),
       natureOfAppointment: Yup.string().required(),
-      firstName: Yup.string().required(),
-      lastName: Yup.string().required(),
-      birthday: Yup.string().required(),
+      firstName: Yup.string().required('First name is a required field'),
+      lastName: Yup.string().required('Last name is a required field'),
+      birthday: Yup.string().required('Birthday is a required field'),
       sex: Yup.string().required('Select a sex'),
       civilStatus: Yup.string().when('natureOfAppointment', {
         is: val => (val === 'permanent' || val === 'casual' ? true : false),
         then: Yup.string().required('Select a civil status'),
       }),
       phoneNumber: Yup.string()
-        .required('required')
+        .required('Phone number is a required field')
         .matches(phoneRegExp, 'Phone number is not valid')
-        .min(11, 'too short')
-        .max(11, 'too long'),
+        .min(11, 'Too short')
+        .max(11, 'Too long'),
       email: Yup.string()
         .email('Must be a valid Email')
         .matches(/@[^.]*\./)
@@ -124,7 +125,7 @@ const EditEmployeeInformationModal = props => {
     if (showEdt) {
       dispatch(fetchEmpBasicInfo(modalData.employmentDetails?.employeeId))
     } else {
-      dispatch(resetEmpBasicInfoResponse())
+      dispatch(resetEmpResponseAndError())
       dispatch(resetEmployeeErrorLog())
       formik.resetForm()
     }
@@ -135,7 +136,7 @@ const EditEmployeeInformationModal = props => {
     if (!isEmpty(responseUpdateEmpBasicInformation)) {
       formik.resetForm()
 
-      dispatch(resetEmpBasicInfoResponse())
+      dispatch(resetEmpResponseAndError())
       handleCloseEdt()
       dispatch(fetchEmployeeList())
     }
@@ -470,7 +471,7 @@ const EditEmployeeInformationModal = props => {
                   </FormGroup>
                 </Col>
 
-                {/* daily rate input field */}
+                {/* daily rate input field & checkbox for per piece */}
                 {modalData.employmentDetails?.natureOfAppointment ===
                   natureOfAppointments.JOB_ORDER ||
                 modalData.employmentDetails?.natureOfAppointment ===
@@ -498,6 +499,29 @@ const EditEmployeeInformationModal = props => {
                         <FormFeedback type="invalid">
                           {formik.errors.dailyRate}
                         </FormFeedback>
+                      ) : null}
+
+                      {modalData.employmentDetails?.natureOfAppointment ===
+                      natureOfAppointments.CONTRACT_OF_SERVICE ? (
+                        <div className="form-check pt-1">
+                          <Input
+                            name="isPerPieceRate"
+                            type="checkbox"
+                            className="form-check-input"
+                            id="isPerPieceRate-Input"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            checked={
+                              formik.values.isPerPieceRate ? true : false
+                            }
+                          />
+                          <Label
+                            className="form-check-label"
+                            for="isPerPieceRate"
+                          >
+                            Per piece rate
+                          </Label>
+                        </div>
                       ) : null}
                     </FormGroup>
                   </Col>

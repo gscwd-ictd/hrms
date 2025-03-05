@@ -7,10 +7,8 @@ import { natureOfAppointments } from 'constants/natureOfAppointments'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchEmployeeList,
-  fetchEmpBasicInfo,
-  updateEmpBasicInfo,
-  resetEmployeeErrorLog,
-  resetEmpBasicInfoResponse,
+  addCasJoCosEmployee,
+  resetEmpResponseAndError,
 } from 'store/actions'
 
 import {
@@ -37,25 +35,20 @@ import { useFormik } from 'formik'
 // import scss
 import 'styles/custom_gscwd/pages/employeeassignment.scss'
 
-const AddCosEmployeeModal = props => {
-  const { showAddCos, modalData, handleCloseAddCos } = props
+const CasJoCosPortalRegistrationModal = props => {
+  const { showAddCasJoCos, modalNatureOfAppointment, handleCloseAddCasJoCos } =
+    props
   const dispatch = useDispatch()
 
-  const {} = useSelector(state => ({}))
-
   const {
-    responseUpdateEmpBasicInformation,
-    loadingResponseUpdateEmpBasicInfo,
-    errorResponseUpdateEmpBasicInfo,
+    responseRegisterCasJoCosEmployee,
+    loadingRegisterCasJoCosEmployee,
+    errorRegisterCasJoCosEmployee,
   } = useSelector(state => ({
-    employeeBasicInformation: state.employee.employeeBasicInformation,
-    loadingEmpBasicInfo: state.employee.isLoading,
-    errorEmpBasicInfo: state.employee.error,
-
-    responseUpdateEmpBasicInformation:
-      state.employee.response.updateEmpBasicInfo,
-    loadingResponseUpdateEmpBasicInfo: state.employee.response.isLoading,
-    errorResponseUpdateEmpBasicInfo: state.employee.response.error,
+    responseRegisterCasJoCosEmployee:
+      state.employee.response.addCasJoCosEmployee,
+    loadingRegisterCasJoCosEmployee: state.employee.response.isLoading,
+    errorRegisterCasJoCosEmployee: state.employee.response.error,
   }))
 
   const phoneRegExp =
@@ -66,7 +59,7 @@ const AddCosEmployeeModal = props => {
     enableReinitialize: true,
 
     initialValues: {
-      natureOfAppointment: natureOfAppointments.CONTRACT_OF_SERVICE || '',
+      natureOfAppointment: modalNatureOfAppointment || '',
       firstName: '',
       middleName: '',
       lastName: '',
@@ -82,61 +75,71 @@ const AddCosEmployeeModal = props => {
       isPerPieceRate: false,
     },
     validationSchema: Yup.object().shape({
-      firstName: Yup.string().required(),
-      lastName: Yup.string().required(),
-      birthday: Yup.string().required(),
+      natureOfAppointment: Yup.string().required(),
+      firstName: Yup.string().required('First name is a required field'),
+      lastName: Yup.string().required('Last name is a required field'),
+      birthday: Yup.string().required('Birthday is a required field'),
       sex: Yup.string().required('Select a sex'),
-      civilStatus: Yup.string().required('Select a civilStatus'),
+      civilStatus: Yup.string().when('natureOfAppointment', {
+        is: val => (val === 'casual' ? true : false),
+        then: Yup.string().required('Select a civil status'),
+      }),
       phoneNumber: Yup.string()
-        .required('required')
+        .required('Phone number is a required field')
         .matches(phoneRegExp, 'Phone number is not valid')
-        .min(11, 'too short')
-        .max(11, 'too long'),
+        .min(11, 'Too short')
+        .max(11, 'Too long'),
       email: Yup.string()
         .email('Must be a valid Email')
         .matches(/@[^.]*\./)
-        .required('Please use the official GSCWD email'),
+        .required('Use an active email'),
       dailyRate: Yup.number().when('natureOfAppointment', {
-        is: val => (val === 'job order' ? true : false),
+        is: val =>
+          val === 'job order' || val === 'contract of service' ? true : false,
         then: Yup.number().required('Daily rate is required'),
       }),
     }),
     onSubmit: values => {
-      dispatch(updateEmpBasicInfo(values))
+      dispatch(addCasJoCosEmployee(values))
     },
   })
 
   // Reset response state upon close of modal
   useEffect(() => {
-    if (showAddCos) {
-      dispatch(fetchEmpBasicInfo(modalData.employmentDetails?.employeeId))
-    } else {
-      dispatch(resetEmpBasicInfoResponse())
-      dispatch(resetEmployeeErrorLog())
+    if (!showAddCasJoCos) {
+      dispatch(resetEmpResponseAndError())
       formik.resetForm()
     }
-  }, [showAddCos])
+  }, [showAddCasJoCos])
 
   // Execute after successful submission of form
   useEffect(() => {
-    if (!isEmpty(responseUpdateEmpBasicInformation)) {
+    if (!isEmpty(responseRegisterCasJoCosEmployee)) {
       formik.resetForm()
 
-      dispatch(resetEmpBasicInfoResponse())
-      handleCloseAddCos()
+      handleCloseAddCasJoCos()
+      dispatch(resetEmpResponseAndError())
       dispatch(fetchEmployeeList())
     }
-  }, [responseUpdateEmpBasicInformation])
+  }, [responseRegisterCasJoCosEmployee])
 
   return (
     <>
-      <Modal isOpen={showAddCos} toggle={handleCloseAddCos} size="lg" centered>
-        <ModalHeader toggle={handleCloseAddCos}>
-          Update Employee Information
+      <Modal
+        isOpen={showAddCasJoCos}
+        toggle={handleCloseAddCasJoCos}
+        size="lg"
+        centered
+      >
+        <ModalHeader
+          toggle={handleCloseAddCasJoCos}
+          className="text-capitalize"
+        >
+          Register {modalNatureOfAppointment} Employee
         </ModalHeader>
 
         {/* Info Alert with Spinner */}
-        {loadingResponseUpdateEmpBasicInfo ? (
+        {loadingRegisterCasJoCosEmployee ? (
           <Alert
             color="info"
             className="alert-dismissible fade show"
@@ -145,36 +148,20 @@ const AddCosEmployeeModal = props => {
             <i className="mdi mdi-loading mdi-spin me-2"></i> Sending Request
           </Alert>
         ) : null}
-        {loadingEmpBasicInfo ? (
-          <Alert
-            color="info"
-            className="alert-dismissible fade show"
-            role="alert"
-          >
-            <i className="mdi mdi-loading mdi-spin me-2"></i> Pulling Employee
-            Basic Information
-          </Alert>
-        ) : null}
 
         {/* Error Alert */}
-        {errorEmpBasicInfo ? (
+        {errorRegisterCasJoCosEmployee ? (
           <ToastrNotification
             toastType={'error'}
-            notifMessage={errorEmpBasicInfo}
-          />
-        ) : null}
-        {errorResponseUpdateEmpBasicInfo ? (
-          <ToastrNotification
-            toastType={'error'}
-            notifMessage={errorResponseUpdateEmpBasicInfo}
+            notifMessage={errorRegisterCasJoCosEmployee}
           />
         ) : null}
 
         {/* Success Alert */}
-        {!isEmpty(responseUpdateEmpBasicInformation) ? (
+        {!isEmpty(responseRegisterCasJoCosEmployee) ? (
           <ToastrNotification
             toastType={'success'}
-            notifMessage={'Employee details succesfully updated'}
+            notifMessage={'Employee succesfully added'}
           />
         ) : null}
 
@@ -366,37 +353,41 @@ const AddCosEmployeeModal = props => {
                 </Col>
 
                 {/* civil status select field */}
-                <Col sm={4}>
-                  <FormGroup>
-                    <Label for="civilStatus">Civil Status</Label>
-                    <Input
-                      name="civilStatus"
-                      type="select"
-                      className="form-control"
-                      id="civilStatus-select"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.civilStatus || ''}
-                      invalid={
-                        formik.touched.civilStatus && formik.errors.civilStatus
-                          ? true
-                          : false
-                      }
-                    >
-                      <option value="">Choose...</option>
-                      {civilStatuses.map((civilStatus, idx) => (
-                        <option key={idx} value={civilStatus}>
-                          {civilStatus}
-                        </option>
-                      ))}
-                    </Input>
-                    {formik.touched.civilStatus && formik.errors.civilStatus ? (
-                      <FormFeedback type="invalid">
-                        {formik.errors.sex}
-                      </FormFeedback>
-                    ) : null}
-                  </FormGroup>
-                </Col>
+                {modalNatureOfAppointment === natureOfAppointments.CASUAL ? (
+                  <Col sm={4}>
+                    <FormGroup>
+                      <Label for="civilStatus">Civil Status</Label>
+                      <Input
+                        name="civilStatus"
+                        type="select"
+                        className="form-control"
+                        id="civilStatus-select"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.civilStatus || ''}
+                        invalid={
+                          formik.touched.civilStatus &&
+                          formik.errors.civilStatus
+                            ? true
+                            : false
+                        }
+                      >
+                        <option value="">Choose...</option>
+                        {civilStatuses.map((civilStatus, idx) => (
+                          <option key={idx} value={civilStatus}>
+                            {civilStatus}
+                          </option>
+                        ))}
+                      </Input>
+                      {formik.touched.civilStatus &&
+                      formik.errors.civilStatus ? (
+                        <FormFeedback type="invalid">
+                          {formik.errors.sex}
+                        </FormFeedback>
+                      ) : null}
+                    </FormGroup>
+                  </Col>
+                ) : null}
 
                 {/* phone number input field */}
                 <Col sm={4}>
@@ -450,9 +441,10 @@ const AddCosEmployeeModal = props => {
                   </FormGroup>
                 </Col>
 
-                {/* daily rate input field */}
-                {modalData.employmentDetails?.natureOfAppointment ===
-                natureOfAppointments.JOB_ORDER ? (
+                {/* daily rate input field & checkbox for per piece */}
+                {modalNatureOfAppointment === natureOfAppointments.JOB_ORDER ||
+                modalNatureOfAppointment ===
+                  natureOfAppointments.CONTRACT_OF_SERVICE ? (
                   <Col sm={4}>
                     <FormGroup>
                       <Label for="dailyRate">Daily Rate</Label>
@@ -477,6 +469,26 @@ const AddCosEmployeeModal = props => {
                           {formik.errors.dailyRate}
                         </FormFeedback>
                       ) : null}
+
+                      {modalNatureOfAppointment ===
+                      natureOfAppointments.CONTRACT_OF_SERVICE ? (
+                        <div className="form-check pt-1">
+                          <Input
+                            name="isPerPieceRate"
+                            type="checkbox"
+                            className="form-check-input"
+                            id="isPerPieceRate-Input"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                          <Label
+                            className="form-check-label"
+                            for="isPerPieceRate"
+                          >
+                            Per piece rate
+                          </Label>
+                        </div>
+                      ) : null}
                     </FormGroup>
                   </Col>
                 ) : null}
@@ -495,10 +507,10 @@ const AddCosEmployeeModal = props => {
   )
 }
 
-AddCosEmployeeModal.propTypes = {
-  showAddCos: PropTypes.bool,
-  modalData: PropTypes.object,
-  handleCloseAddCos: PropTypes.func,
+CasJoCosPortalRegistrationModal.propTypes = {
+  showAddCasJoCos: PropTypes.bool,
+  modalNatureOfAppointment: PropTypes.string,
+  handleCloseAddCasJoCos: PropTypes.func,
 }
 
-export default AddCosEmployeeModal
+export default CasJoCosPortalRegistrationModal
