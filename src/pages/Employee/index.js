@@ -275,7 +275,7 @@ const EmployeeList = () => {
                                   >
                                     Permanent
                                   </DropdownItem>
-                                  <DropdownItem
+                                  {/* <DropdownItem
                                     onClick={() => {
                                       handleShowAddCasJoCos()
                                       setModalNatureOfAppointment(
@@ -304,7 +304,7 @@ const EmployeeList = () => {
                                     }}
                                   >
                                     Contract of Service
-                                  </DropdownItem>
+                                  </DropdownItem> */}
                                 </DropdownMenu>
                               </Dropdown>
                             </div>
