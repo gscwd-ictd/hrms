@@ -1,14 +1,14 @@
-import React from "react"
-import { Table, Button } from "reactstrap"
+import React from 'react'
+import { Table, Button } from 'reactstrap'
 import {
   useFilters,
   useGlobalFilter,
   usePagination,
   useTable,
   useSortBy,
-} from "react-table"
-import { GlobalFilter } from "components/Filters/GlobalFilter"
-import PropTypes from "prop-types"
+} from 'react-table'
+import { GlobalFilter } from 'components/Filters/GlobalFilter'
+import PropTypes from 'prop-types'
 
 const TablePlantilla = props => {
   const { columns, data } = props
@@ -19,7 +19,8 @@ const TablePlantilla = props => {
       data,
       initialState: {
         pageIndex: 0,
-        hiddenColumns: ["positionId"],
+        hiddenColumns: ['positionId'],
+        pageSize: 15,
       },
     },
     useFilters,
@@ -64,12 +65,12 @@ const TablePlantilla = props => {
 
       <div className="container-fluid column-filters-row2 gap-2 my-4">
         <label className="col-md-2 col-form-label">Column Filters:</label>
-        <div className="filters d-flex gap-3">
+        <div className="d-flex gap-3 flex-wrap">
           {headerGroups.map(headerGroup =>
             headerGroup.headers.map(column =>
               column.Filter ? (
                 <div className="mt-1 filter-item" key={column.id}>
-                  {column.render("Filter")}
+                  {column.render('Filter')}
                 </div>
               ) : null
             )
@@ -98,9 +99,9 @@ const TablePlantilla = props => {
                 <th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                   key={hi}
-                  className={"th_" + column.getHeaderProps("Header").key}
+                  className={'th_' + column.getHeaderProps('Header').key}
                 >
-                  {column.render("Header")}
+                  {column.render('Header')}
                   {/* Sort */}
                   <span>
                     {column.isSorted ? (
@@ -110,7 +111,7 @@ const TablePlantilla = props => {
                         <i className="bx bx-down-arrow pl-1"></i>
                       )
                     ) : (
-                      ""
+                      ''
                     )}
                   </span>
                 </th>
@@ -126,7 +127,7 @@ const TablePlantilla = props => {
                 {row.cells.map((cell, ci) => {
                   return (
                     <td {...cell.getCellProps()} key={ci}>
-                      {cell.render("Cell")}
+                      {cell.render('Cell')}
                     </td>
                   )
                 })}
@@ -145,23 +146,23 @@ const TablePlantilla = props => {
               onClick={() => previousPage()}
               disabled={!canPreviousPage}
             >
-              {"Previous"}
-            </button>{" "}
+              {'Previous'}
+            </button>{' '}
             <button
               className="page-link"
               onClick={() => nextPage()}
               disabled={!canNextPage}
             >
-              {"Next"}
-            </button>{" "}
+              {'Next'}
+            </button>{' '}
           </div>
 
           {/* Page number */}
           <div className="pagenumber-container">
-            Page{" "}
+            Page{' '}
             <strong>
               {pageIndex + 1} of {pageOptions.length}
-            </strong>{" "}
+            </strong>{' '}
           </div>
 
           {/* Dropdown page size */}
@@ -172,7 +173,7 @@ const TablePlantilla = props => {
             }}
             className="form-control wd-filter-pagesize"
           >
-            {[10, 20, 30, 40, 50].map((pageSize, i) => (
+            {[15, 30, 40, 50].map((pageSize, i) => (
               <option key={i} value={pageSize}>
                 Show {pageSize}
               </option>

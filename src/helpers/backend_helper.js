@@ -262,9 +262,15 @@ export const getEvents = () => getHris(url.GET_EVENTS)
 export const getEmployees = () => getHris(url.GET_EMPLOYEES)
 export const getEmployeePds = employeeId =>
   getEmp(url.GET_EMPLOYEE_PDS + employeeId + url.VERSION_2)
+export const getEmployeeBasicInformation = employeeId =>
+  getHris(url.GET_EMPLOYEE_BASIC_INFORMATION + employeeId)
+export const putEmployeeBasicInformation = employeeBasicInfo =>
+  putHris(url.GET_EMPLOYEE_BASIC_INFORMATION, employeeBasicInfo)
 
-export const postEmployeeAssignment = empassgndata =>
-  postHris(url.POST_EMPLOYEE_ASSIGNMENT, empassgndata)
+export const postRegisterPermanentEmployee = employeeData =>
+  postHris(url.POST_EMPLOYEE_ASSIGNMENT, employeeData)
+export const postRegisterCasJoCosEmployee = employeeData =>
+  postHris(url.POST_EMPLOYEE_ASSIGNMENT, employeeData)
 
 // Committee -----------------------------------------------------------------------
 export const getCommittees = () => getHris(url.GET_COMMITTEES)

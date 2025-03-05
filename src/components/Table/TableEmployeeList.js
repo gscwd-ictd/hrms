@@ -26,6 +26,7 @@ const TableEmployeeList = props => {
           'employmentDetails.employeeId',
           'employmentDetails.positionId',
         ],
+        pageSize: 15,
       },
     },
     useFilters,
@@ -194,7 +195,7 @@ const TableEmployeeList = props => {
             }}
             className="form-control wd-filter-pagesize"
           >
-            {[10, 20, 30, 40, 50].map((pageSize, i) => (
+            {[15, 30, 40, 50].map((pageSize, i) => (
               <option key={i} value={pageSize}>
                 Show {pageSize}
               </option>
