@@ -7,6 +7,7 @@ import {
   getEmployeePds,
   getEmployeeDetailsReport,
   getEmployeeBasicInformation,
+  getEmployeeHeaderInformation,
 } from 'helpers/backend_helper'
 import {
   addPermanentEmployeeSuccess,
@@ -23,6 +24,8 @@ import {
   fetchEmployeeDetailsReportSuccess,
   fetchEmpBasicInfoSuccess,
   fetchEmpBasicInfoFail,
+  fetchEmpHeaderInfoSuccess,
+  fetchEmpHeaderInfoFail,
 } from './actions'
 import {
   REGISTER_PERMANENT_EMPLOYEE,
@@ -32,6 +35,7 @@ import {
   GET_EMPLOYEE_PDS,
   GET_EMPLOYEE_DETAILS_REPORT,
   GET_EMPLOYEE_BASIC_INFO,
+  GET_EMPLOYEE_HEADER_INFO,
 } from './actionTypes'
 
 function* addPermanentEmployee({ payload: employeeData }) {
@@ -182,6 +186,23 @@ function* fetchEmpBasicInfo({ payload: employeeId }) {
   }
 }
 
+function* fetchEmpHeaderInfo({ payload: employeeId }) {
+  try {
+    const response = yield call(getEmployeeHeaderInformation, employeeId)
+
+    yield put(fetchEmpHeaderInfoSuccess(response))
+  } catch (error) {
+    let message
+    if (error.response && error.response.status) {
+      message = `Status Code: ${error.response.status}`
+    } else {
+      message = 'Network error. Unable to connect to server'
+    }
+
+    yield put(fetchEmpHeaderInfoFail(message))
+  }
+}
+
 function* employeeSaga() {
   yield takeEvery(REGISTER_PERMANENT_EMPLOYEE, addPermanentEmployee)
   yield takeEvery(REGISTER_CAS_JO_COS_EMPLOYEE, addCasJoCosEmployee)
@@ -190,6 +211,7 @@ function* employeeSaga() {
   yield takeEvery(GET_EMPLOYEE_PDS, fetchEmployeePds)
   yield takeEvery(GET_EMPLOYEE_DETAILS_REPORT, fetchEmployeeDetailsReport)
   yield takeEvery(GET_EMPLOYEE_BASIC_INFO, fetchEmpBasicInfo)
+  yield takeEvery(GET_EMPLOYEE_HEADER_INFO, fetchEmpHeaderInfo)
 }
 
 export default employeeSaga

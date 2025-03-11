@@ -16,6 +16,8 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
+  Link,
+  Button,
 } from 'reactstrap'
 import PermanentPortalRegistrationModal from 'components/Modal/Employee/PermanentPortalRegistrationModal'
 import CasJoCosPortalRegistrationModal from 'components/Modal/Employee/CasJoCosPortalRegistrationModal'
@@ -31,8 +33,6 @@ import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 import EmployeeIcon from 'components/Common/EmployeeIcon'
 
-import { natureOfAppointments } from 'constants/natureOfAppointments'
-
 const EmployeeList = () => {
   const dispatch = useDispatch()
   const location = useLocation()
@@ -46,6 +46,7 @@ const EmployeeList = () => {
     {
       Header: '',
       accessor: 'employmentDetails',
+      disableGlobalFilter: true,
       Cell: cell => {
         const { employmentDetails, personalDetails } = cell.row.original
         return (
@@ -104,7 +105,7 @@ const EmployeeList = () => {
 
   const rowActions = cell => {
     return (
-      <UncontrolledDropdown className="ms-auto">
+      <UncontrolledDropdown className="ms-auto" direction="down">
         <DropdownToggle className="font-size-18" color="white" type="button">
           <i className="mdi mdi-dots-horizontal"></i>
         </DropdownToggle>
@@ -161,7 +162,7 @@ const EmployeeList = () => {
             <DropdownItem
               href={`${
                 location.pathname +
-                '/201/' +
+                '/basic-info/' +
                 cell.row.values['employmentDetails.employeeId']
               }`}
               target="_blank"
@@ -171,12 +172,15 @@ const EmployeeList = () => {
             </DropdownItem>
           ) : null}
 
-          <DropdownItem
-            onClick={() => editModal(cell.row.original)}
-            className="dropdown-item"
-          >
-            Update Basic Information
-          </DropdownItem>
+          <Can I="access" this="Employees_basic_info">
+            <DropdownItem
+              onClick={() => editModal(cell.row.original)}
+              className="dropdown-item"
+              toggle={false}
+            >
+              Update Basic Information
+            </DropdownItem>
+          </Can>
         </DropdownMenu>
       </UncontrolledDropdown>
     )

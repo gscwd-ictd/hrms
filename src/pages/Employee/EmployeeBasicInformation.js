@@ -1,34 +1,30 @@
 import React, { useEffect } from 'react'
 import { isEmpty } from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  fetchEmployeePds,
-  resetEmployeeErrorLog,
-  fetchEmpHeaderInfo,
-} from 'store/actions'
+import { fetchEmpHeaderInfo, fetchEmpBasicInfo } from 'store/actions'
 import { Can } from 'casl/Can'
 import { Navigate, useParams } from 'react-router-dom'
 
 import { Row, Col, Card, CardBody, Container } from 'reactstrap'
 import Breadcrumb from 'components/Common/Breadcrumb'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
-import PersonalDataSheet from 'components/PersonalDataSheet/Employee'
+import BasicInformationView from 'components/PersonalDataSheet/Basic'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import EmployeeCard from 'components/Common/EmployeeCard'
 
-const EmployeePds = () => {
+const EmployeeBasicInformation = () => {
   const dispatch = useDispatch()
   const { employeeId } = useParams()
 
   const {
-    isLoading,
-    error,
+    loadingEmpBasicInfo,
+    errorEmpBasicInfo,
     employeeHeaderInformation,
     loadingEmpHeaderInfo,
     errorEmpHeaderInfo,
   } = useSelector(state => ({
-    error: state.employee.error,
-    isLoading: state.employee.isLoading,
+    loadingEmpBasicInfo: state.employee.isLoading,
+    errorEmpBasicInfo: state.employee.error,
 
     employeeHeaderInformation: state.employee.employeeHeaderInformation.data,
     loadingEmpHeaderInfo: state.employee.employeeHeaderInformation.isLoading,
@@ -36,15 +32,9 @@ const EmployeePds = () => {
   }))
 
   useEffect(() => {
-    dispatch(fetchEmployeePds(employeeId))
     dispatch(fetchEmpHeaderInfo(employeeId))
+    dispatch(fetchEmpBasicInfo(employeeId))
   }, [dispatch])
-
-  useEffect(() => {
-    if (!isEmpty(error)) {
-      dispatch(resetEmployeeErrorLog())
-    }
-  }, [error])
 
   return (
     <React.Fragment>
@@ -54,11 +44,14 @@ const EmployeePds = () => {
             <Breadcrumb
               title="Employee"
               titleUrl="/employees"
-              breadcrumbItem="Personal Data Sheet"
+              breadcrumbItem="Employee Basic Information"
             />
 
-            {error ? (
-              <ToastrNotification toastType={'error'} notifMessage={error} />
+            {errorEmpBasicInfo ? (
+              <ToastrNotification
+                toastType={'error'}
+                notifMessage={errorEmpBasicInfo}
+              />
             ) : null}
 
             {errorEmpHeaderInfo ? (
@@ -88,10 +81,10 @@ const EmployeePds = () => {
               <Col lg={12}>
                 <Card>
                   <CardBody className="card-table">
-                    {isLoading ? (
+                    {loadingEmpBasicInfo ? (
                       <LoadingIndicator />
                     ) : (
-                      <PersonalDataSheet employeeId={employeeId} />
+                      <BasicInformationView />
                     )}
                   </CardBody>
                 </Card>
@@ -108,4 +101,4 @@ const EmployeePds = () => {
   )
 }
 
-export default EmployeePds
+export default EmployeeBasicInformation

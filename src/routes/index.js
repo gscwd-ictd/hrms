@@ -35,6 +35,7 @@ import PermanentPositionCompetencies from 'pages/Plantilla/Permanent/PositionPro
 import EmployeeList from 'pages/Employee'
 import EmployeeRegistration from '../pages/Employee/EmployeeRegistration'
 import EmployeePds from 'pages/Employee/EmployeePds'
+import EmployeeBasicInformation from 'pages/Employee/EmployeeBasicInformation'
 
 // Qualification Standards
 import QualificationStandards from 'pages/QualificationStandards'
@@ -135,6 +136,10 @@ const authProtectedRoutes = [
   },
   { path: '/employees', component: <EmployeeList /> },
   { path: '/employees/pds/:employeeId', component: <EmployeePds /> },
+  {
+    path: '/employees/basic-info/:employeeId',
+    component: <EmployeeBasicInformation />,
+  },
 
   // Permanent Plantilla
   { path: '/plantilla/permanent', component: <PermanentPlantillaTable /> },
