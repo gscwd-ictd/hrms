@@ -890,11 +890,6 @@ const PublicationPdf = () => {
     }
   }, [publicationDocumentDetails])
 
-  // useEffect(() => {
-  //   if (!isEmpty(publicationDocumentDetails))
-  //     console.log(publicationDocumentDetails)
-  // }, [publicationDocumentDetails])
-
   // Fetch data of document
   useEffect(() => {
     dispatch(fetchPublicationDocumentDetails(prfId)) //  fetch publication document details
