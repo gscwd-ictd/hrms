@@ -41,8 +41,6 @@ const EditEmployeeInformationModal = props => {
   const { showEdt, modalData, handleCloseEdt } = props
   const dispatch = useDispatch()
 
-  const {} = useSelector(state => ({}))
-
   const {
     employeeBasicInformation,
     loadingEmpBasicInfo,

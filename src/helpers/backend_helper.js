@@ -264,6 +264,9 @@ export const getEmployeePds = employeeId =>
   getEmp(url.GET_EMPLOYEE_PDS + employeeId + url.VERSION_2)
 export const getEmployeeBasicInformation = employeeId =>
   getHris(url.GET_EMPLOYEE_BASIC_INFORMATION + employeeId)
+export const getEmployeeHeaderInformation = employeeId =>
+  getHris(url.GET_EMPLOYEES + employeeId)
+
 export const putEmployeeBasicInformation = employeeBasicInfo =>
   putHris(url.GET_EMPLOYEE_BASIC_INFORMATION, employeeBasicInfo)
 

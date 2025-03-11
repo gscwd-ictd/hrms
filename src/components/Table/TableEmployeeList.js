@@ -28,6 +28,7 @@ const TableEmployeeList = props => {
         ],
         pageSize: 15,
       },
+      autoResetPage: false,
     },
     useFilters,
     useGlobalFilter,

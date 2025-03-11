@@ -55,7 +55,7 @@ export const GET_EMPLOYEE_DETAILS_BY_PLANTILLA = 'employees/plantilla/'
 
 // EMPLOYEE
 export const POST_EMPLOYEE_ASSIGNMENT = 'employees'
-export const GET_EMPLOYEES = 'employees'
+export const GET_EMPLOYEES = 'employees/'
 export const GET_EMPLOYEE_BASIC_INFORMATION = 'employees/details/basic/'
 export const GET_EMPLOYEE_PDS = 'pds/'
 
