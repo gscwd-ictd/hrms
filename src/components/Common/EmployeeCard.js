@@ -2,15 +2,33 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import EmployeeIcon from './EmployeeIcon'
 import { Alert } from 'reactstrap'
+import { isEmpty } from 'lodash'
 
 const EmployeeCard = props => {
-  const { width, height, name, employeeDetails } = props
+  const {
+    width,
+    height,
+    name,
+    companyId,
+    photoUrl,
+    positionTitle,
+    natureOfAppointment,
+  } = props
+
+  const snakeCaseToCapitalize = text => {
+    if (!isEmpty(text)) {
+      return text
+        .split('_')
+        .map(s => s.charAt(0).toUpperCase() + s.slice(1))
+        .join(' ')
+    } else {
+      return
+    }
+  }
 
   return (
     <>
-      {employeeDetails.companyId &&
-      employeeDetails.name &&
-      employeeDetails.photoUrl ? (
+      {companyId && name ? (
         <div
           style={{
             display: 'flex',
@@ -24,7 +42,7 @@ const EmployeeCard = props => {
         >
           <div style={{ height: '100%' }}>
             <EmployeeIcon
-              avatarUrl={employeeDetails.photoUrl}
+              avatarUrl={photoUrl}
               name={name}
               width={width}
               height={height}
@@ -38,7 +56,16 @@ const EmployeeCard = props => {
                 marginBottom: 0,
               }}
             >
-              {employeeDetails.name}
+              {name || ''}
+            </p>
+            <p
+              style={{
+                fontSize: '1rem',
+                marginBottom: 0,
+              }}
+              className="fw-semibold"
+            >
+              {companyId || ''}
             </p>
             <p
               style={{
@@ -46,16 +73,16 @@ const EmployeeCard = props => {
                 marginBottom: 0,
               }}
             >
-              {employeeDetails.companyId}
+              {positionTitle || ''}
             </p>
             <p
               style={{
                 fontSize: '1rem',
                 marginBottom: 0,
               }}
+              className="text-capitalize"
             >
-              {employeeDetails.natureOfAppointment.charAt(0).toUpperCase() +
-                employeeDetails.natureOfAppointment.slice(1)}
+              {snakeCaseToCapitalize(natureOfAppointment) || ''}
             </p>
           </div>
         </div>
@@ -76,11 +103,22 @@ const EmployeeCard = props => {
   )
 }
 
+EmployeeCard.defaultProps = {
+  name: '',
+  companyId: '',
+  photoUrl: '',
+  positionTitle: '',
+  natureOfAppointment: '',
+}
+
 EmployeeCard.propTypes = {
   name: PropTypes.string,
   height: PropTypes.number,
   width: PropTypes.number,
-  employeeDetails: PropTypes.object,
+  companyId: PropTypes.string,
+  photoUrl: PropTypes.string,
+  positionTitle: PropTypes.string,
+  natureOfAppointment: PropTypes.string,
 }
 
 export default EmployeeCard

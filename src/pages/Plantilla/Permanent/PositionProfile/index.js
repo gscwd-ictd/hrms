@@ -81,12 +81,12 @@ const PositionProfile = () => {
 
                 <Container fluid={true}>
                   <EmployeeCard
-                    avatarUrl={employeeDetails.photoUrl}
                     name={employeeDetails.name}
+                    companyId={employeeDetails.companyId}
+                    photoUrl={employeeDetails.photoUrl}
+                    natureOfAppointment={employeeDetails.natureOfAppointment}
                     width={100}
                     height={100}
-                    positionId={plantillaId}
-                    employeeDetails={employeeDetails}
                   />
                   <Row>
                     {/* Job Description */}

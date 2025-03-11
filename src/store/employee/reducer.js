@@ -21,6 +21,9 @@ import {
   GET_EMPLOYEE_BASIC_INFO,
   GET_EMPLOYEE_BASIC_INFO_SUCCESS,
   GET_EMPLOYEE_BASIC_INFO_FAIL,
+  GET_EMPLOYEE_HEADER_INFO,
+  GET_EMPLOYEE_HEADER_INFO_SUCCESS,
+  GET_EMPLOYEE_HEADER_INFO_FAIL,
   RESET_EMPLOYEE_ERROR_LOG,
 } from './actionTypes'
 
@@ -74,6 +77,11 @@ const INIT_STATE = {
   },
   isLoading: false,
   error: null,
+  employeeHeaderInformation: {
+    data: {},
+    isLoading: false,
+    error: null,
+  },
   response: {
     updateEmpBasicInfo: {},
     addPermEmployee: {},
@@ -374,6 +382,38 @@ const employee = (state = INIT_STATE, action) => {
         ...state,
         isLoading: false,
         error: action.payload,
+      }
+      break
+
+    case GET_EMPLOYEE_HEADER_INFO:
+      state = {
+        ...state,
+        employeeHeaderInformation: {
+          ...state.employeeHeaderInformation,
+          data: {},
+          isLoading: true,
+          error: null,
+        },
+      }
+      break
+    case GET_EMPLOYEE_HEADER_INFO_SUCCESS:
+      state = {
+        ...state,
+        employeeHeaderInformation: {
+          ...state.employeeHeaderInformation,
+          data: action.payload,
+          isLoading: false,
+        },
+      }
+      break
+    case GET_EMPLOYEE_HEADER_INFO_FAIL:
+      state = {
+        ...state,
+        employeeHeaderInformation: {
+          ...state.employeeHeaderInformation,
+          isLoading: false,
+          error: action.payload,
+        },
       }
       break
 

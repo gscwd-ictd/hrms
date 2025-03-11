@@ -21,6 +21,9 @@ import {
   GET_EMPLOYEE_BASIC_INFO,
   GET_EMPLOYEE_BASIC_INFO_SUCCESS,
   GET_EMPLOYEE_BASIC_INFO_FAIL,
+  GET_EMPLOYEE_HEADER_INFO,
+  GET_EMPLOYEE_HEADER_INFO_SUCCESS,
+  GET_EMPLOYEE_HEADER_INFO_FAIL,
   RESET_EMPLOYEE_ERROR_LOG,
 } from './actionTypes'
 
@@ -186,6 +189,26 @@ export const fetchEmpBasicInfoSuccess = response => {
 export const fetchEmpBasicInfoFail = error => {
   return {
     type: GET_EMPLOYEE_BASIC_INFO_FAIL,
+    payload: error,
+  }
+}
+
+// get employee details for employee card header component
+export const fetchEmpHeaderInfo = payload => {
+  return {
+    type: GET_EMPLOYEE_HEADER_INFO,
+    payload: payload,
+  }
+}
+export const fetchEmpHeaderInfoSuccess = response => {
+  return {
+    type: GET_EMPLOYEE_HEADER_INFO_SUCCESS,
+    payload: response,
+  }
+}
+export const fetchEmpHeaderInfoFail = error => {
+  return {
+    type: GET_EMPLOYEE_HEADER_INFO_FAIL,
     payload: error,
   }
 }
