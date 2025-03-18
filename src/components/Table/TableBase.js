@@ -1,14 +1,14 @@
-import React from "react"
-import { Table } from "reactstrap"
+import React from 'react'
+import { Table } from 'reactstrap'
 import {
   useFilters,
   useGlobalFilter,
   usePagination,
   useTable,
   useSortBy,
-} from "react-table"
-import { GlobalFilter } from "components/Filters/GlobalFilter"
-import PropTypes from "prop-types"
+} from 'react-table'
+import { GlobalFilter } from 'components/Filters/GlobalFilter'
+import PropTypes from 'prop-types'
 
 const TableBase = props => {
   const { columns, data } = props
@@ -19,7 +19,8 @@ const TableBase = props => {
       data,
       initialState: {
         pageIndex: 0,
-        hiddenColumns: ["_id"],
+        hiddenColumns: ['_id'],
+        pageSize: 15,
       },
     },
     useFilters,
@@ -68,10 +69,10 @@ const TableBase = props => {
                 <th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                   key={hi}
-                  className={"th_" + column.getHeaderProps("Header").key}
-                  style={{ textAlign: column.align ? "center" : "left" }}
+                  className={'th_' + column.getHeaderProps('Header').key}
+                  style={{ textAlign: column.align ? 'center' : 'left' }}
                 >
-                  {column.render("Header")}
+                  {column.render('Header')}
                   {/* Sort */}
                   <span>
                     {column.isSorted ? (
@@ -81,7 +82,7 @@ const TableBase = props => {
                         <i className="bx bx-down-arrow pl-1"></i>
                       )
                     ) : (
-                      ""
+                      ''
                     )}
                   </span>
                 </th>
@@ -101,13 +102,13 @@ const TableBase = props => {
                         style={
                           cell.column.align
                             ? {
-                                width: "fit-content",
-                                margin: "auto",
+                                width: 'fit-content',
+                                margin: 'auto',
                               }
                             : {}
                         }
                       >
-                        {cell.render("Cell")}
+                        {cell.render('Cell')}
                       </div>
                     </td>
                   )
@@ -127,23 +128,23 @@ const TableBase = props => {
               onClick={() => previousPage()}
               disabled={!canPreviousPage}
             >
-              {"Previous"}
-            </button>{" "}
+              {'Previous'}
+            </button>{' '}
             <button
               className="page-link"
               onClick={() => nextPage()}
               disabled={!canNextPage}
             >
-              {"Next"}
-            </button>{" "}
+              {'Next'}
+            </button>{' '}
           </div>
 
           {/* Page number */}
           <div className="pagenumber-container">
-            Page{" "}
+            Page{' '}
             <strong>
               {pageIndex + 1} of {pageOptions.length}
-            </strong>{" "}
+            </strong>{' '}
           </div>
 
           {/* Dropdown page size */}

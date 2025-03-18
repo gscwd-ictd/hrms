@@ -59,6 +59,10 @@ export const GET_EMPLOYEES = 'employees/'
 export const GET_EMPLOYEE_BASIC_INFORMATION = 'employees/details/basic/'
 export const GET_EMPLOYEE_PDS = 'pds/'
 
+// SERVICE RECORD
+export const SERVICE_RECORDS = 'service-records/'
+export const EMPLOYEE_SEPARATION = 'employee-separation/'
+
 // OCCUPATIONS
 export const GET_OCCUPATIONS = 'occupations'
 export const GET_OCCUPATION = 'occupations/'

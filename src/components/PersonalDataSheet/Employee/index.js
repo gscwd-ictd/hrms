@@ -1,24 +1,24 @@
-import React, { useState } from "react"
-import { useSelector } from "react-redux"
-import classnames from "classnames"
-import dayjs from "dayjs"
-import { isEmpty } from "lodash"
-import { Link } from "react-router-dom"
-import PropTypes from "prop-types"
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
+import classnames from 'classnames'
+import dayjs from 'dayjs'
+import { isEmpty } from 'lodash'
+import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
-import { NavItem, NavLink, TabContent, TabPane, Button } from "reactstrap"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import PersonalInformationView from "./PersonalInformationView"
-import FamilyBackgroundView from "./FamilyBackgroundView"
-import EducationalBackgroundView from "./EducationalBackgroundView"
-import EligibilityView from "./EligibilityView"
-import WorkExperienceView from "./WorkExperienceView"
-import VoluntaryWorkView from "./VoluntaryWorkView"
-import LearningAndDevelopmentView from "./LearningAndDevelopmentView"
-import OtherInformationView from "./OtherInformationView"
+import { NavItem, NavLink, TabContent, TabPane, Button } from 'reactstrap'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import PersonalInformationView from './PersonalInformationView'
+import FamilyBackgroundView from './FamilyBackgroundView'
+import EducationalBackgroundView from './EducationalBackgroundView'
+import EligibilityView from './EligibilityView'
+import WorkExperienceView from './WorkExperienceView'
+import VoluntaryWorkView from './VoluntaryWorkView'
+import LearningAndDevelopmentView from './LearningAndDevelopmentView'
+import OtherInformationView from './OtherInformationView'
 
 // style
-import "styles/custom_gscwd/components/personaldatasheet.scss"
+import 'styles/custom_gscwd/components/personaldatasheet.scss'
 
 const PersonalDataSheetView = props => {
   const [activeTab, setActiveTab] = useState(1)
@@ -99,9 +99,9 @@ const PersonalDataSheetView = props => {
   const formatDate = assignedDate => {
     if (!isEmpty(assignedDate)) {
       const date = new Date(assignedDate)
-      return dayjs(date.toLocaleDateString()).format("MM/DD/YYYY")
+      return dayjs(date.toLocaleDateString()).format('MM/DD/YYYY')
     } else {
-      return ""
+      return ''
     }
   }
 
@@ -126,7 +126,7 @@ const PersonalDataSheetView = props => {
                     setActiveTab(1)
                   }}
                 >
-                  <span className="number">01</span>{" "}
+                  <span className="number">01</span>{' '}
                   <span>Personal Information</span>
                 </NavLink>
               </NavItem>
@@ -143,7 +143,7 @@ const PersonalDataSheetView = props => {
                     setActiveTab(2)
                   }}
                 >
-                  <span className="number">02</span>{" "}
+                  <span className="number">02</span>{' '}
                   <span>Family Background</span>
                 </NavLink>
               </NavItem>
@@ -160,7 +160,7 @@ const PersonalDataSheetView = props => {
                     setActiveTab(3)
                   }}
                 >
-                  <span className="number">03</span>{" "}
+                  <span className="number">03</span>{' '}
                   <span>Educational Background</span>
                 </NavLink>
               </NavItem>
@@ -193,7 +193,7 @@ const PersonalDataSheetView = props => {
                     setActiveTab(5)
                   }}
                 >
-                  <span className="number">05</span>{" "}
+                  <span className="number">05</span>{' '}
                   <span>Work Experience</span>
                 </NavLink>
               </NavItem>
@@ -226,7 +226,7 @@ const PersonalDataSheetView = props => {
                     setActiveTab(7)
                   }}
                 >
-                  <span className="number">07</span>{" "}
+                  <span className="number">07</span>{' '}
                   <span>Learning And Development</span>
                 </NavLink>
               </NavItem>
@@ -243,7 +243,7 @@ const PersonalDataSheetView = props => {
                     setActiveTab(8)
                   }}
                 >
-                  <span className="number">08</span>{" "}
+                  <span className="number">08</span>{' '}
                   <span>Other Information</span>
                 </NavLink>
               </NavItem>
@@ -349,8 +349,8 @@ const PersonalDataSheetView = props => {
 
               <TabPane tabId={9}>
                 <Link
-                  style={{ pointerEvents: "inherit" }}
-                  to={"/employee-pds-pdf/" + props.employeeId}
+                  style={{ pointerEvents: 'inherit' }}
+                  to={'/employee-pds-pdf/' + props.employeeId}
                   target="_blank"
                 >
                   <Button className="btn btn-info waves-effect waves-light">
@@ -365,7 +365,7 @@ const PersonalDataSheetView = props => {
           <div className="actions clearfix">
             <ul>
               <li
-                className={activeTab === 1 ? "previous disabled" : "previous"}
+                className={activeTab === 1 ? 'previous disabled' : 'previous'}
               >
                 <Link
                   to="#"
@@ -376,7 +376,7 @@ const PersonalDataSheetView = props => {
                   Previous
                 </Link>
               </li>
-              <li className={activeTab === 9 ? "next disabled" : "next"}>
+              <li className={activeTab === 9 ? 'next disabled' : 'next'}>
                 <Link
                   to="#"
                   onClick={() => {

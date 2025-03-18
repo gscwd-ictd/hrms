@@ -35,7 +35,6 @@ const EmployeeCard = props => {
             flexDirection: 'row',
             alignItems: 'center',
             gap: '1rem',
-            marginBottom: '1.5rem',
             backgroundColor: 'white',
             padding: '1rem',
           }}

@@ -27,6 +27,9 @@ import positionReqSaga from './prf/saga'
 // employee
 import employeeSaga from './employee/saga'
 
+// service record
+import serviceRecordSaga from './service-record/saga'
+
 //plantilla
 import plantillaSaga from './plantilla/saga'
 import jobDescriptionSaga from './job-description/saga'
@@ -105,6 +108,7 @@ export default function* rootSaga() {
     fork(divisionsSaga),
     fork(positionReqSaga),
     fork(employeeSaga),
+    fork(serviceRecordSaga),
     fork(plantillaSaga),
     fork(jobDescriptionSaga),
     fork(dutiesResponsibilitiesSaga),
@@ -126,7 +130,7 @@ export default function* rootSaga() {
     fork(moduleSaga),
     fork(systemLogSaga),
     fork(scheduleSaga),
-    fork(temporaryAssignmentSaga)
+    fork(temporaryAssignmentSaga),
     // fork(otpServiceSaga),
   ])
 }

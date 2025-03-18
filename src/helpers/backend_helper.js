@@ -275,6 +275,12 @@ export const postRegisterPermanentEmployee = employeeData =>
 export const postRegisterCasJoCosEmployee = employeeData =>
   postHris(url.POST_EMPLOYEE_ASSIGNMENT, employeeData)
 
+//Service Record -------------------------------------------------------------------------
+export const getServiceRecords = employeeId =>
+  getHris(url.SERVICE_RECORDS + employeeId)
+
+export const postEmployeeSeparation = data =>
+  postHris(url.EMPLOYEE_SEPARATION, data)
 // Committee -----------------------------------------------------------------------
 export const getCommittees = () => getHris(url.GET_COMMITTEES)
 export const postCommittee = committeeData =>

@@ -1,55 +1,51 @@
-import React, { useEffect, useMemo, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { fetchOccupations, resetOccupationResponses } from "store/actions"
-import { Can } from "casl/Can"
-import { Navigate } from "react-router-dom"
+import React, { useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchOccupations, resetOccupationResponses } from 'store/actions'
+import { Can } from 'casl/Can'
+import { Navigate } from 'react-router-dom'
 
-import { Card, CardBody, Col, Row } from "reactstrap"
-import InRowAction from "components/InRowAction/InRowAction"
-import AddOccupationModal from "components/Modal/Occupation/AddOccupationModal"
-import EditOccupationModal from "components/Modal/Occupation/EditOccupationModal"
-import DeleteOccupationModal from "components/Modal/Occupation/DeleteOccupationModal"
-import TableOccupations from "components/Table/TableOccupations"
-import Breadcrumbs from "components/Common/Breadcrumb"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import { Card, CardBody, Col, Row } from 'reactstrap'
+import InRowAction from 'components/InRowAction/InRowAction'
+import AddOccupationModal from 'components/Modal/Occupation/AddOccupationModal'
+import EditOccupationModal from 'components/Modal/Occupation/EditOccupationModal'
+import TableOccupations from 'components/Table/TableOccupations'
+import Breadcrumbs from 'components/Common/Breadcrumb'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // style
-import "styles/custom_gscwd/components/table.scss"
+import 'styles/custom_gscwd/components/table.scss'
 
 const Occupation = () => {
   const dispatch = useDispatch()
 
   const occupationColumns = [
     {
-      Header: "ID",
-      accessor: "_id",
+      Header: 'ID',
+      accessor: '_id',
       disableGlobalFilter: true,
     },
     {
-      Header: "Occupation Name",
-      accessor: "occupationName",
+      Header: 'Occupation Name',
+      accessor: 'occupationName',
     },
     {
-      Header: "Actions",
-      align: "center",
-      accessor: "",
+      Header: 'Actions',
+      align: 'center',
+      accessor: '',
       disableGlobalFilter: true,
       Cell: function ActionDropdown(cell) {
         return (
           <div className="d-flex">
             <InRowAction
-              buttonTitle={"Positions"}
-              viewRedirectUrl={"/occupational-group/" + cell.row.values._id}
+              buttonTitle={'Positions'}
+              viewRedirectUrl={'/occupational-group/' + cell.row.values._id}
             />
             <InRowAction
-              buttonTitle={"Duties"}
-              viewRedirectUrl={"/occupation-duties/" + cell.row.values._id}
+              buttonTitle={'Duties'}
+              viewRedirectUrl={'/occupation-duties/' + cell.row.values._id}
             />
-            <InRowAction
-              cell={cell}
-              editModal={editModal}
-            />
+            <InRowAction cell={cell} editModal={editModal} />
           </div>
         )
       },
@@ -99,7 +95,7 @@ const Occupation = () => {
             <Breadcrumbs breadcrumbItem="Occupations" />
 
             {error ? (
-              <ToastrNotification toastType={"error"} notifMessage={error} />
+              <ToastrNotification toastType={'error'} notifMessage={error} />
             ) : null}
 
             <Row>

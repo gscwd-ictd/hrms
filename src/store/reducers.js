@@ -26,6 +26,9 @@ import positionRequest from './prf/reducer'
 // employee
 import employee from './employee/reducer'
 
+// service record
+import serviceRecord from './service-record/reducer'
+
 //plantilla
 import plantilla from './plantilla/reducer'
 import jobDescription from './job-description/reducer'
@@ -103,6 +106,7 @@ const rootReducer = combineReducers({
   divisionList,
   positionRequest,
   employee,
+  serviceRecord,
   plantilla,
   jobDescription,
   dutiesResponsibilities,

@@ -23,6 +23,9 @@ export * from './prf/actions'
 // employee
 export * from './employee/actions'
 
+// service record
+export * from './service-record/actions'
+
 //plantilla
 export * from './plantilla/actions'
 export * from './job-description/actions'

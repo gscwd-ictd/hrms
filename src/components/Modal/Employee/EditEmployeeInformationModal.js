@@ -6,7 +6,7 @@ import { natureOfAppointments } from 'constants/natureOfAppointments'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  fetchEmployeeList,
+  fetchEmployeePds,
   fetchEmpBasicInfo,
   updateEmpBasicInfo,
   resetEmployeeErrorLog,
@@ -30,15 +30,16 @@ import {
   FormText,
 } from 'reactstrap'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
-
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
+import { useParams } from 'react-router-dom'
 
 // import scss
 import 'styles/custom_gscwd/pages/employeeassignment.scss'
 
 const EditEmployeeInformationModal = props => {
-  const { showEdt, modalData, handleCloseEdt } = props
+  const { isOpen, toggle } = props
+  const { employeeId, natureOfAppointment } = useParams()
   const dispatch = useDispatch()
 
   const {
@@ -68,9 +69,8 @@ const EditEmployeeInformationModal = props => {
     enableReinitialize: true,
 
     initialValues: {
-      employeeId: modalData.employmentDetails?.employeeId || '',
-      natureOfAppointment:
-        modalData.employmentDetails?.natureOfAppointment || '',
+      employeeId: employeeId || '',
+      natureOfAppointment: natureOfAppointment || '',
       firstName: employeeBasicInformation.firstName || '',
       middleName: employeeBasicInformation.middleName || '',
       lastName: employeeBasicInformation.lastName || '',
@@ -120,14 +120,14 @@ const EditEmployeeInformationModal = props => {
 
   // Reset response state upon close of modal
   useEffect(() => {
-    if (showEdt) {
-      dispatch(fetchEmpBasicInfo(modalData.employmentDetails?.employeeId))
+    if (isOpen) {
+      dispatch(fetchEmpBasicInfo(employeeId))
     } else {
       dispatch(resetEmpResponseAndError())
       dispatch(resetEmployeeErrorLog())
       formik.resetForm()
     }
-  }, [showEdt])
+  }, [isOpen])
 
   // Execute after successful submission of form
   useEffect(() => {
@@ -135,17 +135,23 @@ const EditEmployeeInformationModal = props => {
       formik.resetForm()
 
       dispatch(resetEmpResponseAndError())
-      handleCloseEdt()
-      dispatch(fetchEmployeeList())
+      toggle()
+
+      if (
+        natureOfAppointment === natureOfAppointments.PERMANENT ||
+        natureOfAppointment === natureOfAppointments.CASUAL
+      ) {
+        dispatch(fetchEmployeePds(employeeId))
+      } else {
+        dispatch(fetchEmpBasicInfo(employeeId))
+      }
     }
   }, [responseUpdateEmpBasicInformation])
 
   return (
     <>
-      <Modal isOpen={showEdt} toggle={handleCloseEdt} size="lg" centered>
-        <ModalHeader toggle={handleCloseEdt}>
-          Update Employee Information
-        </ModalHeader>
+      <Modal isOpen={isOpen} toggle={toggle} size="lg" centered>
+        <ModalHeader toggle={toggle}>Update Employee Information</ModalHeader>
 
         {/* Info Alert with Spinner */}
         {loadingResponseUpdateEmpBasicInfo ? (
@@ -219,7 +225,7 @@ const EditEmployeeInformationModal = props => {
                           : false
                       }
                     />
-                    {formik.touched.firstname && formik.errors.firstName ? (
+                    {formik.touched.firstName && formik.errors.firstName ? (
                       <FormFeedback type="invalid">
                         {formik.errors.firstName}
                       </FormFeedback>
@@ -378,10 +384,8 @@ const EditEmployeeInformationModal = props => {
                 </Col>
 
                 {/* civil status select field */}
-                {modalData.employmentDetails?.natureOfAppointment ===
-                  natureOfAppointments.PERMANENT ||
-                modalData.employmentDetails?.natureOfAppointment ===
-                  natureOfAppointments.CASUAL ? (
+                {natureOfAppointment === natureOfAppointments.PERMANENT ||
+                natureOfAppointment === natureOfAppointments.CASUAL ? (
                   <Col sm={4}>
                     <FormGroup>
                       <Label for="civilStatus">Civil Status</Label>
@@ -470,9 +474,8 @@ const EditEmployeeInformationModal = props => {
                 </Col>
 
                 {/* daily rate input field & checkbox for per piece */}
-                {modalData.employmentDetails?.natureOfAppointment ===
-                  natureOfAppointments.JOB_ORDER ||
-                modalData.employmentDetails?.natureOfAppointment ===
+                {natureOfAppointment === natureOfAppointments.JOB_ORDER ||
+                natureOfAppointment ===
                   natureOfAppointments.CONTRACT_OF_SERVICE ? (
                   <Col sm={4}>
                     <FormGroup>
@@ -499,7 +502,7 @@ const EditEmployeeInformationModal = props => {
                         </FormFeedback>
                       ) : null}
 
-                      {modalData.employmentDetails?.natureOfAppointment ===
+                      {natureOfAppointment ===
                       natureOfAppointments.CONTRACT_OF_SERVICE ? (
                         <div className="form-check pt-1">
                           <Input
@@ -540,9 +543,8 @@ const EditEmployeeInformationModal = props => {
 }
 
 EditEmployeeInformationModal.propTypes = {
-  showEdt: PropTypes.bool,
-  modalData: PropTypes.object,
-  handleCloseEdt: PropTypes.func,
+  isOpen: PropTypes.bool,
+  toggle: PropTypes.func,
 }
 
 export default EditEmployeeInformationModal
