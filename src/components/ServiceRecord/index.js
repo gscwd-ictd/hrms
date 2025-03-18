@@ -68,7 +68,7 @@ const ServiceRecord = () => {
   ]
 
   const columns = useMemo(() => tableColumns, [])
-  const data = useMemo(() => workExperience, [workExperience])
+  const data = useMemo(() => workExperience, [workExperience]) // CHANGE TO serviceRecords
 
   /**
    * Modal

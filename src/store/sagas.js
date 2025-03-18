@@ -90,8 +90,8 @@ import scheduleSaga from './schedules/saga'
 // Temporary Assignment
 import temporaryAssignmentSaga from './temporary-assignment/saga'
 
-// TEST
-// import otpServiceSaga from "./test/otp/saga"
+// Learning and Development
+import learningDevelopmentSaga from './learning-development/saga'
 
 export default function* rootSaga() {
   yield all([
@@ -131,6 +131,6 @@ export default function* rootSaga() {
     fork(systemLogSaga),
     fork(scheduleSaga),
     fork(temporaryAssignmentSaga),
-    // fork(otpServiceSaga),
+    fork(learningDevelopmentSaga),
   ])
 }

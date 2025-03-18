@@ -281,3 +281,6 @@ export const EMPLOYEE_DETAILS_REPORT = 'employees/reports/detailed'
  residential_address: boolean
  permanent_address: boolean
  */
+
+// LEARNING AND DEVELOPMENT
+export const EMPLOYEE_TRAININGS = 'trainings/'

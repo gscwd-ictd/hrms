@@ -7,6 +7,7 @@ import {
   fetchEmpHeaderInfo,
   fetchEmpBasicInfo,
   fetchServiceRecords,
+  fetchEmployeeTrainings,
 } from 'store/actions'
 import { Can } from 'casl/Can'
 import { Navigate, useParams } from 'react-router-dom'
@@ -34,6 +35,7 @@ import classnames from 'classnames'
 import { natureOfAppointments } from 'constants/natureOfAppointments'
 import EditEmployeeInformationModal from 'components/Modal/Employee/EditEmployeeInformationModal'
 import ServiceRecord from 'components/ServiceRecord'
+import LearningAndDevelopment from 'components/LearningAndDevelopment'
 
 const EmployeePds = () => {
   const [activeTab, setactiveTab] = useState('1')
@@ -51,6 +53,9 @@ const EmployeePds = () => {
 
     loadingServiceRecords,
     errorServiceRecords,
+
+    loadingEmpTrainings,
+    errorEmpTrainings,
   } = useSelector(state => ({
     employeeHeaderInformation: state.employee.employeeHeaderInformation.data,
     loadingEmpHeaderInfo: state.employee.employeeHeaderInformation.isLoading,
@@ -61,6 +66,9 @@ const EmployeePds = () => {
 
     loadingServiceRecords: state.serviceRecord.isLoading,
     errorServiceRecords: state.serviceRecord.error,
+
+    loadingEmpTrainings: state.learningDevelopment.isLoading,
+    errorEmpTrainings: state.learningDevelopment.error,
   }))
 
   /**
@@ -78,8 +86,10 @@ const EmployeePds = () => {
 
   useEffect(() => {
     dispatch(fetchEmpHeaderInfo(employeeId))
+
     // COMMENT OUT WHEN ROUTE IS AVAILABLE
     // dispatch(fetchServiceRecords(employeeId))
+    // dispatch(fetchEmployeeTrainings(employeeId))
 
     if (
       natureOfAppointment === natureOfAppointments.PERMANENT ||
@@ -91,12 +101,6 @@ const EmployeePds = () => {
       dispatch(fetchEmpBasicInfo(employeeId))
     }
   }, [dispatch])
-
-  useEffect(() => {
-    if (!isEmpty(errorEmpBasicInfo)) {
-      dispatch(resetEmployeeErrorLog())
-    }
-  }, [errorEmpBasicInfo])
 
   return (
     <React.Fragment>
@@ -172,8 +176,8 @@ const EmployeePds = () => {
                             }}
                           >
                             <span className="d-none d-sm-block">
-                              <i className="fas fa-address-card"></i> Personal
-                              Data Sheet
+                              <i className="fas fa-address-card fs-5 me-1"></i>{' '}
+                              Personal Data Sheet
                             </span>
                           </NavLink>
                         </NavItem>
@@ -189,8 +193,8 @@ const EmployeePds = () => {
                             }}
                           >
                             <span className="d-none d-sm-block">
-                              <i className="fas fa-address-card"></i> Basic
-                              Information
+                              <i className="fas fa-address-card fs-5 me-1"></i>{' '}
+                              Basic Information
                             </span>
                           </NavLink>
                         </NavItem>
@@ -206,26 +210,32 @@ const EmployeePds = () => {
                           }}
                         >
                           <span className="d-none d-sm-block">
-                            <i className="fas fa-folder-open"></i> Service
-                            Record
+                            <i className="fas fa-folder-open fs-5 me-1"></i>{' '}
+                            Service Record
                           </span>
                         </NavLink>
                       </NavItem>
-                      <NavItem>
-                        <NavLink
-                          style={{ cursor: 'pointer' }}
-                          className={classnames({
-                            active: activeTab === '4',
-                          })}
-                          onClick={() => {
-                            toggleTab('4')
-                          }}
-                        >
-                          <span className="d-none d-sm-block">
-                            <i className="fas fa-tasks"></i> Performance Rating
-                          </span>
-                        </NavLink>
-                      </NavItem>
+
+                      {natureOfAppointment === natureOfAppointments.PERMANENT ||
+                      natureOfAppointment === natureOfAppointments.CASUAL ? (
+                        <NavItem>
+                          <NavLink
+                            style={{ cursor: 'pointer' }}
+                            className={classnames({
+                              active: activeTab === '4',
+                            })}
+                            onClick={() => {
+                              toggleTab('4')
+                            }}
+                          >
+                            <span className="d-none d-sm-block">
+                              <i className="far fa-lightbulb fs-5 me-1"></i>{' '}
+                              Learning & Development
+                            </span>
+                          </NavLink>
+                        </NavItem>
+                      ) : null}
+
                       <NavItem>
                         <NavLink
                           style={{ cursor: 'pointer' }}
@@ -237,8 +247,24 @@ const EmployeePds = () => {
                           }}
                         >
                           <span className="d-none d-sm-block">
-                            <i className="fas fa-trophy"></i> Rewards and
-                            Recognition
+                            <i className="fas fa-tasks fs-5 me-1"></i>{' '}
+                            Performance Rating
+                          </span>
+                        </NavLink>
+                      </NavItem>
+                      <NavItem>
+                        <NavLink
+                          style={{ cursor: 'pointer' }}
+                          className={classnames({
+                            active: activeTab === '6',
+                          })}
+                          onClick={() => {
+                            toggleTab('6')
+                          }}
+                        >
+                          <span className="d-none d-sm-block">
+                            <i className="fas fa-trophy fs-5 me-1"></i> Rewards
+                            and Recognition
                           </span>
                         </NavLink>
                       </NavItem>
@@ -304,6 +330,7 @@ const EmployeePds = () => {
                         </TabPane>
                       )}
 
+                      {/* SERVICE RECORD */}
                       <TabPane tabId="3">
                         <Row>
                           <Col sm="12">
@@ -323,11 +350,32 @@ const EmployeePds = () => {
                         </Row>
                       </TabPane>
 
-                      <TabPane tabId="4">
+                      {/* TRAININGS */}
+                      {natureOfAppointment === natureOfAppointments.PERMANENT ||
+                      natureOfAppointment === natureOfAppointments.CASUAL ? (
+                        <TabPane tabId="4">
+                          {loadingEmpBasicInfo ? (
+                            <LoadingIndicator />
+                          ) : (
+                            <LearningAndDevelopment />
+                          )}
+
+                          {/* COMMENT OUT UNTIL ROUTE IS AVAILABLE */}
+                          {/* {loadingEmpTrainings ? (
+                            <LoadingIndicator />
+                          ) : (
+                            <LearningAndDevelopment />
+                          )} */}
+                        </TabPane>
+                      ) : null}
+
+                      {/* PERFORMANCE RECORD */}
+                      <TabPane tabId="5">
                         <ComingSoon />
                       </TabPane>
 
-                      <TabPane tabId="5">
+                      {/* REWARDS AND RECOGNITION */}
+                      <TabPane tabId="6">
                         <ComingSoon />
                       </TabPane>
                     </TabContent>

@@ -89,8 +89,8 @@ import schedules from './schedules/reducer'
 // Temporary Assignment
 import temporaryAssignment from './temporary-assignment/reducer'
 
-// TEST
-// import otpService from "./test/otp/reducer"
+// Learning and Development
+import learningDevelopment from './learning-development/reducer'
 
 const rootReducer = combineReducers({
   // public
@@ -129,6 +129,7 @@ const rootReducer = combineReducers({
   systemLogs,
   schedules,
   temporaryAssignment,
+  learningDevelopment,
   // otpService,
 })
 
