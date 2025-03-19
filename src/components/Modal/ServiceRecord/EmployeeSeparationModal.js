@@ -24,6 +24,7 @@ import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { useParams } from 'react-router-dom'
 import ConfirmationEmployeeSeparation from 'components/Modal/Confirmation/ConfirmationEmployeeSeparation'
+import ComingSoon from 'components/Utility/ComingSoon'
 
 // import scss
 import 'styles/custom_gscwd/pages/employeeassignment.scss'
@@ -137,7 +138,10 @@ const EmployeeSeparationModal = props => {
         />
 
         <ModalBody>
-          <Form
+          <ComingSoon />
+
+          {/* COMMENT OUT UNTIL ROUTE IS AVAILABLE */}
+          {/* <Form
             id="empInfoForm"
             onSubmit={e => {
               e.preventDefault()
@@ -147,7 +151,7 @@ const EmployeeSeparationModal = props => {
           >
             <div className="outer">
               <Row>
-                {/* separation type select field */}
+                separation type select field
                 <Col sm={4}>
                   <FormGroup>
                     <Label for="separationType">Separation Type</Label>
@@ -182,7 +186,7 @@ const EmployeeSeparationModal = props => {
                   </FormGroup>
                 </Col>
 
-                {/* last working day date field */}
+                last working day date field
                 <Col sm={4}>
                   <FormGroup>
                     <Label for="lastWorkingDay">Last Working Day</Label>
@@ -210,7 +214,7 @@ const EmployeeSeparationModal = props => {
                   </FormGroup>
                 </Col>
 
-                {/* termination effectivity date field */}
+                termination effectivity date field
                 <Col sm={4}>
                   <FormGroup>
                     <Label for="terminationEffectivity">
@@ -240,7 +244,7 @@ const EmployeeSeparationModal = props => {
                   </FormGroup>
                 </Col>
 
-                {/* remarks input field */}
+                remarks input field
                 <Col sm={12}>
                   <FormGroup>
                     <Label for="remarks">Remarks</Label>
@@ -267,7 +271,7 @@ const EmployeeSeparationModal = props => {
                 </Col>
               </Row>
             </div>
-          </Form>
+          </Form> */}
         </ModalBody>
 
         <ModalFooter>
