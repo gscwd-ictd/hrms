@@ -9,7 +9,7 @@ import {
   ModalBody,
   ModalFooter,
 } from 'reactstrap'
-import { dateFormatter } from 'functions/DateFormatter'
+import { DateFormatter } from 'functions/DateFormatter'
 
 const NosiModal = props => {
   const { showView, handleCloseView, modalData } = props
@@ -26,14 +26,14 @@ const NosiModal = props => {
                 <Col md={6} className="mt-1">
                   <OutlinedBox
                     label={'From'}
-                    value={dateFormatter(modalData.from, 'MM/DD/YYYY') || 'N/A'}
+                    value={DateFormatter(modalData.from, 'MM/DD/YYYY') || 'N/A'}
                   />
                 </Col>
                 <Col md={6} className="mt-1">
                   <OutlinedBox
                     label={'To'}
                     value={
-                      dateFormatter(modalData.to, 'MM/DD/YYYY') || 'PRESENT'
+                      DateFormatter(modalData.to, 'MM/DD/YYYY') || 'PRESENT'
                     }
                   />
                 </Col>

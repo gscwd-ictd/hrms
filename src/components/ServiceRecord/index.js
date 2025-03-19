@@ -1,9 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { Row, Col, Button } from 'reactstrap'
-import { isEmpty } from 'lodash'
-import { dateFormatter } from 'functions/DateFormatter'
+import { DateFormatter } from 'functions/DateFormatter'
 import TableBase from 'components/Table/TableBase'
-import InRowAction from 'components/InRowAction/InRowAction'
 import NosiModal from 'components/Modal/ServiceRecord/NosiModal'
 import { useSelector } from 'react-redux'
 import EmployeeSeparationModal from 'components/Modal/ServiceRecord/EmployeeSeparationModal'
@@ -26,14 +24,14 @@ const ServiceRecord = () => {
       Header: 'From',
       accessor: 'from',
       Cell: cell => {
-        return <p>{dateFormatter(cell.value, 'MM/DD/YYYY')}</p>
+        return <p>{DateFormatter(cell.value, 'MM/DD/YYYY')}</p>
       },
     },
     {
       Header: 'To',
       accessor: 'to',
       Cell: cell => {
-        return <p>{dateFormatter(cell.value, 'MM/DD/YYYY') || 'PRESENT'}</p>
+        return <p>{DateFormatter(cell.value, 'MM/DD/YYYY') || 'PRESENT'}</p>
       },
     },
     {

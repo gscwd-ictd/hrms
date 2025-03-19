@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import EmployeeIcon from './EmployeeIcon'
 import { Alert } from 'reactstrap'
-import { isEmpty } from 'lodash'
+import { SnakeToCapital } from 'functions/SnakeToCapital'
+import { DashRemoval } from 'functions/DashRemoval'
 
 const EmployeeCard = props => {
   const {
@@ -14,17 +15,6 @@ const EmployeeCard = props => {
     positionTitle,
     natureOfAppointment,
   } = props
-
-  const snakeCaseToCapitalize = text => {
-    if (!isEmpty(text)) {
-      return text
-        .split('_')
-        .map(s => s.charAt(0).toUpperCase() + s.slice(1))
-        .join(' ')
-    } else {
-      return
-    }
-  }
 
   return (
     <>
@@ -81,7 +71,7 @@ const EmployeeCard = props => {
               }}
               className="text-capitalize"
             >
-              {snakeCaseToCapitalize(natureOfAppointment) || ''}
+              {DashRemoval(natureOfAppointment) || ''}
             </p>
           </div>
         </div>

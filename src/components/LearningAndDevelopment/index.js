@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { Row, Col, Button } from 'reactstrap'
 import { isEmpty } from 'lodash'
-import { dateFormatter } from 'functions/DateFormatter'
+import { DateFormatter } from 'functions/DateFormatter'
 import TableBase from 'components/Table/TableBase'
 import { useSelector } from 'react-redux'
 
@@ -22,14 +22,14 @@ const LearningAndDevelopment = () => {
       Header: 'From',
       accessor: 'from',
       Cell: cell => {
-        return <p>{dateFormatter(cell.value, 'MM/DD/YYYY')}</p>
+        return <p>{DateFormatter(cell.value, 'MM/DD/YYYY')}</p>
       },
     },
     {
       Header: 'To',
       accessor: 'to',
       Cell: cell => {
-        return <p>{dateFormatter(cell.value, 'MM/DD/YYYY') || 'PRESENT'}</p>
+        return <p>{DateFormatter(cell.value, 'MM/DD/YYYY') || 'PRESENT'}</p>
       },
     },
     {
@@ -44,10 +44,10 @@ const LearningAndDevelopment = () => {
       Header: 'Type',
       accessor: 'type',
     },
-
     {
       Header: 'Number of Hours',
       accessor: 'numberOfHours',
+      align: 'center',
     },
   ]
 

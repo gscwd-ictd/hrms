@@ -1,18 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { isEmpty } from 'lodash'
 import PropTypes from 'prop-types'
 import { sexes, civilStatuses } from 'constants/selectInputs'
 import { natureOfAppointments } from 'constants/natureOfAppointments'
-
 import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchEmployeePds,
   fetchEmpBasicInfo,
-  updateEmpBasicInfo,
   resetEmployeeErrorLog,
   resetEmpResponseAndError,
 } from 'store/actions'
-
 import {
   Button,
   Col,
@@ -33,9 +30,9 @@ import ToastrNotification from 'components/Notifications/ToastrNotification'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { useParams } from 'react-router-dom'
-
-// import scss
+import { DashRemoval } from 'functions/DashRemoval'
 import 'styles/custom_gscwd/pages/employeeassignment.scss'
+import ConfirmationUpdateEmployeeInfo from 'components/Modal/Confirmation/ConfirmationUpdateEmployeeInfo'
 
 const EditEmployeeInformationModal = props => {
   const { isOpen, toggle } = props
@@ -114,13 +111,21 @@ const EditEmployeeInformationModal = props => {
       }),
     }),
     onSubmit: values => {
-      dispatch(updateEmpBasicInfo(values))
+      toggleConfirmationModal()
     },
   })
+
+  /**
+   * Modal
+   */
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
+  const toggleConfirmationModal = () =>
+    setShowConfirmationModal(!showConfirmationModal)
 
   // Reset response state upon close of modal
   useEffect(() => {
     if (isOpen) {
+      console.log(natureOfAppointment)
       dispatch(fetchEmpBasicInfo(employeeId))
     } else {
       dispatch(resetEmpResponseAndError())
@@ -195,6 +200,12 @@ const EditEmployeeInformationModal = props => {
             notifMessage={'Employee details succesfully updated'}
           />
         ) : null}
+
+        <ConfirmationUpdateEmployeeInfo
+          isOpen={showConfirmationModal}
+          toggle={toggleConfirmationModal}
+          formData={formik.values}
+        />
 
         <ModalBody>
           <Form
@@ -474,8 +485,9 @@ const EditEmployeeInformationModal = props => {
                 </Col>
 
                 {/* daily rate input field & checkbox for per piece */}
-                {natureOfAppointment === natureOfAppointments.JOB_ORDER ||
-                natureOfAppointment ===
+                {DashRemoval(natureOfAppointment) ===
+                  natureOfAppointments.JOB_ORDER ||
+                DashRemoval(natureOfAppointment) ===
                   natureOfAppointments.CONTRACT_OF_SERVICE ? (
                   <Col sm={4}>
                     <FormGroup>
