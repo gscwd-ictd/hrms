@@ -578,3 +578,8 @@ export const getEmployeeDetailsReport = (
 // Learning & Development -----------------------------------------------------------------------
 export const getEmployeeTrainings = employeeId =>
   getHris(url.EMPLOYEE_TRAININGS + employeeId)
+
+// Notice of Step Increment ----------------------------------------------------------------------
+export const getEmployeesForNosi = monthYear => getHris(url.NOSI + monthYear)
+export const getNosiDetails = nosiId => getHris(url.NOSI_DETAILS + nosiId)
+export const postNosiForApproval = data => postHris(url.NOSI, data)

@@ -284,3 +284,7 @@ export const EMPLOYEE_DETAILS_REPORT = 'employees/reports/detailed'
 
 // LEARNING AND DEVELOPMENT
 export const EMPLOYEE_TRAININGS = 'trainings/'
+
+// NOTICE OF STEP INCREMENT
+export const NOSI = 'nosi/'
+export const NOSI_DETAILS = 'nosi/details'

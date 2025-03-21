@@ -94,7 +94,11 @@ const TableBase = props => {
           {page.map((row, ri) => {
             prepareRow(row)
             return (
-              <tr {...row.getRowProps()} key={ri}>
+              <tr
+                {...row.getRowProps()}
+                key={ri}
+                style={{ verticalAlign: 'middle' }}
+              >
                 {row.cells.map((cell, ci) => {
                   return (
                     <td {...cell.getCellProps()} key={ci}>

@@ -205,7 +205,14 @@ const SidebarContent = props => {
                 </Link>
               </li>
             </Can>
-
+            <Can I="access" this="Notice_of_step_increment">
+              <li>
+                <Link to="/notice-of-step-increment" className=" waves-effect">
+                  <i className="bx bxs-right-top-arrow-circle"></i>
+                  <span>{'NOSI'}</span>
+                </Link>
+              </li>
+            </Can>
             <Can I="access" this="Reports">
               <li>
                 <Link to="/reports" className=" waves-effect">
@@ -214,7 +221,6 @@ const SidebarContent = props => {
                 </Link>
               </li>
             </Can>
-
             <li className="menu-title">Base Data</li>
             <Can I="access" this="Organization_structure">
               <li>

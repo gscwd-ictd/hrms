@@ -24,7 +24,7 @@ const InRowAction = props => {
             onClick={() => viewModal(cell.row.original)}
             className="btn btn-info waves-effect waves-light"
           >
-            <i className="fas fa-eye"></i>
+            {buttonTitle ? buttonTitle : null} <i className="fas fa-eye"></i>
           </button>
         ) : null}
 

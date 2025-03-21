@@ -88,3 +88,6 @@ export * from './temporary-assignment/actions'
 
 // Learning and Development
 export * from './learning-development/actions'
+
+// Notice of Step Increment
+export * from './notice-of-step-increment/actions'

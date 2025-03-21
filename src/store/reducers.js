@@ -92,6 +92,9 @@ import temporaryAssignment from './temporary-assignment/reducer'
 // Learning and Development
 import learningDevelopment from './learning-development/reducer'
 
+// Notice of Step Increment
+import noticeOfStepIncrement from './notice-of-step-increment/reducer'
+
 const rootReducer = combineReducers({
   // public
   Layout,
@@ -130,7 +133,7 @@ const rootReducer = combineReducers({
   schedules,
   temporaryAssignment,
   learningDevelopment,
-  // otpService,
+  noticeOfStepIncrement,
 })
 
 export default rootReducer

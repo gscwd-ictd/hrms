@@ -93,6 +93,9 @@ import temporaryAssignmentSaga from './temporary-assignment/saga'
 // Learning and Development
 import learningDevelopmentSaga from './learning-development/saga'
 
+// Notice of Step Increment
+import noticeOfStepIncrementSaga from './notice-of-step-increment/saga'
+
 export default function* rootSaga() {
   yield all([
     //public
@@ -132,5 +135,6 @@ export default function* rootSaga() {
     fork(scheduleSaga),
     fork(temporaryAssignmentSaga),
     fork(learningDevelopmentSaga),
+    fork(noticeOfStepIncrementSaga),
   ])
 }

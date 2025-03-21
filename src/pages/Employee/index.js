@@ -39,6 +39,7 @@ const EmployeeList = () => {
     {
       Header: '',
       accessor: 'employmentDetails',
+      align: 'center',
       disableGlobalFilter: true,
       Cell: cell => {
         const { employmentDetails, personalDetails } = cell.row.original
@@ -53,8 +54,9 @@ const EmployeeList = () => {
       },
     },
     {
-      Header: 'Company ID',
+      Header: 'Company ID No.',
       accessor: 'employmentDetails.companyId',
+      align: 'center',
     },
     {
       Header: 'Name',
