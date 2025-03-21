@@ -26,6 +26,9 @@ import positionRequest from './prf/reducer'
 // employee
 import employee from './employee/reducer'
 
+// service record
+import serviceRecord from './service-record/reducer'
+
 //plantilla
 import plantilla from './plantilla/reducer'
 import jobDescription from './job-description/reducer'
@@ -86,8 +89,11 @@ import schedules from './schedules/reducer'
 // Temporary Assignment
 import temporaryAssignment from './temporary-assignment/reducer'
 
-// TEST
-// import otpService from "./test/otp/reducer"
+// Learning and Development
+import learningDevelopment from './learning-development/reducer'
+
+// Notice of Step Increment
+import noticeOfStepIncrement from './notice-of-step-increment/reducer'
 
 const rootReducer = combineReducers({
   // public
@@ -103,6 +109,7 @@ const rootReducer = combineReducers({
   divisionList,
   positionRequest,
   employee,
+  serviceRecord,
   plantilla,
   jobDescription,
   dutiesResponsibilities,
@@ -125,7 +132,8 @@ const rootReducer = combineReducers({
   systemLogs,
   schedules,
   temporaryAssignment,
-  // otpService,
+  learningDevelopment,
+  noticeOfStepIncrement,
 })
 
 export default rootReducer

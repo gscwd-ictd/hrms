@@ -80,15 +80,24 @@ const PositionProfile = () => {
                 ) : null}
 
                 <Container fluid={true}>
-                  <EmployeeCard
-                    name={employeeDetails.name}
-                    companyId={employeeDetails.companyId}
-                    photoUrl={employeeDetails.photoUrl}
-                    natureOfAppointment={employeeDetails.natureOfAppointment}
-                    width={100}
-                    height={100}
-                  />
                   <Row>
+                    <Col lg={12}>
+                      <Card>
+                        <CardBody className="card-table">
+                          <EmployeeCard
+                            name={employeeDetails.name}
+                            companyId={employeeDetails.companyId}
+                            photoUrl={employeeDetails.photoUrl}
+                            natureOfAppointment={
+                              employeeDetails.natureOfAppointment
+                            }
+                            width={100}
+                            height={100}
+                          />
+                        </CardBody>
+                      </Card>
+                    </Col>
+
                     {/* Job Description */}
                     <Col lg={6}>
                       <Link

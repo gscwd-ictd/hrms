@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from 'react'
 import {
   Col,
   Form,
@@ -8,22 +8,22 @@ import {
   TabContent,
   TabPane,
   Button,
-} from "reactstrap"
-import { useSelector } from "react-redux"
-import classnames from "classnames"
-import { Link } from "react-router-dom"
-import dayjs from "dayjs"
+} from 'reactstrap'
+import { useSelector } from 'react-redux'
+import classnames from 'classnames'
+import { Link } from 'react-router-dom'
+import dayjs from 'dayjs'
 
 // Formik formik
-import * as Yup from "yup"
-import { useFormik } from "formik"
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 // Tab Components
-import PersonalInformationForm from "./PersonalInformationForm"
-import FamilyBackgroundForm from "./FamilyBackgroundForm"
+import PersonalInformationForm from './PersonalInformationForm'
+import FamilyBackgroundForm from './FamilyBackgroundForm'
 
 // style
-import "styles/custom_gscwd/components/personaldatasheet.scss"
+import 'styles/custom_gscwd/components/personaldatasheet.scss'
 
 const PersonalDataSheetForm = () => {
   const [activeTab, setactiveTab] = useState(1)
@@ -50,7 +50,7 @@ const PersonalDataSheetForm = () => {
 
   const formatDate = assignedDate => {
     const date = new Date(assignedDate)
-    return dayjs(date.toLocaleDateString()).format("YYYY-MM-DD")
+    return dayjs(date.toLocaleDateString()).format('YYYY-MM-DD')
   }
 
   const formik = useFormik({
@@ -58,95 +58,95 @@ const PersonalDataSheetForm = () => {
     initialValues: {
       basicInfo: {
         personalInfo: {
-          lastName: basicInfo.personalInfo.lastName || "",
-          firstName: basicInfo.personalInfo.firstName || "",
-          middleName: basicInfo.personalInfo.middleName || "",
-          nameExtension: basicInfo.personalInfo.nameExtension || "",
-          birthDate: formatDate(basicInfo.personalInfo.birthDate) || "",
-          birthPlace: basicInfo.personalInfo.birthPlace || "",
-          sex: basicInfo.personalInfo.sex || "",
-          civilStatus: basicInfo.personalInfo.civilStatus || "",
-          height: basicInfo.personalInfo.height || "",
-          weight: basicInfo.personalInfo.weight || "",
-          bloodType: basicInfo.personalInfo.bloodType || "",
-          citizenship: basicInfo.personalInfo.citizenship || "",
-          citizenshipType: basicInfo.personalInfo.citizenshipType || "",
-          country: basicInfo.personalInfo.country || "",
-          email: basicInfo.personalInfo.email || "",
-          mobileNumber: basicInfo.personalInfo.mobileNumber || "",
-          telNumber: basicInfo.personalInfo.telNumber || "",
+          lastName: basicInfo.personalInfo.lastName || '',
+          firstName: basicInfo.personalInfo.firstName || '',
+          middleName: basicInfo.personalInfo.middleName || '',
+          nameExtension: basicInfo.personalInfo.nameExtension || '',
+          birthDate: formatDate(basicInfo.personalInfo.birthDate) || '',
+          birthPlace: basicInfo.personalInfo.birthPlace || '',
+          sex: basicInfo.personalInfo.sex || '',
+          civilStatus: basicInfo.personalInfo.civilStatus || '',
+          height: basicInfo.personalInfo.height || '',
+          weight: basicInfo.personalInfo.weight || '',
+          bloodType: basicInfo.personalInfo.bloodType || '',
+          citizenship: basicInfo.personalInfo.citizenship || '',
+          citizenshipType: basicInfo.personalInfo.citizenshipType || '',
+          country: basicInfo.personalInfo.country || '',
+          email: basicInfo.personalInfo.email || '',
+          mobileNumber: basicInfo.personalInfo.mobileNumber || '',
+          telNumber: basicInfo.personalInfo.telNumber || '',
         },
         address: {
           permanentAddress: {
-            houseNumber: basicInfo.address.permanentAddress.houseNumber || "",
-            street: basicInfo.address.permanentAddress.street || "",
-            subdivision: basicInfo.address.permanentAddress.subdivision || "",
-            province: basicInfo.address.permanentAddress.province || "",
-            city: basicInfo.address.permanentAddress.city || "",
-            barangay: basicInfo.address.permanentAddress.barangay || "",
-            zipCode: basicInfo.address.permanentAddress.zipCode || "",
+            houseNumber: basicInfo.address.permanentAddress.houseNumber || '',
+            street: basicInfo.address.permanentAddress.street || '',
+            subdivision: basicInfo.address.permanentAddress.subdivision || '',
+            province: basicInfo.address.permanentAddress.province || '',
+            city: basicInfo.address.permanentAddress.city || '',
+            barangay: basicInfo.address.permanentAddress.barangay || '',
+            zipCode: basicInfo.address.permanentAddress.zipCode || '',
           },
           residentialAddress: {
-            houseNumber: basicInfo.address.residentialAddress.houseNumber || "",
-            street: basicInfo.address.residentialAddress.street || "",
-            subdivision: basicInfo.address.residentialAddress.subdivision || "",
-            province: basicInfo.address.residentialAddress.province || "",
-            city: basicInfo.address.residentialAddress.city || "",
-            barangay: basicInfo.address.residentialAddress.barangay || "",
-            zipCode: basicInfo.address.residentialAddress.zipCode || "",
+            houseNumber: basicInfo.address.residentialAddress.houseNumber || '',
+            street: basicInfo.address.residentialAddress.street || '',
+            subdivision: basicInfo.address.residentialAddress.subdivision || '',
+            province: basicInfo.address.residentialAddress.province || '',
+            city: basicInfo.address.residentialAddress.city || '',
+            barangay: basicInfo.address.residentialAddress.barangay || '',
+            zipCode: basicInfo.address.residentialAddress.zipCode || '',
           },
         },
         governmentIssuedIds: {
-          gsisNumber: basicInfo.governmentIssuedIds.gsisNumber || "",
-          pagibigNumber: basicInfo.governmentIssuedIds.pagibigNumber || "",
+          gsisNumber: basicInfo.governmentIssuedIds.gsisNumber || '',
+          pagibigNumber: basicInfo.governmentIssuedIds.pagibigNumber || '',
           philhealthNumber:
-            basicInfo.governmentIssuedIds.philhealthNumber || "",
-          sssNumber: basicInfo.governmentIssuedIds.sssNumber || "",
-          tinNumber: basicInfo.governmentIssuedIds.tinNumber || "",
-          agencyNumber: basicInfo.governmentIssuedIds.agencyNumber || "",
+            basicInfo.governmentIssuedIds.philhealthNumber || '',
+          sssNumber: basicInfo.governmentIssuedIds.sssNumber || '',
+          tinNumber: basicInfo.governmentIssuedIds.tinNumber || '',
+          agencyNumber: basicInfo.governmentIssuedIds.agencyNumber || '',
         },
       },
     },
     validationSchema: Yup.object().shape({
       basicInfo: Yup.object().shape({
         personalInfo: Yup.object().shape({
-          lastName: Yup.string().required("Please enter a last name"),
-          firstName: Yup.string().required("Please enter a first name"),
-          birthDate: Yup.date().required("Please enter birth date"),
-          birthPlace: Yup.string().required("Please enter birth place"),
-          sex: Yup.string().required("Please select a gender"),
-          civilStatus: Yup.string().required("Please select a civil status"),
-          height: Yup.number().required("Please enter height"),
-          weight: Yup.number().required("Please enter weight"),
-          bloodType: Yup.string().required("Please select a blood type"),
-          citizenship: Yup.string().required("Please select a citizenship"),
-          country: Yup.string().required("Please select a country"),
-          mobileNumber: Yup.string().required("Please enter mobile number"),
+          lastName: Yup.string().required('Please enter a last name'),
+          firstName: Yup.string().required('Please enter a first name'),
+          birthDate: Yup.date().required('Please enter birth date'),
+          birthPlace: Yup.string().required('Please enter birth place'),
+          sex: Yup.string().required('Please select a gender'),
+          civilStatus: Yup.string().required('Please select a civil status'),
+          height: Yup.number().required('Please enter height'),
+          weight: Yup.number().required('Please enter weight'),
+          bloodType: Yup.string().required('Please select a blood type'),
+          citizenship: Yup.string().required('Please select a citizenship'),
+          country: Yup.string().required('Please select a country'),
+          mobileNumber: Yup.string().required('Please enter mobile number'),
         }),
         address: Yup.object().shape({
           permanentAddress: Yup.object().shape({
             houseNumber: Yup.string().required(
-              "Please enter House/Block/Lot No. "
+              'Please enter House/Block/Lot No. '
             ),
-            province: Yup.string().required("Please select a province"),
-            city: Yup.string().required("Please select a city/municipality"),
-            barangay: Yup.string().required("Please select a barangay"),
-            zipCode: Yup.number().required("Please enter zip code"),
+            province: Yup.string().required('Please select a province'),
+            city: Yup.string().required('Please select a city/municipality'),
+            barangay: Yup.string().required('Please select a barangay'),
+            zipCode: Yup.number().required('Please enter zip code'),
           }),
           residentialAddress: Yup.object().shape({
             houseNumber: Yup.string().required(
-              "Please enter House/Block/Lot No. "
+              'Please enter House/Block/Lot No. '
             ),
-            province: Yup.string().required("Please select a province"),
-            city: Yup.string().required("Please select a city/municipality"),
-            barangay: Yup.string().required("Please select a barangay"),
-            zipCode: Yup.number().required("Please enter zip code"),
+            province: Yup.string().required('Please select a province'),
+            city: Yup.string().required('Please select a city/municipality'),
+            barangay: Yup.string().required('Please select a barangay'),
+            zipCode: Yup.number().required('Please enter zip code'),
           }),
         }),
       }),
     }),
     onSubmit: values => {
-      // console.log(values)
+      // do nothing
     },
   })
 
@@ -175,7 +175,7 @@ const PersonalDataSheetForm = () => {
                   setactiveTab(1)
                 }}
               >
-                <span className="number">01</span>{" "}
+                <span className="number">01</span>{' '}
                 <span>Personal Information</span>
               </NavLink>
             </NavItem>
@@ -192,7 +192,7 @@ const PersonalDataSheetForm = () => {
                   setactiveTab(2)
                 }}
               >
-                <span className="number">02</span>{" "}
+                <span className="number">02</span>{' '}
                 <span>Family Background</span>
               </NavLink>
             </NavItem>
@@ -209,7 +209,7 @@ const PersonalDataSheetForm = () => {
                   setactiveTab(3)
                 }}
               >
-                <span className="number">03</span>{" "}
+                <span className="number">03</span>{' '}
                 <span>Educational Background</span>
               </NavLink>
             </NavItem>
@@ -274,7 +274,7 @@ const PersonalDataSheetForm = () => {
                   setactiveTab(7)
                 }}
               >
-                <span className="number">07</span>{" "}
+                <span className="number">07</span>{' '}
                 <span>Learning And Development</span>
               </NavLink>
             </NavItem>
@@ -291,7 +291,7 @@ const PersonalDataSheetForm = () => {
                   setactiveTab(8)
                 }}
               >
-                <span className="number">08</span>{" "}
+                <span className="number">08</span>{' '}
                 <span>Other Information</span>
               </NavLink>
             </NavItem>
@@ -359,7 +359,7 @@ const PersonalDataSheetForm = () => {
         </div>
         <div className="actions clearfix">
           <ul>
-            <li className={activeTab === 1 ? "previous disabled" : "previous"}>
+            <li className={activeTab === 1 ? 'previous disabled' : 'previous'}>
               <Link
                 to="#"
                 onClick={() => {
@@ -369,7 +369,7 @@ const PersonalDataSheetForm = () => {
                 Previous
               </Link>
             </li>
-            <li className={activeTab === 4 ? "next disabled" : "next"}>
+            <li className={activeTab === 4 ? 'next disabled' : 'next'}>
               <Link
                 to="#"
                 onClick={() => {

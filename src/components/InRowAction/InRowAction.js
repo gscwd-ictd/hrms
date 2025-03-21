@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 
 const InRowAction = props => {
   const {
@@ -10,7 +11,9 @@ const InRowAction = props => {
     viewModal,
     editRedirectUrl,
     viewRedirectUrl,
+    viewRedirectUrl2,
     buttonTitle,
+    icon,
   } = props
 
   return (
@@ -21,7 +24,7 @@ const InRowAction = props => {
             onClick={() => viewModal(cell.row.original)}
             className="btn btn-info waves-effect waves-light"
           >
-            <i className="fas fa-eye"></i>
+            {buttonTitle ? buttonTitle : null} <i className="fas fa-eye"></i>
           </button>
         ) : null}
 
@@ -58,9 +61,21 @@ const InRowAction = props => {
             </button>
           </Link>
         ) : null}
+
+        {viewRedirectUrl2 ? (
+          <Link to={`${viewRedirectUrl2}`} target="_blank">
+            <button className="btn btn-info waves-effect waves-light">
+              {buttonTitle ? buttonTitle : null}{' '}
+              {!isEmpty(icon) ? <i className={icon}></i> : null}
+            </button>
+          </Link>
+        ) : null}
       </div>
     </>
   )
+}
+InRowAction.defaultProps = {
+  icon: '',
 }
 
 InRowAction.propTypes = {
@@ -70,7 +85,9 @@ InRowAction.propTypes = {
   viewModal: PropTypes.func,
   editRedirectUrl: PropTypes.string,
   viewRedirectUrl: PropTypes.string,
+  viewRedirectUrl2: PropTypes.string,
   buttonTitle: PropTypes.string,
+  icon: PropTypes.string,
 }
 
 export default InRowAction

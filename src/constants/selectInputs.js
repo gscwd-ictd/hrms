@@ -1,6 +1,13 @@
 const sexes = ['Male', 'Female']
 
-const civilStatuses = ['Single', 'Married', 'Divorced', 'Widowed', 'Separated']
+const civilStatuses = [
+  'Single',
+  'Married',
+  'Divorced',
+  'Annulled',
+  'Widowed',
+  'Separated',
+]
 
 const bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
 
@@ -132,6 +139,13 @@ const viceTypes = [
   },
 ]
 
+const separationTypes = [
+  'Resignation',
+  'Retirement',
+  'Dismissal/Termination',
+  'Death',
+]
+
 export {
   sexes,
   civilStatuses,
@@ -154,4 +168,5 @@ export {
   natureOfAppointment,
   natureOfAppointment2,
   viceTypes,
+  separationTypes,
 }

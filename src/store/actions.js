@@ -23,6 +23,9 @@ export * from './prf/actions'
 // employee
 export * from './employee/actions'
 
+// service record
+export * from './service-record/actions'
+
 //plantilla
 export * from './plantilla/actions'
 export * from './job-description/actions'
@@ -83,5 +86,8 @@ export * from './schedules/actions'
 // Temporary Assignment
 export * from './temporary-assignment/actions'
 
-// TEST
-// export * from "./test/otp/actions"
+// Learning and Development
+export * from './learning-development/actions'
+
+// Notice of Step Increment
+export * from './notice-of-step-increment/actions'

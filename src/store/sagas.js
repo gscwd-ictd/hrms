@@ -27,6 +27,9 @@ import positionReqSaga from './prf/saga'
 // employee
 import employeeSaga from './employee/saga'
 
+// service record
+import serviceRecordSaga from './service-record/saga'
+
 //plantilla
 import plantillaSaga from './plantilla/saga'
 import jobDescriptionSaga from './job-description/saga'
@@ -87,8 +90,11 @@ import scheduleSaga from './schedules/saga'
 // Temporary Assignment
 import temporaryAssignmentSaga from './temporary-assignment/saga'
 
-// TEST
-// import otpServiceSaga from "./test/otp/saga"
+// Learning and Development
+import learningDevelopmentSaga from './learning-development/saga'
+
+// Notice of Step Increment
+import noticeOfStepIncrementSaga from './notice-of-step-increment/saga'
 
 export default function* rootSaga() {
   yield all([
@@ -105,6 +111,7 @@ export default function* rootSaga() {
     fork(divisionsSaga),
     fork(positionReqSaga),
     fork(employeeSaga),
+    fork(serviceRecordSaga),
     fork(plantillaSaga),
     fork(jobDescriptionSaga),
     fork(dutiesResponsibilitiesSaga),
@@ -126,7 +133,8 @@ export default function* rootSaga() {
     fork(moduleSaga),
     fork(systemLogSaga),
     fork(scheduleSaga),
-    fork(temporaryAssignmentSaga)
-    // fork(otpServiceSaga),
+    fork(temporaryAssignmentSaga),
+    fork(learningDevelopmentSaga),
+    fork(noticeOfStepIncrementSaga),
   ])
 }

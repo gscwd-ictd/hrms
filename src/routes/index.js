@@ -34,8 +34,7 @@ import PermanentPositionCompetencies from 'pages/Plantilla/Permanent/PositionPro
 // Employees
 import EmployeeList from 'pages/Employee'
 import EmployeeRegistration from '../pages/Employee/EmployeeRegistration'
-import EmployeePds from 'pages/Employee/EmployeePds'
-import EmployeeBasicInformation from 'pages/Employee/EmployeeBasicInformation'
+import EmployeeDetails from 'pages/Employee/Details'
 
 // Qualification Standards
 import QualificationStandards from 'pages/QualificationStandards'
@@ -107,6 +106,10 @@ import SystemLogs from 'pages/SystemLogs'
 import Reports from 'pages/Reports'
 import ReportOnEmployeeInfo from 'pages/PdfCreator/ReportOnEmployeeInformation'
 
+// Notice of Step Increment
+import NoticeOfStepIncrement from 'pages/NoticeOfStepIncrement'
+import { components } from 'react-select/dist/react-select.cjs.prod'
+
 const authProtectedRoutes = [
   { path: '/dashboard', component: <Dashboard /> },
 
@@ -135,10 +138,9 @@ const authProtectedRoutes = [
     component: <EmployeeRegistration />,
   },
   { path: '/employees', component: <EmployeeList /> },
-  { path: '/employees/pds/:employeeId', component: <EmployeePds /> },
   {
-    path: '/employees/basic-info/:employeeId',
-    component: <EmployeeBasicInformation />,
+    path: '/employees/details/:natureOfAppointment/:employeeId',
+    component: <EmployeeDetails />,
   },
 
   // Permanent Plantilla
@@ -287,6 +289,9 @@ const authProtectedRoutes = [
 
   // System Logs
   { path: '/settings/system-logs', component: <SystemLogs /> },
+
+  // Notice of Step Increment
+  { path: '/notice-of-step-increment', component: <NoticeOfStepIncrement /> },
 
   // this route should be at the end of all other routes
   // eslint-disable-next-line react/display-name

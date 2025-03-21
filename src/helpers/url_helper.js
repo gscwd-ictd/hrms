@@ -59,6 +59,10 @@ export const GET_EMPLOYEES = 'employees/'
 export const GET_EMPLOYEE_BASIC_INFORMATION = 'employees/details/basic/'
 export const GET_EMPLOYEE_PDS = 'pds/'
 
+// SERVICE RECORD
+export const SERVICE_RECORDS = 'service-records/'
+export const EMPLOYEE_SEPARATION = 'employee-separation/'
+
 // OCCUPATIONS
 export const GET_OCCUPATIONS = 'occupations'
 export const GET_OCCUPATION = 'occupations/'
@@ -277,3 +281,10 @@ export const EMPLOYEE_DETAILS_REPORT = 'employees/reports/detailed'
  residential_address: boolean
  permanent_address: boolean
  */
+
+// LEARNING AND DEVELOPMENT
+export const EMPLOYEE_TRAININGS = 'trainings/'
+
+// NOTICE OF STEP INCREMENT
+export const NOSI = 'nosi/'
+export const NOSI_DETAILS = 'nosi/details'

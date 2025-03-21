@@ -275,6 +275,12 @@ export const postRegisterPermanentEmployee = employeeData =>
 export const postRegisterCasJoCosEmployee = employeeData =>
   postHris(url.POST_EMPLOYEE_ASSIGNMENT, employeeData)
 
+//Service Record -------------------------------------------------------------------------
+export const getServiceRecords = employeeId =>
+  getHris(url.SERVICE_RECORDS + employeeId)
+
+export const postEmployeeSeparation = data =>
+  postHris(url.EMPLOYEE_SEPARATION, data)
 // Committee -----------------------------------------------------------------------
 export const getCommittees = () => getHris(url.GET_COMMITTEES)
 export const postCommittee = committeeData =>
@@ -568,3 +574,12 @@ export const getEmployeeDetailsReport = (
     `${url.EMPLOYEE_DETAILS_REPORT}?company_id=${company_id}&nature_of_appointment=${nature_of_appointment}&personal_details=${personal_details}&date_hired=${date_hired}&position_title=${position_title}&assignment=${assignment}&office=${office}&department=${department}&division=${division}&gsis=${gsis}&pagibig=${pagibig}&philhealth=${philhealth}&sss=${sss}&tin=${tin}&residential_address=${residential_address}&permanent_address=${permanent_address}&primary_education=${primary_education}&secondary_education=${secondary_education}&vocational_course=${vocational_course}&college_education=${college_education}&graduate_studies=${graduate_studies}&eligibility=${eligibility}&salary_grade=${salary_grade}&amount=${amount}`
   )
 }
+
+// Learning & Development -----------------------------------------------------------------------
+export const getEmployeeTrainings = employeeId =>
+  getHris(url.EMPLOYEE_TRAININGS + employeeId)
+
+// Notice of Step Increment ----------------------------------------------------------------------
+export const getEmployeesForNosi = monthYear => getHris(url.NOSI + monthYear)
+export const getNosiDetails = nosiId => getHris(url.NOSI_DETAILS + nosiId)
+export const postNosiForApproval = data => postHris(url.NOSI, data)

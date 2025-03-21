@@ -4,34 +4,27 @@ import { fetchEmployeeList } from 'store/actions'
 import PropTypes from 'prop-types'
 import { Can } from 'casl/Can'
 import { Navigate, useLocation } from 'react-router-dom'
-
 import {
   Container,
   Row,
   Col,
   Card,
   CardBody,
-  UncontrolledDropdown,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Link,
-  Button,
 } from 'reactstrap'
 import PermanentPortalRegistrationModal from 'components/Modal/Employee/PermanentPortalRegistrationModal'
 import CasJoCosPortalRegistrationModal from 'components/Modal/Employee/CasJoCosPortalRegistrationModal'
-import EditEmployeeInformationModal from 'components/Modal/Employee/EditEmployeeInformationModal'
-
-// table components
 import TableEmployeeList from 'components/Table/TableEmployeeList'
 import { SelectColumnFilter } from 'components/Filters/SelectColumnFilter'
-
-// extra components
 import Breadcrumb from 'components/Common/Breadcrumb'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 import EmployeeIcon from 'components/Common/EmployeeIcon'
+import { natureOfAppointments } from 'constants/natureOfAppointments'
+import InRowAction from 'components/InRowAction/InRowAction'
 
 const EmployeeList = () => {
   const dispatch = useDispatch()
@@ -46,6 +39,7 @@ const EmployeeList = () => {
     {
       Header: '',
       accessor: 'employmentDetails',
+      align: 'center',
       disableGlobalFilter: true,
       Cell: cell => {
         const { employmentDetails, personalDetails } = cell.row.original
@@ -60,8 +54,9 @@ const EmployeeList = () => {
       },
     },
     {
-      Header: 'Company ID',
+      Header: 'Company ID No.',
       accessor: 'employmentDetails.companyId',
+      align: 'center',
     },
     {
       Header: 'Name',
@@ -79,11 +74,13 @@ const EmployeeList = () => {
     {
       Header: 'Assignment',
       accessor: 'employmentDetails.assignment.name',
+      disableGlobalFilter: true,
       Filter: SelectColumnFilter,
     },
     {
       Header: 'Appointment',
       accessor: 'employmentDetails.natureOfAppointment',
+      disableGlobalFilter: true,
       Cell: cell => {
         return (
           <p className=" text-capitalize">
@@ -99,92 +96,38 @@ const EmployeeList = () => {
       align: 'center',
       disableGlobalFilter: true,
       disableSortBy: true,
-      Cell: cell => rowActions(cell),
-    },
-  ]
+      Cell: cell => {
+        return (
+          <div className="d-flex">
+            <InRowAction
+              viewRedirectUrl={
+                location.pathname +
+                '/details/' +
+                `${convertToUrlString(
+                  cell.row.values['employmentDetails.natureOfAppointment']
+                )}` +
+                cell.row.values['employmentDetails.employeeId']
+              }
+            />
 
-  const rowActions = cell => {
-    return (
-      <UncontrolledDropdown className="ms-auto" direction="down">
-        <DropdownToggle className="font-size-18" color="white" type="button">
-          <i className="mdi mdi-dots-horizontal"></i>
-        </DropdownToggle>
-        <DropdownMenu direction="right">
-          {cell.row.values[`employmentDetails.natureOfAppointment`] ===
-            'permanent' ||
-          cell.row.values[`employmentDetails.natureOfAppointment`] ===
-            'casual' ? (
-            <>
-              <DropdownItem
-                href={`${
-                  location.pathname +
-                  '/pds/' +
-                  cell.row.values['employmentDetails.employeeId']
-                }`}
-                target="_blank"
-                className="dropdown-item"
-              >
-                Employee Information (PDS)
-              </DropdownItem>
-
-              <DropdownItem
-                href={`${
+            {cell.row.values[`employmentDetails.natureOfAppointment`] ===
+            'permanent' ? (
+              <InRowAction
+                viewRedirectUrl2={
                   '/plantilla/' +
                   `${convertToUrlString(
                     cell.row.values['employmentDetails.natureOfAppointment']
                   )}` +
                   `${cell.row.values['employmentDetails.positionId']}`
-                }`}
-                target="_blank"
-                className="dropdown-item"
-              >
-                Position Description
-              </DropdownItem>
-
-              {/* <DropdownItem
-                href={`${
-                  location.pathname +
-                  '/201/' +
-                  cell.row.values['employmentDetails.employeeId']
-                }`}
-                target="_blank"
-                className="dropdown-item"
-              >
-                201
-              </DropdownItem> */}
-            </>
-          ) : null}
-
-          {cell.row.values[`employmentDetails.natureOfAppointment`] ===
-            'job order' ||
-          cell.row.values[`employmentDetails.natureOfAppointment`] ===
-            'contract of service' ? (
-            <DropdownItem
-              href={`${
-                location.pathname +
-                '/basic-info/' +
-                cell.row.values['employmentDetails.employeeId']
-              }`}
-              target="_blank"
-              className="dropdown-item"
-            >
-              Employee Information (Basic)
-            </DropdownItem>
-          ) : null}
-
-          <Can I="access" this="Employees_basic_info">
-            <DropdownItem
-              onClick={() => editModal(cell.row.original)}
-              className="dropdown-item"
-              toggle={false}
-            >
-              Update Basic Information
-            </DropdownItem>
-          </Can>
-        </DropdownMenu>
-      </UncontrolledDropdown>
-    )
-  }
+                }
+                icon={'fas fa-briefcase'}
+              />
+            ) : null}
+          </div>
+        )
+      },
+    },
+  ]
 
   /**
    * Modal
@@ -202,16 +145,6 @@ const EmployeeList = () => {
   const [showAddCasJoCos, setShowAddCasJoCos] = useState(false)
   const handleCloseAddCasJoCos = () => setShowAddCasJoCos(false)
   const handleShowAddCasJoCos = () => setShowAddCasJoCos(true)
-
-  // Edit Modal
-  const [showEdt, setShowEdt] = useState(false)
-  const handleCloseEdt = () => setShowEdt(false)
-  const handleShowEdt = () => setShowEdt(true)
-
-  const editModal = rowData => {
-    setModalData(rowData)
-    handleShowEdt()
-  }
 
   //  function to convert string
   const convertToUrlString = str => {
@@ -279,7 +212,7 @@ const EmployeeList = () => {
                                   >
                                     Permanent
                                   </DropdownItem>
-                                  {/* <DropdownItem
+                                  <DropdownItem
                                     onClick={() => {
                                       handleShowAddCasJoCos()
                                       setModalNatureOfAppointment(
@@ -308,7 +241,7 @@ const EmployeeList = () => {
                                     }}
                                   >
                                     Contract of Service
-                                  </DropdownItem> */}
+                                  </DropdownItem>
                                 </DropdownMenu>
                               </Dropdown>
                             </div>
@@ -319,12 +252,6 @@ const EmployeeList = () => {
                     )}
 
                     {/* Modals for Actions */}
-                    <EditEmployeeInformationModal
-                      showEdt={showEdt}
-                      modalData={modalData}
-                      handleCloseEdt={handleCloseEdt}
-                    />
-
                     <PermanentPortalRegistrationModal
                       showAddPerm={showAddPerm}
                       handleCloseAddPerm={handleCloseAddPerm}
