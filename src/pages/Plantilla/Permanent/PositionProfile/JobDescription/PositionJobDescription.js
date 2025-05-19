@@ -365,6 +365,7 @@ const PositionJobDescription = () => {
                                       mask="aaa-aaa-999"
                                       defaultValue={jobDescription.itemNumber}
                                       className="form-control input-color text-uppercase"
+                                      disabled
                                     ></InputMask>
                                   </FormGroup>
                                 </Col>
@@ -407,6 +408,7 @@ const PositionJobDescription = () => {
                                               ? true
                                               : false
                                           }
+                                          disabled
                                         />
                                         <Label check> Office</Label>
                                       </FormGroup>
@@ -423,6 +425,7 @@ const PositionJobDescription = () => {
                                               ? true
                                               : false
                                           }
+                                          disabled
                                         />
                                         <Label check>Department</Label>
                                       </FormGroup>
@@ -439,6 +442,7 @@ const PositionJobDescription = () => {
                                               ? true
                                               : false
                                           }
+                                          disabled
                                         />
                                         <Label check> Division</Label>
                                       </FormGroup>
@@ -466,6 +470,7 @@ const PositionJobDescription = () => {
                                         name="directAssignment"
                                         required
                                         defaultValue={setAssignedToDefaultValue()}
+                                        disabled
                                       >
                                         {/* Set option list */}
                                         {directAssignment === 'office'
@@ -508,15 +513,23 @@ const PositionJobDescription = () => {
                                       <span className="text-danger">
                                         OFFICE:
                                       </span>{' '}
-                                      {assignedTo.office.name} |{' '}
+                                      {assignedTo.office.name
+                                        ? assignedTo.office.name
+                                        : 'N/A'}{' '}
+                                      <br></br>
                                       <span className="text-danger">
                                         DEPARTMENT:
                                       </span>{' '}
-                                      {assignedTo.department.name} |{' '}
+                                      {assignedTo.department.name
+                                        ? assignedTo.department.name
+                                        : 'N/A'}{' '}
+                                      <br></br>
                                       <span className="text-danger">
                                         DIVISION:
                                       </span>{' '}
-                                      {assignedTo.division.name}
+                                      {assignedTo.division.name
+                                        ? assignedTo.division.name
+                                        : 'N/A'}
                                     </FormText>
                                   </FormGroup>
                                 </Col>
@@ -544,6 +557,7 @@ const PositionJobDescription = () => {
                                         defaultValue={
                                           jobDescription.salary.salaryGrade
                                         }
+                                        disabled
                                       >
                                         {salaryGrades.map(sg => {
                                           return (
