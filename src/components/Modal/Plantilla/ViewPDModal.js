@@ -144,7 +144,7 @@ const ViewPDModal = props => {
           loadingProficiencyLevel ? (
             <LoadingIndicator />
           ) : (
-            <PDFViewer width={'100%'} height={700} showToolbar={false}>
+            <PDFViewer width={'100%'} height={700} showToolbar={true}>
               <PdDocument
                 jobDescription={jobDescription}
                 positionDutyResponsibilities={positionDutyResponsibilities}
