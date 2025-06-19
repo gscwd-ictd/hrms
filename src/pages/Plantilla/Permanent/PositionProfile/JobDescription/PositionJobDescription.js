@@ -557,7 +557,6 @@ const PositionJobDescription = () => {
                                         defaultValue={
                                           jobDescription.salary.salaryGrade
                                         }
-                                        disabled
                                       >
                                         {salaryGrades.map(sg => {
                                           return (

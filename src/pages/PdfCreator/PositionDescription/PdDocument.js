@@ -145,11 +145,7 @@ const PdDocument = props => {
   const renderCoreDuties = () => {
     var content = positionDutyResponsibilities.duties.core.map(
       (duty, index) => (
-        <View
-          style={[styles.rowContainerTable, styles.borderAll]}
-          key={index}
-          wrap={false}
-        >
+        <View style={[styles.rowContainerTable, styles.borderAll]} key={index}>
           <View style={[styles.w14, styles.tData, styles.borderRight]}>
             <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
               {duty.percentage}
@@ -171,11 +167,7 @@ const PdDocument = props => {
 
   const renderFunctionalCompetencies = () => {
     var content = proficiencyLevel.functional.map((competency, index) => (
-      <View
-        style={[styles.rowContainerTable, styles.borderAll]}
-        key={index}
-        wrap={false}
-      >
+      <View style={[styles.rowContainerTable, styles.borderAll]} key={index}>
         <View style={[styles.w60, styles.tData, styles.borderRight]}>
           <Text>
             <Text style={{ fontFamily: 'CalibriRegularBold' }}>
@@ -198,11 +190,7 @@ const PdDocument = props => {
 
   const renderCrossCuttingCompetencies = () => {
     var content = proficiencyLevel.crossCutting.map((competency, index) => (
-      <View
-        style={[styles.rowContainerTable, styles.borderAll]}
-        key={index}
-        wrap={false}
-      >
+      <View style={[styles.rowContainerTable, styles.borderAll]} key={index}>
         <View style={[styles.w60, styles.tData, styles.borderRight]}>
           <Text>
             <Text style={{ fontFamily: 'CalibriRegularBold' }}>
@@ -225,11 +213,7 @@ const PdDocument = props => {
 
   const renderManagerialCompetencies = () => {
     var content = proficiencyLevel.managerial.map((competency, index) => (
-      <View
-        style={[styles.rowContainerTable, styles.borderAll]}
-        key={index}
-        wrap={false}
-      >
+      <View style={[styles.rowContainerTable, styles.borderAll]} key={index}>
         <View style={[styles.w60, styles.tData, styles.borderRight]}>
           <Text>
             <Text style={{ fontFamily: 'CalibriRegularBold' }}>
@@ -523,90 +507,6 @@ const PdDocument = props => {
                   </View>
 
                   {renderCoreDuties()}
-
-                  {/* <View
-                    style={[styles.rowContainerTable, styles.borderAll]}
-                    wrap={false}
-                  >
-                    <View
-                      style={[styles.w14, styles.tData, styles.borderRight]}
-                    >
-                      <Text
-                        style={[styles.horizontalCenter, styles.verticalCenter]}
-                      >
-                        30.00
-                      </Text>
-                    </View>
-                    <View
-                      style={[styles.w60, styles.tData, styles.borderRight]}
-                    >
-                      <Text>
-                        Spearheads in the implementation of the maintenance of
-                        heavy/light equipment, including water tanks, boom
-                        trucks, dump trucks, and backhoe loaders to ensure its
-                        availability in the engineering- operation. Conducts
-                        maintenance servicing of heavy/ light machinery and
-                        equipment based on the running hours schedule provided
-                        to ensure productive operation of the
-                        machinery/equipment. Operates machinery and equipment,
-                        such as water tanks, boom trucks, dump trucks, and
-                        backhoe loaders, according to its operating procedure
-                        and safety guidelines to ensure optimal performanc
-                      </Text>
-                    </View>
-                    <View
-                      style={[
-                        styles.w26,
-                        styles.tData,
-                        styles.horizontalCenter,
-                      ]}
-                    >
-                      <Text>Customer Assistance and Request Handling / </Text>
-                      <Text>ADVANCED</Text>
-                    </View>
-                  </View>
-
-                  <View
-                    style={[styles.rowContainerTable, styles.borderAll]}
-                    wrap={false}
-                  >
-                    <View
-                      style={[styles.w14, styles.tData, styles.borderRight]}
-                    >
-                      <Text
-                        style={[styles.horizontalCenter, styles.verticalCenter]}
-                      >
-                        30.00
-                      </Text>
-                    </View>
-                    <View
-                      style={[styles.w60, styles.tData, styles.borderRight]}
-                    >
-                      <Text>
-                        Spearheads in the implementation of the maintenance of
-                        heavy/light equipment, including water tanks, boom
-                        trucks, dump trucks, and backhoe loaders to ensure its
-                        availability in the engineering- operation. Conducts
-                        maintenance servicing of heavy/ light machinery and
-                        equipment based on the running hours schedule provided
-                        to ensure productive operation of the
-                        machinery/equipment. Operates machinery and equipment,
-                        such as water tanks, boom trucks, dump trucks, and
-                        backhoe loaders, according to its operating procedure
-                        and safety guidelines to ensure optimal performanc
-                      </Text>
-                    </View>
-                    <View
-                      style={[
-                        styles.w26,
-                        styles.tData,
-                        styles.horizontalCenter,
-                      ]}
-                    >
-                      <Text>Customer Assistance and Request Handling / </Text>
-                      <Text>ADVANCED</Text>
-                    </View>
-                  </View> */}
                 </View>
 
                 {/* SUPPORT */}

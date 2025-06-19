@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { isEmpty } from 'lodash'
 
 import {
   fetchJobDescription,
@@ -10,20 +9,7 @@ import {
 } from 'store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 
-import {
-  Alert,
-  Col,
-  Row,
-  Label,
-  Form,
-  Input,
-  FormGroup,
-  Spinner,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from 'reactstrap'
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
 import { PDFViewer } from '@react-pdf/renderer'
 import PdDocument from 'pages/PdfCreator/PositionDescription/PdDocument'
