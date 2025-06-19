@@ -10,9 +10,6 @@ import CalibriRegular from 'assets/fonts/uploads/calibri-regular.ttf'
 import GSCWDLogo from 'assets/images/main_logo_transparent.png'
 
 const styles = StyleSheet.create({
-  page: {
-    backgroundColor: '#ffffff',
-  },
   rowContainer: {
     flexDirection: 'row',
     alignItems: 'stretch',
@@ -24,10 +21,6 @@ const styles = StyleSheet.create({
   },
 
   // Border Styles
-  bodyBorder: {
-    margin: 10,
-    border: '2px solid #000000',
-  },
   borderTop: {
     borderTop: '1px solid #000000',
   },
@@ -45,17 +38,15 @@ const styles = StyleSheet.create({
   documentCode: {
     fontFamily: 'CalibriRegular',
     fontSize: 11,
-    padding: '10 15 0 0',
+    padding: '0 15 0 0',
     textAlign: 'right',
   },
   arialSemiBold: {
     fontFamily: 'ArialSemiBold',
   },
-  verticalCenter: { margin: 'auto 0' },
   horizontalCenter: { textAlign: 'center' },
 
   // Width Styles
-  w100: { width: '100%' },
   w40: { width: '40%' },
   w30: { width: '30%' },
 })
@@ -77,9 +68,9 @@ Font.register({
 
 const Header = () => {
   return (
-    <View style={[styles.rowContainer, { paddingBottom: 10 }]} fixed>
+    <View style={[styles.rowContainer, { paddingBottom: 15 }]} fixed>
       {/* Logo */}
-      <View style={[styles.w30, { padding: '10 0 0 15' }]}>
+      <View style={[styles.w30, { padding: '0 0 0 15' }]}>
         <Image src={GSCWDLogo} style={[styles.logo]} />
       </View>
 
