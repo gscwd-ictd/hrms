@@ -20,13 +20,13 @@ import { isEmpty } from 'lodash'
 const styles = StyleSheet.create({
   page: {
     backgroundColor: '#ffffff',
-    paddingTop: 10,
-    paddingBottom: 25,
+    paddingTop: 15,
+    paddingBottom: 35,
   },
   rowContainer: {
     flexDirection: 'row',
     alignItems: 'stretch',
-    marginTop: 5,
+    marginTop: 3,
   },
   bodyBorder: {
     marginHorizontal: 50,
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   verticalCenter: { margin: 'auto 0' },
   horizontalCenter: { textAlign: 'center' },
   signature: {
-    width: 100,
+    width: 90,
     marginHorizontal: 'auto',
   },
 
@@ -543,17 +543,9 @@ const PdDocument = props => {
                 </View> */}
               </View>
             </View>
-          </View>
-        </View>
-      </Page>
 
-      <Page size="A4" style={styles.page}>
-        <Header />
-
-        <View style={[styles.bodyBorder]}>
-          <View style={[styles.bodyText]}>
             {/* QUALIFICATION STANDARDS */}
-            <View wrap={false}>
+            <View wrap={false} style={[{ marginTop: 20 }]}>
               <View>
                 <Text style={[styles.headerText]}>Qualification Standards</Text>
               </View>
@@ -630,7 +622,7 @@ const PdDocument = props => {
             </View>
 
             {/* COMPETENCIES */}
-            <View>
+            <View break>
               <View>
                 <Text style={[styles.headerText]}>Competencies</Text>
               </View>
