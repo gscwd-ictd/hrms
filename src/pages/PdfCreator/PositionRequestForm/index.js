@@ -1,18 +1,18 @@
-import React, { useEffect } from "react"
-import dayjs from "dayjs"
-import { Can } from "casl/Can"
-import { Navigate, useParams } from "react-router-dom"
+import React, { useEffect } from 'react'
+import dayjs from 'dayjs'
+import { Can } from 'casl/Can'
+import { Navigate, useParams } from 'react-router-dom'
 
-import { useDispatch, useSelector } from "react-redux"
-import { getSinglePRF, fetchPRFTrail } from "store/actions"
+import { useDispatch, useSelector } from 'react-redux'
+import { getSinglePRF, fetchPRFTrail } from 'store/actions'
 
-import { Container } from "reactstrap"
-import { PDFViewer } from "@react-pdf/renderer"
-import PrfDocument from "./PrfDocument"
+import { Container } from 'reactstrap'
+import { PDFViewer } from '@react-pdf/renderer'
+import PrfDocument from './PrfDocument'
 
 // Extra components
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const PositionRequestFormPdf = () => {
   const dispatch = useDispatch()
@@ -32,7 +32,7 @@ const PositionRequestFormPdf = () => {
     errorPrfTrail: state.positionRequest.error.errorPrfTrail,
   }))
 
-  const formatDate = assignedDate => dayjs(assignedDate).format("MMMM DD, YYYY")
+  const formatDate = assignedDate => dayjs(assignedDate).format('MMMM DD, YYYY')
 
   useEffect(() => {
     dispatch(getSinglePRF(prfId)) //  fetch PRF details
@@ -45,12 +45,12 @@ const PositionRequestFormPdf = () => {
         <div className="page-content">
           <Container fluid={true}>
             {errorPrf ? (
-              <ToastrNotification toastType={"error"} notifMessage={errorPrf} />
+              <ToastrNotification toastType={'error'} notifMessage={errorPrf} />
             ) : null}
 
             {errorPrfTrail ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorPrfTrail}
               />
             ) : null}
@@ -58,7 +58,7 @@ const PositionRequestFormPdf = () => {
             {loadingPrf || loadingPrfTrail ? (
               <LoadingIndicator />
             ) : (
-              <PDFViewer width={"100%"} height={700} showToolbar>
+              <PDFViewer width={'100%'} height={700} showToolbar>
                 <PrfDocument
                   prfDetails={prfDetails}
                   prfTrail={prfTrail}
