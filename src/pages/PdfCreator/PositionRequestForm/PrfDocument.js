@@ -28,8 +28,8 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
   },
   bodyBorder: {
-    margin: 10,
-    border: '2px solid #000000',
+    margin: '0 10 10 10',
+    // border: '2px solid #000000',
   },
   signature: {
     width: 100,
@@ -196,7 +196,8 @@ const PrfDocument = props => {
                 {
                   fontFamily: 'CalibriRegularBold',
                   textTransform: 'uppercase',
-                  padding: '72 0 0 2',
+                  height: 117.5,
+                  // padding: '80 0 0 2',
                 },
               ]}
             >
@@ -236,7 +237,8 @@ const PrfDocument = props => {
                 {
                   fontFamily: 'CalibriRegularBold',
                   textTransform: 'uppercase',
-                  padding: '72 0 0 2',
+                  height: 117.5,
+                  // padding: '80 0 0 2',
                 },
               ]}
             >
@@ -272,122 +274,133 @@ const PrfDocument = props => {
         <Header />
 
         <View style={styles.bodyBorder}>
-          {/* Form Body*/}
-          <View style={[styles.documentTitle]}>
-            <Text>POSITION REQUEST FORM</Text>
-          </View>
-
-          {/* Section 1 */}
-          <View style={[styles.borderTop, { paddingTop: 15 }]}>
-            <View style={[styles.rowContainer, { marginBottom: 13 }]}>
-              <View style={[styles.w8, styles.keyText]}>
-                <Text>DATE</Text>
-              </View>
-
-              <View style={[styles.w5, styles.keyText]}>
-                <Text>:</Text>
-              </View>
-
-              <View style={[styles.w50, styles.borderBottom, styles.valueText]}>
-                <Text style={[{ paddingLeft: 10 }]}>
-                  {formatDate(prfDetails.dateRequested)}
-                </Text>
-              </View>
+          <View
+            style={[
+              {
+                borderTop: '2px solid #000000',
+                borderRight: '2px solid #000000',
+                borderLeft: '2px solid #000000',
+              },
+            ]}
+          >
+            {/* Form Body*/}
+            <View style={[styles.documentTitle]}>
+              <Text>POSITION REQUEST FORM</Text>
             </View>
 
-            <View style={[styles.rowContainer, { marginBottom: 10 }]}>
-              <View style={[styles.w8, styles.keyText]}>
-                <Text>FOR</Text>
-              </View>
+            {/* Section 1 */}
+            <View style={[styles.borderTop, { paddingTop: 15 }]}>
+              <View style={[styles.rowContainer, { marginBottom: 13 }]}>
+                <View style={[styles.w8, styles.keyText]}>
+                  <Text>DATE</Text>
+                </View>
 
-              <View style={[styles.w5, styles.keyText]}>
-                <Text>:</Text>
-              </View>
+                <View style={[styles.w5, styles.keyText]}>
+                  <Text>:</Text>
+                </View>
 
-              <View style={[styles.w50, styles.valueText]}>
-                <Text
-                  style={[
-                    styles.borderBottom,
-                    styles.upperCase,
-                    { paddingLeft: 10 },
-                  ]}
+                <View
+                  style={[styles.w50, styles.borderBottom, styles.valueText]}
                 >
-                  {prfDetails.for.name}
-                </Text>
-                <Text style={[styles.positionText, { paddingLeft: 10 }]}>
-                  {prfDetails.for.position}
-                </Text>
+                  <Text style={[{ paddingLeft: 10 }]}>
+                    {formatDate(prfDetails.dateRequested)}
+                  </Text>
+                </View>
+              </View>
+
+              <View style={[styles.rowContainer, { marginBottom: 10 }]}>
+                <View style={[styles.w8, styles.keyText]}>
+                  <Text>FOR</Text>
+                </View>
+
+                <View style={[styles.w5, styles.keyText]}>
+                  <Text>:</Text>
+                </View>
+
+                <View style={[styles.w50, styles.valueText]}>
+                  <Text
+                    style={[
+                      styles.borderBottom,
+                      styles.upperCase,
+                      { paddingLeft: 10 },
+                    ]}
+                  >
+                    {prfDetails.for.name}
+                  </Text>
+                  <Text style={[styles.positionText, { paddingLeft: 10 }]}>
+                    {prfDetails.for.position}
+                  </Text>
+                </View>
+              </View>
+
+              <View style={[styles.rowContainer, { marginBottom: 10 }]}>
+                <View style={[styles.w8, styles.keyText]}>
+                  <Text>FROM</Text>
+                </View>
+
+                <View style={[styles.w5, styles.keyText]}>
+                  <Text>:</Text>
+                </View>
+
+                <View style={[styles.w50, styles.valueText]}>
+                  <Text
+                    style={[
+                      styles.borderBottom,
+                      styles.upperCase,
+                      { paddingLeft: 10 },
+                    ]}
+                  >
+                    {prfDetails.from.name}
+                  </Text>
+                  <Text style={[styles.positionText, { paddingLeft: 10 }]}>
+                    {prfDetails.from.position}
+                  </Text>
+                </View>
               </View>
             </View>
 
-            <View style={[styles.rowContainer, { marginBottom: 10 }]}>
-              <View style={[styles.w8, styles.keyText]}>
-                <Text>FROM</Text>
+            {/* Section 2 */}
+            <View style={[styles.borderTop, { paddingVertical: 10 }]}>
+              <Text style={[styles.respectText, { marginVertical: 'auto' }]}>
+                Respectfully requesting from your end for additional personnel
+                as follows:
+              </Text>
+            </View>
+
+            {/* Section 3 */}
+            {/* Header */}
+            <View style={[styles.borderTop, styles.rowContainer]}>
+              <View style={[styles.w20, styles.borderRight]}>
+                <Text style={[styles.thText]}>ITEM NO.</Text>
               </View>
-
-              <View style={[styles.w5, styles.keyText]}>
-                <Text>:</Text>
+              <View style={[styles.w30, styles.borderRight]}>
+                <Text style={[styles.thText]}>POSITION</Text>
               </View>
-
-              <View style={[styles.w50, styles.valueText]}>
-                <Text
-                  style={[
-                    styles.borderBottom,
-                    styles.upperCase,
-                    { paddingLeft: 10 },
-                  ]}
-                >
-                  {prfDetails.from.name}
-                </Text>
-                <Text style={[styles.positionText, { paddingLeft: 10 }]}>
-                  {prfDetails.from.position}
-                </Text>
+              <View style={[styles.w25, styles.borderRight]}>
+                <Text style={[styles.thText]}>ASSIGNED TO</Text>
+              </View>
+              <View style={[styles.w25]}>
+                <Text style={[styles.thText]}>REMARKS/JUSTIFICATION</Text>
               </View>
             </View>
-          </View>
 
-          {/* Section 2 */}
-          <View style={[styles.borderTop, { paddingVertical: 10 }]}>
-            <Text style={[styles.respectText, { marginVertical: 'auto' }]}>
-              Respectfully requesting from your end for additional personnel as
-              follows:
-            </Text>
-          </View>
+            {/* Positions */}
+            {renderPositions()}
 
-          {/* Section 3 */}
-          {/* Header */}
-          <View style={[styles.borderTop, styles.rowContainer]}>
-            <View style={[styles.w20, styles.borderRight]}>
-              <Text style={[styles.thText]}>ITEM NO.</Text>
-            </View>
-            <View style={[styles.w30, styles.borderRight]}>
-              <Text style={[styles.thText]}>POSITION</Text>
-            </View>
-            <View style={[styles.w25, styles.borderRight]}>
-              <Text style={[styles.thText]}>ASSIGNED TO</Text>
-            </View>
-            <View style={[styles.w25]}>
-              <Text style={[styles.thText]}>REMARKS/JUSTIFICATION</Text>
-            </View>
-          </View>
-
-          {/* Positions */}
-          {renderPositions()}
-
-          {/* Section 4 */}
-          <View style={[styles.borderTop, styles.rowContainer]}>
-            {/* Date Needed */}
-            <View
-              style={[styles.w50, styles.borderRight, styles.dateNeededText]}
-            >
+            {/* Section 4 */}
+            <View style={[styles.borderTop, styles.rowContainer]}>
+              {/* Date Needed */}
               <View
-                style={[
-                  styles.verticalCenter,
-                  styles.rowContainer,
-                  { marginHorizontal: 'auto' },
-                ]}
+                style={[styles.w50, styles.borderRight, styles.dateNeededText]}
               >
-                {/* <Text>Date needed: </Text>
+                <View
+                  style={[
+                    styles.verticalCenter,
+                    styles.rowContainer,
+                    { marginHorizontal: 'auto' },
+                  ]}
+                >
+                  {/* <Text>Date needed: </Text>
                 <View
                   style={[
                     styles.borderBottom,
@@ -397,55 +410,67 @@ const PrfDocument = props => {
                 >
                   <Text>{formatDate(prfDetails.dateNeeded)}</Text>
                 </View> */}
+                </View>
               </View>
-            </View>
 
-            {/* Examination */}
-            <View
-              style={[
-                styles.w50,
-                styles.examinationText,
-                { paddingVertical: 5 },
-              ]}
-            >
+              {/* Examination */}
               <View
-                style={[styles.verticalCenter, { marginHorizontal: 'auto' }]}
+                style={[
+                  styles.w50,
+                  styles.examinationText,
+                  { paddingVertical: 5 },
+                ]}
               >
-                <View style={[styles.rowContainer]}>
-                  <View
-                    style={[
-                      styles.borderBottom,
-                      styles.w15,
-                      { paddingLeft: 7 },
-                    ]}
-                  >
-                    <Text>{prfDetails.withExam ? 'X' : ' '}</Text>
+                <View
+                  style={[styles.verticalCenter, { marginHorizontal: 'auto' }]}
+                >
+                  <View style={[styles.rowContainer]}>
+                    <View
+                      style={[
+                        styles.borderBottom,
+                        styles.w15,
+                        { paddingLeft: 7 },
+                      ]}
+                    >
+                      <Text>{prfDetails.withExam ? 'X' : ' '}</Text>
+                    </View>
+                    <Text>with examination</Text>
                   </View>
-                  <Text>with examination</Text>
-                </View>
 
-                <View style={[styles.rowContainer, { paddingTop: 5 }]}>
-                  <View
-                    style={[
-                      styles.borderBottom,
-                      styles.w15,
-                      { paddingLeft: 7 },
-                    ]}
-                  >
-                    <Text>{!prfDetails.withExam ? 'X' : ' '}</Text>
+                  <View style={[styles.rowContainer, { paddingTop: 5 }]}>
+                    <View
+                      style={[
+                        styles.borderBottom,
+                        styles.w15,
+                        { paddingLeft: 7 },
+                      ]}
+                    >
+                      <Text>{!prfDetails.withExam ? 'X' : ' '}</Text>
+                    </View>
+                    <Text>without examination</Text>
                   </View>
-                  <Text>without examination</Text>
                 </View>
               </View>
             </View>
+            <View style={[styles.borderTop, styles.borderBottom]}>
+              <Text style={{ paddingVertical: 10 }}></Text>
+            </View>
           </View>
-          <View style={[styles.borderTop]}>
-            <Text style={{ paddingVertical: 10 }}></Text>
-          </View>
-
           {/* Section 5 */}
           {/* Signatories */}
-          <View style={[styles.borderTop, styles.rowContainer]}>
+
+          <View
+            style={[
+              styles.borderTop,
+              styles.borderBottom,
+              styles.rowContainer,
+              {
+                borderRight: '2px solid #000000',
+                borderLeft: '2px solid #000000',
+              },
+            ]}
+            wrap={false}
+          >
             {/* REQUESTED BY */}
             <View
               style={[styles.w33_33, styles.signatureText, styles.borderRight]}
@@ -476,9 +501,18 @@ const PrfDocument = props => {
             </View>
           </View>
 
-          {/* Section 6 */}
-          {/* Signatories */}
-          <View style={[styles.borderTop, styles.rowContainer]}>
+          <View
+            style={[
+              styles.borderTop,
+              styles.borderBottom,
+              styles.rowContainer,
+              {
+                borderRight: '2px solid #000000',
+                borderLeft: '2px solid #000000',
+              },
+            ]}
+            wrap={false}
+          >
             {/* CERTIFIED CORRECT BY */}
             <View
               style={[styles.w50, styles.signatureText, styles.borderRight]}
@@ -548,7 +582,7 @@ const PrfDocument = props => {
               </View>
 
               {/* FINAL APPROVING BODY */}
-              <View style={[styles.w65]}>
+              <View style={[styles.w65, { height: 102 }]}>
                 <Image
                   source={`${process.env.REACT_APP_IMAGE_SERVER_URL}${prfDetails.for.forSignatureUrl}`}
                   style={[styles.signatureApproving]}
@@ -589,7 +623,17 @@ const PrfDocument = props => {
           </View>
 
           {/* Footer */}
-          <View style={[styles.borderTop, styles.rowContainer]}>
+          <View
+            style={[
+              // styles.borderTop,
+              styles.rowContainer,
+              {
+                borderRight: '2px solid #000000',
+                borderLeft: '2px solid #000000',
+                borderBottom: '2px solid #000000',
+              },
+            ]}
+          >
             <Text style={[styles.prfNoText]}>PRF No: {prfDetails.prfNo}</Text>
           </View>
         </View>
