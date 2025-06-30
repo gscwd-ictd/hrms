@@ -144,30 +144,114 @@ const PdDocument = props => {
 
   const renderCoreDuties = () => {
     var content = positionDutyResponsibilities.duties.core.map(
-      (duty, index) => (
-        <View
-          style={[styles.rowContainerTable, styles.borderAll]}
-          key={index}
-          wrap={false}
-        >
-          <View style={[styles.w14, styles.tData, styles.borderRight]}>
-            <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
-              {duty.percentage}
-            </Text>
-          </View>
-          <View style={[styles.w60, styles.tData, styles.borderRight]}>
-            <Text>{duty.description}</Text>
-          </View>
-          <View style={[styles.w26, styles.tData, styles.horizontalCenter]}>
-            <Text>{duty.competency} / </Text>
-            <Text>{duty.level}</Text>
-          </View>
-        </View>
-      )
+      (duty, index) => {
+        if (index === 0) {
+          return (
+            <View key={index} wrap={false}>
+              <View style={[styles.rowContainerTable, styles.borderAll]}>
+                <View
+                  style={[
+                    styles.w14,
+                    styles.tHeadSecondLevel,
+                    styles.borderRight,
+                  ]}
+                >
+                  <Text>Percentage of Work</Text>
+                </View>
+
+                <View
+                  style={[
+                    styles.w60,
+                    styles.tHeadSecondLevel,
+                    styles.borderRight,
+                  ]}
+                >
+                  <Text>Duties and Responsibilities</Text>
+                </View>
+
+                <View style={[styles.w26, styles.tHeadSecondLevel]}>
+                  <Text>Competency/Level</Text>
+                </View>
+              </View>
+
+              <View style={[styles.rowContainerTable, styles.borderAll]}>
+                <View style={[styles.w14, styles.tData, styles.borderRight]}>
+                  <Text
+                    style={[styles.horizontalCenter, styles.verticalCenter]}
+                  >
+                    {duty.percentage}
+                  </Text>
+                </View>
+                <View style={[styles.w60, styles.tData, styles.borderRight]}>
+                  <Text>{duty.description}</Text>
+                </View>
+                <View
+                  style={[styles.w26, styles.tData, styles.horizontalCenter]}
+                >
+                  <Text>{duty.competency} / </Text>
+                  <Text>{duty.level}</Text>
+                </View>
+              </View>
+            </View>
+          )
+        } else {
+          return (
+            <View
+              style={[styles.rowContainerTable, styles.borderAll]}
+              key={index}
+              wrap={false}
+            >
+              <View style={[styles.w14, styles.tData, styles.borderRight]}>
+                <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
+                  {duty.percentage}
+                </Text>
+              </View>
+              <View style={[styles.w60, styles.tData, styles.borderRight]}>
+                <Text>{duty.description}</Text>
+              </View>
+              <View style={[styles.w26, styles.tData, styles.horizontalCenter]}>
+                <Text>{duty.competency} / </Text>
+                <Text>{duty.level}</Text>
+              </View>
+            </View>
+          )
+        }
+      }
     )
 
     return content
   }
+
+  //   const renderCoreDuties = () => {
+  //     var content = positionDutyResponsibilities.duties.core.map(
+  //       (duty, index) => (
+  // if(index === 0) {
+  //
+  // }
+
+  // <View
+  //   style={[styles.rowContainerTable, styles.borderAll]}
+  //   key={index}
+  //   wrap={false}
+  // >
+  //   <View style={[styles.w14, styles.tData, styles.borderRight]}>
+  //     <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
+  //       {duty.percentage}
+  //     </Text>
+  //   </View>
+  //   <View style={[styles.w60, styles.tData, styles.borderRight]}>
+  //     <Text>{duty.description}</Text>
+  //   </View>
+  //   <View style={[styles.w26, styles.tData, styles.horizontalCenter]}>
+  //     <Text>{duty.competency} / </Text>
+  //     <Text>{duty.level}</Text>
+  //   </View>
+  // </View>
+  //       )
+  //     )
+
+  //     return content
+  //   }
 
   const renderFunctionalCompetencies = () => {
     var content = proficiencyLevel.functional.map((competency, index) => (
@@ -495,32 +579,6 @@ const PdDocument = props => {
                   {/* <View style={[styles.tHeadFirstLevel]}>
                     <Text>CORE</Text>
                   </View> */}
-
-                  <View style={[styles.rowContainerTable, styles.borderAll]}>
-                    <View
-                      style={[
-                        styles.w14,
-                        styles.tHeadSecondLevel,
-                        styles.borderRight,
-                      ]}
-                    >
-                      <Text>Percentage of Work</Text>
-                    </View>
-
-                    <View
-                      style={[
-                        styles.w60,
-                        styles.tHeadSecondLevel,
-                        styles.borderRight,
-                      ]}
-                    >
-                      <Text>Duties and Responsibilities</Text>
-                    </View>
-
-                    <View style={[styles.w26, styles.tHeadSecondLevel]}>
-                      <Text>Competency/Level</Text>
-                    </View>
-                  </View>
 
                   {renderCoreDuties()}
                 </View>
