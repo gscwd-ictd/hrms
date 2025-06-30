@@ -148,48 +148,54 @@ const PdDocument = props => {
         if (index === 0) {
           return (
             <View key={index} wrap={false}>
-              <View style={[styles.rowContainerTable, styles.borderAll]}>
-                <View
-                  style={[
-                    styles.w14,
-                    styles.tHeadSecondLevel,
-                    styles.borderRight,
-                  ]}
-                >
-                  <Text>Percentage of Work</Text>
-                </View>
+              <Text style={[styles.headerText]}>
+                Statement of Duties and Responsibilities
+              </Text>
 
-                <View
-                  style={[
-                    styles.w60,
-                    styles.tHeadSecondLevel,
-                    styles.borderRight,
-                  ]}
-                >
-                  <Text>Duties and Responsibilities</Text>
-                </View>
-
-                <View style={[styles.w26, styles.tHeadSecondLevel]}>
-                  <Text>Competency/Level</Text>
-                </View>
-              </View>
-
-              <View style={[styles.rowContainerTable, styles.borderAll]}>
-                <View style={[styles.w14, styles.tData, styles.borderRight]}>
-                  <Text
-                    style={[styles.horizontalCenter, styles.verticalCenter]}
+              <View>
+                <View style={[styles.rowContainerTable, styles.borderAll]}>
+                  <View
+                    style={[
+                      styles.w14,
+                      styles.tHeadSecondLevel,
+                      styles.borderRight,
+                    ]}
                   >
-                    {duty.percentage}
-                  </Text>
+                    <Text>Percentage of Work</Text>
+                  </View>
+
+                  <View
+                    style={[
+                      styles.w60,
+                      styles.tHeadSecondLevel,
+                      styles.borderRight,
+                    ]}
+                  >
+                    <Text>Duties and Responsibilities</Text>
+                  </View>
+
+                  <View style={[styles.w26, styles.tHeadSecondLevel]}>
+                    <Text>Competency/Level</Text>
+                  </View>
                 </View>
-                <View style={[styles.w60, styles.tData, styles.borderRight]}>
-                  <Text>{duty.description}</Text>
-                </View>
-                <View
-                  style={[styles.w26, styles.tData, styles.horizontalCenter]}
-                >
-                  <Text>{duty.competency} / </Text>
-                  <Text>{duty.level}</Text>
+
+                <View style={[styles.rowContainerTable, styles.borderAll]}>
+                  <View style={[styles.w14, styles.tData, styles.borderRight]}>
+                    <Text
+                      style={[styles.horizontalCenter, styles.verticalCenter]}
+                    >
+                      {duty.percentage}
+                    </Text>
+                  </View>
+                  <View style={[styles.w60, styles.tData, styles.borderRight]}>
+                    <Text>{duty.description}</Text>
+                  </View>
+                  <View
+                    style={[styles.w26, styles.tData, styles.horizontalCenter]}
+                  >
+                    <Text>{duty.competency} / </Text>
+                    <Text>{duty.level}</Text>
+                  </View>
                 </View>
               </View>
             </View>
@@ -221,37 +227,6 @@ const PdDocument = props => {
 
     return content
   }
-
-  //   const renderCoreDuties = () => {
-  //     var content = positionDutyResponsibilities.duties.core.map(
-  //       (duty, index) => (
-  // if(index === 0) {
-  //
-  // }
-
-  // <View
-  //   style={[styles.rowContainerTable, styles.borderAll]}
-  //   key={index}
-  //   wrap={false}
-  // >
-  //   <View style={[styles.w14, styles.tData, styles.borderRight]}>
-  //     <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
-  //       {duty.percentage}
-  //     </Text>
-  //   </View>
-  //   <View style={[styles.w60, styles.tData, styles.borderRight]}>
-  //     <Text>{duty.description}</Text>
-  //   </View>
-  //   <View style={[styles.w26, styles.tData, styles.horizontalCenter]}>
-  //     <Text>{duty.competency} / </Text>
-  //     <Text>{duty.level}</Text>
-  //   </View>
-  // </View>
-  //       )
-  //     )
-
-  //     return content
-  //   }
 
   const renderFunctionalCompetencies = () => {
     var content = proficiencyLevel.functional.map((competency, index) => (
@@ -570,18 +545,11 @@ const PdDocument = props => {
             {/* DUTIES AND RESPONSIBILITIES */}
             <View>
               <View>
-                <Text style={[styles.headerText]}>
-                  Statement of Duties and Responsibilities
-                </Text>
-
-                {/* CORE */}
-                <View>
-                  {/* <View style={[styles.tHeadFirstLevel]}>
+                {/* <View style={[styles.tHeadFirstLevel]}>
                     <Text>CORE</Text>
                   </View> */}
 
-                  {renderCoreDuties()}
-                </View>
+                {renderCoreDuties()}
 
                 {/* SUPPORT */}
                 {/* <View style={[styles.tableBorder, { marginTop: 10 }]}>
