@@ -145,7 +145,11 @@ const PdDocument = props => {
   const renderCoreDuties = () => {
     var content = positionDutyResponsibilities.duties.core.map(
       (duty, index) => (
-        <View style={[styles.rowContainerTable, styles.borderAll]} key={index}>
+        <View
+          style={[styles.rowContainerTable, styles.borderAll]}
+          key={index}
+          wrap={false}
+        >
           <View style={[styles.w14, styles.tData, styles.borderRight]}>
             <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
               {duty.percentage}
@@ -167,7 +171,11 @@ const PdDocument = props => {
 
   const renderFunctionalCompetencies = () => {
     var content = proficiencyLevel.functional.map((competency, index) => (
-      <View style={[styles.rowContainerTable, styles.borderAll]} key={index}>
+      <View
+        style={[styles.rowContainerTable, styles.borderAll]}
+        key={index}
+        wrap={false}
+      >
         <View style={[styles.w60, styles.tData, styles.borderRight]}>
           <Text>
             <Text style={{ fontFamily: 'CalibriRegularBold' }}>
@@ -190,7 +198,11 @@ const PdDocument = props => {
 
   const renderCrossCuttingCompetencies = () => {
     var content = proficiencyLevel.crossCutting.map((competency, index) => (
-      <View style={[styles.rowContainerTable, styles.borderAll]} key={index}>
+      <View
+        style={[styles.rowContainerTable, styles.borderAll]}
+        key={index}
+        wrap={false}
+      >
         <View style={[styles.w60, styles.tData, styles.borderRight]}>
           <Text>
             <Text style={{ fontFamily: 'CalibriRegularBold' }}>
@@ -213,7 +225,11 @@ const PdDocument = props => {
 
   const renderManagerialCompetencies = () => {
     var content = proficiencyLevel.managerial.map((competency, index) => (
-      <View style={[styles.rowContainerTable, styles.borderAll]} key={index}>
+      <View
+        style={[styles.rowContainerTable, styles.borderAll]}
+        key={index}
+        wrap={false}
+      >
         <View style={[styles.w60, styles.tData, styles.borderRight]}>
           <Text>
             <Text style={{ fontFamily: 'CalibriRegularBold' }}>
@@ -242,7 +258,7 @@ const PdDocument = props => {
               {
                 fontFamily: 'CalibriRegularBold',
                 textTransform: 'uppercase',
-                paddingTop: 25,
+                paddingTop: 40,
               },
             ]}
           >
@@ -545,7 +561,7 @@ const PdDocument = props => {
             </View>
 
             {/* QUALIFICATION STANDARDS */}
-            <View wrap={false} style={[{ marginTop: 20 }]}>
+            <View wrap={false} style={[{ marginTop: 5 }]} break>
               <View>
                 <Text style={[styles.headerText]}>Qualification Standards</Text>
               </View>
@@ -622,7 +638,7 @@ const PdDocument = props => {
             </View>
 
             {/* COMPETENCIES */}
-            <View break>
+            <View>
               <View>
                 <Text style={[styles.headerText]}>Competencies</Text>
               </View>
