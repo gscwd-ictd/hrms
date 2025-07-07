@@ -6,8 +6,14 @@ const token = accessToken
 
 const API_URL = process.env.REACT_APP_EMP_DOMAIN
 
+const API_URL2 = process.env.REACT_APP_EMP_DOMAIN_V2
+
 const axiosApi = axios.create({
   baseURL: API_URL,
+})
+
+const axiosApi2 = axios.create({
+  baseURL: API_URL2,
 })
 
 axiosApi.defaults.headers.common['Authorization'] = 'Bearer ' + token
@@ -24,6 +30,10 @@ axiosApi.interceptors.response.use(
 
 export async function getEmp(url, config = {}) {
   return await axiosApi.get(url, { ...config }).then(response => response.data)
+}
+
+export async function getEmpv2(url, config = {}) {
+  return await axiosApi2.get(url, { ...config }).then(response => response.data)
 }
 
 export async function postEmp(url, data, config = {}) {

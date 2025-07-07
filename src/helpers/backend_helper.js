@@ -6,7 +6,7 @@ import {
   putHris,
   patchHris,
 } from './hrms_api_helper'
-import { getEmp } from './employee_api_helper'
+import { getEmp, getEmpv2 } from './employee_api_helper'
 import { getEmpMon } from './employee_monitoring_api_helper'
 import * as url from './url_helper'
 
@@ -394,7 +394,7 @@ export const getApplicantWesExternal = postingApplicantId =>
       postingApplicantId
   )
 export const getApplicantWesInternal = postingApplicantId =>
-  getEmp(
+  getEmpv2(
     url.GET_APPLICANT_PDS +
       url.APPLICANT_WORK_EXPERIENCE_SHEET +
       url.GET_APPLICANTS +
