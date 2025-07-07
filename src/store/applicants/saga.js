@@ -3,6 +3,8 @@ import {
   getApplicants,
   getApplicantExternal,
   getApplicantInternal,
+  getApplicantWesExternal,
+  getApplicantWesInternal,
   getQualifiedApplicants,
   getEndorsedApplicants,
   getShortlistedApplicants,
@@ -23,6 +25,8 @@ import {
   fetchApplicantsFailed,
   fetchApplicantPdsSuccess,
   fetchApplicantPdsFailed,
+  fetchApplicantWesSuccess,
+  fetchApplicantWesFailed,
   fetchQualifiedApplicantsSuccess,
   fetchQualifiedApplicantsFailed,
   updateQualifiedApplicantsExamScoresSuccess,
@@ -69,6 +73,7 @@ import {
   GET_DBMCSC_FORM33B_DETAILS,
   PATCH_DBMCSC_DETAILS,
   GET_HIRED_EXTERNAL_APPLICANTS,
+  GET_APPLICANT_WES,
 } from './actionTypes'
 
 function* fetchApplicants({ payload: publicationId }) {
@@ -110,6 +115,20 @@ function* fetchApplicantPds({ payload: { applicantId, isInternal } }) {
     }
   } catch (error) {
     yield put(fetchApplicantPdsFailed(error))
+  }
+}
+
+function* fetchApplicantWes({ payload: { postingApplicantId, isInternal } }) {
+  try {
+    if (isInternal === 'internal') {
+      const response = yield call(getApplicantWesInternal, postingApplicantId)
+      yield put(fetchApplicantWesSuccess(response))
+    } else {
+      const response = yield call(getApplicantWesExternal, postingApplicantId)
+      yield put(fetchApplicantWesSuccess(response))
+    }
+  } catch (error) {
+    yield put(fetchApplicantWesFailed(error))
   }
 }
 
@@ -255,6 +274,7 @@ function* applicantsSaga() {
     updateQualifiedApplicantsExamScores
   )
   yield takeEvery(GET_APPLICANT_PDS, fetchApplicantPds)
+  yield takeEvery(GET_APPLICANT_WES, fetchApplicantWes)
   yield takeEvery(
     UPDATE_APPLICANT_APPLICATION_STATUS,
     updateApplicantApplicationStatus

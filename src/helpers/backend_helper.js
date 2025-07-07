@@ -387,6 +387,20 @@ export const getApplicantExternal = applicantId =>
 export const getApplicantInternal = applicantId =>
   getEmp(url.GET_APPLICANT_PDS + applicantId + url.VERSION_2)
 
+export const getApplicantWesExternal = postingApplicantId =>
+  getHris(
+    url.GET_APPLICANT_PDS +
+      url.APPLICANT_WORK_EXPERIENCE_SHEET +
+      postingApplicantId
+  )
+export const getApplicantWesInternal = postingApplicantId =>
+  getEmp(
+    url.GET_APPLICANT_PDS +
+      url.APPLICANT_WORK_EXPERIENCE_SHEET +
+      url.GET_APPLICANTS +
+      postingApplicantId
+  )
+
 export const getEndorsedApplicants = vppId =>
   getHris(url.APPLICANT_ENDORSEMENT + url.ENDORSED_APPLICANTS + vppId)
 export const getShortlistedApplicants = vppId =>

@@ -18,6 +18,9 @@ import {
   GET_APPLICANT_PDS,
   GET_APPLICANT_PDS_SUCCESS,
   GET_APPLICANT_PDS_FAIL,
+  GET_APPLICANT_WES,
+  GET_APPLICANT_WES_SUCCESS,
+  GET_APPLICANT_WES_FAIL,
   UPDATE_APPLICANT_APPLICATION_STATUS,
   UPDATE_APPLICANT_APPLICATION_STATUS_SUCCESS,
   UPDATE_APPLICANT_APPLICATION_STATUS_FAIL,
@@ -168,6 +171,26 @@ export const fetchApplicantPdsSuccess = applicantDetails => {
 export const fetchApplicantPdsFailed = error => {
   return {
     type: GET_APPLICANT_PDS_FAIL,
+    payload: error,
+  }
+}
+
+// Get applicant work experience sheet
+export const fetchApplicantWes = (postingApplicantId, isInternal) => {
+  return {
+    type: GET_APPLICANT_WES,
+    payload: { postingApplicantId, isInternal },
+  }
+}
+export const fetchApplicantWesSuccess = applicantWorkExperience => {
+  return {
+    type: GET_APPLICANT_WES_SUCCESS,
+    payload: applicantWorkExperience,
+  }
+}
+export const fetchApplicantWesFailed = error => {
+  return {
+    type: GET_APPLICANT_WES_FAIL,
     payload: error,
   }
 }

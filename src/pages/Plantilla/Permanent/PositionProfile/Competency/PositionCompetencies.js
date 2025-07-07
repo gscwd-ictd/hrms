@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react"
-import classnames from "classnames"
-import { Can } from "casl/Can"
-import { Navigate, useParams } from "react-router-dom"
+import React, { useEffect, useState } from 'react'
+import classnames from 'classnames'
+import { Can } from 'casl/Can'
+import { Navigate, useParams } from 'react-router-dom'
 
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchCompetencyProficiencyLevels,
   fetchPlantillaPosition,
-} from "store/actions"
+} from 'store/actions'
 
 import {
   Card,
@@ -21,19 +21,20 @@ import {
   NavLink,
   NavItem,
   Nav,
-} from "reactstrap"
-import Breadcrumbs from "components/Common/Breadcrumb"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+  CardTitle,
+} from 'reactstrap'
+import Breadcrumbs from 'components/Common/Breadcrumb'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // style
-import "styles/custom_gscwd/components/table.scss"
+import 'styles/custom_gscwd/components/table.scss'
 
 const PositionCompetencies = () => {
   const dispatch = useDispatch()
   const { plantillaId } = useParams()
 
-  const [activeTab, setactiveTab] = useState("1")
+  const [activeTab, setactiveTab] = useState('1')
 
   // Proficiency levels of individual model domains
   const {
@@ -84,13 +85,13 @@ const PositionCompetencies = () => {
           <div className="container-fluid">
             {errorProficiencyLevel ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorProficiencyLevel}
               />
             ) : null}
 
             {pdError ? (
-              <ToastrNotification toastType={"error"} notifMessage={pdError} />
+              <ToastrNotification toastType={'error'} notifMessage={pdError} />
             ) : null}
 
             {loadingProficiencyLevel && pdIsLoading ? (
@@ -101,13 +102,13 @@ const PositionCompetencies = () => {
                   title={positionDetails.itemNumber}
                   titleUrl={`/plantilla/permanent/${plantillaId}`}
                   breadcrumbItem="Competencies"
-                  positionTitle={positionDetails.positionTitle}
+                  positionTitle="Competencies"
                 />
 
                 {/*  Notifications */}
                 {errorProficiencyLevel ? (
                   <ToastrNotification
-                    toastType={"error"}
+                    toastType={'error'}
                     notifMessage={errorProficiencyLevel}
                   />
                 ) : null}
@@ -117,20 +118,21 @@ const PositionCompetencies = () => {
                     <Col lg={12}>
                       <Card>
                         <CardBody>
-                          {/* <CardTitle className="mb-3">
-                          {modalData.itemNumber} | {modalData.positionTitle}
-                        </CardTitle> */}
+                          <CardTitle className="mb-3">
+                            {positionDetails.positionTitle} |{' '}
+                            {positionDetails.itemNumber}
+                          </CardTitle>
                           <Row>
                             <Col md={3}>
                               <Nav pills vertical>
                                 <NavItem>
                                   <NavLink
-                                    style={{ cursor: "pointer" }}
+                                    style={{ cursor: 'pointer' }}
                                     className={classnames({
-                                      active: activeTab === "1",
+                                      active: activeTab === '1',
                                     })}
                                     onClick={() => {
-                                      toggle("1")
+                                      toggle('1')
                                     }}
                                   >
                                     Core
@@ -139,12 +141,12 @@ const PositionCompetencies = () => {
 
                                 <NavItem>
                                   <NavLink
-                                    style={{ cursor: "pointer" }}
+                                    style={{ cursor: 'pointer' }}
                                     className={classnames({
-                                      active: activeTab === "2",
+                                      active: activeTab === '2',
                                     })}
                                     onClick={() => {
-                                      toggle("2")
+                                      toggle('2')
                                     }}
                                   >
                                     Functional
@@ -153,12 +155,12 @@ const PositionCompetencies = () => {
 
                                 <NavItem>
                                   <NavLink
-                                    style={{ cursor: "pointer" }}
+                                    style={{ cursor: 'pointer' }}
                                     className={classnames({
-                                      active: activeTab === "3",
+                                      active: activeTab === '3',
                                     })}
                                     onClick={() => {
-                                      toggle("3")
+                                      toggle('3')
                                     }}
                                   >
                                     Functional Cross-Cutting
@@ -167,12 +169,12 @@ const PositionCompetencies = () => {
 
                                 <NavItem>
                                   <NavLink
-                                    style={{ cursor: "pointer" }}
+                                    style={{ cursor: 'pointer' }}
                                     className={classnames({
-                                      active: activeTab === "4",
+                                      active: activeTab === '4',
                                     })}
                                     onClick={() => {
-                                      toggle("4")
+                                      toggle('4')
                                     }}
                                   >
                                     Managerial

@@ -18,6 +18,9 @@ import {
   GET_APPLICANT_PDS,
   GET_APPLICANT_PDS_SUCCESS,
   GET_APPLICANT_PDS_FAIL,
+  GET_APPLICANT_WES,
+  GET_APPLICANT_WES_SUCCESS,
+  GET_APPLICANT_WES_FAIL,
   UPDATE_APPLICANT_APPLICATION_STATUS,
   UPDATE_APPLICANT_APPLICATION_STATUS_SUCCESS,
   UPDATE_APPLICANT_APPLICATION_STATUS_FAIL,
@@ -93,6 +96,7 @@ const INIT_STATE = {
     references: [],
     governmentIssuedId: {},
   },
+  wes: [],
   resultsOfHiringDocument: {
     resultsOfHiring: [],
     signatories: {
@@ -207,6 +211,7 @@ const INIT_STATE = {
     loadingApplicants: false,
     loadingQualifiedApplicants: false,
     loadingApplicant: false,
+    laodingApplicantWes: false,
     loadingResponseApplicantsScores: false,
     loadingResponseApplicantApplicationStatus: false,
     loadingEndorsedApplicants: false,
@@ -225,6 +230,7 @@ const INIT_STATE = {
     errorApplicants: null,
     errorQualifiedApplicants: null,
     errorApplicant: null,
+    errorApplicantWes: null,
     errorResponseApplicantsScores: null,
     errorApplicantApplicationStatus: null,
     errorEndorsedApplicants: null,
@@ -544,6 +550,41 @@ const applicants = (state = INIT_STATE, action) => {
         error: {
           ...state.error,
           errorApplicant: action.payload,
+        },
+      }
+
+    case GET_APPLICANT_WES:
+      return {
+        ...state,
+        wes: [],
+        loading: {
+          ...state.loading,
+          loadingApplicantWes: true,
+        },
+        error: {
+          ...state.error,
+          errorApplicantWes: null,
+        },
+      }
+    case GET_APPLICANT_WES_SUCCESS:
+      return {
+        ...state,
+        wes: action.payload,
+        loading: {
+          ...state.loading,
+          loadingApplicantWes: false,
+        },
+      }
+    case GET_APPLICANT_WES_FAIL:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          loadingApplicantWes: false,
+        },
+        error: {
+          ...state.error,
+          errorApplicantWes: action.payload,
         },
       }
 
@@ -1190,6 +1231,7 @@ const applicants = (state = INIT_STATE, action) => {
           errorApplicants: null,
           errorQualifiedApplicants: null,
           errorApplicant: null,
+          errorApplicantWes: null,
           errorResponseApplicantsScores: null,
           errorApplicantApplicationStatus: null,
           errorEndorsedApplicants: null,

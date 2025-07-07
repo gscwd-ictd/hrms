@@ -60,7 +60,7 @@ import PublicationPositions from 'pages/PersonnelSelection/PublicationPositions'
 
 // Applicants
 import Applicants from 'pages/PersonnelSelection/Applicants/index'
-import ApplicantDetails from 'pages/PersonnelSelection/Applicants/ApplicantPds'
+import ApplicantPds from 'pages/PersonnelSelection/Applicants/ApplicantPds'
 
 // PDF
 import ApplicantPersonalDataSheetPdf from 'pages/PdfCreator/ApplicantPersonalDataSheet'
@@ -200,12 +200,12 @@ const authProtectedRoutes = [
 
   // Applicants
   {
-    path: '/personnel-selection/publication-positions/:prfId/publications/:publicationId/applicants',
+    path: '/personnel-selection/publication-positions/:prfId/publications/:publicationId/applicants/:positionIds/:plantillaItems',
     component: <Applicants />,
   },
   {
-    path: '/personnel-selection/publication-positions/:prfId/publications/:publicationId/applicants/:applicantId/:isInternal',
-    component: <ApplicantDetails />,
+    path: '/personnel-selection/publication-positions/:prfId/publications/:publicationId/applicants/:positionIds/:plantillaItems/:applicantId/:postingApplicantId/:isInternal',
+    component: <ApplicantPds />,
   },
 
   // Occupations

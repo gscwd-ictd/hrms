@@ -1,38 +1,36 @@
-import React, { useEffect, useMemo, useState } from "react"
-import PropTypes from "prop-types"
-import { Can } from "casl/Can"
-import { Navigate, useLocation, useParams } from "react-router-dom"
-
-import { useDispatch, useSelector } from "react-redux"
-import { fetchApplicants } from "store/actions"
-
-import { Card, CardBody, Col, Container, Row, Badge } from "reactstrap"
-import TableApplicants from "components/Table/TableApplicants"
-import InRowAction from "components/InRowAction/InRowAction"
-import ApplicantStatus from "components/Modal/PersonnelSelection/Applicants/ApplicantStatus"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import Breadcrumb from "components/Common/Breadcrumb"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import React, { useEffect, useMemo, useState } from 'react'
+import PropTypes from 'prop-types'
+import { Can } from 'casl/Can'
+import { Navigate, useLocation, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchApplicants } from 'store/actions'
+import { Card, CardBody, Col, Container, Row, Badge } from 'reactstrap'
+import TableApplicants from 'components/Table/TableApplicants'
+import InRowAction from 'components/InRowAction/InRowAction'
+import ApplicantStatus from 'components/Modal/PersonnelSelection/Applicants/ApplicantStatus'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import Breadcrumb from 'components/Common/Breadcrumb'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const Applicants = () => {
   const dispatch = useDispatch()
   const location = useLocation()
-  const { publicationId, prfId } = useParams()
+  const { publicationId, prfId, positionIds } = useParams()
 
   const tblColumns = [
     {
-      Header: "ID",
-      accessor: "_id",
+      Header: 'ID',
+      accessor: '_id',
       disableGlobalFilter: true,
     },
     {
-      Header: "Applicant ID",
-      accessor: "applicantId",
+      Header: 'Applicant ID',
+      accessor: 'applicantId',
       disableGlobalFilter: true,
     },
     {
-      Header: "#",
-      accessor: "",
+      Header: '#',
+      accessor: '',
       disableGlobalFilter: true,
       Cell: function Status(cell) {
         return (
@@ -45,30 +43,30 @@ const Applicants = () => {
       },
     },
     {
-      Header: "Name",
-      accessor: "fullName",
+      Header: 'Name',
+      accessor: 'fullName',
     },
     {
-      Header: "Type",
-      accessor: "applicantType",
+      Header: 'Type',
+      accessor: 'applicantType',
     },
     {
-      Header: "Status",
-      accessor: "applicantStatus",
+      Header: 'Status',
+      accessor: 'applicantStatus',
       Cell: function Status(cell) {
-        if (cell.row.values.applicantStatus === "For review") {
+        if (cell.row.values.applicantStatus === 'For review') {
           return (
             <Badge className="me-2 bg-warning font-size-12">
               {cell.row.values.applicantStatus}
             </Badge>
           )
-        } else if (cell.row.values.applicantStatus === "Qualified") {
+        } else if (cell.row.values.applicantStatus === 'Qualified') {
           return (
             <Badge className="me-2 bg-success font-size-12">
               {cell.row.values.applicantStatus}
             </Badge>
           )
-        } else if (cell.row.values.applicantStatus === "Not qualified") {
+        } else if (cell.row.values.applicantStatus === 'Not qualified') {
           return (
             <Badge className="me-2 bg-danger font-size-12">
               {cell.row.values.applicantStatus}
@@ -85,27 +83,31 @@ const Applicants = () => {
       },
     },
     {
-      Header: "Actions",
-      accessor: "",
-      align: "center",
+      Header: 'Actions',
+      accessor: '',
+      align: 'center',
       disableGlobalFilter: true,
       Cell: function RowActions(cell) {
         return (
           <div className="d-flex">
             <InRowAction
+              buttonTitle="PDS"
               viewRedirectUrl={
                 location.pathname +
-                "/" +
+                '/' +
                 cell.row.values.applicantId +
-                "/" +
+                '/' +
+                cell.row.values._id +
+                '/' +
                 cell.row.values.applicantType
               }
             />
+
             <button
               onClick={() => changeApplicantStatus(cell.row.values)}
-              className="btn btn-info waves-effect waves-light"
+              className="btn btn-info waves-effect waves-light inrow-btn-style"
             >
-              <i className="fas fa-user-edit"></i>
+              Status<i className="fas fa-user-edit"></i>
             </button>
           </div>
         )
@@ -150,12 +152,12 @@ const Applicants = () => {
           <Container fluid={true}>
             <Breadcrumb
               title="Publication Positions"
-              titleUrl={"/personnel-selection/publication-positions/" + prfId}
+              titleUrl={'/personnel-selection/publication-positions/' + prfId}
               breadcrumbItem="Applicants"
             />
 
             {error ? (
-              <ToastrNotification toastType={"error"} notifMessage={error} />
+              <ToastrNotification toastType={'error'} notifMessage={error} />
             ) : null}
 
             <Row>
