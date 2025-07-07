@@ -159,7 +159,7 @@ const WorkExperienceSheetView = () => {
                       <Col md={12} className="mt-3">
                         <OutlinedBox
                           label={`${didx + 1}`}
-                          value={duty.accomplishment || 'N/A'}
+                          value={duty.duty || 'N/A'}
                         />
                       </Col>
                     </Row>
