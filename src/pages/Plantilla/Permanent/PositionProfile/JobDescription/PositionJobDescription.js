@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { isEmpty } from 'lodash'
 import { Can } from 'casl/Can'
 import { Navigate, useParams } from 'react-router-dom'
-
 import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchJobDescription,
@@ -12,9 +11,7 @@ import {
   getDivisions,
   fetchSGListStepIncrement,
   updateJobDescription,
-  resetJobDescriptionResponse,
 } from 'store/actions'
-
 import {
   Card,
   CardBody,
@@ -33,7 +30,6 @@ import Breadcrumbs from 'components/Common/Breadcrumb'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 import InputMask from 'react-input-mask'
-
 import { salaryGrades } from 'constants/selectInputs'
 
 const PositionJobDescription = () => {

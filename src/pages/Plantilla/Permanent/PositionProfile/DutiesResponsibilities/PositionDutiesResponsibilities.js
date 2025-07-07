@@ -102,7 +102,7 @@ const PositionDutiesResponsibilities = () => {
 
                 <Container fluid={true}>
                   <Row>
-                    <Col className="col-6">
+                    <Col className="col-12">
                       <Card>
                         <CardBody>
                           <CardTitle>Core Functions</CardTitle>
@@ -115,6 +115,8 @@ const PositionDutiesResponsibilities = () => {
                               <thead className="thead-light">
                                 <tr>
                                   <th>Percentage</th>
+                                  <th>Competency</th>
+                                  <th>Level</th>
                                   <th>Duty Description</th>
                                 </tr>
                               </thead>
@@ -127,6 +129,8 @@ const PositionDutiesResponsibilities = () => {
                                       return (
                                         <tr key={i}>
                                           <td>{duty.percentage}%</td>
+                                          <td>{duty.competency}</td>
+                                          <td>{duty.level}</td>
                                           <td className="whitespace-pre-line">
                                             {duty.description}
                                           </td>
@@ -136,7 +140,7 @@ const PositionDutiesResponsibilities = () => {
                                   )
                                 ) : (
                                   <tr>
-                                    <td colSpan="2" className="ta-center">
+                                    <td colSpan="4" className="ta-center">
                                       No Duties Assigned
                                     </td>
                                   </tr>
@@ -148,6 +152,7 @@ const PositionDutiesResponsibilities = () => {
                       </Card>
                     </Col>
 
+                    {/* 
                     <Col className="col-6">
                       <Card>
                         <CardBody>
@@ -190,7 +195,7 @@ const PositionDutiesResponsibilities = () => {
                           </div>
                         </CardBody>
                       </Card>
-                    </Col>
+                    </Col> */}
                   </Row>
                 </Container>
               </>

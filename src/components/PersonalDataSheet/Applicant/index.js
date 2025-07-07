@@ -1,23 +1,23 @@
-import React, { useState } from "react"
-import { useSelector } from "react-redux"
-import classnames from "classnames"
-import dayjs from "dayjs"
-import { isEmpty } from "lodash"
-import { Link } from "react-router-dom"
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
+import classnames from 'classnames'
+import dayjs from 'dayjs'
+import { isEmpty } from 'lodash'
+import { Link } from 'react-router-dom'
 
-import { NavItem, NavLink, TabContent, TabPane } from "reactstrap"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import PersonalInformationView from "./PersonalInformationView"
-import FamilyBackgroundView from "./FamilyBackgroundView"
-import EducationalBackgroundView from "./EducationalBackgroundView"
-import EligibilityView from "./EligibilityView"
-import WorkExperienceView from "./WorkExperienceView"
-import VoluntaryWorkView from "./VoluntaryWorkView"
-import LearningAndDevelopmentView from "./LearningAndDevelopmentView"
-import OtherInformationView from "./OtherInformationView"
+import { NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import PersonalInformationView from './PersonalInformationView'
+import FamilyBackgroundView from './FamilyBackgroundView'
+import EducationalBackgroundView from './EducationalBackgroundView'
+import EligibilityView from './EligibilityView'
+import WorkExperienceView from './WorkExperienceView'
+import VoluntaryWorkView from './VoluntaryWorkView'
+import LearningAndDevelopmentView from './LearningAndDevelopmentView'
+import OtherInformationView from './OtherInformationView'
 
 // style
-import "styles/custom_gscwd/components/personaldatasheet.scss"
+import 'styles/custom_gscwd/components/personaldatasheet.scss'
 
 const PersonalDataSheetView = () => {
   const [activeTab, setActiveTab] = useState(1)
@@ -98,9 +98,9 @@ const PersonalDataSheetView = () => {
   const formatDate = assignedDate => {
     if (!isEmpty(assignedDate)) {
       const date = new Date(assignedDate)
-      return dayjs(date.toLocaleDateString()).format("MM/DD/YYYY")
+      return dayjs(date.toLocaleDateString()).format('MM/DD/YYYY')
     } else {
-      return ""
+      return ''
     }
   }
 
@@ -125,7 +125,7 @@ const PersonalDataSheetView = () => {
                     setActiveTab(1)
                   }}
                 >
-                  <span className="number">01</span>{" "}
+                  <span className="number">01</span>{' '}
                   <span>Personal Information</span>
                 </NavLink>
               </NavItem>
@@ -142,7 +142,7 @@ const PersonalDataSheetView = () => {
                     setActiveTab(2)
                   }}
                 >
-                  <span className="number">02</span>{" "}
+                  <span className="number">02</span>{' '}
                   <span>Family Background</span>
                 </NavLink>
               </NavItem>
@@ -159,7 +159,7 @@ const PersonalDataSheetView = () => {
                     setActiveTab(3)
                   }}
                 >
-                  <span className="number">03</span>{" "}
+                  <span className="number">03</span>{' '}
                   <span>Educational Background</span>
                 </NavLink>
               </NavItem>
@@ -192,7 +192,7 @@ const PersonalDataSheetView = () => {
                     setActiveTab(5)
                   }}
                 >
-                  <span className="number">05</span>{" "}
+                  <span className="number">05</span>{' '}
                   <span>Work Experience</span>
                 </NavLink>
               </NavItem>
@@ -225,7 +225,7 @@ const PersonalDataSheetView = () => {
                     setActiveTab(7)
                   }}
                 >
-                  <span className="number">07</span>{" "}
+                  <span className="number">07</span>{' '}
                   <span>Learning And Development</span>
                 </NavLink>
               </NavItem>
@@ -242,26 +242,10 @@ const PersonalDataSheetView = () => {
                     setActiveTab(8)
                   }}
                 >
-                  <span className="number">08</span>{" "}
+                  <span className="number">08</span>{' '}
                   <span>Other Information</span>
                 </NavLink>
               </NavItem>
-
-              {/* Assessment */}
-              {/* <NavItem
-                className={classnames({
-                  current: activeTab === 9,
-                })}
-              >
-                <NavLink
-                  className={classnames({ active: activeTab === 9 })}
-                  onClick={() => {
-                    setActiveTab(9)
-                  }}
-                >
-                  <span className="number">09</span> <span>Assessment</span>
-                </NavLink>
-              </NavItem> */}
             </ul>
           </div>
 
@@ -352,7 +336,7 @@ const PersonalDataSheetView = () => {
           <div className="actions clearfix">
             <ul>
               <li
-                className={activeTab === 1 ? "previous disabled" : "previous"}
+                className={activeTab === 1 ? 'previous disabled' : 'previous'}
               >
                 <Link
                   to="#"
@@ -363,7 +347,7 @@ const PersonalDataSheetView = () => {
                   Previous
                 </Link>
               </li>
-              <li className={activeTab === 8 ? "next disabled" : "next"}>
+              <li className={activeTab === 8 ? 'next disabled' : 'next'}>
                 <Link
                   to="#"
                   onClick={() => {

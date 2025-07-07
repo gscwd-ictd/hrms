@@ -1,10 +1,10 @@
-import { call, put, takeEvery } from "redux-saga/effects"
+import { call, put, takeEvery } from 'redux-saga/effects'
 import {
   getPRFList,
   getApprovedPRFList,
   getPRFDetails,
   getPRFTrail,
-} from "helpers/backend_helper"
+} from 'helpers/backend_helper'
 import {
   getPRFListSuccess,
   getPRFListFail,
@@ -14,13 +14,13 @@ import {
   fetchPRFTrailFail,
   getApprovedPRFListSuccess,
   getApprovedPRFListFail,
-} from "./actions"
+} from './actions'
 import {
   GET_PRFLIST,
   GET_APPROVED_PRFLIST,
   GET_SINGLE_PRF,
   GET_PRF_TRAIL,
-} from "./actionTypes"
+} from './actionTypes'
 
 function* fetchPRFList() {
   try {

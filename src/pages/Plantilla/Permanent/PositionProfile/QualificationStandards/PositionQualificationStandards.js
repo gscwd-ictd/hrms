@@ -1,14 +1,14 @@
-import React, { useEffect } from "react"
-import PropTypes from "prop-types"
-import { Can } from "casl/Can"
-import { Navigate, useParams } from "react-router-dom"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { Can } from 'casl/Can'
+import { Navigate, useParams } from 'react-router-dom'
 
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchPositionQualificationStandards,
   resetQualificationStandards,
   fetchPlantillaPosition,
-} from "store/actions"
+} from 'store/actions'
 
 import {
   Card,
@@ -20,10 +20,10 @@ import {
   FormGroup,
   Label,
   Input,
-} from "reactstrap"
-import Breadcrumbs from "components/Common/Breadcrumb"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+} from 'reactstrap'
+import Breadcrumbs from 'components/Common/Breadcrumb'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const PositionQualificationStandards = () => {
   const dispatch = useDispatch()
@@ -67,13 +67,13 @@ const PositionQualificationStandards = () => {
             {/* Notifications */}
             {errorPositionQualificationStandards ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorPositionQualificationStandards}
               />
             ) : null}
 
             {pdError ? (
-              <ToastrNotification toastType={"error"} notifMessage={pdError} />
+              <ToastrNotification toastType={'error'} notifMessage={pdError} />
             ) : null}
 
             {pdIsLoading ? (

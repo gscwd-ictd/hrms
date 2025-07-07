@@ -36,3 +36,9 @@
 .whitespace-pre-line {
   white-space: pre-line;
 }
+
+.d-flex .inrow-btn-style {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}

@@ -208,6 +208,7 @@ export const COMPETENCY_BASED_INTERVIEW_REPORT_HEADERS = '/competencies'
 // APPLICANTS
 export const GET_APPLICANT = 'applicant/'
 export const GET_APPLICANT_PDS = 'pds/'
+export const APPLICANT_WORK_EXPERIENCE_SHEET = 'work-experience-sheet/'
 export const PATCH_APPLICANT_APPLICATION_STATUS = '/status/'
 
 export const GET_APPLICANTS = 'applicants/'

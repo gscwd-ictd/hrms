@@ -22,7 +22,7 @@ const InRowAction = props => {
         {viewModal ? (
           <button
             onClick={() => viewModal(cell.row.original)}
-            className="btn btn-info waves-effect waves-light"
+            className="btn btn-info waves-effect waves-light inrow-btn-style"
           >
             {buttonTitle ? buttonTitle : null} <i className="fas fa-eye"></i>
           </button>
@@ -31,7 +31,7 @@ const InRowAction = props => {
         {editModal ? (
           <button
             onClick={() => editModal(cell.row.original)}
-            className="btn btn-info waves-effect waves-light"
+            className="btn btn-info waves-effect waves-light inrow-btn-style"
           >
             {buttonTitle ? buttonTitle : null} <i className="fas fa-edit"></i>
           </button>
@@ -40,7 +40,7 @@ const InRowAction = props => {
         {deleteModal ? (
           <button
             onClick={() => deleteModal(cell.row.original)}
-            className="btn btn-danger waves-effect waves-light"
+            className="btn btn-danger waves-effect waves-light inrow-btn-style"
           >
             <i className="fas fa-trash"></i>
           </button>
@@ -48,7 +48,7 @@ const InRowAction = props => {
 
         {editRedirectUrl ? (
           <Link to={`${editRedirectUrl}`} target="_blank">
-            <button className="btn btn-info waves-effect waves-light">
+            <button className="btn btn-info waves-effect waves-light inrow-btn-style">
               {buttonTitle ? buttonTitle : null} <i className="fas fa-edit"></i>
             </button>
           </Link>
@@ -56,7 +56,7 @@ const InRowAction = props => {
 
         {viewRedirectUrl ? (
           <Link to={`${viewRedirectUrl}`} target="_blank">
-            <button className="btn btn-info waves-effect waves-light">
+            <button className="btn btn-info waves-effect waves-light inrow-btn-style">
               {buttonTitle ? buttonTitle : null} <i className="fas fa-eye"></i>
             </button>
           </Link>
@@ -64,7 +64,7 @@ const InRowAction = props => {
 
         {viewRedirectUrl2 ? (
           <Link to={`${viewRedirectUrl2}`} target="_blank">
-            <button className="btn btn-info waves-effect waves-light">
+            <button className="btn btn-info waves-effect waves-light inrow-btn-style">
               {buttonTitle ? buttonTitle : null}{' '}
               {!isEmpty(icon) ? <i className={icon}></i> : null}
             </button>

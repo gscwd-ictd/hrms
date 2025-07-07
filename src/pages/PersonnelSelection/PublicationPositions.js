@@ -6,7 +6,6 @@ import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPublications } from 'store/actions'
 import { publicationStatus } from 'constants/publicationStatus'
-
 import TablePublications from 'components/Table/TablePublications'
 import { SelectColumnFilter } from 'components/Filters/SelectColumnFilter'
 import {
@@ -24,6 +23,7 @@ import {
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import Breadcrumb from 'components/Common/Breadcrumb'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
+import { isEmpty } from 'lodash'
 
 // modal components
 import Deadline from 'components/Modal/PersonnelSelection/Deadline'
@@ -43,7 +43,6 @@ import PublicationSummary from 'components/Modal/PersonnelSelection/PublicationS
 
 // style
 import 'styles/custom_gscwd/components/table.scss'
-import { isEmpty } from 'lodash'
 
 const PublicationPositions = () => {
   const dispatch = useDispatch()
@@ -59,6 +58,10 @@ const PublicationPositions = () => {
     {
       Header: 'Position Title',
       accessor: 'positionTitle',
+    },
+    {
+      Header: 'Position Title',
+      accessor: 'itemNumber',
     },
     {
       Header: 'SG Level',
@@ -203,7 +206,10 @@ const PublicationPositions = () => {
                   location.pathname +
                   '/publications/' +
                   cell.row.values.vppId +
-                  '/applicants'
+                  '/applicants/' +
+                  cell.row.original.positionId +
+                  '/' +
+                  cell.row.original.itemNumber
                 }
               >
                 Applicants

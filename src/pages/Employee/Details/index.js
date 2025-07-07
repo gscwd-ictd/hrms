@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { isEmpty } from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchEmployeePds,
-  resetEmployeeErrorLog,
   fetchEmpHeaderInfo,
   fetchEmpBasicInfo,
-  fetchServiceRecords,
-  fetchEmployeeTrainings,
 } from 'store/actions'
 import { Can } from 'casl/Can'
 import { Navigate, useParams } from 'react-router-dom'
