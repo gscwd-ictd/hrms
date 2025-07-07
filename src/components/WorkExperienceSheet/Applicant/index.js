@@ -154,7 +154,7 @@ const WorkExperienceSheetView = () => {
                   <hr className="my-4"></hr>
 
                   <h5>Duties</h5>
-                  {wes.accomplishments.map((duty, didx) => (
+                  {wes.dutiues.map((duty, didx) => (
                     <Row className="mt-2" key={didx}>
                       <Col md={12} className="mt-3">
                         <OutlinedBox
