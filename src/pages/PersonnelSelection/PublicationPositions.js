@@ -60,7 +60,7 @@ const PublicationPositions = () => {
       accessor: 'positionTitle',
     },
     {
-      Header: 'Position Title',
+      Header: 'Item No.',
       accessor: 'itemNumber',
     },
     {
