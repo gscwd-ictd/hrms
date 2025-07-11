@@ -1,17 +1,17 @@
-import React, { useEffect } from "react"
-import PropTypes from "prop-types"
-import { useDispatch, useSelector } from "react-redux"
-import { fetchEmployeePds, resetEmployeeErrorLog } from "store/actions"
-import dayjs from "dayjs"
-import { isEmpty } from "lodash"
-import { Can } from "casl/Can"
-import { Navigate, useParams } from "react-router-dom"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchEmployeePds, resetEmployeeErrorLog } from 'store/actions'
+import dayjs from 'dayjs'
+import { isEmpty } from 'lodash'
+import { Can } from 'casl/Can'
+import { Navigate, useParams } from 'react-router-dom'
 
-import { Container } from "reactstrap"
-import { PDFViewer } from "@react-pdf/renderer"
-import PdsDocument from "./PdsDocument"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import { Container } from 'reactstrap'
+import { PDFViewer } from '@react-pdf/renderer'
+import PdsDocument from './PdsDocument'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const EmployeePersonalDataSheetPdf = () => {
   const dispatch = useDispatch()
@@ -86,9 +86,9 @@ const EmployeePersonalDataSheetPdf = () => {
   const formatDate = assignedDate => {
     if (!isEmpty(assignedDate)) {
       const date = new Date(assignedDate)
-      return dayjs(date.toLocaleDateString()).format("MM/DD/YYYY")
+      return dayjs(date.toLocaleDateString()).format('MM/DD/YYYY')
     } else {
-      return ""
+      return ''
     }
   }
 
@@ -108,13 +108,13 @@ const EmployeePersonalDataSheetPdf = () => {
         <div className="page-content">
           <Container fluid={true}>
             {error ? (
-              <ToastrNotification toastType={"error"} notifMessage={error} />
+              <ToastrNotification toastType={'error'} notifMessage={error} />
             ) : null}
 
             {isLoading ? (
               <LoadingIndicator />
             ) : (
-              <PDFViewer width={"100%"} height={850} showToolbar>
+              <PDFViewer width={'100%'} height={850} showToolbar>
                 <PdsDocument
                   formatDate={formatDate}
                   personalInfo={personalInfo}

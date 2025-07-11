@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react'
 import {
   Page,
   Text,
@@ -8,202 +8,215 @@ import {
   Font,
   Svg,
   Path,
-} from "@react-pdf/renderer"
-import ArialRegular from "assets/fonts/uploads/arial.ttf"
-import ArialBlack from "assets/fonts/uploads/arial-black.ttf"
-import ArialItalic from "assets/fonts/uploads/arial-italic.ttf"
-import ArialNarrow from "assets/fonts/uploads/arial-narrow.ttf"
-import ArialNarrowItalic from "assets/fonts/uploads/arial-narrow-italic.ttf"
-import ArialNarrowBold from "assets/fonts/uploads/arial-narrow-bold.ttf"
-import ArialBoldItalic from "assets/fonts/uploads/arial-bold-italic.ttf"
-import CalibriBoldItalic from "assets/fonts/uploads/calibri-bold-italic.ttf"
-import PropTypes from "prop-types"
+} from '@react-pdf/renderer'
+import { isEmpty } from 'lodash'
+import ArialRegular from 'assets/fonts/uploads/arial.ttf'
+import ArialBlack from 'assets/fonts/uploads/arial-black.ttf'
+import ArialItalic from 'assets/fonts/uploads/arial-italic.ttf'
+import ArialNarrow from 'assets/fonts/uploads/arial-narrow.ttf'
+import ArialNarrowItalic from 'assets/fonts/uploads/arial-narrow-italic.ttf'
+import ArialNarrowBold from 'assets/fonts/uploads/arial-narrow-bold.ttf'
+import ArialBoldItalic from 'assets/fonts/uploads/arial-bold-italic.ttf'
+import CalibriBoldItalic from 'assets/fonts/uploads/calibri-bold-italic.ttf'
+import PropTypes from 'prop-types'
 
-import PersonalInformationPdf from "components/PdfDocuments/PersonalDataSheet/Applicant/PersonalInformationPdf"
-import FamilyBackgroundPdf from "components/PdfDocuments/PersonalDataSheet/Applicant/FamilyBackgroundPdf"
-import EducationalBackgroundPdf from "components/PdfDocuments/PersonalDataSheet/Applicant/EducationalBackgroundPdf"
-import EligibilityPdf from "components/PdfDocuments/PersonalDataSheet/Applicant/EligibilityPdf"
-import WorkExperiencePdf from "components/PdfDocuments/PersonalDataSheet/Applicant/WorkExperiencePdf"
-import VoluntaryWorkPdf from "components/PdfDocuments/PersonalDataSheet/Applicant/VoluntaryWorkPdf"
-import LearningAndDevelopmentPdf from "components/PdfDocuments/PersonalDataSheet/Applicant/LearningAndDevelopmentPdf"
-import OtherInformationPdf from "components/PdfDocuments/PersonalDataSheet/Applicant/OtherInformationPdf"
-import QuestionsPdf from "components/PdfDocuments/PersonalDataSheet/Applicant/QuestionsPdf"
-import SignatureDate from "components/PdfDocuments/PersonalDataSheet/Applicant/SignatureDate"
-import FooterPdf from "components/PdfDocuments/PersonalDataSheet/Applicant/FooterPdf"
+import PersonalInformationPdf from 'components/PdfDocuments/PersonalDataSheet/Applicant/PersonalInformationPdf'
+import FamilyBackgroundPdf from 'components/PdfDocuments/PersonalDataSheet/Applicant/FamilyBackgroundPdf'
+import EducationalBackgroundPdf from 'components/PdfDocuments/PersonalDataSheet/Applicant/EducationalBackgroundPdf'
+import EligibilityPdf from 'components/PdfDocuments/PersonalDataSheet/Applicant/EligibilityPdf'
+import WorkExperiencePdf from 'components/PdfDocuments/PersonalDataSheet/Applicant/WorkExperiencePdf'
+import VoluntaryWorkPdf from 'components/PdfDocuments/PersonalDataSheet/Applicant/VoluntaryWorkPdf'
+import LearningAndDevelopmentPdf from 'components/PdfDocuments/PersonalDataSheet/Applicant/LearningAndDevelopmentPdf'
+import OtherInformationPdf from 'components/PdfDocuments/PersonalDataSheet/Applicant/OtherInformationPdf'
+import QuestionsPdf from 'components/PdfDocuments/PersonalDataSheet/Applicant/QuestionsPdf'
+import SignatureDate from 'components/PdfDocuments/PersonalDataSheet/Applicant/SignatureDate'
+import FooterPdf from 'components/PdfDocuments/PersonalDataSheet/Applicant/FooterPdf'
 
 // Create styles
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
   },
   bodyBorder: {
     margin: 10,
-    border: "2px solid #000000",
+    border: '2px solid #000000',
   },
   mainTitleContainer: {
-    width: "100%",
-    textAlign: "center",
+    width: '100%',
+    textAlign: 'center',
     // flexGrow: 1,
   },
   mainTitle: {
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontWeight: 800,
     fontSize: 18,
     paddingTop: 8,
   },
   csFormContainer: {
-    position: "absolute",
+    position: 'absolute',
     top: 1,
     left: 1,
   },
   csForm: {
-    fontFamily: "Calibri",
+    fontFamily: 'Calibri',
     fontWeight: 600,
-    fontStyle: "italic",
+    fontStyle: 'italic',
     fontSize: 8,
   },
   revised2017: {
-    fontFamily: "Calibri",
+    fontFamily: 'Calibri',
     fontWeight: 600,
-    fontStyle: "italic",
+    fontStyle: 'italic',
     fontSize: 6.5,
   },
   line4Child1: {
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontWeight: 600,
-    fontStyle: "italic",
+    fontStyle: 'italic',
     fontSize: 6.7,
-    padding: "8 1 0 1",
+    padding: '8 1 0 1',
   },
   line5Child1: {
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontWeight: 600,
-    fontStyle: "italic",
+    fontStyle: 'italic',
     fontSize: 6.7,
-    padding: "2 1 0 1",
+    padding: '2 1 0 1',
   },
-  line7Container: { flexDirection: "row" },
+  line7Container: { flexDirection: 'row' },
   line7Child1Container: {
-    flexDirection: "row",
-    width: "71%",
+    flexDirection: 'row',
+    width: '71%',
   },
   line7Child1: {
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontWeight: 100,
     fontSize: 6.7,
-    padding: "1 1 0 1",
+    padding: '1 1 0 1',
   },
   line7Child2Container: {
-    flexDirection: "row",
-    borderTop: "1px solid #000000",
-    borderLeft: "1px solid #000000",
-    width: "29%",
+    flexDirection: 'row',
+    borderTop: '1px solid #000000',
+    borderLeft: '1px solid #000000',
+    width: '29%',
   },
   line7Child2Key: {
-    backgroundColor: "#969696",
-    borderRight: "1px solid #000000",
-    fontFamily: "Arial",
+    backgroundColor: '#969696',
+    borderRight: '1px solid #000000',
+    fontFamily: 'Arial',
     fontWeight: 100,
     fontSize: 6.7,
-    padding: "1",
-    width: "21%",
-    textAlign: "center",
+    padding: '1',
+    width: '21%',
+    textAlign: 'center',
   },
   line7Child2Value: {
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontWeight: 100,
     fontSize: 6.7,
-    textAlign: "right",
-    padding: "1",
-    width: "79%",
+    textAlign: 'right',
+    padding: '1',
+    width: '79%',
+    textAlign: 'right',
   },
 
   // Border Styles
   borderTop: {
-    borderTop: "1px solid #000000",
+    borderTop: '1px solid #000000',
   },
   borderRight: {
-    borderRight: "1px solid #000000",
+    borderRight: '1px solid #000000',
   },
   borderBottom: {
-    borderBottom: "1px solid #000000",
+    borderBottom: '1px solid #000000',
   },
 
   // Field Styles
   inputKey: {
-    backgroundColor: "#EAEAEA",
-    fontFamily: "Arial",
+    backgroundColor: '#EAEAEA',
+    fontFamily: 'Arial',
     fontWeight: 100,
     fontSize: 6.7,
-    padding: "4 5",
+    padding: '4 5',
   },
   inputValue: {
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontWeight: 100,
     fontSize: 6.7,
-    padding: "4 8",
+    padding: '4 8',
+    textTransform: 'uppercase',
   },
-  verticalCenter: { margin: "auto 0" },
-  horizontalCenter: { textAlign: "center" },
+  verticalCenter: { margin: 'auto 0' },
+  horizontalCenter: { textAlign: 'center' },
   sectionTitleContainer: {
-    backgroundColor: "#969696",
+    backgroundColor: '#969696',
     padding: 1.5,
   },
   sectionTitleText: {
-    color: "#ffffff",
-    fontFamily: "ArialNarrowBoldItalic",
+    color: '#ffffff',
+    fontFamily: 'ArialNarrowBoldItalic',
     fontSize: 9.2,
   },
   sectionSubtitleText: {
-    color: "#ffffff",
-    fontFamily: "ArialNarrowBoldItalic",
+    color: '#ffffff',
+    fontFamily: 'ArialNarrowBoldItalic',
     fontSize: 6.5,
     paddingTop: 2,
   },
 
   // Width Styles
-  w100: { width: "100%" },
-  w64_2: { width: "64.2%" },
-  w50: { width: "50%" },
-  w46_2: { width: "46.2%" },
-  w35_8: { width: "35.8%" },
-  w34: { width: "34%" },
-  w31_9: { width: "31.9%" },
-  w29_8: { width: "29.8%" },
-  w27_1: { width: "27.1%" },
-  w24_5: { width: "24.5%" },
-  w23_8: { width: "23.8%" },
-  w22_5: { width: "22.5%" },
-  w21_8: { width: "21.8%" },
-  w18: { width: "18%" },
-  w17_2: { width: "17.2%" },
-  w15_1: { width: "15.1%" },
-  w14: { width: "14%" },
-  w12: { width: "12%" },
-  w8_9: { width: "8.9%" },
-  w7_45: { width: "7.45%" },
-  w7: { width: "7%" },
-  w6: { width: "6%" },
-  w5_6: { width: "5.6%" },
+  w100: { width: '100%' },
+  w64_2: { width: '64.2%' },
+  w50: { width: '50%' },
+  w46_2: { width: '46.2%' },
+  w35_8: { width: '35.8%' },
+  w34: { width: '34%' },
+  w31_9: { width: '31.9%' },
+  w29_8: { width: '29.8%' },
+  w27_1: { width: '27.1%' },
+  w24_5: { width: '24.5%' },
+  w23_8: { width: '23.8%' },
+  w22_5: { width: '22.5%' },
+  w21_8: { width: '21.8%' },
+  w18: { width: '18%' },
+  w17_2: { width: '17.2%' },
+  w15_1: { width: '15.1%' },
+  w14: { width: '14%' },
+  w12: { width: '12%' },
+  w8_9: { width: '8.9%' },
+  w7_45: { width: '7.45%' },
+  w7: { width: '7%' },
+  w6: { width: '6%' },
+  w5_6: { width: '5.6%' },
 })
 
 Font.register({
-  family: "Arial",
+  family: 'Arial',
   fonts: [
     { src: ArialRegular },
     { src: ArialBlack, fontWeight: 800 },
-    { src: ArialItalic, fontStyle: "italic" },
+    { src: ArialItalic, fontStyle: 'italic' },
     { src: ArialNarrow, fontWeight: 100 },
     { src: ArialNarrowBold, fontWeight: 200 },
-    { src: ArialNarrowItalic, fontWeight: 100, fontStyle: "italic" },
-    { src: ArialBoldItalic, fontWeight: 600, fontStyle: "italic" },
+    { src: ArialNarrowItalic, fontWeight: 100, fontStyle: 'italic' },
+    { src: ArialBoldItalic, fontWeight: 600, fontStyle: 'italic' },
   ],
 })
 
 Font.register({
-  family: "Calibri",
-  fonts: [{ src: CalibriBoldItalic, fontWeight: 600, fontStyle: "italic" }],
+  family: 'Calibri',
+  fonts: [{ src: CalibriBoldItalic, fontWeight: 600, fontStyle: 'italic' }],
 })
+
+export const chunkSubstr = word => {
+  const middle = Math.floor(word.length / 2)
+  const parts =
+    word.length === 1
+      ? [word]
+      : [word.substring(0, middle), word.substring(middle)]
+
+  return parts
+}
 
 // Create Document Component
 const PdsDocument = props => {
@@ -242,7 +255,7 @@ const PdsDocument = props => {
   const renderChildrenExtraPage = () => {
     var content = childrenInfo.slice(12).map(child => (
       <View
-        style={[styles.borderTop, { flexDirection: "row" }]}
+        style={[styles.borderTop, { flexDirection: 'row' }]}
         key={child._id}
       >
         <View style={[styles.borderRight, styles.inputValue, styles.w64_2]}>
@@ -263,7 +276,7 @@ const PdsDocument = props => {
       <View
         style={[
           styles.borderTop,
-          { flexDirection: "row", alignItems: "stretch" },
+          { flexDirection: 'row', alignItems: 'stretch' },
         ]}
         key={vocation._id}
       >
@@ -273,16 +286,30 @@ const PdsDocument = props => {
         </View>
 
         {/* Name of School */}
-        <View style={[styles.borderRight, styles.inputValue, styles.w24_5]}>
+        <View
+          style={[
+            styles.borderRight,
+            styles.inputValue,
+            styles.w24_5,
+            { padding: '4 2' },
+          ]}
+        >
           <View style={[styles.verticalCenter]}>
-            <Text>{vocation.schoolName || "N/A"}</Text>
+            <Text>{vocation.schoolName || 'N/A'}</Text>
           </View>
         </View>
 
         {/* Degree/Course */}
-        <View style={[styles.borderRight, styles.inputValue, styles.w22_5]}>
+        <View
+          style={[
+            styles.borderRight,
+            styles.inputValue,
+            styles.w22_5,
+            { padding: '4 2' },
+          ]}
+        >
           <View style={[styles.verticalCenter]}>
-            <Text>{vocation.degree || "N/A"}</Text>
+            <Text>{vocation.degree || 'N/A'}</Text>
           </View>
         </View>
 
@@ -292,18 +319,20 @@ const PdsDocument = props => {
             styles.borderRight,
             styles.inputValue,
             styles.w12,
-            { padding: "0", flexDirection: "row" },
+            { padding: '0', flexDirection: 'row' },
           ]}
         >
           <View
             style={[styles.borderRight, styles.w50, styles.horizontalCenter]}
           >
             <Text style={[styles.verticalCenter]}>
-              {vocation.from || "N/A"}
+              {vocation.from || 'N/A'}
             </Text>
           </View>
           <View style={[styles.w50, styles.horizontalCenter]}>
-            <Text style={[styles.verticalCenter]}>{vocation.to || "N/A"}</Text>
+            <Text style={[styles.verticalCenter]}>
+              {vocation.to || 'PRESENT'}
+            </Text>
           </View>
         </View>
 
@@ -317,7 +346,13 @@ const PdsDocument = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{vocation.units || "N/A"}</Text>
+            <Text>
+              {vocation.yearGraduated !== null
+                ? 'GRADUATED'
+                : vocation.units === '' && vocation.yearGraduated === null
+                ? 'N/A'
+                : vocation.units}
+            </Text>
           </View>
         </View>
 
@@ -331,16 +366,23 @@ const PdsDocument = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{vocation.yearGraduated || "N/A"}</Text>
+            <Text>{vocation.yearGraduated || 'N/A'}</Text>
           </View>
         </View>
 
         {/* Scholarship/Honors */}
         <View
-          style={[styles.inputValue, styles.horizontalCenter, styles.w7_45]}
+          style={[
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w7_45,
+            { fontSize: 6.2, padding: '4 2' },
+          ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{vocation.awards || "N/A"}</Text>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {vocation.awards || 'N/A'}
+            </Text>
           </View>
         </View>
       </View>
@@ -354,7 +396,7 @@ const PdsDocument = props => {
       <View
         style={[
           styles.borderTop,
-          { flexDirection: "row", alignItems: "stretch" },
+          { flexDirection: 'row', alignItems: 'stretch' },
         ]}
         key={college._id}
       >
@@ -364,16 +406,30 @@ const PdsDocument = props => {
         </View>
 
         {/* Name of School */}
-        <View style={[styles.borderRight, styles.inputValue, styles.w24_5]}>
+        <View
+          style={[
+            styles.borderRight,
+            styles.inputValue,
+            styles.w24_5,
+            { padding: '4 2' },
+          ]}
+        >
           <View style={[styles.verticalCenter]}>
-            <Text>{college.schoolName || "N/A"}</Text>
+            <Text>{college.schoolName || 'N/A'}</Text>
           </View>
         </View>
 
         {/* Degree/Course */}
-        <View style={[styles.borderRight, styles.inputValue, styles.w22_5]}>
+        <View
+          style={[
+            styles.borderRight,
+            styles.inputValue,
+            styles.w22_5,
+            { padding: '4 2' },
+          ]}
+        >
           <View style={[styles.verticalCenter]}>
-            <Text>{college.degree || "N/A"}</Text>
+            <Text>{college.degree || 'N/A'}</Text>
           </View>
         </View>
 
@@ -383,16 +439,18 @@ const PdsDocument = props => {
             styles.borderRight,
             styles.inputValue,
             styles.w12,
-            { padding: "0", flexDirection: "row" },
+            { padding: '0', flexDirection: 'row' },
           ]}
         >
           <View
             style={[styles.borderRight, styles.w50, styles.horizontalCenter]}
           >
-            <Text style={[styles.verticalCenter]}>{college.from || "N/A"}</Text>
+            <Text style={[styles.verticalCenter]}>{college.from || 'N/A'}</Text>
           </View>
           <View style={[styles.w50, styles.horizontalCenter]}>
-            <Text style={[styles.verticalCenter]}>{college.to || "N/A"}</Text>
+            <Text style={[styles.verticalCenter]}>
+              {college.to || 'PRESENT'}
+            </Text>
           </View>
         </View>
 
@@ -406,7 +464,13 @@ const PdsDocument = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{college.units || "N/A"}</Text>
+            <Text>
+              {college.yearGraduated !== null
+                ? 'GRADUATED'
+                : college.units === '' && college.yearGraduated === null
+                ? 'N/A'
+                : college.units}
+            </Text>
           </View>
         </View>
 
@@ -420,16 +484,23 @@ const PdsDocument = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{college.yearGraduated || "N/A"}</Text>
+            <Text>{college.yearGraduated || 'N/A'}</Text>
           </View>
         </View>
 
         {/* Scholarship/Honors */}
         <View
-          style={[styles.inputValue, styles.horizontalCenter, styles.w7_45]}
+          style={[
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w7_45,
+            { fontSize: 6.2, padding: '4 2' },
+          ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{college.awards || "N/A"}</Text>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {college.awards || 'N/A'}
+            </Text>
           </View>
         </View>
       </View>
@@ -443,7 +514,7 @@ const PdsDocument = props => {
       <View
         style={[
           styles.borderTop,
-          { flexDirection: "row", alignItems: "stretch" },
+          { flexDirection: 'row', alignItems: 'stretch' },
         ]}
         key={graduate._id}
       >
@@ -453,16 +524,30 @@ const PdsDocument = props => {
         </View>
 
         {/* Name of School */}
-        <View style={[styles.borderRight, styles.inputValue, styles.w24_5]}>
+        <View
+          style={[
+            styles.borderRight,
+            styles.inputValue,
+            styles.w24_5,
+            { padding: '4 2' },
+          ]}
+        >
           <View style={[styles.verticalCenter]}>
-            <Text>{graduate.schoolName || "N/A"}</Text>
+            <Text>{graduate.schoolName || 'N/A'}</Text>
           </View>
         </View>
 
         {/* Degree/Course */}
-        <View style={[styles.borderRight, styles.inputValue, styles.w22_5]}>
+        <View
+          style={[
+            styles.borderRight,
+            styles.inputValue,
+            styles.w22_5,
+            { padding: '4 2' },
+          ]}
+        >
           <View style={[styles.verticalCenter]}>
-            <Text>{graduate.degree || "N/A"}</Text>
+            <Text>{graduate.degree || 'N/A'}</Text>
           </View>
         </View>
 
@@ -472,18 +557,20 @@ const PdsDocument = props => {
             styles.borderRight,
             styles.inputValue,
             styles.w12,
-            { padding: "0", flexDirection: "row" },
+            { padding: '0', flexDirection: 'row' },
           ]}
         >
           <View
             style={[styles.borderRight, styles.w50, styles.horizontalCenter]}
           >
             <Text style={[styles.verticalCenter]}>
-              {graduate.from || "N/A"}
+              {graduate.from || 'N/A'}
             </Text>
           </View>
           <View style={[styles.w50, styles.horizontalCenter]}>
-            <Text style={[styles.verticalCenter]}>{graduate.to || "N/A"}</Text>
+            <Text style={[styles.verticalCenter]}>
+              {graduate.to || 'PRESENT'}
+            </Text>
           </View>
         </View>
 
@@ -497,7 +584,13 @@ const PdsDocument = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{graduate.units || "N/A"}</Text>
+            <Text>
+              {graduate.yearGraduated !== null
+                ? 'GRADUATED'
+                : graduate.units === '' && graduate.yearGraduated === null
+                ? 'N/A'
+                : graduate.units}
+            </Text>
           </View>
         </View>
 
@@ -511,16 +604,23 @@ const PdsDocument = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{graduate.yearGraduated || "N/A"}</Text>
+            <Text>{graduate.yearGraduated || 'N/A'}</Text>
           </View>
         </View>
 
         {/* Scholarship/Honors */}
         <View
-          style={[styles.inputValue, styles.horizontalCenter, styles.w7_45]}
+          style={[
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w7_45,
+            { fontSize: 6.2, padding: '4 2' },
+          ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{graduate.awards || "N/A"}</Text>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {graduate.awards || 'N/A'}
+            </Text>
           </View>
         </View>
       </View>
@@ -534,7 +634,7 @@ const PdsDocument = props => {
       <View
         style={[
           styles.borderTop,
-          { flexDirection: "row", alignItems: "stretch" },
+          { flexDirection: 'row', alignItems: 'stretch' },
         ]}
         key={eligibility._id}
       >
@@ -544,11 +644,11 @@ const PdsDocument = props => {
             styles.inputValue,
             styles.borderRight,
             styles.w34,
-            { flexDirection: "row" },
+            { flexDirection: 'row' },
           ]}
         >
           <Text style={[styles.verticalCenter]}>
-            {eligibility.name || "N/A"}
+            {eligibility.name || 'N/A'}
           </Text>
         </View>
 
@@ -562,7 +662,7 @@ const PdsDocument = props => {
           ]}
         >
           <Text style={[styles.verticalCenter]}>
-            {eligibility.rating || "N/A"}
+            {eligibility.rating || 'N/A'}
           </Text>
         </View>
 
@@ -581,7 +681,7 @@ const PdsDocument = props => {
               {!isEmpty(eligibility.examDate) &&
               !isEmpty(eligibility.examDate.to) ? (
                 <>
-                  {eligibility.examDate.from + " | " + eligibility.examDate.to}
+                  {eligibility.examDate.from + ' | ' + eligibility.examDate.to}
                 </>
               ) : !isEmpty(eligibility.examDate) &&
                 !isEmpty(eligibility.examDate.from) ? ( // If exam date from is filled
@@ -600,11 +700,11 @@ const PdsDocument = props => {
             styles.inputValue,
             styles.horizontalCenter,
             styles.w21_8,
-            { padding: "0 2" },
+            { padding: '0 2' },
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{eligibility.examPlace || "N/A"}</Text>
+            <Text>{eligibility.examPlace || 'N/A'}</Text>
           </View>
         </View>
 
@@ -613,19 +713,22 @@ const PdsDocument = props => {
           style={[
             styles.inputValue,
             styles.w14,
-            { padding: 0, flexDirection: "row" },
+            { padding: 0, flexDirection: 'row' },
           ]}
         >
           <View
             style={[styles.w50, styles.horizontalCenter, styles.borderRight]}
           >
-            <Text style={[styles.verticalCenter, { padding: "3 0" }]}>
-              {eligibility.licenseNumber || "N/A"}
+            <Text
+              style={[styles.verticalCenter, { padding: '3 0' }]}
+              hyphenationCallback={e => chunkSubstr(e)}
+            >
+              {eligibility.licenseNumber || 'N/A'}
             </Text>
           </View>
           <View style={[styles.w50, styles.horizontalCenter]}>
-            <View style={[styles.verticalCenter, { padding: "3 0" }]}>
-              <Text>{formatDate(eligibility.validity) || "N/A"}</Text>
+            <View style={[styles.verticalCenter, { padding: '3 0' }]}>
+              <Text>{formatDate(eligibility.validity) || 'N/A'}</Text>
             </View>
           </View>
         </View>
@@ -640,7 +743,7 @@ const PdsDocument = props => {
       <View
         style={[
           styles.borderTop,
-          { flexDirection: "row", alignItems: "stretch" },
+          { flexDirection: 'row', alignItems: 'stretch' },
         ]}
         key={experience._id}
       >
@@ -651,19 +754,19 @@ const PdsDocument = props => {
             styles.borderRight,
             styles.inputValue,
             styles.w17_2,
-            { padding: "0", flexDirection: "row" },
+            { padding: '0', flexDirection: 'row' },
           ]}
         >
           <View
             style={[styles.w50, styles.horizontalCenter, styles.borderRight]}
           >
-            <Text style={[styles.verticalCenter, { padding: "3 0" }]}>
-              {formatDate(experience.from) || "N/A"}
+            <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
+              {formatDate(experience.from) || 'N/A'}
             </Text>
           </View>
           <View style={[styles.w50, styles.horizontalCenter]}>
-            <View style={[styles.verticalCenter, { padding: "3 0" }]}>
-              <Text>{formatDate(experience.to) || "N/A"}</Text>
+            <View style={[styles.verticalCenter, { padding: '3 0' }]}>
+              <Text>{formatDate(experience.to) || 'N/A'}</Text>
             </View>
           </View>
         </View>
@@ -675,17 +778,17 @@ const PdsDocument = props => {
             styles.borderRight,
             styles.horizontalCenter,
             styles.w31_9,
-            { flexDirection: "row" },
+            { flexDirection: 'row' },
           ]}
         >
           <View
             style={[
               styles.verticalCenter,
               styles.horizontalCenter,
-              { width: "100%" },
+              { width: '100%' },
             ]}
           >
-            <Text>{experience.positionTitle || "N/A"}</Text>
+            <Text>{experience.positionTitle || 'N/A'}</Text>
           </View>
         </View>
 
@@ -699,7 +802,7 @@ const PdsDocument = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{experience.companyName || "N/A"}</Text>
+            <Text>{experience.companyName || 'N/A'}</Text>
           </View>
         </View>
 
@@ -714,7 +817,7 @@ const PdsDocument = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{experience.monthlySalary || "N/A"}</Text>
+            <Text>{experience.monthlySalary || 'N/A'}</Text>
           </View>
         </View>
 
@@ -729,7 +832,7 @@ const PdsDocument = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{experience.salaryGrade || "N/A"}</Text>
+            <Text>{experience.salaryGrade || 'N/A'}</Text>
           </View>
         </View>
 
@@ -740,11 +843,13 @@ const PdsDocument = props => {
             styles.inputValue,
             styles.horizontalCenter,
             styles.w7,
-            { padding: 0 },
+            { fontSize: 6.2, padding: 0 },
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{experience.appointmentStatus || "N/A"}</Text>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {experience.appointmentStatus || 'N/A'}
+            </Text>
           </View>
         </View>
 
@@ -758,7 +863,7 @@ const PdsDocument = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{experience.isGovernmentService ? "Y" : "N"}</Text>
+            <Text>{experience.isGovernmentService ? 'Y' : 'N'}</Text>
           </View>
         </View>
       </View>
@@ -768,11 +873,11 @@ const PdsDocument = props => {
   }
 
   const renderVoluntaryWorkExtraPage = () => {
-    var content = voluntaryWork.slice(7).map(voluntaryWork => (
+    var content = voluntaryWork.slice(6).map(voluntaryWork => (
       <View
         style={[
           styles.borderTop,
-          { flexDirection: "row", alignItems: "stretch" },
+          { flexDirection: 'row', alignItems: 'stretch' },
         ]}
         key={voluntaryWork._id}
       >
@@ -783,10 +888,10 @@ const PdsDocument = props => {
             styles.borderRight,
             styles.horizontalCenter,
             styles.w46_2,
-            { flexDirection: "row" },
+            { flexDirection: 'row' },
           ]}
         >
-          <Text>{voluntaryWork.organizationName || "N/A"}</Text>
+          <Text>{voluntaryWork.organizationName || 'N/A'}</Text>
         </View>
 
         {/* Inclusive Dates */}
@@ -796,19 +901,19 @@ const PdsDocument = props => {
             styles.borderRight,
             styles.inputValue,
             styles.w18,
-            { padding: "0", flexDirection: "row" },
+            { padding: '0', flexDirection: 'row' },
           ]}
         >
           <View
             style={[styles.w50, styles.horizontalCenter, styles.borderRight]}
           >
-            <Text style={[styles.verticalCenter, { padding: "3 0" }]}>
-              {formatDate(voluntaryWork.from) || "N/A"}
+            <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
+              {formatDate(voluntaryWork.from) || 'N/A'}
             </Text>
           </View>
           <View style={[styles.w50, styles.horizontalCenter]}>
-            <View style={[styles.verticalCenter, { padding: "3 0" }]}>
-              <Text>{formatDate(voluntaryWork.to) || "N/A"}</Text>
+            <View style={[styles.verticalCenter, { padding: '3 0' }]}>
+              <Text>{formatDate(voluntaryWork.to) || 'N/A'}</Text>
             </View>
           </View>
         </View>
@@ -824,7 +929,7 @@ const PdsDocument = props => {
         >
           <View style={[styles.verticalCenter]}>
             <Text style={{ fontSize: 5.7 }}>
-              {voluntaryWork.numberOfHours || "N/A"}
+              {voluntaryWork.numberOfHours || 'N/A'}
             </Text>
           </View>
         </View>
@@ -839,7 +944,7 @@ const PdsDocument = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{voluntaryWork.position || "N/A"}</Text>
+            <Text>{voluntaryWork.position || 'N/A'}</Text>
           </View>
         </View>
       </View>
@@ -848,12 +953,12 @@ const PdsDocument = props => {
     return content
   }
 
-  const renderLearningDevelopmentExtraPage = () => {
-    var content = learningDevelopment.slice(21).map(training => (
+  const renderLearningDevelopmentExtraPage1 = () => {
+    var content = learningDevelopment.slice(18, 51).map(training => (
       <View
         style={[
           styles.borderTop,
-          { flexDirection: "row", alignItems: "stretch" },
+          { flexDirection: 'row', alignItems: 'stretch' },
         ]}
         key={training._id}
       >
@@ -866,7 +971,7 @@ const PdsDocument = props => {
             styles.w46_2,
           ]}
         >
-          <Text style={[styles.verticalCenter]}>{training.title || "N/A"}</Text>
+          <Text style={[styles.verticalCenter]}>{training.title || 'N/A'}</Text>
         </View>
 
         {/* Inclusive Dates of Attendance */}
@@ -876,19 +981,19 @@ const PdsDocument = props => {
             styles.borderRight,
             styles.inputValue,
             styles.w18,
-            { padding: "0", flexDirection: "row" },
+            { padding: '0', flexDirection: 'row' },
           ]}
         >
           <View
             style={[styles.w50, styles.horizontalCenter, styles.borderRight]}
           >
-            <Text style={[styles.verticalCenter, { padding: "3 0" }]}>
-              {formatDate(training.from) || "N/A"}
+            <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
+              {formatDate(training.from) || 'N/A'}
             </Text>
           </View>
           <View style={[styles.w50, styles.horizontalCenter]}>
-            <View style={[styles.verticalCenter, { padding: "3 0" }]}>
-              <Text>{formatDate(training.to) || "N/A"}</Text>
+            <View style={[styles.verticalCenter, { padding: '3 0' }]}>
+              <Text>{formatDate(training.to) || 'N/A'}</Text>
             </View>
           </View>
         </View>
@@ -900,11 +1005,11 @@ const PdsDocument = props => {
             styles.inputValue,
             styles.horizontalCenter,
             styles.w6,
-            { padding: "5.5 3" },
+            { padding: '5.5 3' },
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{training.numberOfHours || "N/A"}</Text>
+            <Text>{training.numberOfHours || 'N/A'}</Text>
           </View>
         </View>
 
@@ -915,11 +1020,13 @@ const PdsDocument = props => {
             styles.inputValue,
             styles.horizontalCenter,
             styles.w6,
-            { padding: "5.5 3" },
+            { fontSize: 5, padding: '5.5 3' },
           ]}
         >
-          <View style={[styles.verticalCenter, { fontSize: 5.7 }]}>
-            <Text>{training.type || "N/A"}</Text>
+          <View style={[styles.verticalCenter]}>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {training.type || 'N/A'}
+            </Text>
           </View>
         </View>
 
@@ -933,7 +1040,499 @@ const PdsDocument = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{training.conductedBy || "N/A"}</Text>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {training.conductedBy || 'N/A'}
+            </Text>
+          </View>
+        </View>
+      </View>
+    ))
+
+    return content
+  }
+
+  const renderLearningDevelopmentExtraPage2 = () => {
+    var content = learningDevelopment.slice(51, 84).map(training => (
+      <View
+        style={[
+          styles.borderTop,
+          { flexDirection: 'row', alignItems: 'stretch' },
+        ]}
+        key={training._id}
+      >
+        {/* Title of Learning and Development */}
+        <View
+          style={[
+            styles.inputValue,
+            styles.borderRight,
+            styles.horizontalCenter,
+            styles.w46_2,
+          ]}
+        >
+          <Text style={[styles.verticalCenter]}>{training.title || 'N/A'}</Text>
+        </View>
+
+        {/* Inclusive Dates of Attendance */}
+        <View
+          style={[
+            styles.horizontalCenter,
+            styles.borderRight,
+            styles.inputValue,
+            styles.w18,
+            { padding: '0', flexDirection: 'row' },
+          ]}
+        >
+          <View
+            style={[styles.w50, styles.horizontalCenter, styles.borderRight]}
+          >
+            <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
+              {formatDate(training.from) || 'N/A'}
+            </Text>
+          </View>
+          <View style={[styles.w50, styles.horizontalCenter]}>
+            <View style={[styles.verticalCenter, { padding: '3 0' }]}>
+              <Text>{formatDate(training.to) || 'N/A'}</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Hours */}
+        <View
+          style={[
+            styles.borderRight,
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w6,
+            { padding: '5.5 3' },
+          ]}
+        >
+          <View style={[styles.verticalCenter]}>
+            <Text>{training.numberOfHours || 'N/A'}</Text>
+          </View>
+        </View>
+
+        {/* Type of L&D */}
+        <View
+          style={[
+            styles.borderRight,
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w6,
+            { fontSize: 5, padding: '5.5 3' },
+          ]}
+        >
+          <View style={[styles.verticalCenter]}>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {training.type || 'N/A'}
+            </Text>
+          </View>
+        </View>
+
+        {/* Sponsored By */}
+        <View
+          style={[
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w23_8,
+            { padding: 0 },
+          ]}
+        >
+          <View style={[styles.verticalCenter]}>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {training.conductedBy || 'N/A'}
+            </Text>
+          </View>
+        </View>
+      </View>
+    ))
+
+    return content
+  }
+
+  const renderLearningDevelopmentExtraPage3 = () => {
+    var content = learningDevelopment.slice(84, 117).map(training => (
+      <View
+        style={[
+          styles.borderTop,
+          { flexDirection: 'row', alignItems: 'stretch' },
+        ]}
+        key={training._id}
+      >
+        {/* Title of Learning and Development */}
+        <View
+          style={[
+            styles.inputValue,
+            styles.borderRight,
+            styles.horizontalCenter,
+            styles.w46_2,
+          ]}
+        >
+          <Text style={[styles.verticalCenter]}>{training.title || 'N/A'}</Text>
+        </View>
+
+        {/* Inclusive Dates of Attendance */}
+        <View
+          style={[
+            styles.horizontalCenter,
+            styles.borderRight,
+            styles.inputValue,
+            styles.w18,
+            { padding: '0', flexDirection: 'row' },
+          ]}
+        >
+          <View
+            style={[styles.w50, styles.horizontalCenter, styles.borderRight]}
+          >
+            <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
+              {formatDate(training.from) || 'N/A'}
+            </Text>
+          </View>
+          <View style={[styles.w50, styles.horizontalCenter]}>
+            <View style={[styles.verticalCenter, { padding: '3 0' }]}>
+              <Text>{formatDate(training.to) || 'N/A'}</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Hours */}
+        <View
+          style={[
+            styles.borderRight,
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w6,
+            { padding: '5.5 3' },
+          ]}
+        >
+          <View style={[styles.verticalCenter]}>
+            <Text>{training.numberOfHours || 'N/A'}</Text>
+          </View>
+        </View>
+
+        {/* Type of L&D */}
+        <View
+          style={[
+            styles.borderRight,
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w6,
+            { fontSize: 5, padding: '5.5 3' },
+          ]}
+        >
+          <View style={[styles.verticalCenter]}>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {training.type || 'N/A'}
+            </Text>
+          </View>
+        </View>
+
+        {/* Sponsored By */}
+        <View
+          style={[
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w23_8,
+            { padding: 0 },
+          ]}
+        >
+          <View style={[styles.verticalCenter]}>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {training.conductedBy || 'N/A'}
+            </Text>
+          </View>
+        </View>
+      </View>
+    ))
+
+    return content
+  }
+
+  const renderLearningDevelopmentExtraPage4 = () => {
+    var content = learningDevelopment.slice(117, 150).map(training => (
+      <View
+        style={[
+          styles.borderTop,
+          { flexDirection: 'row', alignItems: 'stretch' },
+        ]}
+        key={training._id}
+      >
+        {/* Title of Learning and Development */}
+        <View
+          style={[
+            styles.inputValue,
+            styles.borderRight,
+            styles.horizontalCenter,
+            styles.w46_2,
+          ]}
+        >
+          <Text style={[styles.verticalCenter]}>{training.title || 'N/A'}</Text>
+        </View>
+
+        {/* Inclusive Dates of Attendance */}
+        <View
+          style={[
+            styles.horizontalCenter,
+            styles.borderRight,
+            styles.inputValue,
+            styles.w18,
+            { padding: '0', flexDirection: 'row' },
+          ]}
+        >
+          <View
+            style={[styles.w50, styles.horizontalCenter, styles.borderRight]}
+          >
+            <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
+              {formatDate(training.from) || 'N/A'}
+            </Text>
+          </View>
+          <View style={[styles.w50, styles.horizontalCenter]}>
+            <View style={[styles.verticalCenter, { padding: '3 0' }]}>
+              <Text>{formatDate(training.to) || 'N/A'}</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Hours */}
+        <View
+          style={[
+            styles.borderRight,
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w6,
+            { padding: '5.5 3' },
+          ]}
+        >
+          <View style={[styles.verticalCenter]}>
+            <Text>{training.numberOfHours || 'N/A'}</Text>
+          </View>
+        </View>
+
+        {/* Type of L&D */}
+        <View
+          style={[
+            styles.borderRight,
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w6,
+            { fontSize: 5, padding: '5.5 3' },
+          ]}
+        >
+          <View style={[styles.verticalCenter]}>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {training.type || 'N/A'}
+            </Text>
+          </View>
+        </View>
+
+        {/* Sponsored By */}
+        <View
+          style={[
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w23_8,
+            { padding: 0 },
+          ]}
+        >
+          <View style={[styles.verticalCenter]}>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {training.conductedBy || 'N/A'}
+            </Text>
+          </View>
+        </View>
+      </View>
+    ))
+
+    return content
+  }
+
+  const renderLearningDevelopmentExtraPage5 = () => {
+    var content = learningDevelopment.slice(150, 183).map(training => (
+      <View
+        style={[
+          styles.borderTop,
+          { flexDirection: 'row', alignItems: 'stretch' },
+        ]}
+        key={training._id}
+      >
+        {/* Title of Learning and Development */}
+        <View
+          style={[
+            styles.inputValue,
+            styles.borderRight,
+            styles.horizontalCenter,
+            styles.w46_2,
+          ]}
+        >
+          <Text style={[styles.verticalCenter]}>{training.title || 'N/A'}</Text>
+        </View>
+
+        {/* Inclusive Dates of Attendance */}
+        <View
+          style={[
+            styles.horizontalCenter,
+            styles.borderRight,
+            styles.inputValue,
+            styles.w18,
+            { padding: '0', flexDirection: 'row' },
+          ]}
+        >
+          <View
+            style={[styles.w50, styles.horizontalCenter, styles.borderRight]}
+          >
+            <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
+              {formatDate(training.from) || 'N/A'}
+            </Text>
+          </View>
+          <View style={[styles.w50, styles.horizontalCenter]}>
+            <View style={[styles.verticalCenter, { padding: '3 0' }]}>
+              <Text>{formatDate(training.to) || 'N/A'}</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Hours */}
+        <View
+          style={[
+            styles.borderRight,
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w6,
+            { padding: '5.5 3' },
+          ]}
+        >
+          <View style={[styles.verticalCenter]}>
+            <Text>{training.numberOfHours || 'N/A'}</Text>
+          </View>
+        </View>
+
+        {/* Type of L&D */}
+        <View
+          style={[
+            styles.borderRight,
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w6,
+            { fontSize: 5, padding: '5.5 3' },
+          ]}
+        >
+          <View style={[styles.verticalCenter]}>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {training.type || 'N/A'}
+            </Text>
+          </View>
+        </View>
+
+        {/* Sponsored By */}
+        <View
+          style={[
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w23_8,
+            { padding: 0 },
+          ]}
+        >
+          <View style={[styles.verticalCenter]}>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {training.conductedBy || 'N/A'}
+            </Text>
+          </View>
+        </View>
+      </View>
+    ))
+
+    return content
+  }
+
+  const renderLearningDevelopmentExtraPage6 = () => {
+    var content = learningDevelopment.slice(183, 216).map(training => (
+      <View
+        style={[
+          styles.borderTop,
+          { flexDirection: 'row', alignItems: 'stretch' },
+        ]}
+        key={training._id}
+      >
+        {/* Title of Learning and Development */}
+        <View
+          style={[
+            styles.inputValue,
+            styles.borderRight,
+            styles.horizontalCenter,
+            styles.w46_2,
+          ]}
+        >
+          <Text style={[styles.verticalCenter]}>{training.title || 'N/A'}</Text>
+        </View>
+
+        {/* Inclusive Dates of Attendance */}
+        <View
+          style={[
+            styles.horizontalCenter,
+            styles.borderRight,
+            styles.inputValue,
+            styles.w18,
+            { padding: '0', flexDirection: 'row' },
+          ]}
+        >
+          <View
+            style={[styles.w50, styles.horizontalCenter, styles.borderRight]}
+          >
+            <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
+              {formatDate(training.from) || 'N/A'}
+            </Text>
+          </View>
+          <View style={[styles.w50, styles.horizontalCenter]}>
+            <View style={[styles.verticalCenter, { padding: '3 0' }]}>
+              <Text>{formatDate(training.to) || 'N/A'}</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Hours */}
+        <View
+          style={[
+            styles.borderRight,
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w6,
+            { padding: '5.5 3' },
+          ]}
+        >
+          <View style={[styles.verticalCenter]}>
+            <Text>{training.numberOfHours || 'N/A'}</Text>
+          </View>
+        </View>
+
+        {/* Type of L&D */}
+        <View
+          style={[
+            styles.borderRight,
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w6,
+            { fontSize: 5, padding: '5.5 3' },
+          ]}
+        >
+          <View style={[styles.verticalCenter]}>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {training.type || 'N/A'}
+            </Text>
+          </View>
+        </View>
+
+        {/* Sponsored By */}
+        <View
+          style={[
+            styles.inputValue,
+            styles.horizontalCenter,
+            styles.w23_8,
+            { padding: 0 },
+          ]}
+        >
+          <View style={[styles.verticalCenter]}>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {training.conductedBy || 'N/A'}
+            </Text>
           </View>
         </View>
       </View>
@@ -1012,8 +1611,8 @@ const PdsDocument = props => {
               </Svg>
               <Text style={styles.line7Child1}>
                 ) and use separate sheet if necessary. Indicate N/A if not
-                applicable.{" "}
-                <span style={{ fontFamily: "Arial", fontWeight: 200 }}>
+                applicable.{' '}
+                <span style={{ fontFamily: 'Arial', fontWeight: 200 }}>
                   DO NOT ABBREVIATE
                 </span>
                 .
@@ -1121,7 +1720,7 @@ const PdsDocument = props => {
       {!isEmpty(childrenInfo) && childrenInfo.length > 12 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: 'row' }}>
               <View style={[styles.borderRight, styles.inputKey, styles.w64_2]}>
                 <Text>23. NAME of CHILDREN (Write full name and list all)</Text>
               </View>
@@ -1141,15 +1740,21 @@ const PdsDocument = props => {
       {vocational.length > 1 || college.length > 1 || graduate.length > 1 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
+            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
+              <Text style={styles.sectionTitleText}>
+                III. EDUCATIONAL BACKGROUND
+              </Text>
+            </View>
+
             {/* Educational Background Header */}
-            <View style={[{ flexDirection: "row", alignItems: "stretch" }]}>
+            <View style={[{ flexDirection: 'row', alignItems: 'stretch' }]}>
               {/* Level */}
               <View
                 style={[
                   styles.inputKey,
                   styles.borderRight,
                   styles.w17_2,
-                  { flexDirection: "row" },
+                  { flexDirection: 'row' },
                 ]}
               >
                 <Text style={[styles.verticalCenter]}>26.</Text>
@@ -1195,16 +1800,16 @@ const PdsDocument = props => {
                   styles.horizontalCenter,
                   styles.inputKey,
                   styles.w12,
-                  { padding: "0" },
+                  { padding: '0' },
                 ]}
               >
                 <View
-                  style={[{ margin: "auto 0", padding: "6 1", fontSize: 5.7 }]}
+                  style={[{ margin: 'auto 0', padding: '6 1', fontSize: 5.7 }]}
                 >
                   <Text>PERIOD OF ATTENDANCE</Text>
                 </View>
 
-                <View style={[styles.borderTop, { flexDirection: "row" }]}>
+                <View style={[styles.borderTop, { flexDirection: 'row' }]}>
                   <View
                     style={[
                       styles.borderRight,
@@ -1229,7 +1834,7 @@ const PdsDocument = props => {
                   styles.inputKey,
                   styles.horizontalCenter,
                   styles.w8_9,
-                  { padding: "0 2" },
+                  { padding: '0 2' },
                 ]}
               >
                 <View style={[styles.verticalCenter, { fontSize: 5.7 }]}>
@@ -1245,13 +1850,13 @@ const PdsDocument = props => {
                   styles.inputKey,
                   styles.horizontalCenter,
                   styles.w7_45,
-                  { padding: "0 2" },
+                  { padding: '0 2' },
                 ]}
               >
                 <View
                   style={[
                     styles.verticalCenter,
-                    { fontSize: 5.7, padding: "0 4" },
+                    { fontSize: 5.7, padding: '0 4' },
                   ]}
                 >
                   <Text>YEAR GRADUATED</Text>
@@ -1264,7 +1869,7 @@ const PdsDocument = props => {
                   styles.inputKey,
                   styles.horizontalCenter,
                   styles.w7_45,
-                  { padding: "0 2" },
+                  { padding: '0 2' },
                 ]}
               >
                 <View style={[styles.verticalCenter, { fontSize: 5.7 }]}>
@@ -1285,8 +1890,14 @@ const PdsDocument = props => {
       {eligibilities.length > 7 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
+            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
+              <Text style={styles.sectionTitleText}>
+                IV. CIVIL SERVICE ELIGIBILITY
+              </Text>
+            </View>
+
             {/* Eligibility Header */}
-            <View style={[{ flexDirection: "row", alignItems: "stretch" }]}>
+            <View style={[{ flexDirection: 'row', alignItems: 'stretch' }]}>
               {/* Eligibility Name */}
               <View
                 style={[
@@ -1294,7 +1905,7 @@ const PdsDocument = props => {
                   styles.borderRight,
                   styles.horizontalCenter,
                   styles.w34,
-                  { flexDirection: "row" },
+                  { flexDirection: 'row' },
                 ]}
               >
                 <Text style={[styles.verticalCenter]}>27.</Text>
@@ -1302,7 +1913,7 @@ const PdsDocument = props => {
                   style={[
                     styles.verticalCenter,
                     styles.horizontalCenter,
-                    { padding: "3 10", width: "100%" },
+                    { padding: '3 10', width: '100%' },
                   ]}
                 >
                   <Text>CAREER SERVICE/ RA 1080 (BOARD/ BAR) UNDER</Text>
@@ -1347,7 +1958,7 @@ const PdsDocument = props => {
                   styles.inputKey,
                   styles.horizontalCenter,
                   styles.w21_8,
-                  { padding: "0 2" },
+                  { padding: '0 2' },
                 ]}
               >
                 <View style={[styles.verticalCenter]}>
@@ -1361,14 +1972,14 @@ const PdsDocument = props => {
                   styles.horizontalCenter,
                   styles.inputKey,
                   styles.w14,
-                  { padding: "0" },
+                  { padding: '0' },
                 ]}
               >
-                <View style={[{ margin: "auto 0", padding: "6 1" }]}>
+                <View style={[{ margin: 'auto 0', padding: '6 1' }]}>
                   <Text>LICENSE (if applicable)</Text>
                 </View>
 
-                <View style={[styles.borderTop, { flexDirection: "row" }]}>
+                <View style={[styles.borderTop, { flexDirection: 'row' }]}>
                   <View
                     style={[
                       styles.w50,
@@ -1376,12 +1987,12 @@ const PdsDocument = props => {
                       styles.borderRight,
                     ]}
                   >
-                    <Text style={[styles.verticalCenter, { padding: "3 0" }]}>
+                    <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
                       NUMBER
                     </Text>
                   </View>
                   <View style={[styles.w50, styles.horizontalCenter]}>
-                    <View style={[styles.verticalCenter, { padding: "3 0" }]}>
+                    <View style={[styles.verticalCenter, { padding: '3 0' }]}>
                       <Text>Date of</Text>
                       <Text>Validity</Text>
                     </View>
@@ -1400,8 +2011,12 @@ const PdsDocument = props => {
       {workExperience.length > 28 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
+            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
+              <Text style={styles.sectionTitleText}>V. WORK EXPERIENCE</Text>
+            </View>
+
             {/* Work Experience Header */}
-            <View style={[{ flexDirection: "row", alignItems: "stretch" }]}>
+            <View style={[{ flexDirection: 'row', alignItems: 'stretch' }]}>
               {/* Inclusive Dates */}
               <View
                 style={[
@@ -1409,23 +2024,23 @@ const PdsDocument = props => {
                   styles.borderRight,
                   styles.inputKey,
                   styles.w17_2,
-                  { padding: "0" },
+                  { padding: '0' },
                 ]}
               >
                 <View
                   style={[
                     styles.horizontalCenter,
-                    { padding: "8 5", flexDirection: "row" },
+                    { padding: '8 5', flexDirection: 'row' },
                   ]}
                 >
                   <Text style={[styles.verticalCenter]}>28.</Text>
-                  <View style={[styles.w100, { textAlign: "center" }]}>
+                  <View style={[styles.w100, { textAlign: 'center' }]}>
                     <Text>INCLUSIVE DATES</Text>
                     <Text>(mm/dd/yyyy)</Text>
                   </View>
                 </View>
 
-                <View style={[styles.borderTop, { flexDirection: "row" }]}>
+                <View style={[styles.borderTop, { flexDirection: 'row' }]}>
                   <View
                     style={[
                       styles.w50,
@@ -1433,12 +2048,12 @@ const PdsDocument = props => {
                       styles.borderRight,
                     ]}
                   >
-                    <Text style={[styles.verticalCenter, { padding: "3 0" }]}>
+                    <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
                       From
                     </Text>
                   </View>
                   <View style={[styles.w50, styles.horizontalCenter]}>
-                    <View style={[styles.verticalCenter, { padding: "3 0" }]}>
+                    <View style={[styles.verticalCenter, { padding: '3 0' }]}>
                       <Text>To</Text>
                     </View>
                   </View>
@@ -1452,14 +2067,14 @@ const PdsDocument = props => {
                   styles.borderRight,
                   styles.horizontalCenter,
                   styles.w31_9,
-                  { flexDirection: "row" },
+                  { flexDirection: 'row' },
                 ]}
               >
                 <View
                   style={[
                     styles.verticalCenter,
                     styles.horizontalCenter,
-                    { width: "100%" },
+                    { width: '100%' },
                   ]}
                 >
                   <Text>POSITION TITLE</Text>
@@ -1555,14 +2170,21 @@ const PdsDocument = props => {
       ) : null}
 
       {/* Voluntary Work Extra Page */}
-      {voluntaryWork.length > 7 ? (
+      {voluntaryWork.length > 6 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
+            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
+              <Text style={styles.sectionTitleText}>
+                VI. VOLUNTARY WORK OR INVOLVEMENT IN CIVIC / NON-GOVERNMENT /
+                PEOPLE / VOLUNTARY ORGANIZATION/S
+              </Text>
+            </View>
+
             {/* Voluntary Work header */}
             <View
               style={[
                 styles.borderTop,
-                { flexDirection: "row", alignItems: "stretch" },
+                { flexDirection: 'row', alignItems: 'stretch' },
               ]}
             >
               {/* Name & Address of Org */}
@@ -1572,7 +2194,7 @@ const PdsDocument = props => {
                   styles.borderRight,
                   styles.horizontalCenter,
                   styles.w46_2,
-                  { flexDirection: "row" },
+                  { flexDirection: 'row' },
                 ]}
               >
                 <Text style={[styles.verticalCenter]}>29.</Text>
@@ -1580,7 +2202,7 @@ const PdsDocument = props => {
                   style={[
                     styles.verticalCenter,
                     styles.horizontalCenter,
-                    { padding: "3 10", width: "100%" },
+                    { padding: '3 10', width: '100%' },
                   ]}
                 >
                   <Text>NAME & ADDRESS OF ORGANIZATION</Text>
@@ -1595,17 +2217,17 @@ const PdsDocument = props => {
                   styles.borderRight,
                   styles.inputKey,
                   styles.w18,
-                  { padding: "0" },
+                  { padding: '0' },
                 ]}
               >
                 <View
-                  style={[styles.w100, { textAlign: "center", padding: "4" }]}
+                  style={[styles.w100, { textAlign: 'center', padding: '4' }]}
                 >
                   <Text>INCLUSIVE DATES</Text>
                   <Text>(mm/dd/yyyy)</Text>
                 </View>
 
-                <View style={[styles.borderTop, { flexDirection: "row" }]}>
+                <View style={[styles.borderTop, { flexDirection: 'row' }]}>
                   <View
                     style={[
                       styles.w50,
@@ -1613,12 +2235,12 @@ const PdsDocument = props => {
                       styles.borderRight,
                     ]}
                   >
-                    <Text style={[styles.verticalCenter, { padding: "3 0" }]}>
+                    <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
                       From
                     </Text>
                   </View>
                   <View style={[styles.w50, styles.horizontalCenter]}>
-                    <View style={[styles.verticalCenter, { padding: "3 0" }]}>
+                    <View style={[styles.verticalCenter, { padding: '3 0' }]}>
                       <Text>To</Text>
                     </View>
                   </View>
@@ -1660,12 +2282,19 @@ const PdsDocument = props => {
         </Page>
       ) : null}
 
-      {/* Learning and Development Extra Page */}
-      {learningDevelopment.length > 21 ? (
+      {/* Learning and Development Extra Pages */}
+      {learningDevelopment.length > 19 ? (
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
+            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
+              <Text style={styles.sectionTitleText}>
+                VII. LEARNING AND DEVELOPMENT (L&D) INTERVENTIONS/TRAINING
+                PROGRAMS ATTENDED
+              </Text>
+            </View>
+
             {/* Learning and Development header */}
-            <View style={[{ flexDirection: "row", alignItems: "stretch" }]}>
+            <View style={[{ flexDirection: 'row', alignItems: 'stretch' }]}>
               {/* Title of Learning and Development */}
               <View
                 style={[
@@ -1673,7 +2302,7 @@ const PdsDocument = props => {
                   styles.borderRight,
                   styles.horizontalCenter,
                   styles.w46_2,
-                  { flexDirection: "row" },
+                  { flexDirection: 'row' },
                 ]}
               >
                 <Text style={[styles.verticalCenter]}>30.</Text>
@@ -1681,7 +2310,7 @@ const PdsDocument = props => {
                   style={[
                     styles.verticalCenter,
                     styles.horizontalCenter,
-                    { padding: "3 10", width: "100%" },
+                    { padding: '3 10', width: '100%' },
                   ]}
                 >
                   <Text>
@@ -1699,18 +2328,18 @@ const PdsDocument = props => {
                   styles.borderRight,
                   styles.inputKey,
                   styles.w18,
-                  { padding: "0" },
+                  { padding: '0' },
                 ]}
               >
                 <View
-                  style={[styles.w100, { textAlign: "center", padding: "4 6" }]}
+                  style={[styles.w100, { textAlign: 'center', padding: '4 6' }]}
                 >
                   <Text>INCLUSIVE DATES OF</Text>
                   <Text>ATTENDANCE</Text>
                   <Text>(mm/dd/yyyy)</Text>
                 </View>
 
-                <View style={[styles.borderTop, { flexDirection: "row" }]}>
+                <View style={[styles.borderTop, { flexDirection: 'row' }]}>
                   <View
                     style={[
                       styles.w50,
@@ -1718,12 +2347,12 @@ const PdsDocument = props => {
                       styles.borderRight,
                     ]}
                   >
-                    <Text style={[styles.verticalCenter, { padding: "3 0" }]}>
+                    <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
                       From
                     </Text>
                   </View>
                   <View style={[styles.w50, styles.horizontalCenter]}>
-                    <View style={[styles.verticalCenter, { padding: "3 0" }]}>
+                    <View style={[styles.verticalCenter, { padding: '3 0' }]}>
                       <Text>To</Text>
                     </View>
                   </View>
@@ -1737,7 +2366,7 @@ const PdsDocument = props => {
                   styles.inputKey,
                   styles.horizontalCenter,
                   styles.w6,
-                  { padding: "5.5 3" },
+                  { padding: '5.5 3' },
                 ]}
               >
                 <View style={[styles.verticalCenter]}>
@@ -1752,7 +2381,7 @@ const PdsDocument = props => {
                   styles.inputKey,
                   styles.horizontalCenter,
                   styles.w6,
-                  { padding: "5.5 3" },
+                  { padding: '5.5 3' },
                 ]}
               >
                 <View style={[styles.verticalCenter, { fontSize: 5.7 }]}>
@@ -1777,7 +2406,652 @@ const PdsDocument = props => {
               </View>
             </View>
 
-            {renderLearningDevelopmentExtraPage()}
+            {renderLearningDevelopmentExtraPage1()}
+            <SignatureDate />
+          </View>
+        </Page>
+      ) : null}
+
+      {learningDevelopment.length > 52 ? (
+        <Page size={[612.3, 935.4]} style={styles.page}>
+          <View style={styles.bodyBorder}>
+            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
+              <Text style={styles.sectionTitleText}>
+                VII. LEARNING AND DEVELOPMENT (L&D) INTERVENTIONS/TRAINING
+                PROGRAMS ATTENDED
+              </Text>
+            </View>
+
+            {/* Learning and Development header */}
+            <View style={[{ flexDirection: 'row', alignItems: 'stretch' }]}>
+              {/* Title of Learning and Development */}
+              <View
+                style={[
+                  styles.inputKey,
+                  styles.borderRight,
+                  styles.horizontalCenter,
+                  styles.w46_2,
+                  { flexDirection: 'row' },
+                ]}
+              >
+                <Text style={[styles.verticalCenter]}>30.</Text>
+                <View
+                  style={[
+                    styles.verticalCenter,
+                    styles.horizontalCenter,
+                    { padding: '3 10', width: '100%' },
+                  ]}
+                >
+                  <Text>
+                    TITLE OF LEARNING AND DEVELOPMENT INTERVENTIONS/TRAINING
+                    PROGRAMS
+                  </Text>
+                  <Text>(Write in full)</Text>
+                </View>
+              </View>
+
+              {/* Inclusive Dates of Attendance */}
+              <View
+                style={[
+                  styles.horizontalCenter,
+                  styles.borderRight,
+                  styles.inputKey,
+                  styles.w18,
+                  { padding: '0' },
+                ]}
+              >
+                <View
+                  style={[styles.w100, { textAlign: 'center', padding: '4 6' }]}
+                >
+                  <Text>INCLUSIVE DATES OF</Text>
+                  <Text>ATTENDANCE</Text>
+                  <Text>(mm/dd/yyyy)</Text>
+                </View>
+
+                <View style={[styles.borderTop, { flexDirection: 'row' }]}>
+                  <View
+                    style={[
+                      styles.w50,
+                      styles.horizontalCenter,
+                      styles.borderRight,
+                    ]}
+                  >
+                    <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
+                      From
+                    </Text>
+                  </View>
+                  <View style={[styles.w50, styles.horizontalCenter]}>
+                    <View style={[styles.verticalCenter, { padding: '3 0' }]}>
+                      <Text>To</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+
+              {/* Hours */}
+              <View
+                style={[
+                  styles.borderRight,
+                  styles.inputKey,
+                  styles.horizontalCenter,
+                  styles.w6,
+                  { padding: '5.5 3' },
+                ]}
+              >
+                <View style={[styles.verticalCenter]}>
+                  <Text style={{ fontSize: 5.7 }}>NUMBER OF HOURS</Text>
+                </View>
+              </View>
+
+              {/* Type of L&D */}
+              <View
+                style={[
+                  styles.borderRight,
+                  styles.inputKey,
+                  styles.horizontalCenter,
+                  styles.w6,
+                  { padding: '5.5 3' },
+                ]}
+              >
+                <View style={[styles.verticalCenter, { fontSize: 5.7 }]}>
+                  <Text>Type of LD</Text>
+                  <Text> ( Managerial/ Supervisory/ Technical/etc)</Text>
+                </View>
+              </View>
+
+              {/* Sponsored By */}
+              <View
+                style={[
+                  styles.inputKey,
+                  styles.horizontalCenter,
+                  styles.w23_8,
+                  { padding: 0 },
+                ]}
+              >
+                <View style={[styles.verticalCenter]}>
+                  <Text>CONDUCTED/ SPONSORED BY</Text>
+                  <Text>(Write in full)</Text>
+                </View>
+              </View>
+            </View>
+
+            {renderLearningDevelopmentExtraPage2()}
+            <SignatureDate />
+          </View>
+        </Page>
+      ) : null}
+
+      {learningDevelopment.length > 85 ? (
+        <Page size={[612.3, 935.4]} style={styles.page}>
+          <View style={styles.bodyBorder}>
+            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
+              <Text style={styles.sectionTitleText}>
+                VII. LEARNING AND DEVELOPMENT (L&D) INTERVENTIONS/TRAINING
+                PROGRAMS ATTENDED
+              </Text>
+            </View>
+
+            {/* Learning and Development header */}
+            <View style={[{ flexDirection: 'row', alignItems: 'stretch' }]}>
+              {/* Title of Learning and Development */}
+              <View
+                style={[
+                  styles.inputKey,
+                  styles.borderRight,
+                  styles.horizontalCenter,
+                  styles.w46_2,
+                  { flexDirection: 'row' },
+                ]}
+              >
+                <Text style={[styles.verticalCenter]}>30.</Text>
+                <View
+                  style={[
+                    styles.verticalCenter,
+                    styles.horizontalCenter,
+                    { padding: '3 10', width: '100%' },
+                  ]}
+                >
+                  <Text>
+                    TITLE OF LEARNING AND DEVELOPMENT INTERVENTIONS/TRAINING
+                    PROGRAMS
+                  </Text>
+                  <Text>(Write in full)</Text>
+                </View>
+              </View>
+
+              {/* Inclusive Dates of Attendance */}
+              <View
+                style={[
+                  styles.horizontalCenter,
+                  styles.borderRight,
+                  styles.inputKey,
+                  styles.w18,
+                  { padding: '0' },
+                ]}
+              >
+                <View
+                  style={[styles.w100, { textAlign: 'center', padding: '4 6' }]}
+                >
+                  <Text>INCLUSIVE DATES OF</Text>
+                  <Text>ATTENDANCE</Text>
+                  <Text>(mm/dd/yyyy)</Text>
+                </View>
+
+                <View style={[styles.borderTop, { flexDirection: 'row' }]}>
+                  <View
+                    style={[
+                      styles.w50,
+                      styles.horizontalCenter,
+                      styles.borderRight,
+                    ]}
+                  >
+                    <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
+                      From
+                    </Text>
+                  </View>
+                  <View style={[styles.w50, styles.horizontalCenter]}>
+                    <View style={[styles.verticalCenter, { padding: '3 0' }]}>
+                      <Text>To</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+
+              {/* Hours */}
+              <View
+                style={[
+                  styles.borderRight,
+                  styles.inputKey,
+                  styles.horizontalCenter,
+                  styles.w6,
+                  { padding: '5.5 3' },
+                ]}
+              >
+                <View style={[styles.verticalCenter]}>
+                  <Text style={{ fontSize: 5.7 }}>NUMBER OF HOURS</Text>
+                </View>
+              </View>
+
+              {/* Type of L&D */}
+              <View
+                style={[
+                  styles.borderRight,
+                  styles.inputKey,
+                  styles.horizontalCenter,
+                  styles.w6,
+                  { padding: '5.5 3' },
+                ]}
+              >
+                <View style={[styles.verticalCenter, { fontSize: 5.7 }]}>
+                  <Text>Type of LD</Text>
+                  <Text> ( Managerial/ Supervisory/ Technical/etc)</Text>
+                </View>
+              </View>
+
+              {/* Sponsored By */}
+              <View
+                style={[
+                  styles.inputKey,
+                  styles.horizontalCenter,
+                  styles.w23_8,
+                  { padding: 0 },
+                ]}
+              >
+                <View style={[styles.verticalCenter]}>
+                  <Text>CONDUCTED/ SPONSORED BY</Text>
+                  <Text>(Write in full)</Text>
+                </View>
+              </View>
+            </View>
+
+            {renderLearningDevelopmentExtraPage3()}
+            <SignatureDate />
+          </View>
+        </Page>
+      ) : null}
+
+      {learningDevelopment.length > 118 ? (
+        <Page size={[612.3, 935.4]} style={styles.page}>
+          <View style={styles.bodyBorder}>
+            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
+              <Text style={styles.sectionTitleText}>
+                VII. LEARNING AND DEVELOPMENT (L&D) INTERVENTIONS/TRAINING
+                PROGRAMS ATTENDED
+              </Text>
+            </View>
+
+            {/* Learning and Development header */}
+            <View style={[{ flexDirection: 'row', alignItems: 'stretch' }]}>
+              {/* Title of Learning and Development */}
+              <View
+                style={[
+                  styles.inputKey,
+                  styles.borderRight,
+                  styles.horizontalCenter,
+                  styles.w46_2,
+                  { flexDirection: 'row' },
+                ]}
+              >
+                <Text style={[styles.verticalCenter]}>30.</Text>
+                <View
+                  style={[
+                    styles.verticalCenter,
+                    styles.horizontalCenter,
+                    { padding: '3 10', width: '100%' },
+                  ]}
+                >
+                  <Text>
+                    TITLE OF LEARNING AND DEVELOPMENT INTERVENTIONS/TRAINING
+                    PROGRAMS
+                  </Text>
+                  <Text>(Write in full)</Text>
+                </View>
+              </View>
+
+              {/* Inclusive Dates of Attendance */}
+              <View
+                style={[
+                  styles.horizontalCenter,
+                  styles.borderRight,
+                  styles.inputKey,
+                  styles.w18,
+                  { padding: '0' },
+                ]}
+              >
+                <View
+                  style={[styles.w100, { textAlign: 'center', padding: '4 6' }]}
+                >
+                  <Text>INCLUSIVE DATES OF</Text>
+                  <Text>ATTENDANCE</Text>
+                  <Text>(mm/dd/yyyy)</Text>
+                </View>
+
+                <View style={[styles.borderTop, { flexDirection: 'row' }]}>
+                  <View
+                    style={[
+                      styles.w50,
+                      styles.horizontalCenter,
+                      styles.borderRight,
+                    ]}
+                  >
+                    <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
+                      From
+                    </Text>
+                  </View>
+                  <View style={[styles.w50, styles.horizontalCenter]}>
+                    <View style={[styles.verticalCenter, { padding: '3 0' }]}>
+                      <Text>To</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+
+              {/* Hours */}
+              <View
+                style={[
+                  styles.borderRight,
+                  styles.inputKey,
+                  styles.horizontalCenter,
+                  styles.w6,
+                  { padding: '5.5 3' },
+                ]}
+              >
+                <View style={[styles.verticalCenter]}>
+                  <Text style={{ fontSize: 5.7 }}>NUMBER OF HOURS</Text>
+                </View>
+              </View>
+
+              {/* Type of L&D */}
+              <View
+                style={[
+                  styles.borderRight,
+                  styles.inputKey,
+                  styles.horizontalCenter,
+                  styles.w6,
+                  { padding: '5.5 3' },
+                ]}
+              >
+                <View style={[styles.verticalCenter, { fontSize: 5.7 }]}>
+                  <Text>Type of LD</Text>
+                  <Text> ( Managerial/ Supervisory/ Technical/etc)</Text>
+                </View>
+              </View>
+
+              {/* Sponsored By */}
+              <View
+                style={[
+                  styles.inputKey,
+                  styles.horizontalCenter,
+                  styles.w23_8,
+                  { padding: 0 },
+                ]}
+              >
+                <View style={[styles.verticalCenter]}>
+                  <Text>CONDUCTED/ SPONSORED BY</Text>
+                  <Text>(Write in full)</Text>
+                </View>
+              </View>
+            </View>
+
+            {renderLearningDevelopmentExtraPage4()}
+            <SignatureDate />
+          </View>
+        </Page>
+      ) : null}
+
+      {learningDevelopment.length > 151 ? (
+        <Page size={[612.3, 935.4]} style={styles.page}>
+          <View style={styles.bodyBorder}>
+            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
+              <Text style={styles.sectionTitleText}>
+                VII. LEARNING AND DEVELOPMENT (L&D) INTERVENTIONS/TRAINING
+                PROGRAMS ATTENDED
+              </Text>
+            </View>
+
+            {/* Learning and Development header */}
+            <View style={[{ flexDirection: 'row', alignItems: 'stretch' }]}>
+              {/* Title of Learning and Development */}
+              <View
+                style={[
+                  styles.inputKey,
+                  styles.borderRight,
+                  styles.horizontalCenter,
+                  styles.w46_2,
+                  { flexDirection: 'row' },
+                ]}
+              >
+                <Text style={[styles.verticalCenter]}>30.</Text>
+                <View
+                  style={[
+                    styles.verticalCenter,
+                    styles.horizontalCenter,
+                    { padding: '3 10', width: '100%' },
+                  ]}
+                >
+                  <Text>
+                    TITLE OF LEARNING AND DEVELOPMENT INTERVENTIONS/TRAINING
+                    PROGRAMS
+                  </Text>
+                  <Text>(Write in full)</Text>
+                </View>
+              </View>
+
+              {/* Inclusive Dates of Attendance */}
+              <View
+                style={[
+                  styles.horizontalCenter,
+                  styles.borderRight,
+                  styles.inputKey,
+                  styles.w18,
+                  { padding: '0' },
+                ]}
+              >
+                <View
+                  style={[styles.w100, { textAlign: 'center', padding: '4 6' }]}
+                >
+                  <Text>INCLUSIVE DATES OF</Text>
+                  <Text>ATTENDANCE</Text>
+                  <Text>(mm/dd/yyyy)</Text>
+                </View>
+
+                <View style={[styles.borderTop, { flexDirection: 'row' }]}>
+                  <View
+                    style={[
+                      styles.w50,
+                      styles.horizontalCenter,
+                      styles.borderRight,
+                    ]}
+                  >
+                    <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
+                      From
+                    </Text>
+                  </View>
+                  <View style={[styles.w50, styles.horizontalCenter]}>
+                    <View style={[styles.verticalCenter, { padding: '3 0' }]}>
+                      <Text>To</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+
+              {/* Hours */}
+              <View
+                style={[
+                  styles.borderRight,
+                  styles.inputKey,
+                  styles.horizontalCenter,
+                  styles.w6,
+                  { padding: '5.5 3' },
+                ]}
+              >
+                <View style={[styles.verticalCenter]}>
+                  <Text style={{ fontSize: 5.7 }}>NUMBER OF HOURS</Text>
+                </View>
+              </View>
+
+              {/* Type of L&D */}
+              <View
+                style={[
+                  styles.borderRight,
+                  styles.inputKey,
+                  styles.horizontalCenter,
+                  styles.w6,
+                  { padding: '5.5 3' },
+                ]}
+              >
+                <View style={[styles.verticalCenter, { fontSize: 5.7 }]}>
+                  <Text>Type of LD</Text>
+                  <Text> ( Managerial/ Supervisory/ Technical/etc)</Text>
+                </View>
+              </View>
+
+              {/* Sponsored By */}
+              <View
+                style={[
+                  styles.inputKey,
+                  styles.horizontalCenter,
+                  styles.w23_8,
+                  { padding: 0 },
+                ]}
+              >
+                <View style={[styles.verticalCenter]}>
+                  <Text>CONDUCTED/ SPONSORED BY</Text>
+                  <Text>(Write in full)</Text>
+                </View>
+              </View>
+            </View>
+
+            {renderLearningDevelopmentExtraPage5()}
+            <SignatureDate />
+          </View>
+        </Page>
+      ) : null}
+
+      {learningDevelopment.length > 184 ? (
+        <Page size={[612.3, 935.4]} style={styles.page}>
+          <View style={styles.bodyBorder}>
+            <View style={[styles.sectionTitleContainer, styles.borderBottom]}>
+              <Text style={styles.sectionTitleText}>
+                VII. LEARNING AND DEVELOPMENT (L&D) INTERVENTIONS/TRAINING
+                PROGRAMS ATTENDED
+              </Text>
+            </View>
+
+            {/* Learning and Development header */}
+            <View style={[{ flexDirection: 'row', alignItems: 'stretch' }]}>
+              {/* Title of Learning and Development */}
+              <View
+                style={[
+                  styles.inputKey,
+                  styles.borderRight,
+                  styles.horizontalCenter,
+                  styles.w46_2,
+                  { flexDirection: 'row' },
+                ]}
+              >
+                <Text style={[styles.verticalCenter]}>30.</Text>
+                <View
+                  style={[
+                    styles.verticalCenter,
+                    styles.horizontalCenter,
+                    { padding: '3 10', width: '100%' },
+                  ]}
+                >
+                  <Text>
+                    TITLE OF LEARNING AND DEVELOPMENT INTERVENTIONS/TRAINING
+                    PROGRAMS
+                  </Text>
+                  <Text>(Write in full)</Text>
+                </View>
+              </View>
+
+              {/* Inclusive Dates of Attendance */}
+              <View
+                style={[
+                  styles.horizontalCenter,
+                  styles.borderRight,
+                  styles.inputKey,
+                  styles.w18,
+                  { padding: '0' },
+                ]}
+              >
+                <View
+                  style={[styles.w100, { textAlign: 'center', padding: '4 6' }]}
+                >
+                  <Text>INCLUSIVE DATES OF</Text>
+                  <Text>ATTENDANCE</Text>
+                  <Text>(mm/dd/yyyy)</Text>
+                </View>
+
+                <View style={[styles.borderTop, { flexDirection: 'row' }]}>
+                  <View
+                    style={[
+                      styles.w50,
+                      styles.horizontalCenter,
+                      styles.borderRight,
+                    ]}
+                  >
+                    <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
+                      From
+                    </Text>
+                  </View>
+                  <View style={[styles.w50, styles.horizontalCenter]}>
+                    <View style={[styles.verticalCenter, { padding: '3 0' }]}>
+                      <Text>To</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+
+              {/* Hours */}
+              <View
+                style={[
+                  styles.borderRight,
+                  styles.inputKey,
+                  styles.horizontalCenter,
+                  styles.w6,
+                  { padding: '5.5 3' },
+                ]}
+              >
+                <View style={[styles.verticalCenter]}>
+                  <Text style={{ fontSize: 5.7 }}>NUMBER OF HOURS</Text>
+                </View>
+              </View>
+
+              {/* Type of L&D */}
+              <View
+                style={[
+                  styles.borderRight,
+                  styles.inputKey,
+                  styles.horizontalCenter,
+                  styles.w6,
+                  { padding: '5.5 3' },
+                ]}
+              >
+                <View style={[styles.verticalCenter, { fontSize: 5.7 }]}>
+                  <Text>Type of LD</Text>
+                  <Text> ( Managerial/ Supervisory/ Technical/etc)</Text>
+                </View>
+              </View>
+
+              {/* Sponsored By */}
+              <View
+                style={[
+                  styles.inputKey,
+                  styles.horizontalCenter,
+                  styles.w23_8,
+                  { padding: 0 },
+                ]}
+              >
+                <View style={[styles.verticalCenter]}>
+                  <Text>CONDUCTED/ SPONSORED BY</Text>
+                  <Text>(Write in full)</Text>
+                </View>
+              </View>
+            </View>
+
+            {renderLearningDevelopmentExtraPage6()}
             <SignatureDate />
           </View>
         </Page>
@@ -1788,7 +3062,7 @@ const PdsDocument = props => {
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
             <View
-              style={[styles.inputKey, styles.w100, { flexDirection: "row" }]}
+              style={[styles.inputKey, styles.w100, { flexDirection: 'row' }]}
             >
               <Text style={[styles.verticalCenter]}>31.</Text>
               <Text
@@ -1813,7 +3087,7 @@ const PdsDocument = props => {
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
             <View
-              style={[styles.inputKey, styles.w100, { flexDirection: "row" }]}
+              style={[styles.inputKey, styles.w100, { flexDirection: 'row' }]}
             >
               <Text style={[styles.verticalCenter]}>32.</Text>
 
@@ -1840,7 +3114,7 @@ const PdsDocument = props => {
         <Page size={[612.3, 935.4]} style={styles.page}>
           <View style={styles.bodyBorder}>
             <View
-              style={[styles.inputKey, styles.w100, { flexDirection: "row" }]}
+              style={[styles.inputKey, styles.w100, { flexDirection: 'row' }]}
             >
               <Text style={[styles.verticalCenter]}>33.</Text>
 
@@ -1904,7 +3178,7 @@ PdsDocument.propTypes = {
       monthlySalary: PropTypes.number,
       salaryGrade: PropTypes.string,
       appointmentStatus: PropTypes.string,
-      isGovernmentService: PropTypes.bool,
+      isGovernmentService: PropTypes.number,
       from: PropTypes.string,
       to: PropTypes.string,
     })

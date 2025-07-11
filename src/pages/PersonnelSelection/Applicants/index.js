@@ -91,7 +91,7 @@ const Applicants = () => {
         return (
           <div className="d-flex">
             <InRowAction
-              buttonTitle="PDS"
+              buttonTitle="PDS & WES"
               viewRedirectUrl={
                 location.pathname +
                 '/' +

@@ -125,7 +125,6 @@ const EditEmployeeInformationModal = props => {
   // Reset response state upon close of modal
   useEffect(() => {
     if (isOpen) {
-      console.log(natureOfAppointment)
       dispatch(fetchEmpBasicInfo(employeeId))
     } else {
       dispatch(resetEmpResponseAndError())

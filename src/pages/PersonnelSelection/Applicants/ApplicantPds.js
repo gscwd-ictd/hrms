@@ -17,8 +17,8 @@ import {
 } from 'reactstrap'
 import Breadcrumb from 'components/Common/Breadcrumb'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
-import PersonalDataSheetView from 'components/PersonalDataSheet/Applicant'
-import WorkExperienceSheetView from 'components/WorkExperienceSheet/Applicant'
+// import PersonalDataSheetView from 'components/PersonalDataSheet/Applicant'
+// import WorkExperienceSheetView from 'components/WorkExperienceSheet/Applicant'
 import PositionDescriptionView from 'components/PositionDescription/Applicant'
 import classnames from 'classnames'
 import { isEmpty } from 'lodash'
@@ -28,6 +28,8 @@ import {
   fetchPositionQualificationStandards,
   fetchCompetencyProficiencyLevels,
 } from 'store/actions'
+import ApplicantPersonalDataSheetPdf from 'pages/PdfCreator/ApplicantPersonalDataSheet'
+import ApplicantWorkExperienceSheetPdf from 'pages/PdfCreator/ApplicantWorkExperienceSheet'
 
 const ApplicantPds = () => {
   const dispatch = useDispatch()
@@ -35,8 +37,8 @@ const ApplicantPds = () => {
   const {
     applicantId,
     postingApplicantId,
-    prfId,
-    publicationId,
+    // prfId,
+    // publicationId,
     isInternal,
     positionIds,
   } = useParams()
@@ -75,17 +77,7 @@ const ApplicantPds = () => {
       <Can I="access" this="Personnel_selection">
         <div className="page-content">
           <Container fluid={true}>
-            <Breadcrumb
-              title="Applicants"
-              titleUrl={
-                '/personnel-selection/publication-positions/' +
-                prfId +
-                '/publications/' +
-                publicationId +
-                '/applicants'
-              }
-              breadcrumbItem="Applicant"
-            />
+            <Breadcrumb breadcrumbItem="Applicant" />
 
             {errorApplicantPds ? (
               <ToastrNotification
@@ -165,11 +157,13 @@ const ApplicantPds = () => {
                       className="p-3 text-muted"
                     >
                       <TabPane tabId="1">
-                        <PersonalDataSheetView />
+                        <ApplicantPersonalDataSheetPdf />
+                        {/* <PersonalDataSheetView /> */}
                       </TabPane>
 
                       <TabPane tabId="2">
-                        <WorkExperienceSheetView />
+                        <ApplicantWorkExperienceSheetPdf />
+                        {/* <WorkExperienceSheetView /> */}
                       </TabPane>
 
                       <TabPane tabId="3">
