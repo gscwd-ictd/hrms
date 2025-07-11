@@ -1544,7 +1544,7 @@ const PdsDocument = props => {
   const renderSpecialSkillsExtraPage = () => {
     var content = skills.slice(7).map(skill => (
       <View style={[styles.inputValue, styles.borderTop]} key={skill._id}>
-        <Text style={[styles.verticalCenter]}>{skill}</Text>
+        <Text style={[styles.verticalCenter]}>{skill.skill}</Text>
       </View>
     ))
 
@@ -1554,7 +1554,7 @@ const PdsDocument = props => {
   const renderRecognitionExtraPage = () => {
     var content = recognitions.slice(7).map(award => (
       <View style={[styles.inputValue, styles.borderTop]} key={award._id}>
-        <Text style={[styles.verticalCenter]}>{award}</Text>
+        <Text style={[styles.verticalCenter]}>{award.recognition}</Text>
       </View>
     ))
 
@@ -1564,7 +1564,7 @@ const PdsDocument = props => {
   const renderMembershipExtraPage = () => {
     var content = organizations.slice(7).map(org => (
       <View style={[styles.inputValue, styles.borderTop]} key={org._id}>
-        <Text style={[styles.verticalCenter]}>{org}</Text>
+        <Text style={[styles.verticalCenter]}>{org.organization}</Text>
       </View>
     ))
 
