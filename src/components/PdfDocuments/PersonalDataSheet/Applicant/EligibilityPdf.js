@@ -1,96 +1,96 @@
-import React, { useState } from "react"
-import { Text, View, StyleSheet, Font } from "@react-pdf/renderer"
-import ArialRegular from "assets/fonts/uploads/arial.ttf"
-import ArialNarrow from "assets/fonts/uploads/arial-narrow.ttf"
-import ArialNarrowItalic from "assets/fonts/uploads/arial-narrow-italic.ttf"
-import ArialNarrowBold from "assets/fonts/uploads/arial-narrow-bold.ttf"
-import ArialNarrowBoldItalic from "assets/fonts/uploads/arial-narrow-bold-italic.ttf"
-import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
+import React, { useState } from 'react'
+import { Text, View, StyleSheet, Font } from '@react-pdf/renderer'
+import ArialRegular from 'assets/fonts/uploads/arial.ttf'
+import ArialNarrow from 'assets/fonts/uploads/arial-narrow.ttf'
+import ArialNarrowItalic from 'assets/fonts/uploads/arial-narrow-italic.ttf'
+import ArialNarrowBold from 'assets/fonts/uploads/arial-narrow-bold.ttf'
+import ArialNarrowBoldItalic from 'assets/fonts/uploads/arial-narrow-bold-italic.ttf'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
+import { chunkSubstr } from 'pages/PdfCreator/EmployeePersonalDataSheet/PdsDocument'
 
 const styles = StyleSheet.create({
   lineContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   sectionTitleContainer: {
-    backgroundColor: "#969696",
+    backgroundColor: '#969696',
     padding: 1.5,
   },
   sectionTitleText: {
-    color: "#ffffff",
-    fontFamily: "ArialNarrowBoldItalic",
+    color: '#ffffff',
+    fontFamily: 'ArialNarrowBoldItalic',
     fontSize: 9.2,
   },
   sectionSubtitleText: {
-    color: "#ffffff",
-    fontFamily: "ArialNarrowBoldItalic",
+    color: '#ffffff',
+    fontFamily: 'ArialNarrowBoldItalic',
     fontSize: 6.5,
     paddingTop: 2,
   },
 
   // Field Styles
   inputKey: {
-    backgroundColor: "#EAEAEA",
-    fontFamily: "Arial",
+    backgroundColor: '#EAEAEA',
+    fontFamily: 'Arial',
     fontWeight: 100,
     fontSize: 6.7,
-    padding: "3.5 5",
+    padding: '3.5 5',
   },
   inputValue: {
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontWeight: 100,
     fontSize: 6.7,
-    padding: "5.5 8",
+    padding: '5.5 8',
+    textTransform: 'uppercase',
   },
   inputAddressKey: {
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontWeight: 100,
-    fontStyle: "italic",
+    fontStyle: 'italic',
     fontSize: 6.7,
-    padding: "0 8",
+    padding: '0 8',
   },
   warningText: {
-    fontFamily: "ArialNarrowBoldItalic",
-    textAlign: "center",
+    fontFamily: 'ArialNarrowBoldItalic',
+    textAlign: 'center',
     fontSize: 6.7,
-    color: "red",
+    color: 'red',
   },
-  verticalCenter: { margin: "auto 0" },
-  horizontalCenter: { textAlign: "center" },
+  verticalCenter: { margin: 'auto 0' },
+  horizontalCenter: { textAlign: 'center' },
 
   // Border Styles
   borderTop: {
-    borderTop: "1px solid #000000",
+    borderTop: '1px solid #000000',
   },
   borderRight: {
-    borderRight: "1px solid #000000",
+    borderRight: '1px solid #000000',
   },
 
   // Width Styles
-  w100: { width: "100%" },
-  w50: { width: "50%" },
-  w34: { width: "34%" },
-  w21_8: { width: "21.8%" },
-  w15_1: { width: "15.1%" },
-  w14: { width: "14%" },
+  w100: { width: '100%' },
+  w50: { width: '50%' },
+  w34: { width: '34%' },
+  w21_8: { width: '21.8%' },
+  w15_1: { width: '15.1%' },
+  w14: { width: '14%' },
 })
 
 Font.register({
-  family: "Arial",
+  family: 'Arial',
   fonts: [
     { src: ArialRegular },
     { src: ArialNarrow, fontWeight: 100 },
     { src: ArialNarrowBold, fontWeight: 500 },
-    { src: ArialNarrowItalic, fontWeight: 100, fontStyle: "italic" },
+    { src: ArialNarrowItalic, fontWeight: 100, fontStyle: 'italic' },
   ],
 })
 
 Font.register({
-  family: "ArialNarrowBoldItalic",
+  family: 'ArialNarrowBoldItalic',
   src: ArialNarrowBoldItalic,
 })
-
-Font.registerHyphenationCallback(word => [word])
 
 const EligibilityPdf = props => {
   const { formatDate, eligibilities } = props
@@ -101,7 +101,7 @@ const EligibilityPdf = props => {
       <View
         style={[
           styles.borderTop,
-          { flexDirection: "row", alignItems: "stretch" },
+          { flexDirection: 'row', alignItems: 'stretch' },
         ]}
         key={index}
       >
@@ -111,11 +111,11 @@ const EligibilityPdf = props => {
             styles.inputValue,
             styles.borderRight,
             styles.w34,
-            { flexDirection: "row" },
+            { flexDirection: 'row' },
           ]}
         >
           <Text style={[styles.verticalCenter]}>
-            {eligibility.name || "N/A"}
+            {eligibility.name || 'N/A'}
           </Text>
         </View>
 
@@ -129,7 +129,7 @@ const EligibilityPdf = props => {
           ]}
         >
           <Text style={[styles.verticalCenter]}>
-            {eligibility.rating || "N/A"}
+            {eligibility.rating || 'N/A'}
           </Text>
         </View>
 
@@ -148,7 +148,7 @@ const EligibilityPdf = props => {
               {!isEmpty(eligibility.examDate) &&
               !isEmpty(eligibility.examDate.to) ? (
                 <>
-                  {eligibility.examDate.from + " | " + eligibility.examDate.to}
+                  {eligibility.examDate.from + ' | ' + eligibility.examDate.to}
                 </>
               ) : !isEmpty(eligibility.examDate) &&
                 !isEmpty(eligibility.examDate.from) ? ( // If exam date from is filled
@@ -167,11 +167,11 @@ const EligibilityPdf = props => {
             styles.inputValue,
             styles.horizontalCenter,
             styles.w21_8,
-            { padding: "0 2" },
+            { padding: '0 2' },
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{eligibility.examPlace || "N/A"}</Text>
+            <Text>{eligibility.examPlace || 'N/A'}</Text>
           </View>
         </View>
 
@@ -180,19 +180,22 @@ const EligibilityPdf = props => {
           style={[
             styles.inputValue,
             styles.w14,
-            { padding: 0, flexDirection: "row" },
+            { padding: 0, flexDirection: 'row' },
           ]}
         >
           <View
             style={[styles.w50, styles.horizontalCenter, styles.borderRight]}
           >
-            <Text style={[styles.verticalCenter, { padding: "3 0" }]}>
-              {eligibility.licenseNumber || "N/A"}
+            <Text
+              style={[styles.verticalCenter, { padding: '3 0' }]}
+              hyphenationCallback={e => chunkSubstr(e)}
+            >
+              {eligibility.licenseNumber || 'N/A'}
             </Text>
           </View>
           <View style={[styles.w50, styles.horizontalCenter]}>
-            <View style={[styles.verticalCenter, { padding: "3 0" }]}>
-              <Text>{formatDate(eligibility.validity) || "N/A"}</Text>
+            <View style={[styles.verticalCenter, { padding: '3 0' }]}>
+              <Text>{formatDate(eligibility.validity) || 'N/A'}</Text>
             </View>
           </View>
         </View>
@@ -211,7 +214,7 @@ const EligibilityPdf = props => {
         <View
           style={[
             styles.borderTop,
-            { flexDirection: "row", alignItems: "stretch" },
+            { flexDirection: 'row', alignItems: 'stretch' },
           ]}
           key={i}
         >
@@ -221,7 +224,7 @@ const EligibilityPdf = props => {
               styles.inputValue,
               styles.borderRight,
               styles.w34,
-              { flexDirection: "row" },
+              { flexDirection: 'row' },
             ]}
           >
             <Text style={[styles.verticalCenter]}>N/A</Text>
@@ -260,7 +263,7 @@ const EligibilityPdf = props => {
               styles.inputValue,
               styles.horizontalCenter,
               styles.w21_8,
-              { padding: "0 2" },
+              { padding: '0 2' },
             ]}
           >
             <View style={[styles.verticalCenter]}>
@@ -273,18 +276,18 @@ const EligibilityPdf = props => {
             style={[
               styles.inputValue,
               styles.w14,
-              { padding: 0, flexDirection: "row" },
+              { padding: 0, flexDirection: 'row' },
             ]}
           >
             <View
               style={[styles.w50, styles.horizontalCenter, styles.borderRight]}
             >
-              <Text style={[styles.verticalCenter, { padding: "3 0" }]}>
+              <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
                 N/A
               </Text>
             </View>
             <View style={[styles.w50, styles.horizontalCenter]}>
-              <View style={[styles.verticalCenter, { padding: "3 0" }]}>
+              <View style={[styles.verticalCenter, { padding: '3 0' }]}>
                 <Text>N/A</Text>
               </View>
             </View>
@@ -307,7 +310,7 @@ const EligibilityPdf = props => {
       <View
         style={[
           styles.borderTop,
-          { flexDirection: "row", alignItems: "stretch" },
+          { flexDirection: 'row', alignItems: 'stretch' },
         ]}
       >
         {/* Eligibility Name */}
@@ -317,7 +320,7 @@ const EligibilityPdf = props => {
             styles.borderRight,
             styles.horizontalCenter,
             styles.w34,
-            { flexDirection: "row" },
+            { flexDirection: 'row' },
           ]}
         >
           <Text style={[styles.verticalCenter]}>27.</Text>
@@ -325,7 +328,7 @@ const EligibilityPdf = props => {
             style={[
               styles.verticalCenter,
               styles.horizontalCenter,
-              { padding: "3 10", width: "100%" },
+              { padding: '3 10', width: '100%' },
             ]}
           >
             <Text>CAREER SERVICE/ RA 1080 (BOARD/ BAR) UNDER</Text>
@@ -370,7 +373,7 @@ const EligibilityPdf = props => {
             styles.inputKey,
             styles.horizontalCenter,
             styles.w21_8,
-            { padding: "0 2" },
+            { padding: '0 2' },
           ]}
         >
           <View style={[styles.verticalCenter]}>
@@ -384,23 +387,23 @@ const EligibilityPdf = props => {
             styles.horizontalCenter,
             styles.inputKey,
             styles.w14,
-            { padding: "0" },
+            { padding: '0' },
           ]}
         >
-          <View style={[{ margin: "auto 0", padding: "6 1" }]}>
+          <View style={[{ margin: 'auto 0', padding: '6 1' }]}>
             <Text>LICENSE (if applicable)</Text>
           </View>
 
-          <View style={[styles.borderTop, { flexDirection: "row" }]}>
+          <View style={[styles.borderTop, { flexDirection: 'row' }]}>
             <View
               style={[styles.w50, styles.horizontalCenter, styles.borderRight]}
             >
-              <Text style={[styles.verticalCenter, { padding: "3 0" }]}>
+              <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
                 NUMBER
               </Text>
             </View>
             <View style={[styles.w50, styles.horizontalCenter]}>
-              <View style={[styles.verticalCenter, { padding: "3 0" }]}>
+              <View style={[styles.verticalCenter, { padding: '3 0' }]}>
                 <Text>Date of</Text>
                 <Text>Validity</Text>
               </View>
@@ -415,7 +418,7 @@ const EligibilityPdf = props => {
       {eligibilities.length < 7 ? <>{renderEmptyEligibilityRows()}</> : null}
 
       <View style={[styles.borderTop]}>
-        <View style={[styles.inputKey, styles.w100, { padding: "1 0" }]}>
+        <View style={[styles.inputKey, styles.w100, { padding: '1 0' }]}>
           <Text style={styles.warningText}>
             (Continue on separate sheet if necessary)
           </Text>

@@ -1,23 +1,16 @@
-import React, { useEffect } from "react"
-import { Can } from "casl/Can"
-import { Navigate, useParams } from "react-router-dom"
+import React from 'react'
+import { Can } from 'casl/Can'
+import { Navigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { Container } from 'reactstrap'
+import dayjs from 'dayjs'
+import { PDFViewer } from '@react-pdf/renderer'
+import PdsDocument from './PdsDocument'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import { isEmpty } from 'lodash'
 
-import { useDispatch, useSelector } from "react-redux"
-import { fetchApplicantPds } from "store/actions"
-
-import { Container } from "reactstrap"
-import dayjs from "dayjs"
-import { PDFViewer } from "@react-pdf/renderer"
-import PdsDocument from "./PdsDocument"
-
-// Extra components
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-
-const ApplicantPersonalDataSheetPdf = props => {
-  const dispatch = useDispatch()
-  const { applicantId, isInternal } = useParams()
-
+const ApplicantPersonalDataSheetPdf = () => {
+  // Redux state for applicant PDS
   const {
     personalInfo,
     permanentAddress,
@@ -31,7 +24,7 @@ const ApplicantPersonalDataSheetPdf = props => {
     vocational,
     college,
     graduate,
-    eligibilities,
+    eligibility,
     workExperience,
     voluntaryWork,
     learningDevelopment,
@@ -47,7 +40,6 @@ const ApplicantPersonalDataSheetPdf = props => {
     indigenousPwdSoloParent,
     references,
     governmentIssuedId,
-    error,
     isLoading,
   } = useSelector(state => ({
     personalInfo: state.applicants.pds.personalInfo,
@@ -62,7 +54,7 @@ const ApplicantPersonalDataSheetPdf = props => {
     vocational: state.applicants.pds.vocational,
     college: state.applicants.pds.college,
     graduate: state.applicants.pds.graduate,
-    eligibilities: state.applicants.pds.eligibility,
+    eligibility: state.applicants.pds.eligibility,
     workExperience: state.applicants.pds.workExperience,
     voluntaryWork: state.applicants.pds.voluntaryWork,
     learningDevelopment: state.applicants.pds.learningDevelopment,
@@ -78,37 +70,28 @@ const ApplicantPersonalDataSheetPdf = props => {
     indigenousPwdSoloParent: state.applicants.pds.indigenousPwdSoloParent,
     references: state.applicants.pds.references,
     governmentIssuedId: state.applicants.pds.governmentIssuedId,
-    error: state.applicants.errorApplicants,
-    isLoading: state.applicants.loadingApplicants,
+    isLoading: state.applicants.loading.loadingApplicant,
   }))
 
   // Date formatter based on PDS document MM/DD/YYYY
   const formatDate = assignedDate => {
     if (!isEmpty(assignedDate)) {
       const date = new Date(assignedDate)
-      return dayjs(date.toLocaleDateString()).format("MM/DD/YYYY")
+      return dayjs(date.toLocaleDateString()).format('MM/DD/YYYY')
     } else {
-      return ""
+      return ''
     }
   }
-
-  useEffect(() => {
-    dispatch(fetchApplicantPds(applicantId, isInternal))
-  }, [dispatch])
 
   return (
     <React.Fragment>
       <Can I="access" this="Personnel_selection">
-        <div className="page-content">
+        <div className="page-content pt-3">
           <Container fluid={true}>
-            {error ? (
-              <ToastrNotification toastType={"error"} notifMessage={error} />
-            ) : null}
-
             {isLoading ? (
               <LoadingIndicator />
             ) : (
-              <PDFViewer width={"100%"} height={700} showToolbar>
+              <PDFViewer width={'100%'} height={800} showToolbar>
                 <PdsDocument
                   formatDate={formatDate}
                   personalInfo={personalInfo}
@@ -123,7 +106,7 @@ const ApplicantPersonalDataSheetPdf = props => {
                   vocational={vocational}
                   college={college}
                   graduate={graduate}
-                  eligibilities={eligibilities}
+                  eligibilities={eligibility}
                   workExperience={workExperience}
                   voluntaryWork={voluntaryWork}
                   learningDevelopment={learningDevelopment}

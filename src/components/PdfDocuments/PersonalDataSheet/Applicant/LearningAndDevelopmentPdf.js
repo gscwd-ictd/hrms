@@ -1,104 +1,103 @@
-import React, { useState } from "react"
-import { Text, View, StyleSheet, Font } from "@react-pdf/renderer"
-import ArialRegular from "assets/fonts/uploads/arial.ttf"
-import ArialNarrow from "assets/fonts/uploads/arial-narrow.ttf"
-import ArialNarrowItalic from "assets/fonts/uploads/arial-narrow-italic.ttf"
-import ArialNarrowBold from "assets/fonts/uploads/arial-narrow-bold.ttf"
-import ArialNarrowBoldItalic from "assets/fonts/uploads/arial-narrow-bold-italic.ttf"
-import PropTypes from "prop-types"
+import React, { useState } from 'react'
+import { Text, View, StyleSheet, Font } from '@react-pdf/renderer'
+import ArialRegular from 'assets/fonts/uploads/arial.ttf'
+import ArialNarrow from 'assets/fonts/uploads/arial-narrow.ttf'
+import ArialNarrowItalic from 'assets/fonts/uploads/arial-narrow-italic.ttf'
+import ArialNarrowBold from 'assets/fonts/uploads/arial-narrow-bold.ttf'
+import ArialNarrowBoldItalic from 'assets/fonts/uploads/arial-narrow-bold-italic.ttf'
+import PropTypes from 'prop-types'
+import { chunkSubstr } from 'pages/PdfCreator/EmployeePersonalDataSheet/PdsDocument'
 
 const styles = StyleSheet.create({
-  lineContainer: {
-    flexDirection: "row",
-  },
   sectionTitleContainer: {
-    backgroundColor: "#969696",
+    backgroundColor: '#969696',
     padding: 1.5,
   },
   sectionTitleText: {
-    color: "#ffffff",
-    fontFamily: "ArialNarrowBoldItalic",
+    color: '#ffffff',
+    fontFamily: 'ArialNarrowBoldItalic',
     fontSize: 9.2,
   },
   sectionSubtitleText: {
-    color: "#ffffff",
-    fontFamily: "ArialNarrowBoldItalic",
+    color: '#ffffff',
+    fontFamily: 'ArialNarrowBoldItalic',
     fontSize: 6.5,
     paddingTop: 2,
   },
 
   // Field Styles
   inputKey: {
-    backgroundColor: "#EAEAEA",
-    fontFamily: "Arial",
+    backgroundColor: '#EAEAEA',
+    fontFamily: 'Arial',
     fontWeight: 100,
     fontSize: 6.7,
-    padding: "3.5 5",
+    padding: '3.5 5',
   },
   inputValue: {
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontWeight: 100,
     fontSize: 6.7,
-    padding: "4 8",
+    padding: '4 8',
+    textTransform: 'uppercase',
   },
   inputAddressKey: {
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontWeight: 100,
-    fontStyle: "italic",
+    fontStyle: 'italic',
     fontSize: 6.7,
-    padding: "0 8",
+    padding: '0 8',
   },
   warningText: {
-    fontFamily: "ArialNarrowBoldItalic",
-    textAlign: "center",
+    fontFamily: 'ArialNarrowBoldItalic',
+    textAlign: 'center',
     fontSize: 6.7,
-    color: "red",
+    color: 'red',
   },
-  verticalCenter: { margin: "auto 0" },
-  horizontalCenter: { textAlign: "center" },
+  verticalCenter: { margin: 'auto 0' },
+  horizontalCenter: { textAlign: 'center' },
 
   // Border Styles
   borderTop: {
-    borderTop: "1px solid #000000",
+    borderTop: '1px solid #000000',
   },
   borderRight: {
-    borderRight: "1px solid #000000",
+    borderRight: '1px solid #000000',
   },
 
   // Width Styles
-  w100: { width: "100%" },
-  w50: { width: "50%" },
-  w46_2: { width: "46.2%" },
-  w23_8: { width: "23.8%" },
-  w18: { width: "18%" },
-  w6: { width: "6%" },
+  w100: { width: '100%' },
+  w50: { width: '50%' },
+  w46_2: { width: '46.2%' },
+  w23_8: { width: '23.8%' },
+  w18: { width: '18%' },
+  w6: { width: '6%' },
 })
 
 Font.register({
-  family: "Arial",
+  family: 'Arial',
   fonts: [
     { src: ArialRegular },
     { src: ArialNarrow, fontWeight: 100 },
     { src: ArialNarrowBold, fontWeight: 500 },
-    { src: ArialNarrowItalic, fontWeight: 100, fontStyle: "italic" },
+    { src: ArialNarrowItalic, fontWeight: 100, fontStyle: 'italic' },
   ],
 })
 
 Font.register({
-  family: "ArialNarrowBoldItalic",
+  family: 'ArialNarrowBoldItalic',
   src: ArialNarrowBoldItalic,
 })
 
 const LearningAndDevelopmentPdf = props => {
   const { learningDevelopment, formatDate } = props
-  const [emptyLearningDevRows, setEmptyLearningDevRows] = useState(21)
+  const [emptyLearningDevRows, setEmptyLearningDevRows] = useState(18)
 
   const renderLearningDevelopmentRows = () => {
-    var content = learningDevelopment.slice(0, 21).map((training, index) => (
+    var content = learningDevelopment.slice(0, 18).map((training, index) => (
       <View
         style={[
           styles.borderTop,
-          { flexDirection: "row", alignItems: "stretch" },
+          { flexDirection: 'row', alignItems: 'stretch' },
         ]}
         key={index}
       >
@@ -111,7 +110,7 @@ const LearningAndDevelopmentPdf = props => {
             styles.w46_2,
           ]}
         >
-          <Text style={[styles.verticalCenter]}>{training.title || "N/A"}</Text>
+          <Text style={[styles.verticalCenter]}>{training.title || 'N/A'}</Text>
         </View>
 
         {/* Inclusive Dates of Attendance */}
@@ -121,19 +120,19 @@ const LearningAndDevelopmentPdf = props => {
             styles.borderRight,
             styles.inputValue,
             styles.w18,
-            { padding: "0", flexDirection: "row" },
+            { padding: '0', flexDirection: 'row' },
           ]}
         >
           <View
             style={[styles.w50, styles.horizontalCenter, styles.borderRight]}
           >
-            <Text style={[styles.verticalCenter, { padding: "3 0" }]}>
-              {formatDate(training.from) || "N/A"}
+            <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
+              {formatDate(training.from) || 'N/A'}
             </Text>
           </View>
           <View style={[styles.w50, styles.horizontalCenter]}>
-            <View style={[styles.verticalCenter, { padding: "3 0" }]}>
-              <Text>{formatDate(training.to) || "N/A"}</Text>
+            <View style={[styles.verticalCenter, { padding: '3 0' }]}>
+              <Text>{formatDate(training.to) || 'N/A'}</Text>
             </View>
           </View>
         </View>
@@ -145,11 +144,11 @@ const LearningAndDevelopmentPdf = props => {
             styles.inputValue,
             styles.horizontalCenter,
             styles.w6,
-            { padding: "5.5 3" },
+            { padding: '5.5 3' },
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{training.numberOfHours || "N/A"}</Text>
+            <Text>{training.numberOfHours || 'N/A'}</Text>
           </View>
         </View>
 
@@ -160,11 +159,13 @@ const LearningAndDevelopmentPdf = props => {
             styles.inputValue,
             styles.horizontalCenter,
             styles.w6,
-            { padding: "5.5 3" },
+            { fontSize: 5, padding: '5.5 3' },
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{training.type || "N/A"}</Text>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {training.type || 'N/A'}
+            </Text>
           </View>
         </View>
 
@@ -178,7 +179,9 @@ const LearningAndDevelopmentPdf = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text>{training.conductedBy || "N/A"}</Text>
+            <Text hyphenationCallback={e => chunkSubstr(e)}>
+              {training.conductedBy || 'N/A'}
+            </Text>
           </View>
         </View>
       </View>
@@ -196,7 +199,7 @@ const LearningAndDevelopmentPdf = props => {
         <View
           style={[
             styles.borderTop,
-            { flexDirection: "row", alignItems: "stretch" },
+            { flexDirection: 'row', alignItems: 'stretch' },
           ]}
           key={i}
         >
@@ -219,18 +222,18 @@ const LearningAndDevelopmentPdf = props => {
               styles.borderRight,
               styles.inputValue,
               styles.w18,
-              { padding: "0", flexDirection: "row" },
+              { padding: '0', flexDirection: 'row' },
             ]}
           >
             <View
               style={[styles.w50, styles.horizontalCenter, styles.borderRight]}
             >
-              <Text style={[styles.verticalCenter, { padding: "3 0" }]}>
+              <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
                 N/A
               </Text>
             </View>
             <View style={[styles.w50, styles.horizontalCenter]}>
-              <View style={[styles.verticalCenter, { padding: "3 0" }]}>
+              <View style={[styles.verticalCenter, { padding: '3 0' }]}>
                 <Text>N/A</Text>
               </View>
             </View>
@@ -243,7 +246,7 @@ const LearningAndDevelopmentPdf = props => {
               styles.inputValue,
               styles.horizontalCenter,
               styles.w6,
-              { padding: "5.5 3" },
+              { padding: '5.5 3' },
             ]}
           >
             <View style={[styles.verticalCenter]}>
@@ -258,7 +261,7 @@ const LearningAndDevelopmentPdf = props => {
               styles.inputValue,
               styles.horizontalCenter,
               styles.w6,
-              { padding: "5.5 3" },
+              { padding: '5.5 3' },
             ]}
           >
             <View style={[styles.verticalCenter]}>
@@ -304,7 +307,7 @@ const LearningAndDevelopmentPdf = props => {
       <View
         style={[
           styles.borderTop,
-          { flexDirection: "row", alignItems: "stretch" },
+          { flexDirection: 'row', alignItems: 'stretch' },
         ]}
       >
         {/* Title of Learning and Development */}
@@ -314,7 +317,7 @@ const LearningAndDevelopmentPdf = props => {
             styles.borderRight,
             styles.horizontalCenter,
             styles.w46_2,
-            { flexDirection: "row" },
+            { flexDirection: 'row' },
           ]}
         >
           <Text style={[styles.verticalCenter]}>30.</Text>
@@ -322,7 +325,7 @@ const LearningAndDevelopmentPdf = props => {
             style={[
               styles.verticalCenter,
               styles.horizontalCenter,
-              { padding: "3 10", width: "100%" },
+              { padding: '3 10', width: '100%' },
             ]}
           >
             <Text>
@@ -339,25 +342,25 @@ const LearningAndDevelopmentPdf = props => {
             styles.borderRight,
             styles.inputKey,
             styles.w18,
-            { padding: "0" },
+            { padding: '0' },
           ]}
         >
-          <View style={[styles.w100, { textAlign: "center", padding: "4 6" }]}>
+          <View style={[styles.w100, { textAlign: 'center', padding: '4 6' }]}>
             <Text>INCLUSIVE DATES OF</Text>
             <Text>ATTENDANCE</Text>
             <Text>(mm/dd/yyyy)</Text>
           </View>
 
-          <View style={[styles.borderTop, { flexDirection: "row" }]}>
+          <View style={[styles.borderTop, { flexDirection: 'row' }]}>
             <View
               style={[styles.w50, styles.horizontalCenter, styles.borderRight]}
             >
-              <Text style={[styles.verticalCenter, { padding: "3 0" }]}>
+              <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
                 From
               </Text>
             </View>
             <View style={[styles.w50, styles.horizontalCenter]}>
-              <View style={[styles.verticalCenter, { padding: "3 0" }]}>
+              <View style={[styles.verticalCenter, { padding: '3 0' }]}>
                 <Text>To</Text>
               </View>
             </View>
@@ -371,7 +374,7 @@ const LearningAndDevelopmentPdf = props => {
             styles.inputKey,
             styles.horizontalCenter,
             styles.w6,
-            { padding: "5.5 3" },
+            { padding: '5.5 3' },
           ]}
         >
           <View style={[styles.verticalCenter]}>
@@ -386,7 +389,7 @@ const LearningAndDevelopmentPdf = props => {
             styles.inputKey,
             styles.horizontalCenter,
             styles.w6,
-            { padding: "5.5 3" },
+            { padding: '5.5 3' },
           ]}
         >
           <View style={[styles.verticalCenter, { fontSize: 5.7 }]}>
@@ -413,12 +416,12 @@ const LearningAndDevelopmentPdf = props => {
 
       {renderLearningDevelopmentRows()}
 
-      {learningDevelopment.length < 21 ? (
+      {learningDevelopment.length < 18 ? (
         <>{renderEmptyLearningDevelopmentRows()}</>
       ) : null}
 
       <View style={[styles.borderTop]}>
-        <View style={[styles.inputKey, styles.w100, { padding: "1 0" }]}>
+        <View style={[styles.inputKey, styles.w100, { padding: '1 0' }]}>
           <Text style={styles.warningText}>
             (Continue on separate sheet if necessary)
           </Text>

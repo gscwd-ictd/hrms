@@ -1,35 +1,35 @@
-import React from "react"
-import { Text, View, StyleSheet, Font } from "@react-pdf/renderer"
-import ArialNarrowBoldItalic from "assets/fonts/uploads/arial-narrow-bold-italic.ttf"
+import React from 'react'
+import { Text, View, StyleSheet, Font } from '@react-pdf/renderer'
+import ArialNarrowBoldItalic from 'assets/fonts/uploads/arial-narrow-bold-italic.ttf'
 
 const SignatureDate = () => {
   const styles = StyleSheet.create({
     signatureDateText: {
-      backgroundColor: "#EAEAEA",
-      fontFamily: "ArialNarrowBoldItalic",
+      backgroundColor: '#EAEAEA',
+      fontFamily: 'ArialNarrowBoldItalic',
       fontSize: 9.2,
-      textAlign: "center",
-      padding: "5 0",
+      textAlign: 'center',
+      padding: '5 0',
     },
 
     // Border Styles
     borderTop: {
-      borderTop: "1px solid #000000",
+      borderTop: '1px solid #000000',
     },
     borderRight: {
-      borderRight: "1px solid #000000",
+      borderRight: '1px solid #000000',
     },
 
     // Width Styles
-    w100: { width: "100%" },
-    w47: { width: "47%" },
-    w23_8: { width: "23.8%" },
-    w17_2: { width: "17.2%" },
-    w12: { width: "12%" },
+    w100: { width: '100%' },
+    w47: { width: '47%' },
+    w23_8: { width: '23.8%' },
+    w17_2: { width: '17.2%' },
+    w12: { width: '12%' },
   })
 
   Font.register({
-    family: "ArialNarrowBoldItalic",
+    family: 'ArialNarrowBoldItalic',
     src: ArialNarrowBoldItalic,
   })
 
@@ -37,7 +37,7 @@ const SignatureDate = () => {
     <View
       style={[
         styles.borderTop,
-        { flexDirection: "row", alignItems: "stretch" },
+        { flexDirection: 'row', alignItems: 'stretch' },
       ]}
     >
       <View
