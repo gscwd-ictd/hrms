@@ -20,6 +20,7 @@ import ArialNarrowBoldItalic from 'assets/fonts/uploads/arial-narrow-bold-italic
 const styles = StyleSheet.create({
   page: {
     backgroundColor: '#ffffff',
+    paddingBottom: 15,
   },
   bodyBorder: {
     margin: 10,
@@ -124,7 +125,7 @@ const WesDocument = props => {
     const content =
       applicantWes &&
       applicantWes.map((experience, index) => (
-        <View style={[styles.workExperiences]} key={index} wrap={false}>
+        <View style={[styles.workExperiences]} key={index}>
           <View style={[styles.workExperienceContainer]}>
             <Text style={[styles.mainListStyle]}>
               • Duration: {formatDate(experience.from)} -{' '}
@@ -208,7 +209,7 @@ const WesDocument = props => {
           style={{
             fontFamily: 'ArialNarrowBoldItalic',
             fontSize: 11,
-            padding: '13 0 0 13',
+            padding: '13 0 13 13',
           }}
           render={({ pageNumber }) => {
             if (pageNumber == 1) {
