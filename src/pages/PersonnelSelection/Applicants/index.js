@@ -105,9 +105,9 @@ const Applicants = () => {
 
             <button
               onClick={() => changeApplicantStatus(cell.row.values)}
-              className="btn btn-info waves-effect waves-light inrow-btn-style"
+              className="btn btn-info waves-effect waves-light w-7"
             >
-              Status<i className="fas fa-user-edit"></i>
+              Status <i className="fas fa-user-edit"></i>
             </button>
           </div>
         )
