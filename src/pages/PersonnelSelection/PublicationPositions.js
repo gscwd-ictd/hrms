@@ -308,6 +308,12 @@ const PublicationPositions = () => {
 
           {cell.row.values.postingStatus === publicationStatus.INTERVIEWDONE ? (
             <>
+              <DropdownItem onClick={() => selectionDocuments(cell.row.values)}>
+                <Link className="dropdown-item" to="#">
+                  Selection Documents
+                </Link>
+              </DropdownItem>
+
               <DropdownItem onClick={() => sendPsbSummary(cell.row.values)}>
                 <Link className="dropdown-item" to="#">
                   Send to GM
