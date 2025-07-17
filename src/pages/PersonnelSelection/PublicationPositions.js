@@ -34,7 +34,7 @@ import ViewShortlist from 'components/Modal/PersonnelSelection/ViewShortlist'
 import ScheduleExam from 'components/Modal/PersonnelSelection/ScheduleExam'
 import ScheduleInterview from 'components/Modal/PersonnelSelection/ScheduleInterview'
 import ExamDone from 'components/Modal/PersonnelSelection/ExamDone'
-import PsbSummary from 'components/Modal/PersonnelSelection/PsbSummary'
+import PsbRating from 'components/Modal/PersonnelSelection/PsbRating'
 import SendPsbSummaryToAppointingAuth from 'components/Modal/Confirmation/SendPsbSummaryToAppointingAuth'
 import ViewSelectedByAppointingAuth from 'components/Modal/PersonnelSelection/ViewSelectedByAppointingAuth'
 import SelectionDocuments from 'components/Modal/PersonnelSelection/SelectionDocuments'
@@ -663,7 +663,7 @@ const PublicationPositions = () => {
                       prfId={prfId}
                     />
 
-                    <PsbSummary
+                    <PsbRating
                       showPsbSummary={showPsbSummary}
                       modalData={modalData}
                       handleClosePsbSummary={handleClosePsbSummary}

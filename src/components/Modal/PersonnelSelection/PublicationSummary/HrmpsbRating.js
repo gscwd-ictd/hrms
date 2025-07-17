@@ -6,7 +6,7 @@ import { Table, Button } from 'reactstrap'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import PsbRemarks from './PsbRemarks'
 
-const HrmpsbSummary = () => {
+const HrmpsbRating = () => {
   // redux state for HRMPSB Summary
   const { psbSummary, loadingPsbSummary } = useSelector(state => ({
     psbSummary: state.personnelSelectionBoard.response.psbSummary,
@@ -206,4 +206,4 @@ const HrmpsbSummary = () => {
   )
 }
 
-export default HrmpsbSummary
+export default HrmpsbRating
