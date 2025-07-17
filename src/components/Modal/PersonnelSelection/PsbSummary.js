@@ -52,7 +52,7 @@ const PsbSummary = props => {
         toggle={handleClosePsbSummary}
         fullscreen={true}
       >
-        <ModalHeader toggle={handleClosePsbSummary}>HRMPSB Summary</ModalHeader>
+        <ModalHeader toggle={handleClosePsbSummary}>HRMPSB Rating</ModalHeader>
 
         {errorPsbSummary ? (
           <ToastrNotification

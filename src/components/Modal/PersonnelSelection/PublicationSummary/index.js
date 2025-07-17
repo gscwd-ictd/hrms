@@ -233,7 +233,7 @@ const PublicationSummary = props => {
                       toggle('6')
                     }}
                   >
-                    HRMPSB Summary
+                    HRMPSB Rating
                   </NavLink>
                 </NavItem>
 
