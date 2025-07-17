@@ -300,7 +300,7 @@ const PublicationPositions = () => {
             <>
               <DropdownItem onClick={() => psbSummary(cell.row.values)}>
                 <Link className="dropdown-item" to="#">
-                  HRMPSB Summary
+                  HRMPSB Rating
                 </Link>
               </DropdownItem>
             </>
