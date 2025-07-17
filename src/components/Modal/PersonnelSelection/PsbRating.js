@@ -18,8 +18,9 @@ import {
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import CloseInterviewModal from 'components/Modal/Confirmation/CloseInterviewModal'
+import PsbRemarks from './PublicationSummary/PsbRemarks'
 
-const PsbSummary = props => {
+const PsbRating = props => {
   const { showPsbSummary, modalData, handleClosePsbSummary, prfId } = props
   const dispatch = useDispatch()
 
@@ -38,6 +39,16 @@ const PsbSummary = props => {
 
   const handleCloseCloseInterview = () => setShowCloseInterview(false)
   const handleShowCloseInterview = () => setShowCloseInterview(true)
+
+  // Modal for PSB remarks
+  const [applicantDetails, setApplicantDetails] = useState(null)
+  const [showPsbRemarks, setShowPsbRemarks] = useState(false)
+
+  const handleCloseSwapPsbMember = () => setShowPsbRemarks(false)
+  const handleShowRemarks = applicantDetails => {
+    setApplicantDetails(applicantDetails)
+    setShowPsbRemarks(true)
+  }
 
   useEffect(() => {
     if (showPsbSummary) {
@@ -81,6 +92,7 @@ const PsbSummary = props => {
                         <th>PSB 5</th>
                         <th>PSB 6</th>
                         <th>Average</th>
+                        <th></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -96,6 +108,15 @@ const PsbSummary = props => {
                             <td>{applicant.psb_5}</td>
                             <td>{applicant.psb_6}</td>
                             <td>{applicant.average}</td>
+                            <td>
+                              <Button
+                                type="button"
+                                color="info"
+                                onClick={() => handleShowRemarks(applicant)}
+                              >
+                                <i className="bx bx-comment-dots"></i>
+                              </Button>
+                            </td>
                           </tr>
                         )
                       })}
@@ -119,6 +140,7 @@ const PsbSummary = props => {
                         <th>PSB 7</th>
                         <th>PSB 8</th>
                         <th>Average</th>
+                        <th></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -136,6 +158,15 @@ const PsbSummary = props => {
                             <td>{applicant.psb_7}</td>
                             <td>{applicant.psb_8}</td>
                             <td>{applicant.average}</td>
+                            <td>
+                              <Button
+                                type="button"
+                                color="info"
+                                onClick={() => handleShowRemarks(applicant)}
+                              >
+                                <i className="bx bx-comment-dots"></i>
+                              </Button>
+                            </td>
                           </tr>
                         )
                       })}
@@ -158,6 +189,7 @@ const PsbSummary = props => {
                         <th>PSB 6</th>
                         <th>PSB 7</th>
                         <th>Average</th>
+                        <th></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -174,6 +206,15 @@ const PsbSummary = props => {
                             <td>{applicant.psb_6}</td>
                             <td>{applicant.psb_7}</td>
                             <td>{applicant.average}</td>
+                            <td>
+                              <Button
+                                type="button"
+                                color="info"
+                                onClick={() => handleShowRemarks(applicant)}
+                              >
+                                <i className="bx bx-comment-dots"></i>
+                              </Button>
+                            </td>
                           </tr>
                         )
                       })}
@@ -205,15 +246,21 @@ const PsbSummary = props => {
         handleCloseCloseInterview={handleCloseCloseInterview}
         handleClosePsbSummary={handleClosePsbSummary}
       />
+
+      <PsbRemarks
+        applicantDetails={applicantDetails}
+        showPsbRemarks={showPsbRemarks}
+        handleCloseSwapPsbMember={handleCloseSwapPsbMember}
+      />
     </>
   )
 }
 
-PsbSummary.propTypes = {
+PsbRating.propTypes = {
   showPsbSummary: PropTypes.bool,
   handleClosePsbSummary: PropTypes.func,
   modalData: PropTypes.object,
   prfId: PropTypes.string,
 }
 
-export default PsbSummary
+export default PsbRating

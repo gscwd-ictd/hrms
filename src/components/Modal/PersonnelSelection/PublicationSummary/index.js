@@ -16,7 +16,6 @@ import {
 import {
   Col,
   Row,
-  Button,
   Nav,
   NavItem,
   NavLink,
@@ -25,7 +24,6 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter,
 } from 'reactstrap'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 
@@ -33,7 +31,7 @@ import AppliedApplicants from './AppliedApplicants'
 import EndorsedApplicants from './EndorsedApplicants'
 import ShortlistedApplicants from './ShortlistedApplicants'
 import HiredApplicants from './HiredApplicants'
-import HrmpsbSummary from './HrmpsbSummary'
+import HrmpsbRating from './HrmpsbRating'
 import HrmpsbDetails from './HrmpsbDetails'
 
 const PublicationSummary = props => {
@@ -294,7 +292,7 @@ const PublicationSummary = props => {
                 <TabPane tabId="6">
                   <Row>
                     <Col sm="12">
-                      <HrmpsbSummary />
+                      <HrmpsbRating />
                     </Col>
                   </Row>
                 </TabPane>
