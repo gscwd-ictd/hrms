@@ -323,6 +323,17 @@ const PublicationPositions = () => {
           ) : null}
 
           {cell.row.values.postingStatus ===
+          publicationStatus.APPAUTHSELECTION ? (
+            <>
+              <DropdownItem onClick={() => selectionDocuments(cell.row.values)}>
+                <Link className="dropdown-item" to="#">
+                  Selection Documents
+                </Link>
+              </DropdownItem>
+            </>
+          ) : null}
+
+          {cell.row.values.postingStatus ===
           publicationStatus.APPAUTHSELECTIONDONE ? (
             <>
               <DropdownItem onClick={() => selectionDocuments(cell.row.values)}>
