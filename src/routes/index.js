@@ -199,12 +199,20 @@ const authProtectedRoutes = [
   },
 
   // Applicants
+  //  {
+  //   path: '/personnel-selection/publication-positions/:prfId/publications/:publicationId/applicants/:positionIds/:plantillaItems',
+  //   component: <Applicants />,
+  // },
+  // {
+  //   path: '/personnel-selection/publication-positions/:prfId/publications/:publicationId/applicants/:positionIds/:plantillaItems/:applicantId/:postingApplicantId/:isInternal',
+  //   component: <ApplicantPds />,
+  // },
   {
-    path: '/personnel-selection/publication-positions/:prfId/publications/:publicationId/applicants/:positionIds/:plantillaItems',
+    path: '/personnel-selection/publications/:publicationId/applicants/:positionIds/:plantillaItems',
     component: <Applicants />,
   },
   {
-    path: '/personnel-selection/publication-positions/:prfId/publications/:publicationId/applicants/:positionIds/:plantillaItems/:applicantId/:postingApplicantId/:isInternal',
+    path: '/personnel-selection/publications/:publicationId/applicants/:positionIds/:plantillaItems/:applicantId/:postingApplicantId/:isInternal',
     component: <ApplicantPds />,
   },
 

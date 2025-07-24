@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { isEmpty } from 'lodash'
-
 import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchSelectedByAppointingAuth,
@@ -12,7 +11,6 @@ import {
   fetchPsbDetails,
   fetchPsbSummary,
 } from 'store/actions'
-
 import {
   Col,
   Row,
@@ -24,9 +22,9 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
+  Button,
 } from 'reactstrap'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
-
 import AppliedApplicants from './AppliedApplicants'
 import EndorsedApplicants from './EndorsedApplicants'
 import ShortlistedApplicants from './ShortlistedApplicants'
@@ -78,6 +76,10 @@ const PublicationSummary = props => {
     }
   }
 
+  const refetchPsbRating = () => {
+    dispatch(fetchPsbSummary(modalData.vppId))
+  }
+
   // get list of endorsed applicants
   useEffect(() => {
     if (showPublicationDetails) {
@@ -107,7 +109,7 @@ const PublicationSummary = props => {
         centered
       >
         <ModalHeader toggle={handleClosePublicationDetails}>
-          Publication Summary
+          Publication Summary | {modalData.positionTitle}
         </ModalHeader>
 
         {/* Error Notif */}
@@ -292,7 +294,19 @@ const PublicationSummary = props => {
                 <TabPane tabId="6">
                   <Row>
                     <Col sm="12">
-                      <HrmpsbRating />
+                      <>
+                        <HrmpsbRating />
+                        <div className="w-100 t-align-end">
+                          <Button
+                            onClick={() => refetchPsbRating()}
+                            color="secondary"
+                            outline
+                            className="mt-2"
+                          >
+                            Reload <i className="fas fa-undo"></i>
+                          </Button>
+                        </div>
+                      </>
                     </Col>
                   </Row>
                 </TabPane>

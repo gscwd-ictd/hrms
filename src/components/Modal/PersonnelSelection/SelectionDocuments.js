@@ -34,7 +34,8 @@ const SelectionDocuments = props => {
                   className="btn-block"
                   style={{ width: '100%' }}
                 >
-                  Competency Based-Interview Report
+                  <i className="bx bxs-file-pdf font-size-24" /> Competency
+                  Based-Interview Report
                 </Button>
               </Link>
             </Col>

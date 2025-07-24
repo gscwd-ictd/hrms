@@ -3,25 +3,17 @@ import { Row, Col, Table, Modal, ModalHeader, ModalBody } from 'reactstrap'
 import { isEmpty } from 'lodash'
 import { fetchCalendarInterviewSchedules } from 'store/actions'
 import { useDispatch, useSelector } from 'react-redux'
-
-// Calendar
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import BootstrapTheme from '@fullcalendar/bootstrap'
-
-// extra components
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
-
-// style
+import PublicationSummary from 'components/Modal/PersonnelSelection/PublicationSummary/index'
 import '@fullcalendar/bootstrap/main.css'
 
 const InterviewScheduleCalendar = () => {
   const dispatch = useDispatch()
-
-  const [modalViewEvent, setModalViewEvent] = useState(false)
-  const [event, setEvent] = useState({})
 
   const { interviewSchedules, isLoading, error } = useSelector(state => ({
     interviewSchedules: state.publications.interviewSchedules,
@@ -29,16 +21,18 @@ const InterviewScheduleCalendar = () => {
     error: state.publications.error.interviewSchedulesError,
   }))
 
+  const [showPublicationDetails, setShowPublicationDetails] = useState(false)
+  const [event, setEvent] = useState({})
+
   /**
    * Handling the modal state
    */
   const toggle = () => {
-    if (modalViewEvent) {
-      setModalViewEvent(false)
+    if (showPublicationDetails) {
+      setShowPublicationDetails(false)
       setEvent({})
-      // setEvent(null)
     } else {
-      setModalViewEvent(true)
+      setShowPublicationDetails(true)
     }
   }
 
@@ -49,8 +43,10 @@ const InterviewScheduleCalendar = () => {
     const event = arg.event
 
     setEvent({
-      id: event.id,
+      // id: event.id,
+      vppId: event.id,
       positionTitle: event.title,
+      itemNumber: event._def.extendedProps.itemNumber,
       noOfApplicants: event._def.extendedProps.numberOfApplicants,
       psbMembers: event._def.extendedProps.psbMembers,
       scheduleType: event._def.extendedProps.scheduleType,
@@ -93,8 +89,14 @@ const InterviewScheduleCalendar = () => {
         />
       )}
 
+      <PublicationSummary
+        showPublicationDetails={showPublicationDetails}
+        modalData={event}
+        handleClosePublicationDetails={toggle}
+      />
+
       {/* View Event */}
-      <Modal isOpen={modalViewEvent} toggle={toggle} size="lg" centered>
+      {/* <Modal isOpen={modalViewEvent} toggle={toggle} size="lg" centered>
         <ModalHeader toggle={toggle}>
           {modalViewEvent ? event.positionTitle : ''}
         </ModalHeader>
@@ -152,7 +154,7 @@ const InterviewScheduleCalendar = () => {
             </Col>
           </Row>
         </ModalBody>
-      </Modal>
+      </Modal> */}
     </>
   )
 }

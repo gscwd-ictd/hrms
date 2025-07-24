@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { isEmpty } from 'lodash'
 import { useSelector } from 'react-redux'
-
 import { Table, Button } from 'reactstrap'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import PsbRemarks from './PsbRemarks'
+import classnames from 'classnames'
 
 const HrmpsbRating = () => {
   // redux state for HRMPSB Summary
@@ -34,18 +34,60 @@ const HrmpsbRating = () => {
               <tr>
                 <th>Rank</th>
                 <th>Name of Applicant</th>
-                <th>PSB 1</th>
-                <th>PSB 2</th>
-                <th>PSB 3</th>
-                <th>PSB 4</th>
-                <th>PSB 5</th>
-                <th>PSB 6</th>
+                <th
+                  className={classnames('text-white', {
+                    'bg-success': psbSummary.ranking[0]?.psb_1_is_done === 1,
+                    'bg-danger': psbSummary.ranking[0]?.psb_1_is_done === 0,
+                  })}
+                >
+                  PSB 1
+                </th>
+                <th
+                  className={classnames('text-white', {
+                    'bg-success': psbSummary.ranking[0]?.psb_2_is_done === 1,
+                    'bg-danger': psbSummary.ranking[0]?.psb_2_is_done === 0,
+                  })}
+                >
+                  PSB 2
+                </th>
+                <th
+                  className={classnames('text-white', {
+                    'bg-success': psbSummary.ranking[0]?.psb_3_is_done === 1,
+                    'bg-danger': psbSummary.ranking[0]?.psb_3_is_done === 0,
+                  })}
+                >
+                  PSB 3
+                </th>
+                <th
+                  className={classnames('text-white', {
+                    'bg-success': psbSummary.ranking[0]?.psb_4_is_done === 1,
+                    'bg-danger': psbSummary.ranking[0]?.psb_4_is_done === 0,
+                  })}
+                >
+                  PSB 4
+                </th>
+                <th
+                  className={classnames('text-white', {
+                    'bg-success': psbSummary.ranking[0]?.psb_5_is_done === 1,
+                    'bg-danger': psbSummary.ranking[0]?.psb_5_is_done === 0,
+                  })}
+                >
+                  PSB 5
+                </th>
+                <th
+                  className={classnames('text-white', {
+                    'bg-success': psbSummary.ranking[0]?.psb_6_is_done === 1,
+                    'bg-danger': psbSummary.ranking[0]?.psb_6_is_done === 0,
+                  })}
+                >
+                  PSB 6
+                </th>
                 <th>Average</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {psbSummary.ranking.map((applicant, index) => {
+              {psbSummary.ranking.map(applicant => {
                 return (
                   <tr key={applicant.postingApplicantId}>
                     <td>{applicant.rank}</td>
@@ -79,20 +121,76 @@ const HrmpsbRating = () => {
               <tr>
                 <th>Rank</th>
                 <th>Name of Applicant</th>
-                <th>PSB 1</th>
-                <th>PSB 2</th>
-                <th>PSB 3</th>
-                <th>PSB 4</th>
-                <th>PSB 5</th>
-                <th>PSB 6</th>
-                <th>PSB 7</th>
-                <th>PSB 8</th>
+                <th
+                  className={classnames('text-white', {
+                    'bg-success': psbSummary.ranking[0]?.psb_1_is_done === 1,
+                    'bg-danger': psbSummary.ranking[0]?.psb_1_is_done === 0,
+                  })}
+                >
+                  PSB 1
+                </th>
+                <th
+                  className={classnames('text-white', {
+                    'bg-success': psbSummary.ranking[0]?.psb_2_is_done === 1,
+                    'bg-danger': psbSummary.ranking[0]?.psb_2_is_done === 0,
+                  })}
+                >
+                  PSB 2
+                </th>
+                <th
+                  className={classnames('text-white', {
+                    'bg-success': psbSummary.ranking[0]?.psb_3_is_done === 1,
+                    'bg-danger': psbSummary.ranking[0]?.psb_3_is_done === 0,
+                  })}
+                >
+                  PSB 3
+                </th>
+                <th
+                  className={classnames('text-white', {
+                    'bg-success': psbSummary.ranking[0]?.psb_4_is_done === 1,
+                    'bg-danger': psbSummary.ranking[0]?.psb_4_is_done === 0,
+                  })}
+                >
+                  PSB 4
+                </th>
+                <th
+                  className={classnames('text-white', {
+                    'bg-success': psbSummary.ranking[0]?.psb_5_is_done === 1,
+                    'bg-danger': psbSummary.ranking[0]?.psb_5_is_done === 0,
+                  })}
+                >
+                  PSB 5
+                </th>
+                <th
+                  className={classnames('text-white', {
+                    'bg-success': psbSummary.ranking[0]?.psb_6_is_done === 1,
+                    'bg-danger': psbSummary.ranking[0]?.psb_6_is_done === 0,
+                  })}
+                >
+                  PSB 6
+                </th>
+                <th
+                  className={classnames('text-white', {
+                    'bg-success': psbSummary.ranking[0]?.psb_7_is_done === 1,
+                    'bg-danger': psbSummary.ranking[0]?.psb_7_is_done === 0,
+                  })}
+                >
+                  PSB 7
+                </th>
+                <th
+                  className={classnames('text-white', {
+                    'bg-success': psbSummary.ranking[0]?.psb_8_is_done === 1,
+                    'bg-danger': psbSummary.ranking[0]?.psb_8_is_done === 0,
+                  })}
+                >
+                  PSB 8
+                </th>
                 <th>Average</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {psbSummary.ranking.map((applicant, index) => {
+              {psbSummary.ranking.map(applicant => {
                 return (
                   <tr key={applicant.postingApplicantId}>
                     <td>{applicant.rank}</td>
@@ -128,19 +226,68 @@ const HrmpsbRating = () => {
               <tr>
                 <th>Rank</th>
                 <th>Name of Applicant</th>
-                <th>PSB 1</th>
-                <th>PSB 2</th>
-                <th>PSB 3</th>
-                <th>PSB 4</th>
-                <th>PSB 5</th>
-                <th>PSB 6</th>
-                <th>PSB 7</th>
+                <th
+                  className={classnames('text-white', {
+                    'bg-success': psbSummary.ranking[0]?.psb_1_is_done === 1,
+                    'bg-danger': psbSummary.ranking[0]?.psb_1_is_done === 0,
+                  })}
+                >
+                  PSB 1
+                </th>
+                <th
+                  className={classnames('text-white', {
+                    'bg-success': psbSummary.ranking[0]?.psb_2_is_done === 1,
+                    'bg-danger': psbSummary.ranking[0]?.psb_2_is_done === 0,
+                  })}
+                >
+                  PSB 2
+                </th>
+                <th
+                  className={classnames('text-white', {
+                    'bg-success': psbSummary.ranking[0]?.psb_3_is_done === 1,
+                    'bg-danger': psbSummary.ranking[0]?.psb_3_is_done === 0,
+                  })}
+                >
+                  PSB 3
+                </th>
+                <th
+                  className={classnames('text-white', {
+                    'bg-success': psbSummary.ranking[0]?.psb_4_is_done === 1,
+                    'bg-danger': psbSummary.ranking[0]?.psb_4_is_done === 0,
+                  })}
+                >
+                  PSB 4
+                </th>
+                <th
+                  className={classnames('text-white', {
+                    'bg-success': psbSummary.ranking[0]?.psb_5_is_done === 1,
+                    'bg-danger': psbSummary.ranking[0]?.psb_5_is_done === 0,
+                  })}
+                >
+                  PSB 5
+                </th>
+                <th
+                  className={classnames('text-white', {
+                    'bg-success': psbSummary.ranking[0]?.psb_6_is_done === 1,
+                    'bg-danger': psbSummary.ranking[0]?.psb_6_is_done === 0,
+                  })}
+                >
+                  PSB 6
+                </th>
+                <th
+                  className={classnames('text-white', {
+                    'bg-success': psbSummary.ranking[0]?.psb_7_is_done === 1,
+                    'bg-danger': psbSummary.ranking[0]?.psb_7_is_done === 0,
+                  })}
+                >
+                  PSB 7
+                </th>
                 <th>Average</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {psbSummary.ranking.map((applicant, index) => {
+              {psbSummary.ranking.map(applicant => {
                 return (
                   <tr key={applicant.postingApplicantId}>
                     <td>{applicant.rank}</td>

@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import PropTypes from 'prop-types'
 import { Can } from 'casl/Can'
 import { Navigate, useLocation, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -15,7 +14,7 @@ import ToastrNotification from 'components/Notifications/ToastrNotification'
 const Applicants = () => {
   const dispatch = useDispatch()
   const location = useLocation()
-  const { publicationId, prfId, positionIds } = useParams()
+  const { publicationId } = useParams()
 
   const tblColumns = [
     {
@@ -69,13 +68,6 @@ const Applicants = () => {
         } else if (cell.row.values.applicantStatus === 'Not qualified') {
           return (
             <Badge className="me-2 bg-danger font-size-12">
-              {cell.row.values.applicantStatus}
-            </Badge>
-          )
-        }
-        {
-          return (
-            <Badge className="me-2 font-size-12">
               {cell.row.values.applicantStatus}
             </Badge>
           )
@@ -152,7 +144,7 @@ const Applicants = () => {
           <Container fluid={true}>
             <Breadcrumb
               title="Publication Positions"
-              titleUrl={'/personnel-selection/publication-positions/' + prfId}
+              titleUrl={'/personnel-selection'}
               breadcrumbItem="Applicants"
             />
 

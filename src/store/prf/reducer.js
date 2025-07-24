@@ -2,27 +2,28 @@ import {
   GET_PRFLIST,
   GET_PRFLIST_FAIL,
   GET_PRFLIST_SUCCESS,
-  GET_APPROVED_PRFLIST,
-  GET_APPROVED_PRFLIST_SUCCESS,
-  GET_APPROVED_PRFLIST_FAIL,
+  GET_APPROVED_PUBLICATION_POSITIONS,
+  GET_APPROVED_PUBLICATION_POSITIONS_SUCCESS,
+  GET_APPROVED_PUBLICATION_POSITIONS_FAIL,
   GET_SINGLE_PRF,
   GET_SINGLE_PRF_SUCCESS,
   GET_SINGLE_PRF_FAIL,
   GET_PRF_TRAIL,
   GET_PRF_TRAIL_SUCCESS,
   GET_PRF_TRAIL_FAIL,
-} from "./actionTypes"
+} from './actionTypes'
 
 const INIT_STATE_PRFL = {
   prflist: [],
+  publicationPositions: [],
   prfDetails: {
-    _id: "",
-    prfNo: "",
+    _id: '',
+    prfNo: '',
     withExam: 0,
-    status: "",
-    dateRequested: "",
-    dateNeeded: "",
-    disapprovedRemarks: "",
+    status: '',
+    dateRequested: '',
+    dateNeeded: '',
+    disapprovedRemarks: '',
     for: {},
     from: {},
     prfPositions: [],
@@ -37,10 +38,12 @@ const INIT_STATE_PRFL = {
   loading: {
     loadingPrf: false,
     loadingPrfTrail: false,
+    loadingPublicationPositions: false,
   },
   error: {
     errorPrf: null,
     errorPrfTrail: null,
+    errorPublicationPositions: null,
   },
 }
 
@@ -84,40 +87,78 @@ const positionRequest = (state = INIT_STATE_PRFL, action) => {
       }
       break
 
-    case GET_APPROVED_PRFLIST:
+    // case GET_APPROVED_PRFLIST:
+    //   state = {
+    //     ...state,
+    //     prflist: [],
+    //     loading: {
+    //       ...state.loading,
+    //       loadingPrf: true,
+    //     },
+    //     error: {
+    //       ...state.error,
+    //       errorPrf: null,
+    //     },
+    //   }
+    //   break
+    // case GET_APPROVED_PRFLIST_SUCCESS:
+    //   state = {
+    //     ...state,
+    //     prflist: action.payload,
+    //     loading: {
+    //       ...state.loading,
+    //       loadingPrf: false,
+    //     },
+    //   }
+    //   break
+    // case GET_APPROVED_PRFLIST_FAIL:
+    //   state = {
+    //     ...state,
+    //     loading: {
+    //       ...state.loading,
+    //       loadingPrf: false,
+    //     },
+    //     error: {
+    //       ...state.error,
+    //       errorPrf: action.payload,
+    //     },
+    //   }
+    //   break
+
+    case GET_APPROVED_PUBLICATION_POSITIONS:
       state = {
         ...state,
-        prflist: [],
+        publicationPositions: [],
         loading: {
           ...state.loading,
-          loadingPrf: true,
+          loadingPublicationPositions: true,
         },
         error: {
           ...state.error,
-          errorPrf: null,
+          errorPublicationPositions: null,
         },
       }
       break
-    case GET_APPROVED_PRFLIST_SUCCESS:
+    case GET_APPROVED_PUBLICATION_POSITIONS_SUCCESS:
       state = {
         ...state,
-        prflist: action.payload,
+        publicationPositions: action.payload,
         loading: {
           ...state.loading,
-          loadingPrf: false,
+          loadingPublicationPositions: false,
         },
       }
       break
-    case GET_APPROVED_PRFLIST_FAIL:
+    case GET_APPROVED_PUBLICATION_POSITIONS_FAIL:
       state = {
         ...state,
         loading: {
           ...state.loading,
-          loadingPrf: false,
+          loadingPublicationPositions: false,
         },
         error: {
           ...state.error,
-          errorPrf: action.payload,
+          errorPublicationPositions: action.payload,
         },
       }
       break
@@ -127,13 +168,13 @@ const positionRequest = (state = INIT_STATE_PRFL, action) => {
         ...state,
         prfDetails: {
           ...state.prfDetails,
-          _id: "",
-          prfNo: "",
+          _id: '',
+          prfNo: '',
           withExam: 0,
-          status: "",
-          dateRequested: "",
-          dateNeeded: "",
-          disapprovedRemarks: "",
+          status: '',
+          dateRequested: '',
+          dateNeeded: '',
+          disapprovedRemarks: '',
           for: {},
           from: {},
           prfPositions: [],

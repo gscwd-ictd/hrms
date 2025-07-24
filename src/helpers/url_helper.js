@@ -41,7 +41,8 @@ export const GET_ALL_ORGANIZATIONS = 'organization'
 // POSITION REQUEST
 export const POST_PRF = 'prf'
 export const GET_PRFLIST = 'prf'
-export const GET_APPROVED_PRFLIST = 'prf/approved'
+export const GET_PUBLICATION_POSITIONS = 'prf/approved/v2/'
+
 export const GET_PRF_DETAILS = 'prf/details/'
 export const GET_PRF_TRAIL = 'prf-trail/'
 

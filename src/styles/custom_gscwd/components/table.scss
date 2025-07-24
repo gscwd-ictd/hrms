@@ -136,10 +136,57 @@
         }
       }
     }
+
     .column-filters {
       order: 2;
       width: 50%;
       padding-left: 1.5rem;
+    }
+  }
+
+  .top-left-filter-container {
+    order: 1;
+    max-width: 50%;
+
+    .search-box {
+      order: 1;
+      margin: auto 0;
+      width: 50%;
+
+      .input-group {
+        .input-group-text {
+          background-color: white;
+          border-top-left-radius: 30px;
+          border-bottom-left-radius: 30px;
+          border-right: none;
+        }
+        .wd-table-search-input {
+          padding-left: 10px;
+          border-left: none;
+        }
+      }
+    }
+  }
+
+  .top-right-filter-container {
+    order: 2;
+    max-width: 50%;
+  }
+
+  .column-filters-v2 {
+    order: 3;
+    width: 100%;
+    padding-left: 1rem;
+    padding-bottom: 2rem;
+    gap: 10px;
+
+    .column-filter-container {
+      width: 25%;
+
+      .column-filter-inner {
+        display: block !important;
+        // width: 50%;
+      }
     }
   }
 

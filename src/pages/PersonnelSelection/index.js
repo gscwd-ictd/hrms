@@ -1,13 +1,7 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Can } from 'casl/Can'
-import { Link, Navigate, useLocation } from 'react-router-dom'
-
-import { useDispatch, useSelector } from 'react-redux'
-import { getApprovedPRFList } from 'store/actions'
-
-import TablePrfList from 'components/Table/TablePrfList'
-
+import { Navigate, Link } from 'react-router-dom'
 import {
   Container,
   Row,
@@ -15,94 +9,24 @@ import {
   Card,
   CardBody,
   CardTitle,
-  Button,
-  Badge,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
 } from 'reactstrap'
 import InterviewScheduleCalendar from './InterviewScheduleCalendar'
-import ApplicationChart from './ApplicationChart'
-import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import Breadcrumb from 'components/Common/Breadcrumb'
-import ToastrNotification from 'components/Notifications/ToastrNotification'
-import { SelectColumnFilter } from 'components/Filters/SelectColumnFilter'
-
-// style
+import PublicationPositions from 'components/PersonnelSelection/PublicationPositions'
 import 'styles/custom_gscwd/components/table.scss'
+import StatusGuide from 'components/Modal/PersonnelSelection/StatusGuide'
 
 const PersonnelSelection = () => {
-  const dispatch = useDispatch()
-  const location = useLocation()
+  /**
+   * Modal
+   */
+  const [showStatusGuide, setShowStatusGuide] = useState(false)
 
-  const prfListColumns = [
-    {
-      Header: 'ID',
-      accessor: '_id',
-      disableGlobalFilter: true,
-    },
-    {
-      Header: 'PRF No',
-      accessor: 'prfNo',
-    },
-    {
-      Header: 'Requested by',
-      accessor: 'from',
-      Filter: SelectColumnFilter,
-    },
-    {
-      Header: 'Positions',
-      accessor: 'positionTitles',
-      Cell: cell => renderPositions(cell),
-    },
-    {
-      Header: 'Actions',
-      accessor: '',
-      align: 'center',
-      disableGlobalFilter: true,
-      Cell: cell => rowActions(cell),
-    },
-  ]
-
-  // Badge pill design per position
-  const renderPositions = cell => {
-    const positionTitles = cell.row.values.positionTitles
-
-    if (typeof positionTitles === 'string') {
-      const positionTitlesArr = positionTitles.split(',')
-
-      return positionTitlesArr.map((positionTitle, index) => (
-        <Badge className="me-2 bg-success font-size-12" key={index}>
-          {positionTitle}
-        </Badge>
-      ))
-    }
-  }
-
-  const rowActions = cell => {
-    return (
-      <Link
-        className="dropdown-item"
-        to={location.pathname + '/publication-positions/' + cell.row.values._id}
-        target="_blank"
-      >
-        <Button className="btn btn-info waves-effect waves-light">
-          Requested Positions
-        </Button>
-      </Link>
-    )
-  }
-
-  // Redux state of list of prf that was approved
-  const { prflist, loadingPrf, errorPrf } = useSelector(state => ({
-    prflist: state.positionRequest.prflist,
-    loadingPrf: state.positionRequest.loading.loadingPrf,
-    errorPrf: state.positionRequest.error.errorPrf,
-  }))
-
-  const columns = useMemo(() => prfListColumns, [])
-  const data = useMemo(() => prflist, [prflist])
-
-  useEffect(() => {
-    dispatch(getApprovedPRFList())
-  }, [])
+  const toggleStatusGuideModal = () => setShowStatusGuide(!showStatusGuide)
 
   return (
     <React.Fragment>
@@ -115,25 +39,40 @@ const PersonnelSelection = () => {
               breadcrumbItem="Personnel Selection"
             />
 
-            {errorPrf ? (
-              <ToastrNotification toastType={'error'} notifMessage={errorPrf} />
-            ) : null}
             <Row>
               <Col lg={12}>
                 <Card>
                   <CardBody className="card-table">
-                    {loadingPrf ? (
-                      <LoadingIndicator />
-                    ) : (
-                      <TablePrfList columns={columns} data={data} />
-                    )}
+                    <div className="d-flex align-items-start">
+                      <UncontrolledDropdown className="ms-auto">
+                        <DropdownToggle
+                          className="text-muted font-size-16"
+                          tag="a"
+                          color="white"
+                          type="button"
+                        >
+                          <i className="mdi mdi-dots-horizontal"></i>
+                        </DropdownToggle>
+                        <DropdownMenu direction="right">
+                          <Link
+                            className="dropdown-item"
+                            to="#"
+                            onClick={() => toggleStatusGuideModal()}
+                          >
+                            Status Guide
+                          </Link>
+                        </DropdownMenu>
+                      </UncontrolledDropdown>
+                    </div>
+
+                    <PublicationPositions />
                   </CardBody>
                 </Card>
               </Col>
             </Row>
 
             <Row>
-              <Col md={6}>
+              <Col md={12}>
                 <Card>
                   <CardBody className="card-table">
                     <CardTitle>Interview/Examination Schedule</CardTitle>
@@ -141,19 +80,14 @@ const PersonnelSelection = () => {
                   </CardBody>
                 </Card>
               </Col>
-              <Col md={6}>
-                <Card>
-                  <CardBody className="card-table">
-                    <CardTitle>
-                      Application Data for C.Y. {new Date().getFullYear()}
-                    </CardTitle>
-                    <ApplicationChart />
-                  </CardBody>
-                </Card>
-              </Col>
             </Row>
           </Container>
         </div>
+
+        <StatusGuide
+          showStatusGuide={showStatusGuide}
+          toggleStatusGuideModal={toggleStatusGuideModal}
+        />
       </Can>
 
       <Can not I="access" this="Personnel_selection">

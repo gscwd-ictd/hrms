@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import {
   getAssignedPsbMembers,
   getUnassignedPsbMembers,
@@ -127,7 +127,7 @@ function* personnelSelectionBoardSaga() {
   yield takeEvery(GET_ASSIGNED_PSB_MEMBERS, fetchAssignedPSBMembers)
   yield takeEvery(GET_UNASSIGNED_PSB_MEMBERS, fetchUnassignedPSBMembers)
   yield takeEvery(GET_PSB_DETAILS, fetchPsbDetails)
-  yield takeEvery(GET_PSB_SUMMARY, fetchPsbSummary)
+  yield takeLatest(GET_PSB_SUMMARY, fetchPsbSummary)
   yield takeEvery(
     GET_SELECTED_BY_APPOINTING_AUTHORITY,
     fetchSelectedByAppointingAuth
