@@ -11,9 +11,10 @@ import { publicationStatus } from 'constants/publicationStatus'
 const HrmpsbDetails = props => {
   const { modalData } = props
   // redux state for list of applicants
-  const { psbDetails, loadingPsbDetails } = useSelector(state => ({
+  const { psbDetails, loadingPsbDetails, psbSummary } = useSelector(state => ({
     psbDetails: state.personnelSelectionBoard.response.psbDetails,
     loadingPsbDetails: state.personnelSelectionBoard.loading.loadingPsbDetails,
+    psbSummary: state.personnelSelectionBoard.response.psbSummary,
   }))
 
   // Modal for Confirmation before proceeding
@@ -36,6 +37,14 @@ const HrmpsbDetails = props => {
             <tbody>
               {!isEmpty(psbDetails) ? (
                 <>
+                  {/* Plantilla Item No. */}
+                  {!isEmpty(modalData.itemNumber) ? (
+                    <tr>
+                      <td>Plantilla Item No./s</td>
+                      <td>{modalData.itemNumber}</td>
+                    </tr>
+                  ) : null}
+
                   {/* Exam Row */}
                   {psbDetails.schedule.exam ? (
                     <>
@@ -68,7 +77,17 @@ const HrmpsbDetails = props => {
                   {/* No. of Applicants Row */}
                   <tr>
                     <td>No. of Applicants</td>
-                    <td colSpan={2}>{psbDetails.noOfApplicants}</td>
+                    <td>{psbDetails.noOfApplicants || '--'}</td>
+                  </tr>
+
+                  <tr>
+                    <td>No. of Qualified Applicants</td>
+                    <td>{psbSummary.numberOfQualifiedApplicants || '--'}</td>
+                  </tr>
+
+                  <tr>
+                    <td>No. of Interviewed Applicants</td>
+                    <td>{psbSummary.numberOfInterviewedApplicants || '--'}</td>
                   </tr>
 
                   {/* PSB Members Row */}

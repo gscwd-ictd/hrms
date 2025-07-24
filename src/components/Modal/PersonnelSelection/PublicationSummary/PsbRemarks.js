@@ -67,14 +67,18 @@ const PsbRemarks = props => {
                 <Col>
                   {applicantPsbRemarks.length > 0 ? (
                     applicantPsbRemarks.map(remark => {
-                      return (
-                        <Card key={remark.psbNo}>
-                          <CardTitle>
-                            PSB {remark.psbNo} | {remark.psbName}
-                          </CardTitle>
-                          <CardBody className="p-2">{remark.remarks}</CardBody>
-                        </Card>
-                      )
+                      if (remark.remarks !== '') {
+                        return (
+                          <Card key={remark.psbNo}>
+                            <CardTitle>
+                              PSB {remark.psbNo} | {remark.psbName}
+                            </CardTitle>
+                            <CardBody className="p-2">
+                              {remark.remarks}
+                            </CardBody>
+                          </Card>
+                        )
+                      }
                     })
                   ) : (
                     <div>No Remarks</div>

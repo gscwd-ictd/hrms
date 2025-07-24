@@ -1,7 +1,7 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import "styles/custom_gscwd/components/prftrail.scss"
+import 'styles/custom_gscwd/components/prftrail.scss'
 
 const PrfSignatory = props => {
   const { prfTrail, prfDetails, formatDate } = props
@@ -9,14 +9,13 @@ const PrfSignatory = props => {
     <div className="hori-timeline">
       <div className="owl-carousel owl-theme events">
         <div className="signatory-trail equal-columns">
-          {prfTrail.division.status !== "N/A" ? (
+          {prfTrail.division.status !== 'N/A' ? (
             <div
               className={
-                prfTrail.division.status === "For approval"
-                  ? "item event-list active"
-                  : "item event-list"
+                prfTrail.division.status === 'For approval'
+                  ? 'item event-list active'
+                  : 'item event-list'
               }
-              // style={{ display: "inline-table" }}
             >
               <div>
                 <div className="event-date">
@@ -37,12 +36,12 @@ const PrfSignatory = props => {
             </div>
           ) : null}
 
-          {prfTrail.department.status !== "N/A" ? (
+          {prfTrail.department.status !== 'N/A' ? (
             <div
               className={
-                prfTrail.department.status === "For approval"
-                  ? "item event-list active"
-                  : "item event-list"
+                prfTrail.department.status === 'For approval'
+                  ? 'item event-list active'
+                  : 'item event-list'
               }
             >
               <div>
@@ -50,9 +49,9 @@ const PrfSignatory = props => {
                   <div className="text-primary mb-1">
                     {prfTrail.department.updatedAt
                       ? formatDate(prfTrail.department.updatedAt)
-                      : prfTrail.department.status === "For approval" ||
-                        prfTrail.department.status === "Pending"
-                      ? "---"
+                      : prfTrail.department.status === 'For approval' ||
+                        prfTrail.department.status === 'Pending'
+                      ? '---'
                       : formatDate(prfDetails.dateRequested)}
                   </div>
                   <h5 className="mb-4">{prfTrail.department.name}</h5>
@@ -71,12 +70,12 @@ const PrfSignatory = props => {
             </div>
           ) : null}
 
-          {prfTrail.agm.status !== "N/A" ? (
+          {prfTrail.agm.status !== 'N/A' ? (
             <div
               className={
-                prfTrail.agm.status === "For approval"
-                  ? "item event-list active"
-                  : "item event-list"
+                prfTrail.agm.status === 'For approval'
+                  ? 'item event-list active'
+                  : 'item event-list'
               }
             >
               <div>
@@ -84,9 +83,9 @@ const PrfSignatory = props => {
                   <div className="text-primary mb-1">
                     {prfTrail.agm.updatedAt
                       ? formatDate(prfTrail.agm.updatedAt)
-                      : prfTrail.agm.status === "For approval" ||
-                        prfTrail.agm.status === "Pending"
-                      ? "---"
+                      : prfTrail.agm.status === 'For approval' ||
+                        prfTrail.agm.status === 'Pending'
+                      ? '---'
                       : formatDate(prfDetails.dateRequested)}
                   </div>
                   <h5 className="mb-4">{prfTrail.agm.name}</h5>
@@ -103,12 +102,12 @@ const PrfSignatory = props => {
             </div>
           ) : null}
 
-          {prfTrail.admin.status !== "N/A" ? (
+          {prfTrail.admin.status !== 'N/A' ? (
             <div
               className={
-                prfTrail.admin.status === "For approval"
-                  ? "item event-list active"
-                  : "item event-list"
+                prfTrail.admin.status === 'For approval'
+                  ? 'item event-list active'
+                  : 'item event-list'
               }
             >
               <div>
@@ -116,9 +115,9 @@ const PrfSignatory = props => {
                   <div className="text-primary mb-1">
                     {prfTrail.admin.updatedAt
                       ? formatDate(prfTrail.admin.updatedAt)
-                      : prfTrail.admin.status === "For approval" ||
-                        prfTrail.admin.status === "Pending"
-                      ? "---"
+                      : prfTrail.admin.status === 'For approval' ||
+                        prfTrail.admin.status === 'Pending'
+                      ? '---'
                       : formatDate(prfDetails.dateRequested)}
                   </div>
                   <h5 className="mb-4">{prfTrail.admin.name}</h5>
@@ -135,12 +134,12 @@ const PrfSignatory = props => {
             </div>
           ) : null}
 
-          {prfTrail.gm.status !== "N/A" ? (
+          {prfTrail.gm.status !== 'N/A' ? (
             <div
               className={
-                prfTrail.gm.status === "For approval"
-                  ? "item event-list active"
-                  : "item event-list"
+                prfTrail.gm.status === 'For approval'
+                  ? 'item event-list active'
+                  : 'item event-list'
               }
             >
               <div>
@@ -148,9 +147,9 @@ const PrfSignatory = props => {
                   <div className="text-primary mb-1">
                     {prfTrail.gm.updatedAt
                       ? formatDate(prfTrail.gm.updatedAt)
-                      : prfTrail.gm.status === "For approval" ||
-                        prfTrail.gm.status === "Pending"
-                      ? "---"
+                      : prfTrail.gm.status === 'For approval' ||
+                        prfTrail.gm.status === 'Pending'
+                      ? '---'
                       : formatDate(prfDetails.dateRequested)}
                   </div>
                   <h5 className="mb-4">{prfTrail.gm.name}</h5>

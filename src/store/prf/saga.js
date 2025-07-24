@@ -1,7 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 import {
   getPRFList,
-  getApprovedPRFList,
+  getPublicationPositions,
   getPRFDetails,
   getPRFTrail,
 } from 'helpers/backend_helper'
@@ -12,12 +12,12 @@ import {
   getSinglePRFFail,
   fetchPRFTrailSuccess,
   fetchPRFTrailFail,
-  getApprovedPRFListSuccess,
-  getApprovedPRFListFail,
+  getApprovedPublicationPositionsSuccess,
+  getApprovedPublicationPositionsFail,
 } from './actions'
 import {
   GET_PRFLIST,
-  GET_APPROVED_PRFLIST,
+  GET_APPROVED_PUBLICATION_POSITIONS,
   GET_SINGLE_PRF,
   GET_PRF_TRAIL,
 } from './actionTypes'
@@ -31,12 +31,21 @@ function* fetchPRFList() {
   }
 }
 
-function* fetchApprovedPRFList() {
+// function* fetchApprovedPRFList() {
+//   try {
+//     const response = yield call(getApprovedPRFList)
+//     yield put(getApprovedPRFListSuccess(response))
+//   } catch (error) {
+//     yield put(getApprovedPRFListFail(error))
+//   }
+// }
+
+function* getApprovedPublicationPositions({ payload: yearFilter }) {
   try {
-    const response = yield call(getApprovedPRFList)
-    yield put(getApprovedPRFListSuccess(response))
+    const response = yield call(getPublicationPositions, yearFilter)
+    yield put(getApprovedPublicationPositionsSuccess(response))
   } catch (error) {
-    yield put(getApprovedPRFListFail(error))
+    yield put(getApprovedPublicationPositionsFail(error))
   }
 }
 
@@ -62,7 +71,11 @@ function* fetchPRFTrail({ payload: prfId }) {
 
 function* positionReqSaga() {
   yield takeEvery(GET_PRFLIST, fetchPRFList)
-  yield takeEvery(GET_APPROVED_PRFLIST, fetchApprovedPRFList)
+  // yield takeEvery(GET_APPROVED_PRFLIST, fetchApprovedPRFList)
+  yield takeEvery(
+    GET_APPROVED_PUBLICATION_POSITIONS,
+    getApprovedPublicationPositions
+  )
   yield takeEvery(GET_SINGLE_PRF, fetchSinglePRF)
   yield takeEvery(GET_PRF_TRAIL, fetchPRFTrail)
 }

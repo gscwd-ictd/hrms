@@ -122,9 +122,8 @@ const WesDocument = props => {
 
   // Rendering of individual row of work experience
   const renderWorkExperiences = () => {
-    const content =
-      applicantWes &&
-      applicantWes.map((experience, index) => (
+    if (applicantWes && applicantWes.length > 0) {
+      const content = applicantWes.map((experience, index) => (
         <View style={[styles.workExperiences]} key={index}>
           <View style={[styles.workExperienceContainer]}>
             <Text style={[styles.mainListStyle]}>
@@ -161,8 +160,29 @@ const WesDocument = props => {
           </View>
         </View>
       ))
+      return content
+    } else {
+      const content = (
+        <View>
+          <Text
+            style={[
+              {
+                fontFamily: 'ArialRegular',
+                fontSize: 20,
+                margin: 20,
+                textAlign: 'center',
+              },
+            ]}
+          >
+            NO RELATED WORK EXPERIENCE
+          </Text>
+        </View>
+      )
 
-    return content
+      return content
+    }
+
+    // return content
   }
 
   // List of accomplishments

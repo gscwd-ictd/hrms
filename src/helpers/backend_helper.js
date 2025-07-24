@@ -176,7 +176,9 @@ export const deleteCompetencyDetails = competencyId =>
 
 // PRF -----------------------------------------------------------------------------
 export const getPRFList = () => getHris(url.GET_PRFLIST)
-export const getApprovedPRFList = () => getHris(url.GET_APPROVED_PRFLIST)
+// export const getApprovedPRFList = () => getHris(url.GET_APPROVED_PRFLIST)
+export const getPublicationPositions = yearFilter =>
+  getHris(url.GET_PUBLICATION_POSITIONS + yearFilter)
 export const getPRFDetails = prfId => getHris(url.GET_PRF_DETAILS + prfId)
 export const getPRFTrail = prfId => getHris(url.GET_PRF_TRAIL + prfId)
 

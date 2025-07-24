@@ -137,44 +137,6 @@ const SinglePositionRequest = props => {
                     ) : (
                       <>
                         {renderStatus(prfDetails.status)}
-                        {/* 
-                        <div className="table-responsive">
-                          <Table className="table-nowrap mb-0">
-                            <tbody>
-                              <tr>
-                                <th scope="row">PRF No. :</th>
-                                <td>{prfDetails.prfNo}</td>
-                              </tr>
-                              <tr>
-                                <th scope="row">Date Requested :</th>
-                                <td>{formatDate(prfDetails.dateRequested)}</td>
-                              </tr>
-                              <tr>
-                                <th scope="row">With examination :</th>
-                                <td>{prfDetails.withExam ? 'Yes' : 'No'}</td>
-                              </tr>
-                              <tr>
-                                <th scope="row">For : </th>
-                                <td>{prfDetails.for.name}</td>
-                              </tr>
-                              <tr>
-                                <th scope="row">From : </th>
-                                <td>{prfDetails.from.name}</td>
-                              </tr>
-                            </tbody>
-                          </Table>
-                        </div> */}
-
-                        {/* <Col md={4}>
-                              <Row>
-                                <Col md={3}>
-                                  <p>PRF No. :</p>
-                                </Col>
-                                <Col md={9}>
-                                  <h5>{prfDetails.prfNo}</h5>
-                                </Col>
-                              </Row>
-                            </Col> */}
 
                         <div className="p-2">
                           <Row>

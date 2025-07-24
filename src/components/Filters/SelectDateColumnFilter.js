@@ -1,8 +1,11 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Input, Label } from 'reactstrap'
+import { DateFormatter } from 'functions/DateFormatter'
+import dayjs from 'dayjs'
+import { isEmpty } from 'lodash'
 
-export const SelectColumnFilter = props => {
+export const SelectDateColumnFilter = props => {
   const {
     column: { filterValue, setFilter, preFilteredRows, id, render },
   } = props
@@ -16,7 +19,13 @@ export const SelectColumnFilter = props => {
       options.add(row.values[id])
     })
 
-    const sortedStringsArray = [...options].sort()
+    const sortedStringsArray = [...options].sort((a, b) => {
+      const date1 = dayjs(a)
+      const date2 = dayjs(b)
+
+      return date2.diff(date1)
+      // new Date(b) - new Date(a)
+    })
     const sortedStringsSet = new Set(sortedStringsArray)
 
     return [...sortedStringsSet.values()]
@@ -36,22 +45,15 @@ export const SelectColumnFilter = props => {
         }}
       >
         <option value="">All</option>
+        {/* !== undefined || option !== null */}
         {options.map((option, i) =>
-          typeof option == 'boolean' ? ( // if options are type boolean
+          !isEmpty(option) ? (
             <option
               key={i}
               value={option}
               style={{ textTransform: 'capitalize' }}
             >
-              {option ? 'True' : 'False'}
-            </option>
-          ) : option !== undefined ? (
-            <option
-              key={i}
-              value={option}
-              style={{ textTransform: 'capitalize' }}
-            >
-              {option}
+              {DateFormatter(option, 'MMMM DD, YYYY hh:mm A')}
             </option>
           ) : null
         )}
@@ -60,6 +62,6 @@ export const SelectColumnFilter = props => {
   )
 }
 
-SelectColumnFilter.propTypes = {
+SelectDateColumnFilter.propTypes = {
   column: PropTypes.object,
 }

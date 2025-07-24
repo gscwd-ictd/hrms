@@ -1,25 +1,22 @@
-import React from "react"
-import { isEmpty } from "lodash"
-import { useSelector } from "react-redux"
+import React from 'react'
+import { isEmpty } from 'lodash'
+import { useSelector } from 'react-redux'
 
-import { Table } from "reactstrap"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
+import { Table } from 'reactstrap'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 
 const EndorsedApplicants = () => {
-
   // redux state for to be endorsed applciants
-  const {
-    endorsedApplicantList,
-    loadingEndorsedApplicants,
-  } = useSelector(state => ({
-    endorsedApplicantList: state.applicants.endorsedApplicantList,
-    loadingEndorsedApplicants:
-      state.applicants.loading.loadingEndorsedApplicants,
-  }))
+  const { endorsedApplicantList, loadingEndorsedApplicants } = useSelector(
+    state => ({
+      endorsedApplicantList: state.applicants.endorsedApplicantList,
+      loadingEndorsedApplicants:
+        state.applicants.loading.loadingEndorsedApplicants,
+    })
+  )
 
   return (
     <>
-
       {loadingEndorsedApplicants ? (
         <LoadingIndicator />
       ) : (
@@ -28,25 +25,26 @@ const EndorsedApplicants = () => {
             <thead className="thead-light">
               <tr>
                 <th>Name</th>
+                <th>Type</th>
               </tr>
             </thead>
             <tbody>
-
-
               {!isEmpty(endorsedApplicantList.postingApplicants) ? (
                 endorsedApplicantList.postingApplicants.map(applicant => {
                   return (
                     <tr key={applicant.postingApplicantId}>
                       <td>{applicant.applicantName2}</td>
+                      <td>{applicant.applicantType}</td>
                     </tr>
                   )
-                }
-                )) : (
+                })
+              ) : (
                 <tr>
-                  <td className="text-center text-danger">No Endorsed Applicants</td>
+                  <td className="text-center text-danger">
+                    No Endorsed Applicants
+                  </td>
                 </tr>
-              )
-              }
+              )}
             </tbody>
           </Table>
         </div>
