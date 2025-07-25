@@ -230,7 +230,7 @@ const PublicationPositions = () => {
       )
     } else {
       return (
-        <Badge className="me-2 font-size-12">
+        <Badge className="me-2 bg-secondary font-size-12">
           {cell.row.values.postingStatus}
         </Badge>
       )

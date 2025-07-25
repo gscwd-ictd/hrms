@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Input, Label } from 'reactstrap'
 import { DateFormatter } from 'functions/DateFormatter'
@@ -10,26 +10,49 @@ export const SelectDateColumnFilter = props => {
     column: { filterValue, setFilter, preFilteredRows, id, render },
   } = props
 
+  const utc = require('dayjs/plugin/utc')
+  dayjs.extend(utc)
+
   // Calculate the options for filtering
   // using the preFilteredRows
   const options = useMemo(() => {
     const options = new Set()
 
     preFilteredRows.forEach(row => {
-      options.add(row.values[id])
+      // options.add(row.values[id])
+      if (!isEmpty(row.values[id])) {
+        options.add(dayjs(row.values[id]).format('YYYY-MM-DD'))
+      }
     })
 
     const sortedStringsArray = [...options].sort((a, b) => {
       const date1 = dayjs(a)
       const date2 = dayjs(b)
 
-      return date2.diff(date1)
-      // new Date(b) - new Date(a)
+      return date2.diff(date1, 'day')
     })
+    console.log(sortedStringsArray)
+
     const sortedStringsSet = new Set(sortedStringsArray)
 
     return [...sortedStringsSet.values()]
   }, [id, preFilteredRows])
+
+  useEffect(() => {
+    const currentDayMatch = options.find(interviewDate => {
+      if (!isEmpty(interviewDate)) {
+        const today = dayjs().format('YYYY-MM-DD')
+
+        if (today === interviewDate) {
+          return today
+        } else {
+          return
+        }
+      }
+    })
+
+    setFilter(currentDayMatch)
+  }, [options])
 
   return (
     <div className="d-flex gap-1 column-filter-inner">
@@ -53,7 +76,7 @@ export const SelectDateColumnFilter = props => {
               value={option}
               style={{ textTransform: 'capitalize' }}
             >
-              {DateFormatter(option, 'MMMM DD, YYYY hh:mm A')}
+              {DateFormatter(option, 'MMMM DD, YYYY')}
             </option>
           ) : null
         )}
