@@ -31,7 +31,6 @@ export const SelectDateColumnFilter = props => {
 
       return date2.diff(date1, 'day')
     })
-    console.log(sortedStringsArray)
 
     const sortedStringsSet = new Set(sortedStringsArray)
 
