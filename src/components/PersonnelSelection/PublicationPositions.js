@@ -111,10 +111,6 @@ const PublicationPositions = () => {
         )
       },
     },
-    // {
-    //   Header: 'No. of Applicants',
-    //   accessor: 'numberOfApplicants',
-    // },
     {
       Header: 'Publication Status',
       accessor: 'postingStatus',
@@ -422,7 +418,7 @@ const PublicationPositions = () => {
             </>
           ) : null}
 
-          <DropdownItem onClick={() => publicationDetails(cell.row.values)}>
+          <DropdownItem onClick={() => publicationDetails(cell.row.original)}>
             <Link className="dropdown-item" to="#">
               Publication Summary
             </Link>

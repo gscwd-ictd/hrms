@@ -23,6 +23,7 @@ import {
   ModalHeader,
   ModalBody,
   Button,
+  Table,
 } from 'reactstrap'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 import AppliedApplicants from './AppliedApplicants'
@@ -109,7 +110,7 @@ const PublicationSummary = props => {
         centered
       >
         <ModalHeader toggle={handleClosePublicationDetails}>
-          Publication Summary | {modalData.positionTitle}
+          Publication Summary
         </ModalHeader>
 
         {/* Error Notif */}
@@ -164,9 +165,50 @@ const PublicationSummary = props => {
 
         <ModalBody>
           <Row>
+            <Col sm="6">
+              <div className="table-responsive">
+                <Table className="table mb-0">
+                  <tbody>
+                    {/* Position Title */}
+                    <tr>
+                      <td>Position Title</td>
+                      <td>{modalData.positionTitle || '--'}</td>
+                    </tr>
+
+                    {/* Assignment */}
+                    <tr>
+                      <td>Assignment</td>
+                      <td>{modalData.assignment || '--'}</td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </div>
+            </Col>
+            <Col sm="6">
+              <div className="table-responsive">
+                <Table className="table mb-0">
+                  <tbody>
+                    {/* Plantilla Item No. */}
+                    <tr>
+                      <td>Plantilla Item No./s</td>
+                      <td>{modalData.itemNumber || '--'}</td>
+                    </tr>
+
+                    {/* Salary Grade */}
+                    <tr>
+                      <td>Salary Grade</td>
+                      <td>{modalData.salaryGrade || '--'}</td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </div>
+            </Col>
+          </Row>
+
+          <Row className="pt-4">
             <Col>
               {/* Tab Navigations */}
-              <Nav tabs>
+              <Nav tabs className="nav-tabs-custom nav-justified">
                 <NavItem>
                   <NavLink
                     style={{ cursor: 'pointer' }}

@@ -38,12 +38,12 @@ const HrmpsbDetails = props => {
               {!isEmpty(psbDetails) ? (
                 <>
                   {/* Plantilla Item No. */}
-                  {!isEmpty(modalData.itemNumber) ? (
+                  {/* {!isEmpty(modalData.itemNumber) ? (
                     <tr>
                       <td>Plantilla Item No./s</td>
                       <td>{modalData.itemNumber}</td>
                     </tr>
-                  ) : null}
+                  ) : null} */}
 
                   {/* Exam Row */}
                   {psbDetails.schedule.exam ? (
