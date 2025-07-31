@@ -14,7 +14,7 @@ import PropTypes from 'prop-types'
 import 'styles/custom_gscwd/components/table.scss'
 
 const TablePublications = props => {
-  const { columns, data } = props
+  const { columns, data, sorting } = props
 
   const tableInstance = useTable(
     {
@@ -23,6 +23,7 @@ const TablePublications = props => {
       initialState: {
         pageIndex: 0,
         hiddenColumns: ['vppId'],
+        sorting: sorting,
       },
     },
     useFilters,
@@ -177,6 +178,7 @@ const TablePublications = props => {
 TablePublications.propTypes = {
   columns: PropTypes.array,
   data: PropTypes.array,
+  sorting: PropTypes.array,
 }
 
 export default TablePublications

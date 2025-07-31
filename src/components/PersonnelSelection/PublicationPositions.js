@@ -51,6 +51,7 @@ const PublicationPositions = () => {
 
   const [yearFilter, setYearFilter] = useState(dayjs().year())
   const [debouncedYearFilter, setDebouncedYearFilter] = useState(dayjs().year())
+  const [sorting, setSorting] = useState([])
 
   // Redux state of list of prf that was approved
   const { publicationPositions, loadingPubPos, errorPubPos } = useSelector(
@@ -77,11 +78,6 @@ const PublicationPositions = () => {
       accessor: 'vppId',
       disableGlobalFilter: true,
     },
-    // {
-    //   Header: 'Assignment',
-    //   accessor: 'assignment',
-    //   Filter: SelectColumnFilter,
-    // },
     {
       Header: 'Position Title',
       accessor: 'positionTitle',
@@ -122,28 +118,10 @@ const PublicationPositions = () => {
       accessor: '',
       align: 'center',
       disableGlobalFilter: true,
+      disableSortBy: true,
       Cell: cell => rowActions(cell),
     },
   ]
-
-  // const tblColumns = [
-  //   {
-  //     Header: 'SG Level',
-  //     accessor: 'salaryGradeLevel',
-  //   },
-  //   {
-  //     Header: 'With Exam',
-  //     accessor: 'withExam',
-  //     Filter: SelectColumnFilter,
-  //     Cell: function WithExam(cell) {
-  //       if (cell.row.values.withExam === 'Yes') {
-  //         return <p>Yes</p>
-  //       } else {
-  //         return <p>No</p>
-  //       }
-  //     },
-  //   },
-  // ]
 
   const postingDeadlineBadge = cell => {
     if (!isEmpty(cell.row.original.postingDeadline)) {
@@ -604,6 +582,7 @@ const PublicationPositions = () => {
     handleShowPublicationDetails()
   }
 
+  // Debounce for year filter of publication
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setDebouncedYearFilter(yearFilter)
@@ -612,11 +591,17 @@ const PublicationPositions = () => {
     return () => clearTimeout(timeoutId)
   }, [yearFilter, 1000])
 
+  // Fetch publicatons for the current year
   useEffect(() => {
     if (debouncedYearFilter !== 0) {
       dispatch(getApprovedPublicationPositions(debouncedYearFilter))
     }
   }, [debouncedYearFilter])
+
+  useEffect(() => {
+    // sort by interview date
+    setSorting([...sorting, { id: 'schedule', desc: true }])
+  }, [])
 
   return (
     <React.Fragment>
@@ -661,7 +646,7 @@ const PublicationPositions = () => {
             </Row>
           </div>
 
-          <TablePublications columns={columns} data={data} />
+          <TablePublications columns={columns} data={data} sorting={sorting} />
         </>
       )}
 
