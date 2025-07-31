@@ -43,7 +43,6 @@ const InterviewScheduleCalendar = () => {
     const event = arg.event
 
     setEvent({
-      // id: event.id,
       vppId: event.id,
       positionTitle: event.title,
       itemNumber: event._def.extendedProps.itemNumber,
@@ -54,6 +53,8 @@ const InterviewScheduleCalendar = () => {
       start: event.start.toLocaleString('en-US', {
         timeZone: 'Asia/Manila',
       }),
+      assignment: event._def.extendedProps.assignment,
+      salaryGrade: event._def.extendedProps.salaryGrade,
     })
 
     toggle()
