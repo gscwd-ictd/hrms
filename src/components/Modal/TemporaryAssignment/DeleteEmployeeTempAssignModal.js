@@ -124,20 +124,9 @@ const DeleteEmployeeTempAssignModal = props => {
                   flexDirection: 'row',
                 }}
               >
-                <span className="">Date From: </span>
+                <span className="">Date Start: </span>
                 <span className="fw-bold ms-auto self-end text-end">
                   {dayjs(modalData.dateFrom).format('MMMM DD, YYYY')}
-                </span>
-              </div>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                }}
-              >
-                <span className="">Date To: </span>
-                <span className="fw-bold ms-auto self-end text-end">
-                  {dayjs(modalData.dateTo).format('MMMM DD, YYYY')}
                 </span>
               </div>
               <div

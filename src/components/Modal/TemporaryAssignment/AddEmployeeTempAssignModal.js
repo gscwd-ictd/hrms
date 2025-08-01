@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { isEmpty } from 'lodash'
 import PropTypes from 'prop-types'
-
 import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchEmployeeTemporaryAssignmentList,
@@ -10,7 +9,6 @@ import {
   addEmployeeForTemporaryAssignment,
   resetEmployeeTemporaryAssignmentResponse,
 } from 'store/actions'
-
 import {
   Col,
   Row,
@@ -35,8 +33,9 @@ import { useFormik } from 'formik'
 const AddEmployeeTempAssignModal = props => {
   const { showAdd, handleCloseAdd } = props
   const dispatch = useDispatch()
-  const [selectedEmployee, setSelectedEmployee] = useState({})
-  const [selectedOrganization, setSelectedOrganization] = useState({})
+  const [selectedEmployee, setSelectedEmployee] = useState(null)
+  const [selectedOrganization, setSelectedOrganization] = useState(null)
+  const [sortedOrganizationList, setSortedOrganizationList] = useState([])
 
   // redux state for temporary assignment list
   const { employeeTemporaryAssignmentList } = useSelector(state => ({
@@ -93,44 +92,44 @@ const AddEmployeeTempAssignModal = props => {
       employeeId: '',
       organizationId: '',
       dateFrom: '',
-      dateTo: '',
+      // dateTo: '',
     },
     validationSchema: Yup.object().shape({
       employeeId: Yup.string().required('Please select an employee'),
       organizationId: Yup.string().required('Please select organization'),
       dateFrom: Yup.date()
-        .min(currentDate, 'Date from cannot be earlier than the current date')
-        .max(Yup.ref('dateTo'), 'Date from cannot be after date to')
-        .required('Please select date from')
-        .test(
-          'checkDateFrom',
-          'Selected date collides with existing employee temporary assignment',
-          function (value) {
-            const { employeeId } = this.parent
-            return !employeeTemporaryAssignmentList.some(
-              assignment =>
-                assignment.employeeId === employeeId &&
-                new Date(assignment.dateFrom) <= new Date(value) &&
-                new Date(assignment.dateTo) >= new Date(value)
-            )
-          }
-        ),
-      dateTo: Yup.date()
-        .min(Yup.ref('dateFrom'), 'Date to cannot be before date from')
-        .required('Please select date to')
-        .test(
-          'checkDateTo',
-          'Selected date collides with existing employee temporary assignment',
-          function (value) {
-            const { employeeId, dateFrom } = this.parent
-            return !employeeTemporaryAssignmentList.some(
-              assignment =>
-                assignment.employeeId === employeeId &&
-                new Date(assignment.dateFrom) <= new Date(dateFrom) &&
-                new Date(assignment.dateTo) >= new Date(value)
-            )
-          }
-        ),
+        // .min(currentDate, 'Date start cannot be earlier than the current date')
+        // .max(Yup.ref('dateTo'), 'Date from cannot be after date to')
+        .required('Please select date start'),
+      // .test(
+      //   'checkDateFrom',
+      //   'Selected date collides with existing employee temporary assignment',
+      //   function (value) {
+      //     const { employeeId } = this.parent
+      //     return !employeeTemporaryAssignmentList.some(
+      //       assignment =>
+      //         assignment.employeeId === employeeId &&
+      //         new Date(assignment.dateFrom) <= new Date(value) &&
+      //         new Date(assignment.dateTo) >= new Date(value)
+      //     )
+      //   }
+      // ),
+      // dateTo: Yup.date()
+      //   .min(Yup.ref('dateFrom'), 'Date to cannot be before date from')
+      //   .required('Please select date to')
+      //   .test(
+      //     'checkDateTo',
+      //     'Selected date collides with existing employee temporary assignment',
+      //     function (value) {
+      //       const { employeeId, dateFrom } = this.parent
+      //       return !employeeTemporaryAssignmentList.some(
+      //         assignment =>
+      //           assignment.employeeId === employeeId &&
+      //           new Date(assignment.dateFrom) <= new Date(dateFrom) &&
+      //           new Date(assignment.dateTo) >= new Date(value)
+      //       )
+      //     }
+      //   ),
     }),
 
     onSubmit: (values, { resetForm }) => {
@@ -139,12 +138,23 @@ const AddEmployeeTempAssignModal = props => {
     },
   })
 
+  // filter organization list where the original employee org cannot be selected
+  useEffect(() => {
+    if (!isEmpty(selectedEmployee)) {
+      const newOrgList = allOrganizations.filter(
+        org => org._id !== selectedEmployee.value.organizationId
+      )
+      setSortedOrganizationList(newOrgList)
+    }
+  }, [selectedEmployee, allOrganizations])
+
   // Initial fetch of data for select fields on assignable employees and organizations
   useEffect(() => {
     if (showAdd) {
       dispatch(fetchAssignableEmployeeList())
       dispatch(fetchAllOrganizations())
     } else {
+      formik.resetForm()
       dispatch(resetEmployeeTemporaryAssignmentResponse())
     }
   }, [showAdd])
@@ -152,8 +162,9 @@ const AddEmployeeTempAssignModal = props => {
   useEffect(() => {
     if (!isEmpty(postEmployeeTemporaryAssignment)) {
       formik.resetForm()
-      setSelectedEmployee({})
-      setSelectedOrganization({})
+      setSelectedEmployee(null)
+      setSelectedOrganization(null)
+      setSortedOrganizationList([])
       dispatch(fetchEmployeeTemporaryAssignmentList())
       dispatch(resetEmployeeTemporaryAssignmentResponse())
       handleCloseAdd()
@@ -231,16 +242,17 @@ const AddEmployeeTempAssignModal = props => {
                       formik.setFieldValue(
                         'employeeId',
                         selectedEmployeeOption
-                          ? selectedEmployeeOption.value
+                          ? selectedEmployeeOption.value.employeeId
                           : ''
                       )
                       setSelectedEmployee(selectedEmployeeOption)
                     }}
                     onBlur={formik.handleBlur}
                     value={
-                      Object.keys(selectedEmployee).length > 0
-                        ? selectedEmployee
-                        : null
+                      // Object.keys(selectedEmployee).length > 0
+                      //   ? selectedEmployee
+                      //   : null
+                      selectedEmployee || ''
                     }
                     options={assignableEmployeeList}
                     getOptionLabel={option => `${option.label}`}
@@ -297,11 +309,12 @@ const AddEmployeeTempAssignModal = props => {
                     }}
                     onBlur={formik.handleBlur}
                     value={
-                      Object.keys(selectedOrganization).length > 0
-                        ? selectedOrganization
-                        : null
+                      // Object.keys(selectedOrganization).length > 0
+                      //   ? selectedOrganization
+                      //   : null
+                      selectedOrganization || ''
                     }
-                    options={allOrganizations}
+                    options={sortedOrganizationList}
                     getOptionLabel={option => `${option.name}`}
                     getOptionValue={option => `${option._id}`}
                     styles={{
@@ -338,7 +351,7 @@ const AddEmployeeTempAssignModal = props => {
                 </FormGroup>
 
                 <FormGroup>
-                  <Label for="dateFrom">Date From</Label>
+                  <Label for="dateFrom">Date Start</Label>
                   <Input
                     name="dateFrom"
                     type="date"
@@ -361,7 +374,7 @@ const AddEmployeeTempAssignModal = props => {
                   ) : null}
                 </FormGroup>
 
-                <FormGroup>
+                {/* <FormGroup>
                   <Label for="dateTo">Date To</Label>
                   <Input
                     name="dateTo"
@@ -383,7 +396,7 @@ const AddEmployeeTempAssignModal = props => {
                       {formik.errors.dateTo}
                     </FormFeedback>
                   ) : null}
-                </FormGroup>
+                </FormGroup> */}
               </Col>
             </Row>
           </Form>

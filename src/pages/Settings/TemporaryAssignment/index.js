@@ -1,18 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchEmployeeTemporaryAssignmentList } from 'store/actions'
-
 import { Row, Col, Card, CardBody, Container } from 'reactstrap'
 import TableBase from 'components/Table/TableBase'
 import Breadcrumbs from 'components/Common/Breadcrumb'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import InRowAction from 'components/InRowAction/InRowAction'
-
+import { isEmpty } from 'lodash'
 import AddEmployeeTempAssignModal from 'components/Modal/TemporaryAssignment/AddEmployeeTempAssignModal'
 import DeleteEmployeeTempAssignModal from 'components/Modal/TemporaryAssignment/DeleteEmployeeTempAssignModal'
-
 import dayjs from 'dayjs'
+import { DateFormatter } from 'functions/DateFormatter'
 
 const TemporaryAssignment = () => {
   const dispatch = useDispatch()
@@ -28,12 +27,22 @@ const TemporaryAssignment = () => {
       accessor: 'fullName',
     },
     {
-      Header: 'Date From',
-      accessor: data => dayjs(data.dateFrom).format('MMMM DD, YYYY'),
+      Header: 'Date Start',
+      accessor: 'dateFrom',
+      Cell: cell => {
+        return <p>{DateFormatter(cell.value, 'MMMM DD, YYYY')}</p>
+      },
     },
     {
-      Header: 'Date To',
-      accessor: data => dayjs(data.dateTo).format('MMMM DD, YYYY'),
+      Header: 'Date End',
+      accessor: 'dateTo',
+      Cell: cell => {
+        if (!isEmpty(cell.value)) {
+          return <p>{DateFormatter(cell.value, 'MMMM DD, YYYY')}</p>
+        } else {
+          return <p>---- --, ----</p>
+        }
+      },
     },
     {
       Header: 'Organization Name',
@@ -42,7 +51,9 @@ const TemporaryAssignment = () => {
     {
       Header: 'Status',
       accessor: 'status',
-      Cell: ({ value }) => value.charAt(0).toUpperCase() + value.slice(1),
+      Cell: cell => {
+        return <p>{cell.value.charAt(0).toUpperCase() + cell.value.slice(1)}</p>
+      },
     },
     {
       Header: 'Actions',
