@@ -58,7 +58,7 @@ const TableBase = props => {
       </div>
       <Table
         {...getTableProps()}
-        className="table mb-0 wd-table"
+        className="table mb-0 mt-5 wd-table"
         hover
         responsive
       >

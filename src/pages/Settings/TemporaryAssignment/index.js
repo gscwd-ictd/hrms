@@ -1,18 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchEmployeeTemporaryAssignmentList } from 'store/actions'
-
 import { Row, Col, Card, CardBody, Container } from 'reactstrap'
 import TableBase from 'components/Table/TableBase'
 import Breadcrumbs from 'components/Common/Breadcrumb'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import InRowAction from 'components/InRowAction/InRowAction'
-
+import { isEmpty } from 'lodash'
 import AddEmployeeTempAssignModal from 'components/Modal/TemporaryAssignment/AddEmployeeTempAssignModal'
+import EditEmployeeTempAssignModal from 'components/Modal/TemporaryAssignment/EditEmployeeTempAssignModal'
 import DeleteEmployeeTempAssignModal from 'components/Modal/TemporaryAssignment/DeleteEmployeeTempAssignModal'
-
-import dayjs from 'dayjs'
+import { DateFormatter } from 'functions/DateFormatter'
+import { tempAssignmentStatuses } from 'constants/selectInputs'
 
 const TemporaryAssignment = () => {
   const dispatch = useDispatch()
@@ -28,12 +28,22 @@ const TemporaryAssignment = () => {
       accessor: 'fullName',
     },
     {
-      Header: 'Date From',
-      accessor: data => dayjs(data.dateFrom).format('MMMM DD, YYYY'),
+      Header: 'Date Start',
+      accessor: 'dateFrom',
+      Cell: cell => {
+        return <p>{DateFormatter(cell.value, 'MMMM DD, YYYY')}</p>
+      },
     },
     {
-      Header: 'Date To',
-      accessor: data => dayjs(data.dateTo).format('MMMM DD, YYYY'),
+      Header: 'Date End',
+      accessor: 'dateTo',
+      Cell: cell => {
+        if (!isEmpty(cell.value)) {
+          return <p>{DateFormatter(cell.value, 'MMMM DD, YYYY')}</p>
+        } else {
+          return <p>---- --, ----</p>
+        }
+      },
     },
     {
       Header: 'Organization Name',
@@ -42,7 +52,9 @@ const TemporaryAssignment = () => {
     {
       Header: 'Status',
       accessor: 'status',
-      Cell: ({ value }) => value.charAt(0).toUpperCase() + value.slice(1),
+      Cell: cell => {
+        return <p className="text-capitalize">{cell.value}</p>
+      },
     },
     {
       Header: 'Actions',
@@ -50,7 +62,15 @@ const TemporaryAssignment = () => {
       align: 'center',
       disableGlobalFilter: true,
       Cell: function ActionDropdown(cell) {
-        return <InRowAction cell={cell} deleteModal={deleteModal} />
+        return (
+          <div className="d-flex">
+            {cell.row.original.status === tempAssignmentStatuses[0].value ? (
+              <InRowAction cell={cell} editModal={editModal} />
+            ) : null}
+
+            <InRowAction cell={cell} deleteModal={deleteModal} />
+          </div>
+        )
       },
     },
   ]
@@ -84,6 +104,16 @@ const TemporaryAssignment = () => {
   const [showAdd, setShowAdd] = useState(false)
   const handleCloseAdd = () => setShowAdd(false)
   const handleShowAdd = () => setShowAdd(true)
+
+  // Update temporary assignment modal
+  const [showEdt, setShowEdt] = useState(false)
+  const handleCloseEdt = () => setShowEdt(false)
+  const handleShowEdt = () => setShowEdt(true)
+
+  const editModal = rowData => {
+    setModalData(rowData)
+    handleShowEdt()
+  }
 
   // Delete temporary assignment modal
   const [showDel, setShowDel] = useState(false)
@@ -144,6 +174,13 @@ const TemporaryAssignment = () => {
                   showAdd={showAdd}
                   handleCloseAdd={handleCloseAdd}
                 />
+
+                <EditEmployeeTempAssignModal
+                  showEdt={showEdt}
+                  handleCloseEdt={handleCloseEdt}
+                  modalData={modalData}
+                />
+
                 <DeleteEmployeeTempAssignModal
                   showDel={showDel}
                   handleCloseDel={handleCloseDel}

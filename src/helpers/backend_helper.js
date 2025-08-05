@@ -554,8 +554,8 @@ export const getTemporaryAssignmentDetails = assignmentId =>
   getHris(url.TEMPORARY_ASSIGNMENT + assignmentId)
 export const postTemporaryAssignment = assignmentDetails =>
   postHris(url.TEMPORARY_ASSIGNMENT, assignmentDetails)
-export const patchTemporaryAssignment = (assignmentId, assignmentDetails) =>
-  putHris(url.TEMPORARY_ASSIGNMENT + assignmentId, assignmentDetails)
+export const patchTemporaryAssignment = (tempAssignmentId, assignmentDetails) =>
+  patchHris(url.TEMPORARY_ASSIGNMENT + tempAssignmentId, assignmentDetails)
 export const delTemporaryAssignment = assignmentId =>
   delHris(url.TEMPORARY_ASSIGNMENT + assignmentId)
 
