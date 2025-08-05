@@ -107,12 +107,12 @@ function* addEmployeeForTemporaryAssignment({
 }
 
 function* updateEmployeeForTemporaryAssignment({
-  payload: { employeeAssignmentId, employeeAssignmentDetails },
+  payload: { tempAssignmentId, employeeAssignmentDetails },
 }) {
   try {
     const response = yield call(
       patchTemporaryAssignment,
-      employeeAssignmentId,
+      tempAssignmentId,
       employeeAssignmentDetails
     )
 

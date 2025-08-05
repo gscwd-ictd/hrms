@@ -37,12 +37,6 @@ const AddEmployeeTempAssignModal = props => {
   const [selectedOrganization, setSelectedOrganization] = useState(null)
   const [sortedOrganizationList, setSortedOrganizationList] = useState([])
 
-  // redux state for temporary assignment list
-  const { employeeTemporaryAssignmentList } = useSelector(state => ({
-    employeeTemporaryAssignmentList:
-      state.temporaryAssignment.employeeTemporaryAssignmentList,
-  }))
-
   // Redux state for assignable employees
   const {
     assignableEmployeeList,
@@ -92,7 +86,6 @@ const AddEmployeeTempAssignModal = props => {
       employeeId: '',
       organizationId: '',
       dateFrom: '',
-      // dateTo: '',
     },
     validationSchema: Yup.object().shape({
       employeeId: Yup.string().required('Please select an employee'),
@@ -155,6 +148,9 @@ const AddEmployeeTempAssignModal = props => {
       dispatch(fetchAllOrganizations())
     } else {
       formik.resetForm()
+      setSelectedEmployee(null)
+      setSelectedOrganization(null)
+      setSortedOrganizationList([])
       dispatch(resetEmployeeTemporaryAssignmentResponse())
     }
   }, [showAdd])
@@ -173,7 +169,7 @@ const AddEmployeeTempAssignModal = props => {
 
   return (
     <>
-      <Modal isOpen={showAdd} toggle={handleCloseAdd} size="lg" centered>
+      <Modal isOpen={showAdd} toggle={handleCloseAdd} size="md" centered>
         <ModalHeader toggle={handleCloseAdd}>
           Assign Employee for Temporary Assignment
         </ModalHeader>
@@ -274,6 +270,7 @@ const AddEmployeeTempAssignModal = props => {
                       }),
                     }}
                     isDisabled={loadingAssignableEmployeeList}
+                    isClearable={true}
                   />
 
                   <FormFeedback
@@ -335,6 +332,7 @@ const AddEmployeeTempAssignModal = props => {
                       }),
                     }}
                     isDisabled={loadingAllOrganizations}
+                    isClearable={true}
                   />
 
                   <FormFeedback

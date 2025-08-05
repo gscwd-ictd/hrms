@@ -146,6 +146,17 @@ const separationTypes = [
   'Death',
 ]
 
+const tempAssignmentStatuses = [
+  {
+    label: 'Active',
+    value: 'active',
+  },
+  {
+    label: 'Inactive',
+    value: 'inactive',
+  },
+]
+
 export {
   sexes,
   civilStatuses,
@@ -169,4 +180,5 @@ export {
   natureOfAppointment2,
   viceTypes,
   separationTypes,
+  tempAssignmentStatuses,
 }

@@ -130,9 +130,13 @@ export const addEmployeeForTemporaryAssignmentFail = error => {
 }
 
 // Update employee for temporary assignment
-export const updateEmployeeForTemporaryAssignment = () => {
+export const updateEmployeeForTemporaryAssignment = (
+  tempAssignmentId,
+  employeeAssignmentDetails
+) => {
   return {
     type: PATCH_EMPLOYEE_TEMPORARY_ASSIGNMENT,
+    payload: { tempAssignmentId, employeeAssignmentDetails },
   }
 }
 export const updateEmployeeForTemporaryAssignmentSuccess = response => {

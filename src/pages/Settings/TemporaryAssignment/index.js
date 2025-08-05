@@ -9,9 +9,10 @@ import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import InRowAction from 'components/InRowAction/InRowAction'
 import { isEmpty } from 'lodash'
 import AddEmployeeTempAssignModal from 'components/Modal/TemporaryAssignment/AddEmployeeTempAssignModal'
+import EditEmployeeTempAssignModal from 'components/Modal/TemporaryAssignment/EditEmployeeTempAssignModal'
 import DeleteEmployeeTempAssignModal from 'components/Modal/TemporaryAssignment/DeleteEmployeeTempAssignModal'
-import dayjs from 'dayjs'
 import { DateFormatter } from 'functions/DateFormatter'
+import { tempAssignmentStatuses } from 'constants/selectInputs'
 
 const TemporaryAssignment = () => {
   const dispatch = useDispatch()
@@ -52,7 +53,7 @@ const TemporaryAssignment = () => {
       Header: 'Status',
       accessor: 'status',
       Cell: cell => {
-        return <p>{cell.value.charAt(0).toUpperCase() + cell.value.slice(1)}</p>
+        return <p className="text-capitalize">{cell.value}</p>
       },
     },
     {
@@ -61,7 +62,15 @@ const TemporaryAssignment = () => {
       align: 'center',
       disableGlobalFilter: true,
       Cell: function ActionDropdown(cell) {
-        return <InRowAction cell={cell} deleteModal={deleteModal} />
+        return (
+          <div className="d-flex">
+            {cell.row.original.status === tempAssignmentStatuses[0].value ? (
+              <InRowAction cell={cell} editModal={editModal} />
+            ) : null}
+
+            <InRowAction cell={cell} deleteModal={deleteModal} />
+          </div>
+        )
       },
     },
   ]
@@ -95,6 +104,16 @@ const TemporaryAssignment = () => {
   const [showAdd, setShowAdd] = useState(false)
   const handleCloseAdd = () => setShowAdd(false)
   const handleShowAdd = () => setShowAdd(true)
+
+  // Update temporary assignment modal
+  const [showEdt, setShowEdt] = useState(false)
+  const handleCloseEdt = () => setShowEdt(false)
+  const handleShowEdt = () => setShowEdt(true)
+
+  const editModal = rowData => {
+    setModalData(rowData)
+    handleShowEdt()
+  }
 
   // Delete temporary assignment modal
   const [showDel, setShowDel] = useState(false)
@@ -155,6 +174,13 @@ const TemporaryAssignment = () => {
                   showAdd={showAdd}
                   handleCloseAdd={handleCloseAdd}
                 />
+
+                <EditEmployeeTempAssignModal
+                  showEdt={showEdt}
+                  handleCloseEdt={handleCloseEdt}
+                  modalData={modalData}
+                />
+
                 <DeleteEmployeeTempAssignModal
                   showDel={showDel}
                   handleCloseDel={handleCloseDel}
