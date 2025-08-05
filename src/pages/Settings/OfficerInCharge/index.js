@@ -1,45 +1,46 @@
-import React, { useEffect, useMemo, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { fetchOICList } from "store/actions"
-
-import { Row, Col, Card, CardBody, Container } from "reactstrap"
-import TableBase from "components/Table/TableBase"
-import Breadcrumbs from "components/Common/Breadcrumb"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import InRowAction from "components/InRowAction/InRowAction"
-import AddOfficerInChargeModal from "components/Modal/OfficerInCharge/AddOfficerInChargeModal"
-import DeleteOfficerInChargeModal from "components/Modal/OfficerInCharge/DeleteOfficerInChargeModal"
+import React, { useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchOICList } from 'store/actions'
+import { Row, Col, Card, CardBody, Container } from 'reactstrap'
+import TableBase from 'components/Table/TableBase'
+import Breadcrumbs from 'components/Common/Breadcrumb'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import InRowAction from 'components/InRowAction/InRowAction'
+import AddOfficerInChargeModal from 'components/Modal/OfficerInCharge/AddOfficerInChargeModal'
+import DeleteOfficerInChargeModal from 'components/Modal/OfficerInCharge/DeleteOfficerInChargeModal'
+import { Can } from 'casl/Can'
+import { Navigate } from 'react-router-dom'
 
 const OfficerInCharge = () => {
   const dispatch = useDispatch()
 
   const tableColumns = [
     {
-      Header: "ID",
-      accessor: "_id",
+      Header: 'ID',
+      accessor: '_id',
       disableGlobalFilter: true,
     },
     {
-      Header: "Employee Name",
-      accessor: "employeeFullName",
+      Header: 'Employee Name',
+      accessor: 'employeeFullName',
     },
     {
-      Header: "Position",
-      accessor: "employeePosition",
+      Header: 'Position',
+      accessor: 'employeePosition',
     },
     {
-      Header: "OIC Position",
-      accessor: "oicPosition",
+      Header: 'OIC Position',
+      accessor: 'oicPosition',
     },
     {
-      Header: "OIC Assignment",
-      accessor: "oicOrgName",
+      Header: 'OIC Assignment',
+      accessor: 'oicOrgName',
     },
     {
-      Header: "Actions",
-      accessor: "",
-      align: "center",
+      Header: 'Actions',
+      accessor: '',
+      align: 'center',
       disableGlobalFilter: true,
       Cell: function ActionDropdown(cell) {
         return <InRowAction cell={cell} deleteModal={deleteModal} />
@@ -83,57 +84,68 @@ const OfficerInCharge = () => {
   }, [dispatch])
 
   return (
-    <div className="page-content">
-      <Container fluid={true}>
-        <Breadcrumbs
-          title="Dashboard"
-          titleUrl="/"
-          breadcrumbItem="Officer-In-Charge"
-        />
+    <React.Fragment>
+      <Can I="access" this="Officer_in_charge">
+        <div className="page-content">
+          <Container fluid={true}>
+            <Breadcrumbs
+              title="Dashboard"
+              titleUrl="/"
+              breadcrumbItem="Officer-In-Charge"
+            />
 
-        {/* Notifications */}
-        {errorOicList ? (
-          <ToastrNotification toastType={"error"} notifMessage={errorOicList} />
-        ) : null}
+            {/* Notifications */}
+            {errorOicList ? (
+              <ToastrNotification
+                toastType={'error'}
+                notifMessage={errorOicList}
+              />
+            ) : null}
 
-        <Row>
-          <Col className="col-12">
-            <Card>
-              <CardBody className="card-table">
-                {loadingOicList ? (
-                  <LoadingIndicator />
-                ) : (
-                  <>
-                    <div className="top-right-actions">
-                      <div className="form-group add-btn">
-                        <button
-                          onClick={handleShowAdd}
-                          className="btn btn-info waves-effect waves-light"
-                        >
-                          <i className="fas fa-plus-square"></i> Assign OIC
-                        </button>
-                      </div>
-                    </div>
-                    <TableBase columns={columns} data={data} />
-                  </>
-                )}
+            <Row>
+              <Col className="col-12">
+                <Card>
+                  <CardBody className="card-table">
+                    {loadingOicList ? (
+                      <LoadingIndicator />
+                    ) : (
+                      <>
+                        <div className="top-right-actions">
+                          <div className="form-group add-btn">
+                            <button
+                              onClick={handleShowAdd}
+                              className="btn btn-info waves-effect waves-light"
+                            >
+                              <i className="fas fa-plus-square"></i> Assign OIC
+                            </button>
+                          </div>
+                        </div>
+                        <TableBase columns={columns} data={data} />
+                      </>
+                    )}
 
-                {/* Modal */}
-                <AddOfficerInChargeModal
-                  showAdd={showAdd}
-                  handleCloseAdd={handleCloseAdd}
-                />
-                <DeleteOfficerInChargeModal
-                  showDel={showDel}
-                  handleCloseDel={handleCloseDel}
-                  modalData={modalData}
-                />
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-    </div>
+                    {/* Modal */}
+                    <AddOfficerInChargeModal
+                      showAdd={showAdd}
+                      handleCloseAdd={handleCloseAdd}
+                    />
+                    <DeleteOfficerInChargeModal
+                      showDel={showDel}
+                      handleCloseDel={handleCloseDel}
+                      modalData={modalData}
+                    />
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      </Can>
+
+      <Can not I="access" this="Officer_in_charge">
+        <Navigate to="/page-404" />
+      </Can>
+    </React.Fragment>
   )
 }
 

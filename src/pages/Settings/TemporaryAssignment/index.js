@@ -13,6 +13,8 @@ import EditEmployeeTempAssignModal from 'components/Modal/TemporaryAssignment/Ed
 import DeleteEmployeeTempAssignModal from 'components/Modal/TemporaryAssignment/DeleteEmployeeTempAssignModal'
 import { DateFormatter } from 'functions/DateFormatter'
 import { tempAssignmentStatuses } from 'constants/selectInputs'
+import { Can } from 'casl/Can'
+import { Navigate } from 'react-router-dom'
 
 const TemporaryAssignment = () => {
   const dispatch = useDispatch()
@@ -131,67 +133,76 @@ const TemporaryAssignment = () => {
   }, [dispatch])
 
   return (
-    <div className="page-content">
-      <Container fluid={true}>
-        <Breadcrumbs
-          title="Dashboard"
-          titleUrl="/"
-          breadcrumbItem="Temporary Assignment"
-        />
+    <React.Fragment>
+      <Can I="access" this="Temporary_assignment">
+        <div className="page-content">
+          <Container fluid={true}>
+            <Breadcrumbs
+              title="Dashboard"
+              titleUrl="/"
+              breadcrumbItem="Temporary Assignment"
+            />
 
-        {/* Notifications */}
-        {errorEmployeeTemporaryAssignmentList ? (
-          <ToastrNotification
-            toastType={'error'}
-            notifMessage={errorEmployeeTemporaryAssignmentList}
-          />
-        ) : null}
+            {/* Notifications */}
+            {errorEmployeeTemporaryAssignmentList ? (
+              <ToastrNotification
+                toastType={'error'}
+                notifMessage={errorEmployeeTemporaryAssignmentList}
+              />
+            ) : null}
 
-        <Row>
-          <Col className="col-12">
-            <Card>
-              <CardBody className="card-table">
-                {loadingEmployeeTemporaryAssignmentList ? (
-                  <LoadingIndicator />
-                ) : (
-                  <>
-                    <div className="top-right-actions">
-                      <div className="form-group add-btn">
-                        <button
-                          onClick={handleShowAdd}
-                          className="btn btn-info waves-effect waves-light"
-                        >
-                          <i className="fas fa-plus-square"></i> Assign Employee
-                        </button>
-                      </div>
-                    </div>
-                    <TableBase columns={columns} data={data} />
-                  </>
-                )}
+            <Row>
+              <Col className="col-12">
+                <Card>
+                  <CardBody className="card-table">
+                    {loadingEmployeeTemporaryAssignmentList ? (
+                      <LoadingIndicator />
+                    ) : (
+                      <>
+                        <div className="top-right-actions">
+                          <div className="form-group add-btn">
+                            <button
+                              onClick={handleShowAdd}
+                              className="btn btn-info waves-effect waves-light"
+                            >
+                              <i className="fas fa-plus-square"></i> Assign
+                              Employee
+                            </button>
+                          </div>
+                        </div>
+                        <TableBase columns={columns} data={data} />
+                      </>
+                    )}
 
-                {/* Modal */}
-                <AddEmployeeTempAssignModal
-                  showAdd={showAdd}
-                  handleCloseAdd={handleCloseAdd}
-                />
+                    {/* Modal */}
+                    <AddEmployeeTempAssignModal
+                      showAdd={showAdd}
+                      handleCloseAdd={handleCloseAdd}
+                    />
 
-                <EditEmployeeTempAssignModal
-                  showEdt={showEdt}
-                  handleCloseEdt={handleCloseEdt}
-                  modalData={modalData}
-                />
+                    <EditEmployeeTempAssignModal
+                      showEdt={showEdt}
+                      handleCloseEdt={handleCloseEdt}
+                      modalData={modalData}
+                    />
 
-                <DeleteEmployeeTempAssignModal
-                  showDel={showDel}
-                  handleCloseDel={handleCloseDel}
-                  modalData={modalData}
-                />
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-    </div>
+                    <DeleteEmployeeTempAssignModal
+                      showDel={showDel}
+                      handleCloseDel={handleCloseDel}
+                      modalData={modalData}
+                    />
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      </Can>
+
+      <Can not I="access" this="Salary_grade">
+        <Navigate to="/page-404" />
+      </Can>
+    </React.Fragment>
   )
 }
 

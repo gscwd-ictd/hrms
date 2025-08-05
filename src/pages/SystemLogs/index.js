@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchSystemLogs } from 'store/actions'
 import dayjs from 'dayjs'
 import { isEmpty } from 'lodash'
-
 import { Card, CardBody, Col, Row } from 'reactstrap'
 import TableSystemLogs from 'components/Table/TableSystemLogs'
 import InRowAction from 'components/InRowAction/InRowAction'
@@ -16,8 +15,8 @@ import {
   DateRangeColumnFilter,
   dateBetweenFilterFn,
 } from 'components/Filters/DateRangeColumnFilter'
-
-// style
+import { Can } from 'casl/Can'
+import { Navigate } from 'react-router-dom'
 import 'styles/custom_gscwd/components/table.scss'
 
 const SystemLogs = () => {
@@ -96,40 +95,49 @@ const SystemLogs = () => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
-        <div className="container-fluid">
-          <Breadcrumbs
-            title="Dashboard"
-            titleUrl="/"
-            breadcrumbItem="System Logs"
-          />
+      <Can I="access" this="System_logs">
+        <div className="page-content">
+          <div className="container-fluid">
+            <Breadcrumbs
+              title="Dashboard"
+              titleUrl="/"
+              breadcrumbItem="System Logs"
+            />
 
-          {/* Notifications */}
-          {errorList ? (
-            <ToastrNotification toastType={'error'} notifMessage={errorList} />
-          ) : null}
+            {/* Notifications */}
+            {errorList ? (
+              <ToastrNotification
+                toastType={'error'}
+                notifMessage={errorList}
+              />
+            ) : null}
 
-          <Row>
-            <Col className="col-12">
-              <Card>
-                <CardBody className="card-table">
-                  {loadingList ? (
-                    <LoadingIndicator />
-                  ) : (
-                    <TableSystemLogs columns={columns} data={data} />
-                  )}
+            <Row>
+              <Col className="col-12">
+                <Card>
+                  <CardBody className="card-table">
+                    {loadingList ? (
+                      <LoadingIndicator />
+                    ) : (
+                      <TableSystemLogs columns={columns} data={data} />
+                    )}
 
-                  <ViewSystemLogModal
-                    modalData={modalData}
-                    showView={showView}
-                    handleCloseView={handleCloseView}
-                  />
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
+                    <ViewSystemLogModal
+                      modalData={modalData}
+                      showView={showView}
+                      handleCloseView={handleCloseView}
+                    />
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </div>
         </div>
-      </div>
+      </Can>
+
+      <Can not I="access" this="System_logs">
+        <Navigate to="/page-404" />
+      </Can>
     </React.Fragment>
   )
 }

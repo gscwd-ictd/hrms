@@ -150,6 +150,7 @@ const SidebarContent = props => {
               </Link>
             </li>
 
+            {/* ----------------PERSONNEL---------------- */}
             <li className="menu-title">{'Personnel'}</li>
             <Can I="access" this="Plantilla">
               <li>
@@ -189,6 +190,7 @@ const SidebarContent = props => {
                 </ul>
               </li>
             </Can>
+
             <Can I="access" this="Employee_registration">
               <li>
                 <Link to="/employee-registration" className=" waves-effect">
@@ -197,6 +199,7 @@ const SidebarContent = props => {
                 </Link>
               </li>
             </Can>
+
             <Can I="access" this="Employees">
               <li>
                 <Link to="/employees" className=" waves-effect">
@@ -205,6 +208,7 @@ const SidebarContent = props => {
                 </Link>
               </li>
             </Can>
+
             <Can I="access" this="Notice_of_step_increment">
               <li>
                 <Link to="/notice-of-step-increment" className=" waves-effect">
@@ -213,6 +217,7 @@ const SidebarContent = props => {
                 </Link>
               </li>
             </Can>
+
             <Can I="access" this="Reports">
               <li>
                 <Link to="/reports" className=" waves-effect">
@@ -221,6 +226,8 @@ const SidebarContent = props => {
                 </Link>
               </li>
             </Can>
+
+            {/* ----------------BASE DATA---------------- */}
             <li className="menu-title">Base Data</li>
             <Can I="access" this="Organization_structure">
               <li>
@@ -250,6 +257,7 @@ const SidebarContent = props => {
                 </ul>
               </li>
             </Can>
+
             <Can I="access" this="Salary_grade">
               <li>
                 <Link to="/salary-grade" className="waves-effect">
@@ -258,6 +266,7 @@ const SidebarContent = props => {
                 </Link>
               </li>
             </Can>
+
             <Can I="access" this="Qualification_standards">
               <li>
                 <Link to="/qualification-standards" className="waves-effect">
@@ -266,22 +275,16 @@ const SidebarContent = props => {
                 </Link>
               </li>
             </Can>
+
             <Can I="access" this="Occupations">
               <li>
                 <Link to="/occupations" className="waves-effect">
-                  <i className="bx bxs-group"></i>
+                  <i className="bx bxs-briefcase-alt-2"></i>
                   <span>{'Occupations'}</span>
                 </Link>
               </li>
             </Can>
-            {/* <Can I="access" this="Duties_responsibilities">
-              <li>
-                <Link to="/duties-responsibilities" className="waves-effect">
-                  <i className="bx bx-list-ol"></i>
-                  <span>{'Duties & Responsibilities'}</span>
-                </Link>
-              </li>
-            </Can> */}
+
             <Can I="access" this="Committees">
               <li>
                 <Link to="/committees" className="waves-effect">
@@ -291,6 +294,7 @@ const SidebarContent = props => {
               </li>
             </Can>
 
+            {/* ----------------COMPETENCY---------------- */}
             <li className="menu-title">Competency</li>
             <Can I="access" this="Competency_models">
               <li>
@@ -326,6 +330,7 @@ const SidebarContent = props => {
                 </ul>
               </li>
             </Can>
+
             <Can I="access" this="Competency">
               <li>
                 <Link to="/competency" className="waves-effect">
@@ -335,6 +340,7 @@ const SidebarContent = props => {
               </li>
             </Can>
 
+            {/* ----------------RECRUITMENT---------------- */}
             <li className="menu-title">Recruitment</li>
             <Can I="access" this="Prf_list">
               <li>
@@ -344,6 +350,7 @@ const SidebarContent = props => {
                 </Link>
               </li>
             </Can>
+
             <Can I="access" this="Personnel_selection">
               <li>
                 <Link to="/personnel-selection" className="waves-effect">
@@ -353,6 +360,7 @@ const SidebarContent = props => {
               </li>
             </Can>
 
+            {/* ----------------PLACEMENT---------------- */}
             <li className="menu-title">Placement</li>
             <Can I="access" this="Results_of_hiring">
               <li>
@@ -363,6 +371,7 @@ const SidebarContent = props => {
               </li>
             </Can>
 
+            {/* ----------------SETTINGS---------------- */}
             <li className="menu-title">Settings</li>
             <Can I="access" this="Settings">
               <li>
@@ -371,27 +380,39 @@ const SidebarContent = props => {
                   <span>{'Users'}</span>
                 </Link>
               </li>
+            </Can>
+
+            <Can I="access" this="Temporary_assignment">
               <li>
                 <Link
                   to="/settings/temporary-assignment"
                   className="waves-effect"
                 >
-                  <i className="bx bxs-user-plus"></i>
+                  <i className="bx bx-move-horizontal"></i>
                   <span>{'Temporary Assignment'}</span>
                 </Link>
               </li>
+            </Can>
+
+            <Can I="access" this="Officer_in_charge">
               <li>
                 <Link to="/settings/officer-in-charge" className="waves-effect">
                   <i className="bx bxs-user-badge"></i>
                   <span>{'Officer In Charge'}</span>
                 </Link>
               </li>
+            </Can>
+
+            <Can I="access" this="Settings">
               <li>
                 <Link to="/settings/modules" className="waves-effect">
                   <i className="bx bx-package"></i>
                   <span>{'Modules'}</span>
                 </Link>
               </li>
+            </Can>
+
+            <Can I="access" this="System_logs">
               <li>
                 <Link to="/settings/system-logs" className="waves-effect">
                   <i className="bx bx-detail"></i>
