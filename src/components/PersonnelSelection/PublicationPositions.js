@@ -647,7 +647,7 @@ const PublicationPositions = () => {
         showDeadline={showDeadline}
         modalData={modalData}
         handleCloseDeadline={handleCloseDeadline}
-        yearFilter={debouncedYearFilter}
+        yearFilter={debouncedYearFilter.toString()}
       />
 
       <ExamScore
@@ -660,14 +660,14 @@ const PublicationPositions = () => {
         showCloseApplication={showCloseApplication}
         modalData={modalData}
         handleCloseCloseApplication={handleCloseCloseApplication}
-        yearFilter={debouncedYearFilter}
+        yearFilter={debouncedYearFilter.toString()}
       />
 
       <SendEndorsementToRequestingEntity
         showSendEndorsement={showSendEndorsement}
         modalData={modalData}
         handleCloseSendEndorsement={handleCloseSendEndorsement}
-        yearFilter={debouncedYearFilter}
+        yearFilter={debouncedYearFilter.toString()}
       />
 
       <ViewShortlist
@@ -680,42 +680,42 @@ const PublicationPositions = () => {
         showScheduleExam={showScheduleExam}
         modalData={modalData}
         handleCloseScheduleExam={handleCloseScheduleExam}
-        yearFilter={debouncedYearFilter}
+        yearFilter={debouncedYearFilter.toString()}
       />
 
       <ExamDone
         showExamDone={showExamDone}
         modalData={modalData}
         handleCloseExamDone={handleCloseExamDone}
-        yearFilter={debouncedYearFilter}
+        yearFilter={debouncedYearFilter.toString()}
       />
 
       <ScheduleInterview
         showScheduleInterview={showScheduleInterview}
         modalData={modalData}
         handleCloseScheduleInterview={handleCloseScheduleInterview}
-        yearFilter={debouncedYearFilter}
+        yearFilter={debouncedYearFilter.toString()}
       />
 
       <PsbRating
         showPsbSummary={showPsbSummary}
         modalData={modalData}
         handleClosePsbSummary={handleClosePsbSummary}
-        yearFilter={debouncedYearFilter}
+        yearFilter={debouncedYearFilter.toString()}
       />
 
       <SendPsbSummaryToAppointingAuth
         showSendPsbSummary={showSendPsbSummary}
         modalData={modalData}
         handleCloseSendPsbSummary={handleCloseSendPsbSummary}
-        yearFilter={debouncedYearFilter}
+        yearFilter={debouncedYearFilter.toString()}
       />
 
       <ViewSelectedByAppointingAuth
         showViewSelectedByAppAuth={showViewSelectedByAppAuth}
         modalData={modalData}
         handleCloseSelectedByAppAuth={handleCloseSelectedByAppAuth}
-        yearFilter={debouncedYearFilter}
+        yearFilter={debouncedYearFilter.toString()}
       />
 
       <SelectionDocuments
@@ -730,7 +730,7 @@ const PublicationPositions = () => {
         handleCloseSetAppointmentEffectivity={
           handleCloseSetAppointmentEffectivity
         }
-        yearFilter={debouncedYearFilter}
+        yearFilter={debouncedYearFilter.toString()}
       />
 
       <PublicationSummary

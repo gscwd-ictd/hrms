@@ -19,9 +19,10 @@ export const SelectDateColumnFilter = props => {
     const options = new Set()
 
     preFilteredRows.forEach(row => {
-      // options.add(row.values[id])
       if (!isEmpty(row.values[id])) {
         options.add(dayjs(row.values[id]).format('YYYY-MM-DD'))
+      } else {
+        options.add(row.values[id])
       }
     })
 
@@ -44,14 +45,12 @@ export const SelectDateColumnFilter = props => {
 
         if (today === interviewDate) {
           return today
-        } else {
-          return
         }
       }
     })
 
     setFilter(currentDayMatch)
-  }, [options])
+  }, [])
 
   return (
     <div className="d-flex gap-1 column-filter-inner">
