@@ -196,9 +196,9 @@ const PublicationPositions = () => {
       )
     } else if (cell.row.values.postingStatus === publicationStatus.DOESET) {
       return (
-        <Badge className="me-2 bg-primary font-size-12">
+        <div className="me-2 font-size-12 badge bg-primary">
           {cell.row.values.postingStatus}
-        </Badge>
+        </div>
       )
     } else {
       return (
