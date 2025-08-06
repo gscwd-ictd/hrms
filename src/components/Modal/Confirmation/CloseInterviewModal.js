@@ -5,7 +5,7 @@ import { isEmpty } from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   updatePublicationStatus,
-  getPublications,
+  getApprovedPublicationPositions,
   resetPublicationResponses,
 } from 'store/actions'
 
@@ -25,7 +25,7 @@ const CloseInterviewModal = props => {
   const {
     showCloseInterview,
     modalData,
-    prfId,
+    yearFilter,
     handleClosePsbSummary,
     handleCloseCloseInterview,
   } = props
@@ -50,7 +50,7 @@ const CloseInterviewModal = props => {
   // get list of endorsed applicants
   useEffect(() => {
     if (!isEmpty(responseInterviewDone)) {
-      dispatch(getPublications(prfId))
+      dispatch(getApprovedPublicationPositions(yearFilter))
       handleClosePsbSummary()
       handleCloseCloseInterview()
       dispatch(resetPublicationResponses())
@@ -117,7 +117,7 @@ CloseInterviewModal.propTypes = {
   handleClosePsbSummary: PropTypes.func,
   handleCloseCloseInterview: PropTypes.func,
   modalData: PropTypes.object,
-  prfId: PropTypes.string,
+  yearFilter: PropTypes.string,
 }
 
 export default CloseInterviewModal

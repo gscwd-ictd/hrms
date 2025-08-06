@@ -4,7 +4,7 @@ import { isEmpty } from 'lodash'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  getPublications,
+  getApprovedPublicationPositions,
   addEndorsementToReqEntity,
   fetchEndorsedApplicants,
 } from 'store/actions'
@@ -23,8 +23,12 @@ import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const SendEndorsementToRequestingEntity = props => {
-  const { showSendEndorsement, handleCloseSendEndorsement, modalData, prfId } =
-    props
+  const {
+    showSendEndorsement,
+    handleCloseSendEndorsement,
+    modalData,
+    yearFilter,
+  } = props
   const dispatch = useDispatch()
 
   // redux state for response after sending the endorsement of qualified applicants
@@ -62,7 +66,7 @@ const SendEndorsementToRequestingEntity = props => {
   useEffect(() => {
     if (!isEmpty(responseEndorsementToRequestingEntity)) {
       handleCloseSendEndorsement()
-      dispatch(getPublications(prfId))
+      dispatch(getApprovedPublicationPositions(yearFilter))
     }
   }, [responseEndorsementToRequestingEntity])
 
@@ -164,7 +168,7 @@ SendEndorsementToRequestingEntity.propTypes = {
   showSendEndorsement: PropTypes.bool,
   handleCloseSendEndorsement: PropTypes.func,
   modalData: PropTypes.object,
-  prfId: PropTypes.string,
+  yearFilter: PropTypes.string,
 }
 
 export default SendEndorsementToRequestingEntity

@@ -1,18 +1,18 @@
-import React, { useEffect } from "react"
-import dayjs from "dayjs"
-import { Can } from "casl/Can"
-import { Navigate, useParams } from "react-router-dom"
+import React, { useEffect } from 'react'
+import dayjs from 'dayjs'
+import { Can } from 'casl/Can'
+import { Navigate, useParams } from 'react-router-dom'
 
-import { useDispatch, useSelector } from "react-redux"
-import { fetchDocumentResultsOfHiring } from "store/actions"
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchDocumentResultsOfHiring } from 'store/actions'
 
-import { Container } from "reactstrap"
-import { PDFViewer } from "@react-pdf/renderer"
-import RoHDocument from "./RoHDocument"
+import { Container } from 'reactstrap'
+import { PDFViewer } from '@react-pdf/renderer'
+import RoHDocument from './RoHDocument'
 
 // Extra components
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const ResultsOfHiringPdf = () => {
   const dispatch = useDispatch()
@@ -26,7 +26,7 @@ const ResultsOfHiringPdf = () => {
       errorRoHDocument: state.applicants.error.errorRoHDocument,
     }))
 
-  const formatDate = assignedDate => dayjs(assignedDate).format("MMMM DD, YYYY")
+  const formatDate = assignedDate => dayjs(assignedDate).format('MMMM DD, YYYY')
 
   useEffect(() => {
     dispatch(fetchDocumentResultsOfHiring(appointmentEffectivityDate))
@@ -39,7 +39,7 @@ const ResultsOfHiringPdf = () => {
           <Container fluid={true}>
             {errorRoHDocument ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorRoHDocument}
               />
             ) : null}
@@ -47,7 +47,7 @@ const ResultsOfHiringPdf = () => {
             {loadingRoHDocument ? (
               <LoadingIndicator />
             ) : (
-              <PDFViewer width={"100%"} height={700} showToolbar>
+              <PDFViewer width={'100%'} height={700} showToolbar>
                 <RoHDocument
                   resultsOfHiringDocument={resultsOfHiringDocument}
                   effectivityDate={formatDate(appointmentEffectivityDate)}

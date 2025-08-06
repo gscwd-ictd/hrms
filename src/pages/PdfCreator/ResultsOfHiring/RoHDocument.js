@@ -15,6 +15,7 @@ import Header from 'components/PdfDocuments/ResultsOfHiring/Header'
 // Fonts
 import CalibriRegular from 'assets/fonts/uploads/calibri-regular.ttf'
 import CalibriRegularBold from 'assets/fonts/uploads/calibri-regular-bold.ttf'
+import { isEmpty } from 'lodash'
 
 Font.registerHyphenationCallback(word => {
   screen
@@ -267,37 +268,49 @@ const RoHDocument = props => {
               <Text style={[{ padding: '4 0 0 2' }]}>
                 Certified Correct by:
               </Text>
-              <Image
-                src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${resultsOfHiringDocument.signatories.certifiedCorrectBy.signatureUrl}`}
-                style={[styles.signature]}
-              />
-              <Text style={[styles.signatoryName]}>
-                {
-                  resultsOfHiringDocument.signatories.certifiedCorrectBy
-                    .fullName
-                }
-              </Text>
-              <Text style={[{ padding: '5 0 0 2' }]}>
-                {
-                  resultsOfHiringDocument.signatories.certifiedCorrectBy
-                    .position
-                }
-              </Text>
+              {!isEmpty(
+                resultsOfHiringDocument.signatories?.certifiedCorrectBy
+              ) ? (
+                <>
+                  <Image
+                    src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${resultsOfHiringDocument.signatories?.certifiedCorrectBy?.signatureUrl}`}
+                    style={[styles.signature]}
+                  />
+                  <Text style={[styles.signatoryName]}>
+                    {
+                      resultsOfHiringDocument.signatories.certifiedCorrectBy
+                        .fullName
+                    }
+                  </Text>
+                  <Text style={[{ padding: '5 0 0 2' }]}>
+                    {
+                      resultsOfHiringDocument.signatories.certifiedCorrectBy
+                        .position
+                    }
+                  </Text>
+                </>
+              ) : null}
             </View>
 
             {/* REVIEWED BY */}
             <View style={[styles.w50, styles.signatureText]}>
               <Text style={[{ padding: '4 0 0 2' }]}>Approved by:</Text>
-              <Image
-                src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${resultsOfHiringDocument.signatories.approvedBy.signatureUrl}`}
-                style={[styles.signature]}
-              />
-              <Text style={[styles.signatoryName]}>
-                {resultsOfHiringDocument.signatories.approvedBy.fullName}
-              </Text>
-              <Text style={[{ padding: '5 0 0 2' }]}>
-                {resultsOfHiringDocument.signatories.approvedBy.position}
-              </Text>
+              {!isEmpty(
+                resultsOfHiringDocument.signatories?.certifiedCorrectBy
+              ) ? (
+                <>
+                  <Image
+                    src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${resultsOfHiringDocument.signatories?.approvedBy?.signatureUrl}`}
+                    style={[styles.signature]}
+                  />
+                  <Text style={[styles.signatoryName]}>
+                    {resultsOfHiringDocument.signatories.approvedBy.fullName}
+                  </Text>
+                  <Text style={[{ padding: '5 0 0 2' }]}>
+                    {resultsOfHiringDocument.signatories.approvedBy.position}
+                  </Text>
+                </>
+              ) : null}
             </View>
           </View>
         </View>

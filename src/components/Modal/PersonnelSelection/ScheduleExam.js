@@ -5,7 +5,7 @@ import { isEmpty } from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   addExamInterviewSchedule,
-  getPublications,
+  getApprovedPublicationPositions,
   resetPublicationResponses,
 } from 'store/actions'
 
@@ -26,7 +26,8 @@ import ToastrNotification from 'components/Notifications/ToastrNotification'
 import { examInterviewVenues } from 'constants/selectInputs'
 
 const ScheduleExam = props => {
-  const { showScheduleExam, handleCloseScheduleExam, modalData, prfId } = props
+  const { showScheduleExam, handleCloseScheduleExam, modalData, yearFilter } =
+    props
   const dispatch = useDispatch()
 
   const [scheduleDate, setScheduleDate] = useState(new Date())
@@ -54,7 +55,7 @@ const ScheduleExam = props => {
   // refresh list of publications
   useEffect(() => {
     if (!isEmpty(response)) {
-      dispatch(getPublications(prfId))
+      dispatch(getApprovedPublicationPositions(yearFilter))
       handleCloseScheduleExam()
       dispatch(resetPublicationResponses())
     }
@@ -157,7 +158,7 @@ ScheduleExam.propTypes = {
   showScheduleExam: PropTypes.bool,
   handleCloseScheduleExam: PropTypes.func,
   modalData: PropTypes.object,
-  prfId: PropTypes.string,
+  yearFilter: PropTypes.string,
 }
 
 export default ScheduleExam

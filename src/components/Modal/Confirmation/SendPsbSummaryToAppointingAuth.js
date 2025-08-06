@@ -22,8 +22,12 @@ import ToastrNotification from 'components/Notifications/ToastrNotification'
 import './confirmationModal.scss'
 
 const SendPsbSummaryToAppointingAuth = props => {
-  const { showSendPsbSummary, modalData, prfId, handleCloseSendPsbSummary } =
-    props
+  const {
+    showSendPsbSummary,
+    modalData,
+    yearFilter,
+    handleCloseSendPsbSummary,
+  } = props
   const dispatch = useDispatch()
 
   // Redux state for response
@@ -45,7 +49,7 @@ const SendPsbSummaryToAppointingAuth = props => {
   // Get list of endorsed applicants
   useEffect(() => {
     if (!isEmpty(responseSendPsbSummary)) {
-      dispatch(getPublications(prfId))
+      dispatch(getApprovedPublicationPositions(yearFilter))
       handleCloseSendPsbSummary()
       dispatch(resetPublicationResponses())
     }
@@ -112,7 +116,7 @@ SendPsbSummaryToAppointingAuth.propTypes = {
   showSendPsbSummary: PropTypes.bool,
   handleCloseSendPsbSummary: PropTypes.func,
   modalData: PropTypes.object,
-  prfId: PropTypes.string,
+  yearFilter: PropTypes.string,
 }
 
 export default SendPsbSummaryToAppointingAuth

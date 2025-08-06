@@ -20,7 +20,7 @@ import PsbRemarks from './PublicationSummary/PsbRemarks'
 import classnames from 'classnames'
 
 const PsbRating = props => {
-  const { showPsbSummary, modalData, handleClosePsbSummary, prfId } = props
+  const { showPsbSummary, modalData, handleClosePsbSummary, yearFilter } = props
   const dispatch = useDispatch()
 
   // redux state for HRMPSB Summary
@@ -464,7 +464,7 @@ const PsbRating = props => {
       <CloseInterviewModal
         showCloseInterview={showCloseInterview}
         modalData={modalData}
-        prfId={prfId}
+        yearFilter={yearFilter}
         handleCloseCloseInterview={handleCloseCloseInterview}
         handleClosePsbSummary={handleClosePsbSummary}
       />
@@ -482,7 +482,7 @@ PsbRating.propTypes = {
   showPsbSummary: PropTypes.bool,
   handleClosePsbSummary: PropTypes.func,
   modalData: PropTypes.object,
-  prfId: PropTypes.string,
+  yearFilter: PropTypes.string,
 }
 
 export default PsbRating

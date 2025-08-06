@@ -46,7 +46,6 @@ import 'styles/custom_gscwd/components/table.scss'
 
 const PublicationPositions = () => {
   const dispatch = useDispatch()
-  const { prfId } = useParams()
   const location = useLocation()
 
   const [yearFilter, setYearFilter] = useState(dayjs().year())
@@ -654,7 +653,7 @@ const PublicationPositions = () => {
         showDeadline={showDeadline}
         modalData={modalData}
         handleCloseDeadline={handleCloseDeadline}
-        prfId={prfId}
+        yearFilter={debouncedYearFilter}
       />
 
       <ExamScore
@@ -667,14 +666,14 @@ const PublicationPositions = () => {
         showCloseApplication={showCloseApplication}
         modalData={modalData}
         handleCloseCloseApplication={handleCloseCloseApplication}
-        prfId={prfId}
+        yearFilter={debouncedYearFilter}
       />
 
       <SendEndorsementToRequestingEntity
         showSendEndorsement={showSendEndorsement}
         modalData={modalData}
         handleCloseSendEndorsement={handleCloseSendEndorsement}
-        prfId={prfId}
+        yearFilter={debouncedYearFilter}
       />
 
       <ViewShortlist
@@ -687,42 +686,42 @@ const PublicationPositions = () => {
         showScheduleExam={showScheduleExam}
         modalData={modalData}
         handleCloseScheduleExam={handleCloseScheduleExam}
-        prfId={prfId}
+        yearFilter={debouncedYearFilter}
       />
 
       <ExamDone
         showExamDone={showExamDone}
         modalData={modalData}
         handleCloseExamDone={handleCloseExamDone}
-        prfId={prfId}
+        yearFilter={debouncedYearFilter}
       />
 
       <ScheduleInterview
         showScheduleInterview={showScheduleInterview}
         modalData={modalData}
         handleCloseScheduleInterview={handleCloseScheduleInterview}
-        prfId={prfId}
+        yearFilter={debouncedYearFilter}
       />
 
       <PsbRating
         showPsbSummary={showPsbSummary}
         modalData={modalData}
         handleClosePsbSummary={handleClosePsbSummary}
-        prfId={prfId}
+        yearFilter={debouncedYearFilter}
       />
 
       <SendPsbSummaryToAppointingAuth
         showSendPsbSummary={showSendPsbSummary}
         modalData={modalData}
         handleCloseSendPsbSummary={handleCloseSendPsbSummary}
-        prfId={prfId}
+        yearFilter={debouncedYearFilter}
       />
 
       <ViewSelectedByAppointingAuth
         showViewSelectedByAppAuth={showViewSelectedByAppAuth}
         modalData={modalData}
         handleCloseSelectedByAppAuth={handleCloseSelectedByAppAuth}
-        prfId={prfId}
+        yearFilter={debouncedYearFilter}
       />
 
       <SelectionDocuments
@@ -737,7 +736,7 @@ const PublicationPositions = () => {
         handleCloseSetAppointmentEffectivity={
           handleCloseSetAppointmentEffectivity
         }
-        prfId={prfId}
+        yearFilter={debouncedYearFilter}
       />
 
       <PublicationSummary

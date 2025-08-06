@@ -23,7 +23,7 @@ const ViewSelectedByAppointingAuth = props => {
     showViewSelectedByAppAuth,
     handleCloseSelectedByAppAuth,
     modalData,
-    prfId,
+    yearFilter,
   } = props
   const dispatch = useDispatch()
 
@@ -114,7 +114,7 @@ const ViewSelectedByAppointingAuth = props => {
       <CloseHiringModal
         showHiringDone={showHiringDone}
         modalData={modalData}
-        prfId={prfId}
+        yearFilter={yearFilter}
         handleCloseHiringDone={handleCloseHiringDone}
         handleCloseSelectedByAppAuth={handleCloseSelectedByAppAuth}
       />
@@ -126,7 +126,7 @@ ViewSelectedByAppointingAuth.propTypes = {
   showViewSelectedByAppAuth: PropTypes.bool,
   handleCloseSelectedByAppAuth: PropTypes.func,
   modalData: PropTypes.object,
-  prfId: PropTypes.string,
+  yearFilter: PropTypes.string,
 }
 
 export default ViewSelectedByAppointingAuth

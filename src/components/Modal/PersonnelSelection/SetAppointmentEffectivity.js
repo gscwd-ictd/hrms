@@ -5,7 +5,7 @@ import { isEmpty } from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   updateAppointmentEffectivityDate,
-  getPublications,
+  getApprovedPublicationPositions,
   resetPublicationResponses,
 } from 'store/actions'
 
@@ -28,7 +28,7 @@ const SetAppointmentEffectivity = props => {
     showSetAppointmentEffectivity,
     handleCloseSetAppointmentEffectivity,
     modalData,
-    prfId,
+    yearFilter,
   } = props
   const dispatch = useDispatch()
 
@@ -55,7 +55,7 @@ const SetAppointmentEffectivity = props => {
   // refresh list of publications
   useEffect(() => {
     if (!isEmpty(response)) {
-      dispatch(getPublications(prfId))
+      dispatch(getApprovedPublicationPositions(yearFilter))
       handleCloseSetAppointmentEffectivity()
       dispatch(resetPublicationResponses())
     }
@@ -130,7 +130,7 @@ SetAppointmentEffectivity.propTypes = {
   showSetAppointmentEffectivity: PropTypes.bool,
   handleCloseSetAppointmentEffectivity: PropTypes.func,
   modalData: PropTypes.object,
-  prfId: PropTypes.string,
+  yearFilter: PropTypes.string,
 }
 
 export default SetAppointmentEffectivity
