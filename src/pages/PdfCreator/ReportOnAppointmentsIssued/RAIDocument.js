@@ -909,7 +909,7 @@ const RAIDocument = props => {
                     <Text
                       style={[styles.bodyTextBoldUppercase, { fontSize: 9.5 }]}
                     >
-                      DIR. EDNA C. NEBRUA-MAHINAY
+                      DIR. EDNA C. NEBRIJA-MAHINAY
                     </Text>
                   </View>
                   <Text
