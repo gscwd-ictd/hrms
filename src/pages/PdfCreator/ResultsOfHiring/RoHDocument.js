@@ -295,9 +295,7 @@ const RoHDocument = props => {
             {/* REVIEWED BY */}
             <View style={[styles.w50, styles.signatureText]}>
               <Text style={[{ padding: '4 0 0 2' }]}>Approved by:</Text>
-              {!isEmpty(
-                resultsOfHiringDocument.signatories?.certifiedCorrectBy
-              ) ? (
+              {!isEmpty(resultsOfHiringDocument.signatories?.approvedBy) ? (
                 <>
                   <Image
                     src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${resultsOfHiringDocument.signatories?.approvedBy?.signatureUrl}`}
