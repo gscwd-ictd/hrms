@@ -1,60 +1,60 @@
-import React, { useEffect, useMemo, useState } from "react"
-import PropTypes from "prop-types"
-import { Can } from "casl/Can"
-import { Navigate } from "react-router-dom"
+import React, { useEffect, useMemo, useState } from 'react'
+import PropTypes from 'prop-types'
+import { Can } from 'casl/Can'
+import { Navigate } from 'react-router-dom'
 
-import { useDispatch, useSelector } from "react-redux"
-import { fetchPublicationsWithHiredApplicants } from "store/actions"
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchPublicationsWithHiredApplicants } from 'store/actions'
 
-import TableHiringResults from "components/Table/TableHiringResults"
-import { Container, Card, CardBody, Button } from "reactstrap"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import Breadcrumb from "components/Common/Breadcrumb"
-import ToastrNotification from "components/Notifications/ToastrNotification"
-import HiredApplicants from "components/Modal/HiringResults/HiredApplicants"
+import TableHiringResults from 'components/Table/TableHiringResults'
+import { Container, Card, CardBody, Button } from 'reactstrap'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import Breadcrumb from 'components/Common/Breadcrumb'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
+import HiredApplicants from 'components/Modal/HiringResults/HiredApplicants'
 
 // style
-import "styles/custom_gscwd/components/table.scss"
+import 'styles/custom_gscwd/components/table.scss'
 
 const HiringResults = () => {
   const dispatch = useDispatch()
 
   const tableColumns = [
     {
-      Header: "ID",
-      accessor: "vppId",
+      Header: 'ID',
+      accessor: 'vppId',
       disableGlobalFilter: true,
-      vertical: "middle",
+      vertical: 'middle',
     },
     {
-      Header: "Position Title",
-      accessor: "positionTitle",
-      vertical: "middle",
+      Header: 'Position Title',
+      accessor: 'positionTitle',
+      vertical: 'middle',
     },
     {
-      Header: "Assigned To",
-      accessor: "assignedTo",
-      vertical: "middle",
+      Header: 'Assigned To',
+      accessor: 'assignedTo',
+      vertical: 'middle',
     },
     {
-      Header: "Plantilla No/s.",
-      accessor: "plantillaNumber",
-      vertical: "middle",
+      Header: 'Plantilla No/s.',
+      accessor: 'plantillaNumber',
+      vertical: 'middle',
     },
     {
-      Header: "Selected Applicant/s",
-      accessor: "selected",
-      vertical: "middle",
+      Header: 'Selected Applicant/s',
+      accessor: 'selected',
+      vertical: 'middle',
     },
     {
-      Header: "Effectivity Date",
-      accessor: "effectivityDate",
-      vertical: "middle",
+      Header: 'Effectivity Date',
+      accessor: 'effectivityDate',
+      vertical: 'middle',
     },
     {
-      Header: "Actions",
-      accessor: "",
-      align: "center",
+      Header: 'Actions',
+      accessor: '',
+      align: 'center',
       disableGlobalFilter: true,
       Cell: function ActionDropdown(cell) {
         return (
@@ -121,7 +121,7 @@ const HiringResults = () => {
 
             {errorPublicationsWithHiredApplicants ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorPublicationsWithHiredApplicants}
               />
             ) : null}

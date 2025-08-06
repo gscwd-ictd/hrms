@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   documentTitle: {
     fontFamily: 'CalibriRegularBold',
     fontSize: 20,
-    marginVertical: 10,
+    marginBottom: 10,
     textAlign: 'center',
   },
   bodyText: {
@@ -146,7 +146,7 @@ const RoHDocument = props => {
       subject="Results of Hiring Process - HRD-005-2"
       title="Results of Hiring Process"
     >
-      <Page size="A4" style={styles.page}>
+      <Page size="A4" style={[styles.page, { padding: '15 0 15 0' }]}>
         <Header />
 
         <View style={[{ marginHorizontal: 15 }]}>
@@ -156,9 +156,19 @@ const RoHDocument = props => {
           </View>
 
           {/* Section 1 */}
-          <View style={styles.bodyBorder}>
+          {/* <View style={styles.bodyBorder}> */}
+          <View>
             {/* HEADER */}
-            <View style={[styles.rowContainer]}>
+            <View
+              style={[
+                styles.rowContainer,
+                {
+                  borderTop: '2px solid #000000',
+                  borderRight: '2px solid #000000',
+                  borderLeft: '2px solid #000000',
+                },
+              ]}
+            >
               <View style={[styles.w20, styles.borderRight]}>
                 <Text style={[styles.tHeadText]}>POSITION</Text>
               </View>
@@ -189,8 +199,17 @@ const RoHDocument = props => {
             {/* BODY */}
             {resultsOfHiringDocument.resultsOfHiring.map(hiredApplicant => (
               <View
-                style={[styles.rowContainer, styles.borderTop]}
+                style={[
+                  styles.rowContainer,
+                  styles.borderTop,
+                  styles.borderBottom,
+                  {
+                    borderRight: '2px solid #000000',
+                    borderLeft: '2px solid #000000',
+                  },
+                ]}
                 key={hiredApplicant.vppId}
+                wrap={false}
               >
                 <View style={[styles.w20, styles.borderRight]}>
                   <Text style={[styles.tBodyText]}>
