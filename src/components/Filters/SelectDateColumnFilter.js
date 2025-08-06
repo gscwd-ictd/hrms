@@ -39,7 +39,6 @@ export const SelectDateColumnFilter = props => {
   }, [id, preFilteredRows])
 
   useEffect(() => {
-    console.log(options)
     const currentDayMatch = options.find(interviewDate => {
       if (!isEmpty(interviewDate)) {
         const today = dayjs().format('YYYY-MM-DD')
