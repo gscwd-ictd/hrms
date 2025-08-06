@@ -50,7 +50,6 @@ const PublicationPositions = () => {
 
   const [yearFilter, setYearFilter] = useState(dayjs().year())
   const [debouncedYearFilter, setDebouncedYearFilter] = useState(dayjs().year())
-  const [sorting, setSorting] = useState([])
 
   // Redux state of list of prf that was approved
   const { publicationPositions, loadingPubPos, errorPubPos } = useSelector(
@@ -597,11 +596,6 @@ const PublicationPositions = () => {
     }
   }, [debouncedYearFilter])
 
-  useEffect(() => {
-    // sort by interview date
-    setSorting([...sorting, { id: 'schedule', desc: true }])
-  }, [])
-
   return (
     <React.Fragment>
       {errorPubPos ? (
@@ -645,7 +639,7 @@ const PublicationPositions = () => {
             </Row>
           </div>
 
-          <TablePublications columns={columns} data={data} sorting={sorting} />
+          <TablePublications columns={columns} data={data} />
         </>
       )}
 
