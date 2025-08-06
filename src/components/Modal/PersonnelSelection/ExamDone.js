@@ -5,7 +5,7 @@ import { isEmpty } from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   updatePublicationStatus,
-  getPublications,
+  getApprovedPublicationPositions,
   resetPublicationResponses,
 } from 'store/actions'
 
@@ -20,7 +20,7 @@ import {
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const ExamDone = props => {
-  const { showExamDone, handleCloseExamDone, modalData, prfId } = props
+  const { showExamDone, handleCloseExamDone, modalData, yearFilter } = props
   const dispatch = useDispatch()
 
   // redux state for response
@@ -42,7 +42,7 @@ const ExamDone = props => {
   // get list of endorsed applicants
   useEffect(() => {
     if (!isEmpty(responseExamDone)) {
-      dispatch(getPublications(prfId))
+      dispatch(getApprovedPublicationPositions(yearFilter))
       handleCloseExamDone()
       dispatch(resetPublicationResponses())
     }
@@ -108,7 +108,7 @@ ExamDone.propTypes = {
   showExamDone: PropTypes.bool,
   handleCloseExamDone: PropTypes.func,
   modalData: PropTypes.object,
-  prfId: PropTypes.string,
+  yearFilter: PropTypes.string,
 }
 
 export default ExamDone

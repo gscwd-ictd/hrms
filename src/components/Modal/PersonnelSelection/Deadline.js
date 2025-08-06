@@ -4,8 +4,7 @@ import { isEmpty } from 'lodash'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  updatePublicationStatus,
-  getPublications,
+  getApprovedPublicationPositions,
   resetPublicationResponses,
 } from 'store/actions'
 
@@ -31,7 +30,7 @@ import * as Yup from 'yup'
 import { useFormik } from 'formik'
 
 const Deadline = props => {
-  const { showDeadline, modalData, handleCloseDeadline, prfId } = props
+  const { showDeadline, modalData, handleCloseDeadline, yearFilter } = props
   const dispatch = useDispatch()
 
   // Redux state for submission of publication deadline
@@ -77,7 +76,7 @@ const Deadline = props => {
 
   useEffect(() => {
     if (!isEmpty(responsePublicationDeadline)) {
-      dispatch(getPublications(prfId))
+      dispatch(getApprovedPublicationPositions(yearFilter))
       handleCloseDeadline()
       dispatch(resetPublicationResponses())
     }
@@ -177,7 +176,7 @@ Deadline.propTypes = {
   showDeadline: PropTypes.bool,
   handleCloseDeadline: PropTypes.func,
   modalData: PropTypes.object,
-  prfId: PropTypes.string,
+  yearFilter: PropTypes.string,
 }
 
 export default Deadline

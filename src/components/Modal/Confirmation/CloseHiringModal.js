@@ -5,7 +5,7 @@ import { isEmpty } from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   updatePublicationStatus,
-  getPublications,
+  getApprovedPublicationPositions,
   resetPublicationResponses,
 } from 'store/actions'
 
@@ -25,7 +25,7 @@ const CloseHiringModal = props => {
   const {
     showHiringDone,
     modalData,
-    prfId,
+    yearFilter,
     handleCloseHiringDone,
     handleCloseSelectedByAppAuth,
   } = props
@@ -53,7 +53,7 @@ const CloseHiringModal = props => {
   // get list of endorsed applicants
   useEffect(() => {
     if (!isEmpty(responseHiringProcessDone)) {
-      dispatch(getPublications(prfId))
+      dispatch(getApprovedPublicationPositions(yearFilter))
       handleCloseHiringDone()
       handleCloseSelectedByAppAuth()
       dispatch(resetPublicationResponses())
@@ -120,7 +120,7 @@ CloseHiringModal.propTypes = {
   handleCloseHiringDone: PropTypes.func,
   handleCloseSelectedByAppAuth: PropTypes.func,
   modalData: PropTypes.object,
-  prfId: PropTypes.string,
+  yearFilter: PropTypes.string,
 }
 
 export default CloseHiringModal

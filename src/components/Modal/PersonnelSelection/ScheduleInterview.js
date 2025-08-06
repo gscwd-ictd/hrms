@@ -5,7 +5,7 @@ import { isEmpty } from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   addExamInterviewSchedule,
-  getPublications,
+  getApprovedPublicationPositions,
   resetPublicationResponses,
 } from 'store/actions'
 
@@ -30,7 +30,7 @@ const ScheduleInterview = props => {
     showScheduleInterview,
     handleCloseScheduleInterview,
     modalData,
-    prfId,
+    yearFilter,
   } = props
   const dispatch = useDispatch()
 
@@ -59,7 +59,7 @@ const ScheduleInterview = props => {
   // refresh list of publications
   useEffect(() => {
     if (!isEmpty(response)) {
-      dispatch(getPublications(prfId))
+      dispatch(getApprovedPublicationPositions(yearFilter))
       handleCloseScheduleInterview()
       dispatch(resetPublicationResponses())
     }
@@ -162,7 +162,7 @@ ScheduleInterview.propTypes = {
   showScheduleInterview: PropTypes.bool,
   handleCloseScheduleInterview: PropTypes.func,
   modalData: PropTypes.object,
-  prfId: PropTypes.string,
+  yearFilter: PropTypes.string,
 }
 
 export default ScheduleInterview

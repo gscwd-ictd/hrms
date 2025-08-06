@@ -14,7 +14,7 @@ import {
   addPSBRoleToOptions,
   removePSBRoleFromOptions,
   updatePublicationStatus,
-  getPublications,
+  getApprovedPublicationPositions,
   resetPublicationResponses,
 } from 'store/actions'
 
@@ -42,7 +42,7 @@ const CloseApplicationPSBMemberAssignment = props => {
     showCloseApplication,
     modalData,
     handleCloseCloseApplication,
-    prfId,
+    yearFilter,
   } = props
   const dispatch = useDispatch()
 
@@ -216,7 +216,7 @@ const CloseApplicationPSBMemberAssignment = props => {
   // if update is success
   useEffect(() => {
     if (!isEmpty(responseCloseForApplication)) {
-      dispatch(getPublications(prfId))
+      dispatch(getApprovedPublicationPositions(yearFilter))
       handleCloseCloseApplication()
       dispatch(resetPSBMembersTable())
       dispatch(resetPublicationResponses())
@@ -399,7 +399,7 @@ CloseApplicationPSBMemberAssignment.propTypes = {
   showCloseApplication: PropTypes.bool,
   handleCloseCloseApplication: PropTypes.func,
   modalData: PropTypes.object,
-  prfId: PropTypes.string,
+  yearFilter: PropTypes.string,
 }
 
 export default CloseApplicationPSBMemberAssignment
