@@ -5,6 +5,7 @@ import { Table, Button } from 'reactstrap'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import PsbRemarks from './PsbRemarks'
 import classnames from 'classnames'
+import { CapitalizeEachWord } from 'functions/CapitalizeEachWord'
 
 const HrmpsbRating = () => {
   // redux state for HRMPSB Summary
@@ -91,7 +92,7 @@ const HrmpsbRating = () => {
                 return (
                   <tr key={applicant.postingApplicantId}>
                     <td>{applicant.rank}</td>
-                    <td>{applicant.applicantName}</td>
+                    <td>{CapitalizeEachWord(applicant.applicantName)}</td>
                     <td>{applicant.psb_1}</td>
                     <td>{applicant.psb_2}</td>
                     <td>{applicant.psb_3}</td>
@@ -194,7 +195,7 @@ const HrmpsbRating = () => {
                 return (
                   <tr key={applicant.postingApplicantId}>
                     <td>{applicant.rank}</td>
-                    <td>{applicant.applicantName}</td>
+                    <td>{CapitalizeEachWord(applicant.applicantName)}</td>
                     <td>{applicant.psb_1}</td>
                     <td>{applicant.psb_2}</td>
                     <td>{applicant.psb_3}</td>
@@ -291,7 +292,7 @@ const HrmpsbRating = () => {
                 return (
                   <tr key={applicant.postingApplicantId}>
                     <td>{applicant.rank}</td>
-                    <td>{applicant.applicantName}</td>
+                    <td>{CapitalizeEachWord(applicant.applicantName)}</td>
                     <td>{applicant.psb_1}</td>
                     <td>{applicant.psb_2}</td>
                     <td>{applicant.psb_3}</td>

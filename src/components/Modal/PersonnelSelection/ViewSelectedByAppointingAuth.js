@@ -92,7 +92,7 @@ const ViewSelectedByAppointingAuth = props => {
                   ))}
                 </ul>
               ) : (
-                <p style={{ textAlign: 'center' }} className="text-danger">
+                <p style={{ textAlign: 'center' }} className="text-danger pt-3">
                   No Selected Applicants
                 </p>
               )}

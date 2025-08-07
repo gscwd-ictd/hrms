@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import {
   Page,
   Text,
@@ -242,8 +241,10 @@ const RoHDocument = props => {
                 </View>
 
                 <View style={[styles.w28]}>
-                  <Text style={[styles.tBodyText]}>
-                    {hiredApplicant.selected || ''}
+                  <Text
+                    style={[styles.tBodyText, { textTransform: 'capitalize' }]}
+                  >
+                    {hiredApplicant.selected.toLowerCase() || ''}
                   </Text>
                 </View>
               </View>
@@ -271,63 +272,65 @@ const RoHDocument = props => {
             </View>
           </View>
 
-          {/* Section 2 */}
-          {/* REMINDER */}
-          <View style={[styles.bodyText, { paddingTop: 15 }]}>
-            <Text>
-              FOR MORE DETAILS, PLEASE SEE THE HUMAN RESOURCE DEPARTMENT
-            </Text>
-          </View>
-
-          {/* Section 3 */}
-          {/* Signatories */}
-          <View style={[styles.rowContainer, { paddingTop: 20 }]}>
-            {/* CERTIFIED CORRECT BY */}
-            <View style={[styles.w50, styles.signatureText]}>
-              <Text style={[{ padding: '4 0 0 2' }]}>
-                Certified Correct by:
+          <View wrap={false}>
+            {/* Section 2 */}
+            {/* REMINDER */}
+            <View style={[styles.bodyText, { paddingTop: 15 }]}>
+              <Text>
+                FOR MORE DETAILS, PLEASE SEE THE HUMAN RESOURCE DEPARTMENT
               </Text>
-              {!isEmpty(
-                resultsOfHiringDocument.signatories?.certifiedCorrectBy
-              ) ? (
-                <>
-                  <Image
-                    src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${resultsOfHiringDocument.signatories?.certifiedCorrectBy?.signatureUrl}`}
-                    style={[styles.signature]}
-                  />
-                  <Text style={[styles.signatoryName]}>
-                    {
-                      resultsOfHiringDocument.signatories.certifiedCorrectBy
-                        .fullName
-                    }
-                  </Text>
-                  <Text style={[{ padding: '5 0 0 2' }]}>
-                    {
-                      resultsOfHiringDocument.signatories.certifiedCorrectBy
-                        .position
-                    }
-                  </Text>
-                </>
-              ) : null}
             </View>
 
-            {/* REVIEWED BY */}
-            <View style={[styles.w50, styles.signatureText]}>
-              <Text style={[{ padding: '4 0 0 2' }]}>Approved by:</Text>
-              {!isEmpty(resultsOfHiringDocument.signatories?.approvedBy) ? (
-                <>
-                  <Image
-                    src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${resultsOfHiringDocument.signatories?.approvedBy?.signatureUrl}`}
-                    style={[styles.signature]}
-                  />
-                  <Text style={[styles.signatoryName]}>
-                    {resultsOfHiringDocument.signatories.approvedBy.fullName}
-                  </Text>
-                  <Text style={[{ padding: '5 0 0 2' }]}>
-                    {resultsOfHiringDocument.signatories.approvedBy.position}
-                  </Text>
-                </>
-              ) : null}
+            {/* Section 3 */}
+            {/* Signatories */}
+            <View style={[styles.rowContainer, { paddingTop: 20 }]}>
+              {/* CERTIFIED CORRECT BY */}
+              <View style={[styles.w50, styles.signatureText]}>
+                <Text style={[{ padding: '4 0 0 2' }]}>
+                  Certified Correct by:
+                </Text>
+                {!isEmpty(
+                  resultsOfHiringDocument.signatories?.certifiedCorrectBy
+                ) ? (
+                  <>
+                    <Image
+                      src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${resultsOfHiringDocument.signatories?.certifiedCorrectBy?.signatureUrl}`}
+                      style={[styles.signature]}
+                    />
+                    <Text style={[styles.signatoryName]}>
+                      {
+                        resultsOfHiringDocument.signatories.certifiedCorrectBy
+                          .fullName
+                      }
+                    </Text>
+                    <Text style={[{ padding: '5 0 0 2' }]}>
+                      {
+                        resultsOfHiringDocument.signatories.certifiedCorrectBy
+                          .position
+                      }
+                    </Text>
+                  </>
+                ) : null}
+              </View>
+
+              {/* REVIEWED BY */}
+              <View style={[styles.w50, styles.signatureText]}>
+                <Text style={[{ padding: '4 0 0 2' }]}>Approved by:</Text>
+                {!isEmpty(resultsOfHiringDocument.signatories?.approvedBy) ? (
+                  <>
+                    <Image
+                      src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${resultsOfHiringDocument.signatories?.approvedBy?.signatureUrl}`}
+                      style={[styles.signature]}
+                    />
+                    <Text style={[styles.signatoryName]}>
+                      {resultsOfHiringDocument.signatories.approvedBy.fullName}
+                    </Text>
+                    <Text style={[{ padding: '5 0 0 2' }]}>
+                      {resultsOfHiringDocument.signatories.approvedBy.position}
+                    </Text>
+                  </>
+                ) : null}
+              </View>
             </View>
           </View>
         </View>

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 
 import { Table } from 'reactstrap'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import { CapitalizeEachWord } from 'functions/CapitalizeEachWord'
 
 const ShortlistedApplicants = () => {
   // redux state for to be shortlisted applciants
@@ -32,8 +33,10 @@ const ShortlistedApplicants = () => {
                 shortlistedApplicantList.map(applicant => {
                   return (
                     <tr key={applicant.applicantEndorsementId}>
-                      <td>{applicant.applicantName}</td>
-                      <td>{applicant.applicantType}</td>
+                      <td>{CapitalizeEachWord(applicant.applicantName)}</td>
+                      <td className="text-capitalize">
+                        {applicant.applicantType}
+                      </td>
                     </tr>
                   )
                 })
