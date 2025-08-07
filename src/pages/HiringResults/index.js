@@ -44,9 +44,6 @@ const HiringResults = () => {
       Header: 'Selected Applicant/s',
       accessor: 'selected',
       vertical: 'middle',
-      Cell: cell => {
-        return <p>{CapitalizeEachWord(cell.value)}</p>
-      },
     },
     {
       Header: 'Effectivity Date',
