@@ -145,8 +145,13 @@ const RoHDocument = props => {
     const arrPId = plantillaIds.split(', \n')
     const arrApp = applicants.split(/[\n]/)
 
-    if (arrPId.length > arrApp.length) {
-      arrPId.pop()
+    const difference = arrPId.length - arrApp.length
+
+    if (difference > 0) {
+      for (let i = 1; i <= difference; i++) {
+        arrPId.pop()
+      }
+
       return arrPId.join(', \n')
     } else {
       return plantillaIds
