@@ -1,9 +1,7 @@
-import { isEmpty } from 'lodash'
-
-export const Capitalize = string => {
-  if (!isEmpty(string)) {
-    return string.charAt(0).toUpperCase() + string.slice(1)
-  } else {
+export const Capitalize = word => {
+  if (word.length === 0) {
     return ''
   }
+
+  return word.charAt(0).toUpperCase() + word.slice(1)
 }

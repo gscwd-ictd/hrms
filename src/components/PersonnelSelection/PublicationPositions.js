@@ -106,6 +106,13 @@ const PublicationPositions = () => {
       },
     },
     {
+      Header: 'ecxam',
+      accessor: 'withExam',
+      Cell: cell => {
+        console.log(cell.row.original)
+      },
+    },
+    {
       Header: 'Publication Status',
       accessor: 'postingStatus',
       Filter: SelectColumnFilter,
@@ -384,6 +391,8 @@ const PublicationPositions = () => {
                 </Link>
               </DropdownItem>
 
+              {/* ADDITIONAL */}
+              {}
               <DropdownItem
                 onClick={() => setAppointmentEffectivity(cell.row.values)}
               >

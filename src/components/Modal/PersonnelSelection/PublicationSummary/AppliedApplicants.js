@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import classnames from 'classnames'
 import { Table, Badge } from 'reactstrap'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import { CapitalizeEachWord } from 'functions/CapitalizeEachWord'
 
 const AppliedApplicants = () => {
   // redux state for list of applicants
@@ -45,9 +46,11 @@ const AppliedApplicants = () => {
                 applicantList.map(applicant => {
                   return (
                     <tr key={applicant._id}>
-                      <td>{applicant.fullName}</td>
+                      <td>{CapitalizeEachWord(applicant.fullName)}</td>
                       <td>{statusBadge(applicant.applicantStatus)}</td>
-                      <td>{applicant.applicantType}</td>
+                      <td className="text-capitalize">
+                        {applicant.applicantType}
+                      </td>
                     </tr>
                   )
                 })

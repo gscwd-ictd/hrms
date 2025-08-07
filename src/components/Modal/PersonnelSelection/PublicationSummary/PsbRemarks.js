@@ -16,6 +16,7 @@ import {
   CardBody,
 } from 'reactstrap'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import { CapitalizeEachWord } from 'functions/CapitalizeEachWord'
 
 const PsbRemarks = props => {
   const { applicantDetails, showPsbRemarks, handleCloseSwapPsbMember } = props
@@ -57,7 +58,7 @@ const PsbRemarks = props => {
               {!isEmpty(applicantDetails) ? (
                 <>
                   Rank {applicantDetails.rank} |{' '}
-                  {applicantDetails.applicantName}
+                  {CapitalizeEachWord(applicantDetails.applicantName)}
                 </>
               ) : null}
             </ModalHeader>

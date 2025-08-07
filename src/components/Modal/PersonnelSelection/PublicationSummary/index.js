@@ -77,6 +77,7 @@ const PublicationSummary = props => {
     }
   }
 
+  // get psb summary
   const refetchPsbRating = () => {
     dispatch(fetchPsbSummary(modalData.vppId))
   }
@@ -94,7 +95,7 @@ const PublicationSummary = props => {
     }
   }, [showPublicationDetails])
 
-  // Reload table and reset form
+  // reload table and reset form
   useEffect(() => {
     if (!isEmpty(patchSwapPsbMember)) {
       dispatch(fetchPsbDetails(modalData.vppId))
@@ -332,12 +333,13 @@ const PublicationSummary = props => {
                   </Row>
                 </TabPane>
 
-                {/* PSB Summary */}
+                {/* PSB Rating */}
                 <TabPane tabId="6">
                   <Row>
                     <Col sm="12">
                       <>
                         <HrmpsbRating />
+
                         <div className="w-100 t-align-end">
                           <Button
                             onClick={() => refetchPsbRating()}

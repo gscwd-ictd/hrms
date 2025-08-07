@@ -490,72 +490,88 @@ const SRoADocument = props => {
             </View>
           </View>
 
-          {/* SELECTED APPLICANTS */}
-          <View
-            style={[
-              styles.selectedApplicantsText,
-              styles.w70,
-              { paddingTop: 25, marginHorizontal: 'auto' },
-            ]}
-            wrap={false}
-          >
-            <Text>
-              Selected by the Appointing Authority after the Hiring Process
-            </Text>
+          <View wrap={false}>
+            {/* SELECTED APPLICANTS */}
+            <View
+              style={[
+                styles.selectedApplicantsText,
+                styles.w70,
+                { paddingTop: 25, marginHorizontal: 'auto' },
+              ]}
+              wrap={false}
+            >
+              <Text>
+                Selected by the Appointing Authority after the Hiring Process
+              </Text>
 
-            <View style={[{ paddingTop: 10 }]}>
-              {selectedApplicantsByAppAuth.map((applicant, index) => {
-                return (
-                  <View
-                    key={applicant.applicantEndorsementId}
-                    style={[styles.rowContainer, { paddingBottom: 8 }]}
-                  >
-                    <Text style={[{ paddingRight: 5 }]}>{index + 1}</Text>
+              <View style={[{ paddingTop: 10 }]}>
+                {selectedApplicantsByAppAuth.length > 0 ? (
+                  selectedApplicantsByAppAuth.map((applicant, index) => {
+                    return (
+                      <View
+                        key={applicant.applicantEndorsementId}
+                        style={[styles.rowContainer, { paddingBottom: 8 }]}
+                      >
+                        <Text style={[{ paddingRight: 5 }]}>{index + 1}</Text>
+                        <Text
+                          style={[
+                            styles.borderBottom,
+                            styles.upperCase,
+                            { paddingHorizontal: 10 },
+                          ]}
+                        >
+                          {applicant.applicantName}
+                        </Text>
+                      </View>
+                    )
+                  })
+                ) : (
+                  <View style={[styles.rowContainer, { paddingBottom: 8 }]}>
                     <Text
                       style={[
                         styles.borderBottom,
                         styles.upperCase,
-                        { paddingHorizontal: 10 },
+                        { paddingHorizontal: 25, color: 'red' },
                       ]}
                     >
-                      {applicant.applicantName}
+                      NO SELECTED APPLICANT
                     </Text>
                   </View>
-                )
-              })}
+                )}
+              </View>
             </View>
-          </View>
 
-          {/* Appointing Authority Signatory */}
-          <View
-            style={[
-              styles.signatureText,
-              styles.w70,
-              { paddingTop: 25, marginHorizontal: 'auto' },
-            ]}
-            wrap={false}
-          >
-            <View style={[styles.rowTable]}>
-              <View style={[styles.w50]}>
-                <Text>Approved by:</Text>
-                {psbSummary.signatories.map((signatory, index) => {
-                  if (signatory.role == 'Appointing authority') {
-                    return (
-                      <View key={index}>
-                        <Image
-                          src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${signatory.signatureUrl}`}
-                          style={[styles.signature]}
-                        />
+            {/* Appointing Authority Signatory */}
+            <View
+              style={[
+                styles.signatureText,
+                styles.w70,
+                { paddingTop: 25, marginHorizontal: 'auto' },
+              ]}
+              wrap={false}
+            >
+              <View style={[styles.rowTable]}>
+                <View style={[styles.w50]}>
+                  <Text>Approved by:</Text>
+                  {psbSummary.signatories.map((signatory, index) => {
+                    if (signatory.role == 'Appointing authority') {
+                      return (
+                        <View key={index}>
+                          <Image
+                            src={`${process.env.REACT_APP_IMAGE_SERVER_URL}${signatory.signatureUrl}`}
+                            style={[styles.signature]}
+                          />
 
-                        <Text style={[styles.signatoryName]}>
-                          {signatory.fullName}
-                        </Text>
+                          <Text style={[styles.signatoryName]}>
+                            {signatory.fullName}
+                          </Text>
 
-                        <Text>{signatory.position}</Text>
-                      </View>
-                    )
-                  }
-                })}
+                          <Text>{signatory.position}</Text>
+                        </View>
+                      )
+                    }
+                  })}
+                </View>
               </View>
             </View>
           </View>

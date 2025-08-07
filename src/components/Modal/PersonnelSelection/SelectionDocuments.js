@@ -55,6 +55,7 @@ const SelectionDocuments = props => {
                     className="btn-block"
                     style={{ width: '100%' }}
                   >
+                    <i className="bx bxs-file-pdf font-size-24" />
                     Summary Report: Ranking of Applicants
                   </Button>
                 </Link>

@@ -2,16 +2,15 @@ import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Can } from 'casl/Can'
 import { Navigate } from 'react-router-dom'
-
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchPublicationsWithHiredApplicants } from 'store/actions'
-
 import TableHiringResults from 'components/Table/TableHiringResults'
 import { Container, Card, CardBody, Button } from 'reactstrap'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import Breadcrumb from 'components/Common/Breadcrumb'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 import HiredApplicants from 'components/Modal/HiringResults/HiredApplicants'
+import { CapitalizeEachWord } from 'functions/CapitalizeEachWord'
 
 // style
 import 'styles/custom_gscwd/components/table.scss'
@@ -45,6 +44,9 @@ const HiringResults = () => {
       Header: 'Selected Applicant/s',
       accessor: 'selected',
       vertical: 'middle',
+      Cell: cell => {
+        return <p>{CapitalizeEachWord(cell.value)}</p>
+      },
     },
     {
       Header: 'Effectivity Date',
