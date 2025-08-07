@@ -141,6 +141,18 @@ Font.register({
 const RoHDocument = props => {
   const { resultsOfHiringDocument, effectivityDate } = props
 
+  const removeUnsedPlantillaId = (plantillaIds, applicants) => {
+    const arrPId = plantillaIds.split(', \n')
+    const arrApp = applicants.split(/[\n]/)
+
+    if (arrPId.length > arrApp.length) {
+      arrPId.pop()
+      return arrPId.join(', \n')
+    } else {
+      return plantillaIds
+    }
+  }
+
   return (
     <Document
       author="General Santos City Water District"
@@ -238,7 +250,10 @@ const RoHDocument = props => {
 
                 <View style={[styles.w14, styles.borderRight]}>
                   <Text style={[styles.tBodyText]}>
-                    {hiredApplicant.plantillaNumber || ''}
+                    {removeUnsedPlantillaId(
+                      hiredApplicant.plantillaNumber,
+                      hiredApplicant.selected
+                    ) || ''}
                   </Text>
                 </View>
 
