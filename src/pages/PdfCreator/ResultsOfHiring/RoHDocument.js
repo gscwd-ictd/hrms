@@ -39,7 +39,9 @@ const styles = StyleSheet.create({
     border: '2px solid #000000',
   },
   signature: {
-    width: 80,
+    position: 'absolute',
+    width: 70,
+    paddingTop: 20,
     marginLeft: 40,
   },
 
@@ -98,7 +100,7 @@ const styles = StyleSheet.create({
   signatoryName: {
     fontFamily: 'CalibriRegularBold',
     textTransform: 'uppercase',
-    padding: '4 0 0 2',
+    padding: '50 0 0 2',
   },
 
   verticalCenter: { margin: 'auto 0' },
@@ -145,7 +147,7 @@ const RoHDocument = props => {
       subject="Results of Hiring Process - HRD-005-2"
       title="Results of Hiring Process"
     >
-      <Page size="A4" style={[styles.page, { padding: '15 0 15 0' }]}>
+      <Page size="A4" style={[styles.page, { padding: '10 0 10 0' }]}>
         <Header />
 
         <View style={[{ marginHorizontal: 15 }]}>
