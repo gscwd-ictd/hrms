@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
     border: '2px solid #000000',
   },
   signature: {
-    width: 100,
-    marginLeft: 50,
+    width: 80,
+    marginLeft: 40,
   },
 
   // Border Styles
@@ -251,7 +251,7 @@ const RoHDocument = props => {
             ))}
 
             {/* FOOTER */}
-            <View style={[styles.borderTop, { paddingTop: 3 }]}>
+            <View style={[styles.borderTop, { paddingTop: 3 }]} wrap={false}>
               <View style={[styles.rowContainer]}>
                 <Text style={[styles.tFooterText, styles.w40]}>
                   EFFECTIVITY DATE OF APPOINTMENT
@@ -275,7 +275,7 @@ const RoHDocument = props => {
           <View wrap={false}>
             {/* Section 2 */}
             {/* REMINDER */}
-            <View style={[styles.bodyText, { paddingTop: 15 }]}>
+            <View style={[styles.bodyText, { paddingTop: 10 }]}>
               <Text>
                 FOR MORE DETAILS, PLEASE SEE THE HUMAN RESOURCE DEPARTMENT
               </Text>
@@ -283,7 +283,7 @@ const RoHDocument = props => {
 
             {/* Section 3 */}
             {/* Signatories */}
-            <View style={[styles.rowContainer, { paddingTop: 20 }]}>
+            <View style={[styles.rowContainer, { paddingTop: 10 }]}>
               {/* CERTIFIED CORRECT BY */}
               <View style={[styles.w50, styles.signatureText]}>
                 <Text style={[{ padding: '4 0 0 2' }]}>
