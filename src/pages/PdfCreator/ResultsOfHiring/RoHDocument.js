@@ -59,13 +59,13 @@ const styles = StyleSheet.create({
   // Field Styles
   documentTitle: {
     fontFamily: 'CalibriRegularBold',
-    fontSize: 20,
+    fontSize: 17,
     marginBottom: 10,
     textAlign: 'center',
   },
   bodyText: {
     fontFamily: 'CalibriRegular',
-    fontSize: 11,
+    fontSize: 10,
     paddingTop: 1,
   },
   tHeadText: {
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   tBodyText: {
     fontFamily: 'CalibriRegular',
-    fontSize: 11,
+    fontSize: 10,
     marginVertical: 'auto',
     paddingHorizontal: 2,
     paddingVertical: 8,

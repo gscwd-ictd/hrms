@@ -15,15 +15,15 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
   },
   logo: {
-    width: 70,
-    height: 70,
+    width: 60,
+    height: 60,
     margin: 'auto',
   },
 
   // Field Styles
   headerText: {
     fontFamily: 'ArialRegular',
-    fontSize: 9,
+    fontSize: 8,
     padding: 1,
     marginVertical: 'auto',
   },
