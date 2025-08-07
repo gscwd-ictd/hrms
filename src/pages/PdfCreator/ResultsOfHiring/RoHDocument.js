@@ -243,10 +243,8 @@ const RoHDocument = props => {
                 </View>
 
                 <View style={[styles.w28]}>
-                  <Text
-                    style={[styles.tBodyText, { textTransform: 'capitalize' }]}
-                  >
-                    {hiredApplicant.selected.toLowerCase() || ''}
+                  <Text style={[styles.tBodyText]}>
+                    {hiredApplicant.selected || ''}
                   </Text>
                 </View>
               </View>
