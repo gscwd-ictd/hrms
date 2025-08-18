@@ -407,11 +407,9 @@ export const getEndorsedApplicants = vppId =>
   getHris(url.APPLICANT_ENDORSEMENT + url.ENDORSED_APPLICANTS + vppId)
 export const getShortlistedApplicants = vppId =>
   getHris(url.APPLICANT_ENDORSEMENT + url.SHORTLISTED_APPLICANTS + vppId)
-export const getHiredExternalConfirmedApplicants = () =>
+export const getHiredConfirmedApplicants = () =>
   getHris(
-    url.PUBLICATIONS +
-      url.QUALIFIED_APPLICANTS +
-      url.HIRED_EXTERNAL_CONFIRMED_APPLICANTS
+    url.PUBLICATIONS + url.QUALIFIED_APPLICANTS + url.HIRED_CONFIRMED_APPLICANTS
   )
 
 export const patchApplicantApplicationStatus = (

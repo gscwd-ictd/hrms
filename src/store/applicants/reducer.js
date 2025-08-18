@@ -48,9 +48,9 @@ import {
   PATCH_DBMCSC_DETAILS,
   PATCH_DBMCSC_DETAILS_SUCCESS,
   PATCH_DBMCSC_DETAILS_FAIL,
-  GET_HIRED_EXTERNAL_APPLICANTS,
-  GET_HIRED_EXTERNAL_APPLICANTS_SUCCESS,
-  GET_HIRED_EXTERNAL_APPLICANTS_FAIL,
+  GET_HIRED_APPLICANTS,
+  GET_HIRED_APPLICANTS_SUCCESS,
+  GET_HIRED_APPLICANTS_FAIL,
   RESET_APPLICANTS_RESPONSES,
 } from './actionTypes'
 import update from 'immutability-helper'
@@ -161,7 +161,7 @@ const INIT_STATE = {
       },
     },
   },
-  hiredExternalConfirmedApplicants: [],
+  hiredConfirmedApplicants: [],
   dbmCscForm33BAdditionalData: {
     basic: {
       itemNumber: '',
@@ -224,7 +224,7 @@ const INIT_STATE = {
     loadingRAIDocument: false,
     loadingCoAtDDocument: false,
     loadingCoADocument: false,
-    loadingHiredExternalConfirmedApplicants: false,
+    loadingHiredConfirmedApplicants: false,
   },
   error: {
     errorApplicants: null,
@@ -243,7 +243,7 @@ const INIT_STATE = {
     errorRAIDocument: null,
     errorCoAtDDocument: null,
     errorCoADocument: null,
-    errorHiredExternalConfirmedApplicants: null,
+    errorHiredConfirmedApplicants: null,
   },
 }
 
@@ -1182,38 +1182,38 @@ const applicants = (state = INIT_STATE, action) => {
         },
       }
 
-    case GET_HIRED_EXTERNAL_APPLICANTS:
+    case GET_HIRED_APPLICANTS:
       return {
         ...state,
-        hiredExternalConfirmedApplicants: [],
+        hiredConfirmedApplicants: [],
         loading: {
           ...state.loading,
-          loadingHiredExternalConfirmedApplicants: true,
+          loadingHiredConfirmedApplicants: true,
         },
         error: {
           ...state.error,
-          errorHiredExternalConfirmedApplicants: null,
+          errorHiredConfirmedApplicants: null,
         },
       }
-    case GET_HIRED_EXTERNAL_APPLICANTS_SUCCESS:
+    case GET_HIRED_APPLICANTS_SUCCESS:
       return {
         ...state,
-        hiredExternalConfirmedApplicants: action.payload,
+        hiredConfirmedApplicants: action.payload,
         loading: {
           ...state.loading,
-          loadingHiredExternalConfirmedApplicants: false,
+          loadingHiredConfirmedApplicants: false,
         },
       }
-    case GET_HIRED_EXTERNAL_APPLICANTS_FAIL:
+    case GET_HIRED_APPLICANTS_FAIL:
       return {
         ...state,
         loading: {
           ...state.loading,
-          loadingHiredExternalConfirmedApplicants: false,
+          loadingHiredConfirmedApplicants: false,
         },
         error: {
           ...state.error,
-          errorHiredExternalConfirmedApplicants: action.payload,
+          errorHiredConfirmedApplicants: action.payload,
         },
       }
 
