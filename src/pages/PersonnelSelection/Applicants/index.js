@@ -79,6 +79,12 @@ const Applicants = () => {
               {cell.row.values.applicantStatus}
             </Badge>
           )
+        } else {
+          return (
+            <div className="me-2 font-size-12 badge bg-primary">
+              {cell.row.values.applicantStatus}
+            </div>
+          )
         }
       },
     },
@@ -103,12 +109,14 @@ const Applicants = () => {
               }
             />
 
-            <button
-              onClick={() => changeApplicantStatus(cell.row.values)}
-              className="btn btn-info waves-effect waves-light w-7"
-            >
-              Status <i className="fas fa-user-edit"></i>
-            </button>
+            {cell.row.values.applicantStatus !== 'Accepted' ? (
+              <button
+                onClick={() => changeApplicantStatus(cell.row.values)}
+                className="btn btn-info waves-effect waves-light w-7"
+              >
+                Status <i className="fas fa-user-edit"></i>
+              </button>
+            ) : null}
           </div>
         )
       },
