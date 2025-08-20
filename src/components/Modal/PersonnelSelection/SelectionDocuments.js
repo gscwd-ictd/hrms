@@ -34,14 +34,15 @@ const SelectionDocuments = props => {
                   className="btn-block"
                   style={{ width: '100%' }}
                 >
-                  <i className="bx bxs-file-pdf font-size-24" /> Competency
-                  Based-Interview Report
+                  <i className="bx bxs-file-pdf font-size-24 align-middle mb-1" />{' '}
+                  Competency Based-Interview Report
                 </Button>
               </Link>
             </Col>
           </Row>
 
-          {modalData.postingStatus === publicationStatus.HIRINGDONE ? (
+          {modalData.postingStatus === publicationStatus.HIRINGDONE ||
+          modalData.postingStatus === publicationStatus.DOESET ? (
             <Row>
               <Col>
                 <Link
@@ -55,7 +56,7 @@ const SelectionDocuments = props => {
                     className="btn-block"
                     style={{ width: '100%' }}
                   >
-                    <i className="bx bxs-file-pdf font-size-24" />
+                    <i className="bx bxs-file-pdf font-size-24 align-middle mb-1" />
                     Summary Report: Ranking of Applicants
                   </Button>
                 </Link>

@@ -3,7 +3,15 @@ import { Can } from 'casl/Can'
 import { Navigate, useLocation, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchApplicants } from 'store/actions'
-import { Card, CardBody, Col, Container, Row, Badge } from 'reactstrap'
+import {
+  Card,
+  CardBody,
+  Col,
+  Container,
+  Row,
+  Badge,
+  CardHeader,
+} from 'reactstrap'
 import TableApplicants from 'components/Table/TableApplicants'
 import InRowAction from 'components/InRowAction/InRowAction'
 import ApplicantStatus from 'components/Modal/PersonnelSelection/Applicants/ApplicantStatus'
@@ -14,7 +22,7 @@ import ToastrNotification from 'components/Notifications/ToastrNotification'
 const Applicants = () => {
   const dispatch = useDispatch()
   const location = useLocation()
-  const { publicationId } = useParams()
+  const { publicationId, plantillaItems } = useParams()
 
   const tblColumns = [
     {
@@ -71,6 +79,12 @@ const Applicants = () => {
               {cell.row.values.applicantStatus}
             </Badge>
           )
+        } else {
+          return (
+            <div className="me-2 font-size-12 badge bg-primary">
+              {cell.row.values.applicantStatus}
+            </div>
+          )
         }
       },
     },
@@ -95,12 +109,14 @@ const Applicants = () => {
               }
             />
 
-            <button
-              onClick={() => changeApplicantStatus(cell.row.values)}
-              className="btn btn-info waves-effect waves-light w-7"
-            >
-              Status <i className="fas fa-user-edit"></i>
-            </button>
+            {cell.row.values.applicantStatus !== 'Accepted' ? (
+              <button
+                onClick={() => changeApplicantStatus(cell.row.values)}
+                className="btn btn-info waves-effect waves-light w-7"
+              >
+                Status <i className="fas fa-user-edit"></i>
+              </button>
+            ) : null}
           </div>
         )
       },
@@ -156,6 +172,10 @@ const Applicants = () => {
               <Col lg={12}>
                 <Card>
                   <CardBody className="card-table">
+                    <div className="w-100 pb-4">
+                      <h5>{plantillaItems}</h5>
+                    </div>
+
                     {isLoading ? (
                       <LoadingIndicator />
                     ) : (

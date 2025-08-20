@@ -218,8 +218,8 @@ export const PATCH_APPLICANTS_EXAM_SCORES = 'applicant/scores/'
 
 export const ENDORSED_APPLICANTS = 'qualified/'
 export const SHORTLISTED_APPLICANTS = 'shortlisted/'
-export const HIRED_EXTERNAL_CONFIRMED_APPLICANTS =
-  'confirmed/external/onboarding/all/'
+export const HIRED_CONFIRMED_APPLICANTS =
+  'confirmed/internal-external/onboarding/all/'
 
 export const HIRING_PROCESS_RESULTS = 'hiring-process-results/'
 

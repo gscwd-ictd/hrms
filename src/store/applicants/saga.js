@@ -18,7 +18,7 @@ import {
   postDbmCscAdditionalData,
   getDbmCscForm33BData,
   putDbmCscAdditionalData,
-  getHiredExternalConfirmedApplicants,
+  getHiredConfirmedApplicants,
 } from 'helpers/backend_helper'
 import {
   fetchApplicantsSuccess,
@@ -53,8 +53,8 @@ import {
   fetchDbmCscForm33BDataFailed,
   updateDbmCscAdditionalDataSuccess,
   updateDbmCscAdditionalDataFailed,
-  fetchHiredExternalConfirmedApplicantsSuccess,
-  fetchHiredExternalConfirmedApplicantsFailed,
+  fetchHiredConfirmedApplicantsSuccess,
+  fetchHiredConfirmedApplicantsFailed,
 } from './actions'
 import {
   GET_APPLICANTS,
@@ -72,7 +72,7 @@ import {
   GET_APPLICANT_DBMCSC_DETAILS,
   GET_DBMCSC_FORM33B_DETAILS,
   PATCH_DBMCSC_DETAILS,
-  GET_HIRED_EXTERNAL_APPLICANTS,
+  GET_HIRED_APPLICANTS,
   GET_APPLICANT_WES,
 } from './actionTypes'
 
@@ -257,12 +257,12 @@ function* updateDbmCscAdditionalData({ payload: dbmCscAdditionalData }) {
   }
 }
 
-function* fetchHiredExternalConfirmedApplicants() {
+function* fetchHiredConfirmedApplicants() {
   try {
-    const response = yield call(getHiredExternalConfirmedApplicants)
-    yield put(fetchHiredExternalConfirmedApplicantsSuccess(response))
+    const response = yield call(getHiredConfirmedApplicants)
+    yield put(fetchHiredConfirmedApplicantsSuccess(response))
   } catch (error) {
-    yield put(fetchHiredExternalConfirmedApplicantsFailed(error))
+    yield put(fetchHiredConfirmedApplicantsFailed(error))
   }
 }
 
@@ -298,10 +298,7 @@ function* applicantsSaga() {
   yield takeEvery(GET_APPLICANT_DBMCSC_DETAILS, fetchHiredApplicantDbmCscForm)
   yield takeEvery(GET_DBMCSC_FORM33B_DETAILS, fetchDbmCscForm33BData)
   yield takeEvery(PATCH_DBMCSC_DETAILS, updateDbmCscAdditionalData)
-  yield takeEvery(
-    GET_HIRED_EXTERNAL_APPLICANTS,
-    fetchHiredExternalConfirmedApplicants
-  )
+  yield takeEvery(GET_HIRED_APPLICANTS, fetchHiredConfirmedApplicants)
 }
 
 export default applicantsSaga

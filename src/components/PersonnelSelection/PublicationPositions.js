@@ -1,9 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import dayjs from 'dayjs'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
-import { getApprovedPublicationPositions } from 'store/actions'
+import {
+  getApprovedPublicationPositions,
+  fetchSelectedByAppointingAuth,
+} from 'store/actions'
 import { publicationStatus } from 'constants/publicationStatus'
 import TablePublications from 'components/Table/TablePublications'
 import { SelectColumnFilter } from 'components/Filters/SelectColumnFilter'
@@ -70,6 +73,20 @@ const PublicationPositions = () => {
     })
   )
 
+  // Redux state for to be selected applciants by appointing authority
+  const {
+    selectedApplicantsByAppAuth,
+    loadingSelectedByAppointingAuth,
+    errorSelectedByAppointingAuth,
+  } = useSelector(state => ({
+    selectedApplicantsByAppAuth:
+      state.personnelSelectionBoard.response.selectedByAppointingAuth,
+    loadingSelectedByAppointingAuth:
+      state.personnelSelectionBoard.loading.loadingSelectedByAppointingAuth,
+    errorSelectedByAppointingAuth:
+      state.personnelSelectionBoard.error.errorSelectedByAppointingAuth,
+  }))
+
   const tblColumns = [
     {
       Header: 'ID',
@@ -103,13 +120,6 @@ const PublicationPositions = () => {
           cell.row.original.schedule,
           'MMMM DD, YYYY hh:mm A'
         )
-      },
-    },
-    {
-      Header: 'ecxam',
-      accessor: 'withExam',
-      Cell: cell => {
-        console.log(cell.row.original)
       },
     },
     {
@@ -192,12 +202,21 @@ const PublicationPositions = () => {
       cell.row.values.postingStatus === publicationStatus.REQENTITYSELECTDONE ||
       cell.row.values.postingStatus === publicationStatus.EXAMDONE ||
       cell.row.values.postingStatus === publicationStatus.INTERVIEWDONE ||
-      cell.row.values.postingStatus ===
-        publicationStatus.APPAUTHSELECTIONDONE ||
-      cell.row.values.postingStatus === publicationStatus.HIRINGDONE
+      cell.row.values.postingStatus === publicationStatus.APPAUTHSELECTIONDONE
     ) {
       return (
         <Badge className="me-2 bg-success font-size-12">
+          {cell.row.values.postingStatus}
+        </Badge>
+      )
+    } else if (cell.row.values.postingStatus === publicationStatus.HIRINGDONE) {
+      return (
+        <Badge
+          className={classnames('me-2 font-size-12', {
+            'bg-success': cell.row.original.numberOfSelectedApplicants > 0,
+            'bg-danger': (cell.row.original.numberOfSelectedApplicants = 0),
+          })}
+        >
           {cell.row.values.postingStatus}
         </Badge>
       )
@@ -280,7 +299,7 @@ const PublicationPositions = () => {
                 </Link>
               </DropdownItem>
 
-              {cell.row.values.withExam === 'Yes' ? (
+              {cell.row.original.withExam === 1 ? (
                 <DropdownItem
                   onClick={() => scheduleExamination(cell.row.values)}
                 >
@@ -391,13 +410,24 @@ const PublicationPositions = () => {
                 </Link>
               </DropdownItem>
 
-              {/* ADDITIONAL */}
-              {}
-              <DropdownItem
-                onClick={() => setAppointmentEffectivity(cell.row.values)}
-              >
+              {/*  Option is available only if number of selected applicants is more than 1  */}
+              {/* {cell.row.original.numberOfSelectedApplicants > 0 ? (
+                <DropdownItem
+                  onClick={() => setAppointmentEffectivity(cell.row.values)}
+                >
+                  <Link className="dropdown-item" to="#">
+                    Set Appointment Effectivity
+                  </Link>
+                </DropdownItem>
+              ) : null} */}
+            </>
+          ) : null}
+
+          {cell.row.values.postingStatus === publicationStatus.DOESET ? (
+            <>
+              <DropdownItem onClick={() => selectionDocuments(cell.row.values)}>
                 <Link className="dropdown-item" to="#">
-                  Set Appointment Effectivity
+                  Selection Documents
                 </Link>
               </DropdownItem>
             </>

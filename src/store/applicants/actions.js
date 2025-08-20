@@ -48,9 +48,9 @@ import {
   PATCH_DBMCSC_DETAILS,
   PATCH_DBMCSC_DETAILS_SUCCESS,
   PATCH_DBMCSC_DETAILS_FAIL,
-  GET_HIRED_EXTERNAL_APPLICANTS,
-  GET_HIRED_EXTERNAL_APPLICANTS_SUCCESS,
-  GET_HIRED_EXTERNAL_APPLICANTS_FAIL,
+  GET_HIRED_APPLICANTS,
+  GET_HIRED_APPLICANTS_SUCCESS,
+  GET_HIRED_APPLICANTS_FAIL,
   RESET_APPLICANTS_RESPONSES,
 } from './actionTypes'
 
@@ -381,20 +381,20 @@ export const updateDbmCscAdditionalDataFailed = error => {
 }
 
 // Get applicants that are hired, external and has confirmed
-export const fetchHiredExternalConfirmedApplicants = () => {
+export const fetchHiredConfirmedApplicants = () => {
   return {
-    type: GET_HIRED_EXTERNAL_APPLICANTS,
+    type: GET_HIRED_APPLICANTS,
   }
 }
-export const fetchHiredExternalConfirmedApplicantsSuccess = response => {
+export const fetchHiredConfirmedApplicantsSuccess = response => {
   return {
-    type: GET_HIRED_EXTERNAL_APPLICANTS_SUCCESS,
+    type: GET_HIRED_APPLICANTS_SUCCESS,
     payload: response,
   }
 }
-export const fetchHiredExternalConfirmedApplicantsFailed = error => {
+export const fetchHiredConfirmedApplicantsFailed = error => {
   return {
-    type: GET_HIRED_EXTERNAL_APPLICANTS_FAIL,
+    type: GET_HIRED_APPLICANTS_FAIL,
     payload: error,
   }
 }

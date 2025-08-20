@@ -9,7 +9,7 @@ import {
   fetchSchedules,
   resetEmpResponseAndError,
   fetchEmployeeList,
-  fetchHiredExternalConfirmedApplicants,
+  fetchHiredConfirmedApplicants,
 } from 'store/actions'
 
 import {
@@ -48,9 +48,9 @@ const PermanentPortalRegistrationModal = props => {
     loadingRegisterPermanentEmployee,
     errorRegisterPermanentEmployee,
 
-    hiredExternalConfirmedApplicants,
-    loadinghiredExternalConfirmedApplicants,
-    errorhiredExternalConfirmedApplicants,
+    hiredConfirmedApplicants,
+    loadingHiredConfirmedApplicants,
+    errorHiredConfirmedApplicants,
 
     schedules,
     loadingSchedules,
@@ -62,12 +62,11 @@ const PermanentPortalRegistrationModal = props => {
     errorRegisterPermanentEmployee: state.employee.response.error,
 
     // redux state for list of external, hired, and confirmed applicants
-    hiredExternalConfirmedApplicants:
-      state.applicants.hiredExternalConfirmedApplicants,
-    loadinghiredExternalConfirmedApplicants:
-      state.applicants.loading.loadingHiredExternalConfirmedApplicants,
-    errorhiredExternalConfirmedApplicants:
-      state.applicants.error.errorHiredExternalConfirmedApplicants,
+    hiredConfirmedApplicants: state.applicants.hiredConfirmedApplicants,
+    loadingHiredConfirmedApplicants:
+      state.applicants.loading.loadingHiredConfirmedApplicants,
+    errorHiredConfirmedApplicants:
+      state.applicants.error.errorHiredConfirmedApplicants,
 
     // redux state for list schedules
     schedules: state.schedules.schedules,
@@ -81,20 +80,20 @@ const PermanentPortalRegistrationModal = props => {
 
     initialValues: {
       applicantId: '',
-      positionId: '',
-      email: '',
       scheduleId: '',
       restDays: [],
+      positionId: '',
       firstName: '',
       lastName: '',
       middleName: '',
       nameExtension: '',
+      // email: '',
     },
     validationSchema: Yup.object().shape({
       applicantId: Yup.string().required('Please select an applicant'),
       scheduleId: Yup.string().required('Please select a schedule'),
       restDays: Yup.array().min(2, 'Select atleast 2 rest days'),
-      email: Yup.string().required('Please use the official GSCWD email'),
+      // email: Yup.string().required('Please use the official GSCWD email'),
     }),
     onSubmit: values => {
       dispatch(addPermanentEmployee(values))
@@ -132,7 +131,7 @@ const PermanentPortalRegistrationModal = props => {
   // Reset response state upon close of modal
   useEffect(() => {
     if (showAddPerm) {
-      dispatch(fetchHiredExternalConfirmedApplicants())
+      dispatch(fetchHiredConfirmedApplicants())
       dispatch(fetchSchedules())
     } else {
       dispatch(resetEmpResponseAndError())
@@ -184,7 +183,7 @@ const PermanentPortalRegistrationModal = props => {
             notifMessage={errorRegisterPermanentEmployee}
           />
         ) : null}
-        {errorhiredExternalConfirmedApplicants ? (
+        {errorHiredConfirmedApplicants ? (
           <ToastrNotification
             toastType={'error'}
             notifMessage={'Error: Failed to retrieve applicants'}
@@ -235,7 +234,7 @@ const PermanentPortalRegistrationModal = props => {
                         getOptionLabel={option =>
                           `${option.label}  |  ${option.value.itemNumber}  |  ${option.value.positionTitle} `
                         }
-                        options={hiredExternalConfirmedApplicants}
+                        options={hiredConfirmedApplicants}
                         styles={{
                           control: styles => ({
                             ...styles,
@@ -254,10 +253,10 @@ const PermanentPortalRegistrationModal = props => {
                           }),
                         }}
                         isDisabled={
-                          loadinghiredExternalConfirmedApplicants ? true : false
+                          loadingHiredConfirmedApplicants ? true : false
                         }
                         isLoading={
-                          loadinghiredExternalConfirmedApplicants ? true : false
+                          loadingHiredConfirmedApplicants ? true : false
                         }
                       />
 
@@ -402,7 +401,7 @@ const PermanentPortalRegistrationModal = props => {
                     </FormGroup>
                   </Col>
 
-                  <Col sm={6}>
+                  {/* <Col sm={6}>
                     <FormGroup>
                       <Label for="email">Email</Label>
                       <Input
@@ -425,7 +424,7 @@ const PermanentPortalRegistrationModal = props => {
                         </FormFeedback>
                       ) : null}
                     </FormGroup>
-                  </Col>
+                  </Col> */}
                 </Row>
               </div>
             </div>
