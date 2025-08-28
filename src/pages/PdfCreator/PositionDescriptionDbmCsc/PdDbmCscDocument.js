@@ -1494,7 +1494,7 @@ const PdDbmCscDocument = props => {
             )}
           </View>
 
-          <View wrap={false}>
+          <View>
             {/* ROW 17 */}
             <View>
               <View style={[styles.rowContainer, styles.borderAll]}>
@@ -1583,7 +1583,7 @@ const PdDbmCscDocument = props => {
             </View>
 
             {/* ROW 18 */}
-            <View style={[styles.borderAll]}>
+            <View style={[styles.borderAll]} wrap={false}>
               <View style={[styles.borderBottom]}>
                 <View>
                   <Text style={[styles.tDataColored]}> </Text>
