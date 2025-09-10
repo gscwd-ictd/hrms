@@ -3,10 +3,7 @@ import dayjs from 'dayjs'
 import { Link, useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  getApprovedPublicationPositions,
-  fetchSelectedByAppointingAuth,
-} from 'store/actions'
+import { getApprovedPublicationPositions } from 'store/actions'
 import { publicationStatus } from 'constants/publicationStatus'
 import TablePublications from 'components/Table/TablePublications'
 import { SelectColumnFilter } from 'components/Filters/SelectColumnFilter'
@@ -27,6 +24,7 @@ import ToastrNotification from 'components/Notifications/ToastrNotification'
 import { isEmpty } from 'lodash'
 import { Can } from 'casl/Can'
 import { DateFormatter } from 'functions/DateFormatter'
+import classnames from 'classnames'
 
 // modal components
 import Deadline from 'components/Modal/PersonnelSelection/Deadline'
