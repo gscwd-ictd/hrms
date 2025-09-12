@@ -93,7 +93,7 @@ const LearningAndDevelopmentPdf = props => {
   const [emptyLearningDevRows, setEmptyLearningDevRows] = useState(18)
 
   const renderLearningDevelopmentRows = () => {
-    var content = learningDevelopment.slice(0, 18).map((training, index) => (
+    var content = learningDevelopment.slice(0, 17).map((training, index) => (
       <View
         style={[
           styles.borderTop,
