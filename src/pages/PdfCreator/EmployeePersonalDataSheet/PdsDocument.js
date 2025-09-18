@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   bodyBorder: {
-    margin: 10,
+    margin: '10 10 0 10',
     border: '2px solid #000000',
   },
   mainTitleContainer: {
@@ -172,18 +172,22 @@ const styles = StyleSheet.create({
   w46_2: { width: '46.2%' },
   w35_8: { width: '35.8%' },
   w34: { width: '34%' },
+  w33_3: { width: '33.3%' },
   w31_9: { width: '31.9%' },
+  w29_9: { width: '29.9%' },
   w29_8: { width: '29.8%' },
   w27_1: { width: '27.1%' },
   w24_5: { width: '24.5%' },
   w23_8: { width: '23.8%' },
   w22_5: { width: '22.5%' },
   w21_8: { width: '21.8%' },
+  w18_6: { width: '18.6%' },
   w18: { width: '18%' },
   w17_2: { width: '17.2%' },
   w15_1: { width: '15.1%' },
   w14: { width: '14%' },
   w12: { width: '12%' },
+  w9_8: { width: '9.8%' },
   w8_9: { width: '8.9%' },
   w7_45: { width: '7.45%' },
   w7: { width: '7%' },
@@ -754,7 +758,7 @@ const PdsDocument = props => {
             styles.horizontalCenter,
             styles.borderRight,
             styles.inputValue,
-            styles.w17_2,
+            styles.w18_6,
             { padding: '0', flexDirection: 'row' },
           ]}
         >
@@ -778,7 +782,7 @@ const PdsDocument = props => {
             styles.inputValue,
             styles.borderRight,
             styles.horizontalCenter,
-            styles.w31_9,
+            styles.w33_3,
             { flexDirection: 'row' },
           ]}
         >
@@ -799,41 +803,11 @@ const PdsDocument = props => {
             styles.borderRight,
             styles.inputValue,
             styles.horizontalCenter,
-            styles.w27_1,
+            styles.w29_9,
           ]}
         >
           <View style={[styles.verticalCenter]}>
             <Text>{experience.companyName || 'N/A'}</Text>
-          </View>
-        </View>
-
-        {/* Monthly Salary */}
-        <View
-          style={[
-            styles.borderRight,
-            styles.inputValue,
-            styles.horizontalCenter,
-            styles.w5_6,
-            { padding: 0 },
-          ]}
-        >
-          <View style={[styles.verticalCenter]}>
-            <Text>{experience.monthlySalary || 'N/A'}</Text>
-          </View>
-        </View>
-
-        {/* Salary Grade / Increment */}
-        <View
-          style={[
-            styles.borderRight,
-            styles.inputValue,
-            styles.horizontalCenter,
-            styles.w5_6,
-            { padding: 1 },
-          ]}
-        >
-          <View style={[styles.verticalCenter]}>
-            <Text>{experience.salaryGrade || 'N/A'}</Text>
           </View>
         </View>
 
@@ -843,7 +817,7 @@ const PdsDocument = props => {
             styles.borderRight,
             styles.inputValue,
             styles.horizontalCenter,
-            styles.w7,
+            styles.w9_8,
             { fontSize: 6.2, padding: 0 },
           ]}
         >
@@ -859,7 +833,7 @@ const PdsDocument = props => {
           style={[
             styles.inputValue,
             styles.horizontalCenter,
-            styles.w5_6,
+            styles.w9_8,
             { padding: 0 },
           ]}
         >
@@ -1575,7 +1549,7 @@ const PdsDocument = props => {
   return (
     <Document
       author="General Santos City Water District"
-      subject="CS Form No. 212. Revised 2017"
+      subject="CS Form No. 212. Revised 2025"
       title="Personal Data Sheet"
     >
       {/* Page 1 */}
@@ -1586,7 +1560,7 @@ const PdsDocument = props => {
           </View>
           <View style={styles.csFormContainer}>
             <Text style={styles.csForm}>CS Form No. 212</Text>
-            <Text style={styles.revised2017}>Revised 2017</Text>
+            <Text style={styles.revised2017}>Revised 2025</Text>
           </View>
           <View>
             <Text style={styles.line4Child1}>
@@ -1602,7 +1576,8 @@ const PdsDocument = props => {
           <View style={styles.line7Container}>
             <View style={styles.line7Child1Container}>
               <Text style={styles.line7Child1}>
-                Print legibly. Tick appropriate boxes (
+                Print legibly if accomplished through own handwriting. Tick
+                appropriate boxes (
               </Text>
               <Svg viewBox="0 0 24 24" width={7} height={7}>
                 <Path
@@ -1617,12 +1592,6 @@ const PdsDocument = props => {
                   DO NOT ABBREVIATE
                 </span>
                 .
-              </Text>
-            </View>
-            <View style={styles.line7Child2Container}>
-              <Text style={styles.line7Child2Key}>1. CS ID No</Text>
-              <Text style={styles.line7Child2Value}>
-                (Do not fill up. For CSC use only)
               </Text>
             </View>
           </View>
@@ -1651,8 +1620,8 @@ const PdsDocument = props => {
           />
 
           <SignatureDate />
-          <FooterPdf />
         </View>
+        <FooterPdf />
       </Page>
 
       {/* Page 2 */}
@@ -1669,8 +1638,8 @@ const PdsDocument = props => {
           />
 
           <SignatureDate />
-          <FooterPdf />
         </View>
+        <FooterPdf />
       </Page>
 
       {/* Page 3 */}
@@ -1693,8 +1662,8 @@ const PdsDocument = props => {
           />
 
           <SignatureDate />
-          <FooterPdf />
         </View>
+        <FooterPdf />
       </Page>
 
       {/* Page 4 */}
@@ -1712,9 +1681,8 @@ const PdsDocument = props => {
             governmentIssuedId={governmentIssuedId}
             formatDate={formatDate}
           />
-
-          <FooterPdf />
         </View>
+        <FooterPdf />
       </Page>
 
       {/* Children Extra Page */}
@@ -1727,7 +1695,7 @@ const PdsDocument = props => {
               </View>
 
               <View style={[styles.inputKey, styles.w35_8]}>
-                <Text>DATE OF BIRTH (mm/dd/yyyy)</Text>
+                <Text>DATE OF BIRTH (dd/mm/yyyy)</Text>
               </View>
             </View>
 
@@ -2024,7 +1992,7 @@ const PdsDocument = props => {
                   styles.horizontalCenter,
                   styles.borderRight,
                   styles.inputKey,
-                  styles.w17_2,
+                  styles.w18_6,
                   { padding: '0' },
                 ]}
               >
@@ -2037,7 +2005,7 @@ const PdsDocument = props => {
                   <Text style={[styles.verticalCenter]}>28.</Text>
                   <View style={[styles.w100, { textAlign: 'center' }]}>
                     <Text>INCLUSIVE DATES</Text>
-                    <Text>(mm/dd/yyyy)</Text>
+                    <Text>(dd/mm/yyyy)</Text>
                   </View>
                 </View>
 
@@ -2067,7 +2035,7 @@ const PdsDocument = props => {
                   styles.inputKey,
                   styles.borderRight,
                   styles.horizontalCenter,
-                  styles.w31_9,
+                  styles.w33_3,
                   { flexDirection: 'row' },
                 ]}
               >
@@ -2089,45 +2057,12 @@ const PdsDocument = props => {
                   styles.borderRight,
                   styles.inputKey,
                   styles.horizontalCenter,
-                  styles.w27_1,
+                  styles.w29_9,
                 ]}
               >
                 <View style={[styles.verticalCenter]}>
                   <Text>DEPARTMENT / AGENCY / OFFICE / COMPANY</Text>
                   <Text>(Write in full/Do not abbreviate)</Text>
-                </View>
-              </View>
-
-              {/* Monthly Salary */}
-              <View
-                style={[
-                  styles.borderRight,
-                  styles.inputKey,
-                  styles.horizontalCenter,
-                  styles.w5_6,
-                  { padding: 0 },
-                ]}
-              >
-                <View style={[styles.verticalCenter]}>
-                  <Text style={{ fontSize: 5.7 }}>MONTHLY SALARY</Text>
-                </View>
-              </View>
-
-              {/* Salary Grade / Increment */}
-              <View
-                style={[
-                  styles.borderRight,
-                  styles.inputKey,
-                  styles.horizontalCenter,
-                  styles.w5_6,
-                  { padding: 1 },
-                ]}
-              >
-                <View style={[styles.verticalCenter]}>
-                  <Text style={{ fontSize: 4.7 }}>
-                    SALARY/ JOB/ PAY GRADE (if applicable)& STEP (Format
-                    &quot;00-0&quot;)/ INCREMENT
-                  </Text>
                 </View>
               </View>
 
@@ -2137,7 +2072,7 @@ const PdsDocument = props => {
                   styles.borderRight,
                   styles.inputKey,
                   styles.horizontalCenter,
-                  styles.w7,
+                  styles.w9_8,
                   { padding: 0 },
                 ]}
               >
@@ -2152,7 +2087,7 @@ const PdsDocument = props => {
                 style={[
                   styles.inputKey,
                   styles.horizontalCenter,
-                  styles.w5_6,
+                  styles.w9_8,
                   { padding: 0 },
                 ]}
               >
@@ -2225,7 +2160,7 @@ const PdsDocument = props => {
                   style={[styles.w100, { textAlign: 'center', padding: '4' }]}
                 >
                   <Text>INCLUSIVE DATES</Text>
-                  <Text>(mm/dd/yyyy)</Text>
+                  <Text>(dd/mm/yyyy)</Text>
                 </View>
 
                 <View style={[styles.borderTop, { flexDirection: 'row' }]}>
@@ -2337,7 +2272,7 @@ const PdsDocument = props => {
                 >
                   <Text>INCLUSIVE DATES OF</Text>
                   <Text>ATTENDANCE</Text>
-                  <Text>(mm/dd/yyyy)</Text>
+                  <Text>(dd/mm/yyyy)</Text>
                 </View>
 
                 <View style={[styles.borderTop, { flexDirection: 'row' }]}>
@@ -2466,7 +2401,7 @@ const PdsDocument = props => {
                 >
                   <Text>INCLUSIVE DATES OF</Text>
                   <Text>ATTENDANCE</Text>
-                  <Text>(mm/dd/yyyy)</Text>
+                  <Text>(dd/mm/yyyy)</Text>
                 </View>
 
                 <View style={[styles.borderTop, { flexDirection: 'row' }]}>
@@ -2595,7 +2530,7 @@ const PdsDocument = props => {
                 >
                   <Text>INCLUSIVE DATES OF</Text>
                   <Text>ATTENDANCE</Text>
-                  <Text>(mm/dd/yyyy)</Text>
+                  <Text>(dd/mm/yyyy)</Text>
                 </View>
 
                 <View style={[styles.borderTop, { flexDirection: 'row' }]}>
@@ -2724,7 +2659,7 @@ const PdsDocument = props => {
                 >
                   <Text>INCLUSIVE DATES OF</Text>
                   <Text>ATTENDANCE</Text>
-                  <Text>(mm/dd/yyyy)</Text>
+                  <Text>(dd/mm/yyyy)</Text>
                 </View>
 
                 <View style={[styles.borderTop, { flexDirection: 'row' }]}>
@@ -2853,7 +2788,7 @@ const PdsDocument = props => {
                 >
                   <Text>INCLUSIVE DATES OF</Text>
                   <Text>ATTENDANCE</Text>
-                  <Text>(mm/dd/yyyy)</Text>
+                  <Text>(dd/mm/yyyy)</Text>
                 </View>
 
                 <View style={[styles.borderTop, { flexDirection: 'row' }]}>
@@ -2982,7 +2917,7 @@ const PdsDocument = props => {
                 >
                   <Text>INCLUSIVE DATES OF</Text>
                   <Text>ATTENDANCE</Text>
-                  <Text>(mm/dd/yyyy)</Text>
+                  <Text>(dd/mm/yyyy)</Text>
                 </View>
 
                 <View style={[styles.borderTop, { flexDirection: 'row' }]}>

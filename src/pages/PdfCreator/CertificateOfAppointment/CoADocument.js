@@ -435,7 +435,6 @@ const CoADocument = props => {
                           textDecoration: 'underline',
                         },
                       ]}
-                      debug
                     >
                       {'  '}
                       {certificateOfAppointment.data.amountInWords}{' '}

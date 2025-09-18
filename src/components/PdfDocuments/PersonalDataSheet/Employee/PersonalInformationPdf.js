@@ -1,110 +1,110 @@
-import React from "react"
-import { Text, View, StyleSheet, Font, Svg, Path } from "@react-pdf/renderer"
-import ArialRegular from "assets/fonts/uploads/arial.ttf"
-import ArialBlack from "assets/fonts/uploads/arial-black.ttf"
-import ArialItalic from "assets/fonts/uploads/arial-italic.ttf"
-import ArialNarrow from "assets/fonts/uploads/arial-narrow.ttf"
-import ArialNarrowItalic from "assets/fonts/uploads/arial-narrow-italic.ttf"
-import ArialNarrowBold from "assets/fonts/uploads/arial-narrow-bold.ttf"
-import ArialBoldItalic from "assets/fonts/uploads/arial-bold-italic.ttf"
-import ArialNarrowBoldItalic from "assets/fonts/uploads/arial-narrow-bold-italic.ttf"
-import CalibriBoldItalic from "assets/fonts/uploads/calibri-bold-italic.ttf"
-import PropTypes from "prop-types"
+import React from 'react'
+import { Text, View, StyleSheet, Font, Svg, Path } from '@react-pdf/renderer'
+import ArialRegular from 'assets/fonts/uploads/arial.ttf'
+import ArialBlack from 'assets/fonts/uploads/arial-black.ttf'
+import ArialItalic from 'assets/fonts/uploads/arial-italic.ttf'
+import ArialNarrow from 'assets/fonts/uploads/arial-narrow.ttf'
+import ArialNarrowItalic from 'assets/fonts/uploads/arial-narrow-italic.ttf'
+import ArialNarrowBold from 'assets/fonts/uploads/arial-narrow-bold.ttf'
+import ArialBoldItalic from 'assets/fonts/uploads/arial-bold-italic.ttf'
+import ArialNarrowBoldItalic from 'assets/fonts/uploads/arial-narrow-bold-italic.ttf'
+import CalibriBoldItalic from 'assets/fonts/uploads/calibri-bold-italic.ttf'
+import PropTypes from 'prop-types'
 
 const styles = StyleSheet.create({
   lineContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   sectionTitleContainer: {
-    backgroundColor: "#969696",
+    backgroundColor: '#969696',
     padding: 1.5,
   },
   sectionTitleText: {
-    color: "#ffffff",
-    fontFamily: "ArialNarrowBoldItalic",
+    color: '#ffffff',
+    fontFamily: 'ArialNarrowBoldItalic',
     fontSize: 9.2,
   },
   sectionSubtitleText: {
-    color: "#ffffff",
-    fontFamily: "ArialNarrowBoldItalic",
+    color: '#ffffff',
+    fontFamily: 'ArialNarrowBoldItalic',
     fontSize: 6.5,
     paddingTop: 2,
   },
 
   // Field Styles
   inputKey: {
-    backgroundColor: "#EAEAEA",
-    fontFamily: "Arial",
+    backgroundColor: '#EAEAEA',
+    fontFamily: 'Arial',
     fontWeight: 100,
     fontSize: 6.7,
-    padding: "4 5",
+    padding: '4 5',
   },
   inputValue: {
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontWeight: 100,
     fontSize: 6.7,
-    padding: "4 8",
-    textTransform: "uppercase",
+    padding: '4 8',
+    textTransform: 'uppercase',
   },
   inputAddressKey: {
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontWeight: 100,
-    fontStyle: "italic",
+    fontStyle: 'italic',
     fontSize: 6.7,
-    padding: "0 8",
+    padding: '0 8',
   },
 
   // Border Styles
   borderTop: {
-    borderTop: "1px solid #000000",
+    borderTop: '1px solid #000000',
   },
   borderRight: {
-    borderRight: "1px solid #000000",
+    borderRight: '1px solid #000000',
   },
 
   // Width Styles
-  w100: { width: "100%" },
-  w82_9: { width: "82.9%" },
-  w73_5: { width: "73.5%" },
-  w72: { width: "72%" },
-  w62: { width: "62%" },
-  w60: { width: "60%" },
-  w59_3: { width: "59.3%" },
-  w59: { width: "59%" },
-  w58: { width: "58%" },
-  w55: { width: "55%" },
-  w50: { width: "50%" },
-  w45: { width: "45%" },
-  w42: { width: "42%" },
-  w40_7: { width: "40.7%" },
-  w40: { width: "40%" },
-  w38: { width: "38%" },
-  w28: { width: "28%" },
-  w26_5: { width: "26.5%" },
-  w17_1: { width: "17.1%" },
+  w100: { width: '100%' },
+  w82_9: { width: '82.9%' },
+  w73_5: { width: '73.5%' },
+  w72: { width: '72%' },
+  w62: { width: '62%' },
+  w60: { width: '60%' },
+  w59_3: { width: '59.3%' },
+  w59: { width: '59%' },
+  w58: { width: '58%' },
+  w55: { width: '55%' },
+  w50: { width: '50%' },
+  w45: { width: '45%' },
+  w42: { width: '42%' },
+  w40_7: { width: '40.7%' },
+  w40: { width: '40%' },
+  w38: { width: '38%' },
+  w28: { width: '28%' },
+  w26_5: { width: '26.5%' },
+  w17_1: { width: '17.1%' },
 })
 
 Font.register({
-  family: "Arial",
+  family: 'Arial',
   fonts: [
     { src: ArialRegular },
     { src: ArialBlack, fontWeight: 800 },
-    { src: ArialItalic, fontStyle: "italic" },
+    { src: ArialItalic, fontStyle: 'italic' },
     { src: ArialNarrow, fontWeight: 100 },
     { src: ArialNarrowBold, fontWeight: 500 },
-    { src: ArialNarrowItalic, fontWeight: 100, fontStyle: "italic" },
-    { src: ArialBoldItalic, fontWeight: 500, fontStyle: "italic" },
+    { src: ArialNarrowItalic, fontWeight: 100, fontStyle: 'italic' },
+    { src: ArialBoldItalic, fontWeight: 500, fontStyle: 'italic' },
   ],
 })
 
 Font.register({
-  family: "ArialNarrowBoldItalic",
+  family: 'ArialNarrowBoldItalic',
   src: ArialNarrowBoldItalic,
 })
 
 Font.register({
-  family: "Calibri",
-  fonts: [{ src: CalibriBoldItalic, fontWeight: 600, fontStyle: "italic" }],
+  family: 'Calibri',
+  fonts: [{ src: CalibriBoldItalic, fontWeight: 600, fontStyle: 'italic' }],
 })
 
 const PersonalInformationPdf = props => {
@@ -125,17 +125,17 @@ const PersonalInformationPdf = props => {
       {/* Line 10 Surname */}
       <View style={[styles.lineContainer, styles.borderTop]}>
         <View style={[styles.borderRight, styles.inputKey, styles.w17_1]}>
-          <Text>2. SURNAME</Text>
+          <Text>1. SURNAME</Text>
         </View>
         <View style={[styles.w82_9, styles.inputValue]}>
-          <Text>{personalInfo.lastName || "N/A"}</Text>
+          <Text>{personalInfo.lastName || 'N/A'}</Text>
         </View>
       </View>
 
       {/* Line 11 First name */}
       <View style={[styles.lineContainer]}>
         <View style={[styles.borderRight, styles.inputKey, styles.w17_1]}>
-          <Text>&nbsp;&nbsp;&nbsp;&nbsp;FIRST NAME</Text>
+          <Text>2. FIRST NAME</Text>
         </View>
         <View
           style={[
@@ -145,7 +145,7 @@ const PersonalInformationPdf = props => {
             styles.borderTop,
           ]}
         >
-          <Text>{personalInfo.firstName || "N/A"}</Text>
+          <Text>{personalInfo.firstName || 'N/A'}</Text>
         </View>
         <View
           style={[
@@ -153,15 +153,15 @@ const PersonalInformationPdf = props => {
             styles.borderTop,
             {
               padding: 1,
-              width: "23.9%",
+              width: '23.9%',
               fontSize: 5.7,
-              flexDirection: "row",
+              flexDirection: 'row',
             },
           ]}
         >
           <Text>NAME EXTENSION (JR., SR)</Text>
-          <Text style={{ padding: "4 10", fontSize: 5.7 }}>
-            {personalInfo.nameExtension || "N/A"}
+          <Text style={{ padding: '4 10', fontSize: 5.7 }}>
+            {personalInfo.nameExtension || 'N/A'}
           </Text>
         </View>
       </View>
@@ -172,7 +172,7 @@ const PersonalInformationPdf = props => {
           <Text>&nbsp;&nbsp;&nbsp;&nbsp;MIDDLE NAME</Text>
         </View>
         <View style={[styles.borderTop, styles.w82_9, styles.inputValue]}>
-          <Text>{personalInfo.middleName || "N/A"}</Text>
+          <Text>{personalInfo.middleName || 'N/A'}</Text>
         </View>
       </View>
 
@@ -181,7 +181,7 @@ const PersonalInformationPdf = props => {
         <View style={[styles.lineContainer, styles.w42]}>
           <View style={[styles.borderRight, styles.inputKey, styles.w40_7]}>
             <Text>3. DATE OF BIRTH</Text>
-            <Text>&nbsp;&nbsp;&nbsp;&nbsp;(mm/dd/yyyy)</Text>
+            <Text>&nbsp;&nbsp;&nbsp;&nbsp;(dd/mm/yyyy)</Text>
           </View>
 
           <View style={[styles.borderRight, styles.inputValue, styles.w59_3]}>
@@ -195,7 +195,7 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputKey,
               styles.w38,
-              { padding: "4 8 0 5" },
+              { padding: '4 8 0 5' },
             ]}
           >
             <Text>16. CITIZENSHIP</Text>
@@ -205,11 +205,11 @@ const PersonalInformationPdf = props => {
             style={[
               styles.inputValue,
               styles.w62,
-              { flexDirection: "row", padding: "4 8 0 8" },
+              { flexDirection: 'row', padding: '4 8 0 8' },
             ]}
           >
-            <View style={{ flexDirection: "row" }}>
-              {personalInfo.citizenship === "Filipino" ? (
+            <View style={{ flexDirection: 'row' }}>
+              {personalInfo.citizenship === 'Filipino' ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -227,8 +227,8 @@ const PersonalInformationPdf = props => {
               <Text>&nbsp;&nbsp;Filipino</Text>
             </View>
 
-            <View style={{ flexDirection: "row", paddingLeft: 25 }}>
-              {personalInfo.citizenship === "Dual Citizenship" ? (
+            <View style={{ flexDirection: 'row', paddingLeft: 25 }}>
+              {personalInfo.citizenship === 'Dual Citizenship' ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -284,11 +284,11 @@ const PersonalInformationPdf = props => {
             style={[
               styles.inputValue,
               styles.w62,
-              { flexDirection: "row", padding: 0 },
+              { flexDirection: 'row', padding: 0 },
             ]}
           >
-            <View style={{ flexDirection: "row", paddingLeft: 75 }}>
-              {personalInfo.citizenshipType === "By birth" ? (
+            <View style={{ flexDirection: 'row', paddingLeft: 75 }}>
+              {personalInfo.citizenshipType === 'By birth' ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -306,8 +306,8 @@ const PersonalInformationPdf = props => {
               <Text>&nbsp;&nbsp;By birth</Text>
             </View>
 
-            <View style={{ flexDirection: "row", paddingLeft: 20 }}>
-              {personalInfo.citizenshipType === "By naturalization" ? (
+            <View style={{ flexDirection: 'row', paddingLeft: 20 }}>
+              {personalInfo.citizenshipType === 'By naturalization' ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -346,7 +346,7 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputKey,
               styles.w38,
-              { padding: "4 8 0 8", textAlign: "center" },
+              { padding: '4 8 0 8', textAlign: 'center' },
             ]}
           >
             <Text>If holder of dual citizenship,</Text>
@@ -357,8 +357,8 @@ const PersonalInformationPdf = props => {
               styles.inputValue,
               styles.w62,
               {
-                padding: "4 8 0 8",
-                textAlign: "center",
+                padding: '4 8 0 8',
+                textAlign: 'center',
               },
             ]}
           >
@@ -371,7 +371,7 @@ const PersonalInformationPdf = props => {
       <View style={styles.lineContainer}>
         <View style={[styles.lineContainer, styles.borderTop, styles.w42]}>
           <View style={[styles.borderRight, styles.inputKey, styles.w40_7]}>
-            <Text>5. SEX</Text>
+            <Text>5. SEX AT BIRTH</Text>
           </View>
 
           <View
@@ -379,11 +379,11 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputValue,
               styles.w59_3,
-              { flexDirection: "row", padding: "4 8 0 8" },
+              { flexDirection: 'row', padding: '4 8 0 8' },
             ]}
           >
-            <View style={{ flexDirection: "row" }}>
-              {personalInfo.sex === "Male" ? (
+            <View style={{ flexDirection: 'row' }}>
+              {personalInfo.sex === 'Male' ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -401,8 +401,8 @@ const PersonalInformationPdf = props => {
               <Text>&nbsp;&nbsp;Male</Text>
             </View>
 
-            <View style={{ flexDirection: "row", paddingLeft: 25 }}>
-              {personalInfo.sex === "Female" ? (
+            <View style={{ flexDirection: 'row', paddingLeft: 25 }}>
+              {personalInfo.sex === 'Female' ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -428,7 +428,7 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputKey,
               styles.w38,
-              { padding: "4 8 0 8", textAlign: "center" },
+              { padding: '4 8 0 8', textAlign: 'center' },
             ]}
           >
             <Text>please indicate the details.</Text>
@@ -439,13 +439,13 @@ const PersonalInformationPdf = props => {
               styles.inputValue,
               styles.w62,
               {
-                padding: "4 8 0 8",
-                textAlign: "center",
-                borderTop: "0.5px solid #00000063",
+                padding: '4 8 0 8',
+                textAlign: 'center',
+                borderTop: '0.5px solid #00000063',
               },
             ]}
           >
-            <Text>{personalInfo.country || "N/A"}</Text>
+            <Text>{personalInfo.country || 'N/A'}</Text>
           </View>
         </View>
       </View>
@@ -462,11 +462,11 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputValue,
               styles.w59_3,
-              { flexDirection: "row", padding: "4 8 0 8" },
+              { flexDirection: 'row', padding: '4 8 0 8' },
             ]}
           >
-            <View style={{ flexDirection: "row" }}>
-              {personalInfo.civilStatus === "Single" ? (
+            <View style={{ flexDirection: 'row' }}>
+              {personalInfo.civilStatus === 'Single' ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -484,8 +484,8 @@ const PersonalInformationPdf = props => {
               <Text>&nbsp;&nbsp;Single</Text>
             </View>
 
-            <View style={{ flexDirection: "row", paddingLeft: 22 }}>
-              {personalInfo.civilStatus === "Married" ? (
+            <View style={{ flexDirection: 'row', paddingLeft: 22 }}>
+              {personalInfo.civilStatus === 'Married' ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -511,7 +511,7 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputKey,
               styles.w26_5,
-              { padding: "4 8 0 5" },
+              { padding: '4 8 0 5' },
             ]}
           >
             <Text>17. RESIDENTIAL ADDRESS</Text>
@@ -522,17 +522,17 @@ const PersonalInformationPdf = props => {
               styles.inputValue,
               styles.w73_5,
               {
-                padding: "4 8",
-                textAlign: "center",
-                flexDirection: "row",
+                padding: '4 8',
+                textAlign: 'center',
+                flexDirection: 'row',
               },
             ]}
           >
             <Text style={[styles.w50]}>
-              {residentialAddress.houseNumber || "N/A"}
+              {residentialAddress.houseNumber || 'N/A'}
             </Text>
             <Text style={[styles.w50]}>
-              {residentialAddress.street || "N/A"}
+              {residentialAddress.street || 'N/A'}
             </Text>
           </View>
         </View>
@@ -550,11 +550,11 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputValue,
               styles.w59_3,
-              { flexDirection: "row", padding: "0 8" },
+              { flexDirection: 'row', padding: '0 8' },
             ]}
           >
-            <View style={{ flexDirection: "row" }}>
-              {personalInfo.civilStatus === "Widowed" ? (
+            <View style={{ flexDirection: 'row' }}>
+              {personalInfo.civilStatus === 'Widowed' ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -572,8 +572,8 @@ const PersonalInformationPdf = props => {
               <Text>&nbsp;&nbsp;Widowed</Text>
             </View>
 
-            <View style={{ flexDirection: "row", paddingLeft: 15 }}>
-              {personalInfo.civilStatus === "Separated" ? (
+            <View style={{ flexDirection: 'row', paddingLeft: 15 }}>
+              {personalInfo.civilStatus === 'Separated' ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -600,7 +600,7 @@ const PersonalInformationPdf = props => {
               styles.inputKey,
               styles.w26_5,
 
-              { padding: "4 8 0 8" },
+              { padding: '4 8 0 8' },
             ]}
           >
             <Text></Text>
@@ -611,9 +611,9 @@ const PersonalInformationPdf = props => {
               styles.inputAddressKey,
               styles.w73_5,
               {
-                textAlign: "center",
-                borderTop: "0.5px solid #00000063",
-                flexDirection: "row",
+                textAlign: 'center',
+                borderTop: '0.5px solid #00000063',
+                flexDirection: 'row',
               },
             ]}
           >
@@ -635,11 +635,11 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputValue,
               styles.w59_3,
-              { flexDirection: "row", padding: "3 8 0 8" },
+              { flexDirection: 'row', padding: '3 8 0 8' },
             ]}
           >
-            <View style={{ flexDirection: "row" }}>
-              {personalInfo.civilStatus === "Others" ? (
+            <View style={{ flexDirection: 'row' }}>
+              {personalInfo.civilStatus === 'Others' ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
                     d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -666,7 +666,7 @@ const PersonalInformationPdf = props => {
               styles.inputKey,
               styles.w26_5,
 
-              { padding: "4 8 0 8" },
+              { padding: '4 8 0 8' },
             ]}
           >
             <Text></Text>
@@ -678,17 +678,17 @@ const PersonalInformationPdf = props => {
               styles.inputValue,
               styles.w73_5,
               {
-                padding: "4 8",
-                textAlign: "center",
-                flexDirection: "row",
+                padding: '4 8',
+                textAlign: 'center',
+                flexDirection: 'row',
               },
             ]}
           >
             <Text style={[styles.w50]}>
-              {residentialAddress.subdivision || "N/A"}
+              {residentialAddress.subdivision || 'N/A'}
             </Text>
             <Text style={[styles.w50]}>
-              {residentialAddress.barangay || "N/A"}
+              {residentialAddress.barangay || 'N/A'}
             </Text>
           </View>
         </View>
@@ -702,11 +702,11 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputKey,
               styles.w40_7,
-              { padding: "4 8 0 8" },
+              { padding: '4 8 0 8' },
             ]}
           ></View>
           <View
-            style={[styles.borderRight, styles.w59_3, { padding: "0" }]}
+            style={[styles.borderRight, styles.w59_3, { padding: '0' }]}
           ></View>
         </View>
 
@@ -716,7 +716,7 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputKey,
               styles.w26_5,
-              { padding: "4 8 0 8" },
+              { padding: '4 8 0 8' },
             ]}
           ></View>
 
@@ -725,9 +725,9 @@ const PersonalInformationPdf = props => {
               styles.inputAddressKey,
               styles.w73_5,
               {
-                textAlign: "center",
-                borderTop: "0.5px solid #00000063",
-                flexDirection: "row",
+                textAlign: 'center',
+                borderTop: '0.5px solid #00000063',
+                flexDirection: 'row',
               },
             ]}
           >
@@ -749,10 +749,10 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputValue,
               styles.w59_3,
-              { padding: "4 8 0 8" },
+              { padding: '4 8 0 8' },
             ]}
           >
-            <Text>{personalInfo.height || "N/A"}</Text>
+            <Text>{personalInfo.height || 'N/A'}</Text>
           </View>
         </View>
 
@@ -762,7 +762,7 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputKey,
               styles.w26_5,
-              { padding: "4 8 0 8" },
+              { padding: '4 8 0 8' },
             ]}
           >
             <Text></Text>
@@ -774,15 +774,15 @@ const PersonalInformationPdf = props => {
               styles.inputValue,
               styles.w73_5,
               {
-                padding: "4 8",
-                textAlign: "center",
-                flexDirection: "row",
+                padding: '4 8',
+                textAlign: 'center',
+                flexDirection: 'row',
               },
             ]}
           >
-            <Text style={[styles.w50]}>{residentialAddress.city || "N/A"}</Text>
+            <Text style={[styles.w50]}>{residentialAddress.city || 'N/A'}</Text>
             <Text style={[styles.w50]}>
-              {residentialAddress.province || "N/A"}
+              {residentialAddress.province || 'N/A'}
             </Text>
           </View>
         </View>
@@ -796,11 +796,11 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputKey,
               styles.w40_7,
-              { padding: "4 8 0 8" },
+              { padding: '4 8 0 8' },
             ]}
           ></View>
           <View
-            style={[styles.borderRight, styles.w59_3, { padding: "0" }]}
+            style={[styles.borderRight, styles.w59_3, { padding: '0' }]}
           ></View>
         </View>
 
@@ -810,7 +810,7 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputKey,
               styles.w26_5,
-              { padding: "4 8 0 8" },
+              { padding: '4 8 0 8' },
             ]}
           ></View>
 
@@ -819,9 +819,9 @@ const PersonalInformationPdf = props => {
               styles.inputAddressKey,
               styles.w73_5,
               {
-                textAlign: "center",
-                borderTop: "0.5px solid #00000063",
-                flexDirection: "row",
+                textAlign: 'center',
+                borderTop: '0.5px solid #00000063',
+                flexDirection: 'row',
               },
             ]}
           >
@@ -843,10 +843,10 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputValue,
               styles.w59_3,
-              { padding: "4 8 0 8" },
+              { padding: '4 8 0 8' },
             ]}
           >
-            <Text>{personalInfo.weight || "N/A"}</Text>
+            <Text>{personalInfo.weight || 'N/A'}</Text>
           </View>
         </View>
 
@@ -856,7 +856,7 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputKey,
               styles.w26_5,
-              { padding: "4 8 0 8", textAlign: "center" },
+              { padding: '4 8 0 8', textAlign: 'center' },
             ]}
           >
             <Text>ZIP CODE</Text>
@@ -868,13 +868,13 @@ const PersonalInformationPdf = props => {
               styles.inputValue,
               styles.w73_5,
               {
-                padding: "4 8",
-                textAlign: "center",
+                padding: '4 8',
+                textAlign: 'center',
               },
             ]}
           >
             <Text style={[styles.w100]}>
-              {residentialAddress.zipCode || "N/A"}
+              {residentialAddress.zipCode || 'N/A'}
             </Text>
           </View>
         </View>
@@ -892,10 +892,10 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputValue,
               styles.w59_3,
-              { flexDirection: "row", padding: "4 8 0 8" },
+              { flexDirection: 'row', padding: '4 8 0 8' },
             ]}
           >
-            <Text>{personalInfo.bloodType || "N/A"}</Text>
+            <Text>{personalInfo.bloodType || 'N/A'}</Text>
           </View>
         </View>
 
@@ -905,7 +905,7 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputKey,
               styles.w26_5,
-              { padding: "4 8 0 5" },
+              { padding: '4 8 0 5' },
             ]}
           >
             <Text>18. PERMANENT ADDRESS</Text>
@@ -916,16 +916,16 @@ const PersonalInformationPdf = props => {
               styles.inputValue,
               styles.w73_5,
               {
-                padding: "4 8",
-                textAlign: "center",
-                flexDirection: "row",
+                padding: '4 8',
+                textAlign: 'center',
+                flexDirection: 'row',
               },
             ]}
           >
             <Text style={[styles.w50]}>
-              {permanentAddress.houseNumber || "N/A"}
+              {permanentAddress.houseNumber || 'N/A'}
             </Text>
-            <Text style={[styles.w50]}>{permanentAddress.street || "N/A"}</Text>
+            <Text style={[styles.w50]}>{permanentAddress.street || 'N/A'}</Text>
           </View>
         </View>
       </View>
@@ -942,7 +942,7 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputValue,
               styles.w59_3,
-              { padding: "0 8" },
+              { padding: '0 8' },
             ]}
           ></View>
         </View>
@@ -953,7 +953,7 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputKey,
               styles.w26_5,
-              { padding: "4 8 0 8" },
+              { padding: '4 8 0 8' },
             ]}
           >
             <Text></Text>
@@ -964,9 +964,9 @@ const PersonalInformationPdf = props => {
               styles.inputAddressKey,
               styles.w73_5,
               {
-                textAlign: "center",
-                borderTop: "0.5px solid #00000063",
-                flexDirection: "row",
+                textAlign: 'center',
+                borderTop: '0.5px solid #00000063',
+                flexDirection: 'row',
               },
             ]}
           >
@@ -980,7 +980,7 @@ const PersonalInformationPdf = props => {
       <View style={styles.lineContainer}>
         <View style={[styles.lineContainer, styles.borderTop, styles.w42]}>
           <View style={[styles.borderRight, styles.inputKey, styles.w40_7]}>
-            <Text>10. GSIS ID NO.</Text>
+            <Text>10. UMID ID NO.</Text>
           </View>
 
           <View
@@ -988,10 +988,10 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputValue,
               styles.w59_3,
-              { flexDirection: "row", padding: "4 8 0 8" },
+              { flexDirection: 'row', padding: '4 8 0 8' },
             ]}
           >
-            <Text>{governmentIssuedIds.gsisNumber || "N/A"}</Text>
+            <Text>{governmentIssuedIds.gsisNumber || 'N/A'}</Text>
           </View>
         </View>
 
@@ -1001,7 +1001,7 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputKey,
               styles.w26_5,
-              { padding: "4 8 0 8" },
+              { padding: '4 8 0 8' },
             ]}
           >
             <Text></Text>
@@ -1013,17 +1013,17 @@ const PersonalInformationPdf = props => {
               styles.inputValue,
               styles.w73_5,
               {
-                padding: "4 8",
-                textAlign: "center",
-                flexDirection: "row",
+                padding: '4 8',
+                textAlign: 'center',
+                flexDirection: 'row',
               },
             ]}
           >
             <Text style={[styles.w50]}>
-              {permanentAddress.subdivision || "N/A"}
+              {permanentAddress.subdivision || 'N/A'}
             </Text>
             <Text style={[styles.w50]}>
-              {permanentAddress.barangay || "N/A"}
+              {permanentAddress.barangay || 'N/A'}
             </Text>
           </View>
         </View>
@@ -1041,7 +1041,7 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputValue,
               styles.w59_3,
-              { padding: "0 8" },
+              { padding: '0 8' },
             ]}
           ></View>
         </View>
@@ -1052,7 +1052,7 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputKey,
               styles.w26_5,
-              { padding: "4 8 0 8" },
+              { padding: '4 8 0 8' },
             ]}
           >
             <Text></Text>
@@ -1063,9 +1063,9 @@ const PersonalInformationPdf = props => {
               styles.inputAddressKey,
               styles.w73_5,
               {
-                textAlign: "center",
-                borderTop: "0.5px solid #00000063",
-                flexDirection: "row",
+                textAlign: 'center',
+                borderTop: '0.5px solid #00000063',
+                flexDirection: 'row',
               },
             ]}
           >
@@ -1087,10 +1087,10 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputValue,
               styles.w59_3,
-              { flexDirection: "row", padding: "4 8 0 8" },
+              { flexDirection: 'row', padding: '4 8 0 8' },
             ]}
           >
-            <Text>{governmentIssuedIds.pagibigNumber || "N/A"}</Text>
+            <Text>{governmentIssuedIds.pagibigNumber || 'N/A'}</Text>
           </View>
         </View>
 
@@ -1100,7 +1100,7 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputKey,
               styles.w26_5,
-              { padding: "4 8 0 8" },
+              { padding: '4 8 0 8' },
             ]}
           >
             <Text></Text>
@@ -1112,15 +1112,15 @@ const PersonalInformationPdf = props => {
               styles.inputValue,
               styles.w73_5,
               {
-                padding: "4 8",
-                textAlign: "center",
-                flexDirection: "row",
+                padding: '4 8',
+                textAlign: 'center',
+                flexDirection: 'row',
               },
             ]}
           >
-            <Text style={[styles.w50]}>{permanentAddress.city || "N/A"}</Text>
+            <Text style={[styles.w50]}>{permanentAddress.city || 'N/A'}</Text>
             <Text style={[styles.w50]}>
-              {permanentAddress.province || "N/A"}
+              {permanentAddress.province || 'N/A'}
             </Text>
           </View>
         </View>
@@ -1138,7 +1138,7 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputValue,
               styles.w59_3,
-              { padding: "0 8" },
+              { padding: '0 8' },
             ]}
           ></View>
         </View>
@@ -1149,7 +1149,7 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputKey,
               styles.w26_5,
-              { padding: "4 8 0 8" },
+              { padding: '4 8 0 8' },
             ]}
           >
             <Text></Text>
@@ -1160,9 +1160,9 @@ const PersonalInformationPdf = props => {
               styles.inputAddressKey,
               styles.w73_5,
               {
-                textAlign: "center",
-                borderTop: "0.5px solid #00000063",
-                flexDirection: "row",
+                textAlign: 'center',
+                borderTop: '0.5px solid #00000063',
+                flexDirection: 'row',
               },
             ]}
           >
@@ -1184,10 +1184,10 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputValue,
               styles.w59_3,
-              { padding: "4 8 0 8" },
+              { padding: '4 8 0 8' },
             ]}
           >
-            <Text>{governmentIssuedIds.philhealthNumber || "N/A"}</Text>
+            <Text>{governmentIssuedIds.philhealthNumber || 'N/A'}</Text>
           </View>
         </View>
 
@@ -1197,7 +1197,7 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputKey,
               styles.w26_5,
-              { padding: "4 8 0 8", textAlign: "center" },
+              { padding: '4 8 0 8', textAlign: 'center' },
             ]}
           >
             <Text>ZIP CODE</Text>
@@ -1209,13 +1209,13 @@ const PersonalInformationPdf = props => {
               styles.inputValue,
               styles.w73_5,
               {
-                padding: "4 8",
-                textAlign: "center",
+                padding: '4 8',
+                textAlign: 'center',
               },
             ]}
           >
             <Text style={[styles.w100]}>
-              {permanentAddress.zipCode || "N/A"}
+              {permanentAddress.zipCode || 'N/A'}
             </Text>
           </View>
         </View>
@@ -1225,7 +1225,7 @@ const PersonalInformationPdf = props => {
       <View style={styles.lineContainer}>
         <View style={[styles.lineContainer, styles.borderTop, styles.w42]}>
           <View style={[styles.borderRight, styles.inputKey, styles.w40_7]}>
-            <Text>13. SSS NO.</Text>
+            <Text>13. PhilSys Number (PSN):</Text>
           </View>
 
           <View
@@ -1233,10 +1233,10 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputValue,
               styles.w59_3,
-              { padding: "4 8" },
+              { padding: '4 8' },
             ]}
           >
-            <Text>{governmentIssuedIds.sssNumber || "N/A"}</Text>
+            <Text>{governmentIssuedIds.sssNumber || 'N/A'}</Text>
           </View>
         </View>
 
@@ -1245,9 +1245,9 @@ const PersonalInformationPdf = props => {
             <Text>19. TELEPHONE NO.</Text>
           </View>
 
-          <View style={[styles.inputValue, styles.w73_5, { padding: "4 8" }]}>
+          <View style={[styles.inputValue, styles.w73_5, { padding: '4 8' }]}>
             <Text style={[styles.w100]}>
-              {personalInfo.telephoneNumber || "N/A"}
+              {personalInfo.telephoneNumber || 'N/A'}
             </Text>
           </View>
         </View>
@@ -1265,10 +1265,10 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputValue,
               styles.w59_3,
-              { padding: "4 8" },
+              { padding: '4 8' },
             ]}
           >
-            <Text>{governmentIssuedIds.tinNumber || "N/A"}</Text>
+            <Text>{governmentIssuedIds.tinNumber || 'N/A'}</Text>
           </View>
         </View>
 
@@ -1277,9 +1277,9 @@ const PersonalInformationPdf = props => {
             <Text>20. MOBILE NO.</Text>
           </View>
 
-          <View style={[styles.inputValue, styles.w73_5, { padding: "4 8" }]}>
+          <View style={[styles.inputValue, styles.w73_5, { padding: '4 8' }]}>
             <Text style={[styles.w100]}>
-              {personalInfo.mobileNumber || "N/A"}
+              {personalInfo.mobileNumber || 'N/A'}
             </Text>
           </View>
         </View>
@@ -1297,10 +1297,10 @@ const PersonalInformationPdf = props => {
               styles.borderRight,
               styles.inputValue,
               styles.w59_3,
-              { padding: "4 8" },
+              { padding: '4 8' },
             ]}
           >
-            <Text>{governmentIssuedIds.agencyNumber || "N/A"}</Text>
+            <Text>{governmentIssuedIds.agencyNumber || 'N/A'}</Text>
           </View>
         </View>
 
@@ -1313,10 +1313,10 @@ const PersonalInformationPdf = props => {
             style={[
               styles.inputValue,
               styles.w73_5,
-              { padding: "4 8", textTransform: "lowercase" },
+              { padding: '4 8', textTransform: 'lowercase' },
             ]}
           >
-            <Text style={[styles.w100]}>{personalInfo.email || "N/A"}</Text>
+            <Text style={[styles.w100]}>{personalInfo.email || 'N/A'}</Text>
           </View>
         </View>
       </View>

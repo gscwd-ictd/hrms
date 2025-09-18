@@ -1,127 +1,127 @@
-import React, { useState } from "react"
-import { Text, View, StyleSheet, Font, Svg, Path } from "@react-pdf/renderer"
-import ArialRegular from "assets/fonts/uploads/arial-regular.ttf"
-import ArialSemiBold from "assets/fonts/uploads/arial.ttf"
-import ArialNarrow from "assets/fonts/uploads/arial-narrow.ttf"
-import ArialNarrowItalic from "assets/fonts/uploads/arial-narrow-italic.ttf"
-import ArialNarrowBold from "assets/fonts/uploads/arial-narrow-bold.ttf"
-import ArialNarrowBoldItalic from "assets/fonts/uploads/arial-narrow-bold-italic.ttf"
-import PropTypes from "prop-types"
+import React, { useState } from 'react'
+import { Text, View, StyleSheet, Font, Svg, Path } from '@react-pdf/renderer'
+import ArialRegular from 'assets/fonts/uploads/arial-regular.ttf'
+import ArialSemiBold from 'assets/fonts/uploads/arial.ttf'
+import ArialNarrow from 'assets/fonts/uploads/arial-narrow.ttf'
+import ArialNarrowItalic from 'assets/fonts/uploads/arial-narrow-italic.ttf'
+import ArialNarrowBold from 'assets/fonts/uploads/arial-narrow-bold.ttf'
+import ArialNarrowBoldItalic from 'assets/fonts/uploads/arial-narrow-bold-italic.ttf'
+import PropTypes from 'prop-types'
 
 const styles = StyleSheet.create({
   rowContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   grayBg: {
-    backgroundColor: "#EAEAEA",
+    backgroundColor: '#EAEAEA',
   },
   bodyBorder: {
     margin: 5,
-    border: "1px solid #000000",
+    border: '1px solid #000000',
   },
   bodyBorderForSignature: {
-    margin: "5 0 5 5",
-    border: "1px solid #000000",
+    margin: '5 0 5 5',
+    border: '1px solid #000000',
   },
   bodyBorderForId: {
-    margin: "10 18 0 18",
-    border: "1.5px solid #000000",
+    margin: '10 18 0 18',
+    border: '1.5px solid #000000',
   },
   bodyBorderForThumbMark: {
-    margin: "5 10 10 10",
-    border: "1px solid #000000",
+    margin: '5 10 10 10',
+    border: '1px solid #000000',
   },
   bodyBorderForPAO: {
-    margin: "0 10 10 10",
-    border: "1px solid #000000",
+    margin: '0 10 10 10',
+    border: '1px solid #000000',
   },
 
   // Field Styles
   inputQuestions: {
-    backgroundColor: "#EAEAEA",
-    fontFamily: "Arial",
+    backgroundColor: '#EAEAEA',
+    fontFamily: 'Arial',
     fontWeight: 100,
     fontSize: 8.5,
-    padding: "3.5 5",
+    padding: '3 5',
   },
   inputAnswers: {
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontWeight: 100,
     fontSize: 8.5,
-    padding: "3.5 5",
+    padding: '3.5 5',
   },
   warningText: {
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontWeight: 100,
     fontSize: 6.5,
-    color: "red",
+    color: 'red',
   },
   detailsField: {
-    borderBottom: "0.5 solid #000000",
-    padding: "1 5 2 5",
-    textAlign: "center",
+    borderBottom: '0.5 solid #000000',
+    padding: '1 5 2 5',
+    textAlign: 'center',
     fontSize: 7,
   },
   iDText: {
-    fontFamily: "ArialRegular",
+    fontFamily: 'ArialRegular',
     fontSize: 7,
-    textAlign: "center",
-    padding: "5 18",
+    textAlign: 'center',
+    padding: '5',
   },
   photoText: {
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontWeight: 100,
     fontSize: 7.5,
     paddingTop: 3,
-    textAlign: "center",
-    color: "#808080",
+    textAlign: 'center',
+    color: '#808080',
   },
   subscribedText: {},
-  verticalCenter: { margin: "auto 0" },
-  horizontalCenter: { textAlign: "center" },
+  verticalCenter: { margin: 'auto 0' },
+  horizontalCenter: { textAlign: 'center' },
 
   // Border Styles
   borderTop: {
-    borderTop: "1px solid #000000",
+    borderTop: '1px solid #000000',
   },
   borderRight: {
-    borderRight: "1px solid #000000",
+    borderRight: '1px solid #000000',
   },
   borderBottom: {
-    borderBottom: "1px solid #000000",
+    borderBottom: '1px solid #000000',
   },
 
   // Width Styles
-  w100: { width: "100%" },
-  w75: { width: "75%" },
-  w65: { width: "65%" },
-  w60: { width: "60%" },
-  w50: { width: "50%" },
-  w40: { width: "40%" },
-  w35: { width: "35%" },
-  w30: { width: "30%" },
-  w25: { width: "25%" },
-  w20: { width: "20%" },
+  w100: { width: '100%' },
+  w75: { width: '75%' },
+  w65: { width: '65%' },
+  w60: { width: '60%' },
+  w50: { width: '50%' },
+  w40: { width: '40%' },
+  w35: { width: '35%' },
+  w30: { width: '30%' },
+  w25: { width: '25%' },
+  w20: { width: '20%' },
 })
 
 Font.register({
-  family: "Arial",
+  family: 'Arial',
   fonts: [
     { src: ArialRegular },
     { src: ArialSemiBold, fontWeight: 400 },
     { src: ArialNarrow, fontWeight: 100 },
     { src: ArialNarrowBold, fontWeight: 500 },
-    { src: ArialNarrowItalic, fontWeight: 100, fontStyle: "italic" },
+    { src: ArialNarrowItalic, fontWeight: 100, fontStyle: 'italic' },
   ],
 })
 
 Font.register({
-  family: "ArialRegular",
+  family: 'ArialRegular',
   src: ArialRegular,
 })
 
 Font.register({
-  family: "ArialNarrowBoldItalic",
+  family: 'ArialNarrowBoldItalic',
   src: ArialNarrowBoldItalic,
 })
 
@@ -144,13 +144,13 @@ const QuestionsPdf = props => {
 
   const renderReferenceRows = () => {
     var content = references.slice(0, 3).map((reference, index) => (
-      <View style={[styles.borderTop, { flexDirection: "row" }]} key={index}>
+      <View style={[styles.borderTop, { flexDirection: 'row' }]} key={index}>
         <View
           style={[
             styles.w50,
             styles.borderRight,
             styles.inputAnswers,
-            { textAlign: "center", fontSize: 8 },
+            { textAlign: 'center', fontSize: 8, textTransform: 'uppercase' },
           ]}
         >
           <Text>{reference.name}</Text>
@@ -160,7 +160,7 @@ const QuestionsPdf = props => {
             styles.w30,
             styles.borderRight,
             styles.inputAnswers,
-            { textAlign: "center", fontSize: 6.5 },
+            { textAlign: 'center', fontSize: 6.8, paddingVertical: 1 },
           ]}
         >
           <Text>{reference.address}</Text>
@@ -170,7 +170,7 @@ const QuestionsPdf = props => {
             styles.w20,
             styles.borderRight,
             styles.inputAnswers,
-            { textAlign: "center", fontSize: 8 },
+            { textAlign: 'center', fontSize: 8 },
           ]}
         >
           <Text>{reference.telephoneNumber}</Text>
@@ -186,13 +186,13 @@ const QuestionsPdf = props => {
 
     for (let i = 0; i < rowToRender; i++) {
       content.push(
-        <View style={[styles.borderTop, { flexDirection: "row" }]} key={i}>
+        <View style={[styles.borderTop, { flexDirection: 'row' }]} key={i}>
           <View
             style={[
               styles.w50,
               styles.borderRight,
               styles.inputAnswers,
-              { textAlign: "center", fontSize: 8 },
+              { textAlign: 'center', fontSize: 8 },
             ]}
           >
             <Text>N/A</Text>
@@ -202,7 +202,7 @@ const QuestionsPdf = props => {
               styles.w30,
               styles.borderRight,
               styles.inputAnswers,
-              { textAlign: "center", fontSize: 6.5 },
+              { textAlign: 'center', fontSize: 6.5 },
             ]}
           >
             <Text>N/A</Text>
@@ -212,7 +212,7 @@ const QuestionsPdf = props => {
               styles.w20,
               styles.borderRight,
               styles.inputAnswers,
-              { textAlign: "center", fontSize: 8 },
+              { textAlign: 'center', fontSize: 8 },
             ]}
           >
             <Text>N/A</Text>
@@ -227,13 +227,13 @@ const QuestionsPdf = props => {
   return (
     <View>
       {/* Question 34 */}
-      <View style={[styles.rowContainer, { alignContent: "stretch" }]}>
+      <View style={[styles.rowContainer, { alignContent: 'stretch' }]}>
         {/* Questions Container */}
         <View style={[styles.borderRight, styles.w65, styles.grayBg]}>
           <View style={[styles.rowContainer, styles.inputQuestions]}>
             <Text>34.</Text>
 
-            <View style={{ padding: "0 13 0 5" }}>
+            <View style={{ padding: '0 13 0 5' }}>
               <Text>
                 Are you related by consanguinity or affinity to the appointing
                 or recommending authority, or to the chief of bureau or office
@@ -253,7 +253,7 @@ const QuestionsPdf = props => {
         <View style={[styles.w35, { paddingTop: 35 }]}>
           {/* a. */}
           <View style={[styles.rowContainer, styles.inputAnswers]}>
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: 'row' }}>
               {officeRelation.withinThirdDegree ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
@@ -272,7 +272,7 @@ const QuestionsPdf = props => {
               <Text>&nbsp;&nbsp;YES</Text>
             </View>
 
-            <View style={{ flexDirection: "row", paddingLeft: 22 }}>
+            <View style={{ flexDirection: 'row', paddingLeft: 22 }}>
               {!officeRelation.withinThirdDegree ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
@@ -300,7 +300,7 @@ const QuestionsPdf = props => {
               { paddingBottom: 0 },
             ]}
           >
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: 'row' }}>
               {officeRelation.withinFourthDegree ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
@@ -319,7 +319,7 @@ const QuestionsPdf = props => {
               <Text>&nbsp;&nbsp;YES</Text>
             </View>
 
-            <View style={{ flexDirection: "row", paddingLeft: 22 }}>
+            <View style={{ flexDirection: 'row', paddingLeft: 22 }}>
               {!officeRelation.withinFourthDegree ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
@@ -343,7 +343,7 @@ const QuestionsPdf = props => {
           <View style={[styles.inputAnswers]}>
             <Text>If YES, give details:</Text>
             <Text style={[styles.detailsField]}>
-              {officeRelation.details || "N/A"}
+              {officeRelation.details || 'N/A'}
             </Text>
           </View>
         </View>
@@ -354,7 +354,7 @@ const QuestionsPdf = props => {
         style={[
           styles.rowContainer,
           styles.borderTop,
-          { alignContent: "stretch" },
+          { alignContent: 'stretch' },
         ]}
       >
         {/* Questions Container */}
@@ -362,7 +362,7 @@ const QuestionsPdf = props => {
           <View style={[styles.rowContainer, styles.inputQuestions]}>
             <Text>35.</Text>
 
-            <View style={{ padding: "0 13 0 5" }}>
+            <View style={{ padding: '0 13 0 5' }}>
               <Text>
                 a. Have you ever been found guilty of any administrative
                 offense?
@@ -386,7 +386,7 @@ const QuestionsPdf = props => {
                 { paddingBottom: 0 },
               ]}
             >
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: 'row' }}>
                 {guiltyCharged.isGuilty ? (
                   <Svg viewBox="0 0 24 24" width={7} height={7}>
                     <Path
@@ -405,7 +405,7 @@ const QuestionsPdf = props => {
                 <Text>&nbsp;&nbsp;YES</Text>
               </View>
 
-              <View style={{ flexDirection: "row", paddingLeft: 22 }}>
+              <View style={{ flexDirection: 'row', paddingLeft: 22 }}>
                 {!guiltyCharged.isGuilty ? (
                   <Svg viewBox="0 0 24 24" width={7} height={7}>
                     <Path
@@ -428,7 +428,7 @@ const QuestionsPdf = props => {
             <View style={[styles.inputAnswers]}>
               <Text>If YES, give details:</Text>
               <Text style={[styles.detailsField]}>
-                {guiltyCharged.guiltyDetails || "N/A"}
+                {guiltyCharged.guiltyDetails || 'N/A'}
               </Text>
             </View>
           </View>
@@ -443,7 +443,7 @@ const QuestionsPdf = props => {
                 { paddingBottom: 0 },
               ]}
             >
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: 'row' }}>
                 {guiltyCharged.isCharged ? (
                   <Svg viewBox="0 0 24 24" width={7} height={7}>
                     <Path
@@ -462,7 +462,7 @@ const QuestionsPdf = props => {
                 <Text>&nbsp;&nbsp;YES</Text>
               </View>
 
-              <View style={{ flexDirection: "row", paddingLeft: 22 }}>
+              <View style={{ flexDirection: 'row', paddingLeft: 22 }}>
                 {!guiltyCharged.isCharged ? (
                   <Svg viewBox="0 0 24 24" width={7} height={7}>
                     <Path
@@ -487,16 +487,16 @@ const QuestionsPdf = props => {
               <Text>If YES, give details:</Text>
 
               <View style={[styles.rowContainer, { paddingTop: 3 }]}>
-                <Text style={{ width: "30%" }}>Date Filed:</Text>
-                <Text style={[styles.detailsField, { width: "70%" }]}>
-                  {formatDate(guiltyCharged.chargedDateFiled) || "N/A"}
+                <Text style={{ width: '30%' }}>Date Filed:</Text>
+                <Text style={[styles.detailsField, { width: '70%' }]}>
+                  {formatDate(guiltyCharged.chargedDateFiled) || 'N/A'}
                 </Text>
               </View>
 
               <View style={[styles.rowContainer]}>
-                <Text style={{ width: "30%" }}>Status of Case/s: </Text>
-                <Text style={[styles.detailsField, { width: "70%" }]}>
-                  {guiltyCharged.chargedCaseStatus || "N/A"}
+                <Text style={{ width: '30%' }}>Status of Case/s: </Text>
+                <Text style={[styles.detailsField, { width: '70%' }]}>
+                  {guiltyCharged.chargedCaseStatus || 'N/A'}
                 </Text>
               </View>
             </View>
@@ -509,7 +509,7 @@ const QuestionsPdf = props => {
         style={[
           styles.rowContainer,
           styles.borderTop,
-          { alignContent: "stretch" },
+          { alignContent: 'stretch' },
         ]}
       >
         {/* Questions Container */}
@@ -517,7 +517,7 @@ const QuestionsPdf = props => {
           <View style={[styles.rowContainer, styles.inputQuestions]}>
             <Text>36.</Text>
 
-            <View style={{ padding: "0 13 0 5" }}>
+            <View style={{ padding: '0 13 0 5' }}>
               <Text>
                 Have you ever been convicted of any crime or violation of any
                 law, decree, ordinance or regulation by any court or tribunal?
@@ -536,7 +536,7 @@ const QuestionsPdf = props => {
               { paddingBottom: 0 },
             ]}
           >
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: 'row' }}>
               {convicted.isConvicted ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
@@ -555,7 +555,7 @@ const QuestionsPdf = props => {
               <Text>&nbsp;&nbsp;YES</Text>
             </View>
 
-            <View style={{ flexDirection: "row", paddingLeft: 22 }}>
+            <View style={{ flexDirection: 'row', paddingLeft: 22 }}>
               {!convicted.isConvicted ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
@@ -579,7 +579,7 @@ const QuestionsPdf = props => {
           <View style={[styles.inputAnswers]}>
             <Text>If YES, give details:</Text>
             <Text style={[styles.detailsField]}>
-              {convicted.details || "N/A"}
+              {convicted.details || 'N/A'}
             </Text>
           </View>
         </View>
@@ -590,7 +590,7 @@ const QuestionsPdf = props => {
         style={[
           styles.rowContainer,
           styles.borderTop,
-          { alignContent: "stretch" },
+          { alignContent: 'stretch' },
         ]}
       >
         {/* Questions Container */}
@@ -598,7 +598,7 @@ const QuestionsPdf = props => {
           <View style={[styles.rowContainer, styles.inputQuestions]}>
             <Text>37.</Text>
 
-            <View style={{ padding: "0 13 0 5" }}>
+            <View style={{ padding: '0 13 0 5' }}>
               <Text>
                 Have you ever been separated from the service in any of the
                 following modes: resignation, retirement, dropped from the
@@ -618,7 +618,7 @@ const QuestionsPdf = props => {
               { paddingBottom: 0 },
             ]}
           >
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: 'row' }}>
               {separatedService.isSeparated ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
@@ -637,7 +637,7 @@ const QuestionsPdf = props => {
               <Text>&nbsp;&nbsp;YES</Text>
             </View>
 
-            <View style={{ flexDirection: "row", paddingLeft: 22 }}>
+            <View style={{ flexDirection: 'row', paddingLeft: 22 }}>
               {!separatedService.isSeparated ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
@@ -661,7 +661,7 @@ const QuestionsPdf = props => {
           <View style={[styles.inputAnswers]}>
             <Text>If YES, give details:</Text>
             <Text style={[styles.detailsField]}>
-              {separatedService.details || "N/A"}
+              {separatedService.details || 'N/A'}
             </Text>
           </View>
         </View>
@@ -672,7 +672,7 @@ const QuestionsPdf = props => {
         style={[
           styles.rowContainer,
           styles.borderTop,
-          { alignContent: "stretch" },
+          { alignContent: 'stretch' },
         ]}
       >
         {/* Questions Container */}
@@ -680,7 +680,7 @@ const QuestionsPdf = props => {
           <View style={[styles.rowContainer, styles.inputQuestions]}>
             <Text>38.</Text>
 
-            <View style={{ padding: "0 13 0 5" }}>
+            <View style={{ padding: '0 13 0 5' }}>
               <Text>
                 a. Have you ever been a candidate in a national or local
                 election held within the last year (except Barangay election)?
@@ -704,7 +704,7 @@ const QuestionsPdf = props => {
               { paddingBottom: 0 },
             ]}
           >
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: 'row' }}>
               {candidateResigned.isCandidate ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
@@ -723,7 +723,7 @@ const QuestionsPdf = props => {
               <Text>&nbsp;&nbsp;YES</Text>
             </View>
 
-            <View style={{ flexDirection: "row", paddingLeft: 22 }}>
+            <View style={{ flexDirection: 'row', paddingLeft: 22 }}>
               {!candidateResigned.isCandidate ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
@@ -744,9 +744,9 @@ const QuestionsPdf = props => {
           </View>
           {/* a. details */}
           <View style={[styles.inputAnswers, styles.rowContainer]}>
-            <Text style={{ width: "30%" }}>If YES, give details:</Text>
-            <Text style={[styles.detailsField, { width: "70%" }]}>
-              {candidateResigned.candidateDetails || "N/A"}
+            <Text style={{ width: '30%' }}>If YES, give details:</Text>
+            <Text style={[styles.detailsField, { width: '70%' }]}>
+              {candidateResigned.candidateDetails || 'N/A'}
             </Text>
           </View>
 
@@ -758,7 +758,7 @@ const QuestionsPdf = props => {
               { paddingBottom: 0 },
             ]}
           >
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: 'row' }}>
               {candidateResigned.isResigned ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
@@ -777,7 +777,7 @@ const QuestionsPdf = props => {
               <Text>&nbsp;&nbsp;YES</Text>
             </View>
 
-            <View style={{ flexDirection: "row", paddingLeft: 22 }}>
+            <View style={{ flexDirection: 'row', paddingLeft: 22 }}>
               {!candidateResigned.isResigned ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
@@ -798,9 +798,9 @@ const QuestionsPdf = props => {
           </View>
           {/* b. details */}
           <View style={[styles.inputAnswers, styles.rowContainer]}>
-            <Text style={{ width: "30%" }}>If YES, give details:</Text>
-            <Text style={[styles.detailsField, { width: "70%" }]}>
-              {candidateResigned.resignedDetails || "N/A"}
+            <Text style={{ width: '30%' }}>If YES, give details:</Text>
+            <Text style={[styles.detailsField, { width: '70%' }]}>
+              {candidateResigned.resignedDetails || 'N/A'}
             </Text>
           </View>
         </View>
@@ -811,7 +811,7 @@ const QuestionsPdf = props => {
         style={[
           styles.rowContainer,
           styles.borderTop,
-          { alignContent: "stretch" },
+          { alignContent: 'stretch' },
         ]}
       >
         {/* Questions Container */}
@@ -819,7 +819,7 @@ const QuestionsPdf = props => {
           <View style={[styles.rowContainer, styles.inputQuestions]}>
             <Text>39.</Text>
 
-            <View style={{ padding: "0 13 0 5" }}>
+            <View style={{ padding: '0 13 0 5' }}>
               <Text>
                 Have you acquired the status of an immigrant or permanent
                 resident of another country?
@@ -837,7 +837,7 @@ const QuestionsPdf = props => {
               { paddingBottom: 0 },
             ]}
           >
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: 'row' }}>
               {immigrant.isImmigrant ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
@@ -856,7 +856,7 @@ const QuestionsPdf = props => {
               <Text>&nbsp;&nbsp;YES</Text>
             </View>
 
-            <View style={{ flexDirection: "row", paddingLeft: 22 }}>
+            <View style={{ flexDirection: 'row', paddingLeft: 22 }}>
               {!immigrant.isImmigrant ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
@@ -880,7 +880,7 @@ const QuestionsPdf = props => {
           <View style={[styles.inputAnswers]}>
             <Text>If YES, give details (country):</Text>
             <Text style={[styles.detailsField]}>
-              {immigrant.details || "N/A"}
+              {immigrant.details || 'N/A'}
             </Text>
           </View>
         </View>
@@ -891,7 +891,7 @@ const QuestionsPdf = props => {
         style={[
           styles.rowContainer,
           styles.borderTop,
-          { alignContent: "stretch" },
+          { alignContent: 'stretch' },
         ]}
       >
         {/* Questions Container */}
@@ -899,12 +899,12 @@ const QuestionsPdf = props => {
           <View style={[styles.rowContainer, styles.inputQuestions]}>
             <Text>40.</Text>
 
-            <View style={{ padding: "0 13 0 5" }}>
+            <View style={{ padding: '0 13 0 5' }}>
               <Text>
                 Pursuant to: (a) Indigenous People&apos;s Act (RA 8371); (b)
-                Magna Carta for Disabled Persons (RA 7277); and (c) Solo Parents
-                Welfare Act of 2000 (RA 8972), please answer the following
-                items:
+                Magna Carta for Disabled Persons (RA 7277, as amended); and (c)
+                Expanded Solo Parents Welfare Act (RA 11861), please answer the
+                following items:
               </Text>
               <Text style={{ paddingTop: 8 }}>
                 a. Are you a member of any indigenous group?
@@ -927,7 +927,7 @@ const QuestionsPdf = props => {
               { paddingBottom: 0 },
             ]}
           >
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: 'row' }}>
               {indigenousPwdSoloParent.isIndigenousMember ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
@@ -946,7 +946,7 @@ const QuestionsPdf = props => {
               <Text>&nbsp;&nbsp;YES</Text>
             </View>
 
-            <View style={{ flexDirection: "row", paddingLeft: 22 }}>
+            <View style={{ flexDirection: 'row', paddingLeft: 22 }}>
               {!indigenousPwdSoloParent.isIndigenousMember ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
@@ -973,9 +973,9 @@ const QuestionsPdf = props => {
               { paddingTop: 0 },
             ]}
           >
-            <Text style={{ width: "40%" }}>If YES, please specify:</Text>
-            <Text style={[styles.detailsField, { width: "60%" }]}>
-              {indigenousPwdSoloParent.indigenousMemberDetails || "N/A"}
+            <Text style={{ width: '40%' }}>If YES, please specify:</Text>
+            <Text style={[styles.detailsField, { width: '60%' }]}>
+              {indigenousPwdSoloParent.indigenousMemberDetails || 'N/A'}
             </Text>
           </View>
 
@@ -987,7 +987,7 @@ const QuestionsPdf = props => {
               { paddingBottom: 0 },
             ]}
           >
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: 'row' }}>
               {indigenousPwdSoloParent.isPwd ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
@@ -1006,7 +1006,7 @@ const QuestionsPdf = props => {
               <Text>&nbsp;&nbsp;YES</Text>
             </View>
 
-            <View style={{ flexDirection: "row", paddingLeft: 22 }}>
+            <View style={{ flexDirection: 'row', paddingLeft: 22 }}>
               {!indigenousPwdSoloParent.isPwd ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
@@ -1033,9 +1033,9 @@ const QuestionsPdf = props => {
               { paddingTop: 0 },
             ]}
           >
-            <Text style={{ width: "45%" }}>If YES, please specify ID No:</Text>
-            <Text style={[styles.detailsField, { width: "55%" }]}>
-              {indigenousPwdSoloParent.pwdIdNumber || "N/A"}
+            <Text style={{ width: '45%' }}>If YES, please specify ID No:</Text>
+            <Text style={[styles.detailsField, { width: '55%' }]}>
+              {indigenousPwdSoloParent.pwdIdNumber || 'N/A'}
             </Text>
           </View>
 
@@ -1047,7 +1047,7 @@ const QuestionsPdf = props => {
               { paddingBottom: 0 },
             ]}
           >
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: 'row' }}>
               {indigenousPwdSoloParent.isSoloParent ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
@@ -1066,7 +1066,7 @@ const QuestionsPdf = props => {
               <Text>&nbsp;&nbsp;YES</Text>
             </View>
 
-            <View style={{ flexDirection: "row", paddingLeft: 22 }}>
+            <View style={{ flexDirection: 'row', paddingLeft: 22 }}>
               {!indigenousPwdSoloParent.isSoloParent ? (
                 <Svg viewBox="0 0 24 24" width={7} height={7}>
                   <Path
@@ -1093,9 +1093,9 @@ const QuestionsPdf = props => {
               { paddingTop: 0 },
             ]}
           >
-            <Text style={{ width: "45%" }}>If YES, please specify ID No:</Text>
-            <Text style={[styles.detailsField, { width: "55%" }]}>
-              {indigenousPwdSoloParent.soloParentIdNumber || "N/A"}
+            <Text style={{ width: '45%' }}>If YES, please specify ID No:</Text>
+            <Text style={[styles.detailsField, { width: '55%' }]}>
+              {indigenousPwdSoloParent.soloParentIdNumber || 'N/A'}
             </Text>
           </View>
         </View>
@@ -1112,25 +1112,27 @@ const QuestionsPdf = props => {
               styles.inputQuestions,
               styles.borderRight,
               styles.grayBg,
-              { flexDirection: "row", fontSize: 8 },
+              { flexDirection: 'row', fontSize: 8 },
             ]}
           >
             <Text>41.</Text>
             <Text style={[{ paddingLeft: 2 }]}>REFERENCES</Text>
-            <Text style={[styles.warningText, { paddingLeft: 2 }]}>
+            <Text
+              style={[{ paddingLeft: 2, fontFamily: 'Arial', fontWeight: 200 }]}
+            >
               (Person not related by consanguinity or affinity to applicant
               /appointee)
             </Text>
           </View>
 
           {/* References Header */}
-          <View style={[styles.borderTop, { flexDirection: "row" }]}>
+          <View style={[styles.borderTop, { flexDirection: 'row' }]}>
             <View
               style={[
                 styles.w50,
                 styles.borderRight,
                 styles.inputQuestions,
-                { textAlign: "center", fontSize: 8 },
+                { textAlign: 'center', fontSize: 8 },
               ]}
             >
               <Text>NAME</Text>
@@ -1140,20 +1142,20 @@ const QuestionsPdf = props => {
                 styles.w30,
                 styles.borderRight,
                 styles.inputQuestions,
-                { textAlign: "center", fontSize: 8 },
+                { textAlign: 'center', fontSize: 8 },
               ]}
             >
-              <Text>ADDRESS</Text>
+              <Text>OFFICE / RESIDENTIAL ADDRESS</Text>
             </View>
             <View
               style={[
                 styles.w20,
                 styles.borderRight,
                 styles.inputQuestions,
-                { textAlign: "center", fontSize: 8 },
+                { textAlign: 'center', fontSize: 7, paddingVertical: 1 },
               ]}
             >
-              <Text>TEL NO.</Text>
+              <Text>CONTACT NO. AND/OR EMAIL</Text>
             </View>
           </View>
 
@@ -1168,13 +1170,13 @@ const QuestionsPdf = props => {
               styles.borderTop,
               styles.borderBottom,
               styles.grayBg,
-              { flexDirection: "row" },
+              { flexDirection: 'row' },
             ]}
           >
             <Text>42.</Text>
             <Text
               style={[
-                { padding: "0 18 1 5", textAlign: "justify", lineHeight: 1.5 },
+                { padding: '0 18 1 5', textAlign: 'justify', lineHeight: 1.5 },
               ]}
             >
               I declare under oath that I have personally accomplished this
@@ -1189,7 +1191,7 @@ const QuestionsPdf = props => {
           </View>
 
           {/* Gov't Issued Id / Signature Box */}
-          <View style={[styles.rowContainer, { alignItems: "stretch" }]}>
+          <View style={[styles.rowContainer, { alignItems: 'stretch' }]}>
             {/* Gov't Issued Id */}
             <View style={[styles.w50]}>
               <View style={[styles.bodyBorder]}>
@@ -1198,7 +1200,7 @@ const QuestionsPdf = props => {
                   style={[
                     styles.rowContainer,
                     styles.grayBg,
-                    { alignItems: "stretch", padding: "3 5 0 5" },
+                    { alignItems: 'stretch', padding: '1.2 5' },
                   ]}
                 >
                   <Text
@@ -1225,9 +1227,9 @@ const QuestionsPdf = props => {
                     styles.inputAnswers,
                     styles.grayBg,
                     {
-                      padding: "0 5 3 5",
+                      padding: '0 5 3 5',
                       fontSize: 7.9,
-                      fontStyle: "italic",
+                      fontStyle: 'italic',
                     },
                   ]}
                 >
@@ -1240,12 +1242,12 @@ const QuestionsPdf = props => {
                     styles.rowContainer,
                     styles.borderTop,
                     styles.inputAnswers,
-                    { fontSize: 7.5, padding: 5 },
+                    { fontSize: 7.5, padding: '5 1' },
                   ]}
                 >
-                  <Text style={[styles.w40]}>Government Issued ID:</Text>
-                  <Text style={[styles.w60]}>
-                    {governmentIssuedId.issuedId || "N/A"}
+                  <Text style={[styles.w35]}>Government Issued ID:</Text>
+                  <Text style={[styles.w65]}>
+                    {governmentIssuedId.issuedId || 'N/A'}
                   </Text>
                 </View>
 
@@ -1255,12 +1257,12 @@ const QuestionsPdf = props => {
                     styles.rowContainer,
                     styles.borderTop,
                     styles.inputAnswers,
-                    { fontSize: 7.5, padding: 5 },
+                    { fontSize: 7.5, padding: '5 1' },
                   ]}
                 >
-                  <Text style={[styles.w40]}>ID/License/Passport No.:</Text>
-                  <Text style={[styles.w60]}>
-                    {governmentIssuedId.idNumber || "N/A"}
+                  <Text style={[styles.w35]}>ID/License/Passport No.:</Text>
+                  <Text style={[styles.w65]}>
+                    {governmentIssuedId.idNumber || 'N/A'}
                   </Text>
                 </View>
 
@@ -1270,13 +1272,13 @@ const QuestionsPdf = props => {
                     styles.rowContainer,
                     styles.borderTop,
                     styles.inputAnswers,
-                    { fontSize: 7.5, padding: 5 },
+                    { fontSize: 7.5, padding: '5 1' },
                   ]}
                 >
-                  <Text style={[styles.w40]}>Date/Place of Issuance:</Text>
-                  <Text style={[styles.w60]}>
+                  <Text style={[styles.w35]}>Date/Place of Issuance:</Text>
+                  <Text style={[styles.w65]}>
                     {formatDate(governmentIssuedId.issueDate) +
-                      " " +
+                      ' ' +
                       governmentIssuedId.issuePlace}
                   </Text>
                 </View>
@@ -1297,7 +1299,7 @@ const QuestionsPdf = props => {
                     styles.inputQuestions,
                     styles.borderTop,
                     styles.borderBottom,
-                    { textAlign: "center", fontSize: 7.2, padding: "2 0" },
+                    { textAlign: 'center', fontSize: 7.2, padding: '2 0' },
                   ]}
                 >
                   <Text>Signature (Sign inside the box)</Text>
@@ -1313,7 +1315,7 @@ const QuestionsPdf = props => {
                   style={[
                     styles.inputQuestions,
                     styles.borderTop,
-                    { textAlign: "center", fontSize: 7.2, padding: "2 0" },
+                    { textAlign: 'center', fontSize: 7.2, padding: '2 0' },
                   ]}
                 >
                   <Text>Date Accomplished</Text>
@@ -1326,20 +1328,9 @@ const QuestionsPdf = props => {
         <View style={[styles.w25]}>
           {/*Photo Box */}
           <View style={[styles.bodyBorderForId]}>
-            <Text style={[styles.iDText, { paddingTop: 9, paddingBottom: 0 }]}>
-              ID picture taken within the last 6 months 3.5 cm. X 4.5 cm
-            </Text>
-
-            <Text style={[styles.iDText, { paddingTop: 0 }]}>
-              (passport size)
-            </Text>
-
-            <Text style={[styles.iDText]}>
-              With full and handwritten name tag and signature over printed name
-            </Text>
-
-            <Text style={[styles.iDText, { paddingBottom: 9 }]}>
-              Computer generated or photocopied picture is not acceptable
+            <Text style={[styles.iDText, { paddingVertical: 53 }]}>
+              Passport-sized unfiltered digital picture taken within the last 6
+              months 4.5 cm. X 3.5 cm
             </Text>
           </View>
           <Text style={[styles.photoText]}>PHOTO</Text>
@@ -1356,7 +1347,7 @@ const QuestionsPdf = props => {
               style={[
                 styles.inputQuestions,
                 styles.borderTop,
-                { textAlign: "center", fontSize: 7.2, padding: "2 0" },
+                { textAlign: 'center', fontSize: 7.2, padding: '2 0' },
               ]}
             >
               <Text>Right Thumbmark</Text>
@@ -1370,11 +1361,11 @@ const QuestionsPdf = props => {
         <View
           style={[
             styles.inputAnswers,
-            { textAlign: "center", paddingVertical: 8 },
+            { textAlign: 'center', paddingVertical: 8 },
           ]}
         >
           <Text>
-            {" "}
+            {' '}
             SUBSCRIBED AND SWORN to before me this _______________________,
             affiant exhibiting his/her validly issued government ID as indicated
             above.
@@ -1384,7 +1375,7 @@ const QuestionsPdf = props => {
         <View
           style={[
             styles.bodyBorderForPAO,
-            { width: "35%", marginHorizontal: "auto" },
+            { width: '35%', marginHorizontal: 'auto' },
           ]}
         >
           {/* Empty Box for PAO Signature */}
@@ -1398,9 +1389,9 @@ const QuestionsPdf = props => {
               styles.inputQuestions,
               styles.borderTop,
               {
-                textAlign: "center",
+                textAlign: 'center',
                 fontSize: 8,
-                padding: "2 0",
+                padding: '2 0',
               },
             ]}
           >
