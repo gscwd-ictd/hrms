@@ -1,17 +1,17 @@
-import React, { useEffect } from "react"
-import { Can } from "casl/Can"
-import { Navigate, useParams } from "react-router-dom"
+import React, { useEffect } from 'react'
+import { Can } from 'casl/Can'
+import { Navigate, useParams } from 'react-router-dom'
 
-import { useDispatch, useSelector } from "react-redux"
-import { fetchDocumentCertificateOfAppointment } from "store/actions"
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchDocumentCertificateOfAppointment } from 'store/actions'
 
-import { Container } from "reactstrap"
-import { PDFViewer } from "@react-pdf/renderer"
-import CoADocument from "./CoADocument"
+import { Container } from 'reactstrap'
+import { PDFViewer } from '@react-pdf/renderer'
+import CoADocument from './CoADocument'
 
 // Extra components
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const CertificateOfAppointmentPdf = () => {
   const dispatch = useDispatch()
@@ -36,7 +36,7 @@ const CertificateOfAppointmentPdf = () => {
           <Container fluid={true}>
             {errorCoADocument ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorCoADocument}
               />
             ) : null}
@@ -44,7 +44,7 @@ const CertificateOfAppointmentPdf = () => {
             {loadingCoADocument ? (
               <LoadingIndicator />
             ) : (
-              <PDFViewer width={"100%"} height={700} showToolbar>
+              <PDFViewer width={'100%'} height={700} showToolbar>
                 <CoADocument
                   certificateOfAppointment={certificateOfAppointment}
                 />

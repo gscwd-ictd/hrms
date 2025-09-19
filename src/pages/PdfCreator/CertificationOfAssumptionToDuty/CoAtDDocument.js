@@ -17,6 +17,7 @@ import CalibriRegularBold from 'assets/fonts/uploads/calibri-regular-bold.ttf'
 import ArialRegular from 'assets/fonts/uploads/arial-regular.ttf'
 import ArialSemiBold from 'assets/fonts/uploads/arial.ttf'
 import ArialBoldItalic from 'assets/fonts/uploads/arial-bold-italic.ttf'
+import TimesNewRomanItalic from 'assets/fonts/uploads/times-new-roman-italic.ttf'
 
 const styles = StyleSheet.create({
   page: {
@@ -33,6 +34,9 @@ const styles = StyleSheet.create({
   },
 
   // Border Styles
+  borderAll: {
+    border: '1px solid #000000',
+  },
   borderBottom: {
     borderBottom: '1px solid #000000',
   },
@@ -75,16 +79,18 @@ const styles = StyleSheet.create({
   w100: { width: '100%' },
   w73: { width: '73%' },
   w67: { width: '67%' },
-  w55: { width: '55%' },
+  w65: { width: '65%' },
+  w51: { width: '51%' },
   w50: { width: '50%' },
   w49: { width: '49%' },
-  w44_5: { width: 'w44.5%' },
   w44: { width: '44%' },
   w33: { width: '33%' },
+  w30: { width: '30%' },
   w24: { width: '24%' },
   w10: { width: '10%' },
-  w6_5: { width: '6.5%' },
+  w9: { width: '9%' },
   w3: { width: '3%' },
+  w2: { width: '2%' },
 })
 
 // FONTS
@@ -107,6 +113,10 @@ Font.register({
 Font.register({
   family: 'ArialBoldItalic',
   src: ArialBoldItalic,
+})
+Font.register({
+  family: 'TimesNewRomanItalic',
+  src: TimesNewRomanItalic,
 })
 
 const CoAtDDocument = props => {
@@ -161,7 +171,7 @@ const CoAtDDocument = props => {
   return (
     <Document
       author="General Santos City Water District"
-      subject="CS Form No. 4 | Series of 2018"
+      subject="CS Form No. 4 | Series of 2025"
       title="Certification of Assumption to Duty"
     >
       <Page size={[612.3, 935.4]} style={styles.page}>
@@ -171,7 +181,7 @@ const CoAtDDocument = props => {
           {/* DOCUMENT CODE */}
           <View style={[styles.documentCodeText]}>
             <Text>CS Form No. 4</Text>
-            <Text style={{ paddingTop: 3 }}>Series of 2018</Text>
+            <Text style={{ paddingTop: 3 }}>Series of 2025</Text>
           </View>
 
           {/* DOCUMENT TITLE */}
@@ -183,10 +193,10 @@ const CoAtDDocument = props => {
           <View style={[styles.certificationBodyText]}>
             {/* LINE 1 */}
             <View style={[styles.rowContainer]}>
-              <View
-                style={[styles.w33, styles.alignBottom, { paddingLeft: 25 }]}
-              >
-                <Text>This is to certify that Ms/Mr.</Text>
+              <View style={[styles.w33, styles.alignBottom]}>
+                <Text style={[{ textIndent: 25 }]}>
+                  This is to certify that Ms/Mr.
+                </Text>
               </View>
 
               {/* APPLICANT NAME */}
@@ -220,7 +230,7 @@ const CoAtDDocument = props => {
               <View
                 style={[
                   styles.borderBottom,
-                  styles.w44_5,
+                  styles.w51,
                   styles.alignBottom,
                   { marginHorizontal: 2 },
                 ]}
@@ -229,18 +239,19 @@ const CoAtDDocument = props => {
                   {certificationOfAssumptionToDuty.data.positionTitle}
                 </Text>
               </View>
-              <View style={[styles.w6_5, styles.alignBottom]}>
-                <Text>in the</Text>
-              </View>
             </View>
 
             {/* LINE 3 */}
             <View style={[styles.rowContainer]}>
+              <View style={[styles.w2, styles.alignBottom]}>
+                <Text>of</Text>
+              </View>
+
               {/* PLACE OF ASSIGNMENT  */}
               <View
                 style={[
                   styles.borderBottom,
-                  styles.w55,
+                  styles.w65,
                   styles.alignBottom,
                   { marginRight: 2 },
                 ]}
@@ -256,12 +267,20 @@ const CoAtDDocument = props => {
                 </Text>
               </View>
 
-              <View style={[styles.w10, styles.alignBottom]}>
+              <View style={[styles.w9, styles.alignBottom]}>
                 <Text> effective </Text>
               </View>
 
               {/* EFFECTIVITY DATE */}
-              <View style={[styles.w36, styles.alignBottom, { marginLeft: 2 }]}>
+              <View
+                style={[
+                  styles.horizontalCenter,
+                  styles.borderBottom,
+                  styles.w24,
+                  styles.alignBottom,
+                  { marginLeft: 2 },
+                ]}
+              >
                 <Text style={[styles.textBold]}>
                   {
                     certificationOfAssumptionToDuty.data.effectivityDate
@@ -274,10 +293,8 @@ const CoAtDDocument = props => {
 
             {/* LINE 4 */}
             <View style={[styles.rowContainer, { paddingTop: 25 }]}>
-              <View
-                style={[styles.w100, styles.alignBottom, { paddingLeft: 25 }]}
-              >
-                <Text>
+              <View style={[styles.w100, styles.alignBottom]}>
+                <Text style={[{ textIndent: 25 }]}>
                   This certification is issued in connection with the issuance
                   of the
                 </Text>
@@ -365,7 +382,36 @@ const CoAtDDocument = props => {
               ]}
             >
               <Text>201 file</Text>
-              <Text style={{ paddingTop: 10 }}>CSC</Text>
+              <Text style={{ paddingTop: 2 }}>Admin</Text>
+              <Text style={{ paddingTop: 2 }}>COA</Text>
+              <Text style={{ paddingTop: 2 }}>CSC</Text>
+            </View>
+
+            <View
+              style={[
+                styles.borderAll,
+                styles.w33,
+                {
+                  textAlign: 'center',
+                  position: 'absolute',
+                  right: 0,
+                  bottom: 0,
+                  marginTop: 30,
+                },
+              ]}
+            >
+              <Text
+                style={[
+                  {
+                    fontFamily: 'TimesNewRomanItalic',
+                    fontSize: 13,
+                    padding: 8,
+                  },
+                ]}
+              >
+                For submission to CSC FO within 30 days from the date of
+                assumption of the appointee
+              </Text>
             </View>
           </View>
         </View>

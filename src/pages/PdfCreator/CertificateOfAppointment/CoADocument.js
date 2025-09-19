@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   letterTextWrapper: {
     paddingTop: 5,
-    paddingHorizontal: 2,
+    paddingHorizontal: 1,
   },
 
   // Border Styles
@@ -119,13 +119,19 @@ const styles = StyleSheet.create({
   // Width Styles
   w100: { width: '100%' },
   w80: { width: '80%' },
+  w76: { width: '76%' },
   w75: { width: '75%' },
   w70: { width: '70%' },
   w68: { width: '68%' },
   w63: { width: '63%' },
   w62: { width: '62%' },
+  w61: { width: '61%' },
   w60: { width: '60%' },
+  w59_5: { width: '59.5%' },
   w58: { width: '58%' },
+  w56: { width: '56%' },
+  w57: { width: '57%' },
+  w54_5: { width: '54.5%' },
   w50: { width: '50%' },
   w42: { width: 'w42%' },
   w40: { width: '40%' },
@@ -133,14 +139,28 @@ const styles = StyleSheet.create({
   w35: { width: '35%' },
   w32: { width: '32%' },
   w30: { width: '30%' },
+  w29: { width: '29%' },
+  w28: { width: '28%' },
+  w27: { width: '27%' },
+  w26: { width: '26%' },
   w25: { width: '25%' },
   w24: { width: '24%' },
   w22: { width: '22%' },
   w20: { width: '20%' },
   w18: { width: '18%' },
+  w16_5: { width: '16.5%' },
+  w16: { width: '16%' },
+  w15: { width: '15%' },
+  w14: { width: '14%' },
+  w13: { width: '13%' },
+  w12: { width: '12%' },
+  w11_5: { width: '11.5%' },
   w11: { width: '11%' },
+  w10: { width: '10%' },
+  w7_5: { width: '7.5%' },
   w6: { width: '6%' },
   w5: { width: '5%' },
+  w4: { width: '4%' },
 })
 
 // FONTS
@@ -326,7 +346,7 @@ const CoADocument = props => {
   return (
     <Document
       author="General Santos City Water District"
-      subject="CS Form No. 33-B | Series of 2018"
+      subject="CS Form No. 33-B | Series of 2025"
       title="Certificate of Appointment"
     >
       {/* PAGE 1 */}
@@ -359,25 +379,57 @@ const CoADocument = props => {
               {/* PARAGRAPH 1 */}
               <View style={[{ paddingTop: 25 }]}>
                 {/* ROW 1 */}
-                <View style={[styles.rowContainer]}>
-                  <View style={[styles.w30, styles.letterTextWrapper]}>
-                    <Text style={[{ textIndent: 25 }]}>
+                <View
+                  style={[
+                    styles.rowContainer,
+                    { justifyContent: 'space-between' },
+                  ]}
+                >
+                  <View style={[styles.w28, styles.letterTextWrapper]}>
+                    <Text style={[{ textIndent: 20 }]}>
                       You are hereby appointed as
                     </Text>
                   </View>
 
-                  {/* TITLE AND SALARY GRADE */}
-                  <View style={[styles.w70, styles.letterTextWrapper]}>
+                  {/* POSITION TITLE  */}
+                  <View style={[styles.w56, styles.letterTextWrapper]}>
                     <View style={[styles.borderBottom]}>
                       <Text style={[styles.upperCase, styles.valueMainText]}>
                         {certificateOfAppointment.data.positionTitle}
-                        &nbsp; (SG-
-                        {certificateOfAppointment.data.salaryGradeLevel})
                       </Text>
                     </View>
                     <Text style={[styles.documentText, styles.valueSubText]}>
-                      (Position)
+                      (Position Title)
                     </Text>
+                  </View>
+
+                  {/* SALARY GRADE */}
+                  <View
+                    style={[
+                      styles.w15,
+                      styles.letterTextWrapper,
+                      {
+                        flexDirection: 'row',
+                        flexWrap: 'wrap',
+                        justifyContent: 'flex-start',
+                      },
+                    ]}
+                  >
+                    <Text style={[{ paddingRight: 1 }]}>&#40;SG/JG/PG</Text>
+                    <View>
+                      <View style={[styles.borderBottom]}>
+                        <Text
+                          style={[
+                            styles.upperCase,
+                            styles.valueMainText,
+                            { paddingHorizontal: 2 },
+                          ]}
+                        >
+                          {certificateOfAppointment.data.salaryGradeLevel}
+                        </Text>
+                      </View>
+                    </View>
+                    <Text>&#41;</Text>
                   </View>
                 </View>
 
@@ -420,29 +472,24 @@ const CoADocument = props => {
 
                 {/* ROW 3 */}
                 <View style={[styles.rowContainer]}>
-                  <Text
-                    style={[
-                      styles.w100,
-                      styles.letterTextWrapper,
-                      { textAlign: 'left', lineHeight: 2.1 },
-                    ]}
-                  >
-                    with a composition rate of{' '}
-                    <Text
-                      style={[
-                        styles.upperCase,
-                        {
-                          textDecoration: 'underline',
-                        },
-                      ]}
-                      debug
-                    >
-                      {'  '}
-                      {certificateOfAppointment.data.amountInWords}{' '}
-                    </Text>
-                    {'  '}
-                    pesos per month.
-                  </Text>
+                  <View style={[styles.w24, styles.letterTextWrapper]}>
+                    <Text>with a compensation rate of</Text>
+                  </View>
+
+                  <View style={[styles.w76, styles.letterTextWrapper]}>
+                    <View style={[styles.borderBottom]}>
+                      <Text style={[styles.upperCase, styles.valueMainText]}>
+                        {certificateOfAppointment.data.amountInWords}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+
+                {/* ROW 4 */}
+                <View style={[styles.rowContainer]}>
+                  <View style={[styles.w100, styles.letterTextWrapper]}>
+                    <Text>pesos per month.</Text>
+                  </View>
                 </View>
               </View>
 
@@ -450,14 +497,14 @@ const CoADocument = props => {
               <View style={[{ paddingTop: 25 }]}>
                 {/* ROW 5 */}
                 <View style={[styles.rowContainer]}>
-                  <View style={[styles.w37, styles.letterTextWrapper]}>
-                    <Text style={[{ textIndent: 25 }]}>
+                  <View style={[styles.w32, styles.letterTextWrapper]}>
+                    <Text style={[{ textIndent: 20 }]}>
                       The nature of this appointment is
                     </Text>
                   </View>
 
                   {/* APPOINTMENT TYPE */}
-                  <View style={[styles.w63, styles.letterTextWrapper]}>
+                  <View style={[styles.w68, styles.letterTextWrapper]}>
                     <View style={[styles.borderBottom]}>
                       <Text style={[styles.upperCase, styles.valueMainText]}>
                         {certificateOfAppointment.data.appointmentType}
@@ -471,12 +518,12 @@ const CoADocument = props => {
 
                 {/* ROW 6 */}
                 <View style={[styles.rowContainer]}>
-                  <View style={[styles.w5, styles.letterTextWrapper]}>
+                  <View style={[styles.w4, styles.letterTextWrapper]}>
                     <Text>vice</Text>
                   </View>
 
                   {/* VICE */}
-                  <View style={[styles.w60, styles.letterTextWrapper]}>
+                  <View style={[styles.w61, styles.letterTextWrapper]}>
                     <View style={[styles.borderBottom]}>
                       <Text style={[styles.upperCase, styles.valueMainText]}>
                         {certificateOfAppointment.data.vice || ' '}
@@ -484,12 +531,12 @@ const CoADocument = props => {
                     </View>
                   </View>
 
-                  <View style={[styles.w6, styles.letterTextWrapper]}>
+                  <View style={[styles.w5, styles.letterTextWrapper]}>
                     <Text>, who</Text>
                   </View>
 
                   {/* WHO */}
-                  <View style={[styles.w24, styles.letterTextWrapper]}>
+                  <View style={[styles.w25, styles.letterTextWrapper]}>
                     <View style={[styles.borderBottom]}>
                       <Text style={[styles.upperCase, styles.valueMainText]}>
                         {certificateOfAppointment.data.viceStatus || ' '}
@@ -512,7 +559,7 @@ const CoADocument = props => {
                     { justifyContent: 'flex-start' },
                   ]}
                 >
-                  <View style={[styles.w18, styles.letterTextWrapper]}>
+                  <View style={[styles.w16, styles.letterTextWrapper]}>
                     <Text>Plantilla Item No.</Text>
                   </View>
 
@@ -525,7 +572,7 @@ const CoADocument = props => {
                     </View>
                   </View>
 
-                  <View style={[styles.w6, styles.letterTextWrapper]}>
+                  <View style={[styles.w5, styles.letterTextWrapper]}>
                     <Text>Page</Text>
                   </View>
 
@@ -567,23 +614,20 @@ const CoADocument = props => {
             {/* FOOTER */}
             <View style={[styles.rowContainer]}>
               {/* LEFT */}
-              <View style={[styles.w50, { paddingTop: 150 }]}>
-                <View
-                  style={[
-                    styles.borderAll,
-                    styles.w70,
-                    { marginHorizontal: 'auto' },
-                  ]}
-                >
+              <View style={[styles.w50, { paddingTop: 250 }]}>
+                <View style={[styles.w60]}>
                   <Text
                     style={[
-                      styles.accreditedText,
-                      styles.horizontalCenter,
-                      { padding: 12 },
+                      {
+                        textAlign: 'left',
+                        fontFamily: 'TimesNewRomanBold',
+                        lineHeight: 1.3,
+                      },
                     ]}
                   >
-                    Accredited Pursuant to CSC Resolution Number 1801157 dated
-                    October 30, 2018 conferring PRIME-HRM Award to GSCWD
+                    Accredited/Deregulated Pursuant to CSC Resolution No.
+                    1801157 dated October 30, 2018 conferring PRIME-HRM Award to
+                    GSCWD
                   </Text>
                 </View>
               </View>
@@ -633,7 +677,7 @@ const CoADocument = props => {
               style={[
                 styles.textBold,
                 styles.horizontalCenter,
-                { fontSize: 13 },
+                { fontSize: 12 },
               ]}
             >
               Certification
@@ -651,8 +695,12 @@ const CoADocument = props => {
               ]}
             >
               This is to certify that all requirements and supporting papers
-              pursuant to CSC MC No. 24, s. 2017, as amended, have been complied
-              with, reviewed and found to be in order.
+              pursuant to the{' '}
+              <Text style={[{ fontFamily: 'TimesNewRomanBold' }]}>
+                2025 Omnibus Rules on Appointments and Other Human Resource
+                Actions,
+              </Text>{' '}
+              have been complied with, reviewed, and found to be in order.
             </Text>
 
             {/* PARAGRAPH 2 */}
@@ -683,8 +731,9 @@ const CoADocument = props => {
               <Text style={[styles.textBold]}>
                 {certificateOfAppointment.data.publicationPeriod}
               </Text>{' '}
-              in consonance with RA No. 7041. The assessment by the Human
-              Resource Merit Promotion and Selection Board (HRMPSB) started on{' '}
+              in consonance with Republic Act No. 7041. The assessment by the
+              Human Resource Merit Promotion and Selection Board (HRMPSB)
+              started on{' '}
               <Text style={[styles.textBold, styles.upperCase]}>
                 {certificateOfAppointment.data.psbDurationStartDate}
               </Text>
@@ -735,7 +784,7 @@ const CoADocument = props => {
               style={[
                 styles.textBold,
                 styles.horizontalCenter,
-                { fontSize: 13 },
+                { fontSize: 12 },
               ]}
             >
               Certification
@@ -753,8 +802,8 @@ const CoADocument = props => {
               ]}
             >
               This is to certify that the appointee has been screened and found
-              qualified by the majority of the HRMPSB during the deliberation
-              held on{' '}
+              qualified by at least the majority of the HRMPSB/Placement
+              Committee during the deliberation held on{' '}
               <Text
                 style={[
                   styles.textBold,
@@ -793,7 +842,7 @@ const CoADocument = props => {
               style={[
                 styles.textBold,
                 styles.horizontalCenter,
-                { fontSize: 13 },
+                { fontSize: 12 },
               ]}
             >
               CSC/HRMO Notation
@@ -808,7 +857,7 @@ const CoADocument = props => {
                     style={[
                       styles.horizontalCenter,
                       styles.textBold,
-                      { marginVertical: 7 },
+                      { marginVertical: 9 },
                     ]}
                   >
                     ACTION ON APPOINTMENTS
@@ -819,7 +868,7 @@ const CoADocument = props => {
                     style={[
                       styles.horizontalCenter,
                       styles.textBold,
-                      { marginVertical: 7 },
+                      { marginVertical: 9 },
                     ]}
                   >
                     Recorded by
@@ -948,7 +997,7 @@ const CoADocument = props => {
               <View style={[styles.tableRowContainer, styles.borderTop]}>
                 <View style={[styles.w40, styles.borderRight]}>
                   <View style={[styles.tableRowContainer, { margin: 5 }]}>
-                    <View style={{ margin: '1 3 0 3' }}>
+                    <View style={{ margin: '1 3 0 25' }}>
                       <Svg viewBox="0 0 24 24" width={10} height={10}>
                         <Path
                           d="M22 2v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -957,7 +1006,7 @@ const CoADocument = props => {
                       </Svg>
                     </View>
 
-                    <Text style={[styles.textBold]}>CSCRO/CSC-Commission</Text>
+                    <Text>CSCRO/CSC-Commission</Text>
                   </View>
                 </View>
                 <View style={[styles.w20, styles.borderRight]}>
@@ -1038,7 +1087,7 @@ const CoADocument = props => {
               <View style={[styles.tableRowContainer, styles.borderTop]}>
                 <View style={[styles.w40, styles.borderRight]}>
                   <View style={[styles.tableRowContainer, { margin: 5 }]}>
-                    <View style={{ margin: '1 3 0 3' }}>
+                    <View style={{ margin: '1 3 0 25' }}>
                       <Svg viewBox="0 0 24 24" width={10} height={10}>
                         <Path
                           d="M22 2v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -1047,7 +1096,7 @@ const CoADocument = props => {
                       </Svg>
                     </View>
 
-                    <Text style={[styles.textBold]}>CSC-Commission</Text>
+                    <Text>CSC-Commission</Text>
                   </View>
                 </View>
                 <View style={[styles.w20, styles.borderRight]}>
@@ -1085,7 +1134,7 @@ const CoADocument = props => {
               <View style={[styles.tableRowContainer, styles.borderTop]}>
                 <View style={[styles.w40, styles.borderRight]}>
                   <View style={[styles.tableRowContainer, { margin: 5 }]}>
-                    <View style={{ margin: '1 3 0 3' }}>
+                    <View style={{ margin: '1 3 0 25' }}>
                       <Svg viewBox="0 0 24 24" width={10} height={10}>
                         <Path
                           d="M22 2v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -1094,7 +1143,7 @@ const CoADocument = props => {
                       </Svg>
                     </View>
 
-                    <Text style={[styles.textBold]}>Court of Appeals</Text>
+                    <Text>Court of Appeals</Text>
                   </View>
                 </View>
                 <View style={[styles.w20, styles.borderRight]}>
@@ -1132,7 +1181,7 @@ const CoADocument = props => {
               <View style={[styles.tableRowContainer, styles.borderTop]}>
                 <View style={[styles.w40, styles.borderRight]}>
                   <View style={[styles.tableRowContainer, { margin: 5 }]}>
-                    <View style={{ margin: '1 3 0 3' }}>
+                    <View style={{ margin: '1 3 0 25' }}>
                       <Svg viewBox="0 0 24 24" width={10} height={10}>
                         <Path
                           d="M22 2v20h-20v-20h20zm2-2h-24v24h24v-24z"
@@ -1141,7 +1190,7 @@ const CoADocument = props => {
                       </Svg>
                     </View>
 
-                    <Text style={[styles.textBold]}>Supreme Court</Text>
+                    <Text>Supreme Court</Text>
                   </View>
                 </View>
                 <View style={[styles.w20, styles.borderRight]}>
@@ -1191,11 +1240,13 @@ const CoADocument = props => {
           {/* SECTION 4 */}
           <View style={[styles.documentText, { paddingTop: 10 }]}>
             <View style={[styles.borderAll, styles.tableRowContainer]}>
-              <View style={[styles.w50, styles.borderRight]}>
-                <View style={[{ margin: 7 }]}>
-                  <Text>Original Copy - for the Appointee</Text>
-                  <Text>Original Copy - for the Civil Service Commission</Text>
+              <View style={[styles.w50, styles.borderRight, { fontSize: 10 }]}>
+                <View style={[{ margin: 7, paddingTop: 15 }]}>
                   <Text>Original Copy - for the Agency</Text>
+                  <Text>
+                    Certified True Copy - for the Civil Service Commission
+                  </Text>
+                  <Text>Certified True Copy - for the Appointee</Text>
                 </View>
               </View>
 
@@ -1206,11 +1257,23 @@ const CoADocument = props => {
                   </Text>
                   <View style={[styles.tableRowContainer, { paddingTop: 10 }]}>
                     <Text style={[styles.textItalic]}>
-                      Received original/photocopy of appointment on{' '}
+                      Received original copy of appointment on ____________
                     </Text>
+                  </View>
+                  <View
+                    style={[
+                      styles.w100,
+                      styles.horizontalCenter,
+                      { marginHorizontal: 'auto' },
+                    ]}
+                  >
                     <View
-                      style={[styles.borderBottom, { height: 13, width: 120 }]}
+                      style={[
+                        styles.borderBottom,
+                        { marginLeft: 50, height: 25, width: 150 },
+                      ]}
                     ></View>
+                    <Text>Appointee</Text>
                   </View>
                 </View>
               </View>

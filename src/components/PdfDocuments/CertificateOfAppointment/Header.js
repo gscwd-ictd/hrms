@@ -1,48 +1,48 @@
-import React from "react"
-import { Text, View, StyleSheet, Font, Image } from "@react-pdf/renderer"
+import React from 'react'
+import { Text, View, StyleSheet, Font, Image } from '@react-pdf/renderer'
 
 // Fonts
-import TimesNewRomanRegular from "assets/fonts/uploads/times-new-roman-regular.ttf"
-import TimesNewRomanBold from "assets/fonts/uploads/times-new-roman-bold.ttf"
-import ArialBoldItalic from "assets/fonts/uploads/arial-bold-italic.ttf"
+import TimesNewRomanRegular from 'assets/fonts/uploads/times-new-roman-regular.ttf'
+import TimesNewRomanBold from 'assets/fonts/uploads/times-new-roman-bold.ttf'
+import ArialBoldItalic from 'assets/fonts/uploads/arial-bold-italic.ttf'
 
 const styles = StyleSheet.create({
   rowContainer: {
-    flexDirection: "row",
-    alignItems: "stretch",
+    flexDirection: 'row',
+    alignItems: 'stretch',
   },
 
   // Field Styles
   headerText: {
-    fontFamily: "TimesNewRomanRegular",
-    fontSize: 12,
-    marginVertical: "auto",
+    fontFamily: 'TimesNewRomanRegular',
+    fontSize: 11,
+    marginVertical: 'auto',
   },
   documentCodeText: {
-    fontFamily: "ArialBoldItalic",
+    fontFamily: 'ArialBoldItalic',
   },
   textBold: {
-    fontFamily: "TimesNewRomanBold",
+    fontFamily: 'TimesNewRomanBold',
   },
-  horizontalCenter: { textAlign: "center" },
+  horizontalCenter: { textAlign: 'center' },
 
   // Width Styles
-  w50: { width: "50%" },
-  w25: { width: "25%" },
+  w50: { width: '50%' },
+  w25: { width: '25%' },
 })
 
 Font.register({
-  family: "ArialBoldItalic",
+  family: 'ArialBoldItalic',
   src: ArialBoldItalic,
 })
 
 Font.register({
-  family: "TimesNewRomanRegular",
+  family: 'TimesNewRomanRegular',
   src: TimesNewRomanRegular,
 })
 
 Font.register({
-  family: "TimesNewRomanBold",
+  family: 'TimesNewRomanBold',
   src: TimesNewRomanBold,
 })
 
@@ -51,11 +51,11 @@ const Header = () => {
     <View style={[styles.rowContainer]}>
       {/* DOCUMENT CODE */}
       <View style={[styles.w25]}>
-        <Text style={[styles.documentCodeText, { fontSize: 11 }]}>
+        <Text style={[styles.documentCodeText, { fontSize: 10 }]}>
           CS Form No. 33-B
         </Text>
-        <Text style={[styles.documentCodeText, { fontSize: 10 }]}>
-          Revised 2018
+        <Text style={[styles.documentCodeText, { fontSize: 9 }]}>
+          Revised 2025
         </Text>
       </View>
 

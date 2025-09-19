@@ -296,11 +296,6 @@ const LearningAndDevelopmentPdf = props => {
           VII. LEARNING AND DEVELOPMENT (L&D) INTERVENTIONS/TRAINING PROGRAMS
           ATTENDED
         </Text>
-        <Text style={styles.sectionSubtitleText}>
-          (Start from the most recent L&D/training program and include only the
-          relevant L&D/training taken for the last five (5) years for Division
-          Chief/Executive/Managerial positions)
-        </Text>
       </View>
 
       {/* Learning and Development header */}
@@ -348,7 +343,7 @@ const LearningAndDevelopmentPdf = props => {
           <View style={[styles.w100, { textAlign: 'center', padding: '4 6' }]}>
             <Text>INCLUSIVE DATES OF</Text>
             <Text>ATTENDANCE</Text>
-            <Text>(mm/dd/yyyy)</Text>
+            <Text>(dd/mm/yyyy)</Text>
           </View>
 
           <View style={[styles.borderTop, { flexDirection: 'row' }]}>

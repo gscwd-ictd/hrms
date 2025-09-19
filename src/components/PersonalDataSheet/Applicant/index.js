@@ -94,11 +94,11 @@ const PersonalDataSheetView = () => {
     }
   }
 
-  // Date formatter based on PDS document MM/DD/YYYY
+  // Date formatter based on PDS document DD/MM/YYYY
   const formatDate = assignedDate => {
     if (!isEmpty(assignedDate)) {
       const date = new Date(assignedDate)
-      return dayjs(date.toLocaleDateString()).format('MM/DD/YYYY')
+      return dayjs(date.toLocaleDateString()).format('DD/MM/YYYY')
     } else {
       return ''
     }

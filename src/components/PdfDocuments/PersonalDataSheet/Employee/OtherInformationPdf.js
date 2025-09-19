@@ -1,81 +1,81 @@
-import React, { useState } from "react"
-import { Text, View, StyleSheet, Font } from "@react-pdf/renderer"
-import ArialRegular from "assets/fonts/uploads/arial.ttf"
-import ArialNarrow from "assets/fonts/uploads/arial-narrow.ttf"
-import ArialNarrowItalic from "assets/fonts/uploads/arial-narrow-italic.ttf"
-import ArialNarrowBold from "assets/fonts/uploads/arial-narrow-bold.ttf"
-import ArialNarrowBoldItalic from "assets/fonts/uploads/arial-narrow-bold-italic.ttf"
-import PropTypes from "prop-types"
+import React, { useState } from 'react'
+import { Text, View, StyleSheet, Font } from '@react-pdf/renderer'
+import ArialRegular from 'assets/fonts/uploads/arial.ttf'
+import ArialNarrow from 'assets/fonts/uploads/arial-narrow.ttf'
+import ArialNarrowItalic from 'assets/fonts/uploads/arial-narrow-italic.ttf'
+import ArialNarrowBold from 'assets/fonts/uploads/arial-narrow-bold.ttf'
+import ArialNarrowBoldItalic from 'assets/fonts/uploads/arial-narrow-bold-italic.ttf'
+import PropTypes from 'prop-types'
 
 const styles = StyleSheet.create({
   sectionTitleContainer: {
-    backgroundColor: "#969696",
+    backgroundColor: '#969696',
     padding: 1.5,
   },
   sectionTitleText: {
-    color: "#ffffff",
-    fontFamily: "ArialNarrowBoldItalic",
+    color: '#ffffff',
+    fontFamily: 'ArialNarrowBoldItalic',
     fontSize: 9.2,
   },
 
   // Field Styles
   inputKey: {
-    backgroundColor: "#EAEAEA",
-    fontFamily: "Arial",
+    backgroundColor: '#EAEAEA',
+    fontFamily: 'Arial',
     fontWeight: 100,
     fontSize: 6.7,
-    padding: "3.5 5",
+    padding: '3.5 5',
   },
   inputValue: {
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontWeight: 100,
     fontSize: 6.7,
-    padding: "4 8",
+    padding: '4 8',
     height: 25,
   },
   inputAddressKey: {
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontWeight: 100,
-    fontStyle: "italic",
+    fontStyle: 'italic',
     fontSize: 6.7,
-    padding: "0 8",
+    padding: '0 8',
   },
   warningText: {
-    fontFamily: "ArialNarrowBoldItalic",
-    textAlign: "center",
+    fontFamily: 'ArialNarrowBoldItalic',
+    textAlign: 'center',
     fontSize: 6.7,
-    color: "red",
+    color: 'red',
   },
-  verticalCenter: { margin: "auto 0" },
-  horizontalCenter: { textAlign: "center" },
+  verticalCenter: { margin: 'auto 0' },
+  horizontalCenter: { textAlign: 'center' },
 
   // Border Styles
   borderTop: {
-    borderTop: "1px solid #000000",
+    borderTop: '1px solid #000000',
   },
   borderRight: {
-    borderRight: "1px solid #000000",
+    borderRight: '1px solid #000000',
   },
 
   // Width Styles
-  w100: { width: "100%" },
-  w59: { width: "59%" },
-  w23_8: { width: "23.8%" },
-  w17_2: { width: "17.2%" },
+  w100: { width: '100%' },
+  w59: { width: '59%' },
+  w23_8: { width: '23.8%' },
+  w17_2: { width: '17.2%' },
 })
 
 Font.register({
-  family: "Arial",
+  family: 'Arial',
   fonts: [
     { src: ArialRegular },
     { src: ArialNarrow, fontWeight: 100 },
     { src: ArialNarrowBold, fontWeight: 500 },
-    { src: ArialNarrowItalic, fontWeight: 100, fontStyle: "italic" },
+    { src: ArialNarrowItalic, fontWeight: 100, fontStyle: 'italic' },
   ],
 })
 
 Font.register({
-  family: "ArialNarrowBoldItalic",
+  family: 'ArialNarrowBoldItalic',
   src: ArialNarrowBoldItalic,
 })
 
@@ -185,7 +185,7 @@ const OtherInformationPdf = props => {
       <View
         style={[
           styles.borderTop,
-          { flexDirection: "row", alignItems: "stretch" },
+          { flexDirection: 'row', alignItems: 'stretch' },
         ]}
       >
         {/* Special SKills */}
@@ -194,7 +194,7 @@ const OtherInformationPdf = props => {
             styles.inputKey,
             styles.borderRight,
             styles.w17_2,
-            { flexDirection: "row" },
+            { flexDirection: 'row' },
           ]}
         >
           <Text style={[styles.verticalCenter]}>31.</Text>
@@ -209,7 +209,7 @@ const OtherInformationPdf = props => {
             styles.inputKey,
             styles.borderRight,
             styles.w59,
-            { flexDirection: "row" },
+            { flexDirection: 'row' },
           ]}
         >
           <Text style={[styles.verticalCenter]}>32.</Text>
@@ -227,7 +227,7 @@ const OtherInformationPdf = props => {
         </View>
 
         {/* Membership */}
-        <View style={[styles.inputKey, styles.w23_8, { flexDirection: "row" }]}>
+        <View style={[styles.inputKey, styles.w23_8, { flexDirection: 'row' }]}>
           <Text style={[styles.verticalCenter]}>33.</Text>
 
           <View
@@ -244,7 +244,7 @@ const OtherInformationPdf = props => {
       </View>
 
       {/* Rows */}
-      <View style={[{ flexDirection: "row" }]}>
+      <View style={[{ flexDirection: 'row' }]}>
         {/* Special SKills */}
         <View style={[styles.w17_2]}>
           {renderSpecialSkillRows()}
@@ -261,6 +261,14 @@ const OtherInformationPdf = props => {
         <View style={[styles.w23_8]}>
           {renderMembershipRows()}
           {renderEmptyMembershipRows()}
+        </View>
+      </View>
+
+      <View style={[styles.borderTop]}>
+        <View style={[styles.inputKey, styles.w100, { padding: '1 0' }]}>
+          <Text style={styles.warningText}>
+            (Continue on separate sheet if necessary)
+          </Text>
         </View>
       </View>
     </View>
