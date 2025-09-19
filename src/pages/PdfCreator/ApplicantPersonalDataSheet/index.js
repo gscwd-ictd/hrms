@@ -77,7 +77,7 @@ const ApplicantPersonalDataSheetPdf = () => {
   const formatDate = assignedDate => {
     if (!isEmpty(assignedDate)) {
       const date = new Date(assignedDate)
-      return dayjs(date.toLocaleDateString()).format('MM/DD/YYYY')
+      return dayjs(date.toLocaleDateString()).format('DD/MM/YYYY')
     } else {
       return ''
     }

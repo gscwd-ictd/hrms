@@ -34,14 +34,16 @@ const ViewEligibilityModal = props => {
                 <OutlinedBox
                   label={'Date of Examination'}
                   value={
-                    modalData.examDate.from + ' | ' + modalData.examDate.to
+                    formatDate(modalData.examDate.from) +
+                    ' to ' +
+                    formatDate(modalData.examDate.to)
                   }
                 />
               ) : !isEmpty(modalData.examDate) &&
                 !isEmpty(modalData.examDate.from) ? ( // If exam date from is filled
                 <OutlinedBox
                   label={'Date of Examination'}
-                  value={modalData.examDate.from}
+                  value={formatDate(modalData.examDate.from)}
                 />
               ) : null}
             </Col>
@@ -62,8 +64,8 @@ const ViewEligibilityModal = props => {
                 </Col>
                 <Col md={6} className="mt-1">
                   <OutlinedBox
-                    label={'Date of Validity'}
-                    value={formatDate(modalData.validity) || 'N/A'}
+                    label={'Valid Until'}
+                    value={modalData.validity || 'N/A'}
                   />
                 </Col>
               </Row>

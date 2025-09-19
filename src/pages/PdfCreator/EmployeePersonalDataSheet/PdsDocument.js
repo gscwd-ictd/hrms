@@ -686,11 +686,13 @@ const PdsDocument = props => {
               {!isEmpty(eligibility.examDate) &&
               !isEmpty(eligibility.examDate.to) ? (
                 <>
-                  {eligibility.examDate.from + ' | ' + eligibility.examDate.to}
+                  {formatDate(eligibility.examDate.from) +
+                    ' to ' +
+                    formatDate(eligibility.examDate.to)}
                 </>
               ) : !isEmpty(eligibility.examDate) &&
                 !isEmpty(eligibility.examDate.from) ? ( // If exam date from is filled
-                <>{eligibility.examDate.from}</>
+                <>{formatDate(eligibility.examDate.from)}</>
               ) : (
                 <>N/A</>
               )}
@@ -1962,8 +1964,8 @@ const PdsDocument = props => {
                   </View>
                   <View style={[styles.w50, styles.horizontalCenter]}>
                     <View style={[styles.verticalCenter, { padding: '3 0' }]}>
-                      <Text>Date of</Text>
-                      <Text>Validity</Text>
+                      <Text>Valid Until</Text>
+                      <Text></Text>
                     </View>
                   </View>
                 </View>
