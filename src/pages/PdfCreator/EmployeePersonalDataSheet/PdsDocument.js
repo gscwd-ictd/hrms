@@ -2324,12 +2324,12 @@ const PdsDocument = props => {
                   styles.inputKey,
                   styles.horizontalCenter,
                   styles.w6,
-                  { padding: '5.5 3' },
+                  { padding: '5.5 2' },
                 ]}
               >
                 <View style={[styles.verticalCenter, { fontSize: 5.7 }]}>
                   <Text>Type of LD</Text>
-                  <Text> ( Managerial/ Supervisory/ Technical/etc)</Text>
+                  <Text> (Managerial/ Supervisory/ Technical/etc)</Text>
                 </View>
               </View>
 
@@ -2453,12 +2453,12 @@ const PdsDocument = props => {
                   styles.inputKey,
                   styles.horizontalCenter,
                   styles.w6,
-                  { padding: '5.5 3' },
+                  { padding: '5.5 2' },
                 ]}
               >
                 <View style={[styles.verticalCenter, { fontSize: 5.7 }]}>
                   <Text>Type of LD</Text>
-                  <Text> ( Managerial/ Supervisory/ Technical/etc)</Text>
+                  <Text> (Managerial/ Supervisory/ Technical/etc)</Text>
                 </View>
               </View>
 
@@ -2582,12 +2582,12 @@ const PdsDocument = props => {
                   styles.inputKey,
                   styles.horizontalCenter,
                   styles.w6,
-                  { padding: '5.5 3' },
+                  { padding: '5.5 2' },
                 ]}
               >
                 <View style={[styles.verticalCenter, { fontSize: 5.7 }]}>
                   <Text>Type of LD</Text>
-                  <Text> ( Managerial/ Supervisory/ Technical/etc)</Text>
+                  <Text> (Managerial/ Supervisory/ Technical/etc)</Text>
                 </View>
               </View>
 
@@ -2711,12 +2711,12 @@ const PdsDocument = props => {
                   styles.inputKey,
                   styles.horizontalCenter,
                   styles.w6,
-                  { padding: '5.5 3' },
+                  { padding: '5.5 2' },
                 ]}
               >
                 <View style={[styles.verticalCenter, { fontSize: 5.7 }]}>
                   <Text>Type of LD</Text>
-                  <Text> ( Managerial/ Supervisory/ Technical/etc)</Text>
+                  <Text> (Managerial/ Supervisory/ Technical/etc)</Text>
                 </View>
               </View>
 
@@ -2840,12 +2840,12 @@ const PdsDocument = props => {
                   styles.inputKey,
                   styles.horizontalCenter,
                   styles.w6,
-                  { padding: '5.5 3' },
+                  { padding: '5.5 2' },
                 ]}
               >
                 <View style={[styles.verticalCenter, { fontSize: 5.7 }]}>
                   <Text>Type of LD</Text>
-                  <Text> ( Managerial/ Supervisory/ Technical/etc)</Text>
+                  <Text> (Managerial/ Supervisory/ Technical/etc)</Text>
                 </View>
               </View>
 
@@ -2969,12 +2969,12 @@ const PdsDocument = props => {
                   styles.inputKey,
                   styles.horizontalCenter,
                   styles.w6,
-                  { padding: '5.5 3' },
+                  { padding: '5.5 2' },
                 ]}
               >
                 <View style={[styles.verticalCenter, { fontSize: 5.7 }]}>
                   <Text>Type of LD</Text>
-                  <Text> ( Managerial/ Supervisory/ Technical/etc)</Text>
+                  <Text> (Managerial/ Supervisory/ Technical/etc)</Text>
                 </View>
               </View>
 
