@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   line7Container: { flexDirection: 'row' },
   line7Child1Container: {
     flexDirection: 'row',
-    width: '71%',
+    width: '81%',
   },
   line7Child1: {
     fontFamily: 'Arial',
@@ -1579,16 +1579,21 @@ const PdsDocument = props => {
             <View style={styles.line7Child1Container}>
               <Text style={styles.line7Child1}>
                 Print legibly if accomplished through own handwriting. Tick
-                appropriate boxes (
+                appropriate boxes &#40;
               </Text>
-              <Svg viewBox="0 0 24 24" width={7} height={7}>
+              <Svg
+                viewBox="0 0 24 24"
+                width={6}
+                height={6}
+                style={[{ padding: '10 0 0 0' }]}
+              >
                 <Path
                   d="M22 2v20h-20v-20h20zm2-2h-24v24h24v-24z"
                   stroke="black"
                 />
               </Svg>
               <Text style={styles.line7Child1}>
-                ) and use separate sheet if necessary. Indicate N/A if not
+                &#41; and use separate sheet if necessary. Indicate N/A if not
                 applicable.{' '}
                 <span style={{ fontFamily: 'Arial', fontWeight: 200 }}>
                   DO NOT ABBREVIATE
