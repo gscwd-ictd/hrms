@@ -3,10 +3,6 @@ import { Text, View, StyleSheet, Font } from '@react-pdf/renderer'
 import ArialNarrowItalic from 'assets/fonts/uploads/arial-narrow-italic.ttf'
 
 const styles = StyleSheet.create({
-  // Border Styles
-  borderTop: {
-    borderTop: '1px solid #000000',
-  },
   // Field Styles
   footerText: {
     fontFamily: 'Arial',
@@ -16,6 +12,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 1,
     justifyContent: 'flex-end',
+    marginHorizontal: 12,
   },
 })
 
@@ -26,8 +23,8 @@ Font.register({
 
 const FooterPdf = () => {
   return (
-    <View style={[styles.footerText, styles.borderTop]}>
-      <Text>CS FORM 212 (Revised 2017), Page </Text>
+    <View style={[styles.footerText]}>
+      <Text>CS FORM 212 (Revised 2025), Page </Text>
       <Text
         render={({ pageNumber, totalPages }) => `${pageNumber} of 4`}
         fixed

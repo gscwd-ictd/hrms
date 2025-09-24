@@ -7,6 +7,7 @@ import ArialNarrowItalic from 'assets/fonts/uploads/arial-narrow-italic.ttf'
 import ArialNarrowBold from 'assets/fonts/uploads/arial-narrow-bold.ttf'
 import ArialNarrowBoldItalic from 'assets/fonts/uploads/arial-narrow-bold-italic.ttf'
 import PropTypes from 'prop-types'
+import PdsDocDateFormatter from 'functions/PdsDocDateFormatter'
 
 const styles = StyleSheet.create({
   rowContainer: {
@@ -138,7 +139,6 @@ const QuestionsPdf = props => {
     indigenousPwdSoloParent,
     references,
     governmentIssuedId,
-    formatDate,
   } = props
   const [emptyReferenceRows, setEmptyReferenceRows] = useState(3)
 
@@ -489,7 +489,7 @@ const QuestionsPdf = props => {
               <View style={[styles.rowContainer, { paddingTop: 3 }]}>
                 <Text style={{ width: '30%' }}>Date Filed:</Text>
                 <Text style={[styles.detailsField, { width: '70%' }]}>
-                  {formatDate(guiltyCharged.chargedDateFiled) || 'N/A'}
+                  {PdsDocDateFormatter(guiltyCharged.chargedDateFiled) || 'N/A'}
                 </Text>
               </View>
 
@@ -1277,7 +1277,7 @@ const QuestionsPdf = props => {
                 >
                   <Text style={[styles.w35]}>Date/Place of Issuance:</Text>
                   <Text style={[styles.w65]}>
-                    {formatDate(governmentIssuedId.issueDate) +
+                    {PdsDocDateFormatter(governmentIssuedId.issueDate) +
                       ' ' +
                       governmentIssuedId.issuePlace}
                   </Text>
@@ -1419,7 +1419,6 @@ QuestionsPdf.propTypes = {
     })
   ).isRequired,
   governmentIssuedId: PropTypes.object.isRequired,
-  formatDate: PropTypes.func.isRequired,
 }
 
 export default QuestionsPdf

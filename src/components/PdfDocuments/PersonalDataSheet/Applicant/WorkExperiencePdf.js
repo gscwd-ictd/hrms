@@ -6,7 +6,8 @@ import ArialNarrowItalic from 'assets/fonts/uploads/arial-narrow-italic.ttf'
 import ArialNarrowBold from 'assets/fonts/uploads/arial-narrow-bold.ttf'
 import ArialNarrowBoldItalic from 'assets/fonts/uploads/arial-narrow-bold-italic.ttf'
 import PropTypes from 'prop-types'
-import { chunkSubstr } from 'pages/PdfCreator/EmployeePersonalDataSheet/PdsDocument'
+import ChunkSubstr from 'functions/ChunkSubstr'
+import PdsDocDateFormatter from 'functions/PdsDocDateFormatter'
 
 const styles = StyleSheet.create({
   sectionTitleContainer: {
@@ -21,8 +22,8 @@ const styles = StyleSheet.create({
   sectionSubtitleText: {
     color: '#ffffff',
     fontFamily: 'ArialNarrowBoldItalic',
-    fontSize: 6.5,
-    paddingTop: 2,
+    fontSize: 7.5,
+    paddingTop: 1,
   },
 
   // Field Styles
@@ -60,11 +61,10 @@ const styles = StyleSheet.create({
   // Width Styles
   w100: { width: '100%' },
   w50: { width: '50%' },
-  w31_9: { width: '31.9%' },
-  w27_1: { width: '27.1%' },
-  w17_2: { width: '17.2%' },
-  w7: { width: '7%' },
-  w5_6: { width: '5.6%' },
+  w33_3: { width: '33.3%' },
+  w29_9: { width: '29.9%' },
+  w18_6: { width: '18.6%' },
+  w9_8: { width: '9.8%' },
 })
 
 Font.register({
@@ -83,7 +83,7 @@ Font.register({
 })
 
 const WorkExperiencePdf = props => {
-  const { workExperience, formatDate } = props
+  const { workExperience } = props
   const [emptyWorkExperienceRows, setEmptyWorkExperienceRows] = useState(28)
 
   const renderWorkExperienceRows = () => {
@@ -101,7 +101,7 @@ const WorkExperiencePdf = props => {
             styles.horizontalCenter,
             styles.borderRight,
             styles.inputValue,
-            styles.w17_2,
+            styles.w18_6,
             { padding: '0', flexDirection: 'row' },
           ]}
         >
@@ -109,12 +109,12 @@ const WorkExperiencePdf = props => {
             style={[styles.w50, styles.horizontalCenter, styles.borderRight]}
           >
             <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
-              {formatDate(experience.from) || 'N/A'}
+              {PdsDocDateFormatter(experience.from) || 'N/A'}
             </Text>
           </View>
           <View style={[styles.w50, styles.horizontalCenter]}>
             <View style={[styles.verticalCenter, { padding: '3 0' }]}>
-              <Text>{formatDate(experience.to) || 'PRESENT'}</Text>
+              <Text>{PdsDocDateFormatter(experience.to) || 'PRESENT'}</Text>
             </View>
           </View>
         </View>
@@ -125,7 +125,7 @@ const WorkExperiencePdf = props => {
             styles.inputValue,
             styles.borderRight,
             styles.horizontalCenter,
-            styles.w31_9,
+            styles.w33_3,
             { flexDirection: 'row' },
           ]}
         >
@@ -146,7 +146,7 @@ const WorkExperiencePdf = props => {
             styles.borderRight,
             styles.inputValue,
             styles.horizontalCenter,
-            styles.w27_1,
+            styles.w29_9,
           ]}
         >
           <View style={[styles.verticalCenter]}>
@@ -155,7 +155,7 @@ const WorkExperiencePdf = props => {
         </View>
 
         {/* Monthly Salary */}
-        <View
+        {/* <View
           style={[
             styles.borderRight,
             styles.inputValue,
@@ -167,10 +167,10 @@ const WorkExperiencePdf = props => {
           <View style={[styles.verticalCenter]}>
             <Text>{experience.monthlySalary || 'N/A'}</Text>
           </View>
-        </View>
+        </View> */}
 
         {/* Salary Grade / Increment */}
-        <View
+        {/* <View
           style={[
             styles.borderRight,
             styles.inputValue,
@@ -182,7 +182,7 @@ const WorkExperiencePdf = props => {
           <View style={[styles.verticalCenter]}>
             <Text>{experience.salaryGrade || 'N/A'}</Text>
           </View>
-        </View>
+        </View> */}
 
         {/* Status of Appointment */}
         <View
@@ -190,12 +190,12 @@ const WorkExperiencePdf = props => {
             styles.borderRight,
             styles.inputValue,
             styles.horizontalCenter,
-            styles.w7,
+            styles.w9_8,
             { fontSize: 6.2, padding: 0 },
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text hyphenationCallback={e => chunkSubstr(e)}>
+            <Text hyphenationCallback={e => ChunkSubstr(e)}>
               {experience.appointmentStatus || 'N/A'}
             </Text>
           </View>
@@ -206,7 +206,7 @@ const WorkExperiencePdf = props => {
           style={[
             styles.inputValue,
             styles.horizontalCenter,
-            styles.w5_6,
+            styles.w9_8,
             { padding: 0 },
           ]}
         >
@@ -239,7 +239,7 @@ const WorkExperiencePdf = props => {
               styles.horizontalCenter,
               styles.borderRight,
               styles.inputValue,
-              styles.w17_2,
+              styles.w18_6,
               { padding: '0', flexDirection: 'row' },
             ]}
           >
@@ -263,7 +263,7 @@ const WorkExperiencePdf = props => {
               styles.inputValue,
               styles.borderRight,
               styles.horizontalCenter,
-              styles.w31_9,
+              styles.w33_3,
               { flexDirection: 'row' },
             ]}
           >
@@ -284,7 +284,7 @@ const WorkExperiencePdf = props => {
               styles.borderRight,
               styles.inputValue,
               styles.horizontalCenter,
-              styles.w27_1,
+              styles.w29_9,
             ]}
           >
             <View style={[styles.verticalCenter]}>
@@ -293,7 +293,7 @@ const WorkExperiencePdf = props => {
           </View>
 
           {/* Monthly Salary */}
-          <View
+          {/* <View
             style={[
               styles.borderRight,
               styles.inputValue,
@@ -305,10 +305,10 @@ const WorkExperiencePdf = props => {
             <View style={[styles.verticalCenter]}>
               <Text>N/A</Text>
             </View>
-          </View>
+          </View> */}
 
           {/* Salary Grade / Increment */}
-          <View
+          {/* <View
             style={[
               styles.borderRight,
               styles.inputValue,
@@ -320,7 +320,7 @@ const WorkExperiencePdf = props => {
             <View style={[styles.verticalCenter]}>
               <Text>N/A</Text>
             </View>
-          </View>
+          </View> */}
 
           {/* Status of Appointment */}
           <View
@@ -328,7 +328,7 @@ const WorkExperiencePdf = props => {
               styles.borderRight,
               styles.inputValue,
               styles.horizontalCenter,
-              styles.w7,
+              styles.w9_8,
               { fontSize: 6.2, padding: 0 },
             ]}
           >
@@ -342,7 +342,7 @@ const WorkExperiencePdf = props => {
             style={[
               styles.inputValue,
               styles.horizontalCenter,
-              styles.w5_6,
+              styles.w9_8,
               { padding: 0 },
             ]}
           >
@@ -379,7 +379,7 @@ const WorkExperiencePdf = props => {
             styles.horizontalCenter,
             styles.borderRight,
             styles.inputKey,
-            styles.w17_2,
+            styles.w18_6,
             { padding: '0' },
           ]}
         >
@@ -392,7 +392,7 @@ const WorkExperiencePdf = props => {
             <Text style={[styles.verticalCenter]}>28.</Text>
             <View style={[styles.w100, { textAlign: 'center' }]}>
               <Text>INCLUSIVE DATES</Text>
-              <Text>(mm/dd/yyyy)</Text>
+              <Text>(dd/mm/yyyy)</Text>
             </View>
           </View>
 
@@ -418,7 +418,7 @@ const WorkExperiencePdf = props => {
             styles.inputKey,
             styles.borderRight,
             styles.horizontalCenter,
-            styles.w31_9,
+            styles.w33_3,
             { flexDirection: 'row' },
           ]}
         >
@@ -440,7 +440,7 @@ const WorkExperiencePdf = props => {
             styles.borderRight,
             styles.inputKey,
             styles.horizontalCenter,
-            styles.w27_1,
+            styles.w29_9,
           ]}
         >
           <View style={[styles.verticalCenter]}>
@@ -450,7 +450,7 @@ const WorkExperiencePdf = props => {
         </View>
 
         {/* Monthly Salary */}
-        <View
+        {/* <View
           style={[
             styles.borderRight,
             styles.inputKey,
@@ -462,10 +462,10 @@ const WorkExperiencePdf = props => {
           <View style={[styles.verticalCenter]}>
             <Text style={{ fontSize: 5.7 }}>MONTHLY SALARY</Text>
           </View>
-        </View>
+        </View> */}
 
         {/* Salary Grade / Increment */}
-        <View
+        {/* <View
           style={[
             styles.borderRight,
             styles.inputKey,
@@ -480,7 +480,7 @@ const WorkExperiencePdf = props => {
               &quot;00-0&quot;)/ INCREMENT
             </Text>
           </View>
-        </View>
+        </View> */}
 
         {/* Status of Appointment */}
         <View
@@ -488,7 +488,7 @@ const WorkExperiencePdf = props => {
             styles.borderRight,
             styles.inputKey,
             styles.horizontalCenter,
-            styles.w7,
+            styles.w9_8,
             { padding: 0 },
           ]}
         >
@@ -503,7 +503,7 @@ const WorkExperiencePdf = props => {
           style={[
             styles.inputKey,
             styles.horizontalCenter,
-            styles.w5_6,
+            styles.w9_8,
             { padding: 0 },
           ]}
         >
@@ -545,7 +545,6 @@ WorkExperiencePdf.propTypes = {
       to: PropTypes.string,
     })
   ).isRequired,
-  formatDate: PropTypes.func.isRequired,
 }
 
 export default WorkExperiencePdf

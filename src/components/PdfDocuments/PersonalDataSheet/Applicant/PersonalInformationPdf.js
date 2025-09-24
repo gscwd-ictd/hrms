@@ -10,6 +10,7 @@ import ArialBoldItalic from 'assets/fonts/uploads/arial-bold-italic.ttf'
 import ArialNarrowBoldItalic from 'assets/fonts/uploads/arial-narrow-bold-italic.ttf'
 import CalibriBoldItalic from 'assets/fonts/uploads/calibri-bold-italic.ttf'
 import PropTypes from 'prop-types'
+import PdsDocDateFormatter from 'functions/PdsDocDateFormatter'
 
 const styles = StyleSheet.create({
   lineContainer: {
@@ -109,7 +110,6 @@ Font.register({
 
 const PersonalInformationPdf = props => {
   const {
-    formatDate,
     personalInfo,
     permanentAddress,
     residentialAddress,
@@ -125,7 +125,7 @@ const PersonalInformationPdf = props => {
       {/* Line 10 Surname */}
       <View style={[styles.lineContainer, styles.borderTop]}>
         <View style={[styles.borderRight, styles.inputKey, styles.w17_1]}>
-          <Text>2. SURNAME</Text>
+          <Text>1. SURNAME</Text>
         </View>
         <View style={[styles.w82_9, styles.inputValue]}>
           <Text>{personalInfo.lastName || 'N/A'}</Text>
@@ -135,7 +135,7 @@ const PersonalInformationPdf = props => {
       {/* Line 11 First name */}
       <View style={[styles.lineContainer]}>
         <View style={[styles.borderRight, styles.inputKey, styles.w17_1]}>
-          <Text>&nbsp;&nbsp;&nbsp;&nbsp;FIRST NAME</Text>
+          <Text>2. FIRST NAME</Text>
         </View>
         <View
           style={[
@@ -181,11 +181,11 @@ const PersonalInformationPdf = props => {
         <View style={[styles.lineContainer, styles.w42]}>
           <View style={[styles.borderRight, styles.inputKey, styles.w40_7]}>
             <Text>3. DATE OF BIRTH</Text>
-            <Text>&nbsp;&nbsp;&nbsp;&nbsp;(mm/dd/yyyy)</Text>
+            <Text>&nbsp;&nbsp;&nbsp;&nbsp;(dd/mm/yyyy)</Text>
           </View>
 
           <View style={[styles.borderRight, styles.inputValue, styles.w59_3]}>
-            <Text>{formatDate(personalInfo.birthDate)}</Text>
+            <Text>{PdsDocDateFormatter(personalInfo.birthDate)}</Text>
           </View>
         </View>
 
@@ -371,7 +371,7 @@ const PersonalInformationPdf = props => {
       <View style={styles.lineContainer}>
         <View style={[styles.lineContainer, styles.borderTop, styles.w42]}>
           <View style={[styles.borderRight, styles.inputKey, styles.w40_7]}>
-            <Text>5. SEX</Text>
+            <Text>5. SEX AT BIRTH</Text>
           </View>
 
           <View
@@ -980,7 +980,7 @@ const PersonalInformationPdf = props => {
       <View style={styles.lineContainer}>
         <View style={[styles.lineContainer, styles.borderTop, styles.w42]}>
           <View style={[styles.borderRight, styles.inputKey, styles.w40_7]}>
-            <Text>10. GSIS ID NO.</Text>
+            <Text>10. UMID ID NO.</Text>
           </View>
 
           <View
@@ -1225,7 +1225,7 @@ const PersonalInformationPdf = props => {
       <View style={styles.lineContainer}>
         <View style={[styles.lineContainer, styles.borderTop, styles.w42]}>
           <View style={[styles.borderRight, styles.inputKey, styles.w40_7]}>
-            <Text>13. SSS NO.</Text>
+            <Text>13. PhilSys Number (PSN):</Text>
           </View>
 
           <View
@@ -1329,7 +1329,6 @@ PersonalInformationPdf.propTypes = {
   permanentAddress: PropTypes.object.isRequired,
   residentialAddress: PropTypes.object.isRequired,
   governmentIssuedIds: PropTypes.object.isRequired,
-  formatDate: PropTypes.func.isRequired,
 }
 
 export default PersonalInformationPdf

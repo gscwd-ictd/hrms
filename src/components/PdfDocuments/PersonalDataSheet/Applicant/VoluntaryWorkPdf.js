@@ -6,6 +6,7 @@ import ArialNarrowItalic from 'assets/fonts/uploads/arial-narrow-italic.ttf'
 import ArialNarrowBold from 'assets/fonts/uploads/arial-narrow-bold.ttf'
 import ArialNarrowBoldItalic from 'assets/fonts/uploads/arial-narrow-bold-italic.ttf'
 import PropTypes from 'prop-types'
+import PdsDocDateFormatter from 'functions/PdsDocDateFormatter'
 
 const styles = StyleSheet.create({
   sectionTitleContainer: {
@@ -74,7 +75,7 @@ Font.register({
 })
 
 const VoluntaryWorkPdf = props => {
-  const { voluntaryWork, formatDate } = props
+  const { voluntaryWork } = props
   const [emptyVoluntaryWorkRows, setEmptyVoluntaryWorkRows] = useState(5)
 
   const renderVoluntaryWorkRows = () => {
@@ -113,12 +114,12 @@ const VoluntaryWorkPdf = props => {
             style={[styles.w50, styles.horizontalCenter, styles.borderRight]}
           >
             <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
-              {formatDate(voluntaryWork.from) || 'N/A'}
+              {PdsDocDateFormatter(voluntaryWork.from) || 'N/A'}
             </Text>
           </View>
           <View style={[styles.w50, styles.horizontalCenter]}>
             <View style={[styles.verticalCenter, { padding: '3 0' }]}>
-              <Text>{formatDate(voluntaryWork.to) || 'N/A'}</Text>
+              <Text>{PdsDocDateFormatter(voluntaryWork.to) || 'N/A'}</Text>
             </View>
           </View>
         </View>
@@ -363,7 +364,6 @@ VoluntaryWorkPdf.propTypes = {
       position: PropTypes.string,
     })
   ).isRequired,
-  formatDate: PropTypes.func.isRequired,
 }
 
 export default VoluntaryWorkPdf

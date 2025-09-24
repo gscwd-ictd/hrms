@@ -7,6 +7,7 @@ import ArialNarrowItalic from 'assets/fonts/uploads/arial-narrow-italic.ttf'
 import ArialNarrowBold from 'assets/fonts/uploads/arial-narrow-bold.ttf'
 import ArialNarrowBoldItalic from 'assets/fonts/uploads/arial-narrow-bold-italic.ttf'
 import PropTypes from 'prop-types'
+import PdsDocDateFormatter from 'functions/PdsDocDateFormatter'
 
 const styles = StyleSheet.create({
   rowContainer: {
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Arial',
     fontWeight: 100,
     fontSize: 8.5,
-    padding: '3.5 5',
+    padding: '3 5',
   },
   inputAnswers: {
     fontFamily: 'Arial',
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
     fontFamily: 'ArialRegular',
     fontSize: 7,
     textAlign: 'center',
-    padding: '5 18',
+    padding: '5',
   },
   photoText: {
     fontFamily: 'Arial',
@@ -138,7 +139,6 @@ const QuestionsPdf = props => {
     indigenousPwdSoloParent,
     references,
     governmentIssuedId,
-    formatDate,
   } = props
   const [emptyReferenceRows, setEmptyReferenceRows] = useState(3)
 
@@ -150,7 +150,7 @@ const QuestionsPdf = props => {
             styles.w50,
             styles.borderRight,
             styles.inputAnswers,
-            { textAlign: 'center', fontSize: 8 },
+            { textAlign: 'center', fontSize: 8, textTransform: 'uppercase' },
           ]}
         >
           <Text>{reference.name}</Text>
@@ -160,7 +160,7 @@ const QuestionsPdf = props => {
             styles.w30,
             styles.borderRight,
             styles.inputAnswers,
-            { textAlign: 'center', fontSize: 6.5 },
+            { textAlign: 'center', fontSize: 6.8, paddingVertical: 1 },
           ]}
         >
           <Text>{reference.address}</Text>
@@ -489,7 +489,7 @@ const QuestionsPdf = props => {
               <View style={[styles.rowContainer, { paddingTop: 3 }]}>
                 <Text style={{ width: '30%' }}>Date Filed:</Text>
                 <Text style={[styles.detailsField, { width: '70%' }]}>
-                  {formatDate(guiltyCharged.chargedDateFiled) || 'N/A'}
+                  {PdsDocDateFormatter(guiltyCharged.chargedDateFiled) || 'N/A'}
                 </Text>
               </View>
 
@@ -902,9 +902,9 @@ const QuestionsPdf = props => {
             <View style={{ padding: '0 13 0 5' }}>
               <Text>
                 Pursuant to: (a) Indigenous People&apos;s Act (RA 8371); (b)
-                Magna Carta for Disabled Persons (RA 7277); and (c) Solo Parents
-                Welfare Act of 2000 (RA 8972), please answer the following
-                items:
+                Magna Carta for Disabled Persons (RA 7277, as amended); and (c)
+                Expanded Solo Parents Welfare Act (RA 11861), please answer the
+                following items:
               </Text>
               <Text style={{ paddingTop: 8 }}>
                 a. Are you a member of any indigenous group?
@@ -1117,7 +1117,9 @@ const QuestionsPdf = props => {
           >
             <Text>41.</Text>
             <Text style={[{ paddingLeft: 2 }]}>REFERENCES</Text>
-            <Text style={[styles.warningText, { paddingLeft: 2 }]}>
+            <Text
+              style={[{ paddingLeft: 2, fontFamily: 'Arial', fontWeight: 200 }]}
+            >
               (Person not related by consanguinity or affinity to applicant
               /appointee)
             </Text>
@@ -1143,17 +1145,17 @@ const QuestionsPdf = props => {
                 { textAlign: 'center', fontSize: 8 },
               ]}
             >
-              <Text>ADDRESS</Text>
+              <Text>OFFICE / RESIDENTIAL ADDRESS</Text>
             </View>
             <View
               style={[
                 styles.w20,
                 styles.borderRight,
                 styles.inputQuestions,
-                { textAlign: 'center', fontSize: 8 },
+                { textAlign: 'center', fontSize: 7, paddingVertical: 1 },
               ]}
             >
-              <Text>TEL NO.</Text>
+              <Text>CONTACT NO. AND/OR EMAIL</Text>
             </View>
           </View>
 
@@ -1198,7 +1200,7 @@ const QuestionsPdf = props => {
                   style={[
                     styles.rowContainer,
                     styles.grayBg,
-                    { alignItems: 'stretch', padding: '3 5 0 5' },
+                    { alignItems: 'stretch', padding: '1.2 5' },
                   ]}
                 >
                   <Text
@@ -1240,11 +1242,11 @@ const QuestionsPdf = props => {
                     styles.rowContainer,
                     styles.borderTop,
                     styles.inputAnswers,
-                    { fontSize: 7.5, padding: 5 },
+                    { fontSize: 7.5, padding: '5 1' },
                   ]}
                 >
-                  <Text style={[styles.w40]}>Government Issued ID:</Text>
-                  <Text style={[styles.w60]}>
+                  <Text style={[styles.w35]}>Government Issued ID:</Text>
+                  <Text style={[styles.w65]}>
                     {governmentIssuedId.issuedId || 'N/A'}
                   </Text>
                 </View>
@@ -1255,11 +1257,11 @@ const QuestionsPdf = props => {
                     styles.rowContainer,
                     styles.borderTop,
                     styles.inputAnswers,
-                    { fontSize: 7.5, padding: 5 },
+                    { fontSize: 7.5, padding: '5 1' },
                   ]}
                 >
-                  <Text style={[styles.w40]}>ID/License/Passport No.:</Text>
-                  <Text style={[styles.w60]}>
+                  <Text style={[styles.w35]}>ID/License/Passport No.:</Text>
+                  <Text style={[styles.w65]}>
                     {governmentIssuedId.idNumber || 'N/A'}
                   </Text>
                 </View>
@@ -1270,12 +1272,12 @@ const QuestionsPdf = props => {
                     styles.rowContainer,
                     styles.borderTop,
                     styles.inputAnswers,
-                    { fontSize: 7.5, padding: 5 },
+                    { fontSize: 7.5, padding: '5 1' },
                   ]}
                 >
-                  <Text style={[styles.w40]}>Date/Place of Issuance:</Text>
-                  <Text style={[styles.w60]}>
-                    {formatDate(governmentIssuedId.issueDate) +
+                  <Text style={[styles.w35]}>Date/Place of Issuance:</Text>
+                  <Text style={[styles.w65]}>
+                    {PdsDocDateFormatter(governmentIssuedId.issueDate) +
                       ' ' +
                       governmentIssuedId.issuePlace}
                   </Text>
@@ -1326,20 +1328,9 @@ const QuestionsPdf = props => {
         <View style={[styles.w25]}>
           {/*Photo Box */}
           <View style={[styles.bodyBorderForId]}>
-            <Text style={[styles.iDText, { paddingTop: 9, paddingBottom: 0 }]}>
-              ID picture taken within the last 6 months 3.5 cm. X 4.5 cm
-            </Text>
-
-            <Text style={[styles.iDText, { paddingTop: 0 }]}>
-              (passport size)
-            </Text>
-
-            <Text style={[styles.iDText]}>
-              With full and handwritten name tag and signature over printed name
-            </Text>
-
-            <Text style={[styles.iDText, { paddingBottom: 9 }]}>
-              Computer generated or photocopied picture is not acceptable
+            <Text style={[styles.iDText, { paddingVertical: 53 }]}>
+              Passport-sized unfiltered digital picture taken within the last 6
+              months 4.5 cm. X 3.5 cm
             </Text>
           </View>
           <Text style={[styles.photoText]}>PHOTO</Text>
@@ -1428,7 +1419,6 @@ QuestionsPdf.propTypes = {
     })
   ).isRequired,
   governmentIssuedId: PropTypes.object.isRequired,
-  formatDate: PropTypes.func.isRequired,
 }
 
 export default QuestionsPdf

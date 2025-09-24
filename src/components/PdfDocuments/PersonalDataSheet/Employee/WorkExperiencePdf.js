@@ -6,7 +6,8 @@ import ArialNarrowItalic from 'assets/fonts/uploads/arial-narrow-italic.ttf'
 import ArialNarrowBold from 'assets/fonts/uploads/arial-narrow-bold.ttf'
 import ArialNarrowBoldItalic from 'assets/fonts/uploads/arial-narrow-bold-italic.ttf'
 import PropTypes from 'prop-types'
-import { chunkSubstr } from 'pages/PdfCreator/EmployeePersonalDataSheet/PdsDocument'
+import ChunkSubstr from 'functions/ChunkSubstr'
+import PdsDocDateFormatter from 'functions/PdsDocDateFormatter'
 
 const styles = StyleSheet.create({
   sectionTitleContainer: {
@@ -82,7 +83,7 @@ Font.register({
 })
 
 const WorkExperiencePdf = props => {
-  const { workExperience, formatDate } = props
+  const { workExperience } = props
   const [emptyWorkExperienceRows, setEmptyWorkExperienceRows] = useState(28)
 
   const renderWorkExperienceRows = () => {
@@ -108,12 +109,12 @@ const WorkExperiencePdf = props => {
             style={[styles.w50, styles.horizontalCenter, styles.borderRight]}
           >
             <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
-              {formatDate(experience.from) || 'N/A'}
+              {PdsDocDateFormatter(experience.from) || 'N/A'}
             </Text>
           </View>
           <View style={[styles.w50, styles.horizontalCenter]}>
             <View style={[styles.verticalCenter, { padding: '3 0' }]}>
-              <Text>{formatDate(experience.to) || 'PRESENT'}</Text>
+              <Text>{PdsDocDateFormatter(experience.to) || 'PRESENT'}</Text>
             </View>
           </View>
         </View>
@@ -194,7 +195,7 @@ const WorkExperiencePdf = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text hyphenationCallback={e => chunkSubstr(e)}>
+            <Text hyphenationCallback={e => ChunkSubstr(e)}>
               {experience.appointmentStatus || 'N/A'}
             </Text>
           </View>
@@ -544,7 +545,6 @@ WorkExperiencePdf.propTypes = {
       to: PropTypes.string,
     })
   ).isRequired,
-  formatDate: PropTypes.func.isRequired,
 }
 
 export default WorkExperiencePdf

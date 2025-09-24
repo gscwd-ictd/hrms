@@ -6,7 +6,8 @@ import ArialNarrowItalic from 'assets/fonts/uploads/arial-narrow-italic.ttf'
 import ArialNarrowBold from 'assets/fonts/uploads/arial-narrow-bold.ttf'
 import ArialNarrowBoldItalic from 'assets/fonts/uploads/arial-narrow-bold-italic.ttf'
 import PropTypes from 'prop-types'
-import { chunkSubstr } from 'pages/PdfCreator/EmployeePersonalDataSheet/PdsDocument'
+import ChunkSubstr from 'functions/ChunkSubstr'
+import PdsDocDateFormatter from 'functions/PdsDocDateFormatter'
 
 const styles = StyleSheet.create({
   sectionTitleContainer: {
@@ -89,7 +90,7 @@ Font.register({
 })
 
 const LearningAndDevelopmentPdf = props => {
-  const { learningDevelopment, formatDate } = props
+  const { learningDevelopment } = props
   const [emptyLearningDevRows, setEmptyLearningDevRows] = useState(18)
 
   const renderLearningDevelopmentRows = () => {
@@ -127,12 +128,12 @@ const LearningAndDevelopmentPdf = props => {
             style={[styles.w50, styles.horizontalCenter, styles.borderRight]}
           >
             <Text style={[styles.verticalCenter, { padding: '3 0' }]}>
-              {formatDate(training.from) || 'N/A'}
+              {PdsDocDateFormatter(training.from) || 'N/A'}
             </Text>
           </View>
           <View style={[styles.w50, styles.horizontalCenter]}>
             <View style={[styles.verticalCenter, { padding: '3 0' }]}>
-              <Text>{formatDate(training.to) || 'N/A'}</Text>
+              <Text>{PdsDocDateFormatter(training.to) || 'N/A'}</Text>
             </View>
           </View>
         </View>
@@ -163,7 +164,7 @@ const LearningAndDevelopmentPdf = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text hyphenationCallback={e => chunkSubstr(e)}>
+            <Text hyphenationCallback={e => ChunkSubstr(e)}>
               {training.type || 'N/A'}
             </Text>
           </View>
@@ -179,7 +180,7 @@ const LearningAndDevelopmentPdf = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text hyphenationCallback={e => chunkSubstr(e)}>
+            <Text hyphenationCallback={e => ChunkSubstr(e)}>
               {training.conductedBy || 'N/A'}
             </Text>
           </View>
@@ -442,7 +443,6 @@ LearningAndDevelopmentPdf.propTypes = {
       conductedBy: PropTypes.string,
     })
   ).isRequired,
-  formatDate: PropTypes.func.isRequired,
 }
 
 export default LearningAndDevelopmentPdf

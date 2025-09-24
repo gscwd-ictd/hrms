@@ -7,7 +7,8 @@ import ArialNarrowBold from 'assets/fonts/uploads/arial-narrow-bold.ttf'
 import ArialNarrowBoldItalic from 'assets/fonts/uploads/arial-narrow-bold-italic.ttf'
 import PropTypes from 'prop-types'
 import { isEmpty } from 'lodash'
-import { chunkSubstr } from 'pages/PdfCreator/EmployeePersonalDataSheet/PdsDocument'
+import ChunkSubstr from 'functions/ChunkSubstr'
+import PdsDocDateFormatter from 'functions/PdsDocDateFormatter'
 
 const styles = StyleSheet.create({
   lineContainer: {
@@ -93,7 +94,7 @@ Font.register({
 })
 
 const EligibilityPdf = props => {
-  const { formatDate, eligibilities } = props
+  const { eligibilities } = props
   const [emptyEligibilityRows, setEmptyEligibilityRows] = useState(7)
 
   const renderEligibilityRows = () => {
@@ -148,13 +149,13 @@ const EligibilityPdf = props => {
               {!isEmpty(eligibility.examDate) &&
               !isEmpty(eligibility.examDate.to) ? (
                 <>
-                  {formatDate(eligibility.examDate.from) +
+                  {PdsDocDateFormatter(eligibility.examDate.from) +
                     ' to ' +
-                    formatDate(eligibility.examDate.to)}
+                    PdsDocDateFormatter(eligibility.examDate.to)}
                 </>
               ) : !isEmpty(eligibility.examDate) &&
                 !isEmpty(eligibility.examDate.from) ? ( // If exam date from is filled
-                <>{formatDate(eligibility.examDate.from)}</>
+                <>{PdsDocDateFormatter(eligibility.examDate.from)}</>
               ) : (
                 <>N/A</>
               )}
@@ -190,14 +191,14 @@ const EligibilityPdf = props => {
           >
             <Text
               style={[styles.verticalCenter, { padding: '3 0' }]}
-              hyphenationCallback={e => chunkSubstr(e)}
+              hyphenationCallback={e => ChunkSubstr(e)}
             >
               {eligibility.licenseNumber || 'N/A'}
             </Text>
           </View>
           <View style={[styles.w50, styles.horizontalCenter]}>
             <View style={[styles.verticalCenter, { padding: '3 0' }]}>
-              <Text>{formatDate(eligibility.validity) || 'N/A'}</Text>
+              <Text>{PdsDocDateFormatter(eligibility.validity) || 'N/A'}</Text>
             </View>
           </View>
         </View>
@@ -333,9 +334,9 @@ const EligibilityPdf = props => {
               { padding: '3 10', width: '100%' },
             ]}
           >
-            <Text>CAREER SERVICE/ RA 1080 (BOARD/ BAR) UNDER</Text>
-            <Text> SPECIAL LAWS/ CES/ CSEE</Text>
-            <Text>BARANGAY ELIGIBILITY / DRIVER&apos;S LICENSE</Text>
+            <Text>CES/CSEE/CAREER SERVICE/RA 1080(BOARD/BAR)</Text>
+            <Text>UNDER SPECIAL LAWS/CATEGORY II/IV</Text>
+            <Text>ELIGIBILITY and ELIGIBILITIES FOR UNIFORMED PERSONNEL</Text>
           </View>
         </View>
 
@@ -443,7 +444,6 @@ EligibilityPdf.propTypes = {
       validity: PropTypes.string,
     })
   ).isRequired,
-  formatDate: PropTypes.func.isRequired,
 }
 
 export default EligibilityPdf

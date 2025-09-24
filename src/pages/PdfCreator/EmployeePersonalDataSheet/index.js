@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchEmployeePds, resetEmployeeErrorLog } from 'store/actions'
-import dayjs from 'dayjs'
 import { isEmpty } from 'lodash'
 import { Can } from 'casl/Can'
 import { Navigate, useParams } from 'react-router-dom'
@@ -82,16 +80,6 @@ const EmployeePersonalDataSheetPdf = () => {
     isLoading: state.employee.isLoading,
   }))
 
-  // Date formatter based on PDS document MM/DD/YYYY
-  const formatDate = assignedDate => {
-    if (!isEmpty(assignedDate)) {
-      const date = new Date(assignedDate)
-      return dayjs(date.toLocaleDateString()).format('DD/MM/YYYY')
-    } else {
-      return ''
-    }
-  }
-
   useEffect(() => {
     dispatch(fetchEmployeePds(employeeId))
   }, [dispatch])
@@ -116,7 +104,6 @@ const EmployeePersonalDataSheetPdf = () => {
             ) : (
               <PDFViewer width={'100%'} height={850} showToolbar>
                 <PdsDocument
-                  formatDate={formatDate}
                   personalInfo={personalInfo}
                   permanentAddress={permanentAddress}
                   residentialAddress={residentialAddress}

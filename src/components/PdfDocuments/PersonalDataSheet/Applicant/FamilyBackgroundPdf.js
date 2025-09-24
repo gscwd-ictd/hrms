@@ -9,6 +9,7 @@ import ArialNarrowBold from 'assets/fonts/uploads/arial-narrow-bold.ttf'
 import ArialBoldItalic from 'assets/fonts/uploads/arial-bold-italic.ttf'
 import ArialNarrowBoldItalic from 'assets/fonts/uploads/arial-narrow-bold-italic.ttf'
 import PropTypes from 'prop-types'
+import PdsDocDateFormatter from 'functions/PdsDocDateFormatter'
 
 const styles = StyleSheet.create({
   lineContainer: {
@@ -98,7 +99,7 @@ Font.register({
 })
 
 const FamilyBackgroundPdf = props => {
-  const { formatDate, spouse, parents, childrenInfo } = props
+  const { spouse, parents, childrenInfo } = props
   const [emptyChildRows, setEmptyChildRows] = useState(12)
 
   const renderChildrenRows = () => {
@@ -110,7 +111,7 @@ const FamilyBackgroundPdf = props => {
 
         <View style={[styles.inputValue, styles.w35]}>
           <Text style={{ textAlign: 'center' }}>
-            {formatDate(child.birthDate)}
+            {PdsDocDateFormatter(child.birthDate)}
           </Text>
         </View>
       </View>
@@ -376,7 +377,7 @@ const FamilyBackgroundPdf = props => {
 
           {/* Line 46 Mother's Maiden Name  */}
           <View style={[styles.borderTop, { flexDirection: 'row' }]}>
-            <View style={[styles.borderRight, styles.inputKey, styles.w29_9]}>
+            <View style={[styles.inputKey, styles.w29_9]}>
               <Text>25. MOTHER&#39;S MAIDEN NAME</Text>
             </View>
 
@@ -385,7 +386,7 @@ const FamilyBackgroundPdf = props => {
                 styles.borderRight,
                 styles.inputValue,
                 styles.w70_1,
-                { padding: '4 8' },
+                { padding: '4 8', backgroundColor: '#EAEAEA' },
               ]}
             >
               <Text></Text>
@@ -458,7 +459,7 @@ const FamilyBackgroundPdf = props => {
             </View>
 
             <View style={[styles.inputKey, styles.w35]}>
-              <Text>DATE OF BIRTH (mm/dd/yyyy)</Text>
+              <Text>DATE OF BIRTH (dd/mm/yyyy)</Text>
             </View>
           </View>
 
@@ -488,7 +489,6 @@ FamilyBackgroundPdf.propTypes = {
       birthDate: PropTypes.string.isRequired,
     })
   ).isRequired,
-  formatDate: PropTypes.func.isRequired,
 }
 
 export default FamilyBackgroundPdf
