@@ -10,7 +10,7 @@ import ArialBoldItalic from 'assets/fonts/uploads/arial-bold-italic.ttf'
 import ArialNarrowBoldItalic from 'assets/fonts/uploads/arial-narrow-bold-italic.ttf'
 import PropTypes from 'prop-types'
 import { isEmpty } from 'lodash'
-import { chunkSubstr } from 'pages/PdfCreator/EmployeePersonalDataSheet/PdsDocument'
+import ChunkSubstr from 'functions/ChunkSubstr'
 
 const styles = StyleSheet.create({
   lineContainer: {
@@ -343,7 +343,7 @@ const EducationalBackgroundPdf = props => {
           ]}
         >
           <View style={[styles.verticalCenter]}>
-            <Text hyphenationCallback={e => chunkSubstr(e)}>
+            <Text hyphenationCallback={e => ChunkSubstr(e)}>
               {elementary.awards || 'N/A'}
             </Text>
           </View>
@@ -455,7 +455,7 @@ const EducationalBackgroundPdf = props => {
           ]}
         >
           <View style={[styles.verticalCenter, styles.w100]}>
-            <Text hyphenationCallback={e => chunkSubstr(e)}>
+            <Text hyphenationCallback={e => ChunkSubstr(e)}>
               {secondary.awards || 'N/A'}
             </Text>
           </View>
@@ -579,7 +579,7 @@ const EducationalBackgroundPdf = props => {
                 ]}
               >
                 <View style={[styles.verticalCenter]}>
-                  <Text hyphenationCallback={e => chunkSubstr(e)}>
+                  <Text hyphenationCallback={e => ChunkSubstr(e)}>
                     {vocation.awards || 'N/A'}
                   </Text>
                 </View>
@@ -805,7 +805,7 @@ const EducationalBackgroundPdf = props => {
                 ]}
               >
                 <View style={[styles.verticalCenter]}>
-                  <Text hyphenationCallback={e => chunkSubstr(e)}>
+                  <Text hyphenationCallback={e => ChunkSubstr(e)}>
                     {college.awards || 'N/A'}
                   </Text>
                 </View>
@@ -1031,7 +1031,7 @@ const EducationalBackgroundPdf = props => {
                 ]}
               >
                 <View style={[styles.verticalCenter]}>
-                  <Text hyphenationCallback={e => chunkSubstr(e)}>
+                  <Text hyphenationCallback={e => ChunkSubstr(e)}>
                     {graduate.awards || 'N/A'}
                   </Text>
                 </View>

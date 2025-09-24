@@ -10,6 +10,7 @@ import ArialBoldItalic from 'assets/fonts/uploads/arial-bold-italic.ttf'
 import ArialNarrowBoldItalic from 'assets/fonts/uploads/arial-narrow-bold-italic.ttf'
 import CalibriBoldItalic from 'assets/fonts/uploads/calibri-bold-italic.ttf'
 import PropTypes from 'prop-types'
+import PdsDocDateFormatter from 'functions/PdsDocDateFormatter'
 
 const styles = StyleSheet.create({
   lineContainer: {
@@ -109,7 +110,6 @@ Font.register({
 
 const PersonalInformationPdf = props => {
   const {
-    formatDate,
     personalInfo,
     permanentAddress,
     residentialAddress,
@@ -185,7 +185,7 @@ const PersonalInformationPdf = props => {
           </View>
 
           <View style={[styles.borderRight, styles.inputValue, styles.w59_3]}>
-            <Text>{formatDate(personalInfo.birthDate)}</Text>
+            <Text>{PdsDocDateFormatter(personalInfo.birthDate)}</Text>
           </View>
         </View>
 
@@ -1329,7 +1329,6 @@ PersonalInformationPdf.propTypes = {
   permanentAddress: PropTypes.object.isRequired,
   residentialAddress: PropTypes.object.isRequired,
   governmentIssuedIds: PropTypes.object.isRequired,
-  formatDate: PropTypes.func.isRequired,
 }
 
 export default PersonalInformationPdf

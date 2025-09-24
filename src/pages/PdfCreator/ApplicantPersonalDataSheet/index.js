@@ -93,7 +93,6 @@ const ApplicantPersonalDataSheetPdf = () => {
             ) : (
               <PDFViewer width={'100%'} height={800} showToolbar>
                 <PdsDocument
-                  formatDate={formatDate}
                   personalInfo={personalInfo}
                   permanentAddress={permanentAddress}
                   residentialAddress={residentialAddress}

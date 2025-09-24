@@ -9,6 +9,7 @@ import ArialNarrowBold from 'assets/fonts/uploads/arial-narrow-bold.ttf'
 import ArialBoldItalic from 'assets/fonts/uploads/arial-bold-italic.ttf'
 import ArialNarrowBoldItalic from 'assets/fonts/uploads/arial-narrow-bold-italic.ttf'
 import PropTypes from 'prop-types'
+import PdsDocDateFormatter from 'functions/PdsDocDateFormatter'
 
 const styles = StyleSheet.create({
   lineContainer: {
@@ -98,7 +99,7 @@ Font.register({
 })
 
 const FamilyBackgroundPdf = props => {
-  const { formatDate, spouse, parents, childrenInfo } = props
+  const { spouse, parents, childrenInfo } = props
   const [emptyChildRows, setEmptyChildRows] = useState(12)
 
   const renderChildrenRows = () => {
@@ -110,7 +111,7 @@ const FamilyBackgroundPdf = props => {
 
         <View style={[styles.inputValue, styles.w35]}>
           <Text style={{ textAlign: 'center' }}>
-            {formatDate(child.birthDate)}
+            {PdsDocDateFormatter(child.birthDate)}
           </Text>
         </View>
       </View>
@@ -488,7 +489,6 @@ FamilyBackgroundPdf.propTypes = {
       birthDate: PropTypes.string.isRequired,
     })
   ).isRequired,
-  formatDate: PropTypes.func.isRequired,
 }
 
 export default FamilyBackgroundPdf
