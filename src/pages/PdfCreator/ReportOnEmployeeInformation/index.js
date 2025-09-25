@@ -1,22 +1,21 @@
 /* eslint-disable react/jsx-no-undef */
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Can } from 'casl/Can'
 import { Navigate, useParams } from 'react-router-dom'
-
 import { useSelector } from 'react-redux'
-
 import { Container } from 'reactstrap'
 import { PDFViewer } from '@react-pdf/renderer'
 import ReportOnEmployeeInfoPdf from './EmployeeDetailsDocument'
 import { fetchEmployeeDetailsReport } from 'store/actions'
 import { useDispatch } from 'react-redux'
-
 import { Card, CardBody, Col, Row } from 'reactstrap'
 import Breadcrumbs from 'components/Common/Breadcrumb'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const ReportOnEmployeeInfo = () => {
+  const [filterState, setFilterState] = useState({})
+
   const {
     company_id,
     nature_of_appointment,
@@ -80,6 +79,7 @@ const ReportOnEmployeeInfo = () => {
       amount: amount,
     }
 
+    setFilterState(filters)
     dispatch(fetchEmployeeDetailsReport(filters))
   }, [])
 
@@ -114,6 +114,7 @@ const ReportOnEmployeeInfo = () => {
                           <PDFViewer width={'100%'} height={700} showToolbar>
                             <ReportOnEmployeeInfoPdf
                               employeeDetails={employeeDetails}
+                              filterState={filterState}
                             />
                           </PDFViewer>
                         )}

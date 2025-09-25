@@ -3,19 +3,6 @@ import PropTypes from 'prop-types'
 import { isEmpty } from 'lodash'
 import { Page, Text, View, Document, Svg, Path } from '@react-pdf/renderer'
 import { styles } from 'pages/PdfCreator/EmployeePersonalDataSheet/PdsStyleSheet'
-
-import PersonalInformationPdf from 'components/PdfDocuments/PersonalDataSheet/Employee/PersonalInformationPdf'
-import FamilyBackgroundPdf from 'components/PdfDocuments/PersonalDataSheet/Employee/FamilyBackgroundPdf'
-import EducationalBackgroundPdf from 'components/PdfDocuments/PersonalDataSheet/Employee/EducationalBackgroundPdf'
-import EligibilityPdf from 'components/PdfDocuments/PersonalDataSheet/Employee/EligibilityPdf'
-import WorkExperiencePdf from 'components/PdfDocuments/PersonalDataSheet/Employee/WorkExperiencePdf'
-import VoluntaryWorkPdf from 'components/PdfDocuments/PersonalDataSheet/Employee/VoluntaryWorkPdf'
-import LearningAndDevelopmentPdf from 'components/PdfDocuments/PersonalDataSheet/Employee/LearningAndDevelopmentPdf'
-import OtherInformationPdf from 'components/PdfDocuments/PersonalDataSheet/Employee/OtherInformationPdf'
-import QuestionsPdf from 'components/PdfDocuments/PersonalDataSheet/Employee/QuestionsPdf'
-import SignatureDate from 'components/PdfDocuments/PersonalDataSheet/Employee/SignatureDate'
-import FooterPdf from 'components/PdfDocuments/PersonalDataSheet/Employee/FooterPdf'
-
 import {
   renderChildrenExtraPage,
   renderVocationalExtraPage,
@@ -34,6 +21,18 @@ import {
   renderRecognitionExtraPage,
   renderMembershipExtraPage,
 } from 'functions/PdsRenderExtraPage'
+
+import PersonalInformationPdf from 'components/PdfDocuments/PersonalDataSheet/Employee/PersonalInformationPdf'
+import FamilyBackgroundPdf from 'components/PdfDocuments/PersonalDataSheet/Employee/FamilyBackgroundPdf'
+import EducationalBackgroundPdf from 'components/PdfDocuments/PersonalDataSheet/Employee/EducationalBackgroundPdf'
+import EligibilityPdf from 'components/PdfDocuments/PersonalDataSheet/Employee/EligibilityPdf'
+import WorkExperiencePdf from 'components/PdfDocuments/PersonalDataSheet/Employee/WorkExperiencePdf'
+import VoluntaryWorkPdf from 'components/PdfDocuments/PersonalDataSheet/Employee/VoluntaryWorkPdf'
+import LearningAndDevelopmentPdf from 'components/PdfDocuments/PersonalDataSheet/Employee/LearningAndDevelopmentPdf'
+import OtherInformationPdf from 'components/PdfDocuments/PersonalDataSheet/Employee/OtherInformationPdf'
+import QuestionsPdf from 'components/PdfDocuments/PersonalDataSheet/Employee/QuestionsPdf'
+import SignatureDate from 'components/PdfDocuments/PersonalDataSheet/Employee/SignatureDate'
+import FooterPdf from 'components/PdfDocuments/PersonalDataSheet/Employee/FooterPdf'
 
 // Create Document Component
 const PdsDocument = props => {

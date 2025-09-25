@@ -30,10 +30,14 @@ const workstations = ['Office', 'Field']
 
 const supervisorManagers = [
   'Supervising Industrial Relations Development Officer A',
+  'Quality Assurance Chief',
+  'Cashiering Services Chief A',
+  'Watershed Management Chief',
   'Division Manager A',
   'Department Manager A',
   'Assistant General Manager',
   'General Manager',
+  'Board of Directors',
 ]
 
 const appointmentTypes = [
