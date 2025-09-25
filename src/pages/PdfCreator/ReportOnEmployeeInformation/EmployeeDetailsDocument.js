@@ -13,7 +13,6 @@ import Header from 'components/PdfDocuments/EmployeeDetails/Header'
 // Fonts
 import CalibriRegular from 'assets/fonts/uploads/calibri-regular.ttf'
 import CalibriRegularBold from 'assets/fonts/uploads/calibri-regular-bold.ttf'
-import { isEmpty } from 'lodash'
 
 const styles = StyleSheet.create({
   page: {
@@ -74,24 +73,17 @@ const styles = StyleSheet.create({
   // Field Styles
   documentTitle: {
     fontFamily: 'CalibriRegularBold',
-    fontSize: 18,
+    fontSize: 16,
     marginBottom: 10,
     textAlign: 'center',
   },
-  headerText: {
-    fontFamily: 'CalibriRegularBold',
-    textDecoration: 'underline',
-    fontSize: 11,
-    marginTop: 15,
-    marginBottom: 4,
-  },
   bodyText: {
     fontFamily: 'CalibriRegular',
-    fontSize: 10,
+    fontSize: 9.8,
   },
   bodyTextBold: {
     fontFamily: 'CalibriRegularBold',
-    fontSize: 10,
+    fontSize: 9.8,
   },
   upperCase: {
     textTransform: 'uppercase',
@@ -129,7 +121,10 @@ const styles = StyleSheet.create({
   w12: { width: '12%' },
   w10: { width: '10%' },
   w8: { width: '8%' },
+  w7: { width: '7%' },
+  w6: { width: '6%' },
   w5: { width: '5%' },
+  w4: { width: '4%' },
   w3: { width: '3%' },
 })
 
@@ -143,9 +138,7 @@ Font.register({
   src: CalibriRegularBold,
 })
 
-const ReportOnEmployeeInfoPdf = ({ employeeDetails }) => {
-  if (isEmpty(employeeDetails)) return null
-
+const ReportOnEmployeeInfoPdf = ({ employeeDetails, filterState }) => {
   const chunkSubstr = word => {
     const middle = Math.floor(word.length / 2)
     const parts =
@@ -161,21 +154,16 @@ const ReportOnEmployeeInfoPdf = ({ employeeDetails }) => {
   )?.companyId
 
   const defaultDetails = {
-    firstName: employeeDetails.find(employee => employee.firstName)?.firstName,
-    middleName: employeeDetails.find(employee => employee.middleName)
-      ?.middleName,
-    lastName: employeeDetails.find(employee => employee.lastName)?.lastName,
     fullName: employeeDetails.find(employee => employee.fullName)?.fullName,
-    nameExt: employeeDetails.find(employee => employee.nameExt)?.nameExt,
     natureOfAppointment: employeeDetails.find(
       employee => employee.natureOfAppointment
     )?.natureOfAppointment,
-    email: employeeDetails.find(employee => employee.email)?.email,
   }
 
   const personalDetails = {
     sex: employeeDetails.find(employee => employee.sex)?.sex,
     birthDate: employeeDetails.find(employee => employee.birthDate)?.birthDate,
+    email: employeeDetails.find(employee => employee.email)?.email,
     height: employeeDetails.find(employee => employee.height)?.height,
     weight: employeeDetails.find(employee => employee.weight)?.weight,
     bloodType: employeeDetails.find(employee => employee.bloodType)?.bloodType,
@@ -191,48 +179,43 @@ const ReportOnEmployeeInfoPdf = ({ employeeDetails }) => {
   const positionTitle = employeeDetails.find(
     employee => employee.positionTitle
   )?.positionTitle
-
   const assignment = employeeDetails.find(
     employee => employee.assignment
   )?.assignment
+
   const office = employeeDetails.find(employee => employee.office)?.office
   const department = employeeDetails.find(
     employee => employee.department
   )?.department
   const division = employeeDetails.find(employee => employee.division)?.division
 
-  const gsis = employeeDetails.find(employee => employee.gsis)?.gsis
-  const pagibig = employeeDetails.find(employee => employee.pagibig)?.pagibig
-  const sss = employeeDetails.find(employee => employee.sss)?.sss
-  const philhealth = employeeDetails.find(
-    employee => employee.philhealth
-  )?.philhealth
-  const tin = employeeDetails.find(employee => employee.tin)?.tin
-
+  const residentialAddress = employeeDetails.find(
+    employee => employee.residentialAddress
+  )?.residentialAddress
   const permanentAddress = employeeDetails.find(
     employee => employee.permanentAddress
   )?.permanentAddress
 
-  const residentialAddress = employeeDetails.find(
-    employee => employee.residentialAddress
-  )?.residentialAddress
+  const gsis = employeeDetails.find(employee => employee.gsis)?.gsis
+  const pagibig = employeeDetails.find(employee => employee.pagibig)?.pagibig
+  const philhealth = employeeDetails.find(
+    employee => employee.philhealth
+  )?.philhealth
+  const sss = employeeDetails.find(employee => employee.sss)?.sss
+  const tin = employeeDetails.find(employee => employee.tin)?.tin
 
   const primaryEducation = employeeDetails.find(
     employee => employee.primaryEducation
   )?.primaryEducation
-
   const secondaryEducation = employeeDetails.find(
     employee => employee.secondaryEducation
   )?.secondaryEducation
-
   const vocationalCourse = employeeDetails.find(
     employee => employee.vocationalCourse
   )?.vocationalCourse
-
   const collegeEducation = employeeDetails.find(
     employee => employee.collegeEducation
   )?.collegeEducation
-
   const graduateStudies = employeeDetails.find(
     employee => employee.graduateStudies
   )?.graduateStudies
@@ -260,13 +243,14 @@ const ReportOnEmployeeInfoPdf = ({ employeeDetails }) => {
       <>
         <View style={[styles.rowContainerTable, styles.borderAll]}>
           {/* header for index */}
-          <View style={[styles.w5, styles.borderRight]}>
+          <View style={[styles.w4, styles.borderRight]}>
             <Text
               style={[styles.horizontalCenter, styles.verticalCenter]}
             ></Text>
           </View>
+
           {/* Company ID */}
-          {companyId ? (
+          {filterState.company_id === 'true' ? (
             <View style={[styles.w12, styles.borderRight]}>
               <Text
                 style={[
@@ -281,19 +265,33 @@ const ReportOnEmployeeInfoPdf = ({ employeeDetails }) => {
           ) : null}
 
           {/* defaultDetails */}
-          {['fullName', 'natureOfAppointment', 'email'].map(key =>
-            defaultDetails[key] !== undefined ? (
-              <View
-                key={key}
-                style={[
-                  key === 'email'
-                    ? styles.w26
-                    : key === 'fullName'
-                    ? styles.w16
-                    : styles.w14,
-                  styles.borderRight,
-                ]}
-              >
+          <View style={[styles.w16, styles.borderRight]}>
+            <Text
+              style={[
+                styles.horizontalCenter,
+                styles.verticalCenter,
+                styles.tHeadFirstLevel,
+              ]}
+            >
+              Full Name
+            </Text>
+          </View>
+          <View style={[styles.w14, styles.borderRight]}>
+            <Text
+              style={[
+                styles.horizontalCenter,
+                styles.verticalCenter,
+                styles.tHeadFirstLevel,
+              ]}
+            >
+              Nature of Appointment
+            </Text>
+          </View>
+
+          {/* personalDetails */}
+          {filterState.personal_details === 'true' ? (
+            <>
+              <View style={[styles.w26, styles.borderRight]}>
                 <Text
                   style={[
                     styles.horizontalCenter,
@@ -301,17 +299,99 @@ const ReportOnEmployeeInfoPdf = ({ employeeDetails }) => {
                     styles.tHeadFirstLevel,
                   ]}
                 >
-                  {key === 'fullName'
-                    ? 'Full Name'
-                    : key === 'natureOfAppointment'
-                    ? 'Nature of Appointment'
-                    : key === 'email'
-                    ? 'E-mail Address'
-                    : null}
+                  E-mail Address
                 </Text>
               </View>
-            ) : null
-          )}
+              <View style={[styles.w6, styles.borderRight]}>
+                <Text
+                  style={[
+                    styles.horizontalCenter,
+                    styles.verticalCenter,
+                    styles.tHeadFirstLevel,
+                  ]}
+                >
+                  Sex
+                </Text>
+              </View>
+              <View style={[styles.w5, styles.borderRight]}>
+                <Text
+                  style={[
+                    styles.horizontalCenter,
+                    styles.verticalCenter,
+                    styles.tHeadFirstLevel,
+                  ]}
+                >
+                  Age
+                </Text>
+              </View>
+              <View style={[styles.w14, styles.borderRight]}>
+                <Text
+                  style={[
+                    styles.horizontalCenter,
+                    styles.verticalCenter,
+                    styles.tHeadFirstLevel,
+                  ]}
+                >
+                  Birthdate
+                </Text>
+              </View>
+              <View style={[styles.w14, styles.borderRight]}>
+                <Text
+                  style={[
+                    styles.horizontalCenter,
+                    styles.verticalCenter,
+                    styles.tHeadFirstLevel,
+                  ]}
+                >
+                  Birthplace
+                </Text>
+              </View>
+              <View style={[styles.w6, styles.borderRight]}>
+                <Text
+                  style={[
+                    styles.horizontalCenter,
+                    styles.verticalCenter,
+                    styles.tHeadFirstLevel,
+                  ]}
+                >
+                  Height
+                </Text>
+              </View>
+              <View style={[styles.w6, styles.borderRight]}>
+                <Text
+                  style={[
+                    styles.horizontalCenter,
+                    styles.verticalCenter,
+                    styles.tHeadFirstLevel,
+                  ]}
+                >
+                  Weight
+                </Text>
+              </View>
+              <View style={[styles.w6, styles.borderRight]}>
+                <Text
+                  style={[
+                    styles.horizontalCenter,
+                    styles.verticalCenter,
+                    styles.tHeadFirstLevel,
+                  ]}
+                >
+                  Blood Type
+                </Text>
+              </View>
+              <View style={[styles.w10, styles.borderRight]}>
+                <Text
+                  style={[
+                    styles.horizontalCenter,
+                    styles.verticalCenter,
+                    styles.tHeadFirstLevel,
+                  ]}
+                >
+                  Civil Status
+                </Text>
+              </View>
+            </>
+          ) : null}
 
           {/* Date Hired */}
           {dateHired ? (
@@ -327,7 +407,6 @@ const ReportOnEmployeeInfoPdf = ({ employeeDetails }) => {
               </Text>
             </View>
           ) : null}
-
           {/* Position Title */}
           {positionTitle ? (
             <View style={[styles.w15, styles.borderRight]}>
@@ -342,7 +421,6 @@ const ReportOnEmployeeInfoPdf = ({ employeeDetails }) => {
               </Text>
             </View>
           ) : null}
-
           {/* Assignment */}
           {assignment ? (
             <View style={[styles.w20, styles.borderRight]}>
@@ -372,7 +450,6 @@ const ReportOnEmployeeInfoPdf = ({ employeeDetails }) => {
               </Text>
             </View>
           ) : null}
-
           {/* Department */}
           {department ? (
             <View style={[styles.w20, styles.borderRight]}>
@@ -387,7 +464,6 @@ const ReportOnEmployeeInfoPdf = ({ employeeDetails }) => {
               </Text>
             </View>
           ) : null}
-
           {/* Division */}
           {division ? (
             <View style={[styles.w20, styles.borderRight]}>
@@ -399,128 +475,6 @@ const ReportOnEmployeeInfoPdf = ({ employeeDetails }) => {
                 ]}
               >
                 Division
-              </Text>
-            </View>
-          ) : null}
-
-          {/* personalDetails */}
-          {[
-            'sex',
-            'birthDate',
-            'height',
-            'weight',
-            'bloodType',
-            'birthPlace',
-            'civilStatus',
-          ].map(key =>
-            personalDetails[key] ? (
-              <View
-                key={key}
-                style={[
-                  key === 'sex'
-                    ? styles.w8
-                    : key === 'height'
-                    ? styles.w8
-                    : key === 'weight'
-                    ? styles.w8
-                    : key === 'bloodType'
-                    ? styles.w10
-                    : key === 'civilStatus'
-                    ? styles.w10
-                    : styles.w14,
-                  styles.borderRight,
-                ]}
-              >
-                <Text
-                  style={[
-                    styles.horizontalCenter,
-                    styles.verticalCenter,
-                    styles.tHeadFirstLevel,
-                  ]}
-                >
-                  {key === 'sex'
-                    ? 'Sex'
-                    : key === 'birthDate'
-                    ? 'Birthdate'
-                    : key === 'height'
-                    ? 'Height'
-                    : key === 'weight'
-                    ? 'Weight'
-                    : key === 'bloodType'
-                    ? 'Blood Type'
-                    : key === 'birthPlace'
-                    ? 'Birthplace'
-                    : key === 'civilStatus'
-                    ? 'Civil Status'
-                    : null}
-                </Text>
-              </View>
-            ) : null
-          )}
-
-          {/* govt headers */}
-          {gsis ? (
-            <View style={[styles.w14, styles.borderRight]}>
-              <Text
-                style={[
-                  styles.horizontalCenter,
-                  styles.verticalCenter,
-                  styles.tHeadFirstLevel,
-                ]}
-              >
-                GSIS
-              </Text>
-            </View>
-          ) : null}
-          {pagibig ? (
-            <View style={[styles.w14, styles.borderRight]}>
-              <Text
-                style={[
-                  styles.horizontalCenter,
-                  styles.verticalCenter,
-                  styles.tHeadFirstLevel,
-                ]}
-              >
-                PAGIBIG
-              </Text>
-            </View>
-          ) : null}
-          {sss ? (
-            <View style={[styles.w14, styles.borderRight]}>
-              <Text
-                style={[
-                  styles.horizontalCenter,
-                  styles.verticalCenter,
-                  styles.tHeadFirstLevel,
-                ]}
-              >
-                SSS
-              </Text>
-            </View>
-          ) : null}
-          {philhealth ? (
-            <View style={[styles.w14, styles.borderRight]}>
-              <Text
-                style={[
-                  styles.horizontalCenter,
-                  styles.verticalCenter,
-                  styles.tHeadFirstLevel,
-                ]}
-              >
-                PhilHealth
-              </Text>
-            </View>
-          ) : null}
-          {tin ? (
-            <View style={[styles.w14, styles.borderRight]}>
-              <Text
-                style={[
-                  styles.horizontalCenter,
-                  styles.verticalCenter,
-                  styles.tHeadFirstLevel,
-                ]}
-              >
-                TIN
               </Text>
             </View>
           ) : null}
@@ -549,6 +503,75 @@ const ReportOnEmployeeInfoPdf = ({ employeeDetails }) => {
                 ]}
               >
                 Residential Address
+              </Text>
+            </View>
+          ) : null}
+
+          {/* govt headers */}
+          {gsis ? (
+            <View style={[styles.w14, styles.borderRight]}>
+              <Text
+                style={[
+                  styles.horizontalCenter,
+                  styles.verticalCenter,
+                  styles.tHeadFirstLevel,
+                ]}
+              >
+                GSIS
+                {/* UMID ID */}
+              </Text>
+            </View>
+          ) : null}
+          {pagibig ? (
+            <View style={[styles.w14, styles.borderRight]}>
+              <Text
+                style={[
+                  styles.horizontalCenter,
+                  styles.verticalCenter,
+                  styles.tHeadFirstLevel,
+                ]}
+              >
+                PAGIBIG
+              </Text>
+            </View>
+          ) : null}
+          {philhealth ? (
+            <View style={[styles.w14, styles.borderRight]}>
+              <Text
+                style={[
+                  styles.horizontalCenter,
+                  styles.verticalCenter,
+                  styles.tHeadFirstLevel,
+                ]}
+              >
+                PhilHealth
+              </Text>
+            </View>
+          ) : null}
+          {sss ? (
+            <View style={[styles.w14, styles.borderRight]}>
+              <Text
+                style={[
+                  styles.horizontalCenter,
+                  styles.verticalCenter,
+                  styles.tHeadFirstLevel,
+                ]}
+              >
+                SSS
+                {/* PhilSys No. / PSN */}
+              </Text>
+            </View>
+          ) : null}
+          {tin ? (
+            <View style={[styles.w14, styles.borderRight]}>
+              <Text
+                style={[
+                  styles.horizontalCenter,
+                  styles.verticalCenter,
+                  styles.tHeadFirstLevel,
+                ]}
+              >
+                TIN
               </Text>
             </View>
           ) : null}
@@ -678,14 +701,14 @@ const ReportOnEmployeeInfoPdf = ({ employeeDetails }) => {
           wrap={false}
         >
           {/* number */}
-          <View style={[styles.w5, styles.tData, styles.borderRight]}>
+          <View style={[styles.w4, styles.tData, styles.borderRight]}>
             <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
               {index + 1}
             </Text>
           </View>
 
           {/* company id */}
-          {companyId ? (
+          {filterState.company_id === 'true' ? (
             <View style={[styles.w12, styles.tData, styles.borderRight]}>
               <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
                 {employee.companyId || 'N/A'}
@@ -694,30 +717,70 @@ const ReportOnEmployeeInfoPdf = ({ employeeDetails }) => {
           ) : null}
 
           {/* defaultDetails */}
-          {defaultDetails.fullName ? (
-            <View style={[styles.w16, styles.tData, styles.borderRight]}>
-              <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
-                {employee.fullName || 'N/A'}
-              </Text>
-            </View>
-          ) : null}
-          {defaultDetails.natureOfAppointment ? (
-            <View style={[styles.w14, styles.tData, styles.borderRight]}>
-              <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
-                {employee.natureOfAppointment.charAt(0).toUpperCase() +
-                  employee.natureOfAppointment.slice(1) || 'N/A'}
-              </Text>
-            </View>
-          ) : null}
-          {defaultDetails.email ? (
-            <View style={[styles.w26, styles.tData, styles.borderRight]}>
-              <Text
-                style={[styles.horizontalCenter, styles.verticalCenter]}
-                hyphenationCallback={e => chunkSubstr(e)}
-              >
-                {employee.email || 'N/A'}
-              </Text>
-            </View>
+          <View style={[styles.w16, styles.tData, styles.borderRight]}>
+            <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
+              {employee.fullName || 'N/A'}
+            </Text>
+          </View>
+          <View style={[styles.w14, styles.tData, styles.borderRight]}>
+            <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
+              {employee.natureOfAppointment.charAt(0).toUpperCase() +
+                employee.natureOfAppointment.slice(1) || 'N/A'}
+            </Text>
+          </View>
+
+          {/* personalDetails */}
+          {filterState.personal_details === 'true' ? (
+            <>
+              <View style={[styles.w26, styles.tData, styles.borderRight]}>
+                <Text
+                  style={[styles.horizontalCenter, styles.verticalCenter]}
+                  hyphenationCallback={e => chunkSubstr(e)}
+                >
+                  {employee.email || 'N/A'}
+                </Text>
+              </View>
+              <View style={[styles.w6, styles.tData, styles.borderRight]}>
+                <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
+                  {employee.sex || 'N/A'}
+                </Text>
+              </View>
+              <View style={[styles.w5, styles.tData, styles.borderRight]}>
+                <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
+                  {employee.age || 'N/A'}
+                </Text>
+              </View>
+              <View style={[styles.w14, styles.tData, styles.borderRight]}>
+                <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
+                  {employee.birthDate || 'N/A'}
+                </Text>
+              </View>
+              <View style={[styles.w14, styles.tData, styles.borderRight]}>
+                <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
+                  {employee.birthPlace || 'N/A'}
+                </Text>
+              </View>
+              <View style={[styles.w6, styles.tData, styles.borderRight]}>
+                <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
+                  {employee.height || 'N/A'}
+                </Text>
+              </View>
+              <View style={[styles.w6, styles.tData, styles.borderRight]}>
+                <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
+                  {employee.weight || 'N/A'}
+                </Text>
+              </View>
+              <View style={[styles.w6, styles.tData, styles.borderRight]}>
+                <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
+                  {employee.bloodType || 'N/A'}
+                </Text>
+              </View>
+              <View style={[styles.w10, styles.tData, styles.borderRight]}>
+                <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
+                  {employee.civilStatus || 'N/A'}
+                </Text>
+              </View>
+            </>
           ) : null}
 
           {/* dateHired */}
@@ -728,7 +791,6 @@ const ReportOnEmployeeInfoPdf = ({ employeeDetails }) => {
               </Text>
             </View>
           ) : null}
-
           {/* positionTitle */}
           {positionTitle ? (
             <View style={[styles.w15, styles.tData, styles.borderRight]}>
@@ -737,7 +799,6 @@ const ReportOnEmployeeInfoPdf = ({ employeeDetails }) => {
               </Text>
             </View>
           ) : null}
-
           {/* assignment */}
           {assignment ? (
             <View style={[styles.w20, styles.tData, styles.borderRight]}>
@@ -755,7 +816,6 @@ const ReportOnEmployeeInfoPdf = ({ employeeDetails }) => {
               </Text>
             </View>
           ) : null}
-
           {/* department */}
           {department ? (
             <View style={[styles.w20, styles.tData, styles.borderRight]}>
@@ -764,63 +824,11 @@ const ReportOnEmployeeInfoPdf = ({ employeeDetails }) => {
               </Text>
             </View>
           ) : null}
-
           {/* division */}
           {division ? (
             <View style={[styles.w20, styles.tData, styles.borderRight]}>
               <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
                 {employee.division || 'N/A'}
-              </Text>
-            </View>
-          ) : null}
-
-          {/* personalDetails */}
-          {personalDetails.sex ? (
-            <View style={[styles.w8, styles.tData, styles.borderRight]}>
-              <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
-                {employee.sex || 'N/A'}
-              </Text>
-            </View>
-          ) : null}
-          {personalDetails.birthDate ? (
-            <View style={[styles.w14, styles.tData, styles.borderRight]}>
-              <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
-                {employee.birthDate || 'N/A'}
-              </Text>
-            </View>
-          ) : null}
-          {personalDetails.height ? (
-            <View style={[styles.w8, styles.tData, styles.borderRight]}>
-              <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
-                {employee.height || 'N/A'}
-              </Text>
-            </View>
-          ) : null}
-          {personalDetails.weight ? (
-            <View style={[styles.w8, styles.tData, styles.borderRight]}>
-              <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
-                {employee.weight || 'N/A'}
-              </Text>
-            </View>
-          ) : null}
-          {personalDetails.bloodType ? (
-            <View style={[styles.w10, styles.tData, styles.borderRight]}>
-              <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
-                {employee.bloodType || 'N/A'}
-              </Text>
-            </View>
-          ) : null}
-          {personalDetails.birthPlace ? (
-            <View style={[styles.w14, styles.tData, styles.borderRight]}>
-              <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
-                {employee.birthPlace || 'N/A'}
-              </Text>
-            </View>
-          ) : null}
-          {personalDetails.civilStatus ? (
-            <View style={[styles.w10, styles.tData, styles.borderRight]}>
-              <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
-                {employee.civilStatus || 'N/A'}
               </Text>
             </View>
           ) : null}
@@ -972,5 +980,31 @@ const ReportOnEmployeeInfoPdf = ({ employeeDetails }) => {
 
 ReportOnEmployeeInfoPdf.propTypes = {
   employeeDetails: PropTypes.arrayOf(PropTypes.object).isRequired,
+  filterState: PropTypes.shape({
+    company_id: PropTypes.string.isRequired,
+    nature_of_appointment: PropTypes.string.isRequired,
+    personal_details: PropTypes.string.isRequired,
+    date_hired: PropTypes.string.isRequired,
+    position_title: PropTypes.string.isRequired,
+    assignment: PropTypes.string.isRequired,
+    office: PropTypes.string.isRequired,
+    department: PropTypes.string.isRequired,
+    division: PropTypes.string.isRequired,
+    residential_address: PropTypes.string.isRequired,
+    permanent_address: PropTypes.string.isRequired,
+    gsis: PropTypes.string.isRequired,
+    pagibig: PropTypes.string.isRequired,
+    philhealth: PropTypes.string.isRequired,
+    sss: PropTypes.string.isRequired,
+    tin: PropTypes.string.isRequired,
+    primary_education: PropTypes.string.isRequired,
+    secondary_education: PropTypes.string.isRequired,
+    vocational_course: PropTypes.string.isRequired,
+    college_education: PropTypes.string.isRequired,
+    graduate_studies: PropTypes.string.isRequired,
+    eligibility: PropTypes.string.isRequired,
+    salary_grade: PropTypes.string.isRequired,
+    amount: PropTypes.string.isRequired,
+  }).isRequired,
 }
 export default ReportOnEmployeeInfoPdf
