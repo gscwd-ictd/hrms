@@ -1,21 +1,22 @@
-import React, { useState } from "react"
+import React, { useState } from 'react'
 
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types'
 
-import { Table } from "reactstrap"
+import { Table } from 'reactstrap'
 import {
   useFilters,
   useGlobalFilter,
   usePagination,
   useTable,
-} from "react-table"
-import { GlobalFilter } from "components/Filters/GlobalFilter"
-import { Button } from "reactstrap"
-import PrintResultsOfHiring from "components/Modal/HiringResults/PrintResultsOfHiring"
-import PrintReportOnAppointmentsIssued from "components/Modal/HiringResults/PrintReportOnAppointmentsIssued"
+  useSortBy,
+} from 'react-table'
+import { GlobalFilter } from 'components/Filters/GlobalFilter'
+import { Button } from 'reactstrap'
+import PrintResultsOfHiring from 'components/Modal/HiringResults/PrintResultsOfHiring'
+import PrintReportOnAppointmentsIssued from 'components/Modal/HiringResults/PrintReportOnAppointmentsIssued'
 
 // style
-import "../../styles/custom_gscwd/components/table.scss"
+import '../../styles/custom_gscwd/components/table.scss'
 
 const TableHiringResults = props => {
   const { columns, data } = props
@@ -26,12 +27,13 @@ const TableHiringResults = props => {
       data,
       initialState: {
         pageIndex: 0,
-        hiddenColumns: ["vppId"],
+        hiddenColumns: ['vppId'],
         pageSize: 20,
       },
     },
     useFilters,
     useGlobalFilter,
+    useSortBy,
     usePagination
   )
   const {
@@ -77,7 +79,7 @@ const TableHiringResults = props => {
             headerGroup.headers.map(column =>
               column.Filter ? (
                 <div className="mt-2 sm:mt-0" key={column.id}>
-                  {column.render("Filter")}
+                  {column.render('Filter')}
                 </div>
               ) : null
             )
@@ -96,12 +98,23 @@ const TableHiringResults = props => {
             <tr {...headerGroup.getHeaderGroupProps()} key={hGi}>
               {headerGroup.headers.map((column, hi) => (
                 <th
-                  {...column.getHeaderProps()}
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
                   key={hi}
-                  className={"th_" + column.getHeaderProps("Header").key}
-                  style={{ textAlign: column.align ? "center" : "left" }}
+                  className={'th_' + column.getHeaderProps('Header').key}
                 >
-                  {column.render("Header")}
+                  {column.render('Header')}
+                  {/* Sort */}
+                  <span>
+                    {column.isSorted ? (
+                      column.isSortedDesc ? (
+                        <i className="bx bx-up-arrow pl-1"></i>
+                      ) : (
+                        <i className="bx bx-down-arrow pl-1"></i>
+                      )
+                    ) : (
+                      ''
+                    )}
+                  </span>
                 </th>
               ))}
             </tr>
@@ -120,7 +133,7 @@ const TableHiringResults = props => {
                       style={
                         cell.column.vertical
                           ? {
-                              verticalAlign: "middle",
+                              verticalAlign: 'middle',
                             }
                           : {}
                       }
@@ -129,13 +142,13 @@ const TableHiringResults = props => {
                         style={
                           cell.column.align
                             ? {
-                                width: "fit-content",
-                                margin: "auto",
+                                width: 'fit-content',
+                                margin: 'auto',
                               }
                             : {}
                         }
                       >
-                        <p>{cell.render("Cell")}</p>
+                        <p>{cell.render('Cell')}</p>
                       </div>
                     </td>
                   )
@@ -191,23 +204,23 @@ const TableHiringResults = props => {
               onClick={() => previousPage()}
               disabled={!canPreviousPage}
             >
-              {"Previous"}
-            </button>{" "}
+              {'Previous'}
+            </button>{' '}
             <button
               className="page-link"
               onClick={() => nextPage()}
               disabled={!canNextPage}
             >
-              {"Next"}
-            </button>{" "}
+              {'Next'}
+            </button>{' '}
           </div>
 
           {/* Page number */}
           <div className="pagenumber-container">
-            Page{" "}
+            Page{' '}
             <strong>
               {pageIndex + 1} of {pageOptions.length}
-            </strong>{" "}
+            </strong>{' '}
           </div>
 
           {/* Dropdown page size */}

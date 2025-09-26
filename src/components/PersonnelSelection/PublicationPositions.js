@@ -409,15 +409,15 @@ const PublicationPositions = () => {
               </DropdownItem>
 
               {/*  Option is available only if number of selected applicants is more than 1  */}
-              {/* {cell.row.original.numberOfSelectedApplicants > 0 ? (
-                <DropdownItem
-                  onClick={() => setAppointmentEffectivity(cell.row.values)}
-                >
-                  <Link className="dropdown-item" to="#">
-                    Set Appointment Effectivity
-                  </Link>
-                </DropdownItem>
-              ) : null} */}
+              {/* {cell.row.original.numberOfSelectedApplicants > 0 ? ( */}
+              <DropdownItem
+                onClick={() => setAppointmentEffectivity(cell.row.values)}
+              >
+                <Link className="dropdown-item" to="#">
+                  Set Appointment Effectivity
+                </Link>
+              </DropdownItem>
+              {/* ) : null} */}
             </>
           ) : null}
 
