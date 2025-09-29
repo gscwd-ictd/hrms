@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   // Field Styles
   documentTitle: {
     fontFamily: 'CalibriRegularBold',
-    fontSize: 17,
+    fontSize: 16,
     marginBottom: 10,
     textAlign: 'center',
   },
@@ -80,12 +80,12 @@ const styles = StyleSheet.create({
     fontSize: 10,
     marginVertical: 'auto',
     paddingHorizontal: 2,
-    paddingVertical: 8,
+    paddingVertical: 6,
     textAlign: 'center',
   },
   tFooterText: {
     fontFamily: 'CalibriRegular',
-    fontSize: 11,
+    fontSize: 10,
     marginVertical: 'auto',
     padding: 2,
   },
@@ -164,7 +164,7 @@ const RoHDocument = props => {
       subject="Results of Hiring Process - HRD-005-2"
       title="Results of Hiring Process"
     >
-      <Page size="A4" style={[styles.page, { padding: '10 0 10 0' }]}>
+      <Page size="A4" style={[styles.page, { padding: '10 0 5 0' }]}>
         <Header />
 
         <View style={[{ marginHorizontal: 15 }]}>
@@ -295,7 +295,7 @@ const RoHDocument = props => {
           <View wrap={false}>
             {/* Section 2 */}
             {/* REMINDER */}
-            <View style={[styles.bodyText, { paddingTop: 10 }]}>
+            <View style={[styles.bodyText, { paddingTop: 5 }]}>
               <Text>
                 FOR MORE DETAILS, PLEASE SEE THE HUMAN RESOURCE DEPARTMENT
               </Text>
@@ -306,7 +306,7 @@ const RoHDocument = props => {
             <View style={[styles.rowContainer, { paddingTop: 10 }]}>
               {/* CERTIFIED CORRECT BY */}
               <View style={[styles.w50, styles.signatureText]}>
-                <Text style={[{ padding: '4 0 0 2' }]}>
+                <Text style={[{ padding: '3 0 0 2' }]}>
                   Certified Correct by:
                 </Text>
                 {!isEmpty(
@@ -323,7 +323,7 @@ const RoHDocument = props => {
                           .fullName
                       }
                     </Text>
-                    <Text style={[{ padding: '5 0 0 2' }]}>
+                    <Text style={[{ padding: '4 0 0 2' }]}>
                       {
                         resultsOfHiringDocument.signatories.certifiedCorrectBy
                           .position
@@ -335,7 +335,7 @@ const RoHDocument = props => {
 
               {/* REVIEWED BY */}
               <View style={[styles.w50, styles.signatureText]}>
-                <Text style={[{ padding: '4 0 0 2' }]}>Approved by:</Text>
+                <Text style={[{ padding: '3 0 0 2' }]}>Approved by:</Text>
                 {!isEmpty(resultsOfHiringDocument.signatories?.approvedBy) ? (
                   <>
                     <Image
@@ -345,7 +345,7 @@ const RoHDocument = props => {
                     <Text style={[styles.signatoryName]}>
                       {resultsOfHiringDocument.signatories.approvedBy.fullName}
                     </Text>
-                    <Text style={[{ padding: '5 0 0 2' }]}>
+                    <Text style={[{ padding: '4 0 0 2' }]}>
                       {resultsOfHiringDocument.signatories.approvedBy.position}
                     </Text>
                   </>
