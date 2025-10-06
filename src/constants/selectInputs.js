@@ -50,6 +50,7 @@ const appointmentTypes = [
   'Promotion',
   'Reappointment',
   'Coterminous',
+  'Temporary',
 ]
 
 const publicationModes = [
