@@ -1593,7 +1593,7 @@ const PdDbmCscDocument = props => {
               <View style={[{ paddingTop: 5, paddingBottom: 25 }]}>
                 <Text style={[styles.bodyText]}>
                   &nbsp;&nbsp; I have received a copy of this position
-                  description. It has been discussed with me and I have frely
+                  description. It has been discussed with me and I have freely
                   choosen to comply with the performance and behavior/conduct
                   expectations contained herein.
                 </Text>
