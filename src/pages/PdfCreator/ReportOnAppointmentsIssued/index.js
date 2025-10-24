@@ -1,17 +1,17 @@
-import React, { useEffect } from "react"
-import { Can } from "casl/Can"
-import { Navigate, useParams } from "react-router-dom"
+import React, { useEffect } from 'react'
+import { Can } from 'casl/Can'
+import { Navigate, useParams } from 'react-router-dom'
 
-import { useDispatch, useSelector } from "react-redux"
-import { fetchDocumentReportOnAppointmentsIssued } from "store/actions"
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchDocumentReportOnAppointmentsIssued } from 'store/actions'
 
-import { Container } from "reactstrap"
-import { PDFViewer } from "@react-pdf/renderer"
-import RAIDocument from "./RAIDocument"
+import { Container } from 'reactstrap'
+import { PDFViewer } from '@react-pdf/renderer'
+import RAIDocument from './RAIDocument'
 
 // Extra components
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 const ReportOnAppointmentsIssuedPdf = () => {
   const dispatch = useDispatch()
@@ -39,7 +39,7 @@ const ReportOnAppointmentsIssuedPdf = () => {
             {/* Notifications */}
             {errorRAIDocument ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorRAIDocument}
               />
             ) : null}
@@ -48,7 +48,7 @@ const ReportOnAppointmentsIssuedPdf = () => {
               <LoadingIndicator />
             ) : (
               <>
-                <PDFViewer width={"100%"} height={700} showToolbar>
+                <PDFViewer width={'100%'} height={700} showToolbar>
                   <RAIDocument
                     reportOnAppointmentsIssued={reportOnAppointmentsIssued}
                     yearMonth={yearMonth}

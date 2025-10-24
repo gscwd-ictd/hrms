@@ -57,11 +57,11 @@ const Header = props => {
   const formatDate = assignedDate => dayjs(assignedDate).format('MMMM YYYY')
 
   return (
-    <View style={[styles.rowContainer]}>
+    <View style={[styles.rowContainer, { paddingBottom: 15 }]} fixed>
       {/* Top Left */}
       <View style={[styles.w35, styles.leftText]}>
         <Text>CS Form No. 2</Text>
-        <Text>Revised 2018</Text>
+        <Text>Revised 2025</Text>
       </View>
 
       {/* Center Text */}

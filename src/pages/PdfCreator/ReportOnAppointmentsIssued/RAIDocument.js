@@ -171,13 +171,13 @@ const styles = StyleSheet.create({
 
   // Sub Columns Vertical Spacings
   nameOfAppointeeCols: {
-    paddingVertical: 12,
+    paddingVertical: 14.5,
   },
   publicationCols: {
-    paddingVertical: 3.32,
+    paddingVertical: 3.4,
   },
   cscActionCols: {
-    paddingVertical: 8.25,
+    paddingVertical: 11,
   },
 
   verticalCenter: { margin: 'auto 0' },
@@ -219,6 +219,7 @@ const styles = StyleSheet.create({
   w22: { width: '22%' },
   w21: { width: '21%' },
   w20: { width: '20%' },
+  w18: { width: '18%' },
   w14_5: { width: '14.5%' },
   w14: { width: '14%' },
   w13: { width: '13%' },
@@ -228,7 +229,9 @@ const styles = StyleSheet.create({
   w10: { width: '10%' },
   w9: { width: '9%' },
   w7_59: { width: '7.59%' },
+  w7_57: { width: '7.57%' },
   w7_245: { width: '7.245%' },
+  w7_2: { width: '7.2%' },
   w7: { width: '7%' },
   w6_5: { width: '6.5%' },
   w6_1: { width: '6.1%' },
@@ -239,10 +242,16 @@ const styles = StyleSheet.create({
   w4_83: { width: '4.83%' },
   w4_73: { width: '4.73%' },
   w4_63: { width: '4.63%' },
+  w4_59: { width: '4.59%' },
+  w4_57: { width: '4.57%' },
+  w4_51: { width: '4.51%' },
   w4_5: { width: '4.5%' },
+  w4_48: { width: '4.48%' },
+  w4_45: { width: '4.45%' },
+  w4_01: { width: '4.01%' },
   w4: { width: '4%' },
   w3_5: { width: '3.5%' },
-  w3_335: { width: '3.335%' },
+  w3_33: { width: '3.33%' },
   w3: { width: '3%' },
   w2: { width: '2%' },
 })
@@ -253,7 +262,16 @@ const RAIDocument = props => {
   const renderAppointedApplicant = () => {
     var content = reportOnAppointmentsIssued.data.map(
       (appointedApplicant, index) => (
-        <View style={[styles.rowContainerTable, styles.borderTop]} key={index}>
+        <View
+          style={[
+            styles.rowContainerTable,
+            styles.borderAll,
+            // styles.borderTop,
+            // styles.borderBottom,
+          ]}
+          key={index}
+          wrap={false}
+        >
           {/* NUMBER */}
           <View style={[styles.borderRight, styles.w2]}>
             <Text style={[styles.tableBodyText]}>{index + 1}</Text>
@@ -268,28 +286,28 @@ const RAIDocument = props => {
 
           {/* START ---- NAME OF APPOINTEE/S 23% */}
           {/* LAST NAME w31_5 */}
-          <View style={[styles.w7_245, styles.borderRight]}>
+          <View style={[styles.w7_2, styles.borderRight]}>
             <Text style={[styles.tableBodyText]}>
               {appointedApplicant.lastName}
             </Text>
           </View>
 
           {/* FIRST NAME w33 */}
-          <View style={[styles.w7_59, styles.borderRight]}>
+          <View style={[styles.w7_57, styles.borderRight]}>
             <Text style={[styles.tableBodyText]}>
               {appointedApplicant.firstName}
             </Text>
           </View>
 
           {/* NAME EXTENSION w14_5 */}
-          <View style={[styles.w3_335, styles.borderRight]}>
+          <View style={[styles.w3_33, styles.borderRight]}>
             <Text style={[styles.tableBodyText]}>
               {appointedApplicant.nameExtension}
             </Text>
           </View>
 
           {/* MIDDLE NAME w21 */}
-          <View style={[styles.w4_83, styles.borderRight]}>
+          <View style={[styles.w4_90, styles.borderRight]}>
             <Text style={[styles.tableBodyText]}>
               {appointedApplicant.middleName}
             </Text>
@@ -372,29 +390,27 @@ const RAIDocument = props => {
           </View>
           {/* END ---- PUBLICATION */}
 
-          {/* START ---- CSC ACTION 14% */}
-          {/* VALIDATED 33_33% */}
-          <View style={[styles.w4_63, styles.borderRight]}>
+          {/* START ---- CSC ACTION 18% */}
+          {/* APPOINTMENT IDENTIFICATION NO. */}
+          <View style={[styles.w4_48, styles.borderRight]}>
             <Text style={[styles.tableBodyText]}></Text>
           </View>
 
-          {/* DATE OF ACTION 33_33% */}
-          <View style={[styles.w4_63, styles.borderRight]}>
+          {/* VALIDATED */}
+          <View style={[styles.w4_5, styles.borderRight]}>
             <Text style={[styles.tableBodyText]}></Text>
           </View>
 
-          {/* DATE OF RELEASE 33_33% */}
-          <View style={[styles.w4_73, styles.borderRight]}>
+          {/* DATE OF ACTION */}
+          <View style={[styles.w4_51, styles.borderRight]}>
+            <Text style={[styles.tableBodyText]}></Text>
+          </View>
+
+          {/* DATE OF RELEASE */}
+          <View style={[styles.w4_51]}>
             <Text style={[styles.tableBodyText]}></Text>
           </View>
           {/* END ---- CSC ACTION */}
-
-          {/* AGENCY RECEIVING OFFICER */}
-          <View style={[styles.w4]}>
-            <Text
-              style={[styles.tableBodyText, { textTransform: 'capitalize' }]}
-            ></Text>
-          </View>
         </View>
       )
     )
@@ -456,32 +472,13 @@ const RAIDocument = props => {
   return (
     <Document
       author="General Santos City Water District"
-      subject="CS Form No. 2 | Revised 2018"
+      subject="CS Form No. 2 | Revised 2025"
       title={'Report on Appointments Issued ' + yearMonth}
     >
-      <Page size="A4" orientation="landscape" style={styles.page}>
+      <Page size={[612.3, 935.4]} orientation="landscape" style={styles.page}>
         <Header yearMonth={yearMonth} />
 
-        <View style={[styles.bodyBorder, styles.bodyText]}>
-          {/* DATE RECEIVED */}
-          <View
-            style={[
-              styles.w100,
-              {
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-                paddingRight: 10,
-              },
-            ]}
-          >
-            <View style={[styles.rowContainer, styles.w25]}>
-              <Text style={[styles.bodyTextBold, styles.w38]}>
-                Date received by CSCPO:
-              </Text>
-              <View style={[styles.borderBottom, styles.w62]}></View>
-            </View>
-          </View>
-
+        <View style={[styles.bodyBorder, styles.bodyText, { marginTop: 0 }]}>
           {/* AGENCY / CSC RESOLUTION / CSCFO in-charge */}
           <View style={[styles.rowContainer, styles.bodyTextBold]}>
             <View style={[styles.w33_33]}>
@@ -517,9 +514,16 @@ const RAIDocument = props => {
               </View>
             </View>
             <View style={[styles.w33_33]}>
-              <View style={[styles.rowContainer]}>
-                <Text>CSCFO in-charge:</Text>
-                <View style={[styles.borderBottom, styles.w77_5]}></View>
+              <View style={[styles.borderAll, { width: '80%', marginLeft: 2 }]}>
+                <View style={[styles.borderBottom, { padding: 2 }]}>
+                  <Text>For CSC RO/FO&apos;s Use:</Text>
+                </View>
+
+                <View style={[{ padding: 2, height: '35px' }]}>
+                  <Text>Date Received:</Text>
+                </View>
+
+                {/* <View style={[styles.borderBottom, styles.w77_5]}></View> */}
               </View>
             </View>
           </View>
@@ -530,7 +534,7 @@ const RAIDocument = props => {
               <Text style={[{ paddingRight: 10 }]}>INSTRUCTIONS</Text>
               <View>
                 <Text>
-                  (1) Fill-out the data needed in the form completely and
+                  (1) Fill out the data needed in the form completely and
                   accurately.
                 </Text>
                 <Text>(2) Do not abbreviate entries in the form.</Text>
@@ -540,7 +544,7 @@ const RAIDocument = props => {
                 </Text>
                 <Text>
                   (4) Submit the duly accomplished form in electronic and
-                  printed copy (2 cpoies) to the CSC Field Office-in-Charge
+                  printed copy (2 copies) to the CSC Field Office
                 </Text>
                 <Text style={[{ paddingLeft: 11 }]}>
                   together with the original CSC copy of appointments and
@@ -556,9 +560,9 @@ const RAIDocument = props => {
           </View>
 
           {/* TABLE */}
-          <View style={[styles.tableBorder]} wrap={false}>
+          <View>
             {/* TABLE HEADER */}
-            <View style={[styles.rowContainerTable]}>
+            <View style={[styles.rowContainerTable, styles.borderAll]}>
               {/* NUMBER */}
               <View style={[styles.borderRight, styles.w2]}>
                 <Text style={[styles.tableHeaderText]}></Text>
@@ -694,14 +698,17 @@ const RAIDocument = props => {
                       <Text style={[{ fontFamily: 'CalibriRegularBold' }]}>
                         MODE
                       </Text>
-                      <Text>(CSC Bulletin of Vacant Positions)</Text>
+                      <Text>
+                        (CSC Bulletin of Vacant Positions, Agency Website,
+                        Newspaper, etc.){' '}
+                      </Text>
                     </View>
                   </View>
                 </View>
               </View>
 
               {/* CSC ACTION */}
-              <View style={[styles.borderRight, styles.w14]}>
+              <View style={[styles.w18]}>
                 <View style={[styles.borderBottom]}>
                   <Text style={[styles.bodyTextBold, styles.tableHeaderText]}>
                     CSC ACTION
@@ -709,10 +716,23 @@ const RAIDocument = props => {
                 </View>
 
                 <View style={[styles.rowContainerTable]}>
+                  {/* APPOINTMENT IDENTIFICATION NO. */}
+                  <View
+                    style={[
+                      styles.w25,
+                      styles.borderRight,
+                      styles.cscActionCols,
+                    ]}
+                  >
+                    <Text style={[styles.tableHeaderText]}>
+                      Appointment Identification No.
+                    </Text>
+                  </View>
+
                   {/* VALIDATED */}
                   <View
                     style={[
-                      styles.w33_33,
+                      styles.w25,
                       styles.borderRight,
                       styles.cscActionCols,
                     ]}
@@ -725,7 +745,7 @@ const RAIDocument = props => {
                   {/* DATE OF ACTION */}
                   <View
                     style={[
-                      styles.w33_33,
+                      styles.w25,
                       styles.borderRight,
                       styles.cscActionCols,
                     ]}
@@ -736,106 +756,12 @@ const RAIDocument = props => {
                   </View>
 
                   {/* DATE OF RELEASE*/}
-                  <View style={[styles.w33_33, styles.cscActionCols]}>
+                  <View style={[styles.w25, styles.cscActionCols]}>
                     <Text style={[styles.tableHeaderText]}>
                       Date of Release (mm/dd/yyyy)
                     </Text>
                   </View>
                 </View>
-              </View>
-
-              {/* AGENCY RECEIVING OFFICER */}
-              <View style={[styles.w4]}>
-                <Text style={[styles.tableHeaderText]}>
-                  Agency Receiving Officer
-                </Text>
-              </View>
-            </View>
-
-            {/* TABLE BODY (NUMBERING) */}
-            <View style={[styles.rowContainerTable, styles.borderTop]}>
-              {/* NUMBER */}
-              <View style={[styles.borderRight, styles.w2]}>
-                <Text style={[styles.tableHeaderText]}></Text>
-              </View>
-
-              {/* DATE ISSUED */}
-              <View style={[styles.borderRight, styles.w5]}>
-                <Text style={[styles.tableHeaderText]}>(1)</Text>
-              </View>
-
-              {/* NAME OF APPOINTEE/S */}
-              <View style={[styles.borderRight, styles.w23]}>
-                <Text style={[styles.tableHeaderText]}>(2)</Text>
-              </View>
-
-              {/* POSITION TITLE */}
-              <View style={[styles.borderRight, styles.w7]}>
-                <Text style={[styles.tableHeaderText]}>(3)</Text>
-              </View>
-
-              {/* ITEM NO. */}
-              <View style={[styles.borderRight, styles.w6]}>
-                <Text style={[styles.tableHeaderText]}>(4)</Text>
-              </View>
-
-              {/* SALARY/ JOB/ PAY GRADE */}
-              <View style={[styles.borderRight, styles.w3_5]}>
-                <Text style={[styles.tableHeaderText]}>(5)</Text>
-              </View>
-
-              {/* SALARY RATE */}
-              <View style={[styles.borderRight, styles.w4_5]}>
-                <Text style={[styles.tableHeaderText]}>(6)</Text>
-              </View>
-
-              {/* EMPLOYMENT STATUS */}
-              <View style={[styles.borderRight, styles.w5]}>
-                <Text style={[styles.tableHeaderText]}>(7)</Text>
-              </View>
-
-              {/* PERIOD OF EMPLOYMENT */}
-              <View style={[styles.borderRight, styles.w9]}>
-                <Text style={[styles.tableHeaderText]}>(8)</Text>
-              </View>
-
-              {/* NATURE OF APPOINTMENT */}
-              <View style={[styles.borderRight, styles.w6]}>
-                <Text style={[styles.tableHeaderText]}>(9)</Text>
-              </View>
-
-              {/* START ---- PUBLICATION 11% */}
-              {/* DATE */}
-              <View style={[styles.w4_90, styles.borderRight]}>
-                <Text style={[styles.tableHeaderText]}>(10)</Text>
-              </View>
-
-              {/* MODE */}
-              <View style={[styles.w6_1, styles.borderRight]}>
-                <Text style={[styles.tableHeaderText]}>(11)</Text>
-              </View>
-              {/* END ---- PUBLICATION */}
-
-              {/* START ---- CSC ACTION */}
-              {/* VALIDATED */}
-              <View style={[styles.w4_63, styles.borderRight]}>
-                <Text style={[styles.tableHeaderText]}>(12)</Text>
-              </View>
-
-              {/* DATE OF ACTION */}
-              <View style={[styles.w4_63, styles.borderRight]}>
-                <Text style={[styles.tableHeaderText]}>(13)</Text>
-              </View>
-
-              {/* DATE OF RELEASE*/}
-              <View style={[styles.w4_73, styles.borderRight]}>
-                <Text style={[styles.tableHeaderText]}>(14)</Text>
-              </View>
-              {/* END ---- CSC ACTION */}
-
-              {/* AGENCY RECEIVING OFFICER */}
-              <View style={[styles.w4]}>
-                <Text style={[styles.tableHeaderText]}>(15)</Text>
               </View>
             </View>
 
@@ -942,10 +868,39 @@ const RAIDocument = props => {
               <View style={[{ paddingTop: 13 }]}></View>
             </View>
           </View>
+
+          <Text
+            style={[{ paddingVertical: 2, textAlign: 'center' }]}
+            render={({ pageNumber, totalPages }) => {
+              if (pageNumber === totalPages - 1) {
+                return `${''}`
+              } else {
+                return `${pageNumber} of ${totalPages - 1}`
+              }
+            }}
+            fixed
+          />
+          {/* <Text
+              // style={[{ alignItems: 'center', textAlign: 'center' }]}
+              render={({ pageNumber, totalPages }) =>
+                `Page ${pageNumber} of ${totalPages}`
+              }
+              fixed
+              // render={
+              //   ({ pageNumber, totalPages }) => `${pageNumber} of ${totalPages}`
+              // {
+              // if (pageNumber === totalPages) {
+              //   return `${'XDD'}`
+              // } else {
+              //   return `${pageNumber} of ${totalPages}`
+              // }
+              // }
+              // }
+            /> */}
         </View>
       </Page>
 
-      <Page size="A4" orientation="landscape" style={styles.page}>
+      <Page size={[612.3, 935.4]} orientation="landscape" style={styles.page}>
         {/* CHECKLIST per RAI page */}
         <View style={[styles.borderAll, styles.bodyBorder]} wrap={false}>
           {/* Header */}
@@ -970,7 +925,7 @@ const RAIDocument = props => {
             <Text style={[styles.instructionCkText]}>
               Instructions: Put a check if the requirements are complete. If
               incomplete, use the space provided to indicate the name of
-              appointee and the lacking requirements/s.
+              appointee and the lacking requirement/s.
             </Text>
           </View>
 
@@ -986,7 +941,7 @@ const RAIDocument = props => {
                   <Text style={{ fontFamily: 'CalibriRegularBoldItalic' }}>
                     APPOINTMENT FORMS
                   </Text>{' '}
-                  (CS Form No. 33-B, Revised 2017) - Original CSC copy of
+                  (CS Form No. 33-B, Revised 2025) - Certified True Copy of
                   appointment form
                 </Text>
               </View>
@@ -1004,7 +959,7 @@ const RAIDocument = props => {
                   <Text style={{ fontFamily: 'CalibriRegularBoldItalic' }}>
                     PLANTILLA OF CASUAL APPOINTMENT
                   </Text>{' '}
-                  (CSC Form No. 33-B or D) - Original CSC copy
+                  (CS Form No. 34-B, Revised 2025) - Certified True Copy for CSC
                 </Text>
               </View>
               <View style={[styles.w33, styles.borderRight]}></View>
@@ -1021,7 +976,7 @@ const RAIDocument = props => {
                   <Text style={{ fontFamily: 'CalibriRegularBoldItalic' }}>
                     PERSONAL DATA SHEET
                   </Text>{' '}
-                  (CS Form No. 212, Revised 2017)
+                  (CS Form No. 212, Revised 2025)
                 </Text>
               </View>
               <View style={[styles.w33, styles.borderRight]}></View>
@@ -1036,11 +991,13 @@ const RAIDocument = props => {
               <View style={[styles.w32, styles.borderRight]}>
                 <Text style={[styles.requirementCkText]}>
                   <Text style={{ fontFamily: 'CalibriRegularBoldItalic' }}>
-                    ORIGINAL COPY OF AUTHENTICATED CERTIFICATE OF
-                    ELIGIBILITY/RATING/LICENSE -
+                    PROOF OF ELIGIBILITY -
                   </Text>{' '}
-                  Except if the eligibility has been previously authenticated in
-                  2004 or onward and recorded by the CSC
+                  Report of rating/license/certificate of admission to the Bar/
+                  certificate of eligibility/ eligibility card (original copy,
+                  authenticated copy, certified true copy, photocopy, scanned
+                  copy, or site/screen capture of eligibility using CSC&apos;s
+                  CSEVS, PRC&apos;s LERIS, or SC&apos;s Lawyer&apos;s List)
                 </Text>
               </View>
               <View style={[styles.w33, styles.borderRight]}></View>
@@ -1072,9 +1029,9 @@ const RAIDocument = props => {
               <View style={[styles.w32, styles.borderRight]}>
                 <Text style={[styles.requirementCkText]}>
                   <Text style={{ fontFamily: 'CalibriRegularBoldItalic' }}>
-                    OATH OF THE OFFICE
+                    PANUNUMPA SA KATUNGKULAN
                   </Text>{' '}
-                  (CS Form No. 32, Revised 2017)
+                  (SS Porma Blg. 32, Narebisa 2025)
                 </Text>
               </View>
               <View style={[styles.w33, styles.borderRight]}></View>
@@ -1091,7 +1048,7 @@ const RAIDocument = props => {
                   <Text style={{ fontFamily: 'CalibriRegularBoldItalic' }}>
                     CERTIFICATE OF ASSUMPTION TO DUTY
                   </Text>{' '}
-                  (CS Form No. 4)
+                  (CS Form No. 4, Revised 2025)
                 </Text>
               </View>
               <View style={[styles.w33, styles.borderRight]}></View>
