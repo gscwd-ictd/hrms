@@ -5,9 +5,10 @@ import { Navigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchDocumentReportOnAppointmentsIssued } from 'store/actions'
 
-import { Container } from 'reactstrap'
+import { Container, Form, Button } from 'reactstrap'
 import { PDFViewer } from '@react-pdf/renderer'
 import RAIDocument from './RAIDocument'
+import ExcelDocument from './ExcelDocument'
 
 // Extra components
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
@@ -48,6 +49,15 @@ const ReportOnAppointmentsIssuedPdf = () => {
               <LoadingIndicator />
             ) : (
               <>
+                {/* <Form
+                  onSubmit={e => ExcelDocument(e, reportOnAppointmentsIssued)}
+                  className="mb-2"
+                >
+                  <Button type="submit" color="info">
+                    XLSX Document
+                  </Button>
+                </Form> */}
+
                 <PDFViewer width={'100%'} height={700} showToolbar>
                   <RAIDocument
                     reportOnAppointmentsIssued={reportOnAppointmentsIssued}
