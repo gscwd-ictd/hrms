@@ -82,12 +82,6 @@ const ReportOnAppointmentsIssuedPdf = () => {
     )
   }, [dispatch])
 
-  // useEffect(() => {
-  //   if (!isEmpty(mutatedListOfAppointees)) {
-  //     console.log(mutatedListOfAppointees.slice(50, 60))
-  //   }
-  // }, [mutatedListOfAppointees])
-
   return (
     <React.Fragment>
       <Can I="access" this="Results_of_hiring">
