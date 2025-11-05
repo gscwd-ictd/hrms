@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Can } from 'casl/Can'
 import { Navigate, useParams } from 'react-router-dom'
 
@@ -8,15 +8,19 @@ import { fetchDocumentReportOnAppointmentsIssued } from 'store/actions'
 import { Container, Form, Button } from 'reactstrap'
 import { PDFViewer } from '@react-pdf/renderer'
 import RAIDocument from './RAIDocument'
-import ExcelDocument from './ExcelDocument'
+import { createExcelDocument } from './ExcelDocument'
 
 // Extra components
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
+import { isEmpty } from 'lodash'
 
 const ReportOnAppointmentsIssuedPdf = () => {
   const dispatch = useDispatch()
   const { yearMonth } = useParams()
+
+  const [mutatedListOfAppointees, setMutatedListOfAppointees] = useState([])
+  const [excelDataLoading, setExcelDataLoading] = useState(true)
 
   // Redux state for RAI document
   const { reportOnAppointmentsIssued, loadingRAIDocument, errorRAIDocument } =
@@ -26,7 +30,53 @@ const ReportOnAppointmentsIssuedPdf = () => {
       errorRAIDocument: state.applicants.error.errorRAIDocument,
     }))
 
+  const mergePeriodOfEmployment = (employmentFrom, employmentTo) => {
+    if (!isEmpty(employmentFrom) && !isEmpty(employmentTo)) {
+      return `${employmentFrom} to ${employmentTo}`
+    } else {
+      return ''
+    }
+  }
+
   useEffect(() => {
+    if (!isEmpty(reportOnAppointmentsIssued)) {
+      const newArr = []
+
+      reportOnAppointmentsIssued.data.map((appointee, index) => {
+        const object = {
+          index: index + 1,
+          effectivityDate: appointee.effectivityDate || '',
+          firstName: appointee.firstName || '',
+          lastName: appointee.lastName || '',
+          nameExtension: appointee.nameExtension || '',
+          middleName: appointee.middleName || '',
+          positionTitle: appointee.positionTitle || '',
+          itemNumber: appointee.itemNumber || '',
+          salaryGrade: appointee.salaryGrade || '',
+          monthlySalary: appointee.monthlySalary || '',
+          employmentStatus: appointee.employmentStatus || '',
+          periodOfEmployment: mergePeriodOfEmployment(
+            appointee.employmentFrom,
+            appointee.employmentTo
+          ),
+          natureOfAppointment: appointee.natureOfAppointment || '',
+          publicationPeriod: appointee.publicationPeriod || '',
+          publicationMode: appointee.publicationMode || '',
+          appIdentificationNo: '',
+          isValidated: '',
+          dateOfAction: '',
+          dateOfRelease: '',
+        }
+
+        return newArr.push(object)
+      })
+      setExcelDataLoading(false)
+      setMutatedListOfAppointees(newArr)
+    }
+  }, [reportOnAppointmentsIssued])
+
+  useEffect(() => {
+    setExcelDataLoading(true)
     dispatch(
       fetchDocumentReportOnAppointmentsIssued(yearMonth) //  fetch RAI document
     )
@@ -49,14 +99,20 @@ const ReportOnAppointmentsIssuedPdf = () => {
               <LoadingIndicator />
             ) : (
               <>
-                {/* <Form
-                  onSubmit={e => ExcelDocument(e, reportOnAppointmentsIssued)}
+                <Form
+                  onSubmit={e =>
+                    createExcelDocument(e, mutatedListOfAppointees, yearMonth)
+                  }
                   className="mb-2"
                 >
-                  <Button type="submit" color="info">
+                  <Button
+                    type="submit"
+                    color="info"
+                    disabled={excelDataLoading}
+                  >
                     XLSX Document
                   </Button>
-                </Form> */}
+                </Form>
 
                 <PDFViewer width={'100%'} height={700} showToolbar>
                   <RAIDocument
