@@ -48,7 +48,6 @@ const PublicationPdf = () => {
     e.preventDefault()
 
     const XLSX = require('sheetjs-style')
-    // const XLSX = require("xlsx")
 
     const defaultCellStyle = {
       font: {
@@ -57,9 +56,6 @@ const PublicationPdf = () => {
       },
     }
 
-    // const worksheet = XLSX.utils.json_to_sheet(filteredPublicationData, {
-    //   origin: "A26",
-    // })
     var worksheet = XLSX.utils.aoa_to_sheet(filteredPublicationData, {
       origin: 'A18',
     })

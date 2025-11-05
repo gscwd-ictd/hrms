@@ -1,8 +1,18 @@
+import dayjs from 'dayjs'
+// import * as rai from './RAISheetContentStyle'
+import { RaiSheetGeneration } from './RAISheetGeneration'
+
 // Generation of excel document of publication
-const ExcelDocument = (e, reportOnAppointmentsIssued) => {
+export const createExcelDocument = (
+  e,
+  reportOnAppointmentsIssued,
+  yearMonth
+) => {
   e.preventDefault()
 
   const XLSX = require('sheetjs-style')
+
+  const RAI = XLSX.utils.book_new()
 
   const defaultCellStyle = {
     font: {
@@ -11,773 +21,410 @@ const ExcelDocument = (e, reportOnAppointmentsIssued) => {
     },
   }
 
-  // const worksheet = XLSX.utils.json_to_sheet(filteredPublicationData, {
-  //   origin: "A26",
-  // })
-  var worksheet = XLSX.utils.aoa_to_sheet(filteredPublicationData, {
-    origin: 'A18',
+  const worksheet = XLSX.utils.json_to_sheet(
+    reportOnAppointmentsIssued.slice(0, 10),
+    {
+      origin: 'A22',
+    }
+  )
+
+  RaiSheetGeneration(
+    worksheet,
+    yearMonth,
+    XLSX,
+    reportOnAppointmentsIssued.slice(0, 10)?.length
+  )
+
+  XLSX.utils.book_append_sheet(RAI, worksheet, 'CS Form No. 2 - Page 1')
+
+  // 2nd Page
+  if (reportOnAppointmentsIssued?.length > 10) {
+    const worksheet2 = XLSX.utils.json_to_sheet(
+      reportOnAppointmentsIssued.slice(10, 20),
+      {
+        origin: 'A22',
+      }
+    )
+
+    RaiSheetGeneration(
+      worksheet2,
+      yearMonth,
+      XLSX,
+      reportOnAppointmentsIssued.slice(10, 20)?.length
+    )
+
+    XLSX.utils.book_append_sheet(RAI, worksheet2, 'CS Form No. 2 - Page 2')
+  }
+
+  // 3rd Page
+  if (reportOnAppointmentsIssued?.length > 20) {
+    const worksheet3 = XLSX.utils.json_to_sheet(
+      reportOnAppointmentsIssued.slice(20, 30),
+      {
+        origin: 'A22',
+      }
+    )
+
+    RaiSheetGeneration(
+      worksheet3,
+      yearMonth,
+      XLSX,
+      reportOnAppointmentsIssued.slice(20, 30)?.length
+    )
+
+    XLSX.utils.book_append_sheet(RAI, worksheet3, 'CS Form No. 2 - Page 3')
+  }
+
+  // 4th Page
+  if (reportOnAppointmentsIssued?.length > 30) {
+    const worksheet4 = XLSX.utils.json_to_sheet(
+      reportOnAppointmentsIssued.slice(30, 40),
+      {
+        origin: 'A22',
+      }
+    )
+
+    RaiSheetGeneration(
+      worksheet4,
+      yearMonth,
+      XLSX,
+      reportOnAppointmentsIssued.slice(30, 40)?.length
+    )
+
+    XLSX.utils.book_append_sheet(RAI, worksheet4, 'CS Form No. 2 - Page 4')
+  }
+
+  // 5th Page
+  if (reportOnAppointmentsIssued?.length > 40) {
+    const worksheet5 = XLSX.utils.json_to_sheet(
+      reportOnAppointmentsIssued.slice(40, 50),
+      {
+        origin: 'A22',
+      }
+    )
+
+    RaiSheetGeneration(
+      worksheet5,
+      yearMonth,
+      XLSX,
+      reportOnAppointmentsIssued.slice(40, 50)?.length
+    )
+
+    XLSX.utils.book_append_sheet(RAI, worksheet5, 'CS Form No. 2 - Page 5')
+  }
+
+  // 6th Page
+  if (reportOnAppointmentsIssued?.length > 50) {
+    const worksheet6 = XLSX.utils.json_to_sheet(
+      reportOnAppointmentsIssued.slice(50, 60),
+      {
+        origin: 'A22',
+      }
+    )
+
+    RaiSheetGeneration(
+      worksheet6,
+      yearMonth,
+      XLSX,
+      reportOnAppointmentsIssued.slice(50, 60)?.length
+    )
+
+    XLSX.utils.book_append_sheet(RAI, worksheet6, 'CS Form No. 2 - Page 6')
+  }
+
+  // 7th Page
+  if (reportOnAppointmentsIssued?.length > 60) {
+    const worksheet7 = XLSX.utils.json_to_sheet(
+      reportOnAppointmentsIssued.slice(60, 70),
+      {
+        origin: 'A22',
+      }
+    )
+
+    RaiSheetGeneration(
+      worksheet7,
+      yearMonth,
+      XLSX,
+      reportOnAppointmentsIssued.slice(60, 70)?.length
+    )
+
+    XLSX.utils.book_append_sheet(RAI, worksheet7, 'CS Form No. 2 - Page 7')
+  }
+
+  // 8th Page
+  if (reportOnAppointmentsIssued?.length > 70) {
+    const worksheet8 = XLSX.utils.json_to_sheet(
+      reportOnAppointmentsIssued.slice(70, 80),
+      {
+        origin: 'A22',
+      }
+    )
+
+    RaiSheetGeneration(
+      worksheet8,
+      yearMonth,
+      XLSX,
+      reportOnAppointmentsIssued.slice(70, 80)?.length
+    )
+
+    XLSX.utils.book_append_sheet(RAI, worksheet8, 'CS Form No. 2 - Page 8')
+  }
+
+  // ---------------------------------------------------------------------
+
+  // CHECKLIST Sheet
+  const checklist = XLSX.utils.aoa_to_sheet([], {
+    origin: 'A1',
   })
 
+  const columnLetterArrayCl = ['A', 'B', 'C', 'D']
+
   // Set colum width
-  var wscols = [
-    { wch: 4 }, // A
-    { wch: 16.9 }, // B
-    { wch: 10 }, // C
-    { wch: 11 }, // D
-    { wch: 11.9 }, // E
-    { wch: 16 }, // F
-    { wch: 16.2 }, // G
-    { wch: 12 }, // H
-    { wch: 14.5 }, // I
-    { wch: 35 }, // J
-    { wch: 12 }, // K
+  var clcols = [
+    { wch: 2.0 }, // A
+    { wch: 50.29 }, // B
+    { wch: 37 }, // C
+    { wch: 37 }, // D
   ]
-  worksheet['!cols'] = wscols
+  checklist['!cols'] = clcols
 
   // Set row height
-  var wsrows = [
-    { hpx: 13.8 }, // 1
-    { hpx: 13.8 }, // 2
-    { hpx: 13.8 }, // 3
-    { hpx: 13.8 }, // 4
-    { hpx: 13.8 }, // 5
-    { hpx: 13.8 }, // 6
-    { hpx: 13.8 }, // 7
-    { hpx: 3.6 }, // 8
-    { hpx: 13.8 }, // 9
-    { hpx: 13.8 }, // 10
-    { hpx: 13.8 }, // 11
-    { hpx: 13.8 }, // 12
-    { hpx: 3.6 }, // 13
-    { hpx: 13.8 }, // 14
-    { hpx: 3.6 }, // 15
-    { hpx: 13.8 }, // 16
-    { hpx: 13.8 }, // 17
-    {}, // 18
-    {}, // 19
-    {}, // 20
-    { hpx: 6 }, // 21
-    { hpx: 27.6 }, // 22
-    { hpx: 3.6 }, // 23
-    { hpx: 18.6 }, // 24
-    { hpx: 13.8 }, // 25
-    { hpx: 13.8 }, // 26
-    { hpx: 13.8 }, // 27
-    { hpx: 13 }, // 28
-    { hpx: 13.8 }, // 29
-    { hpx: 13 }, // 30
-    { hpx: 14.5 }, // 31
-    { hpx: 14.5 }, // 32
-    { hpx: 14.5 }, // 33
-    { hpx: 14.5 }, // 34
+  var clrows = [
+    { hpx: 6 }, // 1
+    { hpx: 20.25 }, // 2
+    { hpx: 15.75 }, // 3
+    { hpx: 47.25 }, // 4
+    { hpx: 47.25 }, // 5
+    { hpx: 47.25 }, // 6
+    { hpx: 47.25 }, // 7
+    { hpx: 47.25 }, // 8
+    { hpx: 47.25 }, // 9
+    { hpx: 47.25 }, // 10
+    { hpx: 51.75 }, // 11
+    { hpx: 43.5 }, // 12
+    { hpx: 12 }, // 13
   ]
-  worksheet['!rows'] = wsrows
+  checklist['!rows'] = clrows
 
-  // Add header text
+  // Add top left text9
   XLSX.utils.sheet_add_aoa(
-    worksheet,
+    checklist,
     [
+      ['CHECKLIST OF COMMON REQUIREMENTS', '', 'HRMO', 'CSC FO'], // 2
       [
-        'CS Form No. 9',
-        ,
-        ,
-        ,
-        ,
-        ,
-        ,
-        ,
-        ,
-        'Electronic copy to be submitted to the CSC FO  must be in MS Excel format',
-      ],
-      ['Series of 2018', , , , , , , , , ,],
-      ['Republic of the Philippines', , , , , , , , , ,],
-      ['GENERAL SANTOS CITY WATER DISTRICT', , , , , , , , , ,],
-      ['Request for Publication of Vacant Positions', , , , , , , , , ,],
-      [],
-      ['To: CIVIL SERVICE COMMISSION (CSC)', , , , , , , , , ,],
-      [],
+        'Instructions: Put a check if the requirements are complete. If incomplete, use the space provided to indicate the name of appointee and the lacking requirement/s.',
+        '',
+        '',
+        '',
+      ], // 3
       [
-        ,
-        'This is to request the publication of the following vacant positions of',
-        ,
-        ,
-        ,
-        '   General Santos City Water District   ',
-        ,
-        'in the CSC website:',
-        ,
-        ,
-        ,
-      ],
-    ],
-    { origin: 'A1' }
-  )
-
-  // Add GM name and date of approval
-  XLSX.utils.sheet_add_aoa(
-    worksheet,
-    [
-      [prfTrail.gm.name.toUpperCase(), '', ''],
-      ['(Head of Agency)', '', ''],
-    ],
-    {
-      origin: 'I11',
-    }
-  )
-  XLSX.utils.sheet_add_aoa(
-    worksheet,
-    [['Date:', formatDate(prfTrail.gm.updatedAt)]],
-    {
-      origin: 'I14',
-    }
-  )
-
-  // Add table header
-  XLSX.utils.sheet_add_aoa(
-    worksheet,
-    [
+        '1',
+        'APPOINTMENT FORM (CS Form No. 33-B, Revised 2025) - Certified True Copy of appointment form',
+        '',
+        '',
+      ], // 4
       [
-        'No.',
-        'Position Title',
-        'Plantilla Item No.',
-        'Salary/ Job/ Pay Grade',
-        'Annual Salary',
-        'Qualification Standards',
+        '2',
+        'PLANTILLA OF CASUAL APPOINTMENT (CS Form No. 34-B, Revised 2025) - Certified True Copy for CSC',
         '',
         '',
+      ], // 5
+      ['3', 'PERSONAL DATA SHEET (CS Form No. 212, Revised 2025)', '', ''], // 6
+      [
+        '4',
+        `PROOF OF ELIGIBILITY - Report of rating/license/certificate of admission to the Bar/ certificate of eligibility/ eligibility card (original copy, authenticated copy, certified true copy, photocopy, scanned copy, or site/screen capture of eligibility using CSC's CSEVS, PRC's LERIS, or SC's Lawyer's List)`,
         '',
         '',
-        'Place of Assignment',
-      ],
-    ],
-    { origin: 'A16' }
-  )
-  XLSX.utils.sheet_add_aoa(
-    worksheet,
-    [
+      ], // 7
+      [
+        '5',
+        'POSITION DESCRIPTION FORM (DBM-CSC Form No. 1, Revised 2017)',
+        '',
+        '',
+      ], // 8
+      [
+        '6',
+        'PANUNUMPA SA KATUNGKULAN (SS Porma Blg. 32, Narebisa 2025)',
+        '',
+        '',
+      ], // 9
+      [
+        '7',
+        'CERTIFICATE OF ASSUMPTION TO DUTY (CS Form No. 4, Revised 2025)',
+        '',
+        '',
+      ], // 10
       [
         '',
         '',
-        '',
-        '',
-        '',
-        ' Education',
-        ' Training',
-        'Experience',
-        'Eligibility',
-        'Competency',
-        '',
-      ],
-    ],
-    { origin: 'A17' }
-  )
-
-  // Add requirements text
-  XLSX.utils.sheet_add_aoa(
-    worksheet,
-    [
+        '     This is to certify that I have checked the veracity, authenticity, and completeness of all the requirements in support of the appointments attached herein.',
+        '     This is to certify that I have checked all the requirements in support of the appointments attached herein and found these to be  [  ] complete /  [  ]   lacking.',
+      ], // 11
       [
-        'Interested and qualified applicants should signify their interest in writing. Attach the following documents to the application letter and send to the address below not later than ____________________.',
-      ],
-    ],
-    { origin: 'A22' }
-  )
-  XLSX.utils.sheet_add_aoa(
-    worksheet,
-    [
-      [
-        '1. Fully accomplished Personal Data Sheet (PDS) with recent passport-sized picture (CS Form No. 212, Revised 2017) which can be downloaded at www.csc.gov.ph;',
-      ],
-      [
-        '2. Performance rating  in the present position for one (1) year (if applicable);',
-      ],
-      ['3. Photocopy of certificate of eligibility/rating/license; and'],
-      ['4. Photocopy of Transcript of Records.'],
-    ],
-    { origin: 'B24' }
-  )
-
-  // Bottom left text
-  XLSX.utils.sheet_add_aoa(
-    worksheet,
-    [
-      [
-        'QUALIFIED APPLICANTS',
-        ,
-        'are advised to hand in or send through courier/email their application to:',
-      ],
-    ],
-    {
-      origin: 'A29',
-    }
-  )
-  XLSX.utils.sheet_add_aoa(
-    worksheet,
-    [
-      [prfTrail.gm.name.toUpperCase(), '', ''],
-      [prfTrail.gm.position, '', ''],
-      ['E. Fernandez St., Lagao, General Santos City', '', ''],
-      ['hrd_gscwd@yahoo.com', '', ''],
-    ],
-    {
-      origin: 'B31',
-    }
-  )
-
-  // Bottom right text
-  // HR tagline
-  XLSX.utils.sheet_add_aoa(
-    worksheet,
-    [
-      [
-        'GSCWD values diversity in its workforce and encourages qualified women and men to apply regardless of religion, sex, gender, or physical disability',
         '',
         '',
-        '',
-      ],
+        '____________________________________            HRMO',
+        '____________________________________            CSC FO Receiving Officer',
+      ], // 12
+      ['', '', '', ''], // 13
     ],
-    {
-      origin: 'H29',
-    }
-  )
-  // Reminder text
-  XLSX.utils.sheet_add_aoa(
-    worksheet,
-    [
-      [
-        'APPLICATIONS WITH INCOMPLETE DOCUMENTS SHALL NOT BE ENTERTAINED',
-        '',
-        '',
-        '',
-      ],
-    ],
-    {
-      origin: 'H34',
-    }
+    { origin: 'A2' }
   )
 
   // Set the cells need to be merged
-  const merge = [
-    // Top right and left text
-    { s: { c: 0, r: 0 }, e: { c: 1, r: 0 } },
+  const clmerge = [
+    // Top left text
     { s: { c: 0, r: 1 }, e: { c: 1, r: 1 } },
-    { s: { c: 9, r: 0 }, e: { c: 10, r: 1 } },
-
-    // Center document header
-    { s: { c: 0, r: 2 }, e: { c: 10, r: 2 } },
-    { s: { c: 0, r: 3 }, e: { c: 10, r: 3 } },
-    { s: { c: 0, r: 4 }, e: { c: 10, r: 4 } },
-
-    // To CSC
-    { s: { c: 0, r: 6 }, e: { c: 2, r: 6 } },
-    { s: { c: 1, r: 8 }, e: { c: 4, r: 8 } },
-    { s: { c: 5, r: 8 }, e: { c: 6, r: 8 } },
-    { s: { c: 7, r: 8 }, e: { c: 8, r: 8 } },
-
-    // GM Header
-    { s: { c: 8, r: 10 }, e: { c: 10, r: 10 } },
-    { s: { c: 8, r: 11 }, e: { c: 10, r: 11 } },
-
-    // Table Header
-    { s: { c: 0, r: 15 }, e: { c: 0, r: 16 } }, // No.
-    { s: { c: 1, r: 15 }, e: { c: 1, r: 16 } }, // Position Title
-    { s: { c: 2, r: 15 }, e: { c: 2, r: 16 } }, // Plantilla Item No.
-    { s: { c: 3, r: 15 }, e: { c: 3, r: 16 } }, // Salary/ Job/ Pay Grade
-    { s: { c: 4, r: 15 }, e: { c: 4, r: 16 } }, // Annual Salary
-
-    { s: { c: 5, r: 15 }, e: { c: 9, r: 15 } }, // Qualification Standards
-
-    { s: { c: 10, r: 15 }, e: { c: 10, r: 16 } }, // Place of Assignment
-
-    { s: { c: 0, r: 29 }, e: { c: 1, r: 29 } }, // qualified applicants A29-B29
-    { s: { c: 2, r: 29 }, e: { c: 6, r: 29 } }, // are advised to C29-G29
-
-    { s: { c: 1, r: 30 }, e: { c: 3, r: 30 } }, // GM name
-    { s: { c: 1, r: 31 }, e: { c: 3, r: 31 } }, // GM position
-    { s: { c: 1, r: 32 }, e: { c: 3, r: 32 } }, // Office address
-    { s: { c: 1, r: 33 }, e: { c: 3, r: 33 } }, // Email
-
-    { s: { c: 7, r: 28 }, e: { c: 10, r: 32 } }, // HR Tagline H29-K33
-    { s: { c: 7, r: 33 }, e: { c: 10, r: 33 } }, // Reminder text H34-K34
+    { s: { c: 0, r: 2 }, e: { c: 3, r: 2 } },
   ]
-  worksheet['!merges'] = merge
+  checklist['!merges'] = clmerge
 
-  // Styling of specific cells
-  worksheet['A1'].s = {
+  // Checklist Sheet Styling
+  checklist['A2'].s = {
     font: {
       sz: 11,
-      bold: true,
-      italic: true,
-    },
-    alignment: { wrapText: true },
-  }
-  worksheet['J1'].s = {
-    font: {
-      sz: 9,
-      italic: true,
     },
     alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
-  }
-  worksheet['A2'].s = {
-    font: {
-      sz: 9,
-      bold: true,
-      italic: true,
+    border: {
+      top: { style: 'medium', color: { rgb: '000000' } },
+      bottom: { style: 'medium', color: { rgb: '000000' } },
+      left: { style: 'medium', color: { rgb: '000000' } },
     },
-    alignment: { horizontal: 'left', wrapText: true },
   }
-  worksheet['A3'].s = {
+  checklist['B2'].s = {
+    border: {
+      top: { style: 'medium', color: { rgb: '000000' } },
+      right: { style: 'medium', color: { rgb: '000000' } },
+      bottom: { style: 'medium', color: { rgb: '000000' } },
+    },
+  }
+  checklist['C2'].s = {
     font: {
       sz: 11,
-      bold: true,
     },
-    alignment: { horizontal: 'center', wrapText: true },
+    alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
+    border: {
+      top: { style: 'medium', color: { rgb: '000000' } },
+      right: { style: 'medium', color: { rgb: '000000' } },
+      bottom: { style: 'medium', color: { rgb: '000000' } },
+    },
   }
-  worksheet['A4'].s = {
+  checklist['D2'].s = {
     font: {
       sz: 11,
-      bold: true,
-    },
-    alignment: { horizontal: 'center', wrapText: true },
-  }
-  worksheet['A5'].s = {
-    font: {
-      sz: 11,
-      bold: true,
-    },
-    alignment: { horizontal: 'center', wrapText: true },
-  }
-  worksheet['A7'].s = {
-    font: {
-      bold: true,
-    },
-    alignment: { wrapText: true },
-  }
-  worksheet['F9'].s = {
-    font: {
-      bold: true,
-      underline: true,
-    },
-  }
-
-  // GM Name
-  worksheet[['I11']].s = {
-    font: {
-      bold: true,
-    },
-    alignment: { horizontal: 'center' },
-    border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['J11'].s = {
-    border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['K11'].s = {
-    border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-
-  worksheet['I12'].s = {
-    alignment: { horizontal: 'center' },
-  }
-  worksheet['I14'].s = {
-    alignment: { horizontal: 'center' },
-  }
-
-  // GM Date of Signatory
-  worksheet[['J14']].s = {
-    alignment: { horizontal: 'center' },
-    border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-
-  // Table header styling
-  worksheet['A16'].s = {
-    font: {
-      bold: true,
     },
     alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
     border: {
-      top: { style: 'thin', color: { rgb: '000000' } },
-      left: { style: 'thin', color: { rgb: '000000' } },
-      right: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['A17'].s = {
-    border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-      left: { style: 'thin', color: { rgb: '000000' } },
-      right: { style: 'thin', color: { rgb: '000000' } },
+      top: { style: 'medium', color: { rgb: '000000' } },
+      right: { style: 'medium', color: { rgb: '000000' } },
+      bottom: { style: 'medium', color: { rgb: '000000' } },
     },
   }
 
-  worksheet['B16'].s = {
+  checklist['A3'].s = {
     font: {
-      bold: true,
+      sz: 8,
     },
     alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
     border: {
-      top: { style: 'thin', color: { rgb: '000000' } },
-      left: { style: 'thin', color: { rgb: '000000' } },
-      right: { style: 'thin', color: { rgb: '000000' } },
+      left: { style: 'medium', color: { rgb: '000000' } },
     },
   }
-  worksheet['B17'].s = {
+  checklist['D3'].s = {
     border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-      left: { style: 'thin', color: { rgb: '000000' } },
-      right: { style: 'thin', color: { rgb: '000000' } },
+      right: { style: 'medium', color: { rgb: '000000' } },
     },
   }
 
-  worksheet['C16'].s = {
-    font: {
-      bold: true,
-    },
-    alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
-    border: {
-      top: { style: 'thin', color: { rgb: '000000' } },
-      left: { style: 'thin', color: { rgb: '000000' } },
-      right: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['C17'].s = {
-    border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-      left: { style: 'thin', color: { rgb: '000000' } },
-      right: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-
-  worksheet['D16'].s = {
-    font: {
-      bold: true,
-    },
-    alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
-    border: {
-      top: { style: 'thin', color: { rgb: '000000' } },
-      left: { style: 'thin', color: { rgb: '000000' } },
-      right: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['D17'].s = {
-    border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-      left: { style: 'thin', color: { rgb: '000000' } },
-      right: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-
-  worksheet['E16'].s = {
-    font: {
-      bold: true,
-    },
-    alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
-    border: {
-      top: { style: 'thin', color: { rgb: '000000' } },
-      left: { style: 'thin', color: { rgb: '000000' } },
-      right: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['E17'].s = {
-    border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-      left: { style: 'thin', color: { rgb: '000000' } },
-      right: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-
-  // qualification standard
-  worksheet['F16'].s = {
-    font: {
-      bold: true,
-    },
-    alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
-    border: {
-      top: { style: 'thin', color: { rgb: '000000' } },
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-      left: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['G16'].s = {
-    border: {
-      top: { style: 'thin', color: { rgb: '000000' } },
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['G16'].s = {
-    border: {
-      top: { style: 'thin', color: { rgb: '000000' } },
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['H16'].s = {
-    border: {
-      top: { style: 'thin', color: { rgb: '000000' } },
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['I16'].s = {
-    border: {
-      top: { style: 'thin', color: { rgb: '000000' } },
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['J16'].s = {
-    border: {
-      top: { style: 'thin', color: { rgb: '000000' } },
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-      right: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-
-  // qs areas
-  worksheet['F17'].s = {
-    font: {
-      bold: true,
-    },
-    alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
-    border: {
-      top: { style: 'thin', color: { rgb: '000000' } },
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-      left: { style: 'thin', color: { rgb: '000000' } },
-      right: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['G17'].s = {
-    font: {
-      bold: true,
-    },
-    alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
-    border: {
-      top: { style: 'thin', color: { rgb: '000000' } },
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-      left: { style: 'thin', color: { rgb: '000000' } },
-      right: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['H17'].s = {
-    font: {
-      bold: true,
-    },
-    alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
-    border: {
-      top: { style: 'thin', color: { rgb: '000000' } },
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-      left: { style: 'thin', color: { rgb: '000000' } },
-      right: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['I17'].s = {
-    font: {
-      bold: true,
-    },
-    alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
-    border: {
-      top: { style: 'thin', color: { rgb: '000000' } },
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-      left: { style: 'thin', color: { rgb: '000000' } },
-      right: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['J17'].s = {
-    font: {
-      bold: true,
-    },
-    alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
-    border: {
-      top: { style: 'thin', color: { rgb: '000000' } },
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-      left: { style: 'thin', color: { rgb: '000000' } },
-      right: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-
-  // place of assignment
-  worksheet['K16'].s = {
-    font: {
-      bold: true,
-    },
-    alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
-    border: {
-      top: { style: 'thin', color: { rgb: '000000' } },
-      left: { style: 'thin', color: { rgb: '000000' } },
-      right: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['K17'].s = {
-    border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-      left: { style: 'thin', color: { rgb: '000000' } },
-      right: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-
-  // table data styling
-  const columnLetterArray = [
-    'A',
-    'B',
-    'C',
-    'D',
-    'E',
-    'F',
-    'G',
-    'H',
-    'I',
-    'J',
-    'K',
-  ]
-  const positionCount = filteredPublicationData.length + 18
-  for (let x = 18; x < positionCount; x++) {
-    columnLetterArray.map(letter => {
-      if (letter !== 'J') {
-        worksheet[letter + x].s = {
-          alignment: {
-            horizontal: 'center',
-            vertical: 'center',
-            wrapText: true,
+  for (let x = 4; x <= 10; x++) {
+    columnLetterArrayCl.map(letter => {
+      if (letter === 'B') {
+        checklist[letter + x.toString()].s = {
+          font: {
+            sz: 7,
+            italic: true,
           },
+          alignment: { horizontal: 'left', vertical: 'center', wrapText: true },
           border: {
-            top: { style: 'thin', color: { rgb: '000000' } },
-            bottom: { style: 'thin', color: { rgb: '000000' } },
-            left: { style: 'thin', color: { rgb: '000000' } },
-            right: { style: 'thin', color: { rgb: '000000' } },
+            top: { style: 'medium', color: { rgb: '000000' } },
+            right: { style: 'medium', color: { rgb: '000000' } },
+            bottom: { style: 'medium', color: { rgb: '000000' } },
+            left: { style: 'medium', color: { rgb: '000000' } },
           },
         }
       } else {
-        worksheet[letter + x].s = {
-          font: {
-            sz: 7,
-          },
+        checklist[letter + x.toString()].s = {
           alignment: {
             horizontal: 'center',
             vertical: 'center',
             wrapText: true,
           },
           border: {
-            top: { style: 'thin', color: { rgb: '000000' } },
-            bottom: { style: 'thin', color: { rgb: '000000' } },
-            left: { style: 'thin', color: { rgb: '000000' } },
-            right: { style: 'thin', color: { rgb: '000000' } },
+            top: { style: 'medium', color: { rgb: '000000' } },
+            right: { style: 'medium', color: { rgb: '000000' } },
+            bottom: { style: 'medium', color: { rgb: '000000' } },
+            left: { style: 'medium', color: { rgb: '000000' } },
           },
         }
       }
     })
   }
 
-  // Bottom left
-  worksheet['A29'].s = {
+  checklist['C11'].s = {
     font: {
-      bold: true,
+      sz: 8,
+    },
+    alignment: { horizontal: 'left', vertical: 'top', wrapText: true },
+    border: {
+      right: { style: 'medium', color: { rgb: '000000' } },
+      left: { style: 'medium', color: { rgb: '000000' } },
     },
   }
-  // Row 1
-  worksheet[['B31']].s = {
+  checklist['D11'].s = {
     font: {
-      bold: true,
+      sz: 8,
     },
+    alignment: { horizontal: 'left', vertical: 'top', wrapText: true },
     border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['C31'].s = {
-    border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['D31'].s = {
-    border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  // Row 2
-  worksheet['B32'].s = {
-    border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['C32'].s = {
-    border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['D32'].s = {
-    border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  // Row 3
-  worksheet['B33'].s = {
-    border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['C33'].s = {
-    border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['D33'].s = {
-    border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  // Row 4
-  worksheet['B34'].s = {
-    border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['C34'].s = {
-    border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
-    },
-  }
-  worksheet['D34'].s = {
-    border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
+      right: { style: 'medium', color: { rgb: '000000' } },
+      left: { style: 'medium', color: { rgb: '000000' } },
     },
   }
 
-  // HR tagline
-  worksheet['H29'].s = {
+  checklist['C12'].s = {
     font: {
-      sz: 13,
-      bold: true,
+      sz: 8,
     },
-    alignment: {
-      wrapText: true,
-      horizontal: 'center',
-      vertical: 'center',
+    alignment: { horizontal: 'center', vertical: 'bottom', wrapText: true },
+    border: {
+      right: { style: 'medium', color: { rgb: '000000' } },
+      bottom: { style: 'medium', color: { rgb: '000000' } },
+      left: { style: 'medium', color: { rgb: '000000' } },
     },
   }
-  // Reminder text
-  worksheet['H34'].s = {
+  checklist['D12'].s = {
     font: {
-      bold: true,
+      sz: 8,
     },
-    alignment: {
-      wrapText: true,
-      horizontal: 'center',
-      vertical: 'center',
+    alignment: { horizontal: 'center', vertical: 'bottom', wrapText: true },
+    border: {
+      right: { style: 'medium', color: { rgb: '000000' } },
+      bottom: { style: 'medium', color: { rgb: '000000' } },
+      left: { style: 'medium', color: { rgb: '000000' } },
     },
   }
 
-  const workbook = XLSX.utils.book_new()
-  XLSX.utils.book_append_sheet(
-    workbook,
-    worksheet,
-    'Reports_On_Appointments_Issued'
+  XLSX.utils.book_append_sheet(RAI, checklist, 'Checklist')
+
+  XLSX.writeFile(
+    RAI,
+    `Reports_On_Appointments_Issued_${dayjs(yearMonth).format(
+      'MMMM_YYYY'
+    )}.xlsx`,
+    {
+      defaultCellStyle: defaultCellStyle,
+    }
   )
 
-  XLSX.writeFile(workbook, 'Reports_On_Appointments_Issued.xlsx', {
-    defaultCellStyle: defaultCellStyle,
-  })
+  return
 }
-
-export default ExcelDocument
