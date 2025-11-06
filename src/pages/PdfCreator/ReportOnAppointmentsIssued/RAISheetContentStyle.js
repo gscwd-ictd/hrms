@@ -20,11 +20,11 @@ const merge = [
 
   // CSC Reso
   { s: { c: 7, r: 10 }, e: { c: 8, r: 10 } },
-  { s: { c: 9, r: 10 }, e: { c: 10, r: 10 } },
+  { s: { c: 9, r: 10 }, e: { c: 11, r: 12 } },
 
   // Instructions
   { s: { c: 0, r: 12 }, e: { c: 1, r: 12 } },
-  { s: { c: 2, r: 12 }, e: { c: 10, r: 12 } },
+  { s: { c: 2, r: 12 }, e: { c: 7, r: 12 } },
   { s: { c: 2, r: 13 }, e: { c: 10, r: 13 } },
   { s: { c: 2, r: 14 }, e: { c: 10, r: 14 } },
   { s: { c: 2, r: 15 }, e: { c: 10, r: 15 } },
@@ -71,6 +71,7 @@ const merge = [
   { s: { c: 0, r: 45 }, e: { c: 18, r: 45 } },
 ]
 
+// column width
 const wscols = [
   { wch: 2.71 }, // A
   { wch: 11.57 }, // B
@@ -78,7 +79,7 @@ const wscols = [
   { wch: 13.29 }, // D
   { wch: 8.57 }, // E
   { wch: 10.43 }, // F
-  { wch: 12.57 }, // G
+  { wch: 20 }, // G
   { wch: 8.29 }, // H
   { wch: 9 }, // I
   { wch: 9.29 }, // J
@@ -93,6 +94,7 @@ const wscols = [
   { wch: 13.29 }, // S
 ]
 
+// row height
 const wsrows = [
   { hpx: 21.75 }, // 1
   { hpx: 18.75 }, // 2
@@ -116,16 +118,16 @@ const wsrows = [
   { hpx: 7.5 }, // 20
   { hpx: 15.75 }, // 21
   { hpx: 93 }, // 22
-  { hpx: 14.25 }, // 23
-  { hpx: 14.25 }, // 24
-  { hpx: 14.25 }, // 25
-  { hpx: 14.25 }, // 26
-  { hpx: 14.25 }, // 27
-  { hpx: 14.25 }, // 28
-  { hpx: 14.25 }, // 29
-  { hpx: 14.25 }, // 30
-  { hpx: 14.25 }, // 31
-  { hpx: 14.25 }, // 32
+  { hpx: 40 }, // 23
+  { hpx: 40 }, // 24
+  { hpx: 40 }, // 25
+  { hpx: 40 }, // 26
+  { hpx: 40 }, // 27
+  { hpx: 40 }, // 28
+  { hpx: 40 }, // 29
+  { hpx: 40 }, // 30
+  { hpx: 40 }, // 31
+  { hpx: 40 }, // 32
   { hpx: 21.75 }, // 33
   { hpx: 12.75 }, // 34
   { hpx: 19.5 }, // 35
@@ -165,11 +167,19 @@ const cscRoFo = [
 ]
 
 const agency = [
-  ['AGENCY:', '', '', '', '', ''], // 11
+  ['AGENCY:', '', 'GENERAL SANTOS CITY WATER DISTRICT', '', '', ''], // 11
 ]
 
 const resoNo = [
-  ['CSC Resolution No:', '', '', ''], // 11
+  [
+    'CSC Resolution No:',
+    '',
+    '1100603, promulgated April 20, 2011 and 1801157 dated October 30, 2018 conferring PRIME-HRM Award to GSCWD',
+    '',
+    '',
+  ], // 11
+  ['', '', '', '', ''], // 12
+  ['', '', '', '', ''], // 13
 ]
 
 const instructions = [

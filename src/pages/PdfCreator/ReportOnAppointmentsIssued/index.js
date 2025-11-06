@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Can } from 'casl/Can'
 import { Navigate, useParams } from 'react-router-dom'
-
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchDocumentReportOnAppointmentsIssued } from 'store/actions'
-
 import { Container, Form, Button } from 'reactstrap'
 import { PDFViewer } from '@react-pdf/renderer'
 import RAIDocument from './RAIDocument'
 import { createExcelDocument } from './ExcelDocument'
+import { Capitalize } from 'functions/Capitalize'
 
 // Extra components
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
@@ -54,7 +53,7 @@ const ReportOnAppointmentsIssuedPdf = () => {
           itemNumber: appointee.itemNumber || '',
           salaryGrade: appointee.salaryGrade || '',
           monthlySalary: appointee.monthlySalary || '',
-          employmentStatus: appointee.employmentStatus || '',
+          employmentStatus: Capitalize(appointee.employmentStatus) || '',
           periodOfEmployment: mergePeriodOfEmployment(
             appointee.employmentFrom,
             appointee.employmentTo
