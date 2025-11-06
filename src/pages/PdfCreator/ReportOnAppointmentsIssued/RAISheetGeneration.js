@@ -176,13 +176,51 @@ export const RaiSheetGeneration = (
     alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
   }
   sheetName['J11'].s = {
+    font: {
+      sz: 9,
+    },
+    alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
     border: {
-      bottom: { style: 'thin', color: { rgb: '000000' } },
+      top: { style: 'thin', color: { rgb: '000000' } },
+      left: { style: 'thin', color: { rgb: '000000' } },
     },
   }
   sheetName['K11'].s = {
     border: {
+      top: { style: 'thin', color: { rgb: '000000' } },
+    },
+  }
+  sheetName['L11'].s = {
+    border: {
+      top: { style: 'thin', color: { rgb: '000000' } },
+      right: { style: 'thin', color: { rgb: '000000' } },
+    },
+  }
+  sheetName['J12'].s = {
+    border: {
+      left: { style: 'thin', color: { rgb: '000000' } },
+    },
+  }
+  sheetName['L12'].s = {
+    border: {
+      right: { style: 'thin', color: { rgb: '000000' } },
+    },
+  }
+  sheetName['J13'].s = {
+    border: {
       bottom: { style: 'thin', color: { rgb: '000000' } },
+      left: { style: 'thin', color: { rgb: '000000' } },
+    },
+  }
+  sheetName['K13'].s = {
+    border: {
+      bottom: { style: 'thin', color: { rgb: '000000' } },
+    },
+  }
+  sheetName['L13'].s = {
+    border: {
+      bottom: { style: 'thin', color: { rgb: '000000' } },
+      right: { style: 'thin', color: { rgb: '000000' } },
     },
   }
 
