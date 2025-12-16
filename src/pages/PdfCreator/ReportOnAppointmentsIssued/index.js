@@ -45,8 +45,8 @@ const ReportOnAppointmentsIssuedPdf = () => {
         const object = {
           index: index + 1,
           effectivityDate: appointee.effectivityDate || '',
-          firstName: appointee.firstName || '',
           lastName: appointee.lastName || '',
+          firstName: appointee.firstName || '',
           nameExtension: appointee.nameExtension || '',
           middleName: appointee.middleName || '',
           positionTitle: appointee.positionTitle || '',
