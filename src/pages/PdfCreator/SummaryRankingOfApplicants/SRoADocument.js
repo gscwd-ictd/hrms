@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
   },
   signature: {
-    width: 100,
+    width: 90,
     marginHorizontal: 'auto',
   },
   rowTable: {
@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
   signatoryName: {
     fontFamily: 'CalibriRegularBold',
     textTransform: 'uppercase',
+    marginTop: -15,
   },
 
   verticalCenter: { margin: 'auto 0' },

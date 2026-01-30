@@ -72,18 +72,18 @@ const PublicationPositions = () => {
   )
 
   // Redux state for to be selected applciants by appointing authority
-  const {
-    selectedApplicantsByAppAuth,
-    loadingSelectedByAppointingAuth,
-    errorSelectedByAppointingAuth,
-  } = useSelector(state => ({
-    selectedApplicantsByAppAuth:
-      state.personnelSelectionBoard.response.selectedByAppointingAuth,
-    loadingSelectedByAppointingAuth:
-      state.personnelSelectionBoard.loading.loadingSelectedByAppointingAuth,
-    errorSelectedByAppointingAuth:
-      state.personnelSelectionBoard.error.errorSelectedByAppointingAuth,
-  }))
+  // const {
+  //   selectedApplicantsByAppAuth,
+  //   loadingSelectedByAppointingAuth,
+  //   errorSelectedByAppointingAuth,
+  // } = useSelector(state => ({
+  //   selectedApplicantsByAppAuth:
+  //     state.personnelSelectionBoard.response.selectedByAppointingAuth,
+  //   loadingSelectedByAppointingAuth:
+  //     state.personnelSelectionBoard.loading.loadingSelectedByAppointingAuth,
+  //   errorSelectedByAppointingAuth:
+  //     state.personnelSelectionBoard.error.errorSelectedByAppointingAuth,
+  // }))
 
   const tblColumns = [
     {
@@ -294,6 +294,14 @@ const PublicationPositions = () => {
               <DropdownItem onClick={() => shortlist(cell.row.values)}>
                 <Link className="dropdown-item" to="#">
                   View Shortlist
+                </Link>
+              </DropdownItem>
+
+              <DropdownItem
+                onClick={() => scheduleExamination(cell.row.values)}
+              >
+                <Link className="dropdown-item" to="#">
+                  Schedule for examination
                 </Link>
               </DropdownItem>
 
