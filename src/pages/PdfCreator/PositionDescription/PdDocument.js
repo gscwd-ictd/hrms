@@ -555,7 +555,7 @@ const PdDocument = props => {
             {/* QUALIFICATION STANDARDS */}
             <View wrap={false} break>
               <View>
-                <Text style={[styles.headerText, { marginTop: 0 }]} debug>
+                <Text style={[styles.headerText, { marginTop: 0 }]}>
                   Qualification Standards
                 </Text>
               </View>
