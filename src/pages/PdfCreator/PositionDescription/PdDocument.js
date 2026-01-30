@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 import {
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   signatoryName: {
     fontFamily: 'CalibriRegularBold',
     textTransform: 'uppercase',
-    paddingTop: 3,
+    marginTop: -15,
   },
 
   verticalCenter: { margin: 'auto 0' },
@@ -228,78 +228,44 @@ const PdDocument = props => {
     return content
   }
 
-  const renderFunctionalCompetencies = () => {
-    var content = proficiencyLevel.functional.map((competency, index) => (
+  const renderCompetencies = () => {
+    const allCompetencies = [
+      ...proficiencyLevel.functional,
+      ...proficiencyLevel.crossCutting,
+      ...proficiencyLevel.managerial,
+    ]
+
+    const orderMap = new Map()
+    positionDutyResponsibilities.duties.core.forEach((duty, index) => {
+      orderMap.set(duty.competency, index)
+    })
+
+    allCompetencies.sort((a, b) => {
+      const indexA = orderMap.get(a.name)
+      const indexB = orderMap.get(b.name)
+
+      return indexA - indexB
+    })
+
+    var content = allCompetencies.map((competency, index) => (
       <View
         style={[styles.rowContainerTable, styles.borderAll]}
         key={index}
         wrap={false}
       >
         <View style={[styles.w60, styles.tData, styles.borderRight]}>
-          <Text>
-            <Text style={{ fontFamily: 'CalibriRegularBold' }}>
-              {competency.name}
-            </Text>
-            {' - '}
-            <Text>{competency.keyActions}</Text>
+          <Text
+            style={{ fontFamily: 'CalibriRegularBold', textAlign: 'center' }}
+          >
+            {competency.name}
           </Text>
+
+          <Text style={{ textAlign: 'justify' }}>{competency.description}</Text>
         </View>
         <View style={[styles.w40, styles.tData]}>
           <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
             {competency.level}
           </Text>
-        </View>
-      </View>
-    ))
-
-    return content
-  }
-
-  const renderCrossCuttingCompetencies = () => {
-    var content = proficiencyLevel.crossCutting.map((competency, index) => (
-      <View
-        style={[styles.rowContainerTable, styles.borderAll]}
-        key={index}
-        wrap={false}
-      >
-        <View style={[styles.w60, styles.tData, styles.borderRight]}>
-          <Text>
-            <Text style={{ fontFamily: 'CalibriRegularBold' }}>
-              {competency.name}
-            </Text>
-            {' - '}
-            <Text>{competency.keyActions}</Text>
-          </Text>
-        </View>
-        <View style={[styles.w40, styles.tData]}>
-          <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
-            {competency.level}
-          </Text>
-        </View>
-      </View>
-    ))
-
-    return content
-  }
-
-  const renderManagerialCompetencies = () => {
-    var content = proficiencyLevel.managerial.map((competency, index) => (
-      <View
-        style={[styles.rowContainerTable, styles.borderAll]}
-        key={index}
-        wrap={false}
-      >
-        <View style={[styles.w60, styles.tData, styles.borderRight]}>
-          <Text>
-            <Text style={{ fontFamily: 'CalibriRegularBold' }}>
-              {competency.name}
-            </Text>
-            {' - '}
-            <Text>{competency.keyActions}</Text>
-          </Text>
-        </View>
-        <View style={[styles.w40, styles.tData]}>
-          <Text>{competency.level}</Text>
         </View>
       </View>
     ))
@@ -587,9 +553,11 @@ const PdDocument = props => {
             </View>
 
             {/* QUALIFICATION STANDARDS */}
-            <View wrap={false} style={[{ marginTop: 5 }]} break>
+            <View wrap={false} break>
               <View>
-                <Text style={[styles.headerText]}>Qualification Standards</Text>
+                <Text style={[styles.headerText, { marginTop: 0 }]} debug>
+                  Qualification Standards
+                </Text>
               </View>
 
               <View style={{ marginLeft: 15 }}>
@@ -687,16 +655,14 @@ const PdDocument = props => {
                 </View>
 
                 {/* Table Body */}
-                {renderFunctionalCompetencies()}
-                {renderCrossCuttingCompetencies()}
-                {renderManagerialCompetencies()}
+                {renderCompetencies()}
               </View>
             </View>
 
             {/* SIGNATORIES */}
             {!isEmpty(prfDetails) ? (
               <>
-                <View style={[{ marginTop: 35 }]} wrap={false}>
+                <View style={[{ marginTop: 10 }]} wrap={false}>
                   {/* Row 1  */}
                   <View style={[styles.rowContainer]} wrap={false}>
                     {/* REQUESTED BY */}
