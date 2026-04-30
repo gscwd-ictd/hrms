@@ -297,14 +297,6 @@ const PublicationPositions = () => {
                 </Link>
               </DropdownItem>
 
-              <DropdownItem
-                onClick={() => scheduleExamination(cell.row.values)}
-              >
-                <Link className="dropdown-item" to="#">
-                  Schedule for examination
-                </Link>
-              </DropdownItem>
-
               {cell.row.original.withExam === 1 ? (
                 <DropdownItem
                   onClick={() => scheduleExamination(cell.row.values)}
