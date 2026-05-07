@@ -87,7 +87,7 @@ const TableHiringResults = props => {
 
       <Table
         {...getTableProps()}
-        className="table mb-0 wd-table"
+        className="table mb-0 wd-table mt-3"
         hover
         responsive
       >

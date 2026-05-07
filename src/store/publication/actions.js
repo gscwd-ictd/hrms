@@ -175,9 +175,10 @@ export const updateAppointmentEffectivityDateFail = error => ({
 })
 
 // Get list of publications with hired applicants
-export const fetchPublicationsWithHiredApplicants = () => {
+export const fetchPublicationsWithHiredApplicants = yearFilter => {
   return {
     type: GET_PUBLICATIONS_WITH_HIRED_APPLICANTS,
+    payload: yearFilter,
   }
 }
 export const fetchPublicationsWithHiredApplicantsSuccess = response => {

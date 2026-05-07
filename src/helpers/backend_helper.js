@@ -366,8 +366,8 @@ export const patchAppointmentEffectivity = (vppId, effectivityDateDetails) =>
     effectivityDateDetails
   )
 
-export const getPublicationsWithHiredApplicants = () =>
-  getHris(url.APPLICANT_ENDORSEMENT + url.HIRING_PROCESS_RESULTS)
+export const getPublicationsWithHiredApplicants = yearFilter =>
+  getHris(url.APPLICANT_ENDORSEMENT + url.HIRING_PROCESS_RESULTS + yearFilter)
 
 export const getPublicationItemNumbers = vppId =>
   getHris(url.PUBLICATIONS + url.ITEM_NUMBERS_IN_PUBLICATION + vppId)
