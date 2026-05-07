@@ -157,9 +157,9 @@ function* updateAppointmentEffectivityDate({
   }
 }
 
-function* fetchPublicationsWithHiredApplicants() {
+function* fetchPublicationsWithHiredApplicants({ payload: yearFilter }) {
   try {
-    const response = yield call(getPublicationsWithHiredApplicants)
+    const response = yield call(getPublicationsWithHiredApplicants, yearFilter)
     yield put(fetchPublicationsWithHiredApplicantsSuccess(response))
   } catch (error) {
     yield put(fetchPublicationsWithHiredApplicantsFailed(error))

@@ -5,18 +5,30 @@ import { Navigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchPublicationsWithHiredApplicants } from 'store/actions'
 import TableHiringResults from 'components/Table/TableHiringResults'
-import { Container, Card, CardBody, Button } from 'reactstrap'
+import {
+  Container,
+  Card,
+  CardBody,
+  Button,
+  Row,
+  Col,
+  Label,
+  Input,
+} from 'reactstrap'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import Breadcrumb from 'components/Common/Breadcrumb'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 import HiredApplicants from 'components/Modal/HiringResults/HiredApplicants'
-import { CapitalizeEachWord } from 'functions/CapitalizeEachWord'
+import dayjs from 'dayjs'
 
 // style
 import 'styles/custom_gscwd/components/table.scss'
 
 const HiringResults = () => {
   const dispatch = useDispatch()
+
+  const [yearFilter, setYearFilter] = useState(dayjs().year())
+  const [debouncedYearFilter, setDebouncedYearFilter] = useState(dayjs().year())
 
   const tableColumns = [
     {
@@ -103,9 +115,18 @@ const HiringResults = () => {
     handleShowHiredApplicantsModal()
   }
 
+  // Debounce for year filter of publication
   useEffect(() => {
-    dispatch(fetchPublicationsWithHiredApplicants())
-  }, [dispatch])
+    const timeoutId = setTimeout(() => {
+      setDebouncedYearFilter(yearFilter)
+    }, 1000)
+
+    return () => clearTimeout(timeoutId)
+  }, [yearFilter, 1000])
+
+  useEffect(() => {
+    dispatch(fetchPublicationsWithHiredApplicants(debouncedYearFilter))
+  }, [debouncedYearFilter])
 
   return (
     <React.Fragment>
@@ -130,7 +151,28 @@ const HiringResults = () => {
                 {loadingPublicationsWithHiredApplicants ? (
                   <LoadingIndicator />
                 ) : (
-                  <TableHiringResults columns={columns} data={data} />
+                  <>
+                    <div className="top-right-filter-container">
+                      <Row className="justify-content-end">
+                        <Col md={3}>
+                          <Label for="year-filter">Year</Label>
+                          <Input
+                            name="year-filter"
+                            type="number"
+                            min="2000"
+                            max="2099"
+                            step="1"
+                            onChange={e => {
+                              setYearFilter(e.target.value)
+                            }}
+                            value={yearFilter}
+                          />
+                        </Col>
+                      </Row>
+                    </div>
+
+                    <TableHiringResults columns={columns} data={data} />
+                  </>
                 )}
 
                 <HiredApplicants
