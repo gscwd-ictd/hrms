@@ -20,8 +20,7 @@ import { isEmpty } from 'lodash'
 const styles = StyleSheet.create({
   page: {
     backgroundColor: '#ffffff',
-    paddingTop: 15,
-    paddingBottom: 35,
+    padding: '22 27 35 27',
   },
   rowContainer: {
     flexDirection: 'row',
@@ -29,7 +28,7 @@ const styles = StyleSheet.create({
     marginTop: 3,
   },
   bodyBorder: {
-    marginHorizontal: 50,
+    marginHorizontal: 0,
   },
 
   // Table Styles
@@ -147,65 +146,162 @@ const PdDocument = props => {
       (duty, index) => {
         if (index === 0) {
           return (
-            <View key={index} wrap={false}>
+            // <View key={index} wrap={false}>
+            //   <Text style={[styles.headerText]}>
+            //     Statement of Duties and Responsibilities
+            //   </Text>
+
+            //   <View>
+            //     <View style={[styles.rowContainerTable, styles.borderAll]}>
+            //       <View
+            //         style={[
+            //           styles.w14,
+            //           styles.tHeadSecondLevel,
+            //           styles.borderRight,
+            //         ]}
+            //       >
+            //         <Text>Percentage of Work</Text>
+            //       </View>
+
+            //       <View
+            //         style={[
+            //           styles.w60,
+            //           styles.tHeadSecondLevel,
+            //           styles.borderRight,
+            //         ]}
+            //       >
+            //         <Text>Duties and Responsibilities</Text>
+            //       </View>
+
+            //       <View style={[styles.w26, styles.tHeadSecondLevel]}>
+            //         <Text>Competency/Level</Text>
+            //       </View>
+            //     </View>
+
+            //     <View style={[styles.rowContainerTable, styles.borderAll]}>
+            //       <View style={[styles.w14, styles.tData, styles.borderRight]}>
+            //         <Text
+            //           style={[styles.horizontalCenter, styles.verticalCenter]}
+            //         >
+            //           {duty.percentage}
+            //         </Text>
+            //       </View>
+            //       <View style={[styles.w60, styles.tData, styles.borderRight]}>
+            //         <Text>{duty.description}</Text>
+            //       </View>
+            //       <View
+            //         style={[styles.w26, styles.tData, styles.horizontalCenter]}
+            //       >
+            //         <Text>{duty.competency} / </Text>
+            //         <Text>{duty.level}</Text>
+            //       </View>
+            //     </View>
+            //   </View>
+            // </View>
+            <View key={index}>
               <Text style={[styles.headerText]}>
                 Statement of Duties and Responsibilities
               </Text>
 
-              <View>
-                <View style={[styles.rowContainerTable, styles.borderAll]}>
-                  <View
-                    style={[
-                      styles.w14,
-                      styles.tHeadSecondLevel,
-                      styles.borderRight,
-                    ]}
-                  >
-                    <Text>Percentage of Work</Text>
-                  </View>
-
-                  <View
-                    style={[
-                      styles.w60,
-                      styles.tHeadSecondLevel,
-                      styles.borderRight,
-                    ]}
-                  >
-                    <Text>Duties and Responsibilities</Text>
-                  </View>
-
-                  <View style={[styles.w26, styles.tHeadSecondLevel]}>
-                    <Text>Competency/Level</Text>
-                  </View>
+              <View
+                style={[
+                  styles.rowContainerTable,
+                  styles.borderAll,
+                  {
+                    height: 30,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  },
+                ]}
+              >
+                <View
+                  style={[
+                    styles.w14,
+                    styles.tHeadSecondLevel,
+                    styles.borderRight,
+                    { height: 30 },
+                  ]}
+                >
+                  <Text>Percentage</Text>
+                  <Text>of Work</Text>
                 </View>
 
-                <View style={[styles.rowContainerTable, styles.borderAll]}>
-                  <View style={[styles.w14, styles.tData, styles.borderRight]}>
-                    <Text
-                      style={[styles.horizontalCenter, styles.verticalCenter]}
-                    >
-                      {duty.percentage}
-                    </Text>
-                  </View>
-                  <View style={[styles.w60, styles.tData, styles.borderRight]}>
-                    <Text>{duty.description}</Text>
-                  </View>
-                  <View
-                    style={[styles.w26, styles.tData, styles.horizontalCenter]}
+                <View
+                  style={[
+                    styles.w60,
+                    styles.tHeadSecondLevel,
+                    styles.borderRight,
+                    { height: 30, padding: '8 0 0 0' },
+                  ]}
+                >
+                  <Text>Duties and Responsibilities</Text>
+                </View>
+
+                <View
+                  style={[
+                    styles.w26,
+                    styles.tHeadSecondLevel,
+                    { height: 30, padding: '8 0 0 0' },
+                  ]}
+                >
+                  <Text>Competency/Level</Text>
+                </View>
+              </View>
+
+              {/* render the first core duty to be wrapped with the table header */}
+              <View style={[styles.rowContainerTable, styles.borderAll]}>
+                <View style={[styles.w14, styles.tData, styles.borderRight]}>
+                  <Text
+                    style={[styles.horizontalCenter, styles.verticalCenter]}
                   >
-                    <Text>{duty.competency} / </Text>
-                    <Text>{duty.level}</Text>
-                  </View>
+                    {positionDutyResponsibilities?.duties.core[0].percentage}
+                  </Text>
+                </View>
+                <View style={[styles.w60, styles.tData, styles.borderRight]}>
+                  <Text>
+                    {positionDutyResponsibilities?.duties?.core[0].description}
+                  </Text>
+                </View>
+                <View
+                  style={[styles.w26, styles.tData, styles.horizontalCenter]}
+                >
+                  <Text>
+                    {positionDutyResponsibilities?.duties?.core[0].competency} /{' '}
+                  </Text>
+                  <Text>
+                    {positionDutyResponsibilities?.duties?.core[0].level}
+                  </Text>
                 </View>
               </View>
             </View>
           )
         } else {
           return (
+            // <View
+            //   style={[styles.rowContainerTable, styles.borderAll]}
+            //   key={index}
+            //   wrap={false}
+            // >
+            //   <View style={[styles.w14, styles.tData, styles.borderRight]}>
+            //     <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
+            //       {duty.percentage}
+            //     </Text>
+            //   </View>
+            //   <View style={[styles.w60, styles.tData, styles.borderRight]}>
+            //     <Text>{duty.description}</Text>
+            //   </View>
+            //   <View style={[styles.w26, styles.tData, styles.horizontalCenter]}>
+            //     <Text>{duty.competency} / </Text>
+            //     <Text>{duty.level}</Text>
+            //   </View>
+            // </View>
             <View
-              style={[styles.rowContainerTable, styles.borderAll]}
+              style={[
+                styles.rowContainerTable,
+                styles.borderAll,
+                styles.bodyText,
+              ]}
               key={index}
-              wrap={false}
             >
               <View style={[styles.w14, styles.tData, styles.borderRight]}>
                 <Text style={[styles.horizontalCenter, styles.verticalCenter]}>
@@ -349,7 +445,7 @@ const PdDocument = props => {
       subject="Position Description - HRD-014-3"
       title={'Position Description for ' + jobDescription.itemNumber}
     >
-      <Page size="A4" style={styles.page}>
+      <Page size="FOLIO" style={styles.page}>
         <Header />
 
         <View style={[styles.bodyBorder]}>
@@ -551,191 +647,196 @@ const PdDocument = props => {
                 </View> */}
               </View>
             </View>
-
-            {/* QUALIFICATION STANDARDS */}
-            <View wrap={false} break>
-              <View>
-                <Text style={[styles.headerText, { marginTop: 0 }]}>
-                  Qualification Standards
-                </Text>
-              </View>
-
-              <View style={{ marginLeft: 15 }}>
-                {/* Education */}
-                <View style={[styles.rowContainer]}>
-                  <View style={[styles.w20, styles.bodyTextBold]}>
-                    <Text>Education</Text>
-                  </View>
-
-                  <View style={[styles.w5]}>
-                    <Text>:</Text>
-                  </View>
-
-                  <View style={[styles.w75]}>
-                    <Text>
-                      {positionQualificationStandards.education || 'N/A'}
-                    </Text>
-                  </View>
-                </View>
-
-                {/* Training */}
-                <View style={[styles.rowContainer]}>
-                  <View style={[styles.w20, styles.bodyTextBold]}>
-                    <Text>Training</Text>
-                  </View>
-
-                  <View style={[styles.w5]}>
-                    <Text>:</Text>
-                  </View>
-
-                  <View style={[styles.w75]}>
-                    <Text>
-                      {positionQualificationStandards.training || 'N/A'}
-                    </Text>
-                  </View>
-                </View>
-
-                {/* Experience */}
-                <View style={[styles.rowContainer]}>
-                  <View style={[styles.w20, styles.bodyTextBold]}>
-                    <Text>Experience</Text>
-                  </View>
-
-                  <View style={[styles.w5]}>
-                    <Text>:</Text>
-                  </View>
-
-                  <View style={[styles.w75]}>
-                    <Text>
-                      {positionQualificationStandards.experience || 'N/A'}
-                    </Text>
-                  </View>
-                </View>
-
-                {/* Eligibility */}
-                <View style={[styles.rowContainer]}>
-                  <View style={[styles.w20, styles.bodyTextBold]}>
-                    <Text>Eligibility</Text>
-                  </View>
-
-                  <View style={[styles.w5]}>
-                    <Text>:</Text>
-                  </View>
-
-                  <View style={[styles.w75]}>
-                    <Text>
-                      {positionQualificationStandards.eligibility || 'N/A'}
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-
-            {/* COMPETENCIES */}
-            <View>
-              <View>
-                <Text style={[styles.headerText]}>Competencies</Text>
-              </View>
-
-              <View>
-                {/* Table Header */}
-                <View style={[styles.rowContainerTable, styles.borderAll]}>
-                  <View
-                    style={[
-                      styles.w60,
-                      styles.tHeadSecondLevel,
-                      styles.borderRight,
-                    ]}
-                  >
-                    <Text>Competency</Text>
-                  </View>
-                  <View style={[styles.w40, styles.tHeadSecondLevel]}>
-                    <Text>Required Proficiency Level</Text>
-                  </View>
-                </View>
-
-                {/* Table Body */}
-                {renderCompetencies()}
-              </View>
-            </View>
-
-            {/* SIGNATORIES */}
-            {!isEmpty(prfDetails) ? (
-              <>
-                <View style={[{ marginTop: 10 }]} wrap={false}>
-                  {/* Row 1  */}
-                  <View style={[styles.rowContainer]} wrap={false}>
-                    {/* REQUESTED BY */}
-                    <View style={[styles.w33_33]}>
-                      <Text>Requested by:</Text>
-                      <View style={[styles.horizontalCenter]}>
-                        <Image
-                          source={`${process.env.REACT_APP_IMAGE_SERVER_URL}${prfDetails?.from.fromSignatureUrl}`}
-                          style={[styles.signature]}
-                        />
-                        <Text style={[styles.signatoryName]}>
-                          {prfDetails?.from.name}
-                        </Text>
-                        <Text>{prfDetails?.from.position}</Text>
-                      </View>
-                    </View>
-
-                    {/* REVIEWED BY */}
-                    <View style={[styles.w33_33]}>
-                      <Text>Reviewed by:</Text>
-                      <View style={[styles.horizontalCenter]}>
-                        {renderReviewedBy()}
-                      </View>
-                    </View>
-
-                    {/* RECOMMENDED BY */}
-                    <View style={[styles.w33_33]}>
-                      <Text>Recommended by:</Text>
-                      <View style={[styles.horizontalCenter]}>
-                        {renderRecommendedBy()}
-                      </View>
-                    </View>
-                  </View>
-
-                  {/* Row 2  */}
-                  <View
-                    style={[styles.rowContainer, { marginTop: 20 }]}
-                    wrap={false}
-                  >
-                    {/* CERTIFIED CORRECT BY */}
-                    <View style={[styles.w50]}>
-                      <Text>Certified correct by:</Text>
-                      <View style={[styles.horizontalCenter]}>
-                        <Image
-                          source={`${process.env.REACT_APP_IMAGE_SERVER_URL}${prfTrail.admin.signatureUrl}`}
-                          style={[styles.signature]}
-                        />
-                        <Text style={[styles.signatoryName]}>
-                          {prfTrail.admin.name}
-                        </Text>
-                        <Text>{prfTrail.admin.position}</Text>
-                      </View>
-                    </View>
-
-                    {/* APPROVED BY */}
-                    <View style={[styles.w50]}>
-                      <Text>Approved by:</Text>
-                      <View style={[styles.horizontalCenter]}>
-                        <Image
-                          source={`${process.env.REACT_APP_IMAGE_SERVER_URL}${prfDetails?.for.forSignatureUrl}`}
-                          style={[styles.signature]}
-                        />
-                        <Text style={[styles.signatoryName]}>
-                          {prfDetails?.for.name}
-                        </Text>
-                        <Text>{prfDetails?.for.position}</Text>
-                      </View>
-                    </View>
-                  </View>
-                </View>
-              </>
-            ) : null}
           </View>
+        </View>
+      </Page>
+
+      <Page size="FOLIO" style={styles.page}>
+        <Header />
+        <View style={[styles.bodyText]}>
+          {/* QUALIFICATION STANDARDS */}
+          <View wrap={false}>
+            <View>
+              <Text style={[styles.headerText, { marginTop: 0 }]}>
+                Qualification Standards
+              </Text>
+            </View>
+
+            <View style={{ marginLeft: 15 }}>
+              {/* Education */}
+              <View style={[styles.rowContainer]}>
+                <View style={[styles.w20, styles.bodyTextBold]}>
+                  <Text>Education</Text>
+                </View>
+
+                <View style={[styles.w5]}>
+                  <Text>:</Text>
+                </View>
+
+                <View style={[styles.w75]}>
+                  <Text>
+                    {positionQualificationStandards.education || 'N/A'}
+                  </Text>
+                </View>
+              </View>
+
+              {/* Training */}
+              <View style={[styles.rowContainer]}>
+                <View style={[styles.w20, styles.bodyTextBold]}>
+                  <Text>Training</Text>
+                </View>
+
+                <View style={[styles.w5]}>
+                  <Text>:</Text>
+                </View>
+
+                <View style={[styles.w75]}>
+                  <Text>
+                    {positionQualificationStandards.training || 'N/A'}
+                  </Text>
+                </View>
+              </View>
+
+              {/* Experience */}
+              <View style={[styles.rowContainer]}>
+                <View style={[styles.w20, styles.bodyTextBold]}>
+                  <Text>Experience</Text>
+                </View>
+
+                <View style={[styles.w5]}>
+                  <Text>:</Text>
+                </View>
+
+                <View style={[styles.w75]}>
+                  <Text>
+                    {positionQualificationStandards.experience || 'N/A'}
+                  </Text>
+                </View>
+              </View>
+
+              {/* Eligibility */}
+              <View style={[styles.rowContainer]}>
+                <View style={[styles.w20, styles.bodyTextBold]}>
+                  <Text>Eligibility</Text>
+                </View>
+
+                <View style={[styles.w5]}>
+                  <Text>:</Text>
+                </View>
+
+                <View style={[styles.w75]}>
+                  <Text>
+                    {positionQualificationStandards.eligibility || 'N/A'}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+
+          {/* COMPETENCIES */}
+          <View>
+            <View>
+              <Text style={[styles.headerText]}>Competencies</Text>
+            </View>
+
+            <View>
+              {/* Table Header */}
+              <View style={[styles.rowContainerTable, styles.borderAll]}>
+                <View
+                  style={[
+                    styles.w60,
+                    styles.tHeadSecondLevel,
+                    styles.borderRight,
+                  ]}
+                >
+                  <Text>Competency</Text>
+                </View>
+                <View style={[styles.w40, styles.tHeadSecondLevel]}>
+                  <Text>Required Proficiency Level</Text>
+                </View>
+              </View>
+
+              {/* Table Body */}
+              {renderCompetencies()}
+            </View>
+          </View>
+
+          {/* SIGNATORIES */}
+          {!isEmpty(prfDetails) ? (
+            <>
+              <View style={[{ marginTop: 10 }]} wrap={false}>
+                {/* Row 1  */}
+                <View style={[styles.rowContainer]} wrap={false}>
+                  {/* REQUESTED BY */}
+                  <View style={[styles.w33_33]}>
+                    <Text>Requested by:</Text>
+                    <View style={[styles.horizontalCenter]}>
+                      <Image
+                        source={`${process.env.REACT_APP_IMAGE_SERVER_URL}${prfDetails?.from.fromSignatureUrl}`}
+                        style={[styles.signature]}
+                      />
+                      <Text style={[styles.signatoryName]}>
+                        {prfDetails?.from.name}
+                      </Text>
+                      <Text>{prfDetails?.from.position}</Text>
+                    </View>
+                  </View>
+
+                  {/* REVIEWED BY */}
+                  <View style={[styles.w33_33]}>
+                    <Text>Reviewed by:</Text>
+                    <View style={[styles.horizontalCenter]}>
+                      {renderReviewedBy()}
+                    </View>
+                  </View>
+
+                  {/* RECOMMENDED BY */}
+                  <View style={[styles.w33_33]}>
+                    <Text>Recommended by:</Text>
+                    <View style={[styles.horizontalCenter]}>
+                      {renderRecommendedBy()}
+                    </View>
+                  </View>
+                </View>
+
+                {/* Row 2  */}
+                <View
+                  style={[styles.rowContainer, { marginTop: 20 }]}
+                  wrap={false}
+                >
+                  {/* CERTIFIED CORRECT BY */}
+                  <View style={[styles.w50]}>
+                    <Text>Certified correct by:</Text>
+                    <View style={[styles.horizontalCenter]}>
+                      <Image
+                        source={`${process.env.REACT_APP_IMAGE_SERVER_URL}${prfTrail.admin.signatureUrl}`}
+                        style={[styles.signature]}
+                      />
+                      <Text style={[styles.signatoryName]}>
+                        {prfTrail.admin.name}
+                      </Text>
+                      <Text>{prfTrail.admin.position}</Text>
+                    </View>
+                  </View>
+
+                  {/* APPROVED BY */}
+                  <View style={[styles.w50]}>
+                    <Text>Approved by:</Text>
+                    <View style={[styles.horizontalCenter]}>
+                      <Image
+                        source={`${process.env.REACT_APP_IMAGE_SERVER_URL}${prfDetails?.for.forSignatureUrl}`}
+                        style={[styles.signature]}
+                      />
+                      <Text style={[styles.signatoryName]}>
+                        {prfDetails?.for.name}
+                      </Text>
+                      <Text>{prfDetails?.for.position}</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </>
+          ) : null}
         </View>
       </Page>
     </Document>
