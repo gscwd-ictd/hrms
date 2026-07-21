@@ -22,8 +22,8 @@ Font.registerHyphenationCallback(word => [word])
 const styles = StyleSheet.create({
   page: {
     backgroundColor: '#ffffff',
-    paddingTop: 15,
-    paddingBottom: 15,
+    paddingTop: 25,
+    paddingBottom: 35,
   },
   rowContainer: {
     flexDirection: 'row',
@@ -305,10 +305,19 @@ const PdDbmCscDocument = props => {
 
     var content = myArray.map((perDuty, index) => (
       <View style={[styles.row, styles.w90]} key={index}>
-        <View style={styles.bullet}>
-          <Text>{'\u2022' + ' '}</Text>
-        </View>
-        <Text style={[styles.bodyText, { flexWrap: 'wrap' }]}>{perDuty}</Text>
+        {/* <View style={styles.bullet}><Text>{'\u2022' + ' '}</Text></View> */}
+        <Text
+          style={[
+            styles.bodyText,
+            {
+              flexWrap: 'wrap',
+              paddingLeft: 5,
+              paddingBottom: 8,
+            },
+          ]}
+        >
+          {'\u2022' + ' ' + perDuty}
+        </Text>
       </View>
     ))
 
@@ -317,11 +326,7 @@ const PdDbmCscDocument = props => {
 
   const renderDuties = dutiesCoreArray => {
     var content = dutiesCoreArray.map((duty, index) => (
-      <View
-        style={[styles.rowContainer, styles.borderAll]}
-        key={index}
-        wrap={false}
-      >
+      <View style={[styles.rowContainer, styles.borderAll]} key={index}>
         <View style={[styles.w25, styles.borderRight]}>
           <Text
             style={[
