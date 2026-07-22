@@ -24,13 +24,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     paddingTop: 25,
     paddingBottom: 35,
+    paddingHorizontal: 22,
   },
   rowContainer: {
     flexDirection: 'row',
     alignItems: 'stretch',
   },
   bodyBorder: {
-    marginHorizontal: 22,
+    borderBottom: '1px solid #000000',
   },
 
   // Table Styles
@@ -324,7 +325,7 @@ const PdDbmCscDocument = props => {
     return content
   }
 
-  const renderDuties = dutiesCoreArray => {
+  const renderDuties1stRow = dutiesCoreArray => {
     var content = dutiesCoreArray.map((duty, index) => (
       <View style={[styles.rowContainer, styles.borderAll]} key={index}>
         <View style={[styles.w25, styles.borderRight]}>
@@ -354,7 +355,44 @@ const PdDbmCscDocument = props => {
           </Text>
         </View>
       </View>
-    ))
+    ))[0]
+
+    return content
+  }
+
+  const renderDuties = dutiesCoreArray => {
+    var content = dutiesCoreArray.map((duty, index) =>
+      index >= 1 ? (
+        <View style={[styles.rowContainer, styles.borderAll]} key={index}>
+          <View style={[styles.w25, styles.borderRight]}>
+            <Text
+              style={[
+                styles.bodyText,
+                styles.verticalCenter,
+                styles.horizontalCenter,
+              ]}
+            >
+              {duty.percentage} %
+            </Text>
+          </View>
+          <View style={[styles.w50, styles.borderRight]}>
+            {listItem(duty.dutyResponsibility)}
+          </View>
+          <View style={[styles.w25]}>
+            <Text
+              style={[
+                styles.bodyTextBoldUppercase,
+                styles.horizontalCenter,
+                styles.verticalCenter,
+              ]}
+              hyphenationCallback={remarksHyphenationCallback}
+            >
+              {duty.competencyName}/{duty.competencyLevel}
+            </Text>
+          </View>
+        </View>
+      ) : null
+    )
 
     return content
   }
@@ -1499,158 +1537,159 @@ const PdDbmCscDocument = props => {
             )}
           </View>
 
-          <View>
-            {/* ROW 17 */}
-            <View>
-              <View style={[styles.rowContainer, styles.borderAll]}>
-                <View style={[styles.w75, styles.borderRight]}>
-                  <Text style={[styles.bodyTextBold, styles.tDataColored]}>
-                    22. STATEMENT OF DUTIES AND RESPONSIBILITIES (Technical
-                    Competencies)
-                  </Text>
-                </View>
-                <View style={[styles.w25]}>
-                  <Text
-                    style={[
-                      styles.bodyTextBold,
-                      styles.tDataColored,
-                      styles.horizontalCenter,
-                    ]}
-                  >
-                    Competency Level
-                  </Text>
-                </View>
+          {/* ROW 17 */}
+          <View wrap={false}>
+            <View style={[styles.rowContainer, styles.borderAll]}>
+              <View style={[styles.w75, styles.borderRight]}>
+                <Text style={[styles.bodyTextBold, styles.tDataColored]}>
+                  22. STATEMENT OF DUTIES AND RESPONSIBILITIES (Technical
+                  Competencies)
+                </Text>
               </View>
-
-              {/* Header */}
-              <View style={[styles.rowContainer, styles.borderAll]}>
-                <View style={[styles.w25, styles.borderRight]}>
-                  <Text
-                    style={[
-                      styles.bodyTextItalic,
-                      styles.horizontalCenter,
-                      styles.verticalCenter,
-                    ]}
-                  >
-                    Percentage of Work
-                  </Text>
-                </View>
-                <View style={[styles.w50, styles.borderRight]}>
-                  <Text
-                    style={[
-                      styles.bodyTextItalic,
-                      styles.horizontalCenter,
-                      styles.verticalCenter,
-                    ]}
-                  >
-                    (State the duties and responsibilities here:)
-                  </Text>
-                </View>
-                <View style={[styles.w25]}>
-                  <Text
-                    style={[
-                      styles.bodyTextItalic,
-                      styles.horizontalCenter,
-                      styles.verticalCenter,
-                    ]}
-                  >
-                    (Indicate the required Competency Level here)
-                  </Text>
-                </View>
-              </View>
-
-              {renderDuties(applicantDbmCsc.dutiesAndResponsibilities.core)}
-
-              {/* Last row */}
-              <View
-                style={[styles.rowContainer, styles.borderAll]}
-                wrap={false}
-              >
-                <View style={[styles.w25, styles.borderRight]}>
-                  <Text
-                    style={[
-                      styles.bodyTextBold,
-                      styles.horizontalCenter,
-                      styles.verticalCenter,
-                      { fontSize: 9.5 },
-                    ]}
-                  >
-                    100%
-                  </Text>
-                </View>
-                <View style={[styles.w50, styles.borderRight]}>
-                  <Text></Text>
-                </View>
-                <View style={[styles.w25]}>
-                  <Text></Text>
-                </View>
+              <View style={[styles.w25]}>
+                <Text
+                  style={[
+                    styles.bodyTextBold,
+                    styles.tDataColored,
+                    styles.horizontalCenter,
+                  ]}
+                >
+                  Competency Level
+                </Text>
               </View>
             </View>
 
-            {/* ROW 18 */}
-            <View style={[styles.borderAll]} wrap={false}>
-              <View style={[styles.borderBottom]}>
-                <View>
-                  <Text style={[styles.tDataColored]}> </Text>
-                </View>
-              </View>
-
-              <View style={[{ paddingTop: 5, paddingBottom: 25 }]}>
-                <Text style={[styles.bodyText]}>
-                  &nbsp;&nbsp; I have received a copy of this position
-                  description. It has been discussed with me and I have freely
-                  choosen to comply with the performance and behavior/conduct
-                  expectations contained herein.
+            {/* Header */}
+            <View style={[styles.rowContainer, styles.borderAll]}>
+              <View style={[styles.w25, styles.borderRight]}>
+                <Text
+                  style={[
+                    styles.bodyTextItalic,
+                    styles.horizontalCenter,
+                    styles.verticalCenter,
+                  ]}
+                >
+                  Percentage of Work
                 </Text>
               </View>
+              <View style={[styles.w50, styles.borderRight]}>
+                <Text
+                  style={[
+                    styles.bodyTextItalic,
+                    styles.horizontalCenter,
+                    styles.verticalCenter,
+                  ]}
+                >
+                  (State the duties and responsibilities here:)
+                </Text>
+              </View>
+              <View style={[styles.w25]}>
+                <Text
+                  style={[
+                    styles.bodyTextItalic,
+                    styles.horizontalCenter,
+                    styles.verticalCenter,
+                  ]}
+                >
+                  (Indicate the required Competency Level here)
+                </Text>
+              </View>
+            </View>
 
-              <View style={[styles.rowContainer, { paddingBottom: 3 }]}>
-                <View style={[styles.w50]}>
-                  <Text
-                    style={[
-                      styles.bodyTextBoldUppercase,
-                      styles.horizontalCenter,
-                      styles.verticalCenter,
-                    ]}
-                  >
-                    {applicantDbmCsc.signatories.employee}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.bodyTextBold,
-                      styles.horizontalCenter,
-                      styles.verticalCenter,
-                      { paddingTop: 0 },
-                    ]}
-                  >
-                    Employee&apos;s Name, Date and Signature
-                  </Text>
-                </View>
-                <View style={[styles.w50]}>
-                  <Text
-                    style={[
-                      styles.bodyTextBoldUppercase,
-                      styles.horizontalCenter,
-                      styles.verticalCenter,
-                    ]}
-                  >
-                    {applicantDbmCsc.signatories.requestingEntity.employeeName}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.bodyTextBold,
-                      styles.horizontalCenter,
-                      styles.verticalCenter,
-                      { paddingTop: 0 },
-                    ]}
-                  >
-                    {applicantDbmCsc.signatories.requestingEntity.positionTitle}
-                  </Text>
-                </View>
+            {/* First Value */}
+            {renderDuties1stRow(
+              applicantDbmCsc.dutiesAndResponsibilities?.core
+            )}
+          </View>
+
+          {renderDuties(applicantDbmCsc.dutiesAndResponsibilities.core)}
+
+          {/* Last row */}
+          <View style={[styles.rowContainer, styles.borderAll]} wrap={false}>
+            <View style={[styles.w25, styles.borderRight]}>
+              <Text
+                style={[
+                  styles.bodyTextBold,
+                  styles.horizontalCenter,
+                  styles.verticalCenter,
+                  { fontSize: 9.5 },
+                ]}
+              >
+                100%
+              </Text>
+            </View>
+            <View style={[styles.w50, styles.borderRight]}>
+              <Text></Text>
+            </View>
+            <View style={[styles.w25]}>
+              <Text></Text>
+            </View>
+          </View>
+
+          {/* ROW 18 */}
+          <View style={[styles.borderAll]} wrap={false}>
+            <View style={[styles.borderBottom]}>
+              <View>
+                <Text style={[styles.tDataColored]}> </Text>
+              </View>
+            </View>
+
+            <View style={[{ paddingTop: 5, paddingBottom: 25 }]}>
+              <Text style={[styles.bodyText]}>
+                &nbsp;&nbsp; I have received a copy of this position
+                description. It has been discussed with me and I have freely
+                choosen to comply with the performance and behavior/conduct
+                expectations contained herein.
+              </Text>
+            </View>
+
+            <View style={[styles.rowContainer, { paddingBottom: 3 }]}>
+              <View style={[styles.w50]}>
+                <Text
+                  style={[
+                    styles.bodyTextBoldUppercase,
+                    styles.horizontalCenter,
+                    styles.verticalCenter,
+                  ]}
+                >
+                  {applicantDbmCsc.signatories.employee}
+                </Text>
+                <Text
+                  style={[
+                    styles.bodyTextBold,
+                    styles.horizontalCenter,
+                    styles.verticalCenter,
+                    { paddingTop: 0 },
+                  ]}
+                >
+                  Employee&apos;s Name, Date and Signature
+                </Text>
+              </View>
+              <View style={[styles.w50]}>
+                <Text
+                  style={[
+                    styles.bodyTextBoldUppercase,
+                    styles.horizontalCenter,
+                    styles.verticalCenter,
+                  ]}
+                >
+                  {applicantDbmCsc.signatories.requestingEntity.employeeName}
+                </Text>
+                <Text
+                  style={[
+                    styles.bodyTextBold,
+                    styles.horizontalCenter,
+                    styles.verticalCenter,
+                    { paddingTop: 0 },
+                  ]}
+                >
+                  {applicantDbmCsc.signatories.requestingEntity.positionTitle}
+                </Text>
               </View>
             </View>
           </View>
         </View>
+
         <Text
           style={styles.pageNumber}
           render={({ pageNumber, totalPages }) =>
