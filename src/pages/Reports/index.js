@@ -21,7 +21,16 @@ import * as Yup from 'yup'
 const Reports = () => {
   const [reportType, setReportType] = useState('')
 
+  // today in the user's time zone, 'YYYY-MM-DD'
+  const today = () => {
+    const now = new Date()
+    return new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+      .toISOString()
+      .slice(0, 10)
+  }
+
   const initialValues = {
+    as_of: today(),
     company_id: false,
     nature_of_appointment: '',
     personal_details: false,
@@ -61,7 +70,21 @@ const Reports = () => {
           values.reportType
         )}`
 
-        const paramEmpInfo = `/${values.company_id}/${values.nature_of_appointment}/${values.personal_details}/${values.date_hired}/${values.position_title}/${values.assignment}/${values.office}/${values.department}/${values.division}/${values.residential_address}/${values.permanent_address}/${values.gsis}/${values.pagibig}/${values.philhealth}/${values.sss}/${values.tin}/${values.primary_education}/${values.secondary_education}/${values.vocational_course}/${values.college_education}/${values.graduate_studies}/${values.eligibility}/${values.salary_grade}/${values.amount}`
+        const paramEmpInfo = `/${values.as_of || today()}/${
+          values.company_id
+        }/${values.nature_of_appointment || 'all'}/${values.personal_details}/${
+          values.date_hired
+        }/${values.position_title}/${values.assignment}/${values.office}/${
+          values.department
+        }/${values.division}/${values.residential_address}/${
+          values.permanent_address
+        }/${values.gsis}/${values.pagibig}/${values.philhealth}/${values.sss}/${
+          values.tin
+        }/${values.primary_education}/${values.secondary_education}/${
+          values.vocational_course
+        }/${values.college_education}/${values.graduate_studies}/${
+          values.eligibility
+        }/${values.salary_grade}/${values.amount}`
 
         window.open(url + paramEmpInfo, '_blank')
       }
@@ -142,6 +165,21 @@ const Reports = () => {
 
                         <Col>
                           <FormGroup>
+                            <Label for="as_of">Active Roll Date</Label>
+                            <Input
+                              type="date"
+                              id="as_of"
+                              name="as_of"
+                              value={validation.values.as_of || ''}
+                              max={today()}
+                              onChange={validation.handleChange}
+                              required
+                            />
+                          </FormGroup>
+                        </Col>
+
+                        <Col>
+                          <FormGroup>
                             <Label for="nature_of_appointment">
                               Nature of Appointment
                             </Label>
@@ -152,9 +190,8 @@ const Reports = () => {
                                 validation.values.nature_of_appointment || ''
                               }
                               onChange={validation.handleChange}
-                              required
                             >
-                              <option value="">Select...</option>
+                              <option value="">All</option>
                               {natureOfAppointment.map((appointment, index) => (
                                 <option key={index} value={appointment.value}>
                                   {appointment.label}

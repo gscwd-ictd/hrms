@@ -4,6 +4,7 @@ import {
   fetchEmployeePds,
   fetchEmpHeaderInfo,
   fetchEmpBasicInfo,
+  fetchServiceRecords,
 } from 'store/actions'
 import { Can } from 'casl/Can'
 import { Navigate, useParams } from 'react-router-dom'
@@ -50,8 +51,8 @@ const EmployeePds = () => {
     loadingServiceRecords,
     errorServiceRecords,
 
-    loadingEmpTrainings,
-    errorEmpTrainings,
+    // loadingEmpTrainings,
+    // errorEmpTrainings,
   } = useSelector(state => ({
     employeeHeaderInformation: state.employee.employeeHeaderInformation.data,
     loadingEmpHeaderInfo: state.employee.employeeHeaderInformation.isLoading,
@@ -63,8 +64,8 @@ const EmployeePds = () => {
     loadingServiceRecords: state.serviceRecord.isLoading,
     errorServiceRecords: state.serviceRecord.error,
 
-    loadingEmpTrainings: state.learningDevelopment.isLoading,
-    errorEmpTrainings: state.learningDevelopment.error,
+    // loadingEmpTrainings: state.learningDevelopment.isLoading,
+    // errorEmpTrainings: state.learningDevelopment.error,
   }))
 
   /**
@@ -82,9 +83,9 @@ const EmployeePds = () => {
 
   useEffect(() => {
     dispatch(fetchEmpHeaderInfo(employeeId))
+    dispatch(fetchServiceRecords(employeeId))
 
     // COMMENT OUT WHEN ROUTE IS AVAILABLE
-    // dispatch(fetchServiceRecords(employeeId))
     // dispatch(fetchEmployeeTrainings(employeeId))
 
     if (
@@ -123,7 +124,6 @@ const EmployeePds = () => {
               />
             ) : null}
 
-            {/* COMMENT OUT UNTIL ROUTE IS AVAILABLE */}
             {errorServiceRecords ? (
               <ToastrNotification
                 toastType={'error'}
@@ -330,18 +330,11 @@ const EmployeePds = () => {
                       <TabPane tabId="3">
                         <Row>
                           <Col sm="12">
-                            {loadingEmpBasicInfo ? (
+                            {loadingServiceRecords ? (
                               <LoadingIndicator />
                             ) : (
                               <ServiceRecord />
                             )}
-
-                            {/* COMMENT OUT UNTIL ROUTE IS AVAILABLE */}
-                            {/* {loadingServiceRecords ? (
-                              <LoadingIndicator />
-                            ) : (
-                              <ServiceRecord />
-                            )} */}
                           </Col>
                         </Row>
                       </TabPane>

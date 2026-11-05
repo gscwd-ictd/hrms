@@ -104,6 +104,7 @@ function* fetchEmployeePds({ payload: employeeId }) {
 
 function* fetchEmployeeDetailsReport({ payload }) {
   const {
+    as_of,
     company_id,
     nature_of_appointment,
     personal_details,
@@ -155,7 +156,8 @@ function* fetchEmployeeDetailsReport({ payload }) {
       graduate_studies,
       eligibility,
       salary_grade,
-      amount
+      amount,
+      as_of
     )
     yield put(fetchEmployeeDetailsReportSuccess(response))
   } catch (error) {

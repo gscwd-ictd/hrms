@@ -59,9 +59,6 @@ export const POST_EMPLOYEE_ASSIGNMENT = 'employees'
 export const GET_EMPLOYEES = 'employees/'
 export const GET_EMPLOYEE_BASIC_INFORMATION = 'employees/details/basic/'
 export const GET_EMPLOYEE_PDS = 'pds/'
-
-// SERVICE RECORD
-export const SERVICE_RECORDS = 'service-records/'
 export const EMPLOYEE_SEPARATION = 'employee-separation/'
 
 // OCCUPATIONS
@@ -264,29 +261,11 @@ export const ASSIGNABLE_EMPLOYEE_FOR_TEMPORARY_ASSIGNMENT =
 // REPORTS
 export const EMPLOYEE_DETAILS_REPORT = 'employees/reports/detailed'
 
-/* with params of the following:
- philhealth: boolean
- secondary_education: boolean
- pagibig: boolean
- company_id: boolean
- nature_of_appointment: boolean
- personal_details: boolean
- gsis: boolean
- vocational_education: boolean
- college_education: boolean
- sss: boolean
- tin: boolean
- vocational_course: boolean
- graduate_studies: boolean
- primary_education: boolean
- eligibility: boolean
- residential_address: boolean
- permanent_address: boolean
- */
-
 // LEARNING AND DEVELOPMENT
 export const EMPLOYEE_TRAININGS = 'trainings/'
 
-// NOTICE OF STEP INCREMENT
-export const NOSI = 'nosi/'
-export const NOSI_DETAILS = 'nosi/details'
+// NOTICE OF STEP INCREMENT / NOTICE OF SALARY ADJUSTMENT
+export const NOSI_NOSA = 'nosi-nosa/'
+
+// SERVICE RECORD
+export const SERVICE_RECORD = 'service-record/'

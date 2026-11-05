@@ -156,6 +156,17 @@ const separationTypes = [
   'Death',
 ]
 
+const noticeTypes = [
+  {
+    label: 'NOSA',
+    value: 'approved nosa',
+  },
+  {
+    label: 'NOSI',
+    value: 'approved nosi',
+  },
+]
+
 const tempAssignmentStatuses = [
   {
     label: 'Active',
@@ -191,4 +202,5 @@ export {
   viceTypes,
   separationTypes,
   tempAssignmentStatuses,
+  noticeTypes,
 }

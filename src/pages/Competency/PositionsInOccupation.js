@@ -1,21 +1,21 @@
-import React, { useEffect, useMemo, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { fetchOGPositions, fetchOccupation } from "store/actions"
-import PropTypes from "prop-types"
-import { Can } from "casl/Can"
-import { Navigate, useParams } from "react-router-dom"
+import React, { useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchOGPositions, fetchOccupation } from 'store/actions'
+import PropTypes from 'prop-types'
+import { Can } from 'casl/Can'
+import { Navigate, useParams } from 'react-router-dom'
 
-import { Card, CardBody, Col, Container, Row } from "reactstrap"
-import InRowAction from "components/InRowAction/InRowAction"
-import EditPositionProficiencyLevelModal from "components/Modal/Competency/EditPositionProficiencyLevelModal"
-import EditPositionFunctionalCompetenciesModal from "components/Modal/Competency/EditPositionFunctionalCompetenciesModal"
-import TableOccupationalGroup from "components/Table/TableOccupationalGroup"
-import Breadcrumbs from "components/Common/Breadcrumb"
-import LoadingIndicator from "components/LoaderSpinner/LoadingIndicator"
-import ToastrNotification from "components/Notifications/ToastrNotification"
+import { Card, CardBody, Col, Container, Row } from 'reactstrap'
+import InRowAction from 'components/InRowAction/InRowAction'
+import EditPositionProficiencyLevelModal from 'components/Modal/Competency/EditPositionProficiencyLevelModal'
+import EditPositionFunctionalCompetenciesModal from 'components/Modal/Competency/EditPositionFunctionalCompetenciesModal'
+import TableOccupationalGroup from 'components/Table/TableOccupationalGroup'
+import Breadcrumbs from 'components/Common/Breadcrumb'
+import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
+import ToastrNotification from 'components/Notifications/ToastrNotification'
 
 // style
-import "styles/custom_gscwd/global.scss"
+import 'styles/custom_gscwd/global.scss'
 
 const PositionsInOccupation = props => {
   const dispatch = useDispatch()
@@ -25,38 +25,38 @@ const PositionsInOccupation = props => {
 
   const tblColumns = [
     {
-      Header: "ID",
-      accessor: "positionId",
+      Header: 'ID',
+      accessor: 'positionId',
       disableGlobalFilter: true,
     },
     {
-      Header: "Item No.",
-      accessor: "itemNumber",
+      Header: 'Item No.',
+      accessor: 'itemNumber',
     },
     {
-      Header: "Position Title",
-      accessor: "positionTitle",
+      Header: 'Position Title',
+      accessor: 'positionTitle',
     },
     {
-      Header: "Salary Grade",
-      accessor: "salaryGrade",
+      Header: 'Salary Grade',
+      accessor: 'salaryGrade',
     },
     {
-      Header: "Actions",
-      accessor: "",
-      align: "center",
+      Header: 'Actions',
+      accessor: '',
+      align: 'center',
       disableGlobalFilter: true,
       Cell: function ActionDropdown(cell) {
         return (
           <div className="d-flex">
             <InRowAction
               cell={cell}
-              buttonTitle={"Competency Setting"}
+              buttonTitle={'Competency Setting'}
               editModal={editFuncCompetencyModal}
             />
             <InRowAction
               cell={cell}
-              buttonTitle={"Proficiency Level"}
+              buttonTitle={'Proficiency Level'}
               editModal={editProficiencyLvlModal}
             />
           </div>
@@ -129,7 +129,7 @@ const PositionsInOccupation = props => {
 
             {errorOGPositions ? (
               <ToastrNotification
-                toastType={"error"}
+                toastType={'error'}
                 notifMessage={errorOGPositions}
               />
             ) : null}
