@@ -564,7 +564,7 @@ const Reports = () => {
                                       }
                                       onChange={validation.handleChange}
                                     />
-                                    Salary Grade
+                                    Salary Grade &amp; Step Increment
                                   </Label>
                                 </FormGroup>
                               </Row>
