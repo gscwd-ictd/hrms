@@ -119,7 +119,7 @@ const authProtectedRoutes = [
   // reports
   { path: '/reports', component: <Reports /> },
   {
-    path: '/reports/report-on-employee-information/:company_id/:nature_of_appointment/:personal_details/:date_hired/:position_title/:assignment/:office/:department/:division/:residential_address/:permanent_address/:gsis/:pagibig/:philhealth/:sss/:tin/:primary_education/:secondary_education/:vocational_course/:college_education/:graduate_studies/:eligibility/:salary_grade/:amount',
+    path: '/reports/report-on-employee-information/:as_of/:company_id/:nature_of_appointment/:personal_details/:date_hired/:position_title/:assignment/:office/:department/:division/:residential_address/:permanent_address/:gsis/:pagibig/:philhealth/:sss/:tin/:primary_education/:secondary_education/:vocational_course/:college_education/:graduate_studies/:eligibility/:salary_grade/:amount',
     component: <ReportOnEmployeeInfo />,
   },
 

@@ -235,6 +235,11 @@ const ReportOnEmployeeInfoPdf = ({ employeeDetails, filterState }) => {
   const renderHeader = () => (
     <View style={styles.documentTitle}>
       <Text>Employee Details Report</Text>
+      {filterState.as_of ? (
+        <Text style={{ fontSize: 10, fontFamily: 'CalibriRegular' }}>
+          Active roll as of {filterState.as_of}
+        </Text>
+      ) : null}
     </View>
   )
 
@@ -981,6 +986,7 @@ const ReportOnEmployeeInfoPdf = ({ employeeDetails, filterState }) => {
 ReportOnEmployeeInfoPdf.propTypes = {
   employeeDetails: PropTypes.arrayOf(PropTypes.object).isRequired,
   filterState: PropTypes.shape({
+    as_of: PropTypes.string,
     company_id: PropTypes.string.isRequired,
     nature_of_appointment: PropTypes.string.isRequired,
     personal_details: PropTypes.string.isRequired,
