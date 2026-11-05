@@ -279,7 +279,9 @@ export const postRegisterCasJoCosEmployee = employeeData =>
 
 //Service Record -------------------------------------------------------------------------
 export const getServiceRecords = employeeId =>
-  getHris(url.SERVICE_RECORDS + employeeId)
+  getHris(url.NOSI_NOSA + employeeId)
+export const postServiceRecord = data =>
+  postHris(url.NOSI_NOSA + url.SERVICE_RECORD, data)
 
 export const postEmployeeSeparation = data =>
   postHris(url.EMPLOYEE_SEPARATION, data)
@@ -594,6 +596,7 @@ export const getEmployeeTrainings = employeeId =>
   getHris(url.EMPLOYEE_TRAININGS + employeeId)
 
 // Notice of Step Increment ----------------------------------------------------------------------
-export const getEmployeesForNosi = monthYear => getHris(url.NOSI + monthYear)
-export const getNosiDetails = nosiId => getHris(url.NOSI_DETAILS + nosiId)
-export const postNosiForApproval = data => postHris(url.NOSI, data)
+export const getEmployeesForNosi = monthYear =>
+  getHris(url.NOSI_NOSA + monthYear)
+export const getNosiDetails = nosiId => getHris(url.NOSI_NOSA + nosiId)
+export const postNosiForApproval = data => postHris(url.NOSI_NOSA, data)

@@ -68,7 +68,7 @@ Font.register({
 
 const Header = () => {
   return (
-    <View style={[styles.rowContainer, { paddingBottom: 15 }]} fixed>
+    <View style={[styles.rowContainer, { paddingBottom: 20 }]} fixed>
       {/* Logo */}
       <View style={[styles.w30, { padding: '0 0 0 15' }]}>
         <Image src={GSCWDLogo} style={[styles.logo]} />

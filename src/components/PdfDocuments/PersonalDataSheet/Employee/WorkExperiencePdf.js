@@ -155,7 +155,7 @@ const WorkExperiencePdf = props => {
         </View>
 
         {/* Monthly Salary */}
-        {/* <View
+        <View
           style={[
             styles.borderRight,
             styles.inputValue,
@@ -167,10 +167,10 @@ const WorkExperiencePdf = props => {
           <View style={[styles.verticalCenter]}>
             <Text>{experience.monthlySalary || 'N/A'}</Text>
           </View>
-        </View> */}
+        </View>
 
         {/* Salary Grade / Increment */}
-        {/* <View
+        <View
           style={[
             styles.borderRight,
             styles.inputValue,
@@ -182,7 +182,7 @@ const WorkExperiencePdf = props => {
           <View style={[styles.verticalCenter]}>
             <Text>{experience.salaryGrade || 'N/A'}</Text>
           </View>
-        </View> */}
+        </View>
 
         {/* Status of Appointment */}
         <View
@@ -293,7 +293,7 @@ const WorkExperiencePdf = props => {
           </View>
 
           {/* Monthly Salary */}
-          {/* <View
+          <View
             style={[
               styles.borderRight,
               styles.inputValue,
@@ -305,10 +305,10 @@ const WorkExperiencePdf = props => {
             <View style={[styles.verticalCenter]}>
               <Text>N/A</Text>
             </View>
-          </View> */}
+          </View>
 
           {/* Salary Grade / Increment */}
-          {/* <View
+          <View
             style={[
               styles.borderRight,
               styles.inputValue,
@@ -320,7 +320,7 @@ const WorkExperiencePdf = props => {
             <View style={[styles.verticalCenter]}>
               <Text>N/A</Text>
             </View>
-          </View> */}
+          </View>
 
           {/* Status of Appointment */}
           <View
@@ -450,7 +450,7 @@ const WorkExperiencePdf = props => {
         </View>
 
         {/* Monthly Salary */}
-        {/* <View
+        <View
           style={[
             styles.borderRight,
             styles.inputKey,
@@ -462,10 +462,10 @@ const WorkExperiencePdf = props => {
           <View style={[styles.verticalCenter]}>
             <Text style={{ fontSize: 5.7 }}>MONTHLY SALARY</Text>
           </View>
-        </View> */}
+        </View>
 
         {/* Salary Grade / Increment */}
-        {/* <View
+        <View
           style={[
             styles.borderRight,
             styles.inputKey,
@@ -480,7 +480,7 @@ const WorkExperiencePdf = props => {
               &quot;00-0&quot;)/ INCREMENT
             </Text>
           </View>
-        </View> */}
+        </View>
 
         {/* Status of Appointment */}
         <View

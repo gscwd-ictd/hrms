@@ -6,6 +6,9 @@ import {
   POST_EMPLOYEE_SEPARATION,
   POST_EMPLOYEE_SEPARATION_SUCCESS,
   POST_EMPLOYEE_SEPARATION_FAIL,
+  POST_SERVICE_RECORD,
+  POST_SERVICE_RECORD_SUCCESS,
+  POST_SERVICE_RECORD_FAIL,
 } from './actionTypes'
 
 const INIT_STATE = {
@@ -14,6 +17,7 @@ const INIT_STATE = {
   error: null,
   response: {
     submitEmployeeSeparation: {},
+    submitNewServiceRecord: {},
     isLoading: false,
     error: null,
   },
@@ -41,6 +45,38 @@ const serviceRecord = (state = INIT_STATE, action) => {
         ...state,
         isLoading: false,
         error: action.payload,
+      }
+      break
+
+    case POST_SERVICE_RECORD:
+      state = {
+        ...state,
+        response: {
+          ...state.response,
+          submitNewServiceRecord: {},
+          isLoading: true,
+          error: null,
+        },
+      }
+      break
+    case POST_SERVICE_RECORD_SUCCESS:
+      state = {
+        ...state,
+        response: {
+          ...state.response,
+          submitNewServiceRecord: action.payload,
+          isLoading: false,
+        },
+      }
+      break
+    case POST_SERVICE_RECORD_FAIL:
+      state = {
+        ...state,
+        response: {
+          ...state.response,
+          isLoading: false,
+          error: action.payload,
+        },
       }
       break
 

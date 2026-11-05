@@ -6,6 +6,9 @@ import {
   POST_EMPLOYEE_SEPARATION,
   POST_EMPLOYEE_SEPARATION_SUCCESS,
   POST_EMPLOYEE_SEPARATION_FAIL,
+  POST_SERVICE_RECORD,
+  POST_SERVICE_RECORD_SUCCESS,
+  POST_SERVICE_RECORD_FAIL,
 } from './actionTypes'
 
 // Get service records
@@ -24,6 +27,25 @@ export const fetchServiceRecordsSuccess = serviceRecords => {
 export const fetchServiceRecordsFail = error => {
   return {
     type: GET_SERVICE_RECORDS_FAIL,
+    payload: error,
+  }
+}
+
+export const submitServiceRecord = serviceRecord => {
+  return {
+    type: POST_SERVICE_RECORD,
+    payload: serviceRecord,
+  }
+}
+export const submitServiceRecordSuccess = response => {
+  return {
+    type: POST_SERVICE_RECORD_SUCCESS,
+    payload: response,
+  }
+}
+export const submitServiceRecordFail = error => {
+  return {
+    type: POST_SERVICE_RECORD_FAIL,
     payload: error,
   }
 }

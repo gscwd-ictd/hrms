@@ -5,13 +5,11 @@ import TableBase from 'components/Table/TableBase'
 import NosiModal from 'components/Modal/ServiceRecord/NosiModal'
 import { useSelector } from 'react-redux'
 import EmployeeSeparationModal from 'components/Modal/ServiceRecord/EmployeeSeparationModal'
+import AddServiceRecordModal from 'components/Modal/ServiceRecord/AddServiceRecordModal'
 
 const ServiceRecord = () => {
-  const { serviceRecords, workExperience } = useSelector(state => ({
+  const { serviceRecords } = useSelector(state => ({
     serviceRecords: state.serviceRecord.serviceRecords,
-
-    // temporary only
-    workExperience: state.employee.pds.workExperience,
   }))
 
   const tableColumns = [
@@ -22,14 +20,14 @@ const ServiceRecord = () => {
     },
     {
       Header: 'From',
-      accessor: 'from',
+      accessor: 'dateFrom',
       Cell: cell => {
         return <p>{DateFormatter(cell.value, 'MM/DD/YYYY')}</p>
       },
     },
     {
       Header: 'To',
-      accessor: 'to',
+      accessor: 'dateTo',
       Cell: cell => {
         return <p>{DateFormatter(cell.value, 'MM/DD/YYYY') || 'PRESENT'}</p>
       },
@@ -40,7 +38,7 @@ const ServiceRecord = () => {
     },
     {
       Header: 'Monthly Salary',
-      accessor: 'monthlySalary',
+      accessor: 'adjustedAmount',
       Cell: cell => {
         return <p>₱ {cell.value}</p>
       },
@@ -54,24 +52,29 @@ const ServiceRecord = () => {
     },
     {
       Header: 'Appointment',
-      accessor: 'appointmentStatus',
+      accessor: 'appointment',
     },
     {
       Header: `Is Gov't Service?`,
       accessor: 'isGovernmentService',
       Cell: cell => {
-        return <p>{cell.value ? 'Yes' : 'No'}</p>
+        return <p>{cell.value}</p>
+        // return <p>{cell.value ? 'Yes' : 'No'}</p>
       },
     },
   ]
 
   const columns = useMemo(() => tableColumns, [])
-  const data = useMemo(() => workExperience, [workExperience]) // CHANGE TO serviceRecords
+  const data = useMemo(() => serviceRecords, [serviceRecords]) // CHANGE TO serviceRecords
 
   /**
    * Modal
    */
   // const [modalData, setModalData] = useState({})
+
+  // Add Service Record
+  const [showAddRecord, setShowAddRecord] = useState(false)
+  const toggleAddRecord = () => setShowAddRecord(!showAddRecord)
 
   // Employee Separation Modal
   const [showEmpSeparation, setShowEmpSeparation] = useState(false)
@@ -81,7 +84,14 @@ const ServiceRecord = () => {
     <React.Fragment>
       <Row>
         <Col>
-          <div className="form-group d-flex justify-content-end mb-4">
+          <div className="form-group d-flex justify-content-end mt-3 mb-4 gap-2">
+            <Button
+              onClick={toggleAddRecord}
+              className="btn btn-info waves-effect waves-light"
+            >
+              <i className="fas fa-user-plus"></i>&nbsp; Add Service Record
+            </Button>
+
             <Button
               onClick={toggleEmpSeparation}
               className="btn btn-danger waves-effect waves-light"
@@ -93,6 +103,8 @@ const ServiceRecord = () => {
           <TableBase columns={columns} data={data} />
         </Col>
       </Row>
+
+      <AddServiceRecordModal isOpen={showAddRecord} toggle={toggleAddRecord} />
 
       <EmployeeSeparationModal
         isOpen={showEmpSeparation}
