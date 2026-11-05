@@ -48,7 +48,7 @@ const EXCEL_COLUMNS = [
   ['collegeEducation', 'College'],
   ['graduateStudies', 'Graduate Studies'],
   ['eligibility', 'Eligibility'],
-  ['salaryGrade', 'Salary Grade'],
+  ['salaryGrade', 'Salary Grade & Step Increment'],
   ['salaryGradeAmount', 'Amount'],
 ]
 

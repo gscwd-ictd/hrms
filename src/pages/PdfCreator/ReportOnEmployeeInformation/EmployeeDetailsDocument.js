@@ -673,7 +673,7 @@ const ReportOnEmployeeInfoPdf = ({ employeeDetails, filterState }) => {
                   styles.tHeadFirstLevel,
                 ]}
               >
-                Salary Grade
+                Salary Grade &amp; Step Increment
               </Text>
             </View>
           ) : null}
