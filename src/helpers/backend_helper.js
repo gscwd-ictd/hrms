@@ -514,7 +514,9 @@ export const patchHrmsModule = (moduleId, moduleDetails) =>
   patchHris(url.HRMS_MODULES + moduleId, moduleDetails)
 
 // System Logs---------------------------------------------------------------------
-export const getSystemLogs = () => getHris(url.SYSTEM_LOGS)
+// params: { date_from, date_to } (YYYY-MM-DD); default on the server: the last 30 days
+export const getSystemLogs = (params = {}) =>
+  getHris(url.SYSTEM_LOGS, { params })
 export const getSystemLog = logId => getHris(url.SYSTEM_LOGS + logId)
 
 // Schedules-----------------------------------------------------------------------

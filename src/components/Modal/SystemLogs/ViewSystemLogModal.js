@@ -53,7 +53,7 @@ const ViewSystemLogModal = props => {
   useEffect(() => {
     if (!showView) {
       dispatch(resetSystemLogs())
-    } 
+    }
   }, [showView])
 
   return (
@@ -90,24 +90,46 @@ const ViewSystemLogModal = props => {
 
               <Col md={12} className="mt-3">
                 <OutlinedBox
-                  label={'User Name'}
+                  label={'Name'}
                   value={systemLog.userFullName || 'N/A'}
                 />
               </Col>
 
               <Col md={12} className="mt-3">
                 <OutlinedBox
-                  label={'Method'}
-                  value={systemLog.method || 'N/A'}
+                  label={'Action'}
+                  value={systemLog.action || 'N/A'}
                 />
               </Col>
 
               <Col md={12} className="mt-3">
-                <OutlinedBox label={'Route'} value={systemLog.route || 'N/A'} />
-              </Col>
-
-              <Col md={12} className="mt-3">
-                <OutlinedBox label={'Body'} value={systemLog.body || 'N/A'} />
+                <details className="text-muted small">
+                  <summary style={{ cursor: 'pointer' }}>
+                    Technical details (for ICT)
+                  </summary>
+                  <div className="mt-2" style={{ wordBreak: 'break-all' }}>
+                    <div>
+                      <strong>Request:</strong> {systemLog.method}{' '}
+                      {systemLog.route}
+                    </div>
+                    <pre
+                      className="border rounded p-2 mt-2 bg-light"
+                      style={{ whiteSpace: 'pre-wrap', maxHeight: 260 }}
+                    >
+                      {(() => {
+                        try {
+                          return JSON.stringify(
+                            JSON.parse(systemLog.body),
+                            null,
+                            2
+                          )
+                        } catch {
+                          return systemLog.body || ''
+                        }
+                      })()}
+                    </pre>
+                  </div>
+                </details>
               </Col>
             </Row>
           )}
