@@ -53,7 +53,7 @@ const ViewSystemLogModal = props => {
   useEffect(() => {
     if (!showView) {
       dispatch(resetSystemLogs())
-    } 
+    }
   }, [showView])
 
   return (
