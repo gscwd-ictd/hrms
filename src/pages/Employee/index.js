@@ -111,7 +111,7 @@ const EmployeeList = () => {
             />
 
             {cell.row.values[`employmentDetails.natureOfAppointment`] ===
-            'permanent' ? (
+              'permanent' ? (
               <InRowAction
                 viewRedirectUrl2={
                   '/plantilla/' +
@@ -231,16 +231,6 @@ const EmployeeList = () => {
                                     }}
                                   >
                                     Job Order
-                                  </DropdownItem>
-                                  <DropdownItem
-                                    onClick={() => {
-                                      handleShowAddCasJoCos()
-                                      setModalNatureOfAppointment(
-                                        natureOfAppointments.CONTRACT_OF_SERVICE
-                                      )
-                                    }}
-                                  >
-                                    Contract of Service
                                   </DropdownItem>
                                 </DropdownMenu>
                               </Dropdown>

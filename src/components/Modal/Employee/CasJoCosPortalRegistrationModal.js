@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
+import { isEmpty } from 'lodash'
+import PropTypes from 'prop-types'
 import Select from 'react-select'
 import dayjs from 'dayjs'
+import { sexes, civilStatuses, listOfRestDays } from 'constants/selectInputs'
+import { natureOfAppointments } from 'constants/natureOfAppointments'
 import {
   getOrganizationDropdown,
   getJobOrderEmployeesForCasual,
 } from 'helpers/backend_helper'
-import { isEmpty } from 'lodash'
-import PropTypes from 'prop-types'
-import { sexes, civilStatuses, listOfRestDays } from 'constants/selectInputs'
-import { natureOfAppointments } from 'constants/natureOfAppointments'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -28,11 +28,11 @@ import {
   Label,
   Input,
   FormFeedback,
+  FormText,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  FormText,
 } from 'reactstrap'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 
@@ -42,74 +42,101 @@ import { useFormik } from 'formik'
 // import scss
 import 'styles/custom_gscwd/pages/employeeassignment.scss'
 
+/** Section title with a divider line */
+const SectionTitle = ({ title }) => (
+  <div className="d-flex align-items-center gap-2 mt-2 mb-3">
+    <h6 className="mb-0 text-nowrap text-uppercase fw-semibold text-muted">
+      {title}
+    </h6>
+    <hr className="flex-grow-1 my-0" />
+  </div>
+)
+SectionTitle.propTypes = { title: PropTypes.string }
+
+/** Red border on a react-select when invalid */
+const selectStyles = invalid => ({
+  control: styles => ({
+    ...styles,
+    borderColor: invalid ? 'red' : styles.borderColor,
+  }),
+})
+
+const isFlowNature = nature =>
+  nature === natureOfAppointments.CASUAL ||
+  nature === natureOfAppointments.JOB_ORDER
+
+/**
+ * Casual / Job Order registration (hris_prod + Employee Portal account + EMS schedule).
+ * Sections: Employee Details, Position Details, Schedule Details.
+ * Casual: new employee or an existing Job Order employee; step is always 1 (initial onboarding).
+ */
 const CasJoCosPortalRegistrationModal = props => {
   const { showAddCasJoCos, modalNatureOfAppointment, handleCloseAddCasJoCos } =
     props
   const dispatch = useDispatch()
 
+  const isCasual = modalNatureOfAppointment === natureOfAppointments.CASUAL
+  const isJobOrder = modalNatureOfAppointment === natureOfAppointments.JOB_ORDER
+
+  // Casual: new employee, or an existing Job Order employee
+  const [casualSource, setCasualSource] = useState('new')
+  const fromJobOrder = isCasual && casualSource === 'existing'
+
+  const [orgOptions, setOrgOptions] = useState([])
+  const [jobOrderOptions, setJobOrderOptions] = useState([])
+  const [loadingJobOrders, setLoadingJobOrders] = useState(false)
+  // result of a successful registration (Employee No., default password, schedule)
+  const [registered, setRegistered] = useState(null)
+
   const {
     responseRegisterCasJoCosEmployee,
     loadingRegisterCasJoCosEmployee,
     errorRegisterCasJoCosEmployee,
+    schedules,
+    loadingSchedules,
   } = useSelector(state => ({
     responseRegisterCasJoCosEmployee:
       state.employee.response.addCasJoCosEmployee,
     loadingRegisterCasJoCosEmployee: state.employee.response.isLoading,
     errorRegisterCasJoCosEmployee: state.employee.response.error,
-  }))
-
-  // employee schedules (same list as the Permanent registration)
-  const { schedules, loadingSchedules } = useSelector(state => ({
     schedules: state.schedules.schedules,
     loadingSchedules: state.schedules.isLoading,
   }))
 
-  const isCasual = modalNatureOfAppointment === natureOfAppointments.CASUAL
-  const isNewRecordFlow =
-    modalNatureOfAppointment === natureOfAppointments.CASUAL ||
-    modalNatureOfAppointment === natureOfAppointments.JOB_ORDER
-
-  // Casual: new record, or an existing Job Order employee
-  const [casualSource, setCasualSource] = useState('new')
-  const fromJobOrder = isCasual && casualSource === 'existing'
-
-  // dropdowns
-  const [orgOptions, setOrgOptions] = useState([])
-  const [jobOrderOptions, setJobOrderOptions] = useState([])
-  // result of a successful registration (Employee No. and default portal password)
-  const [registered, setRegistered] = useState(null)
-
+  // dropdown options
   useEffect(() => {
-    if (!showAddCasJoCos || !isNewRecordFlow) return
+    if (!showAddCasJoCos || !isFlowNature(modalNatureOfAppointment)) return
     dispatch(fetchSchedules())
     getOrganizationDropdown()
       .then(options => setOrgOptions(Array.isArray(options) ? options : []))
       .catch(() => setOrgOptions([]))
     if (isCasual) {
+      setLoadingJobOrders(true)
       getJobOrderEmployeesForCasual()
         .then(options =>
           setJobOrderOptions(Array.isArray(options) ? options : [])
         )
         .catch(() => setJobOrderOptions([]))
+        .finally(() => setLoadingJobOrders(false))
     }
   }, [showAddCasJoCos, modalNatureOfAppointment])
-
-  // personal details are required only for a new record
-  const requiredForNew = (schema, message) =>
-    schema.when('existingEmployeeId', {
-      is: value => !value,
-      then: schema.required(message),
-    })
 
   const phoneRegExp =
     /^((\\+[0-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
-  // formik initialization
+  // personal details are required only for a new employee
+  const whenNewEmployee = (schema, required) =>
+    schema.when('existingEmployeeId', {
+      is: value => !value,
+      then: required,
+    })
+
   const formik = useFormik({
     enableReinitialize: true,
-
     initialValues: {
       natureOfAppointment: modalNatureOfAppointment || '',
+      existingEmployeeId: '',
+      // employee details
       firstName: '',
       middleName: '',
       lastName: '',
@@ -121,49 +148,61 @@ const CasJoCosPortalRegistrationModal = props => {
       civilStatus: '',
       phoneNumber: '',
       email: '',
-      dailyRate: '',
-      isPerPieceRate: false,
-      existingEmployeeId: '',
+      // position details
       positionTitle: '',
       orgId: '',
+      effectivityDate: dayjs().format('YYYY-MM-DD'),
       salaryGrade: '',
-      stepIncrement: '',
+      dailyRate: '',
+      // schedule details
       scheduleId: '',
       scheduleDateFrom: dayjs().format('YYYY-MM-DD'),
       scheduleDateTo: dayjs().endOf('year').format('YYYY-MM-DD'),
       restDays: [],
-      effectivityDate: dayjs().format('YYYY-MM-DD'),
     },
     validationSchema: Yup.object().shape({
       natureOfAppointment: Yup.string().required(),
       existingEmployeeId: Yup.string(),
-      firstName: requiredForNew(Yup.string(), 'First name is a required field'),
-      lastName: requiredForNew(Yup.string(), 'Last name is a required field'),
-      birthday: requiredForNew(Yup.string(), 'Birthday is a required field'),
-      sex: requiredForNew(Yup.string(), 'Select a sex'),
-      civilStatus: Yup.string().when(['natureOfAppointment', 'existingEmployeeId'], {
-        is: (nature, existing) => nature === 'casual' && !existing,
-        then: Yup.string().required('Select a civil status'),
-      }),
-      phoneNumber: Yup.string().when('existingEmployeeId', {
-        is: value => !value,
-        then: Yup.string()
+      firstName: whenNewEmployee(
+        Yup.string(),
+        Yup.string().required('First name is a required field')
+      ),
+      lastName: whenNewEmployee(
+        Yup.string(),
+        Yup.string().required('Last name is a required field')
+      ),
+      birthday: whenNewEmployee(
+        Yup.string(),
+        Yup.string().required('Birthday is a required field')
+      ),
+      sex: whenNewEmployee(Yup.string(), Yup.string().required('Select a sex')),
+      civilStatus: Yup.string().when(
+        ['natureOfAppointment', 'existingEmployeeId'],
+        {
+          is: (nature, existing) => nature === 'casual' && !existing,
+          then: Yup.string().required('Select a civil status'),
+        }
+      ),
+      phoneNumber: whenNewEmployee(
+        Yup.string(),
+        Yup.string()
           .required('Phone number is a required field')
           .matches(phoneRegExp, 'Phone number is not valid')
           .min(11, 'Too short')
-          .max(11, 'Too long'),
-      }),
-      email: Yup.string().when('existingEmployeeId', {
-        is: value => !value,
-        then: Yup.string()
+          .max(11, 'Too long')
+      ),
+      email: whenNewEmployee(
+        Yup.string(),
+        Yup.string()
           .email('Must be a valid Email')
-          .matches(/@[^.]*\./)
-          .required('Use an active email'),
-      }),
-      positionTitle: Yup.string().when('natureOfAppointment', {
-        is: val => val === 'casual' || val === 'job order',
-        then: Yup.string().required('Position title is required'),
-      }),
+          .matches(/@[^.]*\./, 'Must be a valid Email')
+          .required('Use an active email')
+      ),
+      positionTitle: Yup.string().required('Position title is required'),
+      orgId: Yup.string().required(
+        'Select the office, department or division'
+      ),
+      effectivityDate: Yup.string().required('Effectivity date is required'),
       salaryGrade: Yup.number().when('natureOfAppointment', {
         is: val => val === 'casual',
         then: Yup.number()
@@ -173,71 +212,83 @@ const CasJoCosPortalRegistrationModal = props => {
           .max(33, 'Salary grade is 1 to 33')
           .required('Salary grade is required'),
       }),
-      stepIncrement: Yup.number().when('natureOfAppointment', {
-        is: val => val === 'casual',
-        then: Yup.number()
-          .typeError('Step is required')
-          .integer()
-          .min(1, 'Step is 1 to 8')
-          .max(8, 'Step is 1 to 8')
-          .required('Step is required'),
-      }),
-      scheduleId: Yup.string().when('natureOfAppointment', {
-        is: val => val === 'casual' || val === 'job order',
-        then: Yup.string().required('Please select a schedule'),
-      }),
-      scheduleDateFrom: Yup.string().when('natureOfAppointment', {
-        is: val => val === 'casual' || val === 'job order',
-        then: Yup.string().required('Date from is required'),
-      }),
-      scheduleDateTo: Yup.string().when('natureOfAppointment', {
-        is: val => val === 'casual' || val === 'job order',
-        then: Yup.string()
-          .required('Date to is required')
-          .test(
-            'after-from',
-            'Date to must be on or after date from',
-            function (value) {
-              return !value || !this.parent.scheduleDateFrom || value >= this.parent.scheduleDateFrom
-            }
-          ),
-      }),
-      restDays: Yup.array().when('natureOfAppointment', {
-        is: val => val === 'casual' || val === 'job order',
-        then: Yup.array().min(1, 'Select the rest days'),
-      }),
-      orgId: Yup.string().when('natureOfAppointment', {
-        is: val => val === 'casual' || val === 'job order',
-        then: Yup.string().required('Select the office, department or division'),
-      }),
       dailyRate: Yup.number().when('natureOfAppointment', {
-        is: val =>
-          val === 'job order' || val === 'contract of service' ? true : false,
-        then: Yup.number().required('Daily rate is required'),
+        is: val => val === 'job order',
+        then: Yup.number()
+          .typeError('Daily rate is required')
+          .moreThan(0, 'Daily rate is required')
+          .required('Daily rate is required'),
       }),
+      scheduleId: Yup.string().required('Please select a schedule'),
+      scheduleDateFrom: Yup.string().required('Date from is required'),
+      scheduleDateTo: Yup.string()
+        .required('Date to is required')
+        .test(
+          'after-from',
+          'Date to must be on or after date from',
+          function (value) {
+            return (
+              !value ||
+              !this.parent.scheduleDateFrom ||
+              value >= this.parent.scheduleDateFrom
+            )
+          }
+        ),
+      restDays: Yup.array().min(1, 'Select the rest days'),
     }),
+    // an existing Job Order employee must be selected
+    validate: values =>
+      fromJobOrder && !values.existingEmployeeId
+        ? { existingEmployeeId: 'Select a Job Order employee' }
+        : {},
     onSubmit: values => {
+      const position = {
+        positionTitle: values.positionTitle,
+        orgId: values.orgId,
+        effectivityDate: values.effectivityDate,
+      }
+      const schedule = {
+        scheduleId: values.scheduleId,
+        scheduleDateFrom: values.scheduleDateFrom,
+        scheduleDateTo: values.scheduleDateTo,
+        restDays: values.restDays,
+      }
+      // Casual: step is always 1 (initial onboarding)
+      const casualGrade = isCasual
+        ? { salaryGrade: values.salaryGrade, stepIncrement: 1 }
+        : {}
+
       const payload = fromJobOrder
         ? {
           natureOfAppointment: values.natureOfAppointment,
           existingEmployeeId: values.existingEmployeeId,
-          positionTitle: values.positionTitle,
-          orgId: values.orgId,
-          effectivityDate: values.effectivityDate,
-          salaryGrade: values.salaryGrade,
-          stepIncrement: values.stepIncrement,
-          scheduleId: values.scheduleId,
-          scheduleDateFrom: values.scheduleDateFrom,
-          scheduleDateTo: values.scheduleDateTo,
-          restDays: values.restDays,
+          ...position,
+          ...casualGrade,
+          ...schedule,
         }
-        : { ...values, existingEmployeeId: undefined }
-      if (fromJobOrder && !values.existingEmployeeId) return
+        : {
+          natureOfAppointment: values.natureOfAppointment,
+          firstName: values.firstName,
+          middleName: values.middleName,
+          lastName: values.lastName,
+          nameExtension: values.nameExtension,
+          titlePrefix: values.titlePrefix,
+          titleSuffix: values.titleSuffix,
+          birthday: values.birthday,
+          sex: values.sex,
+          civilStatus: values.civilStatus,
+          phoneNumber: values.phoneNumber,
+          email: values.email,
+          ...position,
+          ...casualGrade,
+          ...(isJobOrder ? { dailyRate: values.dailyRate } : {}),
+          ...schedule,
+        }
       dispatch(addCasJoCosEmployee(payload))
     },
   })
 
-  // Reset response state upon close of modal
+  // reset when the modal closes
   useEffect(() => {
     if (!showAddCasJoCos) {
       dispatch(resetEmpResponseAndError())
@@ -247,20 +298,74 @@ const CasJoCosPortalRegistrationModal = props => {
     }
   }, [showAddCasJoCos])
 
-  // Execute after successful submission of form
+  // after a successful registration: keep the modal open with the result
   useEffect(() => {
     if (!isEmpty(responseRegisterCasJoCosEmployee)) {
       formik.resetForm()
       dispatch(fetchEmployeeList())
-      if (isNewRecordFlow) {
-        // keep the modal open to show the Employee No. and the default portal password
-        setRegistered(responseRegisterCasJoCosEmployee)
-      } else {
-        handleCloseAddCasJoCos()
-        dispatch(resetEmpResponseAndError())
-      }
+      setRegistered(responseRegisterCasJoCosEmployee)
     }
   }, [responseRegisterCasJoCosEmployee])
+
+  const fieldError = name =>
+    formik.touched[name] && formik.errors[name] ? formik.errors[name] : null
+
+  /** text / date / number input with label and error */
+  const renderInput = (
+    name,
+    label,
+    { type = 'text', sm = 4, help, ...rest } = {}
+  ) => (
+    <Col sm={sm}>
+      <FormGroup>
+        <Label for={`${name}-Input`}>{label}</Label>
+        <Input
+          name={name}
+          id={`${name}-Input`}
+          type={type}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values[name] ?? ''}
+          invalid={!!fieldError(name)}
+          {...rest}
+        />
+        {help ? <FormText>{help}</FormText> : null}
+        <FormFeedback type="invalid">{fieldError(name)}</FormFeedback>
+      </FormGroup>
+    </Col>
+  )
+
+  /** select input with label and error */
+  const renderSelect = (name, label, options, { sm = 4 } = {}) => (
+    <Col sm={sm}>
+      <FormGroup>
+        <Label for={`${name}-select`}>{label}</Label>
+        <Input
+          name={name}
+          id={`${name}-select`}
+          type="select"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values[name] || ''}
+          invalid={!!fieldError(name)}
+        >
+          <option value="">Choose...</option>
+          {options.map(option => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </Input>
+        <FormFeedback type="invalid">{fieldError(name)}</FormFeedback>
+      </FormGroup>
+    </Col>
+  )
+
+  const selectedSchedule = (schedules || []).find(
+    option => option.value && option.value.id === formik.values.scheduleId
+  )
+  const existingError =
+    formik.submitCount > 0 ? formik.errors.existingEmployeeId : null
 
   return (
     <>
@@ -277,7 +382,6 @@ const CasJoCosPortalRegistrationModal = props => {
           Register {modalNatureOfAppointment} Employee
         </ModalHeader>
 
-        {/* Info Alert with Spinner */}
         {loadingRegisterCasJoCosEmployee ? (
           <Alert
             color="info"
@@ -288,7 +392,6 @@ const CasJoCosPortalRegistrationModal = props => {
           </Alert>
         ) : null}
 
-        {/* Error Alert */}
         {errorRegisterCasJoCosEmployee ? (
           <ToastrNotification
             toastType={'error'}
@@ -296,11 +399,10 @@ const CasJoCosPortalRegistrationModal = props => {
           />
         ) : null}
 
-        {/* Success Alert */}
         {!isEmpty(responseRegisterCasJoCosEmployee) ? (
           <ToastrNotification
             toastType={'success'}
-            notifMessage={'Employee succesfully added'}
+            notifMessage={'Employee succesfully registered'}
           />
         ) : null}
 
@@ -313,8 +415,9 @@ const CasJoCosPortalRegistrationModal = props => {
               </p>
               {registered.employeeSchedule ? (
                 <p className="mb-1">
-                  Schedule: <strong>{registered.employeeSchedule.schedule}</strong>{' '}
-                  ({registered.employeeSchedule.dateFrom} to{' '}
+                  Schedule:{' '}
+                  <strong>{registered.employeeSchedule.schedule}</strong> (
+                  {registered.employeeSchedule.dateFrom} to{' '}
                   {registered.employeeSchedule.dateTo})
                 </p>
               ) : null}
@@ -350,620 +453,265 @@ const CasJoCosPortalRegistrationModal = props => {
                 return false
               }}
             >
-              <div className="outer">
-                {/* Casual: new record or an existing Job Order employee */}
-                {isCasual ? (
-                  <Row className="mb-2">
-                    <Col sm={12}>
-                      <FormGroup tag="fieldset" className="d-flex gap-4">
-                        <div className="form-check">
-                          <Input
-                            type="radio"
-                            id="casualSource-new"
-                            className="form-check-input"
-                            checked={casualSource === 'new'}
-                            onChange={() => {
-                              setCasualSource('new')
-                              formik.setFieldValue('existingEmployeeId', '')
-                            }}
-                          />
-                          <Label className="form-check-label" for="casualSource-new">
-                            New employee
-                          </Label>
-                        </div>
-                        <div className="form-check">
-                          <Input
-                            type="radio"
-                            id="casualSource-existing"
-                            className="form-check-input"
-                            checked={casualSource === 'existing'}
-                            onChange={() => setCasualSource('existing')}
-                          />
-                          <Label
-                            className="form-check-label"
-                            for="casualSource-existing"
-                          >
-                            Existing Job Order employee
-                          </Label>
-                        </div>
-                      </FormGroup>
-                    </Col>
-                    {fromJobOrder ? (
-                      <Col sm={12}>
-                        <FormGroup>
-                          <Label for="existingEmployeeId">
-                            Job Order Employee
-                          </Label>
-                          <Select
-                            inputId="existingEmployeeId"
-                            options={jobOrderOptions}
-                            value={
-                              jobOrderOptions.find(
-                                o => o.value === formik.values.existingEmployeeId
-                              ) || null
-                            }
-                            onChange={option =>
-                              formik.setFieldValue(
-                                'existingEmployeeId',
-                                option ? option.value : ''
-                              )
-                            }
-                            placeholder="Select a Job Order employee"
-                          />
-                          {fromJobOrder &&
-                            formik.submitCount > 0 &&
-                            !formik.values.existingEmployeeId ? (
-                            <div className="text-danger small mt-1">
-                              Select a Job Order employee
-                            </div>
-                          ) : null}
-                        </FormGroup>
-                      </Col>
-                    ) : null}
-                  </Row>
-                ) : null}
+              {/* ============ EMPLOYEE DETAILS ============ */}
+              <SectionTitle title="Employee Details" />
 
-                {/* position and designation */}
-                {isNewRecordFlow ? (
-                  <Row>
-                    <Col sm={5}>
-                      <FormGroup>
-                        <Label for="positionTitle">Position Title</Label>
-                        <Input
-                          name="positionTitle"
-                          id="positionTitle-Input"
-                          type="text"
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.positionTitle}
-                          invalid={
-                            formik.touched.positionTitle &&
-                              formik.errors.positionTitle
-                              ? true
-                              : false
-                          }
-                        />
-                        <FormFeedback type="invalid">
-                          {formik.errors.positionTitle}
-                        </FormFeedback>
-                      </FormGroup>
-                    </Col>
-                    <Col sm={4}>
-                      <FormGroup>
-                        <Label for="orgId">Office / Department / Division</Label>
-                        <Select
-                          inputId="orgId"
-                          options={orgOptions}
-                          value={
-                            orgOptions.find(o => o.value === formik.values.orgId) ||
-                            null
-                          }
-                          onChange={option =>
-                            formik.setFieldValue('orgId', option ? option.value : '')
-                          }
-                          onBlur={() => formik.setFieldTouched('orgId', true)}
-                          placeholder="Select..."
-                        />
-                        {formik.touched.orgId && formik.errors.orgId ? (
-                          <div className="text-danger small mt-1">
-                            {formik.errors.orgId}
-                          </div>
-                        ) : null}
-                      </FormGroup>
-                    </Col>
-                    <Col sm={3}>
-                      <FormGroup>
-                        <Label for="effectivityDate">Effectivity Date</Label>
-                        <Input
-                          name="effectivityDate"
-                          id="effectivityDate-Input"
-                          type="date"
-                          onChange={formik.handleChange}
-                          value={formik.values.effectivityDate}
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                ) : null}
-
-                {/* Casual: salary grade and step (for the NOSA) */}
-                {isCasual ? (
-                  <Row>
-                    {[
-                      ['salaryGrade', 'Salary Grade', 1, 33],
-                      ['stepIncrement', 'Step', 1, 8],
-                    ].map(([field, label, min, max]) => (
-                      <Col sm={3} key={field}>
-                        <FormGroup>
-                          <Label for={field}>{label}</Label>
-                          <Input
-                            name={field}
-                            id={`${field}-Input`}
-                            type="number"
-                            min={min}
-                            max={max}
-                            step={1}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values[field]}
-                            invalid={
-                              formik.touched[field] && formik.errors[field]
-                                ? true
-                                : false
-                            }
-                          />
-                          <FormFeedback type="invalid">
-                            {formik.errors[field]}
-                          </FormFeedback>
-                        </FormGroup>
-                      </Col>
-                    ))}
-                  </Row>
-                ) : null}
-
-                {/* employee schedule (EMS) */}
-                {isNewRecordFlow ? (
-                  <Row>
-                    <Col sm={12}>
-                      <h6 className="mt-1 mb-2">Employee Schedule</h6>
-                    </Col>
-                    <Col sm={6}>
-                      <FormGroup>
-                        <Label>Schedule Range</Label>
-                        <div className="d-flex align-items-center gap-2">
-                          <Input
-                            name="scheduleDateFrom"
-                            type="date"
-                            value={formik.values.scheduleDateFrom}
-                            max={formik.values.scheduleDateTo || undefined}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            invalid={
-                              formik.touched.scheduleDateFrom &&
-                                formik.errors.scheduleDateFrom
-                                ? true
-                                : false
-                            }
-                          />
-                          <span>to</span>
-                          <Input
-                            name="scheduleDateTo"
-                            type="date"
-                            value={formik.values.scheduleDateTo}
-                            min={formik.values.scheduleDateFrom || undefined}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            invalid={
-                              formik.touched.scheduleDateTo &&
-                                formik.errors.scheduleDateTo
-                                ? true
-                                : false
-                            }
-                          />
-                        </div>
-                        {formik.errors.scheduleDateFrom ||
-                          formik.errors.scheduleDateTo ? (
-                          <div className="text-danger small mt-1">
-                            {formik.errors.scheduleDateFrom ||
-                              formik.errors.scheduleDateTo}
-                          </div>
-                        ) : null}
-                      </FormGroup>
-                    </Col>
-                    <Col sm={6}>
-                      <FormGroup>
-                        <Label for="scheduleId">Schedule</Label>
-                        <Select
-                          inputId="scheduleId"
-                          options={schedules}
-                          value={
-                            (schedules || []).find(
-                              o => o.value && o.value.id === formik.values.scheduleId
-                            ) || null
-                          }
-                          onChange={option =>
-                            formik.setFieldValue(
-                              'scheduleId',
-                              option ? option.value.id : ''
-                            )
-                          }
-                          onBlur={() => formik.setFieldTouched('scheduleId', true)}
-                          isDisabled={loadingSchedules ? true : false}
-                          isLoading={loadingSchedules ? true : false}
-                          placeholder="Select a schedule"
-                        />
-                        {formik.touched.scheduleId && formik.errors.scheduleId ? (
-                          <div className="text-danger small mt-1">
-                            {formik.errors.scheduleId}
-                          </div>
-                        ) : null}
-                        {(() => {
-                          const selected = (schedules || []).find(
-                            o => o.value && o.value.id === formik.values.scheduleId
-                          )
-                          return selected ? (
-                            <div className="text-muted small mt-1">
-                              Time In: {selected.value.timeIn} | Time Out:{' '}
-                              {selected.value.timeOut} | Shift:{' '}
-                              {selected.value.shift || ''}
-                            </div>
-                          ) : null
-                        })()}
-                      </FormGroup>
-                    </Col>
-                    <Col sm={12}>
-                      <FormGroup>
-                        <Label for="restDays">Rest Days</Label>
-                        <Select
-                          inputId="restDays"
-                          isMulti={true}
-                          options={listOfRestDays}
-                          value={listOfRestDays.filter(o =>
-                            formik.values.restDays.includes(o.value)
-                          )}
-                          onChange={options =>
-                            formik.setFieldValue(
-                              'restDays',
-                              (options || []).map(o => o.value)
-                            )
-                          }
-                          onBlur={() => formik.setFieldTouched('restDays', true)}
-                          placeholder="Select rest days"
-                        />
-                        {formik.touched.restDays && formik.errors.restDays ? (
-                          <div className="text-danger small mt-1">
-                            {formik.errors.restDays}
-                          </div>
-                        ) : null}
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                ) : null}
-
-                <Row>
-                  {!fromJobOrder ? (
-                    <>
-                      {/* first name input field */}
-                      <Col sm={4}>
-                        <FormGroup>
-                          <Label for="firstName">First Name</Label>
-                          <Input
-                            name="firstName"
-                            type="text"
-                            className="form-control"
-                            id="firstName-Input"
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.firstName || ''}
-                            invalid={
-                              formik.touched.firstName && formik.errors.firstName
-                                ? true
-                                : false
-                            }
-                          />
-                          {formik.touched.firstname && formik.errors.firstName ? (
-                            <FormFeedback type="invalid">
-                              {formik.errors.firstName}
-                            </FormFeedback>
-                          ) : null}
-                        </FormGroup>
-                      </Col>
-
-                      {/* middle name input field */}
-                      <Col sm={4}>
-                        <FormGroup>
-                          <Label for="middleName">Middle Name</Label>
-                          <Input
-                            name="middleName"
-                            type="text"
-                            className="form-control"
-                            id="middleName-Input"
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.middleName || ''}
-                          />
-                        </FormGroup>
-                      </Col>
-
-                      {/* last name input field */}
-                      <Col sm={4}>
-                        <FormGroup>
-                          <Label for="firstName">Last Name</Label>
-                          <Input
-                            name="lastName"
-                            type="text"
-                            className="form-control"
-                            id="lastName-Input"
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.lastName || ''}
-                            invalid={
-                              formik.touched.lastName && formik.errors.lastName
-                                ? true
-                                : false
-                            }
-                          />
-                          {formik.touched.lastName && formik.errors.lastName ? (
-                            <FormFeedback type="invalid">
-                              {formik.errors.lastName}
-                            </FormFeedback>
-                          ) : null}
-                        </FormGroup>
-                      </Col>
-
-                      {/* name extension input field */}
-                      <Col sm={4}>
-                        <FormGroup>
-                          <Label for="nameExtension">Name Extension</Label>
-                          <Input
-                            name="nameExtension"
-                            type="text"
-                            className="form-control"
-                            id="nameExtension-Input"
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.nameExtension || ''}
-                          />
-                          <FormText color="muted">(Jr, Sr, II)</FormText>
-                        </FormGroup>
-                      </Col>
-
-                      {/* title prefix input field */}
-                      <Col sm={4}>
-                        <FormGroup>
-                          <Label for="titlePrefix">Title Prefix</Label>
-                          <Input
-                            name="titlePrefix"
-                            type="text"
-                            className="form-control"
-                            id="titlePrefix-Input"
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.titlePrefix || ''}
-                          />
-                          <FormText color="muted">(Atty, Engr, Dr)</FormText>
-                        </FormGroup>
-                      </Col>
-
-                      {/* title suffix input field */}
-                      <Col sm={4}>
-                        <FormGroup>
-                          <Label for="titleSuffix">Title Suffix</Label>
-                          <Input
-                            name="titleSuffix"
-                            type="text"
-                            className="form-control"
-                            id="titleSuffix-Input"
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.titleSuffix || ''}
-                          />
-                          <FormText color="muted">(MPA, CPA, PhD)</FormText>
-                        </FormGroup>
-                      </Col>
-
-                      {/* birthday date field */}
-                      <Col sm={4}>
-                        <FormGroup>
-                          <Label for="birthday">Birthday</Label>
-                          <Input
-                            name="birthday"
-                            type="date"
-                            className="form-control"
-                            id="birthday-Input"
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.birthday || ''}
-                            invalid={
-                              formik.touched.birthday && formik.errors.birthday
-                                ? true
-                                : false
-                            }
-                          />
-                          {formik.touched.birthday && formik.errors.birthday ? (
-                            <FormFeedback type="invalid">
-                              {formik.errors.birthday}
-                            </FormFeedback>
-                          ) : null}
-                        </FormGroup>
-                      </Col>
-
-                      {/* sex select field */}
-                      <Col sm={4}>
-                        <FormGroup>
-                          <Label for="sex">Sex</Label>
-                          <Input
-                            name="sex"
-                            type="select"
-                            className="form-control"
-                            id="sex-select"
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.sex || ''}
-                            invalid={
-                              formik.touched.sex && formik.errors.sex ? true : false
-                            }
-                          >
-                            <option value="">Choose...</option>
-                            {sexes.map((sex, idx) => (
-                              <option key={idx} value={sex}>
-                                {sex}
-                              </option>
-                            ))}
-                          </Input>
-                          {formik.touched.sex && formik.errors.sex ? (
-                            <FormFeedback type="invalid">
-                              {formik.errors.sex}
-                            </FormFeedback>
-                          ) : null}
-                        </FormGroup>
-                      </Col>
-
-                      {/* civil status select field */}
-                      {modalNatureOfAppointment === natureOfAppointments.CASUAL ? (
-                        <Col sm={4}>
-                          <FormGroup>
-                            <Label for="civilStatus">Civil Status</Label>
-                            <Input
-                              name="civilStatus"
-                              type="select"
-                              className="form-control"
-                              id="civilStatus-select"
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBlur}
-                              value={formik.values.civilStatus || ''}
-                              invalid={
-                                formik.touched.civilStatus &&
-                                  formik.errors.civilStatus
-                                  ? true
-                                  : false
-                              }
-                            >
-                              <option value="">Choose...</option>
-                              {civilStatuses.map((civilStatus, idx) => (
-                                <option key={idx} value={civilStatus}>
-                                  {civilStatus}
-                                </option>
-                              ))}
-                            </Input>
-                            {formik.touched.civilStatus &&
-                              formik.errors.civilStatus ? (
-                              <FormFeedback type="invalid">
-                                {formik.errors.sex}
-                              </FormFeedback>
-                            ) : null}
-                          </FormGroup>
-                        </Col>
-                      ) : null}
-
-                      {/* phone number input field */}
-                      <Col sm={4}>
-                        <FormGroup>
-                          <Label for="phoneNumber">Phone No.</Label>
-                          <Input
-                            name="phoneNumber"
-                            type="tel"
-                            className="form-control"
-                            id="phoneNumber-Input"
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.phoneNumber || ''}
-                            invalid={
-                              formik.touched.phoneNumber && formik.errors.phoneNumber
-                                ? true
-                                : false
-                            }
-                          />
-                          {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
-                            <FormFeedback type="invalid">
-                              {formik.errors.phoneNumber}
-                            </FormFeedback>
-                          ) : null}
-                        </FormGroup>
-                      </Col>
-
-                      {/* email input field */}
-                      <Col sm={4}>
-                        <FormGroup>
-                          <Label for="email">Email</Label>
-                          <Input
-                            name="email"
-                            type="email"
-                            className="form-control"
-                            id="email-Input"
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.email || ''}
-                            invalid={
-                              formik.touched.email && formik.errors.email
-                                ? true
-                                : false
-                            }
-                          />
-                          {formik.touched.email && formik.errors.email ? (
-                            <FormFeedback type="invalid">
-                              {formik.errors.email}
-                            </FormFeedback>
-                          ) : null}
-                        </FormGroup>
-                      </Col>
-
-                    </>
-                  ) : null}
-
-                  {/* daily rate input field & checkbox for per piece */}
-                  {modalNatureOfAppointment === natureOfAppointments.JOB_ORDER ||
-                    modalNatureOfAppointment ===
-                    natureOfAppointments.CONTRACT_OF_SERVICE ? (
-                    <Col sm={4}>
-                      <FormGroup>
-                        <Label for="dailyRate">Daily Rate</Label>
-                        <Input
-                          name="dailyRate"
-                          type="number"
-                          min={1}
-                          step={0.01}
-                          className="form-control"
-                          id="dailyRate-Input"
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.dailyRate || ''}
-                          invalid={
-                            formik.touched.dailyRate && formik.errors.dailyRate
-                              ? true
-                              : false
-                          }
-                        />
-                        {formik.touched.dailyRate && formik.errors.dailyRate ? (
-                          <FormFeedback type="invalid">
-                            {formik.errors.dailyRate}
-                          </FormFeedback>
-                        ) : null}
-
-                        {modalNatureOfAppointment ===
-                          natureOfAppointments.CONTRACT_OF_SERVICE ? (
-                          <div className="form-check pt-1">
-                            <Input
-                              name="isPerPieceRate"
-                              type="checkbox"
-                              className="form-check-input"
-                              id="isPerPieceRate-Input"
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBlur}
-                            />
-                            <Label
-                              className="form-check-label"
-                              for="isPerPieceRate"
-                            >
-                              Per piece rate
-                            </Label>
-                          </div>
-                        ) : null}
-                      </FormGroup>
-                    </Col>
-                  ) : null}
+              {isCasual ? (
+                <Row className="mb-2">
+                  <Col sm={12} className="d-flex gap-4">
+                    <div className="form-check">
+                      <Input
+                        type="radio"
+                        id="casualSource-new"
+                        className="form-check-input"
+                        checked={casualSource === 'new'}
+                        onChange={() => {
+                          setCasualSource('new')
+                          formik.setFieldValue('existingEmployeeId', '')
+                        }}
+                      />
+                      <Label
+                        className="form-check-label"
+                        for="casualSource-new"
+                      >
+                        New employee
+                      </Label>
+                    </div>
+                    <div className="form-check">
+                      <Input
+                        type="radio"
+                        id="casualSource-existing"
+                        className="form-check-input"
+                        checked={casualSource === 'existing'}
+                        onChange={() => setCasualSource('existing')}
+                      />
+                      <Label
+                        className="form-check-label"
+                        for="casualSource-existing"
+                      >
+                        Existing Job Order employee
+                      </Label>
+                    </div>
+                  </Col>
                 </Row>
-              </div>
+              ) : null}
+
+              {fromJobOrder ? (
+                <Row>
+                  <Col sm={12}>
+                    <FormGroup>
+                      <Label for="existingEmployeeId">Job Order Employee</Label>
+                      <Select
+                        inputId="existingEmployeeId"
+                        options={jobOrderOptions}
+                        value={
+                          jobOrderOptions.find(
+                            o => o.value === formik.values.existingEmployeeId
+                          ) || null
+                        }
+                        onChange={option =>
+                          formik.setFieldValue(
+                            'existingEmployeeId',
+                            option ? option.value : ''
+                          )
+                        }
+                        isLoading={loadingJobOrders}
+                        isClearable
+                        placeholder="Search a Job Order employee"
+                        noOptionsMessage={() => 'No active Job Order employees'}
+                        styles={selectStyles(!!existingError)}
+                      />
+                      {existingError ? (
+                        <div className="text-danger small mt-1">
+                          {existingError}
+                        </div>
+                      ) : null}
+                    </FormGroup>
+                  </Col>
+                </Row>
+              ) : (
+                <Row>
+                  {renderInput('firstName', 'First Name')}
+                  {renderInput('middleName', 'Middle Name')}
+                  {renderInput('lastName', 'Last Name')}
+                  {renderInput('nameExtension', 'Name Extension', {
+                    help: '(Jr, Sr, II)',
+                  })}
+                  {renderInput('titlePrefix', 'Title Prefix', {
+                    help: '(Atty, Engr, Dr)',
+                  })}
+                  {renderInput('titleSuffix', 'Title Suffix', {
+                    help: '(MPA, CPA, PhD)',
+                  })}
+                  {renderInput('birthday', 'Birthday', { type: 'date' })}
+                  {renderSelect('sex', 'Sex', sexes)}
+                  {isCasual
+                    ? renderSelect('civilStatus', 'Civil Status', civilStatuses)
+                    : null}
+                  {renderInput('phoneNumber', 'Phone No.')}
+                  {renderInput('email', 'Email', { type: 'email' })}
+                </Row>
+              )}
+
+              {/* ============ POSITION DETAILS ============ */}
+              <SectionTitle title="Position Details" />
+              <Row>
+                {renderInput('positionTitle', 'Position Title', { sm: 8 })}
+                {renderInput('effectivityDate', 'Effectivity Date', {
+                  type: 'date',
+                })}
+                <Col sm={8}>
+                  <FormGroup>
+                    <Label for="orgId">Office / Department / Division</Label>
+                    <Select
+                      inputId="orgId"
+                      options={orgOptions}
+                      value={
+                        orgOptions.find(o => o.value === formik.values.orgId) ||
+                        null
+                      }
+                      onChange={option =>
+                        formik.setFieldValue('orgId', option ? option.value : '')
+                      }
+                      onBlur={() => formik.setFieldTouched('orgId', true)}
+                      placeholder="Select..."
+                      styles={selectStyles(!!fieldError('orgId'))}
+                    />
+                    {fieldError('orgId') ? (
+                      <div className="text-danger small mt-1">
+                        {fieldError('orgId')}
+                      </div>
+                    ) : null}
+                  </FormGroup>
+                </Col>
+                {isCasual ? (
+                  <>
+                    {renderInput('salaryGrade', 'Salary Grade', {
+                      type: 'number',
+                      sm: 2,
+                      min: 1,
+                      max: 33,
+                      step: 1,
+                    })}
+                    <Col sm={2}>
+                      <FormGroup>
+                        <Label for="stepIncrement-Input">Step</Label>
+                        <Input
+                          id="stepIncrement-Input"
+                          type="number"
+                          value={1}
+                          disabled
+                        />
+                        <FormText>Initial onboarding</FormText>
+                      </FormGroup>
+                    </Col>
+                  </>
+                ) : null}
+                {isJobOrder
+                  ? renderInput('dailyRate', 'Daily Rate', {
+                    type: 'number',
+                    min: 1,
+                    step: 0.01,
+                  })
+                  : null}
+              </Row>
+
+              {/* ============ SCHEDULE DETAILS ============ */}
+              <SectionTitle title="Schedule Details" />
+              <Row>
+                <Col sm={6}>
+                  <FormGroup>
+                    <Label>Schedule Range</Label>
+                    <div className="d-flex align-items-center gap-2">
+                      <Input
+                        name="scheduleDateFrom"
+                        type="date"
+                        value={formik.values.scheduleDateFrom}
+                        max={formik.values.scheduleDateTo || undefined}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        invalid={!!fieldError('scheduleDateFrom')}
+                      />
+                      <span>to</span>
+                      <Input
+                        name="scheduleDateTo"
+                        type="date"
+                        value={formik.values.scheduleDateTo}
+                        min={formik.values.scheduleDateFrom || undefined}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        invalid={!!fieldError('scheduleDateTo')}
+                      />
+                    </div>
+                    {fieldError('scheduleDateFrom') ||
+                      fieldError('scheduleDateTo') ? (
+                      <div className="text-danger small mt-1">
+                        {fieldError('scheduleDateFrom') ||
+                          fieldError('scheduleDateTo')}
+                      </div>
+                    ) : null}
+                  </FormGroup>
+                </Col>
+                <Col sm={6}>
+                  <FormGroup>
+                    <Label for="scheduleId">Employee Schedule</Label>
+                    <Select
+                      inputId="scheduleId"
+                      options={schedules}
+                      value={selectedSchedule || null}
+                      onChange={option =>
+                        formik.setFieldValue(
+                          'scheduleId',
+                          option ? option.value.id : ''
+                        )
+                      }
+                      onBlur={() => formik.setFieldTouched('scheduleId', true)}
+                      isDisabled={loadingSchedules ? true : false}
+                      isLoading={loadingSchedules ? true : false}
+                      placeholder="Select a schedule"
+                      styles={selectStyles(!!fieldError('scheduleId'))}
+                    />
+                    {fieldError('scheduleId') ? (
+                      <div className="text-danger small mt-1">
+                        {fieldError('scheduleId')}
+                      </div>
+                    ) : selectedSchedule ? (
+                      <div className="text-muted small mt-1">
+                        Time In: {selectedSchedule.value.timeIn} | Time Out:{' '}
+                        {selectedSchedule.value.timeOut} | Shift:{' '}
+                        {selectedSchedule.value.shift || ''}
+                      </div>
+                    ) : null}
+                  </FormGroup>
+                </Col>
+                <Col sm={12}>
+                  <FormGroup>
+                    <Label for="restDays">Rest Days</Label>
+                    <Select
+                      inputId="restDays"
+                      isMulti={true}
+                      options={listOfRestDays}
+                      value={listOfRestDays.filter(o =>
+                        formik.values.restDays.includes(o.value)
+                      )}
+                      onChange={options =>
+                        formik.setFieldValue(
+                          'restDays',
+                          (options || []).map(o => o.value)
+                        )
+                      }
+                      onBlur={() => formik.setFieldTouched('restDays', true)}
+                      placeholder="Select rest days"
+                      styles={selectStyles(!!fieldError('restDays'))}
+                    />
+                    {fieldError('restDays') ? (
+                      <div className="text-danger small mt-1">
+                        {fieldError('restDays')}
+                      </div>
+                    ) : null}
+                  </FormGroup>
+                </Col>
+              </Row>
             </Form>
           )}
         </ModalBody>
@@ -974,7 +722,12 @@ const CasJoCosPortalRegistrationModal = props => {
               Close
             </Button>
           ) : (
-            <Button type="submit" form="empInfoForm" color="info">
+            <Button
+              type="submit"
+              form="empInfoForm"
+              color="info"
+              disabled={loadingRegisterCasJoCosEmployee}
+            >
               Register
             </Button>
           )}
