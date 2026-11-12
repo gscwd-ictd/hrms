@@ -20,6 +20,7 @@ import {
 
 import {
   Button,
+  ButtonGroup,
   Col,
   FormGroup,
   Row,
@@ -457,41 +458,30 @@ const CasJoCosPortalRegistrationModal = props => {
               <SectionTitle title="Employee Details" />
 
               {isCasual ? (
-                <Row className="mb-2">
-                  <Col sm={12} className="d-flex gap-4">
-                    <div className="form-check">
-                      <Input
-                        type="radio"
-                        id="casualSource-new"
-                        className="form-check-input"
-                        checked={casualSource === 'new'}
-                        onChange={() => {
+                <Row className="mb-3">
+                  <Col sm={12}>
+                    <ButtonGroup>
+                      <Button
+                        type="button"
+                        color="info"
+                        outline={casualSource !== 'new'}
+                        onClick={() => {
                           setCasualSource('new')
                           formik.setFieldValue('existingEmployeeId', '')
                         }}
-                      />
-                      <Label
-                        className="form-check-label"
-                        for="casualSource-new"
                       >
-                        New employee
-                      </Label>
-                    </div>
-                    <div className="form-check">
-                      <Input
-                        type="radio"
-                        id="casualSource-existing"
-                        className="form-check-input"
-                        checked={casualSource === 'existing'}
-                        onChange={() => setCasualSource('existing')}
-                      />
-                      <Label
-                        className="form-check-label"
-                        for="casualSource-existing"
+                        <i className="fas fa-user-plus me-1"></i> New employee
+                      </Button>
+                      <Button
+                        type="button"
+                        color="info"
+                        outline={casualSource !== 'existing'}
+                        onClick={() => setCasualSource('existing')}
                       >
-                        Existing Job Order employee
-                      </Label>
-                    </div>
+                        <i className="fas fa-user-check me-1"></i> Existing Job
+                        Order employee
+                      </Button>
+                    </ButtonGroup>
                   </Col>
                 </Row>
               ) : null}
@@ -501,6 +491,10 @@ const CasJoCosPortalRegistrationModal = props => {
                   <Col sm={12}>
                     <FormGroup>
                       <Label for="existingEmployeeId">Job Order Employee</Label>
+                      <FormText className="d-block mb-1">
+                        The employee&apos;s personal details are already in the
+                        system and are not encoded again.
+                      </FormText>
                       <Select
                         inputId="existingEmployeeId"
                         options={jobOrderOptions}
