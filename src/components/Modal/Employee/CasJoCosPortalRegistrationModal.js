@@ -62,6 +62,10 @@ const selectStyles = invalid => ({
   }),
 })
 
+// dates must be in an actual year (last year to next year); typo years like 0026 broke face scan lookups
+const yearMin = () => `${new Date().getFullYear() - 1}-01-01`
+const yearMax = () => `${new Date().getFullYear() + 1}-12-31`
+
 const isFlowNature = nature =>
   nature === natureOfAppointments.CASUAL ||
   nature === natureOfAppointments.JOB_ORDER
@@ -537,7 +541,11 @@ const CasJoCosPortalRegistrationModal = props => {
                   {renderInput('titleSuffix', 'Title Suffix', {
                     help: '(MPA, CPA, PhD)',
                   })}
-                  {renderInput('birthday', 'Birthday', { type: 'date' })}
+                  {renderInput('birthday', 'Birthday', {
+                    type: 'date',
+                    min: '1900-01-01',
+                    max: dayjs().subtract(15, 'year').format('YYYY-MM-DD'),
+                  })}
                   {renderSelect('sex', 'Sex', sexes)}
                   {isCasual
                     ? renderSelect('civilStatus', 'Civil Status', civilStatuses)
@@ -553,6 +561,8 @@ const CasJoCosPortalRegistrationModal = props => {
                 {renderInput('positionTitle', 'Position Title', { sm: 8 })}
                 {renderInput('effectivityDate', 'Effectivity Date', {
                   type: 'date',
+                  min: yearMin(),
+                  max: yearMax(),
                 })}
                 <Col sm={8}>
                   <FormGroup>
@@ -621,7 +631,8 @@ const CasJoCosPortalRegistrationModal = props => {
                         name="scheduleDateFrom"
                         type="date"
                         value={formik.values.scheduleDateFrom}
-                        max={formik.values.scheduleDateTo || undefined}
+                        min={yearMin()}
+                        max={formik.values.scheduleDateTo || yearMax()}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         invalid={!!fieldError('scheduleDateFrom')}
@@ -631,7 +642,8 @@ const CasJoCosPortalRegistrationModal = props => {
                         name="scheduleDateTo"
                         type="date"
                         value={formik.values.scheduleDateTo}
-                        min={formik.values.scheduleDateFrom || undefined}
+                        min={formik.values.scheduleDateFrom || yearMin()}
+                        max={yearMax()}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         invalid={!!fieldError('scheduleDateTo')}
