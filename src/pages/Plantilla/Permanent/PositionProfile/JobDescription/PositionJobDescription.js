@@ -143,18 +143,23 @@ const PositionJobDescription = () => {
     setfilteredSG(stepOneOf(value))
   }
 
+  // occupied or requested in a PRF: only the job summary can be changed
+  const isLocked = jobDescription.isLocked === true
+
   // Submit updated job description
   const updatePlantillaPosition = event => {
     event.preventDefault()
 
-    if (!filteredSG._id || !event.target.directAssignment.value) return
+    // locked: keep the current salary grade (not the step 1 of the latest table)
+    const salaryGradeId = isLocked ? jobDescription.salary.id : filteredSG._id
+    if (!salaryGradeId || !event.target.directAssignment.value) return
 
     const formData = {
       orgId: event.target.directAssignment.value,
       positionData: {
         itemNumber: event.target.itemNumber.value.toUpperCase(),
         positionTitle: event.target.positionTitle.value,
-        salaryGrade: filteredSG._id,
+        salaryGrade: salaryGradeId,
         summary: event.target.positionSummary.value,
       },
     }
@@ -319,6 +324,13 @@ const PositionJobDescription = () => {
                         <>
                           {isEditable ? (
                             <Form onSubmit={updatePlantillaPosition}>
+                              {isLocked ? (
+                                <div className="alert alert-warning py-2">
+                                  {jobDescription.lockReason} Item No, Position
+                                  Title, Assignment and Salary Grade cannot be
+                                  changed; only the job summary can.
+                                </div>
+                              ) : null}
                               <Row>
                                 {/* Item No */}
                                 <Col sm={6}>
@@ -333,6 +345,7 @@ const PositionJobDescription = () => {
                                       defaultValue={jobDescription.itemNumber}
                                       className="form-control text-uppercase"
                                       required
+                                      disabled={isLocked}
                                     ></InputMask>
                                   </FormGroup>
                                 </Col>
@@ -352,6 +365,7 @@ const PositionJobDescription = () => {
                                       defaultValue={
                                         jobDescription.positionTitle
                                       }
+                                      disabled={isLocked}
                                     />
                                   </FormGroup>
                                 </Col>
@@ -369,6 +383,7 @@ const PositionJobDescription = () => {
                                           name="assignment"
                                           value="office"
                                           onChange={handleAssignment}
+                                          disabled={isLocked}
                                           required
                                           checked={
                                             directAssignment === 'office'
@@ -385,6 +400,7 @@ const PositionJobDescription = () => {
                                           name="assignment"
                                           value="department"
                                           onChange={handleAssignment}
+                                          disabled={isLocked}
                                           required
                                           checked={
                                             directAssignment === 'department'
@@ -401,6 +417,7 @@ const PositionJobDescription = () => {
                                           name="assignment"
                                           value="division"
                                           onChange={handleAssignment}
+                                          disabled={isLocked}
                                           required
                                           checked={
                                             directAssignment === 'division'
@@ -421,8 +438,8 @@ const PositionJobDescription = () => {
                                       Assigned to
                                     </Label>
                                     {isLoadingOfc &&
-                                    isLoadingDept &&
-                                    isLoadingDiv ? (
+                                      isLoadingDept &&
+                                      isLoadingDiv ? (
                                       <Spinner
                                         className="mx-2 radio-select-spinner"
                                         color="secondary"
@@ -435,6 +452,7 @@ const PositionJobDescription = () => {
                                         name="directAssignment"
                                         required
                                         defaultValue={setAssignedToDefaultValue()}
+                                        disabled={isLocked}
                                       >
                                         <option value="" disabled>
                                           Select {directAssignment}
@@ -442,17 +460,17 @@ const PositionJobDescription = () => {
                                         {/* Set option list */}
                                         {directAssignment === 'office'
                                           ? offices.map(office => (
-                                              <option
-                                                key={office._id}
-                                                value={office._id}
-                                              >
-                                                {office.code}
-                                                {' - '}
-                                                {office.name}
-                                              </option>
-                                            ))
+                                            <option
+                                              key={office._id}
+                                              value={office._id}
+                                            >
+                                              {office.code}
+                                              {' - '}
+                                              {office.name}
+                                            </option>
+                                          ))
                                           : directAssignment === 'department'
-                                          ? departments.map(department => (
+                                            ? departments.map(department => (
                                               <option
                                                 key={department._id}
                                                 value={department._id}
@@ -462,18 +480,18 @@ const PositionJobDescription = () => {
                                                 {department.name}
                                               </option>
                                             ))
-                                          : directAssignment === 'division'
-                                          ? divisions.map(division => (
-                                              <option
-                                                key={division._id}
-                                                value={division._id}
-                                              >
-                                                {division.code}
-                                                {' - '}
-                                                {division.name}
-                                              </option>
-                                            ))
-                                          : null}
+                                            : directAssignment === 'division'
+                                              ? divisions.map(division => (
+                                                <option
+                                                  key={division._id}
+                                                  value={division._id}
+                                                >
+                                                  {division.code}
+                                                  {' - '}
+                                                  {division.name}
+                                                </option>
+                                              ))
+                                              : null}
                                       </select>
                                     )}
                                     <FormText>
@@ -524,6 +542,7 @@ const PositionJobDescription = () => {
                                         defaultValue={
                                           jobDescription.salary.salaryGrade
                                         }
+                                        disabled={isLocked}
                                       >
                                         {salaryGrades.map(sg => {
                                           return (
@@ -547,7 +566,11 @@ const PositionJobDescription = () => {
                                       type="text"
                                       className="form-control"
                                       id="formrow-stepincrement"
-                                      value="1"
+                                      value={
+                                        isLocked
+                                          ? jobDescription.salary.stepIncrement ?? ''
+                                          : '1'
+                                      }
                                       readOnly
                                     />
                                     <FormText>
@@ -569,7 +592,11 @@ const PositionJobDescription = () => {
                                       id="authsalary-input"
                                       required
                                       readOnly
-                                      value={filteredSG.amount ?? ''}
+                                      value={
+                                        isLocked
+                                          ? jobDescription.salary.amount ?? ''
+                                          : filteredSG.amount ?? ''
+                                      }
                                     />
                                     <FormText>
                                       Step 1 of the latest salary grade table
