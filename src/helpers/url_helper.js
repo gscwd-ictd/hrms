@@ -56,6 +56,9 @@ export const GET_EMPLOYEE_DETAILS_BY_PLANTILLA = 'employees/plantilla/'
 
 // EMPLOYEE
 export const POST_EMPLOYEE_ASSIGNMENT = 'employees'
+export const REGISTER_CASUAL_JOB_ORDER = 'employees/casual-job-order'
+export const JOB_ORDER_EMPLOYEES_FOR_CASUAL = 'employees/casual-job-order/job-order-employees'
+export const GET_ORGANIZATION_DROPDOWN = 'organization/dropdown/'
 export const GET_EMPLOYEES = 'employees/'
 export const GET_EMPLOYEE_BASIC_INFORMATION = 'employees/details/basic/'
 export const GET_EMPLOYEE_PDS = 'pds/'

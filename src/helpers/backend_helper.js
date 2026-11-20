@@ -275,7 +275,11 @@ export const putEmployeeBasicInformation = employeeBasicInfo =>
 export const postRegisterPermanentEmployee = employeeData =>
   postHris(url.POST_EMPLOYEE_ASSIGNMENT, employeeData)
 export const postRegisterCasJoCosEmployee = employeeData =>
-  postHris(url.POST_EMPLOYEE_ASSIGNMENT, employeeData)
+  employeeData.natureOfAppointment === 'casual' || employeeData.natureOfAppointment === 'job order'
+    ? postHris(url.REGISTER_CASUAL_JOB_ORDER, employeeData)
+    : postHris(url.POST_EMPLOYEE_ASSIGNMENT, employeeData)
+export const getJobOrderEmployeesForCasual = () => getHris(url.JOB_ORDER_EMPLOYEES_FOR_CASUAL)
+export const getOrganizationDropdown = () => getHris(url.GET_ORGANIZATION_DROPDOWN)
 
 //Service Record -------------------------------------------------------------------------
 export const getServiceRecords = employeeId =>
@@ -318,9 +322,9 @@ export const patchSwapPsbMember = newPsbMemberData =>
 export const getApplicantPsbRemarks = applicantId =>
   getHris(
     url.PUBLICATIONS +
-      url.PUBLICATION_APPLICANTS +
-      url.APPLICANT_PSB_REMARKS +
-      applicantId
+    url.PUBLICATION_APPLICANTS +
+    url.APPLICANT_PSB_REMARKS +
+    applicantId
   )
 
 // Publications --------------------------------------------------------------------
@@ -377,8 +381,8 @@ export const getPublicationItemNumbers = vppId =>
 export const getSelectionForCoaCertification = () =>
   getHris(
     url.POSITION_DESCRIPTION_DBM_CSC_FORM_1 +
-      url.CERTIFICATE_OF_APPOINTMENT +
-      url.SELECTION_FOR_COA_CERTIFIED_BY
+    url.CERTIFICATE_OF_APPOINTMENT +
+    url.SELECTION_FOR_COA_CERTIFIED_BY
   )
 // Applicants-----------------------------------------------------------------------
 export const getApplicants = publicationId =>
@@ -394,15 +398,15 @@ export const getApplicantInternal = applicantId =>
 export const getApplicantWesExternal = postingApplicantId =>
   getHris(
     url.GET_APPLICANT_PDS +
-      url.APPLICANT_WORK_EXPERIENCE_SHEET +
-      postingApplicantId
+    url.APPLICANT_WORK_EXPERIENCE_SHEET +
+    postingApplicantId
   )
 export const getApplicantWesInternal = postingApplicantId =>
   getEmpv2(
     url.GET_APPLICANT_PDS +
-      url.APPLICANT_WORK_EXPERIENCE_SHEET +
-      url.GET_APPLICANTS +
-      postingApplicantId
+    url.APPLICANT_WORK_EXPERIENCE_SHEET +
+    url.GET_APPLICANTS +
+    postingApplicantId
   )
 
 export const getEndorsedApplicants = vppId =>
@@ -420,8 +424,8 @@ export const patchApplicantApplicationStatus = (
 ) =>
   patchHris(
     url.GET_APPLICANT +
-      positingApplicantId +
-      url.PATCH_APPLICANT_APPLICATION_STATUS,
+    positingApplicantId +
+    url.PATCH_APPLICANT_APPLICATION_STATUS,
     applicantStatus
   )
 export const patchApplicantsExamScores = examScores =>
@@ -432,8 +436,8 @@ export const postDbmCscAdditionalData = dbmCscAdditionalData =>
 export const getDbmCscForm33BData = postingApplicantId =>
   getHris(
     url.POSITION_DESCRIPTION_DBM_CSC_FORM_1 +
-      url.QUALIFIED_APPLICANTS +
-      postingApplicantId
+    url.QUALIFIED_APPLICANTS +
+    postingApplicantId
   )
 export const putDbmCscAdditionalData = dbmCscAdditionalData =>
   putHris(url.POSITION_DESCRIPTION_DBM_CSC_FORM_1, dbmCscAdditionalData)
@@ -467,43 +471,43 @@ export const getDocumentPositionDescriptionDBMCSC = postingApplicantId =>
 export const getCBIReports = vppId =>
   getHris(
     url.PUBLICATIONS +
-      url.PSB_SUMMARY +
-      url.HRMS_REPORTS +
-      url.COMPETENCY_BASED_INTERVIEW +
-      vppId
+    url.PSB_SUMMARY +
+    url.HRMS_REPORTS +
+    url.COMPETENCY_BASED_INTERVIEW +
+    vppId
   )
 export const getDocumentResultsOfHiring = appointmentEffectivity =>
   getHris(
     url.PUBLICATIONS +
-      url.PSB_SUMMARY +
-      url.HRMS_REPORTS +
-      url.RESULTS_OF_HIRING +
-      '?effectivity_date=' +
-      appointmentEffectivity
+    url.PSB_SUMMARY +
+    url.HRMS_REPORTS +
+    url.RESULTS_OF_HIRING +
+    '?effectivity_date=' +
+    appointmentEffectivity
   )
 export const getDocumentReportOnAppointmentsIssued = monthYear =>
   getHris(
     url.PUBLICATIONS +
-      url.PSB_SUMMARY +
-      url.HRMS_REPORTS +
-      url.REPORT_ON_APPOINTMENTS +
-      monthYear
+    url.PSB_SUMMARY +
+    url.HRMS_REPORTS +
+    url.REPORT_ON_APPOINTMENTS +
+    monthYear
   )
 export const getDocumentCertOfAssumptionToDuty = postingApplicantId =>
   getHris(
     url.PUBLICATIONS +
-      url.PSB_SUMMARY +
-      url.HRMS_REPORTS +
-      url.CERTIFICATION_OF_ASSUMPTION_TO_DUTY +
-      postingApplicantId
+    url.PSB_SUMMARY +
+    url.HRMS_REPORTS +
+    url.CERTIFICATION_OF_ASSUMPTION_TO_DUTY +
+    postingApplicantId
   )
 export const getDocumentCertificateOfAppointment = postingApplicantId =>
   getHris(
     url.PUBLICATIONS +
-      url.PSB_SUMMARY +
-      url.HRMS_REPORTS +
-      url.CERTIFICATE_OF_APPOINTMENT +
-      postingApplicantId
+    url.PSB_SUMMARY +
+    url.HRMS_REPORTS +
+    url.CERTIFICATE_OF_APPOINTMENT +
+    postingApplicantId
   )
 
 // Modules-------------------------------------------------------------------------
@@ -590,8 +594,7 @@ export const getEmployeeDetailsReport = (
   as_of
 ) => {
   return getHris(
-    `${url.EMPLOYEE_DETAILS_REPORT}?as_of=${
-      as_of || ''
+    `${url.EMPLOYEE_DETAILS_REPORT}?as_of=${as_of || ''
     }&company_id=${company_id}&nature_of_appointment=${nature_of_appointment}&personal_details=${personal_details}&date_hired=${date_hired}&position_title=${position_title}&assignment=${assignment}&office=${office}&department=${department}&division=${division}&gsis=${gsis}&pagibig=${pagibig}&philhealth=${philhealth}&sss=${sss}&tin=${tin}&residential_address=${residential_address}&permanent_address=${permanent_address}&primary_education=${primary_education}&secondary_education=${secondary_education}&vocational_course=${vocational_course}&college_education=${college_education}&graduate_studies=${graduate_studies}&eligibility=${eligibility}&salary_grade=${salary_grade}&amount=${amount}`
   )
 }

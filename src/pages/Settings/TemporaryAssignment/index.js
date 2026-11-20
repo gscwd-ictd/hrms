@@ -199,7 +199,7 @@ const TemporaryAssignment = () => {
         </div>
       </Can>
 
-      <Can not I="access" this="Salary_grade">
+      <Can not I="access" this="Temporary_assignment">
         <Navigate to="/page-404" />
       </Can>
     </React.Fragment>
