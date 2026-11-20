@@ -39,7 +39,6 @@ const PositionJobDescription = () => {
   const [isEditable, setIsEditable] = useState(false)
   const [directAssignment, setDirectAssignment] = useState('')
 
-  const [filteredStepIncrements, setFilteredStepIncrements] = useState([])
   const [filteredSG, setfilteredSG] = useState({})
 
   // checker state for selected radio button
@@ -132,49 +131,28 @@ const PositionJobDescription = () => {
     return string.charAt(0).toUpperCase() + string.slice(1)
   }
 
-  // for filtering the salary grade list and update authorized salary field
+  // Step 1 of a salary grade in the latest salary grade table (the step increment of a position is always 1;
+  // salary-grade/step-increment returns the latest effectivity year only)
+  const stepOneOf = salaryGrade =>
+    (salaryGradeStepIncrement || []).find(
+      sg => sg.salaryGrade == salaryGrade && sg.stepIncrement == 1
+    ) || {}
+
+  // salary grade changed: authorized salary = step 1 of that grade
   const filterSG = value => {
-    const sgCurrentStepIncrement = salaryGradeStepIncrement.filter(
-      sg => sg.salaryGrade == value
-    )
-
-    setFilteredStepIncrements(sgCurrentStepIncrement)
-    document.getElementById('formrow-stepincrement').value =
-      document.getElementById('authsalary-input').value = 0
-
-    if (sgCurrentStepIncrement.length > 0) {
-      const parsedValue = sgCurrentStepIncrement[0]
-      document.getElementById('authsalary-input').value = parsedValue.amount
-      setfilteredSG(parsedValue)
-    } else {
-      document.getElementById('authsalary-input').value = 0
-      setfilteredSG({})
-    }
-  }
-
-  // for filtering the salary increment and update authorized salary field
-  const filterSI = value => {
-    if (value) {
-      const parsedValue = JSON.parse(value)
-
-      // Set "Authorized Salary" value to sudo-input
-      document.getElementById('authsalary-input').value = parsedValue.amount
-      setfilteredSG(parsedValue)
-    } else {
-      // Handle the case where value is an empty string
-      document.getElementById('authsalary-input').value = 0
-      setfilteredSG({})
-    }
+    setfilteredSG(stepOneOf(value))
   }
 
   // Submit updated job description
   const updatePlantillaPosition = event => {
     event.preventDefault()
 
+    if (!filteredSG._id || !event.target.directAssignment.value) return
+
     const formData = {
       orgId: event.target.directAssignment.value,
       positionData: {
-        itemNumber: event.target.itemNumber.value,
+        itemNumber: event.target.itemNumber.value.toUpperCase(),
         positionTitle: event.target.positionTitle.value,
         salaryGrade: filteredSG._id,
         summary: event.target.positionSummary.value,
@@ -187,11 +165,12 @@ const PositionJobDescription = () => {
   const setAssignedToDefaultValue = () => {
     let assignedToValue = ''
 
-    if (isOfficeDefault) {
+    // the current office / department / division, only while that assignment type is selected
+    if (isOfficeDefault && directAssignment === 'office') {
       assignedToValue = jobDescription.assignedTo.office.id
-    } else if (isDepartmentDefault) {
+    } else if (isDepartmentDefault && directAssignment === 'department') {
       assignedToValue = jobDescription.assignedTo.department.id
-    } else if (isDivisionDefault) {
+    } else if (isDivisionDefault && directAssignment === 'division') {
       assignedToValue = jobDescription.assignedTo.division.id
     }
     return assignedToValue
@@ -252,17 +231,9 @@ const PositionJobDescription = () => {
   }, [responseUpdateJobDescription])
 
   useEffect(() => {
-    // Set initial state for "Step Increment" select input
-    if (jobDescription.salary.id && salaryGradeStepIncrement) {
-      const sgCurrentStepIncrement = salaryGradeStepIncrement.filter(
-        sg => sg.salaryGrade == jobDescription.salary.salaryGrade
-      )
-
-      setFilteredStepIncrements(sgCurrentStepIncrement)
-      setfilteredSG({
-        _id: jobDescription.salary.id,
-        amount: jobDescription.salary.amount,
-      })
+    // Initial salary: step 1 of the position's salary grade in the latest salary grade table
+    if (jobDescription.salary.salaryGrade && salaryGradeStepIncrement) {
+      setfilteredSG(stepOneOf(jobDescription.salary.salaryGrade))
     }
   }, [salaryGradeStepIncrement, jobDescription.salary])
 
@@ -360,8 +331,8 @@ const PositionJobDescription = () => {
                                       name="itemNumber"
                                       mask="aaa-aaa-999"
                                       defaultValue={jobDescription.itemNumber}
-                                      className="form-control input-color text-uppercase"
-                                      disabled
+                                      className="form-control text-uppercase"
+                                      required
                                     ></InputMask>
                                   </FormGroup>
                                 </Col>
@@ -399,12 +370,11 @@ const PositionJobDescription = () => {
                                           value="office"
                                           onChange={handleAssignment}
                                           required
-                                          defaultChecked={
+                                          checked={
                                             directAssignment === 'office'
                                               ? true
                                               : false
                                           }
-                                          disabled
                                         />
                                         <Label check> Office</Label>
                                       </FormGroup>
@@ -416,12 +386,11 @@ const PositionJobDescription = () => {
                                           value="department"
                                           onChange={handleAssignment}
                                           required
-                                          defaultChecked={
+                                          checked={
                                             directAssignment === 'department'
                                               ? true
                                               : false
                                           }
-                                          disabled
                                         />
                                         <Label check>Department</Label>
                                       </FormGroup>
@@ -433,12 +402,11 @@ const PositionJobDescription = () => {
                                           value="division"
                                           onChange={handleAssignment}
                                           required
-                                          defaultChecked={
+                                          checked={
                                             directAssignment === 'division'
                                               ? true
                                               : false
                                           }
-                                          disabled
                                         />
                                         <Label check> Division</Label>
                                       </FormGroup>
@@ -461,13 +429,16 @@ const PositionJobDescription = () => {
                                       />
                                     ) : (
                                       <select
+                                        key={directAssignment}
                                         id="formrow-assignedto"
                                         className="form-control"
                                         name="directAssignment"
                                         required
                                         defaultValue={setAssignedToDefaultValue()}
-                                        disabled
                                       >
+                                        <option value="" disabled>
+                                          Select {directAssignment}
+                                        </option>
                                         {/* Set option list */}
                                         {directAssignment === 'office'
                                           ? offices.map(office => (
@@ -572,41 +543,16 @@ const PositionJobDescription = () => {
                                     <Label for="formrow-stepincrement">
                                       Step Increment
                                     </Label>
-                                    {loadingSalaryGradeStepIncrement ? (
-                                      <Spinner
-                                        className="mx-2 radio-select-spinner"
-                                        color="secondary"
-                                      />
-                                    ) : (
-                                      <select
-                                        id="formrow-stepincrement"
-                                        className="form-control"
-                                        name="stepIncrement"
-                                        onChange={event =>
-                                          filterSI(event.target.value)
-                                        }
-                                        required
-                                        defaultValue={JSON.stringify({
-                                          _id: jobDescription.salary.id,
-                                          amount: jobDescription.salary.amount,
-                                        })}
-                                      >
-                                        {filteredStepIncrements.map(sg => {
-                                          let optionVal = {
-                                            _id: sg._id,
-                                            amount: sg.amount,
-                                          }
-                                          return (
-                                            <option
-                                              key={sg._id}
-                                              value={JSON.stringify(optionVal)}
-                                            >
-                                              {sg.stepIncrement}
-                                            </option>
-                                          )
-                                        })}
-                                      </select>
-                                    )}
+                                    <Input
+                                      type="text"
+                                      className="form-control"
+                                      id="formrow-stepincrement"
+                                      value="1"
+                                      readOnly
+                                    />
+                                    <FormText>
+                                      A position always starts at step 1
+                                    </FormText>
                                   </FormGroup>
                                 </Col>
 
@@ -623,8 +569,11 @@ const PositionJobDescription = () => {
                                       id="authsalary-input"
                                       required
                                       readOnly
-                                      defaultValue={filteredSG.amount || 'N/A'}
+                                      value={filteredSG.amount ?? ''}
                                     />
+                                    <FormText>
+                                      Step 1 of the latest salary grade table
+                                    </FormText>
                                   </FormGroup>
                                 </Col>
 

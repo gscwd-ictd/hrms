@@ -24,6 +24,8 @@ import {
   CardTitle,
 } from 'reactstrap'
 import Breadcrumbs from 'components/Common/Breadcrumb'
+import EditPositionProficiencyLevelModal from 'components/Modal/Competency/EditPositionProficiencyLevelModal'
+import EditPositionFunctionalCompetenciesModal from 'components/Modal/Competency/EditPositionFunctionalCompetenciesModal'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 
@@ -35,6 +37,10 @@ const PositionCompetencies = () => {
   const { plantillaId } = useParams()
 
   const [activeTab, setactiveTab] = useState('1')
+
+  // Competency Setting / Proficiency Level modals (same as Competency > occupation > position)
+  const [showFuncCompetencyEdt, setShowFuncCompetencyEdt] = useState(false)
+  const [showProficiencyLvlEdt, setShowProficiencyLvlEdt] = useState(false)
 
   // Proficiency levels of individual model domains
   const {
@@ -71,6 +77,23 @@ const PositionCompetencies = () => {
       dispatch(fetchPlantillaPosition(plantillaId))
     }
   }, [dispatch])
+
+  const modalData = {
+    positionId: plantillaId,
+    itemNumber: positionDetails.itemNumber,
+    positionTitle: positionDetails.positionTitle,
+    salaryGrade: Number(positionDetails.salaryGrade),
+  }
+
+  // after closing a modal, reload the competencies shown on this page
+  const handleCloseFuncCompetencyEdt = () => {
+    setShowFuncCompetencyEdt(false)
+    dispatch(fetchCompetencyProficiencyLevels(plantillaId))
+  }
+  const handleCloseProficiencyLvlEdt = () => {
+    setShowProficiencyLvlEdt(false)
+    dispatch(fetchCompetencyProficiencyLevels(plantillaId))
+  }
 
   const toggle = tab => {
     if (activeTab !== tab) {
@@ -118,10 +141,29 @@ const PositionCompetencies = () => {
                     <Col lg={12}>
                       <Card>
                         <CardBody>
-                          <CardTitle className="mb-3">
-                            {positionDetails.positionTitle} |{' '}
-                            {positionDetails.itemNumber}
-                          </CardTitle>
+                          <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                            <CardTitle className="mb-0">
+                              {positionDetails.positionTitle} |{' '}
+                              {positionDetails.itemNumber}
+                            </CardTitle>
+                            <div className="d-flex gap-2">
+                              <button
+                                type="button"
+                                className="btn btn-info waves-effect waves-light inrow-btn-style"
+                                onClick={() => setShowFuncCompetencyEdt(true)}
+                              >
+                                Competency Setting{' '}
+                                <i className="fas fa-edit"></i>
+                              </button>
+                              <button
+                                type="button"
+                                className="btn btn-info waves-effect waves-light inrow-btn-style"
+                                onClick={() => setShowProficiencyLvlEdt(true)}
+                              >
+                                Proficiency Level <i className="fas fa-edit"></i>
+                              </button>
+                            </div>
+                          </div>
                           <Row>
                             <Col md={3}>
                               <Nav pills vertical>
@@ -393,6 +435,16 @@ const PositionCompetencies = () => {
                               )}
                             </Col>
                           </Row>
+                          <EditPositionFunctionalCompetenciesModal
+                            showEdt={showFuncCompetencyEdt}
+                            handleCloseEdt={handleCloseFuncCompetencyEdt}
+                            modalData={modalData}
+                          />
+                          <EditPositionProficiencyLevelModal
+                            showEdt={showProficiencyLvlEdt}
+                            handleCloseEdt={handleCloseProficiencyLvlEdt}
+                            modalData={modalData}
+                          />
                         </CardBody>
                       </Card>
                     </Col>

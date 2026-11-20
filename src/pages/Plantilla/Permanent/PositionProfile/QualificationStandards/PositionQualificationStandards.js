@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 import { Can } from 'casl/Can'
 import { Navigate, useParams } from 'react-router-dom'
 
@@ -8,6 +9,7 @@ import {
   fetchPositionQualificationStandards,
   resetQualificationStandards,
   fetchPlantillaPosition,
+  updatePositionQualificationStandards,
 } from 'store/actions'
 
 import {
@@ -18,6 +20,7 @@ import {
   Row,
   Form,
   FormGroup,
+  FormFeedback,
   Label,
   Input,
 } from 'reactstrap'
@@ -25,16 +28,32 @@ import Breadcrumbs from 'components/Common/Breadcrumb'
 import LoadingIndicator from 'components/LoaderSpinner/LoadingIndicator'
 import ToastrNotification from 'components/Notifications/ToastrNotification'
 
+const FIELDS = [
+  { name: 'eligibility', label: 'Eligibility' },
+  { name: 'education', label: 'Education' },
+  { name: 'experience', label: 'Experience' },
+  { name: 'training', label: 'Training' },
+]
+
+const emptyQs = { eligibility: '', education: '', experience: '', training: '' }
+
+/** Qualification standards of a position: view and update in place (Edit switch, like the Job Description page) */
 const PositionQualificationStandards = () => {
   const dispatch = useDispatch()
   const { plantillaId } = useParams()
 
+  const [isEditable, setIsEditable] = useState(false)
+  const [values, setValues] = useState(emptyQs)
+  const [touched, setTouched] = useState(false)
+
   const {
     positionQualificationStandards,
+    responseUpdate,
     loadingPositionQualificationStandards,
     errorPositionQualificationStandards,
   } = useSelector(state => ({
     positionQualificationStandards: state.qualificationStandards.position.get,
+    responseUpdate: state.qualificationStandards.position.put,
     loadingPositionQualificationStandards:
       state.qualificationStandards.loading
         .loadingPositionQualificationStandards,
@@ -48,16 +67,63 @@ const PositionQualificationStandards = () => {
     pdError: state.plantilla.error,
   }))
 
+  const loadValues = qs =>
+    setValues({
+      eligibility: qs?.eligibility || '',
+      education: qs?.education || '',
+      experience: qs?.experience || '',
+      training: qs?.training || '',
+    })
+
   useEffect(() => {
+    dispatch(resetQualificationStandards())
     if (plantillaId) {
       dispatch(fetchPositionQualificationStandards(plantillaId))
       dispatch(fetchPlantillaPosition(plantillaId))
     }
-  }, [dispatch])
+  }, [dispatch, plantillaId])
 
+  // form values follow the saved QS
   useEffect(() => {
-    dispatch(resetQualificationStandards())
-  }, [])
+    loadValues(positionQualificationStandards)
+  }, [positionQualificationStandards])
+
+  // saved: reload and leave edit mode
+  useEffect(() => {
+    if (!isEmpty(responseUpdate)) {
+      setIsEditable(false)
+      setTouched(false)
+      dispatch(fetchPositionQualificationStandards(plantillaId))
+    }
+  }, [responseUpdate])
+
+  const handleChange = event => {
+    const { name, value } = event.target
+    setValues(prev => ({ ...prev, [name]: value }))
+  }
+
+  const isMissing = name => touched && !values[name].trim()
+
+  const handleSubmit = event => {
+    event.preventDefault()
+    setTouched(true)
+    if (FIELDS.some(f => !values[f.name].trim())) return
+    dispatch(
+      updatePositionQualificationStandards(plantillaId, {
+        positionId: plantillaId,
+        eligibility: values.eligibility.trim(),
+        education: values.education.trim(),
+        experience: values.experience.trim(),
+        training: values.training.trim(),
+      })
+    )
+  }
+
+  const handleCancel = () => {
+    loadValues(positionQualificationStandards)
+    setTouched(false)
+    setIsEditable(false)
+  }
 
   return (
     <React.Fragment>
@@ -76,6 +142,13 @@ const PositionQualificationStandards = () => {
               <ToastrNotification toastType={'error'} notifMessage={pdError} />
             ) : null}
 
+            {!isEmpty(responseUpdate) ? (
+              <ToastrNotification
+                toastType={'success'}
+                notifMessage={'Qualification standards successfully updated'}
+              />
+            ) : null}
+
             {pdIsLoading ? (
               <LoadingIndicator />
             ) : (
@@ -92,87 +165,98 @@ const PositionQualificationStandards = () => {
                     <Col>
                       <Card>
                         <CardBody>
+                          <Row>
+                            <Col
+                              style={{
+                                display: 'flex',
+                                justifyContent: 'flex-end',
+                              }}
+                            >
+                              <div className="form-check form-switch form-switch-lg mb-3">
+                                <input
+                                  type="checkbox"
+                                  className="form-check-input"
+                                  id="qsEditSwitch"
+                                  checked={isEditable}
+                                  onChange={e =>
+                                    e.target.checked
+                                      ? setIsEditable(true)
+                                      : handleCancel()
+                                  }
+                                />
+                                <label
+                                  className="form-check-label"
+                                  htmlFor="qsEditSwitch"
+                                >
+                                  Edit
+                                </label>
+                              </div>
+                            </Col>
+                          </Row>
+
                           {loadingPositionQualificationStandards ? (
                             <LoadingIndicator />
                           ) : (
-                            <Form>
+                            <Form onSubmit={handleSubmit}>
                               <Row>
-                                <Col sm={6}>
-                                  <FormGroup>
-                                    <Label for="formrow-eligibility-Input">
-                                      Eligibility
-                                    </Label>
-                                    <Input
-                                      type="text"
-                                      className="form-control"
-                                      id="formrow-eligibility-Input"
-                                      defaultValue={
-                                        positionQualificationStandards.eligibility
-                                      }
-                                      readOnly
-                                    />
-                                  </FormGroup>
-                                </Col>
-
-                                <Col sm={6}>
-                                  <FormGroup>
-                                    <Label for="formrow-education-Input">
-                                      Education
-                                    </Label>
-                                    <Input
-                                      type="text"
-                                      className="form-control"
-                                      id="formrow-education-Input"
-                                      defaultValue={
-                                        positionQualificationStandards.education
-                                      }
-                                      readOnly
-                                    />
-                                  </FormGroup>
-                                </Col>
+                                {FIELDS.map(field => (
+                                  <Col sm={6} key={field.name}>
+                                    <FormGroup>
+                                      <Label for={`qs-${field.name}`}>
+                                        {field.label}
+                                      </Label>
+                                      <Input
+                                        type="textarea"
+                                        rows="3"
+                                        className="form-control"
+                                        id={`qs-${field.name}`}
+                                        name={field.name}
+                                        value={values[field.name]}
+                                        onChange={handleChange}
+                                        readOnly={!isEditable}
+                                        invalid={isMissing(field.name)}
+                                        placeholder={
+                                          isEditable
+                                            ? 'Write "None required" if there is none'
+                                            : ''
+                                        }
+                                      />
+                                      {isMissing(field.name) ? (
+                                        <FormFeedback type="invalid">
+                                          Please enter {field.label.toLowerCase()}
+                                        </FormFeedback>
+                                      ) : null}
+                                    </FormGroup>
+                                  </Col>
+                                ))}
                               </Row>
 
-                              <Row>
-                                <Col sm={6}>
-                                  <FormGroup>
-                                    <Label for="formrow-experience-Input">
-                                      Experience
-                                    </Label>
-                                    <Input
-                                      type="text"
-                                      className="form-control"
-                                      id="formrow-experience-Input"
-                                      defaultValue={
-                                        positionQualificationStandards.experience
-                                      }
-                                      readOnly
-                                    />
-                                  </FormGroup>
-                                </Col>
-
-                                <Col sm={6}>
-                                  <FormGroup>
-                                    <Label for="formrow-training-Input">
-                                      Training
-                                    </Label>
-                                    <Input
-                                      type="text"
-                                      className="form-control"
-                                      id="formrow-training-Input"
-                                      defaultValue={
-                                        positionQualificationStandards.training
-                                      }
-                                      readOnly
-                                    />
-                                  </FormGroup>
-                                </Col>
-                              </Row>
-
-                              {/* <div>
-                          <button type="submit" className="btn btn-primary w-md">
-                            Submit
-                          </button>
-                        </div> */}
+                              {isEditable ? (
+                                <Row>
+                                  <Col
+                                    sm={12}
+                                    style={{
+                                      display: 'flex',
+                                      justifyContent: 'flex-end',
+                                      gap: '0.5rem',
+                                    }}
+                                  >
+                                    <button
+                                      type="button"
+                                      className="btn btn-light w-md"
+                                      onClick={handleCancel}
+                                    >
+                                      Cancel
+                                    </button>
+                                    <button
+                                      type="submit"
+                                      className="btn btn-primary w-md"
+                                    >
+                                      Save
+                                    </button>
+                                  </Col>
+                                </Row>
+                              ) : null}
                             </Form>
                           )}
                         </CardBody>
