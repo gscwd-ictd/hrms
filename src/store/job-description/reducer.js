@@ -71,6 +71,8 @@ const jobDescription = (state = INIT_STATE, action) => {
             summary: "",
             description: "",
             reportsTo: "",
+            isLocked: false,
+            lockReason: "",
             assignedTo: {
               ...state.response.get.assignedTo,
               office: {
@@ -121,6 +123,9 @@ const jobDescription = (state = INIT_STATE, action) => {
             summary: action.payload.summary,
             description: action.payload.description,
             reportsTo: action.payload.reportsTo,
+            // occupied or requested in a PRF: item no., title, assignment and salary grade are locked
+            isLocked: action.payload.isLocked === true,
+            lockReason: action.payload.lockReason || "",
             assignedTo: {
               ...state.response.get.assignedTo,
               office: {
@@ -210,6 +215,8 @@ const jobDescription = (state = INIT_STATE, action) => {
             summary: "",
             description: "",
             reportsTo: "",
+            isLocked: false,
+            lockReason: "",
             assignedTo: {
               ...state.response.get.assignedTo,
               office: {
