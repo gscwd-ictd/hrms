@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { isEmpty } from 'lodash'
 import { Can } from 'casl/Can'
@@ -45,6 +45,12 @@ const PositionQualificationStandards = () => {
   const [isEditable, setIsEditable] = useState(false)
   const [values, setValues] = useState(emptyQs)
   const [touched, setTouched] = useState(false)
+  // the switch is not a controlled input (like the Job Description page): a re-render while the click is being
+  // handled made React drop the change, so the switch never turned on
+  const switchRef = useRef(null)
+  const setSwitch = on => {
+    if (switchRef.current) switchRef.current.checked = on
+  }
 
   const {
     positionQualificationStandards,
@@ -92,6 +98,7 @@ const PositionQualificationStandards = () => {
   useEffect(() => {
     if (!isEmpty(responseUpdate)) {
       setIsEditable(false)
+      setSwitch(false)
       setTouched(false)
       dispatch(fetchPositionQualificationStandards(plantillaId))
     }
@@ -123,6 +130,7 @@ const PositionQualificationStandards = () => {
     loadValues(positionQualificationStandards)
     setTouched(false)
     setIsEditable(false)
+    setSwitch(false)
   }
 
   return (
@@ -177,9 +185,10 @@ const PositionQualificationStandards = () => {
                                   type="checkbox"
                                   className="form-check-input"
                                   id="qsEditSwitch"
-                                  checked={isEditable}
-                                  onChange={e =>
-                                    e.target.checked
+                                  ref={switchRef}
+                                  defaultChecked={false}
+                                  onClick={e =>
+                                    e.currentTarget.checked
                                       ? setIsEditable(true)
                                       : handleCancel()
                                   }
