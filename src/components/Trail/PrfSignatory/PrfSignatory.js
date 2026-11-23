@@ -3,168 +3,92 @@ import PropTypes from 'prop-types'
 
 import 'styles/custom_gscwd/components/prftrail.scss'
 
+// one signatory of the trail
+const Step = ({ signatory, date, label }) => (
+  <div
+    className={
+      signatory.status === 'For approval'
+        ? 'item event-list active'
+        : 'item event-list'
+    }
+  >
+    <div>
+      <div className="event-date">
+        <div className="text-primary mb-1">{date}</div>
+        <h5 className="mb-4">{signatory.name}</h5>
+      </div>
+      <div className="event-down-icon">
+        <i className="bx bx-down-arrow-circle h2 text-primary down-arrow-icon" />
+      </div>
+
+      <div className="mt-3 px-3">
+        {label ? <p className="mb-1 fw-semibold">{label}</p> : null}
+        <p className="text-muted">{signatory.position}</p>
+        <p className="text-muted">{signatory.designation}</p>
+      </div>
+    </div>
+  </div>
+)
+
+Step.propTypes = {
+  signatory: PropTypes.object,
+  date: PropTypes.string,
+  label: PropTypes.string,
+}
+
 const PrfSignatory = props => {
   const { prfTrail, prfDetails, formatDate } = props
+
+  // date signed; not signed yet: ---; signed on request: date requested
+  const dateOf = signatory =>
+    signatory.updatedAt
+      ? formatDate(signatory.updatedAt)
+      : signatory.status === 'For approval' || signatory.status === 'Pending'
+        ? '---'
+        : formatDate(prfDetails.dateRequested)
+
+  // requested by the General Manager (no division / department / AGM step): the GM is the requester (first),
+  // then the HR Department Manager (certified correct)
+  const gmIsRequester =
+    prfTrail.gm.status === 'Sent' ||
+    (prfTrail.gm.status === 'Approved' &&
+      prfTrail.division.status === 'N/A' &&
+      prfTrail.department.status === 'N/A' &&
+      prfTrail.agm.status === 'N/A')
+
+  const steps = gmIsRequester
+    ? [
+      {
+        key: 'gm',
+        signatory: prfTrail.gm,
+        date: formatDate(prfDetails.dateRequested),
+        label: 'Requested by',
+      },
+      {
+        key: 'admin',
+        signatory: prfTrail.admin,
+        label: 'Certified correct by',
+      },
+    ]
+    : ['division', 'department', 'agm', 'admin', 'gm'].map(key => ({
+      key,
+      signatory: prfTrail[key],
+    }))
+
   return (
     <div className="hori-timeline">
       <div className="owl-carousel owl-theme events">
         <div className="signatory-trail equal-columns">
-          {prfTrail.division.status !== 'N/A' ? (
-            <div
-              className={
-                prfTrail.division.status === 'For approval'
-                  ? 'item event-list active'
-                  : 'item event-list'
-              }
-            >
-              <div>
-                <div className="event-date">
-                  <div className="text-primary mb-1">
-                    {formatDate(prfDetails.dateRequested)}
-                  </div>
-                  <h5 className="mb-4">{prfTrail.division.name}</h5>
-                </div>
-                <div className="event-down-icon">
-                  <i className="bx bx-down-arrow-circle h2 text-primary down-arrow-icon" />
-                </div>
-
-                <div className="mt-3 px-3">
-                  <p className="text-muted">{prfTrail.division.position}</p>
-                  <p className="text-muted">{prfTrail.division.designation}</p>
-                </div>
-              </div>
-            </div>
-          ) : null}
-
-          {prfTrail.department.status !== 'N/A' ? (
-            <div
-              className={
-                prfTrail.department.status === 'For approval'
-                  ? 'item event-list active'
-                  : 'item event-list'
-              }
-            >
-              <div>
-                <div className="event-date">
-                  <div className="text-primary mb-1">
-                    {prfTrail.department.updatedAt
-                      ? formatDate(prfTrail.department.updatedAt)
-                      : prfTrail.department.status === 'For approval' ||
-                        prfTrail.department.status === 'Pending'
-                      ? '---'
-                      : formatDate(prfDetails.dateRequested)}
-                  </div>
-                  <h5 className="mb-4">{prfTrail.department.name}</h5>
-                </div>
-                <div className="event-down-icon">
-                  <i className="bx bx-down-arrow-circle h2 text-primary down-arrow-icon" />
-                </div>
-
-                <div className="mt-3 px-3">
-                  <p className="text-muted">{prfTrail.department.position}</p>
-                  <p className="text-muted">
-                    {prfTrail.department.designation}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ) : null}
-
-          {prfTrail.agm.status !== 'N/A' ? (
-            <div
-              className={
-                prfTrail.agm.status === 'For approval'
-                  ? 'item event-list active'
-                  : 'item event-list'
-              }
-            >
-              <div>
-                <div className="event-date">
-                  <div className="text-primary mb-1">
-                    {prfTrail.agm.updatedAt
-                      ? formatDate(prfTrail.agm.updatedAt)
-                      : prfTrail.agm.status === 'For approval' ||
-                        prfTrail.agm.status === 'Pending'
-                      ? '---'
-                      : formatDate(prfDetails.dateRequested)}
-                  </div>
-                  <h5 className="mb-4">{prfTrail.agm.name}</h5>
-                </div>
-                <div className="event-down-icon">
-                  <i className="bx bx-down-arrow-circle h2 text-primary down-arrow-icon" />
-                </div>
-
-                <div className="mt-3 px-3">
-                  <p className="text-muted">{prfTrail.agm.position}</p>
-                  <p className="text-muted">{prfTrail.agm.designation}</p>
-                </div>
-              </div>
-            </div>
-          ) : null}
-
-          {prfTrail.admin.status !== 'N/A' ? (
-            <div
-              className={
-                prfTrail.admin.status === 'For approval'
-                  ? 'item event-list active'
-                  : 'item event-list'
-              }
-            >
-              <div>
-                <div className="event-date">
-                  <div className="text-primary mb-1">
-                    {prfTrail.admin.updatedAt
-                      ? formatDate(prfTrail.admin.updatedAt)
-                      : prfTrail.admin.status === 'For approval' ||
-                        prfTrail.admin.status === 'Pending'
-                      ? '---'
-                      : formatDate(prfDetails.dateRequested)}
-                  </div>
-                  <h5 className="mb-4">{prfTrail.admin.name}</h5>
-                </div>
-                <div className="event-down-icon">
-                  <i className="bx bx-down-arrow-circle h2 text-primary down-arrow-icon" />
-                </div>
-
-                <div className="mt-3 px-3">
-                  <p className="text-muted">{prfTrail.admin.position}</p>
-                  <p className="text-muted">{prfTrail.admin.designation}</p>
-                </div>
-              </div>
-            </div>
-          ) : null}
-
-          {prfTrail.gm.status !== 'N/A' ? (
-            <div
-              className={
-                prfTrail.gm.status === 'For approval'
-                  ? 'item event-list active'
-                  : 'item event-list'
-              }
-            >
-              <div>
-                <div className="event-date">
-                  <div className="text-primary mb-1">
-                    {prfTrail.gm.updatedAt
-                      ? formatDate(prfTrail.gm.updatedAt)
-                      : prfTrail.gm.status === 'For approval' ||
-                        prfTrail.gm.status === 'Pending'
-                      ? '---'
-                      : formatDate(prfDetails.dateRequested)}
-                  </div>
-                  <h5 className="mb-4">{prfTrail.gm.name}</h5>
-                </div>
-                <div className="event-down-icon">
-                  <i className="bx bx-down-arrow-circle h2 text-primary down-arrow-icon" />
-                </div>
-
-                <div className="mt-3 px-3">
-                  <p className="text-muted">{prfTrail.gm.position}</p>
-                  <p className="text-muted">{prfTrail.gm.designation}</p>
-                </div>
-              </div>
-            </div>
-          ) : null}
+          {steps
+            .filter(({ signatory }) => signatory && signatory.status !== 'N/A')
+            .map(({ key, signatory, date, label }) => (
+              <Step
+                key={key}
+                signatory={signatory}
+                date={date || dateOf(signatory)}
+                label={label}
+              />
+            ))}
         </div>
       </div>
     </div>

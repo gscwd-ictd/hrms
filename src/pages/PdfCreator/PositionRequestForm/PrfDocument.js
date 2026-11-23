@@ -151,6 +151,20 @@ Font.register({
 const PrfDocument = props => {
   const { prfDetails, prfTrail, formatDate } = props
 
+  // requested by the General Manager (no division / department / AGM step): the GM signed as the requester,
+  // the PRF is final approved when the HR Department Manager certifies it correct
+  const gmIsRequester =
+    ['Sent', 'Approved'].includes(prfTrail.gm.status) &&
+    prfTrail.division.status === 'N/A' &&
+    prfTrail.department.status === 'N/A' &&
+    prfTrail.agm.status === 'N/A'
+  const finalApprovalDate =
+    prfDetails.status !== 'Approved' && prfDetails.status !== 'Disapproved'
+      ? null
+      : gmIsRequester
+        ? prfTrail.admin.updatedAt
+        : prfTrail.gm.updatedAt
+
   // Positions that were requested
   const renderPositions = () => {
     var content = prfDetails.prfPositions.map(position => (
@@ -189,7 +203,7 @@ const PrfDocument = props => {
     var content = (
       <>
         {prfDetails.from.name === prfTrail.department.name ||
-        prfTrail.department.status === 'N/A' ? (
+          prfTrail.department.status === 'N/A' ? (
           <>
             <Text
               style={[
@@ -230,7 +244,7 @@ const PrfDocument = props => {
     var content = (
       <>
         {prfDetails.from.name === prfTrail.agm.name ||
-        prfTrail.agm.status === 'N/A' ? (
+          prfTrail.agm.status === 'N/A' ? (
           <>
             <Text
               style={[
@@ -605,7 +619,7 @@ const PrfDocument = props => {
 
                 {/* Update the date if the final approving body is not GM */}
                 <Text style={[styles.w35, styles.horizontalCenter]}>
-                  {formatDate(prfTrail.gm.updatedAt)}
+                  {finalApprovalDate ? formatDate(finalApprovalDate) : ' '}
                 </Text>
               </View>
 
