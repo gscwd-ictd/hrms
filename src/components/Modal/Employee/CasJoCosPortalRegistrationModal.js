@@ -9,6 +9,7 @@ import {
   getOrganizationDropdown,
   getJobOrderEmployeesForCasual,
   getNextCasualJobOrderEmployeeNo,
+  getDefaultCasualJobOrderEmail,
 } from 'helpers/backend_helper'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -122,9 +123,8 @@ const CasJoCosPortalRegistrationModal = props => {
   }
 
   // email (webmail) password: '@' + first name + birthday as MMDDYY
-  const mailPassword = `@${(submittedMail.firstName || '').trim()}${
-    submittedMail.birthday ? dayjs(submittedMail.birthday).format('MMDDYY') : ''
-  }`
+  const mailPassword = `@${(submittedMail.firstName || '').trim()}${submittedMail.birthday ? dayjs(submittedMail.birthday).format('MMDDYY') : ''
+    }`
 
   /** Employee Portal and email credentials of the registered employee as a .txt file */
   const downloadCredentials = () => {
@@ -393,10 +393,58 @@ const CasJoCosPortalRegistrationModal = props => {
       formik.resetForm()
       dispatch(fetchEmployeeList())
       setRegistered(responseRegisterCasJoCosEmployee)
+      setEmailEdited(false)
       setCredentialsDownloaded(false)
       loadNextEmployeeNo()
     }
   }, [responseRegisterCasJoCosEmployee])
+
+  // default office email: firstName + lastName + nameExtension @gscwd.com (lowercase, letters and digits only);
+  // if an Employee Portal account already has it (same name and extension), the middle initial is added (server check).
+  // Follows the name until HR types an email of their own.
+  const [emailEdited, setEmailEdited] = useState(false)
+  const [defaultEmailTaken, setDefaultEmailTaken] = useState(false)
+  const defaultEmail = () => {
+    const local = [formik.values.firstName, formik.values.lastName, formik.values.nameExtension]
+      .map(v => (v || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]/g, ''))
+      .join('')
+    return local ? `${local}@gscwd.com` : ''
+  }
+  useEffect(() => {
+    if (emailEdited || fromJobOrder) return
+    const local = defaultEmail()
+    formik.setFieldValue('email', local)
+    setDefaultEmailTaken(false)
+    if (!local) return
+    const { firstName, middleName, lastName, nameExtension } = formik.values
+    let cancelled = false
+    const timer = setTimeout(() => {
+      getDefaultCasualJobOrderEmail({
+        firstName: firstName || '',
+        middleName: middleName || '',
+        lastName: lastName || '',
+        nameExtension: nameExtension || '',
+      })
+        .then(res => {
+          if (cancelled || !res?.email) return
+          formik.setFieldValue('email', res.email)
+          setDefaultEmailTaken(!!res.taken)
+        })
+        .catch(() => null)
+    }, 400)
+    return () => {
+      cancelled = true
+      clearTimeout(timer)
+    }
+  }, [
+    formik.values.firstName,
+    formik.values.middleName,
+    formik.values.lastName,
+    formik.values.nameExtension,
+  ])
+  useEffect(() => {
+    if (!showAddCasJoCos) setEmailEdited(false)
+  }, [showAddCasJoCos])
 
   const fieldError = name =>
     formik.touched[name] && formik.errors[name] ? formik.errors[name] : null
@@ -661,7 +709,16 @@ const CasJoCosPortalRegistrationModal = props => {
                     ? renderSelect('civilStatus', 'Civil Status', civilStatuses)
                     : null}
                   {renderInput('phoneNumber', 'Phone No.')}
-                  {renderInput('email', 'Email', { type: 'email' })}
+                  {renderInput('email', 'Email', {
+                    type: 'email',
+                    help: defaultEmailTaken
+                      ? 'This email is already used (same name and middle initial). Please enter another email.'
+                      : 'Default: firstname + lastname + extension @gscwd.com (middle initial added if already used)',
+                    onChange: e => {
+                      setEmailEdited(true)
+                      formik.handleChange(e)
+                    },
+                  })}
                 </Row>
               )}
 
