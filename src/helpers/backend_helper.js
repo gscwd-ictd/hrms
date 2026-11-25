@@ -279,6 +279,7 @@ export const postRegisterCasJoCosEmployee = employeeData =>
     ? postHris(url.REGISTER_CASUAL_JOB_ORDER, employeeData)
     : postHris(url.POST_EMPLOYEE_ASSIGNMENT, employeeData)
 export const getJobOrderEmployeesForCasual = () => getHris(url.JOB_ORDER_EMPLOYEES_FOR_CASUAL)
+export const getNextCasualJobOrderEmployeeNo = () => getHris(url.NEXT_CASUAL_JOB_ORDER_EMPLOYEE_NO)
 export const getOrganizationDropdown = () => getHris(url.GET_ORGANIZATION_DROPDOWN)
 
 //Service Record -------------------------------------------------------------------------
