@@ -8,6 +8,7 @@ import { natureOfAppointments } from 'constants/natureOfAppointments'
 import {
   getOrganizationDropdown,
   getJobOrderEmployeesForCasual,
+  getNextCasualJobOrderEmployeeNo,
 } from 'helpers/backend_helper'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -30,6 +31,7 @@ import {
   Input,
   FormFeedback,
   FormText,
+  Badge,
   Modal,
   ModalHeader,
   ModalBody,
@@ -92,6 +94,74 @@ const CasJoCosPortalRegistrationModal = props => {
   const [loadingJobOrders, setLoadingJobOrders] = useState(false)
   // result of a successful registration (Employee No., default password, schedule)
   const [registered, setRegistered] = useState(null)
+  // Employee No. the next new employee gets (header counter)
+  const [nextEmployeeNo, setNextEmployeeNo] = useState(null)
+  // name of the employee just registered (for the credentials file)
+  const [submittedName, setSubmittedName] = useState('')
+  // first name and birthday of the employee just registered (mail password)
+  const [submittedMail, setSubmittedMail] = useState({ firstName: '', birthday: '' })
+  // the credentials file must be downloaded before the modal can be closed
+  const [credentialsDownloaded, setCredentialsDownloaded] = useState(false)
+  const [mustDownloadWarning, setMustDownloadWarning] = useState(false)
+
+  const loadNextEmployeeNo = () =>
+    getNextCasualJobOrderEmployeeNo()
+      .then(res => setNextEmployeeNo(res?.nextEmployeeNo ?? null))
+      .catch(() => setNextEmployeeNo(null))
+
+  const needsCredentialsDownload =
+    !!registered && !!registered.defaultPassword && !credentialsDownloaded
+
+  // closing is blocked until the employee credentials (.txt) are downloaded
+  const handleClose = () => {
+    if (needsCredentialsDownload) {
+      setMustDownloadWarning(true)
+      return
+    }
+    handleCloseAddCasJoCos()
+  }
+
+  // email (webmail) password: '@' + first name + birthday as MMDDYY
+  const mailPassword = `@${(submittedMail.firstName || '').trim()}${
+    submittedMail.birthday ? dayjs(submittedMail.birthday).format('MMDDYY') : ''
+  }`
+
+  /** Employee Portal and email credentials of the registered employee as a .txt file */
+  const downloadCredentials = () => {
+    if (!registered) return
+    const lines = [
+      'GENERAL SANTOS CITY WATER DISTRICT',
+      'EMPLOYEE PORTAL CREDENTIALS',
+      '',
+      `Name            : ${submittedName || '-'}`,
+      `Employee No.    : ${registered.companyId}`,
+      `Appointment     : ${modalNatureOfAppointment}`,
+      `Portal login    : ${registered.email}`,
+      `Default password: ${registered.defaultPassword}`,
+      '',
+      'EMAIL (WEBMAIL) CREDENTIALS',
+      `Email           : ${registered.email}`,
+      `Password        : ${mailPassword}`,
+      registered.employeeSchedule
+        ? `Schedule        : ${registered.employeeSchedule.schedule} (${registered.employeeSchedule.dateFrom} to ${registered.employeeSchedule.dateTo})`
+        : null,
+      '',
+      'Please change the password after the first login.',
+      `Generated: ${dayjs().format('MMMM DD, YYYY hh:mm A')}`,
+    ].filter(line => line !== null)
+    const blob = new Blob([lines.join('\r\n')], {
+      type: 'text/plain;charset=utf-8',
+    })
+    const link = document.createElement('a')
+    link.href = URL.createObjectURL(blob)
+    link.download = `${registered.companyId} - ${submittedName || 'employee'} credentials.txt`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(link.href)
+    setCredentialsDownloaded(true)
+    setMustDownloadWarning(false)
+  }
 
   const {
     responseRegisterCasJoCosEmployee,
@@ -111,6 +181,7 @@ const CasJoCosPortalRegistrationModal = props => {
   // dropdown options
   useEffect(() => {
     if (!showAddCasJoCos || !isFlowNature(modalNatureOfAppointment)) return
+    loadNextEmployeeNo()
     dispatch(fetchSchedules())
     getOrganizationDropdown()
       .then(options => setOrgOptions(Array.isArray(options) ? options : []))
@@ -263,6 +334,15 @@ const CasJoCosPortalRegistrationModal = props => {
         ? { salaryGrade: values.salaryGrade, stepIncrement: 1 }
         : {}
 
+      setSubmittedMail({ firstName: values.firstName, birthday: values.birthday })
+      setSubmittedName(
+        fromJobOrder
+          ? (jobOrderOptions.find(o => o.value === values.existingEmployeeId) || {}).label || ''
+          : [values.firstName, values.middleName, values.lastName, values.nameExtension]
+            .map(v => (v || '').trim())
+            .filter(Boolean)
+            .join(' ')
+      )
       const payload = fromJobOrder
         ? {
           natureOfAppointment: values.natureOfAppointment,
@@ -300,6 +380,10 @@ const CasJoCosPortalRegistrationModal = props => {
       formik.resetForm()
       setRegistered(null)
       setCasualSource('new')
+      setSubmittedName('')
+      setSubmittedMail({ firstName: '', birthday: '' })
+      setCredentialsDownloaded(false)
+      setMustDownloadWarning(false)
     }
   }, [showAddCasJoCos])
 
@@ -309,6 +393,8 @@ const CasJoCosPortalRegistrationModal = props => {
       formik.resetForm()
       dispatch(fetchEmployeeList())
       setRegistered(responseRegisterCasJoCosEmployee)
+      setCredentialsDownloaded(false)
+      loadNextEmployeeNo()
     }
   }, [responseRegisterCasJoCosEmployee])
 
@@ -376,15 +462,20 @@ const CasJoCosPortalRegistrationModal = props => {
     <>
       <Modal
         isOpen={showAddCasJoCos}
-        toggle={handleCloseAddCasJoCos}
+        toggle={handleClose}
         size="lg"
         centered
       >
         <ModalHeader
-          toggle={handleCloseAddCasJoCos}
+          toggle={handleClose}
           className="text-capitalize"
         >
           Register {modalNatureOfAppointment} Employee
+          {!fromJobOrder ? (
+            <Badge color="info" pill className="ms-3 align-middle font-size-12">
+              Next Employee No.: {nextEmployeeNo || '...'}
+            </Badge>
+          ) : null}
         </ModalHeader>
 
         {loadingRegisterCasJoCosEmployee ? (
@@ -437,10 +528,29 @@ const CasJoCosPortalRegistrationModal = props => {
                       {registered.defaultPassword}
                     </strong>
                   </p>
+                  <p className="mb-1">
+                    Email password: <strong style={{ userSelect: 'all' }}>{mailPassword}</strong>
+                  </p>
                   <small>
                     Give these to the employee and ask them to change the
                     password after the first login.
                   </small>
+                  <div className="mt-3">
+                    <Button color="primary" onClick={downloadCredentials}>
+                      <i className="bx bx-download me-1"></i>
+                      Download Credentials (.txt)
+                    </Button>
+                    {credentialsDownloaded ? (
+                      <span className="ms-2 text-success">
+                        <i className="bx bx-check"></i> Downloaded
+                      </span>
+                    ) : null}
+                  </div>
+                  {mustDownloadWarning ? (
+                    <div className="mt-2 text-danger">
+                      Download the employee credentials before closing.
+                    </div>
+                  ) : null}
                 </>
               ) : (
                 <p className="mb-0">
@@ -724,7 +834,16 @@ const CasJoCosPortalRegistrationModal = props => {
 
         <ModalFooter>
           {registered ? (
-            <Button color="secondary" onClick={handleCloseAddCasJoCos}>
+            <Button
+              color="secondary"
+              onClick={handleClose}
+              disabled={needsCredentialsDownload}
+              title={
+                needsCredentialsDownload
+                  ? 'Download the employee credentials first'
+                  : undefined
+              }
+            >
               Close
             </Button>
           ) : (
